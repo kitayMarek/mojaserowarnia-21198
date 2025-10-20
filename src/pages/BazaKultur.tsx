@@ -18,11 +18,17 @@ const BazaKultur = () => {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
-  // Odczytaj parametr zapytania z URL
+  // Odczytaj parametry z URL
   useEffect(() => {
     const queryParam = searchParams.get('q');
+    const typeParam = searchParams.get('type');
+    
     if (queryParam) {
       setSearchQuery(queryParam);
+    }
+    
+    if (typeParam) {
+      setTypeFilter(typeParam);
     }
   }, [searchParams]);
   const handleSort = (field: SortField) => {
