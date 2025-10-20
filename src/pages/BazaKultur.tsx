@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Search, ArrowUpDown } from "lucide-react";
@@ -25,11 +26,20 @@ type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 type SortDirection = 'asc' | 'desc' | null;
 
 const BazaKultur = () => {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [shopFilter, setShopFilter] = useState("all");
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+
+  // Odczytaj parametr zapytania z URL
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    if (queryParam) {
+      setSearchQuery(queryParam);
+    }
+  }, [searchParams]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {

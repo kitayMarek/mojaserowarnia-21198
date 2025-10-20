@@ -1,9 +1,25 @@
 import { Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-cheese-clean.png";
 
 const Hero = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!searchQuery.trim()) return;
+    
+    // Jeśli zapytanie zawiera słowo "kultur" przekieruj do bazy kultur
+    if (searchQuery.toLowerCase().includes("kultur")) {
+      navigate(`/baza-kultur?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -32,22 +48,25 @@ const Hero = () => {
 
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-8">
-            <div className="flex gap-2 bg-white/95 backdrop-blur-sm p-2 rounded-xl shadow-2xl">
+            <form onSubmit={handleSearch} className="flex gap-2 bg-white/95 backdrop-blur-sm p-2 rounded-xl shadow-2xl">
               <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
                   placeholder="Szukaj kultur, przepisów, poradników..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-12 h-12 border-0 bg-transparent focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
                 />
               </div>
               <Button 
+                type="submit"
                 size="lg" 
                 className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm px-8"
               >
                 Szukaj
               </Button>
-            </div>
+            </form>
           </div>
 
           {/* CTA Buttons */}
@@ -62,7 +81,7 @@ const Hero = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-2 border-white/80 text-white hover:bg-white/10 hover:border-white backdrop-blur-sm min-w-[200px]"
+              className="border-2 border-white text-white bg-white/10 hover:bg-white/20 hover:border-white backdrop-blur-sm min-w-[200px] shadow-lg"
             >
               Zobacz Przepisy
             </Button>
