@@ -6,7 +6,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { label: "Bazy Kultur", href: "/baza-kultur" },
+    { label: "Baza Kultur", href: "/baza-kultur" },
     { label: "Przepisy", href: "#przepisy" },
     { label: "Poradniki", href: "#poradniki" },
     { label: "Prawo", href: "#prawo" },
