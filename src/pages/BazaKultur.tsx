@@ -290,7 +290,7 @@ const BazaKultur = () => {
                               {culture.temperature}
                             </TableCell>
                             <TableCell>
-                              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-secondary/20 text-secondary">
+                              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-foreground border border-primary/20">
                                 {culture.type}
                               </span>
                             </TableCell>
