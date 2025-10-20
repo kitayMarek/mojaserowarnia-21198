@@ -14,8 +14,18 @@ const Hero = () => {
     
     if (!searchQuery.trim()) return;
     
-    // Jeśli zapytanie zawiera słowo "kultur" przekieruj do bazy kultur
-    if (searchQuery.toLowerCase().includes("kultur")) {
+    // Słowa kluczowe związane z kulturami bakteryjnymi
+    const cultureKeywords = [
+      'kultur', 'bakterii', 'bakteryjn', 'mezofiln', 'termofiln', 
+      'pleśni', 'propionibakteri', 'starter', 'lactococcus', 
+      'streptococcus', 'lactobacillus', 'leuconostoc', 'penicillium',
+      'geotrichum', 'brevibacterium', 'wańczykówka', 'lactic', 'serowar'
+    ];
+    
+    const queryLower = searchQuery.toLowerCase();
+    const isCultureSearch = cultureKeywords.some(keyword => queryLower.includes(keyword));
+    
+    if (isCultureSearch) {
       navigate(`/baza-kultur?q=${encodeURIComponent(searchQuery)}`);
     }
   };
