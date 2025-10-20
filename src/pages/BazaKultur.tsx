@@ -286,7 +286,7 @@ const BazaKultur = () => {
                             <TableCell className="text-sm max-w-sm">
                               {culture.application}
                             </TableCell>
-                            <TableCell className="text-sm whitespace-nowrap">
+                            <TableCell className="text-sm whitespace-nowrap font-medium text-foreground">
                               {culture.temperature}
                             </TableCell>
                             <TableCell>
