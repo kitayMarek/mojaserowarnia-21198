@@ -8,7 +8,7 @@ const Navigation = () => {
   const navItems = [
     { label: "Baza Kultur", href: "/baza-kultur" },
     { label: "Przepisy", href: "/przepisy" },
-    { label: "Poradniki", href: "#poradniki" },
+    { label: "Poradniki", href: "/poradnik" },
     { label: "Prawo", href: "#prawo" },
     { label: "Społeczność", href: "#spolecznosc" },
     { label: "Narzędzia", href: "#narzedzia" },

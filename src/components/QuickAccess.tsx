@@ -22,7 +22,7 @@ const QuickAccess = () => {
       title: "Poradniki",
       description: "Serowarstwo od podstaw",
       color: "from-amber-600 to-yellow-600",
-      href: "#poradniki",
+      href: "/poradnik",
     },
     {
       icon: Scale,
