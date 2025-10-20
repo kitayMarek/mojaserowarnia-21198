@@ -28,16 +28,14 @@ const FeaturedSection = () => {
     {
       icon: TrendingUp,
       label: "Najpopularniejsze",
-      title: "Mozzarella domowa",
+      title: "Oscypek domowy",
       subtitle: "Przepis krok po kroku",
-      href: "/przepisy/mozzarella",
     },
     {
       icon: Award,
       label: "Polecane",
       title: "Startery mezofilne",
       subtitle: "Kompletny przewodnik",
-      href: "/baza-kultur",
     },
   ];
 
@@ -93,26 +91,25 @@ const FeaturedSection = () => {
               {highlights.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <a key={index} href={item.href}>
-                    <Card 
-                      className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
-                    >
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center gap-2 text-primary mb-2">
-                          <Icon className="h-4 w-4" />
-                          <span className="text-xs font-semibold uppercase tracking-wide">
-                            {item.label}
-                          </span>
-                        </div>
-                        <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                          {item.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-sm text-muted-foreground">{item.subtitle}</p>
-                      </CardContent>
-                    </Card>
-                  </a>
+                  <Card 
+                    key={index}
+                    className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
+                  >
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center gap-2 text-primary mb-2">
+                        <Icon className="h-4 w-4" />
+                        <span className="text-xs font-semibold uppercase tracking-wide">
+                          {item.label}
+                        </span>
+                      </div>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                        {item.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <p className="text-sm text-muted-foreground">{item.subtitle}</p>
+                    </CardContent>
+                  </Card>
                 );
               })}
 
