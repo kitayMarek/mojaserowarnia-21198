@@ -9,7 +9,7 @@ const Navigation = () => {
     { label: "Baza Kultur", href: "/baza-kultur" },
     { label: "Przepisy", href: "/przepisy" },
     { label: "Poradniki", href: "/poradnik" },
-    { label: "Prawo", href: "#prawo" },
+    { label: "Prawo", href: "/prawo" },
     { label: "Społeczność", href: "#spolecznosc" },
     { label: "Narzędzia", href: "#narzedzia" },
   ];
