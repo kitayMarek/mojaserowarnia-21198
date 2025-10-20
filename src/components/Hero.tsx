@@ -1,7 +1,7 @@
 import { Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import heroImage from "@/assets/hero-cheese.png";
+import heroImage from "@/assets/hero-cheese-clean.png";
 
 const Hero = () => {
   return (
@@ -13,7 +13,7 @@ const Hero = () => {
           alt="Artisan cheese making"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Content */}
