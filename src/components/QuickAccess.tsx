@@ -15,7 +15,7 @@ const QuickAccess = () => {
       title: "Przepisy",
       description: "Sprawdzone receptury na sery",
       color: "from-orange-500 to-red-500",
-      href: "#przepisy",
+      href: "/przepisy",
     },
     {
       icon: GraduationCap,
