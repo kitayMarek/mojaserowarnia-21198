@@ -5,26 +5,11 @@ import Footer from "@/components/Footer";
 import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { culturesData } from "@/data/culturesDataComplete";
-
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 type SortDirection = 'asc' | 'desc' | null;
-
 const BazaKultur = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,7 +25,6 @@ const BazaKultur = () => {
       setSearchQuery(queryParam);
     }
   }, [searchParams]);
-
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       if (sortDirection === 'asc') {
@@ -56,40 +40,28 @@ const BazaKultur = () => {
       setSortDirection('asc');
     }
   };
-
-    const filteredData = useMemo(() => {
-    let filtered = culturesData.filter((culture) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        culture.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        culture.composition.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        culture.application.toLowerCase().includes(searchQuery.toLowerCase());
-
+  const filteredData = useMemo(() => {
+    let filtered = culturesData.filter(culture => {
+      const matchesSearch = searchQuery === "" || culture.name.toLowerCase().includes(searchQuery.toLowerCase()) || culture.composition.toLowerCase().includes(searchQuery.toLowerCase()) || culture.application.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = typeFilter === "all" || culture.type === typeFilter;
       const matchesShop = shopFilter === "all" || culture.shop === shopFilter;
-
       return matchesSearch && matchesType && matchesShop;
     });
-
     if (sortField && sortDirection) {
       filtered.sort((a, b) => {
         let aValue: string | number = a[sortField];
         let bValue: string | number = b[sortField];
-
         if (sortField === 'price') {
           aValue = parseFloat(a.price.replace(' zł', '').replace(',', '.'));
           bValue = parseFloat(b.price.replace(' zł', '').replace(',', '.'));
         }
-
         if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
     }
-
     return filtered;
   }, [searchQuery, typeFilter, shopFilter, sortField, sortDirection]);
-
   const resetFilters = () => {
     setSearchQuery("");
     setTypeFilter("all");
@@ -97,21 +69,16 @@ const BazaKultur = () => {
     setSortField(null);
     setSortDirection(null);
   };
-
-  const shops = Array.from(new Set(culturesData.map((c) => c.shop)));
-  const types = Array.from(new Set(culturesData.map((c) => c.type)));
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  const shops = Array.from(new Set(culturesData.map(c => c.shop)));
+  const types = Array.from(new Set(culturesData.map(c => c.type)));
+  return <div className="min-h-screen flex flex-col">
       <Navigation />
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="bg-gradient-warm py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">
-                🧀 Baza Kultur Bakteryjnych
-              </h1>
+              <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">🧀 Baza Kultur Bakteryjnych</h1>
               <p className="text-lg md:text-xl text-white/95 mb-2">
                 Kompletna baza {culturesData.length} kultur bakteryjnych
               </p>
@@ -166,13 +133,7 @@ const BazaKultur = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Szukaj nazwy, składu lub zastosowania..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
+                  <Input type="text" placeholder="Szukaj nazwy, składu lub zastosowania..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
                 </div>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
                   <SelectTrigger className="w-full md:w-48">
@@ -180,11 +141,9 @@ const BazaKultur = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Wszystkie typy</SelectItem>
-                    {types.map((type) => (
-                      <SelectItem key={type} value={type}>
+                    {types.map(type => <SelectItem key={type} value={type}>
                         {type.charAt(0).toUpperCase() + type.slice(1)}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Select value={shopFilter} onValueChange={setShopFilter}>
@@ -193,11 +152,9 @@ const BazaKultur = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Wszystkie sklepy</SelectItem>
-                    {shops.map((shop) => (
-                      <SelectItem key={shop} value={shop}>
+                    {shops.map(shop => <SelectItem key={shop} value={shop}>
                         {shop}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Button onClick={resetFilters} variant="outline">
@@ -217,10 +174,7 @@ const BazaKultur = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-primary hover:bg-primary">
-                        <TableHead 
-                          className="text-white cursor-pointer hover:bg-primary-hover"
-                          onClick={() => handleSort('name')}
-                        >
+                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('name')}>
                           <div className="flex items-center gap-2">
                             Nazwa Handlowa
                             <ArrowUpDown className="h-4 w-4" />
@@ -228,37 +182,25 @@ const BazaKultur = () => {
                         </TableHead>
                         <TableHead className="text-white">Skład (Gatunki Bakterii)</TableHead>
                         <TableHead className="text-white">Przeznaczenie</TableHead>
-                        <TableHead 
-                          className="text-white cursor-pointer hover:bg-primary-hover"
-                          onClick={() => handleSort('temperature')}
-                        >
+                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('temperature')}>
                           <div className="flex items-center gap-2">
                             Temperatura
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead 
-                          className="text-white cursor-pointer hover:bg-primary-hover"
-                          onClick={() => handleSort('type')}
-                        >
+                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('type')}>
                           <div className="flex items-center gap-2">
                             Typ
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead 
-                          className="text-white cursor-pointer hover:bg-primary-hover"
-                          onClick={() => handleSort('shop')}
-                        >
+                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('shop')}>
                           <div className="flex items-center gap-2">
                             Sklep
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead 
-                          className="text-white cursor-pointer hover:bg-primary-hover"
-                          onClick={() => handleSort('price')}
-                        >
+                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('price')}>
                           <div className="flex items-center gap-2">
                             Cena
                             <ArrowUpDown className="h-4 w-4" />
@@ -267,28 +209,15 @@ const BazaKultur = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredData.length === 0 ? (
-                        <TableRow>
+                      {filteredData.length === 0 ? <TableRow>
                           <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                             Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
                           </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredData.map((culture, index) => (
-                          <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
+                        </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
                             <TableCell className="font-semibold text-primary">
-                              {culture.productUrl ? (
-                                <a
-                                  href={culture.productUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="hover:underline hover:text-accent transition-colors"
-                                >
+                              {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-accent transition-colors">
                                   {culture.name}
-                                </a>
-                              ) : (
-                                culture.name
-                              )}
+                                </a> : culture.name}
                             </TableCell>
                             <TableCell className="text-sm italic max-w-xs">
                               {culture.composition}
@@ -305,21 +234,14 @@ const BazaKultur = () => {
                               </span>
                             </TableCell>
                             <TableCell className="font-medium">
-                              <a
-                                href={culture.shopUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                              >
+                              <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                 {culture.shop}
                               </a>
                             </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
                               {culture.price}
                             </TableCell>
-                          </TableRow>
-                        ))
-                      )}
+                          </TableRow>)}
                     </TableBody>
                   </Table>
                 </div>
@@ -336,8 +258,6 @@ const BazaKultur = () => {
         </section>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default BazaKultur;
