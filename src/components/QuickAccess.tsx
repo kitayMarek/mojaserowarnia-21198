@@ -5,10 +5,10 @@ const QuickAccess = () => {
   const sections = [
     {
       icon: Database,
-      title: "Bazy Danych",
+      title: "Bazy Kultur",
       description: "Kultury bakteryjne, enzymy, sprzęt",
       color: "from-amber-500 to-orange-500",
-      href: "#bazy",
+      href: "/baza-kultur",
     },
     {
       icon: BookOpen,
