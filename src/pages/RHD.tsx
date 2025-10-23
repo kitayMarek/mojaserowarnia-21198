@@ -38,6 +38,25 @@ const RHD = () => {
             </p>
           </div>
 
+          {/* Menu szybkiego dostępu */}
+          <Card className="mb-6 bg-primary/5 border-primary/20">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Powiązane tematy</h2>
+              <div className="grid md:grid-cols-2 gap-3">
+                <Link 
+                  to="/prawo/rhd/dokumenty"
+                  className="flex items-center gap-3 p-3 bg-background rounded-lg hover:bg-secondary/50 transition-colors"
+                >
+                  <FileText className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="font-medium">Wymagane dokumenty w RHD</p>
+                    <p className="text-xs text-muted-foreground">Ewidencje, rejestry i procedury</p>
+                  </div>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="space-y-6">
             {/* Sekcja 1: Czym jest RHD */}
             <Card>

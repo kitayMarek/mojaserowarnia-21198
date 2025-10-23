@@ -11,6 +11,7 @@ import Poradnik from "./pages/Poradnik";
 import Prawo from "./pages/Prawo";
 import AktyPrawneUE from "./pages/AktyPrawneUE";
 import RHD from "./pages/RHD";
+import RHDDokumenty from "./pages/RHDDokumenty";
 import MOL from "./pages/MOL";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/prawo" element={<Prawo />} />
           <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
           <Route path="/prawo/rhd" element={<RHD />} />
+          <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
           <Route path="/prawo/mol" element={<MOL />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
