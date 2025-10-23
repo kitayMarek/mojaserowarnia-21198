@@ -132,3 +132,43 @@ All colors MUST be HSL.
     text-wrap: balance;
   }
 }
+
+/* Print styles for invoices: keep it to one page when possible */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  /* Improve color fidelity */
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: white !important;
+  }
+
+  /* Hide app chrome */
+  header,
+  [data-sidebar="sidebar"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Expand main content */
+  main, .print-area {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Compact invoice typography */
+  .invoice-print {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .invoice-print table {
+    page-break-inside: avoid;
+  }
+}

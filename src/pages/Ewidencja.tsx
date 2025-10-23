@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Loader2, Plus, Trash2, FileDown } from "lucide-react";
 import { z } from "zod";
@@ -342,6 +343,7 @@ export default function Ewidencja() {
                     <TableHead>Kwota</TableHead>
                     <TableHead>Narastająco</TableHead>
                     <TableHead>Odbiorca</TableHead>
+                    <TableHead>Rachunek</TableHead>
                     <TableHead>Akcje</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -355,6 +357,13 @@ export default function Ewidencja() {
                       <TableCell>{Number(record.kwota_przychodu).toFixed(2)} zł</TableCell>
                       <TableCell className="font-medium">{record.cumulative.toFixed(2)} zł</TableCell>
                       <TableCell>{record.odbiorca_typ}</TableCell>
+                      <TableCell>
+                        {record.numer_rachunku ? (
+                          <Badge variant="secondary">{record.numer_rachunku}</Badge>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <Button
                           variant="ghost"

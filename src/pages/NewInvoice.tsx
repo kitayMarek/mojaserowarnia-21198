@@ -196,7 +196,7 @@ export default function NewInvoice() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 invoice-print">
       <div>
         <h2 className="text-3xl font-bold">Wystaw rachunek</h2>
         <p className="text-muted-foreground">Nowy rachunek RHD</p>
@@ -424,7 +424,7 @@ export default function NewInvoice() {
         </div>
 
         <div className="lg:col-span-1">
-          <Card className="sticky top-6">
+          <Card className="sticky top-6 no-print">
             <CardHeader>
               <CardTitle>Akcje</CardTitle>
             </CardHeader>
