@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, Info } from "lucide-react";
+import { ArrowLeft, Info, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const MOL = () => {
@@ -36,6 +36,29 @@ const MOL = () => {
               Kompletny przewodnik po formie działalności MOL dla serowarów i rolników
             </p>
           </div>
+
+          {/* Menu nawigacyjne */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Spis treści</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3">
+                <Link 
+                  to="/prawo/mol/dokumenty"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors"
+                >
+                  <FileText className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="font-semibold">Wymagane dokumenty w MOL</p>
+                    <p className="text-sm text-muted-foreground">
+                      Kompletny przegląd dokumentacji obowiązkowej i zalecanej
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="space-y-6">
             {/* Sekcja 1: Czym jest MOL */}
