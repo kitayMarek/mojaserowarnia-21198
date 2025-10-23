@@ -1,8 +1,18 @@
-import { Database, BookOpen, GraduationCap, Scale, Users, Calculator } from "lucide-react";
+import { Database, BookOpen, GraduationCap, Scale, Users, Calculator, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
 
 const QuickAccess = () => {
+  const { user } = useAuth();
+
   const sections = [
+    ...(user ? [{
+      icon: FileText,
+      title: "Ewidencja RHD",
+      description: "Twoja ewidencja sprzedaży i rachunki",
+      color: "from-green-500 to-emerald-600",
+      href: "/dashboard",
+    }] : []),
     {
       icon: Database,
       title: "Bazy Kultur",

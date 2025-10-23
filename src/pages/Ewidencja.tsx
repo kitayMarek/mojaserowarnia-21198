@@ -81,7 +81,14 @@ export default function Ewidencja() {
 
       const { error } = await supabase.from("sales_records").insert([{
         user_id: user!.id,
-        ...validatedData,
+        data_sprzedazy: validatedData.data_sprzedazy,
+        rodzaj_zywnosci: validatedData.rodzaj_zywnosci,
+        ilosc: validatedData.ilosc,
+        jednostka: validatedData.jednostka,
+        kwota_przychodu: validatedData.kwota_przychodu,
+        odbiorca_typ: validatedData.odbiorca_typ,
+        odbiorca_nazwa: validatedData.odbiorca_nazwa || null,
+        uwagi: validatedData.uwagi || null,
       }]);
 
       if (error) throw error;

@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import BazaKultur from "./pages/BazaKultur";
 import Przepisy from "./pages/Przepisy";
@@ -15,6 +16,13 @@ import RHDDokumenty from "./pages/RHDDokumenty";
 import MOL from "./pages/MOL";
 import MOLDokumenty from "./pages/MOLDokumenty";
 import RzezniRolnicza from "./pages/RzezniRolnicza";
+import Auth from "./pages/Auth";
+import DashboardLayout from "./components/dashboard/DashboardLayout";
+import Dashboard from "./pages/Dashboard";
+import Ewidencja from "./pages/Ewidencja";
+import NewInvoice from "./pages/NewInvoice";
+import Invoices from "./pages/Invoices";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,22 +33,32 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/baza-kultur" element={<BazaKultur />} />
-          <Route path="/przepisy" element={<Przepisy />} />
-          <Route path="/przepisy/:id" element={<RecipeDetails />} />
-          <Route path="/poradnik" element={<Poradnik />} />
-          <Route path="/prawo" element={<Prawo />} />
-          <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
-          <Route path="/prawo/rhd" element={<RHD />} />
-          <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
-          <Route path="/prawo/mol" element={<MOL />} />
-          <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
-          <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/baza-kultur" element={<BazaKultur />} />
+            <Route path="/przepisy" element={<Przepisy />} />
+            <Route path="/przepisy/:id" element={<RecipeDetails />} />
+            <Route path="/poradnik" element={<Poradnik />} />
+            <Route path="/prawo" element={<Prawo />} />
+            <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
+            <Route path="/prawo/rhd" element={<RHD />} />
+            <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
+            <Route path="/prawo/mol" element={<MOL />} />
+            <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
+            <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="ewidencja" element={<Ewidencja />} />
+              <Route path="rachunki/nowy" element={<NewInvoice />} />
+              <Route path="rachunki" element={<Invoices />} />
+              <Route path="ustawienia" element={<Settings />} />
+            </Route>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

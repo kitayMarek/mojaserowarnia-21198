@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import heroImage from "@/assets/hero-cheese-clean.png";
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,19 +73,32 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {user ? (
+              <Button 
+                size="lg" 
+                onClick={() => navigate("/dashboard")}
+                className="bg-white text-accent hover:bg-white/90 shadow-xl group min-w-[200px]"
+              >
+                📊 Moja Ewidencja RHD
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            ) : (
+              <Button 
+                size="lg" 
+                onClick={() => navigate("/auth")}
+                className="bg-white text-accent hover:bg-white/90 shadow-xl group min-w-[200px]"
+              >
+                Zaloguj się
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            )}
             <Button 
               size="lg" 
-              className="bg-white text-accent hover:bg-white/90 shadow-xl group min-w-[200px]"
-            >
-              Przeglądaj Bazy
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              size="lg" 
+              onClick={() => navigate("/baza-kultur")}
               variant="outline"
               className="border-2 border-white text-white bg-white/10 hover:bg-white/20 hover:border-white backdrop-blur-sm min-w-[200px] shadow-lg"
             >
-              Zobacz Przepisy
+              Przeglądaj Bazy
             </Button>
           </div>
         </div>

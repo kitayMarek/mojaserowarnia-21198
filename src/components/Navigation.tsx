@@ -1,9 +1,21 @@
 import { useState } from "react";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const navItems = [
     { label: "Baza Kultur", href: "/baza-kultur" },
@@ -55,12 +67,42 @@ const Navigation = () => {
               <Search className="h-5 w-5" />
             </Button>
             
-            <Button
-              variant="default"
-              className="hidden md:inline-flex bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm"
-            >
-              Zaloguj się
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="hidden md:inline-flex gap-2"
+                  >
+                    <User className="h-4 w-4" />
+                    {user.email}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Moje Konto</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                    📊 Moja Ewidencja
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/dashboard/ustawienia")}>
+                    ⚙️ Ustawienia
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Wyloguj
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                variant="default"
+                className="hidden md:inline-flex bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm"
+                onClick={() => navigate("/auth")}
+              >
+                Zaloguj się
+              </Button>
+            )}
 
             {/* Mobile menu button */}
             <Button
@@ -89,12 +131,42 @@ const Navigation = () => {
                   {item.label}
                 </a>
               ))}
-              <Button
-                variant="default"
-                className="mt-2 bg-primary hover:bg-primary-hover text-primary-foreground"
-              >
-                Zaloguj się
-              </Button>
+              {user ? (
+                <>
+                  <Button
+                    variant="outline"
+                    className="mt-2"
+                    onClick={() => {
+                      navigate("/dashboard");
+                      setIsOpen(false);
+                    }}
+                  >
+                    📊 Moja Ewidencja
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="mt-1"
+                    onClick={() => {
+                      signOut();
+                      setIsOpen(false);
+                    }}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Wyloguj
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  variant="default"
+                  className="mt-2 bg-primary hover:bg-primary-hover text-primary-foreground"
+                  onClick={() => {
+                    navigate("/auth");
+                    setIsOpen(false);
+                  }}
+                >
+                  Zaloguj się
+                </Button>
+              )}
             </div>
           </div>
         )}

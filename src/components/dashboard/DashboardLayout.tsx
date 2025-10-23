@@ -1,15 +1,8 @@
 import { ReactNode } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { 
-  Home, 
-  FileText, 
-  Receipt, 
-  Settings, 
-  LogOut,
-  Menu
-} from "lucide-react";
+import { Loader2, Home, FileText, Receipt, Settings, LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -81,6 +74,20 @@ function DashboardSidebar() {
 }
 
 export default function DashboardLayout() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
