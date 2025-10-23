@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Outlet, NavLink, Navigate } from "react-router-dom";
+import { Outlet, NavLink, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Loader2, Home, FileText, Receipt, Settings, LogOut } from "lucide-react";
@@ -14,7 +14,6 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -27,8 +26,8 @@ const menuItems = [
 
 function DashboardSidebar() {
   const { signOut } = useAuth();
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   return (
     <Sidebar collapsible="none" data-sidebar="sidebar">
@@ -37,24 +36,19 @@ function DashboardSidebar() {
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.end}
-                      className={({ isActive }) =>
-                        isActive
-                          ? "bg-primary text-primary-foreground font-medium"
-                          : "text-sidebar-foreground hover:bg-muted/50"
-                      }
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map((item) => {
+                const isActive = item.end ? currentPath === item.url : currentPath.startsWith(item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <NavLink to={item.url} end={item.end}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
