@@ -28,6 +28,7 @@ export default function Ewidencja() {
   const [records, setRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
 
   // Form state
   const [dataSprzedazy, setDataSprzedazy] = useState(new Date().toISOString().split('T')[0]);
@@ -42,6 +43,7 @@ export default function Ewidencja() {
   useEffect(() => {
     if (user) {
       fetchRecords();
+      fetchProducts();
     }
   }, [user]);
 
@@ -62,6 +64,17 @@ export default function Ewidencja() {
       setRecords(data || []);
     }
     setLoading(false);
+  };
+
+  const fetchProducts = async () => {
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .order("updated_at", { ascending: false });
+    
+    if (data) {
+      setProducts(data);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -93,6 +106,18 @@ export default function Ewidencja() {
 
       if (error) throw error;
 
+      // Save/update product
+      await supabase
+        .from("products")
+        .upsert({
+          user_id: user!.id,
+          nazwa: validatedData.rodzaj_zywnosci,
+          jednostka: validatedData.jednostka,
+          ostatnia_cena: validatedData.kwota_przychodu / validatedData.ilosc,
+        }, {
+          onConflict: 'user_id,nazwa'
+        });
+
       toast({
         title: "Dodano wpis",
         description: "Wpis został dodany do ewidencji",
@@ -107,6 +132,7 @@ export default function Ewidencja() {
       setShowForm(false);
 
       fetchRecords();
+      fetchProducts();
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
@@ -208,8 +234,14 @@ export default function Ewidencja() {
                     value={rodzajZywnosci}
                     onChange={(e) => setRodzajZywnosci(e.target.value)}
                     placeholder="np. Ser dojrzewający"
+                    list="products-list"
                     required
                   />
+                  <datalist id="products-list">
+                    {products.map((product) => (
+                      <option key={product.id} value={product.nazwa} />
+                    ))}
+                  </datalist>
                 </div>
 
                 <div className="space-y-2">

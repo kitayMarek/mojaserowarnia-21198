@@ -62,6 +62,36 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          created_at: string
+          id: string
+          jednostka: string
+          nazwa: string
+          ostatnia_cena: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jednostka?: string
+          nazwa: string
+          ostatnia_cena?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jednostka?: string
+          nazwa?: string
+          ostatnia_cena?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           adres: string | null
@@ -70,6 +100,7 @@ export type Database = {
           firma_nazwa: string | null
           id: string
           nip: string | null
+          nr_weterynaryjny: string | null
           telefon: string | null
           updated_at: string
         }
@@ -80,6 +111,7 @@ export type Database = {
           firma_nazwa?: string | null
           id: string
           nip?: string | null
+          nr_weterynaryjny?: string | null
           telefon?: string | null
           updated_at?: string
         }
@@ -90,6 +122,7 @@ export type Database = {
           firma_nazwa?: string | null
           id?: string
           nip?: string | null
+          nr_weterynaryjny?: string | null
           telefon?: string | null
           updated_at?: string
         }

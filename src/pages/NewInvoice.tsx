@@ -25,6 +25,13 @@ export default function NewInvoice() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>(null);
   const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [products, setProducts] = useState<any[]>([]);
+  
+  // Seller form state
+  const [sprzedawcaNazwa, setSprzedawcaNazwa] = useState("");
+  const [sprzedawcaAdres, setSprzedawcaAdres] = useState("");
+  const [sprzedawcaNip, setSprzedawcaNip] = useState("");
+  const [sprzedawcaNrWet, setSprzedawcaNrWet] = useState("");
   
   // Form state
   const [dataWystawienia, setDataWystawienia] = useState(new Date().toISOString().split('T')[0]);
@@ -40,6 +47,7 @@ export default function NewInvoice() {
     if (user) {
       fetchProfile();
       generateInvoiceNumber();
+      fetchProducts();
     }
   }, [user]);
 
@@ -52,6 +60,21 @@ export default function NewInvoice() {
     
     if (data) {
       setProfile(data);
+      setSprzedawcaNazwa(data.firma_nazwa || "");
+      setSprzedawcaAdres(data.adres || "");
+      setSprzedawcaNip(data.nip || "");
+      setSprzedawcaNrWet(data.nr_weterynaryjny || "");
+    }
+  };
+
+  const fetchProducts = async () => {
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .order("updated_at", { ascending: false });
+    
+    if (data) {
+      setProducts(data);
     }
   };
 
@@ -208,10 +231,43 @@ export default function NewInvoice() {
             <CardHeader>
               <CardTitle>Sprzedawca</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <p className="font-medium">{profile?.firma_nazwa || "Brak danych"}</p>
-              <p className="text-sm text-muted-foreground">{profile?.adres}</p>
-              {profile?.nip && <p className="text-sm">NIP: {profile.nip}</p>}
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="sprzedawca-nazwa">Nazwa firmy *</Label>
+                <Input
+                  id="sprzedawca-nazwa"
+                  value={sprzedawcaNazwa}
+                  onChange={(e) => setSprzedawcaNazwa(e.target.value)}
+                  placeholder="Nazwa firmy"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="sprzedawca-adres">Adres *</Label>
+                <Input
+                  id="sprzedawca-adres"
+                  value={sprzedawcaAdres}
+                  onChange={(e) => setSprzedawcaAdres(e.target.value)}
+                  placeholder="Adres"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="sprzedawca-nip">NIP</Label>
+                <Input
+                  id="sprzedawca-nip"
+                  value={sprzedawcaNip}
+                  onChange={(e) => setSprzedawcaNip(e.target.value)}
+                  placeholder="NIP"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="sprzedawca-nrwet">Nr weterynaryjny</Label>
+                <Input
+                  id="sprzedawca-nrwet"
+                  value={sprzedawcaNrWet}
+                  onChange={(e) => setSprzedawcaNrWet(e.target.value)}
+                  placeholder="Nr weterynaryjny"
+                />
+              </div>
             </CardContent>
           </Card>
 
@@ -281,7 +337,13 @@ export default function NewInvoice() {
                           value={item.nazwa}
                           onChange={(e) => updateItem(index, "nazwa", e.target.value)}
                           placeholder="Nazwa produktu"
+                          list={`products-list-${index}`}
                         />
+                        <datalist id={`products-list-${index}`}>
+                          {products.map((product) => (
+                            <option key={product.id} value={product.nazwa} />
+                          ))}
+                        </datalist>
                       </TableCell>
                       <TableCell>
                         <Input
