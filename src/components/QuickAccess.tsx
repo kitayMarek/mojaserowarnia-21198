@@ -6,13 +6,14 @@ const QuickAccess = () => {
   const { user } = useAuth();
 
   const sections = [
-    ...(user ? [{
+    {
       icon: FileText,
-      title: "Ewidencja RHD",
-      description: "Twoja ewidencja sprzedaży i rachunki",
+      title: "System Ewidencji",
+      description: "Ewidencja sprzedaży i rachunki RHD",
       color: "from-green-500 to-emerald-600",
-      href: "/dashboard",
-    }] : []),
+      href: user ? "/dashboard" : "/auth",
+      requiresAuth: true,
+    },
     {
       icon: Database,
       title: "Bazy Kultur",
@@ -39,14 +40,7 @@ const QuickAccess = () => {
       title: "Prawo",
       description: "RHD, MOL i regulacje",
       color: "from-yellow-600 to-amber-600",
-      href: "#prawo",
-    },
-    {
-      icon: Users,
-      title: "Społeczność",
-      description: "Forum, wydarzenia, mapka",
-      color: "from-orange-600 to-red-600",
-      href: "#spolecznosc",
+      href: "/prawo",
     },
     {
       icon: Calculator,

@@ -28,6 +28,7 @@ const menuItems = [
 function DashboardSidebar() {
   const { signOut } = useAuth();
   const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   return (
     <Sidebar collapsible="icon">
@@ -49,7 +50,7 @@ function DashboardSidebar() {
                       }
                     >
                       <item.icon className="h-4 w-4" />
-                      <span className="ml-2">{item.title}</span>
+                      {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -58,14 +59,24 @@ function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <div className="mt-auto p-4">
+        <div className="mt-auto p-4 space-y-2">
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            asChild
+          >
+            <a href="/">
+              <Home className="h-4 w-4" />
+              {!isCollapsed && <span className="ml-2">Strona główna</span>}
+            </a>
+          </Button>
           <Button
             variant="outline"
             className="w-full justify-start"
             onClick={signOut}
           >
             <LogOut className="h-4 w-4" />
-            <span className="ml-2">Wyloguj</span>
+            {!isCollapsed && <span className="ml-2">Wyloguj</span>}
           </Button>
         </div>
       </SidebarContent>
