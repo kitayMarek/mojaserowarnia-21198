@@ -24,6 +24,13 @@ const Prawo = () => {
       description: "Kompletny przegląd dokumentów prawnych Unii Europejskiej regulujących produkcję serów, ze szczególnym uwzględnieniem produkcji farmerskiej i rzemieślniczej",
       icon: Scale,
       href: "/prawo/akty-prawne-ue"
+    },
+    {
+      id: "rhd",
+      title: "Rolniczy Handel Detaliczny (RHD)",
+      description: "Kompletny przewodnik po formie działalności RHD - produkcja i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom",
+      icon: FileText,
+      href: "/prawo/rhd"
     }
   ];
 
