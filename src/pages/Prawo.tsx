@@ -31,6 +31,13 @@ const Prawo = () => {
       description: "Kompletny przewodnik po formie działalności RHD - produkcja i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom",
       icon: FileText,
       href: "/prawo/rhd"
+    },
+    {
+      id: "mol",
+      title: "Działalność marginalna, lokalna i ograniczona (MOL)",
+      description: "Szczegółowe informacje o działalności MOL - uproszczona forma produkcji i sprzedaży produktów pochodzenia zwierzęcego dla małych producentów",
+      icon: FileText,
+      href: "/prawo/mol"
     }
   ];
 
