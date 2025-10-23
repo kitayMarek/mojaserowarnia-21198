@@ -1,0 +1,102 @@
+import { ReactNode } from "react";
+import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { 
+  Home, 
+  FileText, 
+  Receipt, 
+  Settings, 
+  LogOut,
+  Menu
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar";
+
+const menuItems = [
+  { title: "Pulpit", url: "/dashboard", icon: Home, end: true },
+  { title: "Ewidencja sprzedaży", url: "/dashboard/ewidencja", icon: FileText },
+  { title: "Wystaw rachunek", url: "/dashboard/rachunki/nowy", icon: Receipt },
+  { title: "Archiwum rachunków", url: "/dashboard/rachunki", icon: Receipt },
+  { title: "Ustawienia", url: "/dashboard/ustawienia", icon: Settings },
+];
+
+function DashboardSidebar() {
+  const { signOut } = useAuth();
+  const { state } = useSidebar();
+
+  return (
+    <Sidebar collapsible="icon">
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      end={item.end}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-primary text-primary-foreground font-medium"
+                          : "hover:bg-muted/50"
+                      }
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span className="ml-2">{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <div className="mt-auto p-4">
+          <Button
+            variant="outline"
+            className="w-full justify-start"
+            onClick={signOut}
+          >
+            <LogOut className="h-4 w-4" />
+            <span className="ml-2">Wyloguj</span>
+          </Button>
+        </div>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
+
+export default function DashboardLayout() {
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <DashboardSidebar />
+        
+        <div className="flex-1 flex flex-col">
+          <header className="h-16 border-b flex items-center px-4 bg-background">
+            <SidebarTrigger className="mr-4" />
+            <h1 className="text-lg font-semibold">System Ewidencji RHD</h1>
+          </header>
+
+          <main className="flex-1 p-6 bg-muted/20">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
+  );
+}
