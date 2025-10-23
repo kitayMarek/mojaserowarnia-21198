@@ -14,6 +14,7 @@ import RHD from "./pages/RHD";
 import RHDDokumenty from "./pages/RHDDokumenty";
 import MOL from "./pages/MOL";
 import MOLDokumenty from "./pages/MOLDokumenty";
+import RzezniRolnicza from "./pages/RzezniRolnicza";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
           <Route path="/prawo/mol" element={<MOL />} />
           <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
+          <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

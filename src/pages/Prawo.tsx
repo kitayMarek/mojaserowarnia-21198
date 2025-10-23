@@ -38,6 +38,13 @@ const Prawo = () => {
       description: "Szczegółowe informacje o działalności MOL - uproszczona forma produkcji i sprzedaży produktów pochodzenia zwierzęcego dla małych producentów",
       icon: FileText,
       href: "/prawo/mol"
+    },
+    {
+      id: "rzeznia-rolnicza",
+      title: "Rzeźnia Rolnicza",
+      description: "Przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie - limity, wymagania, wyposażenie i pełna procedura krok po kroku",
+      icon: FileText,
+      href: "/prawo/rzeznia-rolnicza"
     }
   ];
 
