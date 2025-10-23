@@ -133,6 +133,9 @@ All colors MUST be HSL.
   }
 }
 
+/* helpers */
+.print-only { display: none !important; }
+
 /* Print styles for invoices: keep it to one page when possible */
 @media print {
   @page {
@@ -162,13 +165,33 @@ All colors MUST be HSL.
     box-shadow: none !important;
   }
 
+  /* Show only print-only blocks */
+  .print-only { display: block !important; }
+
   /* Compact invoice typography */
-  .invoice-print {
-    font-size: 12px;
-    line-height: 1.3;
+  .invoice-print { font-size: 12px; line-height: 1.3; }
+
+  /* Put seller and buyer side-by-side */
+  .invoice-print .invoice-parties {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* Ensure content isn't clipped */
+  .invoice-print .overflow-x-auto { overflow: visible !important; }
+
+  /* Inputs look like plain text when printing */
+  .invoice-print input,
+  .invoice-print textarea {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
   }
 
   .invoice-print table {
     page-break-inside: avoid;
+    width: 100% !important;
   }
 }

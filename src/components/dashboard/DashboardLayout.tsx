@@ -31,7 +31,7 @@ function DashboardSidebar() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar collapsible="none">
+    <Sidebar collapsible="none" data-sidebar="sidebar">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
@@ -50,7 +50,7 @@ function DashboardSidebar() {
                       }
                     >
                       <item.icon className="h-4 w-4" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -67,7 +67,7 @@ function DashboardSidebar() {
           >
             <a href="/">
               <Home className="h-4 w-4" />
-              {!isCollapsed && <span className="ml-2">Strona główna</span>}
+              <span className="ml-2">Strona główna</span>
             </a>
           </Button>
           <Button
@@ -76,7 +76,7 @@ function DashboardSidebar() {
             onClick={signOut}
           >
             <LogOut className="h-4 w-4" />
-            {!isCollapsed && <span className="ml-2">Wyloguj</span>}
+            <span className="ml-2">Wyloguj</span>
           </Button>
         </div>
       </SidebarContent>

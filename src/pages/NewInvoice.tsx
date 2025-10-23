@@ -227,83 +227,85 @@ export default function NewInvoice() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Sprzedawca</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="sprzedawca-nazwa">Nazwa firmy *</Label>
-                <Input
-                  id="sprzedawca-nazwa"
-                  value={sprzedawcaNazwa}
-                  onChange={(e) => setSprzedawcaNazwa(e.target.value)}
-                  placeholder="Nazwa firmy"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sprzedawca-adres">Adres *</Label>
-                <Input
-                  id="sprzedawca-adres"
-                  value={sprzedawcaAdres}
-                  onChange={(e) => setSprzedawcaAdres(e.target.value)}
-                  placeholder="Adres"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sprzedawca-nip">NIP</Label>
-                <Input
-                  id="sprzedawca-nip"
-                  value={sprzedawcaNip}
-                  onChange={(e) => setSprzedawcaNip(e.target.value)}
-                  placeholder="NIP"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sprzedawca-nrwet">Nr weterynaryjny</Label>
-                <Input
-                  id="sprzedawca-nrwet"
-                  value={sprzedawcaNrWet}
-                  onChange={(e) => setSprzedawcaNrWet(e.target.value)}
-                  placeholder="Nr weterynaryjny"
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <div className="invoice-parties">
+            <Card>
+              <CardHeader>
+                <CardTitle>Sprzedawca</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="sprzedawca-nazwa">Nazwa firmy *</Label>
+                  <Input
+                    id="sprzedawca-nazwa"
+                    value={sprzedawcaNazwa}
+                    onChange={(e) => setSprzedawcaNazwa(e.target.value)}
+                    placeholder="Nazwa firmy"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sprzedawca-adres">Adres *</Label>
+                  <Input
+                    id="sprzedawca-adres"
+                    value={sprzedawcaAdres}
+                    onChange={(e) => setSprzedawcaAdres(e.target.value)}
+                    placeholder="Adres"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sprzedawca-nip">NIP</Label>
+                  <Input
+                    id="sprzedawca-nip"
+                    value={sprzedawcaNip}
+                    onChange={(e) => setSprzedawcaNip(e.target.value)}
+                    placeholder="NIP"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sprzedawca-nrwet">Nr weterynaryjny</Label>
+                  <Input
+                    id="sprzedawca-nrwet"
+                    value={sprzedawcaNrWet}
+                    onChange={(e) => setSprzedawcaNrWet(e.target.value)}
+                    placeholder="Nr weterynaryjny"
+                  />
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Nabywca</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="nabywca-nazwa">Nazwa / Imię i nazwisko *</Label>
-                <Input
-                  id="nabywca-nazwa"
-                  value={nabywcaNazwa}
-                  onChange={(e) => setNabywcaNazwa(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="nabywca-adres">Adres *</Label>
-                <Input
-                  id="nabywca-adres"
-                  value={nabywcaAdres}
-                  onChange={(e) => setNabywcaAdres(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="nabywca-nip">NIP</Label>
-                <Input
-                  id="nabywca-nip"
-                  value={nabywcaNip}
-                  onChange={(e) => setNabywcaNip(e.target.value)}
-                />
-              </div>
-            </CardContent>
-          </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Nabywca</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="nabywca-nazwa">Nazwa / Imię i nazwisko *</Label>
+                  <Input
+                    id="nabywca-nazwa"
+                    value={nabywcaNazwa}
+                    onChange={(e) => setNabywcaNazwa(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="nabywca-adres">Adres *</Label>
+                  <Input
+                    id="nabywca-adres"
+                    value={nabywcaAdres}
+                    onChange={(e) => setNabywcaAdres(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="nabywca-nip">NIP</Label>
+                  <Input
+                    id="nabywca-nip"
+                    value={nabywcaNip}
+                    onChange={(e) => setNabywcaNip(e.target.value)}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           <Card>
             <CardHeader>
@@ -315,7 +317,7 @@ export default function NewInvoice() {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="no-print">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -404,6 +406,42 @@ export default function NewInvoice() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Print-friendly positions table */}
+          <div className="print-only">
+            <h3 className="text-lg font-semibold mb-2">Pozycje</h3>
+            <table className="w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="text-left">Lp.</th>
+                  <th className="text-left">Nazwa</th>
+                  <th className="text-left">Ilość</th>
+                  <th className="text-left">Jedn.</th>
+                  <th className="text-left">Cena jedn.</th>
+                  <th className="text-left">Wartość</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.nazwa}</td>
+                    <td>{item.ilosc}</td>
+                    <td>{item.jednostka}</td>
+                    <td>{item.cena_jedn.toFixed(2)} zł</td>
+                    <td className="font-medium">{item.wartosc.toFixed(2)} zł</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={5} className="text-right font-medium">Suma</td>
+                  <td className="font-bold">{calculateTotal().toFixed(2)} zł</td>
+                </tr>
+              </tfoot>
+            </table>
+            <p className="text-xs text-muted-foreground mt-1">Zwolnione z VAT</p>
+          </div>
 
           <Card>
             <CardHeader>
