@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart } from "lucide-react";
 
 const PoradnikiHub = () => {
   useEffect(() => {
@@ -27,6 +27,13 @@ const PoradnikiHub = () => {
       description: "Szczegółowe wyjaśnienie jednostek IMCU, obliczanie odpowiedniej ilości podpuszczki oraz zaawansowana metoda flokulacji pozwalająca precyzyjnie określić najlepszy moment cięcia skrzepu dla różnych typów serów.",
       href: "/sila-podpuszczki",
       color: "from-accent to-primary",
+    },
+    {
+      icon: <ShoppingCart className="w-12 h-12" />,
+      title: "Gdzie kupić podpuszczkę",
+      description: "Kompleksowe zestawienie i porównanie dostępnych na rynku podpuszczek: analiza mocy (IMCU, 1:X), praktyczne dawkowanie oraz ocena przejrzystości informacji od producentów. Pomaga wybrać najlepszą podpuszczkę dla Twoich potrzeb.",
+      href: "/gdzie-kupic-podpuszczke",
+      color: "from-primary to-accent",
     },
   ];
 

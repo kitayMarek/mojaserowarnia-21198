@@ -11,6 +11,7 @@ import RecipeDetails from "./pages/RecipeDetails";
 import PoradnikiHub from "./pages/PoradnikiHub";
 import Poradnik from "./pages/Poradnik";
 import SilaPodpuszczki from "./pages/SilaPodpuszczki";
+import GdzieKupicPodpuszczke from "./pages/GdzieKupicPodpuszczke";
 import Prawo from "./pages/Prawo";
 import Narzedzia from "./pages/Narzedzia";
 import KalkulatorBeaugel from "./pages/KalkulatorBeaugel";
@@ -44,8 +45,9 @@ const App = () => (
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/poradniki" element={<PoradnikiHub />} />
-            <Route path="/poradnik" element={<Poradnik />} />
-            <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
+          <Route path="/poradnik" element={<Poradnik />} />
+          <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
+          <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />
