@@ -6,7 +6,7 @@ const FeaturedSection = () => {
   const news = [
     {
       date: "15 Sty 2025",
-      title: "Kalkulator podpuszczki Beaugel",
+      title: "Kalkulator podpuszczki",
       description: "Nowy kalkulator dawkowania podpuszczki wraz z tabelami IMCU",
       badge: "Narzędzie",
       href: "/kalkulator-beaugel",
@@ -52,21 +52,13 @@ const FeaturedSection = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-8">
               <Calendar className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-display font-bold text-foreground">
-                Aktualności
-              </h2>
+              <h2 className="text-3xl font-display font-bold text-foreground">Aktualności</h2>
             </div>
 
             <div className="space-y-4">
               {news.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="block"
-                >
-                  <Card 
-                    className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
-                  >
+                <a key={index} href={item.href} className="block">
+                  <Card className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
@@ -79,9 +71,7 @@ const FeaturedSection = () => {
                           <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                             {item.title}
                           </h3>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {item.description}
-                          </p>
+                          <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -93,27 +83,18 @@ const FeaturedSection = () => {
 
           {/* Highlights Section */}
           <div>
-            <h3 className="text-2xl font-display font-bold text-foreground mb-6">
-              Wyróżnione
-            </h3>
-            
+            <h3 className="text-2xl font-display font-bold text-foreground mb-6">Wyróżnione</h3>
+
             <div className="space-y-4">
               {highlights.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <a
-                    key={index}
-                    href={item.href}
-                  >
-                    <Card 
-                      className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
-                    >
+                  <a key={index} href={item.href}>
+                    <Card className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card">
                       <CardHeader className="pb-3">
                         <div className="flex items-center gap-2 text-primary mb-2">
                           <Icon className="h-4 w-4" />
-                          <span className="text-xs font-semibold uppercase tracking-wide">
-                            {item.label}
-                          </span>
+                          <span className="text-xs font-semibold uppercase tracking-wide">{item.label}</span>
                         </div>
                         <CardTitle className="text-lg group-hover:text-primary transition-colors">
                           {item.title}
@@ -129,12 +110,8 @@ const FeaturedSection = () => {
 
               <Card className="bg-gradient-warm border-0 text-white shadow-warm">
                 <CardContent className="p-6">
-                  <h4 className="font-display font-bold text-lg mb-2">
-                    Dołącz do społeczności
-                  </h4>
-                  <p className="text-sm text-white/90 mb-4">
-                    Ponad 2000 serowarów już korzysta z naszego portalu
-                  </p>
+                  <h4 className="font-display font-bold text-lg mb-2">Dołącz do społeczności</h4>
+                  <p className="text-sm text-white/90 mb-4">Ponad 2000 serowarów już korzysta z naszego portalu</p>
                   <button className="w-full bg-white text-accent hover:bg-white/90 py-2 px-4 rounded-lg font-medium transition-colors">
                     Załóż konto
                   </button>
