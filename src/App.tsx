@@ -8,7 +8,9 @@ import Index from "./pages/Index";
 import BazaKultur from "./pages/BazaKultur";
 import Przepisy from "./pages/Przepisy";
 import RecipeDetails from "./pages/RecipeDetails";
+import PoradnikiHub from "./pages/PoradnikiHub";
 import Poradnik from "./pages/Poradnik";
+import SilaPodpuszczki from "./pages/SilaPodpuszczki";
 import Prawo from "./pages/Prawo";
 import Narzedzia from "./pages/Narzedzia";
 import AktyPrawneUE from "./pages/AktyPrawneUE";
@@ -40,7 +42,9 @@ const App = () => (
             <Route path="/baza-kultur" element={<BazaKultur />} />
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
+            <Route path="/poradniki" element={<PoradnikiHub />} />
             <Route path="/poradnik" element={<Poradnik />} />
+            <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />

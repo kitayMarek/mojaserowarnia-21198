@@ -31,9 +31,9 @@ const QuickAccess = () => {
     {
       icon: GraduationCap,
       title: "Poradniki",
-      description: "Serowarstwo od podstaw",
+      description: "Kompletne przewodniki po produkcji sera",
       color: "from-amber-600 to-yellow-600",
-      href: "/poradnik",
+      href: "/poradniki",
     },
     {
       icon: Scale,
