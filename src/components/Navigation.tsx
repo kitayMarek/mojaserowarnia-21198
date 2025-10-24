@@ -18,12 +18,11 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { label: "Baza Kultur", href: "/baza-kultur" },
+    { label: "Bazy Kultur", href: "/baza-kultur" },
     { label: "Przepisy", href: "/przepisy" },
-    { label: "Poradniki", href: "/poradnik" },
+    { label: "Poradniki", href: "/poradniki" },
     { label: "Prawo", href: "/prawo" },
-    { label: "Społeczność", href: "#spolecznosc" },
-    { label: "Narzędzia", href: "#narzedzia" },
+    { label: "Narzędzia", href: "/narzedzia" },
   ];
 
   return (

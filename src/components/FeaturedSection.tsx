@@ -6,21 +6,24 @@ const FeaturedSection = () => {
   const news = [
     {
       date: "15 Sty 2025",
-      title: "Nowe kultury bakteryjne w bazie",
-      description: "Dodaliśmy 15 nowych pozycji z katalogu polskich dostawców",
-      badge: "Nowość",
+      title: "Kalkulator podpuszczki Beaugel",
+      description: "Nowy kalkulator dawkowania podpuszczki wraz z tabelami IMCU",
+      badge: "Narzędzie",
+      href: "/kalkulator-beaugel",
+    },
+    {
+      date: "12 Sty 2025",
+      title: "Gdzie kupić podpuszczkę?",
+      description: "Kompletne zestawienie podpuszczek dostępnych w Polsce z analizą mocy",
+      badge: "Poradnik",
+      href: "/gdzie-kupic-podpuszczke",
     },
     {
       date: "10 Sty 2025",
-      title: "Warsztaty serowarskie - Warmia",
-      description: "Zapisz się na lutowe warsztaty produkcji serów dojrzewających",
-      badge: "Wydarzenie",
-    },
-    {
-      date: "5 Sty 2025",
-      title: "Przewodnik po MOL i RHD 2025",
-      description: "Zaktualizowany poradnik prawny dla małych producentów",
-      badge: "Poradnik",
+      title: "Informacje o RHD dla serowarów",
+      description: "Wszystko o Rolniczym Handlu Detalicznym - przepisy i dokumenty",
+      badge: "Prawo",
+      href: "/prawo/rhd",
     },
   ];
 
@@ -56,29 +59,34 @@ const FeaturedSection = () => {
 
             <div className="space-y-4">
               {news.map((item, index) => (
-                <Card 
-                  key={index} 
-                  className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
+                <a
+                  key={index}
+                  href={item.href}
+                  className="block"
                 >
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
-                            {item.badge}
-                          </Badge>
-                          <span className="text-sm text-muted-foreground">{item.date}</span>
+                  <Card 
+                    className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card"
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-3">
+                            <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
+                              {item.badge}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">{item.date}</span>
+                          </div>
+                          <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-muted-foreground leading-relaxed">
+                            {item.description}
+                          </p>
                         </div>
-                        <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {item.description}
-                        </p>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </a>
               ))}
             </div>
           </div>
