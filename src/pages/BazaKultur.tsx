@@ -184,13 +184,14 @@ const BazaKultur = () => {
                   <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card rounded-lg shadow-card border border-border overflow-hidden">
                     <div className="bg-secondary px-3 py-2">
                       <h3 className="font-bold text-white text-sm">
-                        {culture.productUrl ? (
-                          <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                            {culture.name}
-                          </a>
-                        ) : (
-                          culture.name
-                        )}
+                        <a 
+                          href={culture.productUrl || culture.shopUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="hover:underline"
+                        >
+                          {culture.name}
+                        </a>
                       </h3>
                     </div>
                     <div className="p-3 space-y-2 text-xs">
@@ -222,11 +223,14 @@ const BazaKultur = () => {
                         <span className="font-bold text-primary min-w-[70px]">Cena:</span>
                         <span className="font-bold text-lg text-foreground">{culture.price}</span>
                       </div>
-                      {culture.productUrl && (
-                        <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors">
-                          Kup w sklepie
-                        </a>
-                      )}
+                      <a 
+                        href={culture.productUrl || culture.shopUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors"
+                      >
+                        {culture.productUrl ? 'Kup w sklepie' : 'Odwiedź sklep'}
+                      </a>
                     </div>
                   </div>
                 ))
