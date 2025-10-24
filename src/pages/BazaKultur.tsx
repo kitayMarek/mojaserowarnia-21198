@@ -171,8 +171,79 @@ const BazaKultur = () => {
           </div>
         </section>
 
-        {/* Results Table */}
-        <section className="py-8">
+        {/* Results - Mobile Card View */}
+        <section className="py-8 md:hidden">
+          <div className="container mx-auto px-4">
+            <div className="space-y-3">
+              {filteredData.length === 0 ? (
+                <div className="bg-card p-8 rounded-lg text-center text-muted-foreground">
+                  Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
+                </div>
+              ) : (
+                filteredData.map((culture, index) => (
+                  <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card rounded-lg shadow-card border border-border overflow-hidden">
+                    <div className="bg-secondary px-3 py-2">
+                      <h3 className="font-bold text-white text-sm">
+                        {culture.productUrl ? (
+                          <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            {culture.name}
+                          </a>
+                        ) : (
+                          culture.name
+                        )}
+                      </h3>
+                    </div>
+                    <div className="p-3 space-y-2 text-xs">
+                      <div className="flex gap-2">
+                        <span className="font-bold text-primary min-w-[70px]">Skład:</span>
+                        <span className="text-muted-foreground italic flex-1">{culture.composition}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold text-primary min-w-[70px]">Zastosowanie:</span>
+                        <span className="text-muted-foreground flex-1">{culture.application}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold text-primary min-w-[70px]">Temperatura:</span>
+                        <span className="text-foreground font-medium">{culture.temperature}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold text-primary min-w-[70px]">Typ:</span>
+                        <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-foreground border border-primary/20">
+                          {culture.type}
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold text-primary min-w-[70px]">Sklep:</span>
+                        <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-medium">
+                          {culture.shop}
+                        </a>
+                      </div>
+                      <div className="flex gap-2 items-center pt-1">
+                        <span className="font-bold text-primary min-w-[70px]">Cena:</span>
+                        <span className="font-bold text-lg text-foreground">{culture.price}</span>
+                      </div>
+                      {culture.productUrl && (
+                        <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors">
+                          Kup w sklepie
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            <div className="mt-6 text-center bg-card p-4 rounded-lg shadow-card border border-border">
+              <p className="text-muted-foreground text-sm">
+                Wyświetlane: <span className="font-bold text-primary">{filteredData.length}</span> z{" "}
+                <span className="font-bold text-primary">{culturesData.length}</span> kultur
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Results - Desktop Table View */}
+        <section className="py-8 hidden md:block">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               <div className="bg-card rounded-xl shadow-card border border-border overflow-hidden">

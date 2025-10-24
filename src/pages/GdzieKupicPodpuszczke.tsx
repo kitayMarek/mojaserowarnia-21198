@@ -60,49 +60,52 @@ const GdzieKupicPodpuszczke = () => {
                 </ul>
               </div>
 
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Wariant</TableHead>
-                      <TableHead>Moc katalogowa</TableHead>
-                      <TableHead>Zawartość chymozyny</TableHead>
-                      <TableHead>IMCU/ml (deklar.)</TableHead>
-                      <TableHead>Dawka zalecana</TableHead>
-                      <TableHead>Wydajność (1 ml → L mleka)</TableHead>
-                      <TableHead>Uwagi</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Beaugel 5</TableCell>
-                      <TableCell>1 : 3000</TableCell>
-                      <TableCell>≥ 180 mg/L</TableCell>
-                      <TableCell>–</TableCell>
-                      <TableCell>30 – 35 ml / 100 L</TableCell>
-                      <TableCell>ok. 3 L</TableCell>
-                      <TableCell>Dla miękkich i półtwardych serów</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Beaugel 50</TableCell>
-                      <TableCell>1 : 1000</TableCell>
-                      <TableCell>≥ 50 mg/L</TableCell>
-                      <TableCell>ok. 14 IMCU/ml</TableCell>
-                      <TableCell>15 – 25 ml / 100 L</TableCell>
-                      <TableCell>4 – 7 L</TableCell>
-                      <TableCell>Typowa podpuszczka średniej mocy</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Beaugel 500</TableCell>
-                      <TableCell>1 : 10 000</TableCell>
-                      <TableCell>≥ 520 mg/L</TableCell>
-                      <TableCell>≥ 140 IMCU/ml</TableCell>
-                      <TableCell>8 – 10 ml / 100 L</TableCell>
-                      <TableCell>10 – 12 L</TableCell>
-                      <TableCell>Najmocniejsza z serii</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <div className="inline-block min-w-full align-middle">
+                  <Table className="text-xs md:text-sm">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap">Wariant</TableHead>
+                        <TableHead className="whitespace-nowrap">Moc katalogowa</TableHead>
+                        <TableHead className="whitespace-nowrap">Zawartość chymozyny</TableHead>
+                        <TableHead className="whitespace-nowrap">IMCU/ml (deklar.)</TableHead>
+                        <TableHead className="whitespace-nowrap">Dawka zalecana</TableHead>
+                        <TableHead className="whitespace-nowrap">Wydajność (1 ml → L mleka)</TableHead>
+                        <TableHead className="whitespace-nowrap">Uwagi</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium whitespace-nowrap">Beaugel 5</TableCell>
+                        <TableCell className="whitespace-nowrap">1 : 3000</TableCell>
+                        <TableCell className="whitespace-nowrap">≥ 180 mg/L</TableCell>
+                        <TableCell>–</TableCell>
+                        <TableCell className="whitespace-nowrap">30 – 35 ml / 100 L</TableCell>
+                        <TableCell className="whitespace-nowrap">ok. 3 L</TableCell>
+                        <TableCell>Dla miękkich i półtwardych serów</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium whitespace-nowrap">Beaugel 50</TableCell>
+                        <TableCell className="whitespace-nowrap">1 : 1000</TableCell>
+                        <TableCell className="whitespace-nowrap">≥ 50 mg/L</TableCell>
+                        <TableCell className="whitespace-nowrap">ok. 14 IMCU/ml</TableCell>
+                        <TableCell className="whitespace-nowrap">15 – 25 ml / 100 L</TableCell>
+                        <TableCell className="whitespace-nowrap">4 – 7 L</TableCell>
+                        <TableCell>Typowa podpuszczka średniej mocy</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium whitespace-nowrap">Beaugel 500</TableCell>
+                        <TableCell className="whitespace-nowrap">1 : 10 000</TableCell>
+                        <TableCell className="whitespace-nowrap">≥ 520 mg/L</TableCell>
+                        <TableCell className="whitespace-nowrap">≥ 140 IMCU/ml</TableCell>
+                        <TableCell className="whitespace-nowrap">8 – 10 ml / 100 L</TableCell>
+                        <TableCell className="whitespace-nowrap">10 – 12 L</TableCell>
+                        <TableCell>Najmocniejsza z serii</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 md:hidden">↔ Przesuń w prawo, aby zobaczyć więcej</p>
               </div>
             </CardContent>
           </Card>
@@ -113,12 +116,13 @@ const GdzieKupicPodpuszczke = () => {
               <CardTitle className="text-2xl">🧀 2️⃣ GAP – Natural Rennet</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableHead className="w-1/3">Parametr</TableHead>
-                    <TableCell>Wartość</TableCell>
-                  </TableRow>
+              <div className="overflow-x-auto">
+                <Table className="text-xs md:text-sm">
+                  <TableBody>
+                    <TableRow>
+                      <TableHead className="w-1/3">Parametr</TableHead>
+                      <TableCell>Wartość</TableCell>
+                    </TableRow>
                   <TableRow>
                     <TableHead>Deklaracja:</TableHead>
                     <TableCell>≥ 150 IMCU/ml, 1:10 000 MCU</TableCell>
@@ -139,8 +143,9 @@ const GdzieKupicPodpuszczke = () => {
                     <TableHead>Szacowana moc praktyczna:</TableHead>
                     <TableCell>ok. 100 – 150 IMCU/ml</TableCell>
                   </TableRow>
-                </TableBody>
-              </Table>
+                  </TableBody>
+                </Table>
+              </div>
 
               <div className="bg-amber-50 dark:bg-amber-950/30 border-l-4 border-amber-500 p-4 rounded-r-lg">
                 <div className="flex gap-2">
