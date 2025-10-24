@@ -18,7 +18,7 @@ const BazaKultur = () => {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
-  // Odczytaj parametry z URL
+  // Odczytaj parametry z URL i ustaw SEO
   useEffect(() => {
     const queryParam = searchParams.get('q');
     const typeParam = searchParams.get('type');
@@ -29,6 +29,14 @@ const BazaKultur = () => {
     
     if (typeParam) {
       setTypeFilter(typeParam);
+    }
+
+    // SEO optimization
+    document.title = "Baza Kultur Bakteryjnych do Sera - 145+ Kultur Mezofilnych i Termofilnych";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Kompletna baza 145+ kultur bakteryjnych do produkcji sera z polskich sklepów. Kultury mezofilne, termofilne, pleśniowe. Porównanie cen, skład, zastosowanie i temperatura pracy.');
     }
   }, [searchParams]);
   const handleSort = (field: SortField) => {
@@ -79,12 +87,12 @@ const BazaKultur = () => {
   const types = Array.from(new Set(culturesData.map(c => c.type)));
   return <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-20" role="main">
         {/* Hero Section */}
         <section className="bg-gradient-warm py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">🧀 Baza Kultur Bakteryjnych</h1>
+              <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>
               <p className="text-lg md:text-xl text-white/95 mb-2">
                 Kompletna baza {culturesData.length} kultur bakteryjnych
               </p>

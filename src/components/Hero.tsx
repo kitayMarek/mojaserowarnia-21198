@@ -23,13 +23,14 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden" aria-label="Strona główna">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Artisan cheese making"
+          alt="Produkcja sera rzemieślniczego - kultury bakteryjne i narzędzia dla serowarów"
           className="w-full h-full object-cover"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-black/20" />
       </div>

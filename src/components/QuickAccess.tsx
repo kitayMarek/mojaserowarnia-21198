@@ -52,10 +52,10 @@ const QuickAccess = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24 bg-background" aria-labelledby="quick-access-heading">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+          <h2 id="quick-access-heading" className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
             Szybki dostęp
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -63,7 +63,8 @@ const QuickAccess = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <nav aria-label="Główne sekcje portalu">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
@@ -93,6 +94,7 @@ const QuickAccess = () => {
             );
           })}
         </div>
+        </nav>
       </div>
     </section>
   );

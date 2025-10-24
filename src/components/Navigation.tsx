@@ -26,11 +26,11 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm" aria-label="Główna nawigacja">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group">
+          <a href="/" className="flex items-center gap-3 group" aria-label="Strona główna Moja Serowarnia">
             <div className="w-12 h-12 rounded-full bg-gradient-warm flex items-center justify-center shadow-warm transition-transform group-hover:scale-105">
               <span className="text-2xl">🧀</span>
             </div>

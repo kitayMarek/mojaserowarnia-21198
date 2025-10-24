@@ -45,14 +45,14 @@ const FeaturedSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-secondary/30">
+    <section className="py-16 md:py-24 bg-secondary/30" aria-labelledby="featured-heading">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* News Section */}
-          <div className="lg:col-span-2">
+          <article className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-8">
-              <Calendar className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-display font-bold text-foreground">Aktualności</h2>
+              <Calendar className="h-6 w-6 text-primary" aria-hidden="true" />
+              <h2 id="featured-heading" className="text-3xl font-display font-bold text-foreground">Aktualności</h2>
             </div>
 
             <div className="space-y-4">
@@ -79,11 +79,11 @@ const FeaturedSection = () => {
                 </a>
               ))}
             </div>
-          </div>
+          </article>
 
           {/* Highlights Section */}
-          <div>
-            <h3 className="text-2xl font-display font-bold text-foreground mb-6">Wyróżnione</h3>
+          <aside aria-labelledby="highlights-heading">
+            <h3 id="highlights-heading" className="text-2xl font-display font-bold text-foreground mb-6">Wyróżnione</h3>
 
             <div className="space-y-4">
               {highlights.map((item, index) => {
@@ -118,7 +118,7 @@ const FeaturedSection = () => {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

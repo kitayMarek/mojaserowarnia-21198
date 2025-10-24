@@ -12,3 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+
+Sitemap: https://mojaserowarnia.pl/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
