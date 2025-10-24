@@ -18,9 +18,10 @@ const SilaPodpuszczki = () => {
   }, []);
 
   // Calculator states
-  const [imcu, setImcu] = useState(200);
+  const [imcu, setImcu] = useState(280);
   const [milkLiters, setMilkLiters] = useState(10);
-  const [rennetResult, setRennetResult] = useState("");
+  const [cheeseTypeRennet, setCheeseTypeRennet] = useState("");
+  const [rennetResult, setRennetResult] = useState("3.57 ml");
   
   const [flocTime, setFlocTime] = useState(15);
   const [cheeseType, setCheeseType] = useState("2.5");
@@ -31,9 +32,18 @@ const SilaPodpuszczki = () => {
       setRennetResult("Uzupełnij wszystkie dane.");
       return;
     }
-    const milkPerMl = imcu * 0.01;
-    const rennetNeeded = milkLiters / milkPerMl;
-    setRennetResult(`Potrzebna ilość podpuszczki: ${rennetNeeded.toFixed(2)} ml na ${milkLiters} litrów mleka`);
+    const M = Math.max(0, milkLiters);
+    const S = Math.max(1, imcu);
+    let base = M / (S * 0.01); // ml
+    
+    // Optional light correction based on cheese type multiplier
+    const mult = parseFloat(cheeseTypeRennet);
+    if (!isNaN(mult)) {
+      const factor = 1 - Math.min(0.2, (mult - 2) / 20); // gentle correction up to -20%
+      base = base * factor;
+    }
+    
+    setRennetResult(`${Math.round(base * 100) / 100} ml`);
   };
 
   const calculateCutTime = () => {
@@ -47,6 +57,12 @@ const SilaPodpuszczki = () => {
     const seconds = Math.round((totalMinutes - minutes) * 60);
     setCutTimeResult(`Czas całkowity do cięcia: ${minutes} min ${seconds} sek (od momentu dodania podpuszczki)`);
   };
+
+  // Auto-calculate rennet on mount and when values change
+  useEffect(() => {
+    calculateRennet();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imcu, milkLiters, cheeseTypeRennet]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -353,40 +369,64 @@ const SilaPodpuszczki = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Calculator className="w-5 h-5" />
-                      Kalkulator podpuszczki
+                      Kalkulator dawki podpuszczki
                     </CardTitle>
+                    <CardDescription>
+                      Oblicz dokładną ilość podpuszczki z opcjonalną korektą dla typu sera
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="imcu">Moc podpuszczki (IMCU/ml):</Label>
-                      <Input
-                        id="imcu"
-                        type="number"
-                        min="0"
-                        step="1"
-                        value={imcu}
-                        onChange={(e) => setImcu(parseFloat(e.target.value) || 0)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="milk">Ilość mleka (litry):</Label>
+                      <Label htmlFor="milk">Ilość mleka (L)</Label>
                       <Input
                         id="milk"
                         type="number"
-                        min="0"
+                        min="1"
                         step="0.1"
                         value={milkLiters}
                         onChange={(e) => setMilkLiters(parseFloat(e.target.value) || 0)}
                       />
                     </div>
-                    <Button onClick={calculateRennet} className="w-full">
-                      Oblicz
-                    </Button>
-                    {rennetResult && (
-                      <Alert>
-                        <AlertDescription>{rennetResult}</AlertDescription>
-                      </Alert>
-                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="imcu">Moc podpuszczki (IMCU/ml)</Label>
+                      <Input
+                        id="imcu"
+                        type="number"
+                        min="50"
+                        step="10"
+                        value={imcu}
+                        onChange={(e) => setImcu(parseFloat(e.target.value) || 0)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="cheesetyperennet">Docelowy czas cięcia (mnożnik flokulacji)</Label>
+                      <select
+                        id="cheesetyperennet"
+                        className="w-full p-2 border rounded-md bg-background"
+                        value={cheeseTypeRennet}
+                        onChange={(e) => setCheeseTypeRennet(e.target.value)}
+                      >
+                        <option value="">Domyślnie (bez korekty)</option>
+                        <option value="2.5">Twarde: Szwajcarskie/Parmezan (×2–2,5)</option>
+                        <option value="3">Cheddar krowi (×2,5–3)</option>
+                        <option value="3.5">Jack / Caerphilly (×3,5)</option>
+                        <option value="4">Feta / Blue (×4)</option>
+                        <option value="5.5">Camembert / Brie (×5–6)</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Wynik (ml)</Label>
+                      <div className="p-3 border-2 border-dashed rounded-md bg-muted/50 font-semibold text-lg text-center">
+                        {rennetResult}
+                      </div>
+                    </div>
+                    <Alert>
+                      <AlertDescription className="text-xs">
+                        Kalkulator wykorzystuje zależność <code>1 ml → IMCU×0,01 L</code>. 
+                        Pole „mnożnik flokulacji" jest opcjonalne – sygnalizuje, że przy dążeniu do dłuższego czasu 
+                        możesz delikatnie skorygować dawkę (ostrożnie, w krokach 5–10%).
+                      </AlertDescription>
+                    </Alert>
                   </CardContent>
                 </Card>
 
