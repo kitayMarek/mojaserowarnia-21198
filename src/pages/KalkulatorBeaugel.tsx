@@ -28,7 +28,7 @@ const KalkulatorBeaugel = () => {
   // IMCU calculator states
   const [imcu, setImcu] = useState(280);
   const [milkLitersIMCU, setMilkLitersIMCU] = useState(10);
-  const [cheeseType, setCheeseType] = useState("");
+  const [cheeseType, setCheeseType] = useState("none");
   const [rennetResult, setRennetResult] = useState("3.57 ml");
 
   const fmt = (n: number) => Math.round(n * 100) / 100;
@@ -64,10 +64,12 @@ const KalkulatorBeaugel = () => {
     let base = M / (S * 0.01);
     
     // Optional correction based on cheese type
-    const mult = parseFloat(cheeseType);
-    if (!isNaN(mult)) {
-      const factor = 1 - Math.min(0.2, (mult - 2) / 20);
-      base = base * factor;
+    if (cheeseType !== "none") {
+      const mult = parseFloat(cheeseType);
+      if (!isNaN(mult)) {
+        const factor = 1 - Math.min(0.2, (mult - 2) / 20);
+        base = base * factor;
+      }
     }
     
     setRennetResult(`${Math.round(base * 100) / 100} ml`);
@@ -330,7 +332,7 @@ const KalkulatorBeaugel = () => {
                           <SelectValue placeholder="Opcjonalne" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">Bez korekty</SelectItem>
+                          <SelectItem value="none">Bez korekty</SelectItem>
                           <SelectItem value="2.0">Parmezan, Pecorino (2.0-2.5)</SelectItem>
                           <SelectItem value="2.5">Cheddar (2.5-3.0)</SelectItem>
                           <SelectItem value="3.5">Monterey Jack (3.5)</SelectItem>
