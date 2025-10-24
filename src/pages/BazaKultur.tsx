@@ -182,8 +182,8 @@ const BazaKultur = () => {
               ) : (
                 filteredData.map((culture, index) => (
                   <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card rounded-lg shadow-card border border-border overflow-hidden">
-                    <div className="bg-secondary px-3 py-2">
-                      <h3 className="font-bold text-white text-sm">
+                    <div className="bg-primary px-3 py-2">
+                      <h3 className="font-bold text-primary-foreground text-sm">
                         <a 
                           href={culture.productUrl || culture.shopUrl} 
                           target="_blank" 
