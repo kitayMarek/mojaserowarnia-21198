@@ -7,24 +7,25 @@
   <meta name="description" content="Szybki, dwukierunkowy przelicznik jednostek: długość, masa, objętość, temperatura, prędkość, ciśnienie, powierzchnia i miary kuchenne. Wspiera zapis stóp i cali (np. 5'7\")." />
   <style>
     :root {
-      --bg: #0f172a; /* slate-900 */
-      --panel: #111827;/* gray-900 */
-      --panel-2:#0b1220;/* darker */
-      --text: #e5e7eb; /* gray-200 */
-      --muted:#9ca3af; /* gray-400 */
-      --accent:#22d3ee; /* cyan-400 */
-      --accent-2:#60a5fa; /* blue-400 */
-      --ring: rgba(34,211,238,.4);
-      --ok:#4ade80; /* green-400 */
-      --warn:#fbbf24; /* amber-400 */
+      --bg: #fefaf6;
+      --panel: #ffffff;
+      --panel-2: #fef8f3;
+      --text: #3d2918;
+      --muted: #8b6f47;
+      --accent: #ea580c;
+      --accent-2: #f97316;
+      --ring: rgba(234, 88, 12, 0.15);
+      --ok: #16a34a;
+      --warn: #f59e0b;
+      --border: #f3e8d8;
     }
     * { box-sizing: border-box }
     html, body { height: 100% }
     body {
       margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color: var(--text); background: radial-gradient(1200px 800px at 20% -10%, #1f2937 0%, #0b1220 45%, #05080f 100%);
+      color: var(--text); background: linear-gradient(to bottom, #fefaf6 0%, #fef8f3 100%);
     }
-    header { position: sticky; top: 0; backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(15,23,42,.9) 0, rgba(15,23,42,.6) 100%); border-bottom: 1px solid #1f2937; z-index: 40 }
+    header { position: sticky; top: 0; backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(254,250,246,.95) 0, rgba(254,250,246,.85) 100%); border-bottom: 1px solid var(--border); z-index: 40; box-shadow: 0 1px 3px rgba(61, 41, 24, 0.05) }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px }
     h1 { margin: 6px 0 10px; font-size: clamp(22px, 3.2vw, 36px); letter-spacing: .2px }
     .sub { color: var(--muted); font-size: 14px; }
@@ -32,38 +33,42 @@
     @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
 
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border: 1px solid #1f2937; border-radius: 16px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      background: var(--panel);
+      border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(61, 41, 24, 0.08);
     }
     .row { display: grid; grid-template-columns: 1fr 140px; gap: 10px; align-items: center; margin-top: 10px }
     .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; margin-top: 10px }
     .control { display:flex; gap:10px; flex-wrap: wrap; align-items: center }
 
-    label { font-size: 12px; color: var(--muted); display:block; margin-bottom: 6px }
-    input[type="text"], select { width: 100%; padding: 12px 12px; border-radius: 12px; border: 1px solid #1f2937; background: #0b1220; color: var(--text); outline: none; }
-    input[type="text"]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring) }
+    label { font-size: 13px; color: var(--muted); display:block; margin-bottom: 6px; font-weight: 500 }
+    input[type="text"], select { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); outline: none; font-size: 15px; transition: all 0.2s }
+    input[type="text"]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring); background: var(--panel) }
 
     .hint { font-size: 12px; color: var(--muted); margin-top: 6px }
 
     .toolbar { display:flex; gap:10px; align-items:center; flex-wrap: wrap }
-    .btn { border: 1px solid #1f2937; padding: 10px 12px; background:#0b1220; color: var(--text); border-radius: 12px; cursor: pointer }
-    .btn:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring) inset }
+    .btn { border: 1px solid var(--border); padding: 10px 16px; background: var(--panel-2); color: var(--text); border-radius: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s }
+    .btn:hover { border-color: var(--accent); background: var(--panel); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(234, 88, 12, 0.15) }
     .swap { display:inline-flex; align-items:center; gap:8px }
-    .pill { padding: 6px 10px; border-radius: 999px; border:1px solid #1f2937; background:#0b1220; font-size:12px }
-    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; border:1px solid #1f2937; background:#0b1220; border-radius:6px; padding:2px 6px }
+    .pill { padding: 8px 14px; border-radius: 999px; border:1px solid var(--border); background: var(--panel-2); font-size:13px; font-weight: 500 }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; border:1px solid var(--border); background: var(--panel-2); border-radius:6px; padding:3px 8px; color: var(--accent) }
 
     .cats { display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0 4px }
-    .cat { cursor:pointer; border:1px solid #1f2937; background:#0b1220; color:var(--text); padding:8px 10px; border-radius:12px; font-size:13px }
-    .cat[data-active="true"] { border-color: var(--accent); color: white; box-shadow: 0 0 0 3px var(--ring) inset }
+    .cat { cursor:pointer; border:1px solid var(--border); background: var(--panel-2); color:var(--text); padding:10px 16px; border-radius:10px; font-size:14px; font-weight: 500; transition: all 0.2s }
+    .cat:hover { border-color: var(--accent-2); transform: translateY(-1px) }
+    .cat[data-active="true"] { border-color: var(--accent); background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); color: white; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25) }
 
     .two { display:grid; grid-template-columns: 1fr 48px 1fr; gap: 10px; align-items: end }
-    .arrow { display:flex; align-items:center; justify-content:center; height: 44px; border:1px dashed #1f2937; border-radius:10px; color: var(--muted) }
+    .arrow { display:flex; align-items:center; justify-content:center; height: 44px; border:1px dashed var(--border); border-radius:10px; color: var(--accent); font-size: 20px }
 
-    .copy { cursor:pointer; font-size:12px; color: var(--accent-2) }
+    .copy { cursor:pointer; font-size:13px; color: var(--accent); font-weight: 500; transition: all 0.2s }
+    .copy:hover { color: var(--accent-2) }
     .ok { color: var(--ok) }
 
-    footer { color: var(--muted); font-size: 12px; text-align: center; padding: 30px 16px }
+    footer { color: var(--muted); font-size: 13px; text-align: center; padding: 30px 16px; border-top: 1px solid var(--border); margin-top: 40px }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+    
+    h3 { color: var(--text); font-weight: 600 }
   </style>
 </head>
 <body>
