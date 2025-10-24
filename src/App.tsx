@@ -10,6 +10,7 @@ import Przepisy from "./pages/Przepisy";
 import RecipeDetails from "./pages/RecipeDetails";
 import Poradnik from "./pages/Poradnik";
 import Prawo from "./pages/Prawo";
+import Narzedzia from "./pages/Narzedzia";
 import AktyPrawneUE from "./pages/AktyPrawneUE";
 import RHD from "./pages/RHD";
 import RHDDokumenty from "./pages/RHDDokumenty";
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/poradnik" element={<Poradnik />} />
             <Route path="/prawo" element={<Prawo />} />
+            <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />

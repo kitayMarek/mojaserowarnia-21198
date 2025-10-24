@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalkulator miar: Imperialne ↔ Metryczne</title>
+  <meta name="description" content="Szybki, dwukierunkowy przelicznik jednostek: długość, masa, objętość, temperatura, prędkość, ciśnienie, powierzchnia i miary kuchenne. Wspiera zapis stóp i cali (np. 5'7\")." />
+  <style>
+    :root {
+      --bg: #0f172a; /* slate-900 */
+      --panel: #111827;/* gray-900 */
+      --panel-2:#0b1220;/* darker */
+      --text: #e5e7eb; /* gray-200 */
+      --muted:#9ca3af; /* gray-400 */
+      --accent:#22d3ee; /* cyan-400 */
+      --accent-2:#60a5fa; /* blue-400 */
+      --ring: rgba(34,211,238,.4);
+      --ok:#4ade80; /* green-400 */
+      --warn:#fbbf24; /* amber-400 */
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text); background: radial-gradient(1200px 800px at 20% -10%, #1f2937 0%, #0b1220 45%, #05080f 100%);
+    }
+    header { position: sticky; top: 0; backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(15,23,42,.9) 0, rgba(15,23,42,.6) 100%); border-bottom: 1px solid #1f2937; z-index: 40 }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px }
+    h1 { margin: 6px 0 10px; font-size: clamp(22px, 3.2vw, 36px); letter-spacing: .2px }
+    .sub { color: var(--muted); font-size: 14px; }
+    .grid { display: grid; grid-template-columns: 1.05fr 1.05fr; gap: 18px }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border: 1px solid #1f2937; border-radius: 16px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .row { display: grid; grid-template-columns: 1fr 140px; gap: 10px; align-items: center; margin-top: 10px }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; margin-top: 10px }
+    .control { display:flex; gap:10px; flex-wrap: wrap; align-items: center }
+
+    label { font-size: 12px; color: var(--muted); display:block; margin-bottom: 6px }
+    input[type="text"], select { width: 100%; padding: 12px 12px; border-radius: 12px; border: 1px solid #1f2937; background: #0b1220; color: var(--text); outline: none; }
+    input[type="text"]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring) }
+
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px }
+
+    .toolbar { display:flex; gap:10px; align-items:center; flex-wrap: wrap }
+    .btn { border: 1px solid #1f2937; padding: 10px 12px; background:#0b1220; color: var(--text); border-radius: 12px; cursor: pointer }
+    .btn:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring) inset }
+    .swap { display:inline-flex; align-items:center; gap:8px }
+    .pill { padding: 6px 10px; border-radius: 999px; border:1px solid #1f2937; background:#0b1220; font-size:12px }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; border:1px solid #1f2937; background:#0b1220; border-radius:6px; padding:2px 6px }
+
+    .cats { display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0 4px }
+    .cat { cursor:pointer; border:1px solid #1f2937; background:#0b1220; color:var(--text); padding:8px 10px; border-radius:12px; font-size:13px }
+    .cat[data-active="true"] { border-color: var(--accent); color: white; box-shadow: 0 0 0 3px var(--ring) inset }
+
+    .two { display:grid; grid-template-columns: 1fr 48px 1fr; gap: 10px; align-items: end }
+    .arrow { display:flex; align-items:center; justify-content:center; height: 44px; border:1px dashed #1f2937; border-radius:10px; color: var(--muted) }
+
+    .copy { cursor:pointer; font-size:12px; color: var(--accent-2) }
+    .ok { color: var(--ok) }
+
+    footer { color: var(--muted); font-size: 12px; text-align: center; padding: 30px 16px }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Przelicznik miar: <span class="mono">Imperialne ↔ Metryczne</span></h1>
+      <div class="sub">Dwukierunkowe przeliczanie długości, masy, objętości, temperatury, powierzchni, prędkości, ciśnienia i miar kuchennych. Wspiera zapis <strong>stóp i cali</strong> (np. <span class="kbd">5'7"</span> albo <span class="kbd">5 ft 7 in</span>).</div>
+    </div>
+  </header>
+
+  <main class="wrap" id="app">
+    <!-- KATEGORIE -->
+    <div class="card">
+      <div class="toolbar">
+        <div class="cats" id="cats"></div>
+        <div class="pill">Precyzja: <span id="precVal">2</span> msc
+          <input id="prec" type="range" min="0" max="8" value="2" style="vertical-align:middle; margin-left:8px" />
+        </div>
+        <label class="pill" style="cursor:pointer">
+          <input type="checkbox" id="comma" /> Używaj przecinka 10<sup>−1</sup>
+        </label>
+      </div>
+    </div>
+
+    <!-- GŁÓWNY PRZELICZNIK -->
+    <section class="card" aria-label="Główny przelicznik">
+      <div class="two">
+        <div>
+          <label for="inA">Wartość</label>
+          <input id="inA" type="text" inputmode="decimal" placeholder="np. 5'7&quot;  lub  2.54" />
+          <div class="hint">Akceptuje: liczby, przecinek lub kropkę, oraz format stopy+cala (<span class="kbd">6'2"</span>).</div>
+        </div>
+        <div class="arrow">⟷</div>
+        <div>
+          <label for="inB">Wynik</label>
+          <input id="inB" type="text" inputmode="decimal" placeholder="Wynik" />
+          <div class="hint">Edycja tego pola przeliczy w drugą stronę.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="unitA">Jednostka wejściowa</label>
+          <select id="unitA"></select>
+        </div>
+        <div class="control">
+          <button class="btn swap" id="swap">Zamień ↔</button>
+          <span class="copy" id="copyA" title="Kopiuj wartość">Kopiuj</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="unitB">Jednostka wyjściowa</label>
+          <select id="unitB"></select>
+        </div>
+        <div class="control">
+          <div id="status" class="hint">Gotowy</div>
+          <span class="copy" id="copyB" title="Kopiuj wynik">Kopiuj</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SZYBKIE KONWERSJE W KATEGORII -->
+    <section class="card">
+      <h3 style="margin:6px 0 4px">Szybkie pary w wybranej kategorii</h3>
+      <div id="quick" class="row3"></div>
+      <div class="hint">Kliknij parę, by ustawić ją powyżej.</div>
+    </section>
+
+    <!-- PRZYDATNE PODPOWIEDZI DLA DŁUGOŚCI (ft+in) -->
+    <section class="card" id="ftinCard" hidden>
+      <h3 style="margin:6px 0 4px">Pomoc: stopy i cale</h3>
+      <div class="hint">Możesz wprowadzić <span class="kbd">5'7"</span>, <span class="kbd">5 ft 7 in</span>, <span class="kbd">5ft7</span> lub <span class="kbd">67 in</span>. Kalkulator sam rozpozna format.</div>
+    </section>
+
+  </main>
+
+  <footer>
+    © <span id="year"></span> AGROJELONKI • Przelicznik miar.  
+    <span>Wzory i stałe zgodne z US Customary / SI. </span>
+  </footer>
+
+<script>
+(() => {
+  const $ = sel => document.querySelector(sel);
+  const el = id => document.getElementById(id);
+  const byId = id => document.getElementById(id);
+  const fmtDec = (v, p, comma) => {
+    if (!isFinite(v)) return '';
+    const s = Number(v).toFixed(p);
+    return comma ? s.replace('.', ',') : s;
+  };
+  const parseNum = (s) => {
+    if (typeof s !== 'string') return NaN;
+    const t = s.trim().toLowerCase();
+    if (!t) return NaN;
+    // Obsługa formatu ft+in, np. 5'7", 5 ft 7 in, 5ft7
+    const ftIn1 = t.match(/^(-?\d+(?:[\.,]\d+)?)\s*(?:ft|')\s*(\d+(?:[\.,]\d+)?)?\s*(?:in|\")?$/);
+    if (ftIn1) {
+      const ft = parseFloat(ftIn1[1].replace(',', '.'));
+      const inch = ftIn1[2] ? parseFloat(ftIn1[2].replace(',', '.')) : 0;
+      return ft * 12 + inch; // w calach
+    }
+    // 5ft7 bez spacji i oznaczeń cala
+    const ftIn2 = t.match(/^(-?\d+(?:[\.,]\d+)?)\s*ft\s*(\d+(?:[\.,]\d+)?)?$/);
+    if (ftIn2) {
+      const ft = parseFloat(ftIn2[1].replace(',', '.'));
+      const inch = ftIn2[2] ? parseFloat(ftIn2[2].replace(',', '.')) : 0;
+      return ft * 12 + inch; // w calach
+    }
+    // Klasyczna liczba (przecinek lub kropka)
+    const n = parseFloat(t.replace(',', '.'));
+    return isNaN(n) ? NaN : n;
+  };
+
+  // Definicje jednostek (kategorie)
+  // Każda jednostka ma: id, etykieta, doBase (→ jednostka bazowa SI), fromBase (←), quickPairs
+  const categories = {
+    dlugosc: {
+      label: 'Długość', base: 'm',
+      units: [
+        {id:'in', label:'cal (in)', toBase:v=>v*0.0254, fromBase:v=>v/0.0254},
+        {id:'ft', label:'stopa (ft)', toBase:v=>v*0.3048, fromBase:v=>v/0.3048},
+        {id:'yd', label:'jard (yd)', toBase:v=>v*0.9144, fromBase:v=>v/0.9144},
+        {id:'mi', label:'mila (mi)', toBase:v=>v*1609.344, fromBase:v=>v/1609.344},
+        {id:'mm', label:'milimetr (mm)', toBase:v=>v/1000, fromBase:v=>v*1000},
+        {id:'cm', label:'centymetr (cm)', toBase:v=>v/100, fromBase:v=>v*100},
+        {id:'m',  label:'metr (m)', toBase:v=>v, fromBase:v=>v},
+        {id:'km', label:'kilometr (km)', toBase:v=>v*1000, fromBase:v=>v/1000},
+      ],
+      quick:[['in','cm'],['ft','m'],['yd','m'],['mi','km']]
+    },
+    masa: {
+      label: 'Masa', base: 'kg',
+      units: [
+        {id:'oz', label:'uncja (oz)', toBase:v=>v*0.028349523125, fromBase:v=>v/0.028349523125},
+        {id:'lb', label:'funt (lb)', toBase:v=>v*0.45359237, fromBase:v=>v/0.45359237},
+        {id:'g', label:'gram (g)', toBase:v=>v/1000, fromBase:v=>v*1000},
+        {id:'kg', label:'kilogram (kg)', toBase:v=>v, fromBase:v=>v},
+        {id:'t', label:'tona (t)', toBase:v=>v*1000, fromBase:v=>v/1000},
+      ],
+      quick:[['oz','g'],['lb','kg']]
+    },
+    objetoscc: {
+      label: 'Objętość (płyny)', base: 'L',
+      units: [
+        {id:'tsp', label:'łyżeczka (tsp, US)', toBase:v=>v*0.00492892159375, fromBase:v=>v/0.00492892159375},
+        {id:'tbsp', label:'łyżka (tbsp, US)', toBase:v=>v*0.01478676478125, fromBase:v=>v/0.01478676478125},
+        {id:'cup', label:'kielich/kubek (cup, US)', toBase:v=>v*0.2365882365, fromBase:v=>v/0.2365882365},
+        {id:'fl_oz', label:'uncja płynu (fl oz, US)', toBase:v=>v*0.0295735295625, fromBase:v=>v/0.0295735295625},
+        {id:'pt', label:'pint (pt, US)', toBase:v=>v*0.473176473, fromBase:v=>v/0.473176473},
+        {id:'qt', label:'kwarta (qt, US)', toBase:v=>v*0.946352946, fromBase:v=>v/0.946352946},
+        {id:'gal', label:'galon (gal, US)', toBase:v=>v*3.785411784, fromBase:v=>v/3.785411784},
+        {id:'ml', label:'mililitr (ml)', toBase:v=>v/1000, fromBase:v=>v*1000},
+        {id:'L', label:'litr (L)', toBase:v=>v, fromBase:v=>v},
+      ],
+      quick:[['cup','ml'],['gal','L'],['fl_oz','ml']]
+    },
+    powierzchnia: {
+      label: 'Powierzchnia', base: 'm²',
+      units: [
+        {id:'in2', label:'cal² (in²)', toBase:v=>v*0.00064516, fromBase:v=>v/0.00064516},
+        {id:'ft2', label:'stopa² (ft²)', toBase:v=>v*0.09290304, fromBase:v=>v/0.09290304},
+        {id:'yd2', label:'jard² (yd²)', toBase:v=>v*0.83612736, fromBase:v=>v/0.83612736},
+        {id:'acre', label:'akr', toBase:v=>v*4046.8564224, fromBase:v=>v/4046.8564224},
+        {id:'m2', label:'metr² (m²)', toBase:v=>v, fromBase:v=>v},
+        {id:'ha', label:'hektar (ha)', toBase:v=>v*10000, fromBase:v=>v/10000},
+      ],
+      quick:[['ft2','m2'],['acre','ha']]
+    },
+    predkosc: {
+      label: 'Prędkość', base: 'm/s',
+      units: [
+        {id:'mph', label:'mil/h (mph)', toBase:v=>v*0.44704, fromBase:v=>v/0.44704},
+        {id:'kmh', label:'km/h', toBase:v=>v*(1000/3600), fromBase:v=>v/(1000/3600)},
+        {id:'ms', label:'m/s', toBase:v=>v, fromBase:v=>v},
+        {id:'kts', label:'węzeł (kt)', toBase:v=>v*0.514444, fromBase:v=>v/0.514444},
+      ],
+      quick:[['mph','kmh'],['kts','kmh']]
+    },
+    cisnienie: {
+      label: 'Ciśnienie', base: 'Pa',
+      units: [
+        {id:'psi', label:'psi', toBase:v=>v*6894.757293168, fromBase:v=>v/6894.757293168},
+        {id:'bar', label:'bar', toBase:v=>v*100000, fromBase:v=>v/100000},
+        {id:'kPa', label:'kPa', toBase:v=>v*1000, fromBase:v=>v/1000},
+        {id:'Pa', label:'Pa', toBase:v=>v, fromBase:v=>v},
+        {id:'atm', label:'atm', toBase:v=>v*101325, fromBase:v=>v/101325},
+      ],
+      quick:[['psi','bar'],['psi','kPa']]
+    },
+    temperatura: {
+      label: 'Temperatura', base: 'K',
+      units: [
+        {id:'C', label:'Celsjusz (°C)', toBase:v=>v+273.15, fromBase:v=>v-273.15},
+        {id:'F', label:'Fahrenheit (°F)', toBase:v=> (v-32)*(5/9)+273.15, fromBase:v=> (v-273.15)*(9/5)+32},
+        {id:'K', label:'Kelwin (K)', toBase:v=>v, fromBase:v=>v},
+      ],
+      quick:[['C','F'],['F','C']]
+    }
+  };
+
+  // Elementy UI
+  const cats = byId('cats');
+  const unitA = byId('unitA');
+  const unitB = byId('unitB');
+  const inA = byId('inA');
+  const inB = byId('inB');
+  const quick = byId('quick');
+  const prec = byId('prec');
+  const precVal = byId('precVal');
+  const comma = byId('comma');
+  const ftinCard = byId('ftinCard');
+
+  let state = {
+    cat: 'dlugosc', a: 'ft', b: 'm', p: 2, comma: false
+  };
+
+  function buildCatButtons(){
+    cats.innerHTML='';
+    Object.entries(categories).forEach(([id, cfg])=>{
+      const btn = document.createElement('button');
+      btn.className='cat';
+      btn.textContent = cfg.label;
+      btn.setAttribute('data-active', id===state.cat);
+      btn.addEventListener('click', ()=>{ state.cat=id; renderUnits(); renderQuick(); updateHintCard(); convertFromA(); saveHash(); });
+      cats.appendChild(btn);
+    });
+  }
+
+  function renderUnits(){
+    const {units} = categories[state.cat];
+    unitA.innerHTML = units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
+    unitB.innerHTML = units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
+
+    // sensowne pary domyślne
+    const q = categories[state.cat].quick?.[0];
+    if (q) { state.a=q[0]; state.b=q[1]; }
+    unitA.value = state.a; unitB.value = state.b;
+
+    // pokaż/ukryj kartę ft+in
+    updateHintCard();
+
+    // odśwież aktywne style kategorii
+    [...cats.children].forEach(c=>c.setAttribute('data-active', c.textContent===categories[state.cat].label));
+  }
+
+  function renderQuick(){
+    const qs = categories[state.cat].quick || [];
+    quick.innerHTML = qs.map(([a,b])=>{
+      const la = categories[state.cat].units.find(u=>u.id===a)?.label || a;
+      const lb = categories[state.cat].units.find(u=>u.id===b)?.label || b;
+      return `<button class="btn" data-a="${a}" data-b="${b}">${la} ⟷ ${lb}</button>`;
+    }).join('');
+    quick.querySelectorAll('button').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        state.a = b.dataset.a; state.b = b.dataset.b;
+        unitA.value = state.a; unitB.value = state.b;
+        convertFromA(); saveHash();
+      });
+    });
+  }
+
+  function unitById(cat,id){ return categories[cat].units.find(u=>u.id===id); }
+
+  function toBase(cat, id, v){ return unitById(cat,id).toBase(v); }
+  function fromBase(cat, id, v){ return unitById(cat,id).fromBase(v); }
+
+  function convert(val, fromId, toId){
+    if (!isFinite(val)) return '';
+    if (state.cat === 'temperatura') {
+      // temperatura – nie używamy bazy jako m/s, tylko zdefiniowane funkcje doBase/fromBase działają z K
+      const base = toBase(state.cat, fromId, val);
+      return fromBase(state.cat, toId, base);
+    }
+    const base = toBase(state.cat, fromId, val);
+    return fromBase(state.cat, toId, base);
+  }
+
+  function sanitizeInput(s){ return (s||'').replace(/\s+/g,' ').trim(); }
+
+  function convertFromA(){
+    const raw = sanitizeInput(inA.value);
+    const n = parseNum(raw);
+    const res = convert(n, state.a, state.b);
+    const out = fmtDec(res, state.p, state.comma);
+    inB.value = out;
+    setStatus(n, res);
+  }
+
+  function convertFromB(){
+    const raw = sanitizeInput(inB.value);
+    const n = parseNum(raw);
+    const res = convert(n, state.b, state.a);
+    const out = fmtDec(res, state.p, state.comma);
+    inA.value = out;
+    setStatus(n, res);
+  }
+
+  function setStatus(nIn, nOut){
+    const st = byId('status');
+    if (!isFinite(nIn)) { st.textContent = 'Wprowadź poprawną wartość'; st.style.color = 'var(--warn)'; return; }
+    if (!isFinite(nOut)) { st.textContent = 'Nie można przeliczyć (sprawdź jednostki)'; st.style.color = 'var(--warn)'; return; }
+    st.textContent = 'Gotowy'; st.style.color = 'var(--muted)';
+  }
+
+  // Zdarzenia
+  unitA.addEventListener('change', ()=>{ state.a=unitA.value; convertFromA(); saveHash(); });
+  unitB.addEventListener('change', ()=>{ state.b=unitB.value; convertFromA(); saveHash(); });
+  inA.addEventListener('input', ()=>{ convertFromA(); });
+  inB.addEventListener('input', ()=>{ convertFromB(); });
+  prec.addEventListener('input', ()=>{ state.p=+prec.value; precVal.textContent=state.p; convertFromA(); saveHash(); });
+  comma.addEventListener('change', ()=>{ state.comma=comma.checked; convertFromA(); saveHash(); });
+  byId('swap').addEventListener('click', ()=>{ const t=state.a; state.a=state.b; state.b=t; unitA.value=state.a; unitB.value=state.b; convertFromA(); saveHash(); });
+  byId('copyA').addEventListener('click', ()=>copyText(inA));
+  byId('copyB').addEventListener('click', ()=>copyText(inB));
+
+  function copyText(input){
+    input.select(); input.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    const s = byId('status'); s.textContent='Skopiowano!'; s.classList.add('ok');
+    setTimeout(()=>{ s.textContent='Gotowy'; s.classList.remove('ok'); }, 900);
+  }
+
+  function updateHintCard(){
+    ftinCard.hidden = state.cat !== 'dlugosc';
+  }
+
+  // URL stan (hash) – aby można było udostępnić ustawioną parę
+  function saveHash(){
+    const h = new URLSearchParams({ c:state.cat, a:state.a, b:state.b, p:state.p, k:state.comma?1:0 }).toString();
+    history.replaceState(null, '', '#'+h);
+  }
+  function loadHash(){
+    if (location.hash.length>1){
+      const q = new URLSearchParams(location.hash.slice(1));
+      const c = q.get('c'); if (categories[c]) state.cat=c;
+      state.a = q.get('a') || state.a;
+      state.b = q.get('b') || state.b;
+      const p = +q.get('p'); if (!isNaN(p)) state.p=p;
+      state.comma = q.get('k')==='1';
+    }
+  }
+
+  // Init
+  byId('year').textContent = new Date().getFullYear();
+  loadHash();
+  buildCatButtons();
+  renderUnits();
+  renderQuick();
+  prec.value = state.p; precVal.textContent = state.p; comma.checked = state.comma;
+  convertFromA();
+})();
+</script>
+</body>
+</html>

@@ -47,7 +47,7 @@ const QuickAccess = () => {
       title: "Narzędzia",
       description: "Kalkulatory i generatory",
       color: "from-amber-500 to-orange-600",
-      href: "#narzedzia",
+      href: "/narzedzia",
     },
   ];
 
