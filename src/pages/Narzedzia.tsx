@@ -86,6 +86,61 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
+              {/* Kalkulator Beaugel */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    {/* Icon */}
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator Podpuszczki
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Precyzyjne obliczenia dawki dla podpuszczek Beaugel (5/50/500) oraz uniwersalny kalkulator IMCU dla wszystkich rodzajów podpuszczek.
+                      </p>
+                    </div>
+
+                    {/* Features List */}
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Beaugel 5, 50, 500 (Coquard)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Uniwersalny kalkulator IMCU</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Obliczenia rozcieńczeń roboczych</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Przeliczniki na krople i łyżeczki</span>
+                      </li>
+                    </ul>
+
+                    {/* Button */}
+                    <Button 
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-warm"
+                    >
+                      <a 
+                        href="/kalkulator-beaugel"
+                        className="flex items-center justify-center gap-2"
+                      >
+                        Otwórz Kalkulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Placeholder for future tools */}
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
