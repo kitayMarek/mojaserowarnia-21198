@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-
+const OWNER_EMAIL = Deno.env.get("RESEND_OWNER_EMAIL") || "kitaymw@gmail.com";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -30,7 +30,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to Moja Serowarnia
     const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
       from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
-      to: ["admin@mojaserowarnia.pl"],
+      to: [OWNER_EMAIL],
       replyTo: email,
       subject: `Nowa wiadomość kontaktowa: ${subject}`,
       html: `
