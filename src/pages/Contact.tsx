@@ -72,23 +72,28 @@ const Contact = () => {
         throw new Error(error.message || "Błąd wywołania funkcji");
       }
 
-      // Check if the function returned an error in its response
-      if (data && !data.ok) {
-        console.error("Function returned error:", data.error);
-        
-        // Track error event
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'contact_form_submit', {
-            status: 'error',
-            error_name: data.error || 'function_error'
-          });
-        }
-        
-        toast.error("Błąd wysyłania", {
-          description: data.error || "Nie udało się wysłać wiadomości. Spróbuj ponownie.",
+    // Check if the function returned an error in its response
+    if (data && !data.ok) {
+      console.error("Function returned error:", data.error);
+      
+      // Convert error to string if it's an object
+      const errorMessage = typeof data.error === 'object' 
+        ? (data.error?.message || JSON.stringify(data.error))
+        : (data.error || "Nie udało się wysłać wiadomości. Spróbuj ponownie.");
+      
+      // Track error event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'contact_form_submit', {
+          status: 'error',
+          error_name: typeof data.error === 'string' ? data.error : 'function_error'
         });
-        return;
       }
+      
+      toast.error("Błąd wysyłania", {
+        description: errorMessage,
+      });
+      return;
+    }
 
       // Track success event
       if (typeof window !== 'undefined' && (window as any).gtag) {
