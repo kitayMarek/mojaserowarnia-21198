@@ -15,6 +15,7 @@ import GdzieKupicPodpuszczke from "./pages/GdzieKupicPodpuszczke";
 import Prawo from "./pages/Prawo";
 import Narzedzia from "./pages/Narzedzia";
 import KalkulatorBeaugel from "./pages/KalkulatorBeaugel";
+import KalkulatorKosztuSera from "./pages/KalkulatorKosztuSera";
 import AktyPrawneUE from "./pages/AktyPrawneUE";
 import RHD from "./pages/RHD";
 import RHDDokumenty from "./pages/RHDDokumenty";
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />
+            <Route path="/kalkulator-kosztu-sera" element={<KalkulatorKosztuSera />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />

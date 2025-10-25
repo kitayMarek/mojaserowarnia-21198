@@ -141,6 +141,61 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
+              {/* Kalkulator Kosztu Sera */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    {/* Icon */}
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator Kosztu Sera
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Kompleksowy kalkulator obliczający koszty produkcji sera: wydajność z mleka, składniki, koszty stałe, marża i cena sprzedaży.
+                      </p>
+                    </div>
+
+                    {/* Features List */}
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Automatyczne wyliczenie wagi z mleka</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Lista składników z cenami i VAT</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Uwzględnienie strat procesu</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Obliczenia marży i ceny sprzedaży</span>
+                      </li>
+                    </ul>
+
+                    {/* Button */}
+                    <Button 
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-warm"
+                    >
+                      <a 
+                        href="/kalkulator-kosztu-sera"
+                        className="flex items-center justify-center gap-2"
+                      >
+                        Otwórz Kalkulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Placeholder for future tools */}
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
