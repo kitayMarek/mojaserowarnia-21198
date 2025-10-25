@@ -183,7 +183,7 @@ const PorownanieWartosciOdzywczych = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-          <div className="flex justify-between items-center p-3 rounded-md bg-accent">
+          <div className="flex justify-between items-center p-3 rounded-md bg-secondary/50">
             <span className="font-semibold text-foreground">Kalorie:</span>
             <span className="font-bold text-primary">{(cheese.calories * ratio).toFixed(0)} kcal</span>
           </div>
@@ -191,7 +191,7 @@ const PorownanieWartosciOdzywczych = () => {
             <span className="font-semibold text-foreground">Białko:</span>
             <span className="font-bold text-primary">{(cheese.protein * ratio).toFixed(1)} g</span>
           </div>
-          <div className="flex justify-between items-center p-3 rounded-md bg-accent">
+          <div className="flex justify-between items-center p-3 rounded-md bg-secondary/50">
             <span className="font-semibold text-foreground">Tłuszcze:</span>
             <span className="font-bold text-primary">{(cheese.fat * ratio).toFixed(1)} g</span>
           </div>
@@ -199,7 +199,7 @@ const PorownanieWartosciOdzywczych = () => {
             <span className="font-semibold text-foreground">Tł. nasycone:</span>
             <span className="font-bold text-primary">{(cheese.saturatedFat * ratio).toFixed(1)} g</span>
           </div>
-          <div className="flex justify-between items-center p-3 rounded-md bg-accent">
+          <div className="flex justify-between items-center p-3 rounded-md bg-secondary/50">
             <span className="font-semibold text-foreground">Węglowodany:</span>
             <span className="font-bold text-primary">{(cheese.carbs * ratio).toFixed(1)} g</span>
           </div>
@@ -207,7 +207,7 @@ const PorownanieWartosciOdzywczych = () => {
             <span className="font-semibold text-foreground">Wapń:</span>
             <span className="font-bold text-primary">{(cheese.calcium * ratio).toFixed(0)} mg</span>
           </div>
-          <div className="flex justify-between items-center p-3 rounded-md bg-accent">
+          <div className="flex justify-between items-center p-3 rounded-md bg-secondary/50">
             <span className="font-semibold text-foreground">Sód:</span>
             <span className="font-bold text-primary">{(cheese.sodium * ratio).toFixed(0)} mg</span>
           </div>
@@ -450,27 +450,27 @@ const PorownanieWartosciOdzywczych = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Parmezan</td>
                           <td className="p-3 font-semibold">1184 mg</td>
                           <td className="p-3 font-semibold text-primary">118%</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Emmental</td>
                           <td className="p-3 font-semibold">1029 mg</td>
                           <td className="p-3 font-semibold text-primary">103%</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Cheddar</td>
                           <td className="p-3 font-semibold">721 mg</td>
                           <td className="p-3 font-semibold text-primary">72%</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Gouda</td>
                           <td className="p-3 font-semibold">700 mg</td>
                           <td className="p-3 font-semibold text-primary">70%</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Oscypek</td>
                           <td className="p-3 font-semibold">650 mg</td>
                           <td className="p-3 font-semibold text-primary">65%</td>
@@ -492,27 +492,27 @@ const PorownanieWartosciOdzywczych = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Twaróg chudy</td>
                           <td className="p-3 font-semibold">72 kcal</td>
                           <td className="p-3">0.3 g</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Twaróg półtłusty</td>
                           <td className="p-3 font-semibold">155 kcal</td>
                           <td className="p-3">9 g</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Mozzarella light</td>
                           <td className="p-3 font-semibold">254 kcal</td>
                           <td className="p-3">16 g</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Feta</td>
                           <td className="p-3 font-semibold">264 kcal</td>
                           <td className="p-3">21 g</td>
                         </tr>
-                        <tr className="border-b hover:bg-accent">
+                        <tr className="border-b hover:bg-secondary/30 transition-colors">
                           <td className="p-3">Camembert</td>
                           <td className="p-3 font-semibold">300 kcal</td>
                           <td className="p-3">24 g</td>
