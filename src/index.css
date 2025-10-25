@@ -19,9 +19,9 @@ All colors MUST be HSL.
     --popover-foreground: 28 45% 15%;
 
     /* Warm amber/honey primary color */
-    --primary: 42 85% 70%;
+    --primary: 42 78% 60%;
     --primary-foreground: 40 40% 98%;
-    --primary-hover: 42 85% 62%;
+    --primary-hover: 42 78% 52%;
 
     /* Creamy secondary */
     --secondary: 40 35% 88%;
@@ -78,9 +78,9 @@ All colors MUST be HSL.
     --popover: 28 25% 16%;
     --popover-foreground: 40 40% 95%;
 
-    --primary: 42 85% 65%;
+    --primary: 42 78% 55%;
     --primary-foreground: 28 30% 12%;
-    --primary-hover: 42 85% 58%;
+    --primary-hover: 42 78% 48%;
 
     --secondary: 28 20% 22%;
     --secondary-foreground: 40 40% 95%;
