@@ -58,6 +58,8 @@ const KalkulatorKosztuSera = () => {
   const [sellNetPerKg, setSellNetPerKg] = useState(0);
   const [sellGrossPerKg, setSellGrossPerKg] = useState(0);
   const [sellGross250g, setSellGross250g] = useState(0);
+  const [totalProdNet, setTotalProdNet] = useState(0);
+  const [totalProdGross, setTotalProdGross] = useState(0);
 
   const fmt = (n: number, cur?: string) => {
     if (!isFinite(n)) return '—';
@@ -159,6 +161,10 @@ const KalkulatorKosztuSera = () => {
       setSellNetPerKg(priceNetPK);
       setSellGrossPerKg(priceGrossPK);
       setSellGross250g(priceGrossPK * 0.25);
+      
+      // Total production value
+      setTotalProdNet(priceNetPK * effective);
+      setTotalProdGross(priceGrossPK * effective);
     } else {
       setPerKgNet(0);
       setPerKgGross(0);
@@ -166,6 +172,8 @@ const KalkulatorKosztuSera = () => {
       setSellNetPerKg(0);
       setSellGrossPerKg(0);
       setSellGross250g(0);
+      setTotalProdNet(0);
+      setTotalProdGross(0);
     }
     
     // Update manual batch kg if in auto mode
@@ -548,6 +556,20 @@ const KalkulatorKosztuSera = () => {
                       <div className="p-4 rounded-lg border-2 border-primary bg-gradient-to-br from-primary/5 to-accent/5">
                         <div className="text-sm text-muted-foreground mb-2">BRUTTO / 250 g</div>
                         <div className="text-2xl font-bold text-primary">{fmt(sellGross250g, currency)}</div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 pt-6 border-t">
+                      <h4 className="text-md font-semibold mb-4">Wartość całej produkcji</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 rounded-lg border-2 border-green-600 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
+                          <div className="text-sm text-muted-foreground mb-2">NETTO ({fmt(effKg, '')} kg × cena/kg)</div>
+                          <div className="text-2xl font-bold text-green-600 dark:text-green-400">{fmt(totalProdNet, currency)}</div>
+                        </div>
+                        <div className="p-4 rounded-lg border-2 border-green-600 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
+                          <div className="text-sm text-muted-foreground mb-2">BRUTTO ({fmt(effKg, '')} kg × cena/kg)</div>
+                          <div className="text-2xl font-bold text-green-600 dark:text-green-400">{fmt(totalProdGross, currency)}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
