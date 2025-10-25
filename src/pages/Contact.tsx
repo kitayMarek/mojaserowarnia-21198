@@ -79,8 +79,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      content: "mojaserowarnia@majaserowarnia.pl",
-      href: "mailto:mojaserowarnia@majaserowarnia.pl",
+      content: "admin@mojaserowarnia.pl",
+      href: "mailto:admin@mojaserowarnia.pl",
     },
     {
       icon: MapPin,

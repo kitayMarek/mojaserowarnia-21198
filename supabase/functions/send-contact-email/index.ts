@@ -30,7 +30,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to Moja Serowarnia
     const emailResponse = await resend.emails.send({
       from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
-      to: ["mojaserowarnia@majaserowarnia.pl"],
+      to: ["admin@mojaserowarnia.pl"],
       replyTo: email,
       subject: `Nowa wiadomość kontaktowa: ${subject}`,
       html: `
