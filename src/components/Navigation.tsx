@@ -23,6 +23,7 @@ const Navigation = () => {
     { label: "Poradniki", href: "/poradniki" },
     { label: "Prawo", href: "/prawo" },
     { label: "Narzędzia", href: "/narzedzia" },
+    { label: "Kontakt", href: "/kontakt" },
   ];
 
   return (

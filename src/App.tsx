@@ -28,6 +28,7 @@ import Ewidencja from "./pages/Ewidencja";
 import NewInvoice from "./pages/NewInvoice";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/prawo/mol" element={<MOL />} />
             <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
             <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
+            <Route path="/kontakt" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />

@@ -33,7 +33,7 @@ const Footer = () => {
       title: "O projekcie",
       links: [
         { label: "O portalu", href: "#o-nas" },
-        { label: "Kontakt", href: "#kontakt" },
+        { label: "Kontakt", href: "/kontakt" },
         { label: "Współpraca", href: "#wspolpraca" },
         { label: "Polityka prywatności", href: "#prywatnosc" },
       ],
