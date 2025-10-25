@@ -43,7 +43,9 @@ const KalkulatorKosztuSera = () => {
   const [autoBatch, setAutoBatch] = useState(true);
   
   // Ingredients
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([
+    { id: '1', name: 'Mleko', price: 0, vat: 5, grossIncl: true, packQty: 0, packUnit: 'L', useQty: 0, useUnit: 'L', loss: 0 }
+  ]);
   
   // Results
   const [autoBatchHint, setAutoBatchHint] = useState("—");
@@ -115,20 +117,19 @@ const KalkulatorKosztuSera = () => {
     const autoBatchKg = milkL * (yieldKgPer10L / 10);
     setAutoBatchHint(milkL > 0 ? `${fmt(autoBatchKg, '')} kg (z ${fmt(milkL, '')} L mleka @ ${fmt(yieldKgPer10L, '')} kg / 10 L)` : 'brak mleka w składnikach');
     
-    if (autoBatch) {
-      setBatchKgManual(autoBatchKg || 0);
-    }
-
-    // 2) Effective weight
-    const batchKg = Math.max(batchKgManual, 0);
-    const effective = batchKg * (1 - Math.min(Math.max(processLoss, 0), 99.9999) / 100);
+    // Auto update batch weight from milk
+    const currentBatchKg = autoBatch ? (autoBatchKg || 0) : batchKgManual;
+    
+    // 2) Effective weight (after process losses)
+    const effective = currentBatchKg * (1 - Math.min(Math.max(processLoss, 0), 99.9999) / 100);
     setEffKg(effective);
 
-    // 3) Ingredient costs
+    // 3) Calculate costs for each ingredient per kg of cheese
     let netSum = 0, grossSum = 0;
     ingredients.forEach(r => {
       const c = costForRow(r, Math.max(effective, 0.000001));
       if (isFinite(c.netPerKg) && isFinite(c.grossPerKg)) {
+        // c.netPerKg is cost per kg of cheese, multiply by effKg to get total batch cost
         netSum += c.netPerKg * effective;
         grossSum += c.grossPerKg * effective;
       }
@@ -141,15 +142,16 @@ const KalkulatorKosztuSera = () => {
     const ovNet = overheadGrossIncl ? overheadVal / (1 + ovVat) : overheadVal;
     const ovGross = overheadGrossIncl ? overheadVal : overheadVal * (1 + ovVat);
 
-    // 5) Per kg costs
+    // 5) Per kg costs (total batch cost / effective kg + overhead per kg)
+    let netPK = 0, grossPK = 0;
     if (effective > 0) {
-      const netPK = (netSum / effective) + (ovNet / effective);
-      const grossPK = (grossSum / effective) + (ovGross / effective);
+      netPK = (netSum / effective) + (ovNet / effective);
+      grossPK = (grossSum / effective) + (ovGross / effective);
       setPerKgNet(netPK);
       setPerKgGross(grossPK);
       setPerPortion(grossPK * 0.25);
 
-      // 6) Selling prices
+      // 6) Selling prices (cost + margin, then + VAT)
       const m = Math.max(marginPct, 0) / 100;
       const sv = Math.max(sellVat, 0) / 100;
       const priceNetPK = netPK * (1 + m);
@@ -164,6 +166,11 @@ const KalkulatorKosztuSera = () => {
       setSellNetPerKg(0);
       setSellGrossPerKg(0);
       setSellGross250g(0);
+    }
+    
+    // Update manual batch kg if in auto mode
+    if (autoBatch && currentBatchKg !== batchKgManual) {
+      setBatchKgManual(currentBatchKg);
     }
   };
 
