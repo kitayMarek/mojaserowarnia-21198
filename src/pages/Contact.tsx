@@ -54,11 +54,48 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = await supabase.functions.invoke("send-contact-email", {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
         body: values,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Function invocation error:", error);
+        
+        // Track error event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'contact_form_submit', {
+            status: 'error',
+            error_name: error.message || 'unknown_error'
+          });
+        }
+        
+        throw new Error(error.message || "Błąd wywołania funkcji");
+      }
+
+      // Check if the function returned an error in its response
+      if (data && !data.ok) {
+        console.error("Function returned error:", data.error);
+        
+        // Track error event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'contact_form_submit', {
+            status: 'error',
+            error_name: data.error || 'function_error'
+          });
+        }
+        
+        toast.error("Błąd wysyłania", {
+          description: data.error || "Nie udało się wysłać wiadomości. Spróbuj ponownie.",
+        });
+        return;
+      }
+
+      // Track success event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'contact_form_submit', {
+          status: 'success'
+        });
+      }
 
       toast.success("Wiadomość wysłana!", {
         description: "Odpowiemy najszybciej jak to możliwe.",
@@ -67,8 +104,17 @@ const Contact = () => {
       form.reset();
     } catch (error) {
       console.error("Error sending email:", error);
+      
+      // Track error event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'contact_form_submit', {
+          status: 'error',
+          error_name: error instanceof Error ? error.message : 'unknown_error'
+        });
+      }
+      
       toast.error("Błąd wysyłania", {
-        description: "Nie udało się wysłać wiadomości. Spróbuj ponownie.",
+        description: error instanceof Error ? error.message : "Nie udało się wysłać wiadomości. Spróbuj ponownie.",
       });
     } finally {
       setIsSubmitting(false);

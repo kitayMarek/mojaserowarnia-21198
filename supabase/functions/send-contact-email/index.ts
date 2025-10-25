@@ -28,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending contact email from:", email, "name:", name);
 
     // Send email to Moja Serowarnia
-    const emailResponse = await resend.emails.send({
+    const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
       from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
       to: ["admin@mojaserowarnia.pl"],
       replyTo: email,
@@ -44,10 +44,24 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    if (adminEmailError) {
+      console.error("Error sending email to admin:", adminEmailError);
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: `Błąd wysyłania wiadomości: ${adminEmailError.message}` 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    console.log("Email sent successfully to admin:", adminEmailData);
 
     // Send confirmation to sender
-    await resend.emails.send({
+    const { data: confirmationData, error: confirmationError } = await resend.emails.send({
       from: "Moja Serowarnia <onboarding@resend.dev>",
       to: [email],
       subject: "Potwierdzenie otrzymania wiadomości - Moja Serowarnia",
@@ -63,7 +77,15 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    return new Response(JSON.stringify(emailResponse), {
+    if (confirmationError) {
+      console.error("Error sending confirmation to sender:", confirmationError);
+      // Don't fail the whole request if confirmation fails
+      console.log("Main email delivered, but confirmation failed");
+    } else {
+      console.log("Confirmation email sent successfully:", confirmationData);
+    }
+
+    return new Response(JSON.stringify({ ok: true, data: adminEmailData }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +95,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-contact-email function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ ok: false, error: error.message }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
