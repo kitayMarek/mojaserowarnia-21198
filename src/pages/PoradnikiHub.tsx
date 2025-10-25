@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale } from "lucide-react";
 
 const PoradnikiHub = () => {
   useEffect(() => {
@@ -34,6 +34,13 @@ const PoradnikiHub = () => {
       description: "Kompleksowe zestawienie i porównanie dostępnych na rynku podpuszczek: analiza mocy (IMCU, 1:X), praktyczne dawkowanie oraz ocena przejrzystości informacji od producentów. Pomaga wybrać najlepszą podpuszczkę dla Twoich potrzeb.",
       href: "/gdzie-kupic-podpuszczke",
       color: "from-primary to-accent",
+    },
+    {
+      icon: <Scale className="w-12 h-12" />,
+      title: "Porównanie wartości odżywczych serów",
+      description: "Interaktywny kalkulator pozwalający porównać wartości odżywcze różnych rodzajów serów: kalorie, białko, tłuszcz, wapń, sód i inne składniki. Idealne narzędzie do świadomego wyboru sera odpowiedniego dla Twoich potrzeb żywieniowych.",
+      href: "/porownawie-wartosci-odzywczych",
+      color: "from-accent to-primary",
     },
   ];
 
