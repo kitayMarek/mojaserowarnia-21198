@@ -31,6 +31,7 @@ import NewInvoice from "./pages/NewInvoice";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
 import Contact from "./pages/Contact";
+import PorownywarkaKultur from "./pages/PorownywarkaKultur";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
+            <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/poradniki" element={<PoradnikiHub />} />

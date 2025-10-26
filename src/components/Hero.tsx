@@ -65,6 +65,14 @@ const Hero = () => {
             >
               Przeglądaj Bazy
             </Button>
+            <Button 
+              size="lg" 
+              onClick={() => navigate("/porownywarka-kultur")}
+              variant="outline"
+              className="border-2 border-white text-white bg-white/10 hover:bg-white/20 hover:border-white backdrop-blur-sm min-w-[200px] shadow-lg"
+            >
+              🧀 Porównaj Kultury
+            </Button>
           </div>
         </div>
       </div>
