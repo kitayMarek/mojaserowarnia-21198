@@ -11,9 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import SearchCommand from "@/components/SearchCommand";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -63,6 +65,7 @@ const Navigation = () => {
               size="icon"
               className="rounded-full hover:bg-secondary"
               aria-label="Szukaj"
+              onClick={() => setSearchOpen(true)}
             >
               <Search className="h-5 w-5" />
             </Button>
@@ -171,6 +174,9 @@ const Navigation = () => {
           </div>
         )}
       </div>
+
+      {/* Search Command Palette */}
+      <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
     </nav>
   );
 };
