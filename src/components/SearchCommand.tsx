@@ -18,6 +18,25 @@ interface SearchCommandProps {
   onOpenChange: (open: boolean) => void;
 }
 
+// Normalize to remove diacritics (e.g., "rzeźnia" -> "rzeznia")
+const normalizeText = (s: string) =>
+  s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+// Build a comprehensive value string for cmdk filtering
+const buildItemValue = (item: SearchItem) => {
+  const parts = [
+    item.title || "",
+    item.description || "",
+    item.category || "",
+    ...(item.keywords || []),
+    (item as any).shop || "",
+    (item as any).type || "",
+  ];
+  const raw = parts.join(" ").toLowerCase();
+  const ascii = normalizeText(raw);
+  return raw + " " + ascii;
+};
+
 const categoryConfig = {
   kultury: {
     label: "🧀 Kultury Bakteryjne",
@@ -140,7 +159,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                   {categorizedResults.kultury.slice(0, categoryConfig.kultury.limit).map((item) => (
                     <CommandItem
                       key={item.id}
-                      value={item.id}
+                      value={buildItemValue(item)}
                       onSelect={() => handleSelect(item)}
                       className="cursor-pointer"
                     >
@@ -176,7 +195,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                   {categorizedResults.przepisy.slice(0, categoryConfig.przepisy.limit).map((item) => (
                     <CommandItem
                       key={item.id}
-                      value={item.id}
+                      value={buildItemValue(item)}
                       onSelect={() => handleSelect(item)}
                       className="cursor-pointer"
                     >
@@ -200,7 +219,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                   {categorizedResults.poradniki.map((item) => (
                     <CommandItem
                       key={item.id}
-                      value={item.id}
+                    value={buildItemValue(item)}
                       onSelect={() => handleSelect(item)}
                       className="cursor-pointer"
                     >
@@ -224,7 +243,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                   {categorizedResults.prawo.map((item) => (
                     <CommandItem
                       key={item.id}
-                      value={item.id}
+                    value={buildItemValue(item)}
                       onSelect={() => handleSelect(item)}
                       className="cursor-pointer"
                     >
@@ -248,7 +267,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                   {categorizedResults.narzedzia.map((item) => (
                     <CommandItem
                       key={item.id}
-                      value={item.id}
+                    value={buildItemValue(item)}
                       onSelect={() => handleSelect(item)}
                       className="cursor-pointer"
                     >
@@ -271,7 +290,7 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                 {categorizedResults.kontakt.map((item) => (
                   <CommandItem
                     key={item.id}
-                    value={item.id}
+                    value={buildItemValue(item)}
                     onSelect={() => handleSelect(item)}
                     className="cursor-pointer"
                   >
