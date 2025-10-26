@@ -146,6 +146,101 @@ const PorownywarkaKultur = () => {
                 </CardContent>
               </Card>
 
+              {/* Comparison Table */}
+              {showComparison && selectedItems.length >= 2 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Tabela porównawcza</CardTitle>
+                  </CardHeader>
+                  <CardContent className="overflow-x-auto">
+                    <table className="min-w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-muted">
+                          <th className="text-left p-3 border font-semibold">Parametr</th>
+                          {selectedItems.map((item, idx) => (
+                            <th key={idx} className="text-left p-3 border font-semibold">
+                              {item.name}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Sklep</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.shop)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Cena</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.price)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Skład</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.composition)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Typ bakterii</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.type)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Temperatura</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.temperature)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Przeznaczenie</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.application)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Link do produktu</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {item.productUrl ? (
+                                <a
+                                  href={item.productUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary underline hover:text-primary/80"
+                                >
+                                  Zobacz
+                                </a>
+                              ) : (
+                                "—"
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      Pola niewystępujące w bazie wyświetlane są jako „—".
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
@@ -223,100 +318,6 @@ const PorownywarkaKultur = () => {
             </div>
           </div>
 
-          {/* Comparison Table */}
-          {showComparison && selectedItems.length >= 2 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Tabela porównawcza</CardTitle>
-              </CardHeader>
-              <CardContent className="overflow-x-auto">
-                <table className="min-w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="bg-muted">
-                      <th className="text-left p-3 border font-semibold">Parametr</th>
-                      {selectedItems.map((item, idx) => (
-                        <th key={idx} className="text-left p-3 border font-semibold">
-                          {item.name}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Sklep</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.shop)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Cena</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.price)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Skład</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.composition)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Typ bakterii</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.type)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Temperatura</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.temperature)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Przeznaczenie</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.application)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Link do produktu</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {item.productUrl ? (
-                            <a
-                              href={item.productUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary underline hover:text-primary/80"
-                            >
-                              Zobacz
-                            </a>
-                          ) : (
-                            "—"
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Pola niewystępujące w bazie wyświetlane są jako „—".
-                </p>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </main>
       <Footer />
