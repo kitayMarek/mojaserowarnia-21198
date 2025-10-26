@@ -109,6 +109,17 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-accent-foreground/70">
             <p>© 2025 Moja Serowarnia. Wszelkie prawa zastrzeżone.</p>
             <p>Stworzone z pasją dla polskich serowarów 🇵🇱</p>
+            <p>
+              Built with{" "}
+              <a
+                href="https://lovable.dev/invite/9S48PRO"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline transition-colors"
+              >
+                Lovable
+              </a>
+            </p>
           </div>
         </div>
       </div>
