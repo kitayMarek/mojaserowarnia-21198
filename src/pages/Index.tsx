@@ -7,11 +7,11 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   useEffect(() => {
-    document.title = "Moja Serowarnia - Baza Kultur Bakteryjnych, Przepisy na Ser, RHD/MOL";
+    document.title = "Moja Serowarnia - 145+ Kultur Bakteryjnych, Przepisy, RHD/MOL dla Serowarów";
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Kompletna baza 145+ kultur bakteryjnych do produkcji sera, sprawdzone przepisy, kalkulatory i poradniki RHD/MOL. Portal dla polskich serowarów i producentów serów rzemieślniczych.');
+      metaDescription.setAttribute('content', 'Największa polska baza 145+ kultur bakteryjnych do produkcji sera, sprawdzone przepisy, kalkulatory i kompletne poradniki RHD/MOL. Portal stworzony przez serowarów dla serowarów.');
     }
   }, []);
 

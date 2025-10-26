@@ -14,7 +14,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Produkcja sera rzemieślniczego - kultury bakteryjne i narzędzia dla serowarów"
+          alt="Serowar przy produkcji sera rzemieślniczego - Moja Serowarnia baza kultur bakteryjnych"
           className="w-full h-full object-cover"
           loading="eager"
           fetchPriority="high"
@@ -29,11 +29,11 @@ const Hero = () => {
             Moja Serowarnia
           </h1>
           <p className="text-xl md:text-2xl text-white/95 mb-4 font-light drop-shadow">
-            Twoje centrum wiedzy o serze
+            Największa polska baza wiedzy o produkcji sera
           </p>
           <p className="text-base md:text-lg text-white/90 mb-12 max-w-2xl mx-auto drop-shadow">
-            Profesjonalny portal dla serowarów – bazy kultur bakteryjnych, przepisy, poradniki, 
-            przepisy prawne RHD/MOL i społeczność pasjonatów serowarstwa
+            145+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
+            i regulacje prawne – wszystko czego potrzebuje polski serowar
           </p>
 
           {/* CTA Buttons */}
