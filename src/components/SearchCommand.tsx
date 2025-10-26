@@ -73,6 +73,9 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
       // Handle external links
       if (item.href.startsWith("http")) {
         window.open(item.href, "_blank", "noopener,noreferrer");
+      } else if (item.href.endsWith(".html")) {
+        // Handle static HTML files
+        window.location.href = item.href;
       } else {
         navigate(item.href);
       }

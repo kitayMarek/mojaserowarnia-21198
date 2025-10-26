@@ -62,12 +62,12 @@ const Navigation = () => {
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-secondary"
+              className="rounded-full hover:bg-secondary gap-2"
               aria-label="Szukaj"
               onClick={() => setSearchOpen(true)}
             >
               <Search className="h-5 w-5" />
+              <span className="hidden sm:inline">Szukaj</span>
             </Button>
             
             {user ? (

@@ -20,7 +20,7 @@ const createCultureSearchItems = (): SearchItem[] => {
     title: culture.name,
     description: `${culture.application} | ${culture.type} | ${culture.shop}`,
     category: "kultury" as const,
-    href: culture.productUrl || `/baza-kultur?q=${encodeURIComponent(culture.name)}`,
+    href: `/baza-kultur?q=${encodeURIComponent(culture.name)}`,
     keywords: [
       culture.name,
       culture.type,

@@ -1,26 +1,12 @@
-import { Search, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import heroImage from "@/assets/hero-cheese-clean.webp";
 
 const Hero = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!searchQuery.trim()) return;
-    
-    // Jeśli zapytanie zawiera słowo "kultur" przekieruj do bazy kultur
-    if (searchQuery.toLowerCase().includes("kultur")) {
-      navigate(`/baza-kultur?q=${encodeURIComponent(searchQuery)}`);
-    }
-  };
 
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden" aria-label="Strona główna">
@@ -45,33 +31,10 @@ const Hero = () => {
           <p className="text-xl md:text-2xl text-white/95 mb-4 font-light drop-shadow">
             Twoje centrum wiedzy o serze
           </p>
-          <p className="text-base md:text-lg text-white/90 mb-10 max-w-2xl mx-auto drop-shadow">
+          <p className="text-base md:text-lg text-white/90 mb-12 max-w-2xl mx-auto drop-shadow">
             Profesjonalny portal dla serowarów – bazy kultur bakteryjnych, przepisy, poradniki, 
             przepisy prawne RHD/MOL i społeczność pasjonatów serowarstwa
           </p>
-
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-8">
-            <form onSubmit={handleSearch} className="flex gap-2 bg-white/95 backdrop-blur-sm p-2 rounded-xl shadow-2xl">
-              <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Szukaj kultur, przepisów, poradników..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 h-12 border-0 bg-transparent focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
-                />
-              </div>
-              <Button 
-                type="submit"
-                size="lg" 
-                className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm px-8"
-              >
-                Szukaj
-              </Button>
-            </form>
-          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
