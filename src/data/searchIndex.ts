@@ -28,6 +28,10 @@ const createCultureSearchItems = (): SearchItem[] => {
       culture.application,
       culture.temperature,
       culture.composition,
+      "kultury",
+      "kultury bakteryjne",
+      "kultura",
+      "bakterie",
     ],
     shop: culture.shop,
     type: culture.type,
@@ -50,6 +54,9 @@ const createRecipeSearchItems = (): SearchItem[] => {
       recipe.milkBase,
       recipe.starter,
       ...recipe.cultureSubstitutes.map((c) => c.name),
+      "przepis",
+      "przepisy",
+      "ser",
     ],
   }));
 };
@@ -63,7 +70,7 @@ const poradnikiItems: SearchItem[] = [
       "Kompleksowy przewodnik po całym procesie produkcji sera - od przygotowania mleka, przez wybór kultur, proces technologiczny, po dojrzewanie i pielęgnację.",
     category: "poradniki",
     href: "/poradnik",
-    keywords: ["poradnik", "ser", "produkcja", "przewodnik", "krok po kroku"],
+    keywords: ["poradnik", "ser", "produkcja", "przewodnik", "krok po kroku", "kultury", "bakterie", "technologia"],
   },
   {
     id: "sila-podpuszczki",
@@ -72,7 +79,7 @@ const poradnikiItems: SearchItem[] = [
       "Szczegółowe wyjaśnienie jednostek IMCU, obliczanie odpowiedniej ilości podpuszczki oraz zaawansowana metoda flokulacji.",
     category: "poradniki",
     href: "/sila-podpuszczki",
-    keywords: ["podpuszczka", "IMCU", "flokulacja", "dawkowanie", "obliczenia"],
+    keywords: ["podpuszczka", "IMCU", "flokulacja", "dawkowanie", "obliczenia", "metoda", "test", "podpuszczanie"],
   },
   {
     id: "gdzie-kupic-podpuszczke",
@@ -200,6 +207,7 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
       const searchText = [
         item.title,
         item.description,
+        item.category,
         ...item.keywords,
         item.shop || "",
         item.type || "",
@@ -240,12 +248,16 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
         if (item.type?.toLowerCase().includes(word)) {
           score += 30;
         }
+        // Category match bonus
+        if (item.category.toLowerCase().includes(word)) {
+          score += 50;
+        }
       });
 
       // Fuzzy match for typos
       if (score === 0) {
         const fuzzyScore = fuzzyMatch(searchText, lowerQuery);
-        if (fuzzyScore > 0.6) {
+        if (fuzzyScore > 0.5) {
           score += Math.floor(fuzzyScore * 50);
         }
       }
