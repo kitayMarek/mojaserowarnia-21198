@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import heroImage from "@/assets/hero-cheese-clean.png";
+import heroImage from "@/assets/hero-cheese-clean.webp";
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,6 +31,7 @@ const Hero = () => {
           alt="Produkcja sera rzemieślniczego - kultury bakteryjne i narzędzia dla serowarów"
           className="w-full h-full object-cover"
           loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-black/20" />
       </div>
