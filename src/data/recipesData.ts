@@ -1,3 +1,8 @@
+import asiagoImage from "@/assets/asiago.jpg";
+import dunlopImage from "@/assets/dunlop.jpg";
+import fetaBulgarskaImage from "@/assets/feta-bulgarska.jpg";
+import yorkshireImage from "@/assets/yorkshire.jpg";
+
 export interface CultureSubstitute {
   name: string;
   type: string;
@@ -68,7 +73,7 @@ export const recipesData: Recipe[] = [
     description: "Asiago to tradycyjny ser alpejski z regionu Veneto we Włoszech. Młody Asiago dolce (świeży) ma delikatny, słodkawy smak z aromatem przypominającym jogurt i masło. Tekstura jest miękka i elastyczna, a jasna barwa odzwierciedla krótki okres dojrzewania. Smak jest słodki, z jasną, młodzieńczą jakością.",
     yield: "≈ 2,7 kg z 22,7 L mleka",
     ageTime: "30–40 dni (młode Asiago dolce)",
-    image: "https://mojaserowarnia.pl/images/asiago.jpg",
+    image: asiagoImage,
     
     milkBase: "≈ 22,7 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta). Opcjonalnie dodaj śmietankę dla bogatszego smaku.",
     starter: "Typ: kultura termofilna (TA-61 lub C201) + kultura Helveticus (LH-100) dla słodkiej nuty (zamienniki z tabeli poniżej).",
@@ -382,7 +387,7 @@ export const recipesData: Recipe[] = [
     description: "Dunlop to tradycyjny ser półtwardy z Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
     yield: "≈ 1,4 kg z 15 L mleka",
     ageTime: "3–9 miesięcy (typowo 6 mies.)",
-    image: "https://mojaserowarnia.pl/images/dunlop.jpg",
+    image: dunlopImage,
     
     milkBase: "≈ 15 L mleka (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta).",
     starter: "Typ: kultura mezofilna (odpowiedniki z tabeli poniżej).",
@@ -531,7 +536,7 @@ export const recipesData: Recipe[] = [
     description: "Bułgarska Feta (Sirene) to tradycyjny biały ser solankowy o gładkiej, kremowej i elastycznej teksturze. W przeciwieństwie do greckiej Fety, która się kruszy, bułgarska wersja zachowuje więcej wilgoci dzięki łagodniejszemu odsączaniu i niższej kwasowości. Można ją kroić w kostki lub plastry, a po kilku tygodniach dojrzewania staje się smarowna jak młody Camembert.",
     yield: "≈ 0,9 kg z 3,8 L mleka",
     ageTime: "1 miesiąc w solance (można do roku)",
-    image: "https://mojaserowarnia.pl/images/feta_bulgarische.jpg",
+    image: fetaBulgarskaImage,
     
     milkBase: "≈ 3,8 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta).",
     starter: "Typ: kultura mezofilna + jogurt bułgarski (mieszane kultury z tabeli poniżej).",
@@ -679,7 +684,7 @@ export const recipesData: Recipe[] = [
     description: "Wensleydale to historyczny ser z północnej Anglii, kojarzony m.in. z Wallace'em i Gromitem. Wywodzi się ze średniowiecznych tradycji klasztornych Yorkshire Dales. Wersja domowa daje delikatny, lekko maślany smak z subtelną kwaśną nutą, teksturę kruchą do sprężystej i kremowy odczucie w ustach.",
     yield: "≈ 0,9–1,0 kg z 7,6 L mleka",
     ageTime: "2–4 miesiące (typowo 3 mies.)",
-    image: "https://mojaserowarnia.pl/images/yorkshire.jpg",
+    image: yorkshireImage,
     
     milkBase: "≈ 7,6 L mleka (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta).",
     starter: "Typ: kultura mezofilna - wolne zakwaszanie (użyj połowę standardowej dawki).",
