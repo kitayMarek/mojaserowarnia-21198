@@ -14,7 +14,7 @@ const Narzedzia = () => {
         <section 
           className="relative py-16 md:py-24 bg-gradient-subtle"
           style={{
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(${narzedziaHeaderImage})`,
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url(${narzedziaHeaderImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'
