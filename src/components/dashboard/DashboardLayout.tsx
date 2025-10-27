@@ -36,19 +36,22 @@ function DashboardSidebar() {
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => {
-                const isActive = item.end ? currentPath === item.url : currentPath.startsWith(item.url);
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <NavLink to={item.url} end={item.end}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url} 
+                      end={item.end}
+                      className={({ isActive }) => 
+                        isActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""
+                      }
+                    >
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -59,10 +62,10 @@ function DashboardSidebar() {
             className="w-full justify-start"
             asChild
           >
-            <a href="/">
+            <NavLink to="/">
               <Home className="h-4 w-4" />
               <span className="ml-2">Strona główna</span>
-            </a>
+            </NavLink>
           </Button>
           <Button
             variant="outline"
