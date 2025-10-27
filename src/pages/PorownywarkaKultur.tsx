@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { X, AlertCircle } from "lucide-react";
 import { culturesData, Culture } from "@/data/culturesDataComplete";
@@ -26,7 +24,6 @@ const PorownywarkaKultur = () => {
   const [selectedShopFilters, setSelectedShopFilters] = useState<Set<string>>(new Set());
   const [selectedItems, setSelectedItems] = useState<Culture[]>([]);
   const [showComparison, setShowComparison] = useState(false);
-  const [acknowledgedDisclaimer, setAcknowledgedDisclaimer] = useState(false);
 
   // Get unique shops
   const shops = useMemo(() => {
@@ -150,39 +147,6 @@ const PorownywarkaKultur = () => {
                 </CardContent>
               </Card>
 
-              {/* Disclaimer Checkbox */}
-              {selectedItems.length >= 2 && !showComparison && (
-                <Card className="border-primary/20">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <AlertCircle className="h-5 w-5 text-primary" />
-                      Potwierdź przed porównaniem
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <Checkbox 
-                        id="disclaimer" 
-                        checked={acknowledgedDisclaimer}
-                        onCheckedChange={(checked) => setAcknowledgedDisclaimer(checked === true)}
-                      />
-                      <Label 
-                        htmlFor="disclaimer" 
-                        className="text-sm leading-relaxed cursor-pointer"
-                      >
-                        Rozumiem, że dane mają charakter informacyjny i zweryfikuję je w aktualnej karcie produktu sprzedawcy/producenta przed użyciem.
-                      </Label>
-                    </div>
-                    <Button
-                      className="w-full"
-                      disabled={!acknowledgedDisclaimer}
-                      onClick={() => setShowComparison(true)}
-                    >
-                      Pokaż porównanie
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
 
               {/* Comparison Table */}
               {showComparison && selectedItems.length >= 2 && (
@@ -353,10 +317,22 @@ const PorownywarkaKultur = () => {
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">Wybierz od 2 do 5 pozycji.</p>
+                  
                   {selectedItems.length >= 2 && !showComparison && (
-                    <p className="text-xs text-primary font-medium">
-                      ↓ Potwierdź disclaimer poniżej, aby zobaczyć porównanie
-                    </p>
+                    <Alert className="mt-4">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-xs space-y-3">
+                        <p>
+                          <strong>Rozumiem, że dane mają charakter informacyjny</strong> i zweryfikuję je w aktualnej karcie produktu sprzedawcy/producenta przed użyciem.
+                        </p>
+                        <Button
+                          className="w-full"
+                          onClick={() => setShowComparison(true)}
+                        >
+                          Akceptuję - Porównaj
+                        </Button>
+                      </AlertDescription>
+                    </Alert>
                   )}
                 </CardContent>
               </Card>
