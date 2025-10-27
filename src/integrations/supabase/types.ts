@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      culture_audit_log: {
+        Row: {
+          change_source: string | null
+          changed_at: string
+          changed_by: string | null
+          culture_name: string
+          culture_shop: string
+          field_changed: string
+          id: string
+          new_value: string | null
+          notes: string | null
+          old_value: string | null
+        }
+        Insert: {
+          change_source?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          culture_name: string
+          culture_shop: string
+          field_changed: string
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+        }
+        Update: {
+          change_source?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          culture_name?: string
+          culture_shop?: string
+          field_changed?: string
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           created_at: string

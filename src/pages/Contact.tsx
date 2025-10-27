@@ -18,12 +18,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, { message: "Imię musi mieć co najmniej 2 znaki" }).max(100),
   email: z.string().trim().email({ message: "Nieprawidłowy adres email" }).max(255),
+  messageType: z.string().min(1, { message: "Wybierz typ wiadomości" }),
   subject: z.string().trim().min(3, { message: "Temat musi mieć co najmniej 3 znaki" }).max(200),
   message: z.string().trim().min(10, { message: "Wiadomość musi mieć co najmniej 10 znaków" }).max(2000),
 });
@@ -45,6 +53,7 @@ const Contact = () => {
     defaultValues: {
       name: "",
       email: "",
+      messageType: "",
       subject: "",
       message: "",
     },
@@ -206,7 +215,7 @@ const Contact = () => {
               <CardContent>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="name"
@@ -235,6 +244,31 @@ const Contact = () => {
                         )}
                       />
                     </div>
+
+                    <FormField
+                      control={form.control}
+                      name="messageType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Typ wiadomości</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Wybierz typ zapytania" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="question">Pytanie ogólne</SelectItem>
+                              <SelectItem value="error">🚨 Zauważyłeś błąd?</SelectItem>
+                              <SelectItem value="cooperation">Propozycja współpracy</SelectItem>
+                              <SelectItem value="suggestion">Sugestia/pomysł</SelectItem>
+                              <SelectItem value="other">Inne</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     <FormField
                       control={form.control}

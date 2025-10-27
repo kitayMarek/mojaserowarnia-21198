@@ -211,6 +211,16 @@ const BazaKultur = () => {
                           {culture.name}
                         </a>
                       </h3>
+                      {culture.lastChanged && (
+                        <div className="text-xs text-primary-foreground/80 mt-1 italic">
+                          📝 {culture.lastChanged}
+                        </div>
+                      )}
+                      {culture.lastChecked && !culture.lastChanged && (
+                        <div className="text-xs text-primary-foreground/80 mt-1">
+                          ✓ Sprawdzono: {culture.lastChecked}
+                        </div>
+                      )}
                     </div>
                     <div className="p-3 space-y-2 text-xs">
                       <div className="flex gap-2">
@@ -314,9 +324,21 @@ const BazaKultur = () => {
                           </TableCell>
                         </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
                             <TableCell className="font-semibold text-primary">
-                              {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-accent transition-colors">
-                                  {culture.name}
-                                </a> : culture.name}
+                              <div>
+                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-accent transition-colors">
+                                    {culture.name}
+                                  </a> : culture.name}
+                                {culture.lastChanged && (
+                                  <div className="text-xs text-muted-foreground font-normal mt-1 italic">
+                                    📝 {culture.lastChanged}
+                                  </div>
+                                )}
+                                {culture.lastChecked && !culture.lastChanged && (
+                                  <div className="text-xs text-muted-foreground font-normal mt-1">
+                                    ✓ Sprawdzono: {culture.lastChecked}
+                                  </div>
+                                )}
+                              </div>
                             </TableCell>
                             <TableCell className="text-sm italic max-w-xs">
                               {culture.composition}

@@ -11,6 +11,8 @@ export interface Culture {
   shopUrl: string;
   productUrl?: string;
   price: string;
+  lastChanged?: string; // Format: "2025-01-15: cena 36,00 zł → 39,00 zł"
+  lastChecked?: string; // Format: "2025-01-20"
 }
 
 export const culturesData: Culture[] = [

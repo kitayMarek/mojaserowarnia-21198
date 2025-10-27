@@ -301,6 +301,11 @@ const PorownywarkaKultur = () => {
                             <CardDescription className="text-xs">
                               Sklep: {item.shop}
                             </CardDescription>
+                            {item.lastChanged && (
+                              <CardDescription className="text-xs italic mt-1">
+                                📝 {item.lastChanged}
+                              </CardDescription>
+                            )}
                           </CardHeader>
                           <CardContent className="pb-2 space-y-1">
                             <p className="text-sm font-medium">{item.type}</p>
