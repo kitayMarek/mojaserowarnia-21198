@@ -276,6 +276,20 @@ const BazaKultur = () => {
 
         {/* Results - Desktop Table View */}
         <section className="py-8 hidden md:block">
+          <div className="container mx-auto px-4 mb-6">
+            <div className="max-w-7xl mx-auto">
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  Chcesz porównać wybrane kultury? Skorzystaj z{" "}
+                  <a href="/porownywarka-kultur" className="text-primary hover:underline font-semibold">
+                    Porównywarki Kultur
+                  </a>
+                  , aby zobaczyć szczegółowe zestawienie.
+                </AlertDescription>
+              </Alert>
+            </div>
+          </div>
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               <div className="bg-card rounded-xl shadow-card border border-border overflow-hidden">

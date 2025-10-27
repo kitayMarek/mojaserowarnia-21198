@@ -1,43 +1,38 @@
 import { useState, useEffect } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const DisclaimerModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const hasSeenDisclaimer = localStorage.getItem("hasSeenDisclaimer");
     if (!hasSeenDisclaimer) {
-      setIsOpen(true);
+      setIsVisible(true);
     }
   }, []);
 
   const handleAccept = () => {
     localStorage.setItem("hasSeenDisclaimer", "true");
-    setIsOpen(false);
+    setIsVisible(false);
   };
 
+  if (!isVisible) return null;
+
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl">Witaj w Mojej Serowej Przystani!</AlertDialogTitle>
-          <AlertDialogDescription className="text-base space-y-4 pt-4">
-            <p>
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg">
+      <div className="container mx-auto px-4 py-4 max-w-6xl">
+        <div className="flex items-start gap-4">
+          <div className="flex-1 space-y-3">
+            <h3 className="font-semibold text-lg">Witaj w Mojej Serowej Przystani!</h3>
+            <p className="text-sm text-muted-foreground">
               Serwis prezentuje zestawienia kultur bakteryjnych, przepisów i narzędzi na podstawie publicznie dostępnych opisów i danych ze sklepów specjalistycznych.
             </p>
             
-            <div className="bg-muted p-4 rounded-lg space-y-2">
-              <p className="font-semibold text-foreground">⚠️ Ważne informacje:</p>
-              <ul className="list-disc pl-5 space-y-1 text-sm">
+            <div className="bg-muted/50 p-3 rounded-lg space-y-2">
+              <p className="font-medium text-sm">⚠️ Ważne informacje:</p>
+              <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
                 <li>Nie gwarantujemy kompletności ani aktualności informacji</li>
                 <li>Dane mogą się zmieniać po stronie sprzedawców bez zapowiedzi</li>
                 <li>Serwis nie stanowi porady technologicznej ani żywieniowej</li>
@@ -45,26 +40,30 @@ const DisclaimerModal = () => {
               </ul>
             </div>
 
-            <p className="font-semibold text-foreground">
-              Zawsze weryfikuj dane w aktualnej dokumentacji producenta/sprzedawcy przed użyciem produktu.
-            </p>
-
             <p className="text-sm">
-              Szczegółowe informacje znajdziesz w{" "}
+              Zawsze weryfikuj dane w aktualnej dokumentacji producenta/sprzedawcy przed użyciem produktu.{" "}
               <Link to="/nota-prawna" className="text-primary hover:underline font-semibold">
-                Nocie Prawnej
+                Nota Prawna
               </Link>
-              .
             </p>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction onClick={handleAccept} className="w-full sm:w-auto">
-            Rozumiem i akceptuję
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </div>
+          
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleAccept} size="sm">
+              Rozumiem i akceptuję
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={handleAccept}
+              className="h-8 w-8"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
