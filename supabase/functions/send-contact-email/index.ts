@@ -16,6 +16,23 @@ interface ContactEmailRequest {
   message: string;
 }
 
+// Email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Sanitize string input - remove potentially dangerous characters
+function sanitizeInput(input: string, maxLength: number): string {
+  return input
+    .trim()
+    .slice(0, maxLength)
+    .replace(/[<>]/g, '') // Remove < and > to prevent HTML injection
+    .replace(/[\r\n]{3,}/g, '\n\n'); // Limit consecutive newlines
+}
+
+// Validate email format
+function isValidEmail(email: string): boolean {
+  return EMAIL_REGEX.test(email) && email.length <= 255;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -25,22 +42,83 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { name, email, subject, message }: ContactEmailRequest = await req.json();
 
-    console.log("Sending contact email from:", email, "name:", name);
+    // Validate required fields
+    if (!name || !email || !subject || !message) {
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: 'Wszystkie pola są wymagane' 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
 
-    // Send email to Moja Serowarnia
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: 'Nieprawidłowy format adresu email' 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Sanitize inputs
+    const sanitizedName = sanitizeInput(name, 100);
+    const sanitizedEmail = email.trim().toLowerCase().slice(0, 255);
+    const sanitizedSubject = sanitizeInput(subject, 200);
+    const sanitizedMessage = sanitizeInput(message, 2000);
+
+    // Validate sanitized input lengths
+    if (sanitizedName.length < 2) {
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: 'Imię musi mieć co najmniej 2 znaki' 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    if (sanitizedMessage.length < 10) {
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: 'Wiadomość musi mieć co najmniej 10 znaków' 
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    console.log("Sending contact email from:", sanitizedEmail, "name:", sanitizedName);
+
+    // Send email to Moja Serowarnia (using sanitized inputs)
     const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
       from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
       to: [OWNER_EMAIL],
-      replyTo: email,
-      subject: `Nowa wiadomość kontaktowa: ${subject}`,
+      replyTo: sanitizedEmail,
+      subject: `Nowa wiadomość kontaktowa: ${sanitizedSubject}`,
       html: `
         <h2>Nowa wiadomość z formularza kontaktowego</h2>
-        <p><strong>Od:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Temat:</strong> ${subject}</p>
+        <p><strong>Od:</strong> ${sanitizedName}</p>
+        <p><strong>Email:</strong> ${sanitizedEmail}</p>
+        <p><strong>Temat:</strong> ${sanitizedSubject}</p>
         <hr />
         <h3>Wiadomość:</h3>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
       `,
     });
 
@@ -60,18 +138,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully to admin:", adminEmailData);
 
-    // Send confirmation to sender
+    // Send confirmation to sender (using sanitized inputs)
     const { data: confirmationData, error: confirmationError } = await resend.emails.send({
       from: "Moja Serowarnia <onboarding@resend.dev>",
-      to: [email],
+      to: [sanitizedEmail],
       subject: "Potwierdzenie otrzymania wiadomości - Moja Serowarnia",
       html: `
-        <h2>Dziękujemy za kontakt, ${name}!</h2>
+        <h2>Dziękujemy za kontakt, ${sanitizedName}!</h2>
         <p>Otrzymaliśmy Twoją wiadomość i odpowiemy najszybciej jak to możliwe.</p>
         <hr />
         <h3>Twoja wiadomość:</h3>
-        <p><strong>Temat:</strong> ${subject}</p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p><strong>Temat:</strong> ${sanitizedSubject}</p>
+        <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
         <hr />
         <p>Pozdrawiamy,<br>Zespół Moja Serowarnia</p>
       `,
