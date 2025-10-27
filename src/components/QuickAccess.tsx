@@ -18,7 +18,7 @@ const QuickAccess = () => {
       icon: Database,
       title: "Bazy Kultur",
       description: "Kultury bakteryjne, enzymy, sprzęt",
-      color: "from-amber-500 to-orange-500",
+      color: "from-blue-400 to-cyan-500",
       href: "/baza-kultur",
     },
     {
