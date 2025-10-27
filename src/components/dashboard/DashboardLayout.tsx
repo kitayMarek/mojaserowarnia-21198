@@ -24,6 +24,10 @@ const menuItems = [
   { title: "Ustawienia", url: "/dashboard/ustawienia", icon: Settings },
 ];
 
+const navigationItems = [
+  { title: "Strona główna", url: "/", icon: Home },
+];
+
 function DashboardSidebar() {
   const { signOut } = useAuth();
   const location = useLocation();
@@ -56,17 +60,30 @@ function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <div className="mt-auto p-4 space-y-2">
-          <Button
-            variant="ghost"
-            className="w-full justify-start"
-            asChild
-          >
-            <NavLink to="/">
-              <Home className="h-4 w-4" />
-              <span className="ml-2">Strona główna</span>
-            </NavLink>
-          </Button>
+        <SidebarGroup>
+          <SidebarGroupLabel>Nawigacja</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url}
+                      className={({ isActive }) => 
+                        isActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""
+                      }
+                    >
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <div className="mt-auto p-4">
           <Button
             variant="outline"
             className="w-full justify-start"
