@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { culturesData } from "@/data/culturesDataComplete";
+import kulturyHeaderImage from "@/assets/kultury-header.webp";
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 type SortDirection = 'asc' | 'desc' | null;
 const BazaKultur = () => {
@@ -89,7 +90,15 @@ const BazaKultur = () => {
       <Navigation />
       <main className="flex-1 pt-20" role="main">
         {/* Hero Section */}
-        <section className="bg-gradient-warm py-12 md:py-16">
+        <section 
+          className="relative py-12 md:py-16 bg-gradient-warm"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${kulturyHeaderImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>

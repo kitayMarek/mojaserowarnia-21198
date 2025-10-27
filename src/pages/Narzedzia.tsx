@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Calculator, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
 
 const Narzedzia = () => {
   return (
@@ -10,7 +11,15 @@ const Narzedzia = () => {
       <Navigation />
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-subtle">
+        <section 
+          className="relative py-16 md:py-24 bg-gradient-subtle"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url(${narzedziaHeaderImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
