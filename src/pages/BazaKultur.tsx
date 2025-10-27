@@ -2,11 +2,12 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Search, ArrowUpDown } from "lucide-react";
+import { Search, ArrowUpDown, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { culturesData } from "@/data/culturesDataComplete";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
@@ -345,6 +346,13 @@ const BazaKultur = () => {
                 </div>
               </div>
               
+              <Alert className="mt-6">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-xs">
+                  <strong>Informacje mają charakter poglądowy</strong> i pochodzą z kart produktów sprzedawców. Parametry, składy i dostępność mogą się zmieniać. Przed użyciem sprawdź aktualną kartę produktu u sprzedawcy. Serwis nie ponosi odpowiedzialności za skutki użycia.
+                </AlertDescription>
+              </Alert>
+
               <div className="mt-6 text-center bg-card p-4 rounded-lg shadow-card border border-border">
                 <p className="text-muted-foreground">
                   Wyświetlane: <span className="font-bold text-primary">{filteredData.length}</span> z{" "}

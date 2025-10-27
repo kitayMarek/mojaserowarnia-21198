@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import DisclaimerModal from "@/components/DisclaimerModal";
 import Index from "./pages/Index";
 import BazaKultur from "./pages/BazaKultur";
 import Przepisy from "./pages/Przepisy";
@@ -32,6 +33,7 @@ import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
 import Contact from "./pages/Contact";
 import PorownywarkaKultur from "./pages/PorownywarkaKultur";
+import NotaPrawna from "./pages/NotaPrawna";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +45,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <DisclaimerModal />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
@@ -65,6 +68,7 @@ const App = () => (
             <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
             <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
             <Route path="/kontakt" element={<Contact />} />
+            <Route path="/nota-prawna" element={<NotaPrawna />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
