@@ -99,7 +99,7 @@ export default function DashboardLayout() {
         <DashboardSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-16 border-b flex items-center px-4 bg-background">
+          <header className="sticky top-0 z-50 h-16 border-b flex items-center px-4 bg-background">
             <SidebarTrigger className="mr-4" />
             <h1 className="text-lg font-semibold">System Ewidencji RHD</h1>
           </header>
