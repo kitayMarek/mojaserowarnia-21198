@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, Scale, Users, ShoppingBag, ClipboardCheck, Euro, MapPin, AlertCircle, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import rhdHeaderImage from "@/assets/rhd-header.jpeg";
+import rhdHeaderImage from "@/assets/rhd-header.webp";
 
 const RHD = () => {
   useEffect(() => {
@@ -36,7 +36,7 @@ const RHD = () => {
             <img 
               src={rhdHeaderImage} 
               alt="Rolniczy Handel Detaliczny - Tradycja i Wiedza" 
-              className="w-full max-w-3xl mx-auto rounded-lg shadow-lg mb-8"
+              className="w-full max-w-xl mx-auto rounded-lg shadow-lg mb-8"
             />
             <h1 className="text-4xl font-bold mb-4 text-primary">Rolniczy Handel Detaliczny (RHD)</h1>
             <p className="text-lg text-muted-foreground">
