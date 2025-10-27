@@ -2,12 +2,12 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Search, ArrowUpDown, AlertCircle } from "lucide-react";
+import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+
 import { culturesData } from "@/data/culturesDataComplete";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
@@ -155,6 +155,14 @@ const BazaKultur = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="flex flex-col md:flex-row gap-4">
+                <Button 
+                  asChild
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold shadow-lg"
+                >
+                  <a href="/porownywarka-kultur">
+                    Porównaj Kultury
+                  </a>
+                </Button>
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input type="text" placeholder="Szukaj nazwy, składu lub zastosowania..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
@@ -276,20 +284,6 @@ const BazaKultur = () => {
 
         {/* Results - Desktop Table View */}
         <section className="py-8 hidden md:block">
-          <div className="container mx-auto px-4 mb-6">
-            <div className="max-w-7xl mx-auto">
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Chcesz porównać wybrane kultury? Skorzystaj z{" "}
-                  <a href="/porownywarka-kultur" className="text-primary hover:underline font-semibold">
-                    Porównywarki Kultur
-                  </a>
-                  , aby zobaczyć szczegółowe zestawienie.
-                </AlertDescription>
-              </Alert>
-            </div>
-          </div>
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               <div className="bg-card rounded-xl shadow-card border border-border overflow-hidden">
@@ -381,13 +375,6 @@ const BazaKultur = () => {
                   </Table>
                 </div>
               </div>
-              
-              <Alert className="mt-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-xs">
-                  <strong>Informacje mają charakter poglądowy</strong> i pochodzą z kart produktów sprzedawców. Parametry, składy i dostępność mogą się zmieniać. Przed użyciem sprawdź aktualną kartę produktu u sprzedawcy. Serwis nie ponosi odpowiedzialności za skutki użycia.
-                </AlertDescription>
-              </Alert>
 
               <div className="mt-6 text-center bg-card p-4 rounded-lg shadow-card border border-border">
                 <p className="text-muted-foreground">
