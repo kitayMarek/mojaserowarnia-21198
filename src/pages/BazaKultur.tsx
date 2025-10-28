@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Search, ArrowUpDown } from "lucide-react";
@@ -165,9 +165,9 @@ const BazaKultur = () => {
                   asChild
                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold shadow-lg"
                 >
-                  <a href="/porownywarka-kultur">
+                  <Link to="/porownywarka-kultur">
                     Porównaj Kultury
-                  </a>
+                  </Link>
                 </Button>
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />

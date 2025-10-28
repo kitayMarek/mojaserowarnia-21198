@@ -33,25 +33,27 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group" aria-label="Strona główna Moja Serowarnia">
-            <div className="w-12 h-12 rounded-full bg-gradient-warm flex items-center justify-center shadow-warm transition-transform group-hover:scale-105">
-              <span className="text-2xl">🧀</span>
-            </div>
-            <div className="hidden md:block">
-              <h1 className="text-2xl font-display font-bold text-foreground leading-tight">
-                Moja Serowarnia
-              </h1>
-              <p className="text-xs text-muted-foreground">Twoje centrum wiedzy o serze</p>
-              <a 
-                href="https://lovable.dev?referrer=Moja_Serowarnia" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
-              >
-                Built with Lovable ❤️
-              </a>
-            </div>
-          </a>
+          <div className="flex flex-col gap-1">
+            <a href="/" className="flex items-center gap-3 group" aria-label="Strona główna Moja Serowarnia">
+              <div className="w-12 h-12 rounded-full bg-gradient-warm flex items-center justify-center shadow-warm transition-transform group-hover:scale-105">
+                <span className="text-2xl">🧀</span>
+              </div>
+              <div className="hidden md:block">
+                <h1 className="text-2xl font-display font-bold text-foreground leading-tight">
+                  Moja Serowarnia
+                </h1>
+                <p className="text-xs text-muted-foreground">Twoje centrum wiedzy o serze</p>
+              </div>
+            </a>
+            <a 
+              href="https://lovable.dev?referrer=Moja_Serowarnia" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hidden md:block text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors ml-[60px]"
+            >
+              Built with Lovable ❤️
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
