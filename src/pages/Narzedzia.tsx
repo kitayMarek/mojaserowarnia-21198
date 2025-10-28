@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Calculator } from "lucide-react";
@@ -7,6 +8,14 @@ import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
 const Narzedzia = () => {
+  useEffect(() => {
+    document.title = "Narzędzia dla Serowara - Kalkulatory i Konwertery | Serowarstwo.pl";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", "Praktyczne narzędzia dla serowarów: kalkulator miar, podpuszczki Beaugel i kosztu sera. Kalkulatory IMCU, konwertery jednostek i obliczenia produkcji.");
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
