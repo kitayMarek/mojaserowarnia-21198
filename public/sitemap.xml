@@ -73,6 +73,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/kalkulator-miar</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/kontakt</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
