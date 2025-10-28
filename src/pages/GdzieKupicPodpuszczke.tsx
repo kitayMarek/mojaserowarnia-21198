@@ -25,14 +25,11 @@ const GdzieKupicPodpuszczke = () => {
         {/* Hero Section */}
         <header className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border">
           <div className="container mx-auto px-4 py-16 md:py-20">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">Gdzie kupić podpuszczkę</h1>
-                <p className="text-lg text-primary-foreground/90 max-w-3xl">
-                  Podsumowanie i porównanie mocy (IMCU / 1:X) oraz praktycznego dawkowania dostępnych podpuszczek
-                </p>
-              </div>
-              <ReactionButton contentType="guide" contentId="gdzie-kupic-podpuszczke" variant="default" />
+            <div className="mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Gdzie kupić podpuszczkę</h1>
+              <p className="text-lg text-primary-foreground/90 max-w-3xl">
+                Podsumowanie i porównanie mocy (IMCU / 1:X) oraz praktycznego dawkowania dostępnych podpuszczek
+              </p>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30">
@@ -44,6 +41,10 @@ const GdzieKupicPodpuszczke = () => {
             </div>
           </div>
         </header>
+
+        <div className="container mx-auto px-4 py-6">
+          <ReactionButton contentType="guide" contentId="gdzie-kupic-podpuszczke" variant="default" />
+        </div>
 
         {/* Content */}
         <section className="container mx-auto px-4 py-12 max-w-6xl">

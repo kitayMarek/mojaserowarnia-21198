@@ -30,16 +30,16 @@ const MOL = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Powrót do sekcji Prawo
             </Link>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold mb-4 text-primary">
-                  Działalność marginalna, lokalna i ograniczona (MOL)
-                </h1>
-                <p className="text-lg text-muted-foreground">
-                  Kompletny przewodnik po formie działalności MOL dla serowarów i rolników
-                </p>
-              </div>
+            <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="mol" variant="default" />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-4xl font-bold mb-4 text-primary">
+                Działalność marginalna, lokalna i ograniczona (MOL)
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Kompletny przewodnik po formie działalności MOL dla serowarów i rolników
+              </p>
             </div>
           </div>
 

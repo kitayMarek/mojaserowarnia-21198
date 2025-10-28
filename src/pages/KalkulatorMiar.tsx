@@ -229,6 +229,8 @@ const KalkulatorMiar = () => {
               <div className="flex-1">
                 <h1 className="text-3xl md:text-4xl font-bold">Kalkulator Miar</h1>
               </div>
+            </div>
+            <div className="mb-4">
               <ReactionButton contentType="tool" contentId="kalkulator-miar" variant="default" />
             </div>
             <p className="text-primary-foreground/90 max-w-3xl">

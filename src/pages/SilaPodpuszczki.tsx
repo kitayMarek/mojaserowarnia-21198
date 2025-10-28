@@ -99,17 +99,18 @@ const SilaPodpuszczki = () => {
           {/* Hero Section */}
           <header className="bg-gradient-to-br from-accent/90 to-primary/90 text-primary-foreground border-b border-border">
             <div className="container mx-auto px-4 py-12 md:py-16">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h1 className="text-3xl md:text-4xl font-bold mb-4">Siła podpuszczki i metoda flokulacji</h1>
-                  <p className="text-sm text-primary-foreground/90 max-w-3xl">
-                    Zrozumienie jednostek IMCU oraz zaawansowanych technik określania momentu cięcia skrzepu dla różnych typów serów.
-                  </p>
-                </div>
-                <ReactionButton contentType="guide" contentId="sila-podpuszczki" variant="default" />
+              <div className="mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">Siła podpuszczki i metoda flokulacji</h1>
+                <p className="text-sm text-primary-foreground/90 max-w-3xl">
+                  Zrozumienie jednostek IMCU oraz zaawansowanych technik określania momentu cięcia skrzepu dla różnych typów serów.
+                </p>
               </div>
             </div>
           </header>
+
+          <div className="container mx-auto px-4 py-6">
+            <ReactionButton contentType="guide" contentId="sila-podpuszczki" variant="default" />
+          </div>
 
           <div className="container mx-auto px-4 py-8">
             {/* IMCU Section */}

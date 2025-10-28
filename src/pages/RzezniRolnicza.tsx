@@ -37,14 +37,14 @@ const RzezniRolnicza = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Powrót do Poradników
             </Link>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold mb-4 text-primary">Rzeźnia Rolnicza</h1>
-                <p className="text-lg text-muted-foreground">
-                  Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie
-                </p>
-              </div>
+            <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="rzeznia-rolnicza" variant="default" />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-4xl font-bold mb-4 text-primary">Rzeźnia Rolnicza</h1>
+              <p className="text-lg text-muted-foreground">
+                Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie
+              </p>
             </div>
           </div>
 

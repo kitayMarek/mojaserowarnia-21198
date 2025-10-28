@@ -37,16 +37,16 @@ const RHD = () => {
             <img 
               src={rhdHeaderImage} 
               alt="Rolniczy Handel Detaliczny - Tradycja i Wiedza" 
-              className="w-full max-w-xl mx-auto rounded-lg shadow-lg mb-8"
+              className="w-full max-w-xl mx-auto rounded-lg shadow-lg mb-6"
             />
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold mb-4 text-primary">Rolniczy Handel Detaliczny (RHD)</h1>
-                <p className="text-lg text-muted-foreground">
-                  Kompletny przewodnik po formie działalności umożliwiającej produkcję i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom
-                </p>
-              </div>
+            <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="rhd" variant="default" />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-4xl font-bold mb-4 text-primary">Rolniczy Handel Detaliczny (RHD)</h1>
+              <p className="text-lg text-muted-foreground">
+                Kompletny przewodnik po formie działalności umożliwiającej produkcję i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom
+              </p>
             </div>
           </div>
 

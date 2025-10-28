@@ -103,17 +103,17 @@ const BazaKultur = () => {
         >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-start justify-center gap-4">
-                <div className="flex-1">
-                  <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>
-                  <p className="text-lg md:text-xl text-white/95 mb-2">
-                    Kompletna baza {culturesData.length} kultur bakteryjnych
-                  </p>
-                  <p className="text-base text-white/90">
-                    Profesjonalne kultury starterowe z polskich sklepów specjalistycznych
-                  </p>
-                </div>
+              <div className="mb-6">
                 <ReactionButton contentType="guide" contentId="baza-kultur" variant="default" />
+              </div>
+              <div className="mb-4">
+                <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>
+                <p className="text-lg md:text-xl text-white/95 mb-2">
+                  Kompletna baza {culturesData.length} kultur bakteryjnych
+                </p>
+                <p className="text-base text-white/90">
+                  Profesjonalne kultury starterowe z polskich sklepów specjalistycznych
+                </p>
               </div>
             </div>
           </div>

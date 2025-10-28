@@ -256,16 +256,16 @@ const KalkulatorKosztuSera = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 mb-6 shadow-warm">
                 <Calculator className="h-10 w-10 text-white" />
               </div>
-              <div className="flex items-start justify-center gap-4 mb-6">
-                <div className="flex-1">
-                  <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">
-                    Kalkulator kosztu sera
-                  </h1>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży
-                  </p>
-                </div>
+              <div className="mb-6">
                 <ReactionButton contentType="tool" contentId="kalkulator-kosztu-sera" variant="default" />
+              </div>
+              <div className="mb-6">
+                <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">
+                  Kalkulator kosztu sera
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży
+                </p>
               </div>
               <div className="flex gap-4 justify-center mt-8">
                 <Button onClick={loadDefaults} variant="outline">

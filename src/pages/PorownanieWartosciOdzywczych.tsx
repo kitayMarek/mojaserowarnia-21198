@@ -239,16 +239,16 @@ const PorownanieWartosciOdzywczych = () => {
 
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <div className="flex items-start justify-center gap-4 mb-4">
-              <div className="flex-1">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                  🧀 Kalkulator Porównania Wartości Odżywczych Serów
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  Porównaj wartości odżywcze różnych rodzajów serów i wybierz najlepszy dla swojej diety
-                </p>
-              </div>
+            <div className="mb-6">
               <ReactionButton contentType="guide" contentId="porownawie-wartosci-odzywczych" variant="default" />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                🧀 Kalkulator Porównania Wartości Odżywczych Serów
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Porównaj wartości odżywcze różnych rodzajów serów i wybierz najlepszy dla swojej diety
+              </p>
             </div>
           </div>
 

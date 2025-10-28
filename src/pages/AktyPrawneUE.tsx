@@ -88,16 +88,16 @@ const AktyPrawneUE = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Powrót do sekcji Prawo
             </Link>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold mb-4 text-primary">
-                  Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich
-                </h1>
-                <p className="text-lg text-muted-foreground mb-6">
-                  Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim.
-                </p>
-              </div>
+            <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="akty-prawne-ue" variant="default" />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-4xl font-bold mb-4 text-primary">
+                Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich
+              </h1>
+              <p className="text-lg text-muted-foreground mb-6">
+                Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim.
+              </p>
             </div>
 
             <Card className="bg-primary/5 border-primary/20">
