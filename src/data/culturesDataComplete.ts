@@ -89,13 +89,13 @@ export const culturesData: Culture[] = [
   {
     name: "microMilk LHTB",
     composition: "Lactobacillus helveticus, Streptococcus thermophilus, Lactobacillus bulgaricus",
-    application: "sery twarde, bezoczkowe, długo dojrzewające - Parmezan, Sprinz, Grana Padano",
-    temperature: "do 54°C",
+    application: "Sery twarde wysokodogrzewane",
+    temperature: "42-48°C",
     type: "termofilne",
     shop: "Wańczykówka",
     shopUrl: "https://sklep.wanczykowka.com/",
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/10-9-micromilk-lhtb.html",
-    price: "32,00 zł, 500L ",
+    price: "32,00 zł",
   },
   {
     name: "microMilk LHTBM",
@@ -1322,9 +1322,9 @@ export const culturesData: Culture[] = [
     name: "ABY",
     composition:
       "Streptococcus salivarius subsp. thermophilus, Bifidobacterium bifidum, Lactobacillus acidophilus, Lactobacillus delbrueckii subsp. bulgaricus",
-    application: "Mleko fermentowane, napoje probiotyczne bez fermentacji",
+    application: "Jogurt zwykły (gęsty), jogurt mieszany, jogurt pitny, zsiadłe mleko, świeży ser",
     temperature: "38-44°C",
-    type: "probiotyczne",
+    type: "jogurtowe-probiotyczne",
     shop: "Serowar.pl",
     shopUrl: "https://serowar.pl/",
     productUrl: "https://serowar.pl/pl/p/ABY-bakterie-startowe-do-jogurtu-probiotyk/757",
