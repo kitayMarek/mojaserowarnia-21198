@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, ChefHat } from "lucide-react";
 import { Recipe } from "@/data/recipesData";
+import ReactionButton from "@/components/ReactionButton";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -44,9 +45,15 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
             {recipe.description}
           </p>
           
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <ChefHat className="h-4 w-4" />
-            <span>{recipe.yield}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <ChefHat className="h-4 w-4" />
+              <span>{recipe.yield}</span>
+            </div>
+            
+            <div onClick={(e) => e.preventDefault()}>
+              <ReactionButton contentType="recipe" contentId={recipe.id} variant="compact" />
+            </div>
           </div>
         </CardContent>
       </Card>

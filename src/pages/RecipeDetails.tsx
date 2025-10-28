@@ -6,6 +6,7 @@ import { recipesData } from "@/data/recipesData";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, ChefHat } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import ReactionButton from "@/components/ReactionButton";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -80,9 +81,13 @@ const RecipeDetails = () => {
                 {recipe.name}
               </h1>
               
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                 {recipe.description}
               </p>
+              
+              <div className="flex justify-center sm:justify-start">
+                <ReactionButton contentType="recipe" contentId={recipe.id} />
+              </div>
             </div>
           </div>
 

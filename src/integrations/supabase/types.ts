@@ -170,6 +170,33 @@ export type Database = {
         }
         Relationships: []
       }
+      reactions: {
+        Row: {
+          content_id: string
+          content_type: string
+          created_at: string
+          id: string
+          reaction_type: string
+          user_id: string
+        }
+        Insert: {
+          content_id: string
+          content_type: string
+          created_at?: string
+          id?: string
+          reaction_type: string
+          user_id: string
+        }
+        Update: {
+          content_id?: string
+          content_type?: string
+          created_at?: string
+          id?: string
+          reaction_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sales_records: {
         Row: {
           created_at: string
@@ -217,7 +244,16 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      reactions_stats: {
+        Row: {
+          content_id: string | null
+          content_type: string | null
+          likes_count: number | null
+          loves_count: number | null
+          total_points: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       generate_invoice_number: { Args: { user_uuid: string }; Returns: string }
