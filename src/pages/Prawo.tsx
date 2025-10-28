@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Scale } from "lucide-react";
 import { Link } from "react-router-dom";
+import prawoHeaderImage from "@/assets/prawo-header.webp";
 
 const Prawo = () => {
   useEffect(() => {
@@ -49,19 +50,29 @@ const Prawo = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="flex-1 container mx-auto px-4 py-8 mt-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-primary">Prawo</h1>
-            <p className="text-lg text-muted-foreground">
+      <main className="flex-1 pt-20">
+        <header 
+          className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border py-12 md:py-16"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${prawoHeaderImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <h1 className="text-4xl font-bold mb-4">Prawo</h1>
+            <p className="text-lg text-primary-foreground/90 max-w-3xl">
               Informacje prawne i regulacje dotyczące produkcji serów
             </p>
           </div>
-
-          <div className="space-y-4">
+        </header>
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-4">
             {legalTopics.map((topic) => {
               const Icon = topic.icon;
               return (
@@ -84,6 +95,7 @@ const Prawo = () => {
                 </Link>
               );
             })}
+            </div>
           </div>
         </div>
       </main>

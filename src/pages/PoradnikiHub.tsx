@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Beaker, ShoppingCart, Scale } from "lucide-react";
+import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 
 const PoradnikiHub = () => {
   useEffect(() => {
@@ -50,8 +51,15 @@ const PoradnikiHub = () => {
       
       <main className="pt-20">
         {/* Hero Section */}
-        <header className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border">
-          <div className="container mx-auto px-4 py-16 md:py-24">
+        <header 
+          className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border py-16 md:py-24"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${poradnikiHeaderImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
+          <div className="container mx-auto px-4">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Poradniki dla serowarów</h1>
             <p className="text-lg text-primary-foreground/90 max-w-3xl">
               Praktyczna wiedza serowarska zebrana w jednym miejscu. Od podstaw produkcji sera po zaawansowane techniki i obliczenia.

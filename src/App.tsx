@@ -17,6 +17,7 @@ import Prawo from "./pages/Prawo";
 import Narzedzia from "./pages/Narzedzia";
 import KalkulatorBeaugel from "./pages/KalkulatorBeaugel";
 import KalkulatorKosztuSera from "./pages/KalkulatorKosztuSera";
+import KalkulatorMiar from "./pages/KalkulatorMiar";
 import PorownanieWartosciOdzywczych from "./pages/PorownanieWartosciOdzywczych";
 import AktyPrawneUE from "./pages/AktyPrawneUE";
 import RHD from "./pages/RHD";
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />
             <Route path="/kalkulator-kosztu-sera" element={<KalkulatorKosztuSera />} />
+            <Route path="/kalkulator-miar" element={<KalkulatorMiar />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />

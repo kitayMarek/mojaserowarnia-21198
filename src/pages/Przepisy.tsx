@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import RecipeCard from "@/components/RecipeCard";
 import { recipesData } from "@/data/recipesData";
 import { Button } from "@/components/ui/button";
+import przepisyHeaderImage from "@/assets/przepisy-header.webp";
 
 const Przepisy = () => {
   const [filter, setFilter] = useState<string>("all");
@@ -25,13 +26,20 @@ const Przepisy = () => {
       <Navigation />
       
       <main className="flex-1 pt-20">
-        <section className="bg-gradient-warm py-12 md:py-16">
+        <section 
+          className="py-12 md:py-16"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${przepisyHeaderImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">
                 🧀 Przepisy na Domowe Sery
               </h1>
-              <p className="text-lg md:text-xl text-white/95">
+              <p className="text-lg md:text-xl text-white drop-shadow-md">
                 Sprawdzone przepisy z pełnymi instrukcjami krok po kroku
               </p>
             </div>

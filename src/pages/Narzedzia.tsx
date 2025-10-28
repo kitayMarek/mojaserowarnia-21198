@@ -82,13 +82,10 @@ const Narzedzia = () => {
                       className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-warm"
                     >
                       <a 
-                        href="/kalkulator-miar.html" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
+                        href="/kalkulator-miar"
                         className="flex items-center justify-center gap-2"
                       >
                         Otwórz Kalkulator
-                        <ExternalLink className="h-4 w-4" />
                       </a>
                     </Button>
                   </div>
