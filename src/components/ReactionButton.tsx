@@ -43,7 +43,7 @@ const ReactionButton = ({ contentType, contentId, variant = "default" }: Reactio
       <div className="flex items-center gap-1">
         <Button
           size={isCompact ? "sm" : "default"}
-          variant={userReaction === "like" ? "default" : "outline"}
+          variant={userReaction === "like" ? "default" : "secondary"}
           onClick={() => toggleReaction("like")}
           disabled={isLoading}
           className={cn(
@@ -60,7 +60,7 @@ const ReactionButton = ({ contentType, contentId, variant = "default" }: Reactio
 
         <Button
           size={isCompact ? "sm" : "default"}
-          variant={userReaction === "love" ? "default" : "outline"}
+          variant={userReaction === "love" ? "default" : "secondary"}
           onClick={() => toggleReaction("love")}
           disabled={isLoading}
           className={cn(
