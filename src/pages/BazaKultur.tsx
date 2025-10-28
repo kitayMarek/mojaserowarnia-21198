@@ -92,16 +92,16 @@ const BazaKultur = () => {
       <Navigation />
       <main className="flex-1 pt-20" role="main">
         {/* Hero Section */}
-        <section 
-          className="relative py-12 md:py-16 bg-gradient-warm"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(${kulturyHeaderImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
-          <div className="container mx-auto px-4">
+        <section className="relative py-12 md:py-16 overflow-hidden">
+          <img
+            src={kulturyHeaderImage}
+            alt="Kultury bakteryjne do produkcji sera"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-4">
                 <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>

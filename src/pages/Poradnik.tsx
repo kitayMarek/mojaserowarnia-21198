@@ -79,15 +79,16 @@ const Poradnik = () => {
 
         <main className="flex-1">
           {/* Hero Section */}
-          <header 
-            className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border py-12 md:py-16"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${poradnikMainHeaderImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className="container mx-auto px-4">
+          <header className="relative border-b border-border py-12 md:py-16 overflow-hidden">
+            <img
+              src={poradnikMainHeaderImage}
+              alt="Poradnik dla serowarów"
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90" />
+            <div className="container mx-auto px-4 relative z-10 text-primary-foreground">
               <div className="mb-4">
                 <h1 className="text-3xl md:text-4xl font-bold mb-4">Poradnik dla serowarów i rolników rozpoczynających wytwarzanie sera</h1>
                 <p className="text-sm text-primary-foreground/90 max-w-3xl">Praktyka + nauka: higiena, mleko, kultury, obróbka ziarna, solenie, dojrzewanie, kontrola jakości. Opracowane na bazie klasycznej literatury i doświadczeń rzemieślniczych.</p>

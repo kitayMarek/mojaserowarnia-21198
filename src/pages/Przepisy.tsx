@@ -26,15 +26,16 @@ const Przepisy = () => {
       <Navigation />
       
       <main className="flex-1 pt-20">
-        <section 
-          className="py-12 md:py-16"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${przepisyHeaderImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className="container mx-auto px-4">
+        <section className="relative py-12 md:py-16 overflow-hidden">
+          <img
+            src={przepisyHeaderImage}
+            alt="Przepisy na domowe sery"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">
                 🧀 Przepisy na Domowe Sery

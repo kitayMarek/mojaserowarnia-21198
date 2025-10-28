@@ -38,6 +38,8 @@ const RHD = () => {
               src={rhdHeaderImage} 
               alt="Rolniczy Handel Detaliczny - Tradycja i Wiedza" 
               className="w-full max-w-xl mx-auto rounded-lg shadow-lg mb-6"
+              loading="eager"
+              fetchPriority="high"
             />
             <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="rhd" variant="default" />

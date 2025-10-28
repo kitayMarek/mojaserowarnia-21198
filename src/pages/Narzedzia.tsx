@@ -21,16 +21,15 @@ const Narzedzia = () => {
       <Navigation />
       <main className="pt-20">
         {/* Hero Section */}
-        <section 
-          className="relative py-16 md:py-24 bg-gradient-subtle"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(${narzedziaHeaderImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
-          <div className="container mx-auto px-4">
+        <section className="relative py-16 md:py-24 overflow-hidden">
+          <img
+            src={narzedziaHeaderImage}
+            alt="Narzędzia dla serowara"
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
                 Narzędzia dla Serowara

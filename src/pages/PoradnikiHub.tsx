@@ -52,15 +52,16 @@ const PoradnikiHub = () => {
       
       <main className="pt-20">
         {/* Hero Section */}
-        <header 
-          className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border py-16 md:py-24"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${poradnikiHeaderImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className="container mx-auto px-4">
+        <header className="relative border-b border-border py-16 md:py-24 overflow-hidden">
+          <img
+            src={poradnikiHeaderImage}
+            alt="Poradniki dla serowarów"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90" />
+          <div className="container mx-auto px-4 relative z-10 text-primary-foreground">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Poradniki dla serowarów</h1>
             <p className="text-lg text-primary-foreground/90 max-w-3xl">
               Praktyczna wiedza serowarska zebrana w jednym miejscu. Od podstaw produkcji sera po zaawansowane techniki i obliczenia.
