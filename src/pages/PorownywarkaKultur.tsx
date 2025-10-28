@@ -24,6 +24,7 @@ const PorownywarkaKultur = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedShopFilters, setSelectedShopFilters] = useState<Set<string>>(new Set());
   const [selectedItems, setSelectedItems] = useState<Culture[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
 
   // Get unique shops
   const shops = useMemo(() => {
@@ -85,6 +86,7 @@ const PorownywarkaKultur = () => {
 
   const clearComparison = () => {
     setSelectedItems([]);
+    setShowComparison(false);
   };
 
   const valueOrDash = (value: string | undefined) => {
@@ -109,139 +111,6 @@ const PorownywarkaKultur = () => {
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          {/* Mobile: Selected items at top */}
-          <div className="md:hidden mb-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Wybrane do porównania</CardTitle>
-                  {selectedItems.length > 0 && (
-                    <Button variant="outline" size="sm" onClick={clearComparison}>
-                      Wyczyść
-                    </Button>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {selectedItems.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">Wybierz od 2 do 5 kultur z listy poniżej.</p>
-                ) : (
-                  <div className="flex flex-wrap gap-2">
-                    {selectedItems.map((item, idx) => (
-                      <Badge key={idx} variant="secondary" className="flex items-center gap-2 py-1 px-3">
-                        <span className="text-sm">{item.name}</span>
-                        <button
-                          onClick={() => removeFromComparison(idx)}
-                          className="hover:text-destructive"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-                {selectedItems.length === 1 && (
-                  <p className="text-xs text-muted-foreground">Wybierz jeszcze przynajmniej jedną kulturę.</p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Comparison Table - shown automatically when 2+ selected */}
-          {selectedItems.length >= 2 && (
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Tabela porównawcza</CardTitle>
-                <CardDescription className="text-xs">
-                  Dane mają charakter informacyjny. Przed użyciem zweryfikuj parametry w aktualnej karcie produktu u sprzedawcy.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="overflow-x-auto">
-                <table className="min-w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="bg-muted">
-                      <th className="text-left p-3 border font-semibold">Parametr</th>
-                      {selectedItems.map((item, idx) => (
-                        <th key={idx} className="text-left p-3 border font-semibold">
-                          {item.name}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Sklep</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.shop)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Cena</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.price)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Skład</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.composition)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Typ bakterii</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.type)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Temperatura</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.temperature)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Przeznaczenie</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {valueOrDash(item.application)}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td className="p-3 border bg-muted font-medium">Link do produktu</td>
-                      {selectedItems.map((item, idx) => (
-                        <td key={idx} className="p-3 border align-top">
-                          {item.productUrl ? (
-                            <a
-                              href={item.productUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary underline hover:text-primary/80"
-                            >
-                              Zobacz
-                            </a>
-                          ) : (
-                            "—"
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
-          )}
-
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             {/* Left panel - Filters and Results */}
             <div className="md:col-span-2 space-y-4">
@@ -284,6 +153,105 @@ const PorownywarkaKultur = () => {
                 </CardContent>
               </Card>
 
+
+              {/* Comparison Table */}
+              {showComparison && selectedItems.length >= 2 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Tabela porównawcza</CardTitle>
+                  </CardHeader>
+                  <CardContent className="overflow-x-auto">
+                    <table className="min-w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-muted">
+                          <th className="text-left p-3 border font-semibold">Parametr</th>
+                          {selectedItems.map((item, idx) => (
+                            <th key={idx} className="text-left p-3 border font-semibold">
+                              {item.name}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Sklep</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.shop)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Cena</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.price)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Skład</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.composition)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Typ bakterii</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.type)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Temperatura</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.temperature)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Przeznaczenie</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {valueOrDash(item.application)}
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-3 border bg-muted font-medium">Link do produktu</td>
+                          {selectedItems.map((item, idx) => (
+                            <td key={idx} className="p-3 border align-top">
+                              {item.productUrl ? (
+                                <a
+                                  href={item.productUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary underline hover:text-primary/80"
+                                >
+                                  Zobacz
+                                </a>
+                              ) : (
+                                "—"
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                    <Alert className="mt-6">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-xs">
+                        <strong>Informacje mają charakter poglądowy</strong> i pochodzą z kart produktów sprzedawców. Parametry, składy i dostępność mogą się zmieniać. Przed użyciem sprawdź aktualną kartę produktu u sprzedawcy. Serwis nie ponosi odpowiedzialności za skutki użycia.
+                      </AlertDescription>
+                    </Alert>
+                  </CardContent>
+                </Card>
+              )}
 
               <Card>
                 <CardHeader>
@@ -329,39 +297,48 @@ const PorownywarkaKultur = () => {
               </Card>
             </div>
 
-            {/* Right panel - Selected items (desktop only) */}
-            <div className="hidden md:block md:col-span-1">
+            {/* Right panel - Selected items */}
+            <div className="md:col-span-1">
               <Card className="sticky top-24">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">Wybrane do porównania</CardTitle>
-                    {selectedItems.length > 0 && (
-                      <Button variant="outline" size="sm" onClick={clearComparison}>
-                        Wyczyść
-                      </Button>
-                    )}
+                    <Button variant="outline" size="sm" onClick={clearComparison}>
+                      Wyczyść
+                    </Button>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {selectedItems.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">Wybierz od 2 do 5 kultur.</p>
-                  ) : (
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItems.map((item, idx) => (
-                        <Badge key={idx} variant="secondary" className="flex items-center gap-2 py-1 px-3">
-                          <span className="text-sm">{item.name}</span>
-                          <button
-                            onClick={() => removeFromComparison(idx)}
-                            className="hover:text-destructive"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                  {selectedItems.length === 1 && (
-                    <p className="text-xs text-muted-foreground">Wybierz jeszcze przynajmniej jedną kulturę.</p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedItems.map((item, idx) => (
+                      <Badge key={idx} variant="secondary" className="flex items-center gap-2 py-1 px-3">
+                        <span className="text-sm">{item.name}</span>
+                        <button
+                          onClick={() => removeFromComparison(idx)}
+                          className="hover:text-destructive"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">Wybierz od 2 do 5 pozycji.</p>
+                  
+                  {selectedItems.length >= 2 && !showComparison && (
+                    <Alert className="mt-4">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-xs space-y-3">
+                        <p>
+                          <strong>Rozumiem, że dane mają charakter informacyjny</strong> i zweryfikuję je w aktualnej karcie produktu sprzedawcy/producenta przed użyciem.
+                        </p>
+                        <Button
+                          className="w-full"
+                          onClick={() => setShowComparison(true)}
+                        >
+                          Akceptuję - Porównaj
+                        </Button>
+                      </AlertDescription>
+                    </Alert>
                   )}
                 </CardContent>
               </Card>
