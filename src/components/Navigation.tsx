@@ -42,6 +42,14 @@ const Navigation = () => {
                 Moja Serowarnia
               </h1>
               <p className="text-xs text-muted-foreground">Twoje centrum wiedzy o serze</p>
+              <a 
+                href="https://lovable.dev?referrer=Moja_Serowarnia" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              >
+                Built with Lovable ❤️
+              </a>
             </div>
           </a>
 
