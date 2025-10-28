@@ -103,9 +103,6 @@ const BazaKultur = () => {
         >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="mb-6">
-                <ReactionButton contentType="guide" contentId="baza-kultur" variant="default" />
-              </div>
               <div className="mb-4">
                 <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 drop-shadow-lg">Baza Kultur Bakteryjnych do Produkcji Sera</h1>
                 <p className="text-lg md:text-xl text-white/95 mb-2">
@@ -122,6 +119,9 @@ const BazaKultur = () => {
         {/* Info Section */}
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
+            <div className="flex justify-center mb-6">
+              <ReactionButton contentType="guide" contentId="baza-kultur" variant="default" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <div className="bg-card p-6 rounded-xl shadow-card border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
