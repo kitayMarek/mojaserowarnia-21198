@@ -77,8 +77,9 @@ export const culturesData: Culture[] = [
   },
   {
     name: "Choozit MA 4001",
-    composition: "Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris",
-    application: "Sery półtwarde, Gouda, Edam, Cheddar",
+    composition:
+      "Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris, Lactococcus lactis subsp. lactis biovar. diacetylactis, Streptococcus thermophilus",
+    application: "miękkie sery świeże: twarogi i ukwaszania śmietany i mleka, a także sery owczy",
     temperature: "22-38°C",
     type: "mezofilne",
     shop: "Wańczykówka",
