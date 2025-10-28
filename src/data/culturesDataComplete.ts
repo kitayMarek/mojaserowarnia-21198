@@ -77,9 +77,8 @@ export const culturesData: Culture[] = [
   },
   {
     name: "Choozit MA 4001",
-    composition:
-      "Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris, Lactococcus lactis subsp. lactis biovar. diacetylactis, Streptococcus thermophilus",
-    application: "miękkie sery świeże: twarogi i ukwaszania śmietany i mleka, a także sery owczy",
+    composition: "Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris",
+    application: "Sery półtwarde, Gouda, Edam, Cheddar",
     temperature: "22-38°C",
     type: "mezofilne",
     shop: "Wańczykówka",
@@ -90,13 +89,13 @@ export const culturesData: Culture[] = [
   {
     name: "microMilk LHTB",
     composition: "Lactobacillus helveticus, Streptococcus thermophilus, Lactobacillus bulgaricus",
-    application: "Sery twarde wysokodogrzewane",
-    temperature: "42-48°C",
+    application: "sery twarde, bezoczkowe, długo dojrzewające - Parmezan, Sprinz, Grana Padano",
+    temperature: "do 54°C",
     type: "termofilne",
     shop: "Wańczykówka",
     shopUrl: "https://sklep.wanczykowka.com/",
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/10-9-micromilk-lhtb.html",
-    price: "32,00 zł",
+    price: "32,00 zł, 500L ",
   },
   {
     name: "microMilk LHTBM",
