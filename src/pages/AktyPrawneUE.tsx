@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, FileText, AlertCircle } from "lucide-react";
+import { ExternalLink, FileText, AlertCircle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import ReactionButton from "@/components/ReactionButton";
 
 const AktyPrawneUE = () => {
   useEffect(() => {
@@ -83,15 +84,21 @@ const AktyPrawneUE = () => {
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <Link to="/prawo" className="text-primary hover:underline mb-4 inline-block">
-              ← Powrót do Prawo
+            <Link to="/prawo" className="inline-flex items-center text-primary hover:underline mb-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Powrót do sekcji Prawo
             </Link>
-            <h1 className="text-4xl font-bold mb-4 text-primary">
-              Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich
-            </h1>
-            <p className="text-lg text-muted-foreground mb-6">
-              Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim.
-            </p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-4xl font-bold mb-4 text-primary">
+                  Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim.
+                </p>
+              </div>
+              <ReactionButton contentType="legal_page" contentId="akty-prawne-ue" variant="default" />
+            </div>
 
             <Card className="bg-primary/5 border-primary/20">
               <CardContent className="pt-6">

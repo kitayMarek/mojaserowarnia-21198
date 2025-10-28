@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import poradnikMainHeaderImage from "@/assets/poradnik-main-header.webp";
+import ReactionButton from "@/components/ReactionButton";
 
 const Poradnik = () => {
   useEffect(() => {
@@ -87,8 +88,13 @@ const Poradnik = () => {
             }}
           >
             <div className="container mx-auto px-4">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">Poradnik dla serowarów i rolników rozpoczynających wytwarzanie sera</h1>
-              <p className="text-sm text-primary-foreground/90 max-w-3xl">Praktyka + nauka: higiena, mleko, kultury, obróbka ziarna, solenie, dojrzewanie, kontrola jakości. Opracowane na bazie klasycznej literatury i doświadczeń rzemieślniczych.</p>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <h1 className="text-3xl md:text-4xl font-bold mb-4">Poradnik dla serowarów i rolników rozpoczynających wytwarzanie sera</h1>
+                  <p className="text-sm text-primary-foreground/90 max-w-3xl">Praktyka + nauka: higiena, mleko, kultury, obróbka ziarna, solenie, dojrzewanie, kontrola jakości. Opracowane na bazie klasycznej literatury i doświadczeń rzemieślniczych.</p>
+                </div>
+                <ReactionButton contentType="guide" contentId="poradnik" variant="default" />
+              </div>
             </div>
           </header>
 

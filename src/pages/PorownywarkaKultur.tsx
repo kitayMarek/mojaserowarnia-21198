@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { X, AlertCircle } from "lucide-react";
 import { culturesData, Culture } from "@/data/culturesDataComplete";
+import ReactionButton from "@/components/ReactionButton";
 
 const PorownywarkaKultur = () => {
   useEffect(() => {
@@ -99,8 +100,13 @@ const PorownywarkaKultur = () => {
         {/* Header */}
         <header className="bg-gradient-to-r from-primary/10 to-primary/5 border-b">
           <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">🧀 Porównywarka kultur bakteryjnych</h1>
-            <p className="text-muted-foreground">Wybierz 2–5 pozycji i porównaj parametry</p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">🧀 Porównywarka kultur bakteryjnych</h1>
+                <p className="text-muted-foreground">Wybierz 2–5 pozycji i porównaj parametry</p>
+              </div>
+              <ReactionButton contentType="guide" contentId="porownywarka-kultur" variant="default" />
+            </div>
           </div>
         </header>
 

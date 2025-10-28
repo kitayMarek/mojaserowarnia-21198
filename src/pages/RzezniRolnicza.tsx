@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
+import ReactionButton from "@/components/ReactionButton";
 
 const RzezniRolnicza = () => {
   useEffect(() => {
@@ -32,10 +33,19 @@ const RzezniRolnicza = () => {
           </Link>
 
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-primary">Rzeźnia Rolnicza</h1>
-            <p className="text-lg text-muted-foreground">
-              Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie
-            </p>
+            <Link to="/poradniki" className="inline-flex items-center text-primary hover:underline mb-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Powrót do Poradników
+            </Link>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-4xl font-bold mb-4 text-primary">Rzeźnia Rolnicza</h1>
+                <p className="text-lg text-muted-foreground">
+                  Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie
+                </p>
+              </div>
+              <ReactionButton contentType="legal_page" contentId="rzeznia-rolnicza" variant="default" />
+            </div>
           </div>
 
           <div className="space-y-6">

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, Plus, Trash2, Copy, FileJson, Printer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ReactionButton from "@/components/ReactionButton";
 
 interface Ingredient {
   id: string;
@@ -255,12 +256,17 @@ const KalkulatorKosztuSera = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 mb-6 shadow-warm">
                 <Calculator className="h-10 w-10 text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-                Kalkulator kosztu sera
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży
-              </p>
+              <div className="flex items-start justify-center gap-4 mb-6">
+                <div className="flex-1">
+                  <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">
+                    Kalkulator kosztu sera
+                  </h1>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży
+                  </p>
+                </div>
+                <ReactionButton contentType="tool" contentId="kalkulator-kosztu-sera" variant="default" />
+              </div>
               <div className="flex gap-4 justify-center mt-8">
                 <Button onClick={loadDefaults} variant="outline">
                   Wczytaj domyślne składniki

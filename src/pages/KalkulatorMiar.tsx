@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Calculator, ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
+import ReactionButton from "@/components/ReactionButton";
 
 type UnitDef = {
   id: string;
@@ -221,11 +222,14 @@ const KalkulatorMiar = () => {
         {/* Hero */}
         <header className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border">
           <div className="container mx-auto px-4 py-12 md:py-16">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <Calculator className="h-8 w-8" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold">Kalkulator Miar</h1>
+              <div className="flex-1">
+                <h1 className="text-3xl md:text-4xl font-bold">Kalkulator Miar</h1>
+              </div>
+              <ReactionButton contentType="tool" contentId="kalkulator-miar" variant="default" />
             </div>
             <p className="text-primary-foreground/90 max-w-3xl">
               Dwukierunkowy przelicznik jednostek: długość, masa, objętość, temperatura, prędkość, ciśnienie i powierzchnia. Wspiera format imperial i metryczny (również stopy+cale).

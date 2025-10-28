@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, AlertTriangle, Info } from "lucide-react";
+import ReactionButton from "@/components/ReactionButton";
 
 const KalkulatorBeaugel = () => {
   useEffect(() => {
@@ -97,12 +98,17 @@ const KalkulatorBeaugel = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 mb-6 shadow-warm">
                 <Calculator className="h-10 w-10 text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-                Kalkulator dawki podpuszczki
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Precyzyjne obliczenia dla podpuszczek Beaugel oraz uniwersalny kalkulator IMCU
-              </p>
+              <div className="flex items-start justify-center gap-4">
+                <div className="flex-1">
+                  <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+                    Kalkulator dawki podpuszczki
+                  </h1>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Precyzyjne obliczenia dla podpuszczek Beaugel oraz uniwersalny kalkulator IMCU
+                  </p>
+                </div>
+                <ReactionButton contentType="tool" contentId="kalkulator-beaugel" variant="default" />
+              </div>
             </div>
           </div>
         </section>

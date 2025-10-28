@@ -4,7 +4,9 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import ReactionButton from "@/components/ReactionButton";
 
 const GdzieKupicPodpuszczke = () => {
   useEffect(() => {
@@ -23,10 +25,15 @@ const GdzieKupicPodpuszczke = () => {
         {/* Hero Section */}
         <header className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border">
           <div className="container mx-auto px-4 py-16 md:py-20">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Gdzie kupić podpuszczkę</h1>
-            <p className="text-lg text-primary-foreground/90 max-w-3xl">
-              Podsumowanie i porównanie mocy (IMCU / 1:X) oraz praktycznego dawkowania dostępnych podpuszczek
-            </p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">Gdzie kupić podpuszczkę</h1>
+                <p className="text-lg text-primary-foreground/90 max-w-3xl">
+                  Podsumowanie i porównanie mocy (IMCU / 1:X) oraz praktycznego dawkowania dostępnych podpuszczek
+                </p>
+              </div>
+              <ReactionButton contentType="guide" contentId="gdzie-kupic-podpuszczke" variant="default" />
+            </div>
             <div className="mt-4 flex flex-wrap gap-2">
               <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30">
                 Analiza porównawcza

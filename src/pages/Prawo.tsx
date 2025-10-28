@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { FileText, Scale } from "lucide-react";
 import { Link } from "react-router-dom";
 import prawoHeaderImage from "@/assets/prawo-header.webp";
+import ReactionButton from "@/components/ReactionButton";
 
 const Prawo = () => {
   useEffect(() => {
@@ -89,6 +90,11 @@ const Prawo = () => {
                             {topic.description}
                           </CardDescription>
                         </div>
+                        <ReactionButton
+                          contentType="legal_page"
+                          contentId={topic.id}
+                          variant="compact"
+                        />
                       </div>
                     </CardHeader>
                   </Card>

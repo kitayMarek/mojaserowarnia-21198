@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Beaker, ShoppingCart, Scale } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
+import ReactionButton from "@/components/ReactionButton";
 
 const PoradnikiHub = () => {
   useEffect(() => {
@@ -70,29 +71,48 @@ const PoradnikiHub = () => {
         {/* Guides Grid */}
         <section className="container mx-auto px-4 py-16">
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {guides.map((guide, idx) => (
-              <a
-                key={idx}
-                href={guide.href}
-                className="group block h-full"
-              >
-                <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
-                  <CardHeader>
-                    <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${guide.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      {guide.icon}
-                    </div>
-                    <CardTitle className="text-2xl group-hover:text-primary transition-colors">
-                      {guide.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base leading-relaxed">
-                      {guide.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </a>
-            ))}
+            {guides.map((guide, idx) => {
+              const guideIdMap: Record<string, string> = {
+                "/poradnik": "poradnik",
+                "/sila-podpuszczki": "sila-podpuszczki",
+                "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke",
+                "/porownawie-wartosci-odzywczych": "porownawie-wartosci-odzywczych"
+              };
+              const guideId = guideIdMap[guide.href] || guide.href;
+              
+              return (
+                <a
+                  key={idx}
+                  href={guide.href}
+                  className="group block h-full"
+                >
+                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                    <CardHeader>
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${guide.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                            {guide.icon}
+                          </div>
+                          <CardTitle className="text-2xl group-hover:text-primary transition-colors">
+                            {guide.title}
+                          </CardTitle>
+                        </div>
+                        <ReactionButton
+                          contentType="guide"
+                          contentId={guideId}
+                          variant="compact"
+                        />
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base leading-relaxed">
+                        {guide.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </a>
+              );
+            })}
           </div>
 
           {/* Additional Info */}

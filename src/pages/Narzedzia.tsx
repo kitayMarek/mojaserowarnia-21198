@@ -1,9 +1,10 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Calculator, ExternalLink } from "lucide-react";
+import { Calculator } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
+import ReactionButton from "@/components/ReactionButton";
 
 const Narzedzia = () => {
   return (
@@ -40,6 +41,13 @@ const Narzedzia = () => {
               {/* Kalkulator Miar */}
               <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
                 <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-miar"
+                      variant="compact"
+                    />
+                  </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
@@ -95,6 +103,13 @@ const Narzedzia = () => {
               {/* Kalkulator Beaugel */}
               <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
                 <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-beaugel"
+                      variant="compact"
+                    />
+                  </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
@@ -150,6 +165,13 @@ const Narzedzia = () => {
               {/* Kalkulator Kosztu Sera */}
               <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
                 <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-kosztu-sera"
+                      variant="compact"
+                    />
+                  </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
