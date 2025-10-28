@@ -98,9 +98,6 @@ const KalkulatorBeaugel = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 mb-6 shadow-warm">
                 <Calculator className="h-10 w-10 text-white" />
               </div>
-              <div className="mb-6">
-                <ReactionButton contentType="tool" contentId="kalkulator-beaugel" variant="default" />
-              </div>
               <div className="mb-4">
                 <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
                   Kalkulator dawki podpuszczki
@@ -112,6 +109,12 @@ const KalkulatorBeaugel = () => {
             </div>
           </div>
         </section>
+
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-start">
+            <ReactionButton contentType="tool" contentId="kalkulator-beaugel" variant="default" />
+          </div>
+        </div>
 
         {/* Beaugel Calculator */}
         <section className="py-12 md:py-16">

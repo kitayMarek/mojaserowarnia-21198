@@ -230,14 +230,17 @@ const KalkulatorMiar = () => {
                 <h1 className="text-3xl md:text-4xl font-bold">Kalkulator Miar</h1>
               </div>
             </div>
-            <div className="mb-4">
-              <ReactionButton contentType="tool" contentId="kalkulator-miar" variant="default" />
-            </div>
             <p className="text-primary-foreground/90 max-w-3xl">
               Dwukierunkowy przelicznik jednostek: długość, masa, objętość, temperatura, prędkość, ciśnienie i powierzchnia. Wspiera format imperial i metryczny (również stopy+cale).
             </p>
           </div>
         </header>
+
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-start">
+            <ReactionButton contentType="tool" contentId="kalkulator-miar" variant="default" />
+          </div>
+        </div>
 
         <div className="container mx-auto px-4 py-8 max-w-5xl">
           {/* Kategorie */}

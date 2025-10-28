@@ -265,9 +265,6 @@ const KalkulatorKosztuSera = () => {
                 <Calculator className="h-10 w-10 text-white" />
               </div>
               <div className="mb-6">
-                <ReactionButton contentType="tool" contentId="kalkulator-kosztu-sera" variant="default" />
-              </div>
-              <div className="mb-6">
                 <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">
                   Kalkulator kosztu sera
                 </h1>
@@ -286,6 +283,12 @@ const KalkulatorKosztuSera = () => {
             </div>
           </div>
         </section>
+
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-start">
+            <ReactionButton contentType="tool" contentId="kalkulator-kosztu-sera" variant="default" />
+          </div>
+        </div>
 
         {/* Settings */}
         <section className="py-12 md:py-16">
