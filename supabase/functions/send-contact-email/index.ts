@@ -19,12 +19,21 @@ interface ContactEmailRequest {
 // Email validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Escape HTML special characters to prevent XSS
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Sanitize string input - remove potentially dangerous characters
 function sanitizeInput(input: string, maxLength: number): string {
   return input
     .trim()
     .slice(0, maxLength)
-    .replace(/[<>]/g, '') // Remove < and > to prevent HTML injection
     .replace(/[\r\n]{3,}/g, '\n\n'); // Limit consecutive newlines
 }
 
@@ -105,20 +114,20 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Sending contact email from:", sanitizedEmail, "name:", sanitizedName);
 
-    // Send email to Moja Serowarnia (using sanitized inputs)
+    // Send email to Moja Serowarnia (using sanitized and escaped inputs)
     const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
       from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
       to: [OWNER_EMAIL],
       replyTo: sanitizedEmail,
-      subject: `Nowa wiadomość kontaktowa: ${sanitizedSubject}`,
+      subject: `Nowa wiadomość kontaktowa: ${escapeHtml(sanitizedSubject)}`,
       html: `
         <h2>Nowa wiadomość z formularza kontaktowego</h2>
-        <p><strong>Od:</strong> ${sanitizedName}</p>
-        <p><strong>Email:</strong> ${sanitizedEmail}</p>
-        <p><strong>Temat:</strong> ${sanitizedSubject}</p>
+        <p><strong>Od:</strong> ${escapeHtml(sanitizedName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(sanitizedEmail)}</p>
+        <p><strong>Temat:</strong> ${escapeHtml(sanitizedSubject)}</p>
         <hr />
         <h3>Wiadomość:</h3>
-        <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
+        <p>${escapeHtml(sanitizedMessage).replace(/\n/g, '<br>')}</p>
       `,
     });
 
@@ -138,18 +147,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully to admin:", adminEmailData);
 
-    // Send confirmation to sender (using sanitized inputs)
+    // Send confirmation to sender (using sanitized and escaped inputs)
     const { data: confirmationData, error: confirmationError } = await resend.emails.send({
       from: "Moja Serowarnia <onboarding@resend.dev>",
       to: [sanitizedEmail],
       subject: "Potwierdzenie otrzymania wiadomości - Moja Serowarnia",
       html: `
-        <h2>Dziękujemy za kontakt, ${sanitizedName}!</h2>
+        <h2>Dziękujemy za kontakt, ${escapeHtml(sanitizedName)}!</h2>
         <p>Otrzymaliśmy Twoją wiadomość i odpowiemy najszybciej jak to możliwe.</p>
         <hr />
         <h3>Twoja wiadomość:</h3>
-        <p><strong>Temat:</strong> ${sanitizedSubject}</p>
-        <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
+        <p><strong>Temat:</strong> ${escapeHtml(sanitizedSubject)}</p>
+        <p>${escapeHtml(sanitizedMessage).replace(/\n/g, '<br>')}</p>
         <hr />
         <p>Pozdrawiamy,<br>Zespół Moja Serowarnia</p>
       `,
