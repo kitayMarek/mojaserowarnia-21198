@@ -11,6 +11,7 @@ import Przepisy from "./pages/Przepisy";
 import RecipeDetails from "./pages/RecipeDetails";
 import PoradnikiHub from "./pages/PoradnikiHub";
 import Poradnik from "./pages/Poradnik";
+import BakterieKultury from "./pages/BakterieKultury";
 import SilaPodpuszczki from "./pages/SilaPodpuszczki";
 import GdzieKupicPodpuszczke from "./pages/GdzieKupicPodpuszczke";
 import Prawo from "./pages/Prawo";
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/poradniki" element={<PoradnikiHub />} />
           <Route path="/poradnik" element={<Poradnik />} />
+          <Route path="/bakterie-kultury" element={<BakterieKultury />} />
           <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
           <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />
           <Route path="/porownawie-wartosci-odzywczych" element={<PorownanieWartosciOdzywczych />} />

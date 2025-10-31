@@ -25,23 +25,23 @@ const PoradnikiHub = () => {
     },
     {
       icon: <Beaker className="w-12 h-12" />,
-      title: "Siła podpuszczki i metoda flokulacji",
+      title: "Kultury bakteryjne i pleśnie",
+      description: "Rozszerzony przewodnik o kulturach bakteryjnych i pleśniach: charakterystyka starterów mezofilnych i termofilnych, dawki, temperatury, pH, typowe błędy oraz gotowe mieszanki kultur do popularnych serów. Z praktyczną ściągą i tabelami referencyjnymi.",
+      href: "/bakterie-kultury",
+      color: "from-accent to-primary",
+    },
+    {
+      icon: <Scale className="w-12 h-12" />,
+      title: "Siła podpuszczki i flokulacja",
       description: "Szczegółowe wyjaśnienie jednostek IMCU, obliczanie odpowiedniej ilości podpuszczki oraz zaawansowana metoda flokulacji pozwalająca precyzyjnie określić najlepszy moment cięcia skrzepu dla różnych typów serów.",
       href: "/sila-podpuszczki",
-      color: "from-accent to-primary",
+      color: "from-primary to-accent",
     },
     {
       icon: <ShoppingCart className="w-12 h-12" />,
       title: "Gdzie kupić podpuszczkę",
       description: "Kompleksowe zestawienie i porównanie dostępnych na rynku podpuszczek: analiza mocy (IMCU, 1:X), praktyczne dawkowanie oraz ocena przejrzystości informacji od producentów. Pomaga wybrać najlepszą podpuszczkę dla Twoich potrzeb.",
       href: "/gdzie-kupic-podpuszczke",
-      color: "from-primary to-accent",
-    },
-    {
-      icon: <Scale className="w-12 h-12" />,
-      title: "Porównanie wartości odżywczych serów",
-      description: "Interaktywny kalkulator pozwalający porównać wartości odżywcze różnych rodzajów serów: kalorie, białko, tłuszcz, wapń, sód i inne składniki. Idealne narzędzie do świadomego wyboru sera odpowiedniego dla Twoich potrzeb żywieniowych.",
-      href: "/porownawie-wartosci-odzywczych",
       color: "from-accent to-primary",
     },
   ];
@@ -75,9 +75,9 @@ const PoradnikiHub = () => {
             {guides.map((guide, idx) => {
               const guideIdMap: Record<string, string> = {
                 "/poradnik": "poradnik",
+                "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",
-                "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke",
-                "/porownawie-wartosci-odzywczych": "porownawie-wartosci-odzywczych"
+                "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke"
               };
               const guideId = guideIdMap[guide.href] || guide.href;
               

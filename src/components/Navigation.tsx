@@ -20,10 +20,9 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { label: "Bazy Kultur", href: "/baza-kultur" },
+    { label: "Kultury", href: "/baza-kultur" },
     { label: "Przepisy", href: "/przepisy" },
     { label: "Poradniki", href: "/poradniki" },
-    { label: "Prawo", href: "/prawo" },
     { label: "Narzędzia", href: "/narzedzia" },
     { label: "Kontakt", href: "/kontakt" },
   ];
