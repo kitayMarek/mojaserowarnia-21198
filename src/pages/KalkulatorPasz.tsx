@@ -404,6 +404,211 @@ const KalkulatorPasz = () => {
     return "ok";
   };
 
+  interface TestowySkladnik {
+    nazwa: string;
+    procent: number;
+    em: string | number;
+    bialko: string | number;
+    ca: string | number;
+    p: string | number;
+    cena: string;
+  }
+
+  const obliczBladNormy = (testoweSkladniki: TestowySkladnik[]) => {
+    const oblicz = (pole: keyof Omit<Skladnik, "nazwa" | "procent" | "cena">) => {
+      return testoweSkladniki.reduce((suma, s) => {
+        const procent = s.procent;
+        const wartosc = parseFloat(String(s[pole])) || 0;
+        return suma + (procent * wartosc) / 100;
+      }, 0);
+    };
+
+    if (!aktualnaNorma) return Infinity;
+
+    const em = oblicz("em");
+    const bialko = oblicz("bialko");
+    const ca = oblicz("ca");
+    const p = oblicz("p");
+
+    const bladEm = Math.pow((em - aktualnaNorma.em) / aktualnaNorma.em, 2);
+    const bladBialko = Math.pow((bialko - aktualnaNorma.bialko) / aktualnaNorma.bialko, 2);
+    const bladCa = Math.pow((ca - aktualnaNorma.ca) / aktualnaNorma.ca, 2);
+    const bladP = Math.pow((p - aktualnaNorma.p) / aktualnaNorma.p, 2);
+
+    return bladEm + bladBialko + bladCa + bladP;
+  };
+
+  const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) => {
+    const sugestie: string[] = [];
+
+    const oblicz = (pole: keyof Omit<Skladnik, "nazwa" | "procent" | "cena">) => {
+      return skladnikiDoSprawdzenia.reduce((suma, s) => {
+        const procent = parseFloat(s.procent) || 0;
+        const wartosc = parseFloat(String(s[pole])) || 0;
+        return suma + (procent * wartosc) / 100;
+      }, 0);
+    };
+
+    const em = oblicz("em");
+    const bialko = oblicz("bialko");
+    const ca = oblicz("ca");
+    const p = oblicz("p");
+
+    const maZboza = skladnikiDoSprawdzenia.some((s) =>
+      ["Pszenica", "Kukurydza", "Jęczmień"].includes(s.nazwa)
+    );
+    const maSrute = skladnikiDoSprawdzenia.some((s) =>
+      ["Śruta sojowa", "Śruta rzepakowa"].includes(s.nazwa)
+    );
+    const maKrede = skladnikiDoSprawdzenia.some((s) => s.nazwa === "Kreda pastewna");
+    const maFosforan = skladnikiDoSprawdzenia.some((s) => s.nazwa === "Fosforan wapnia");
+    const maOlej = skladnikiDoSprawdzenia.some((s) => s.nazwa === "Olej roślinny");
+
+    if (!aktualnaNorma) return sugestie;
+
+    // Sprawdzamy energię
+    if (sprawdzNorme(em, aktualnaNorma.em, 0.05) === "za-nisko") {
+      if (!maZboza) {
+        sugestie.push("⚡ ENERGIA ZA NISKA:\n→ Dodaj zboża (kukurydza, pszenica) - są głównym źródłem energii");
+      } else if (!maOlej) {
+        sugestie.push("⚡ ENERGIA ZA NISKA:\n→ Rozważ dodanie oleju roślinnego (1-2%) - szybko podniesie energię\n→ Lub zwiększ udział kukurydzy");
+      } else {
+        sugestie.push("⚡ ENERGIA ZA NISKA:\n→ Zwiększ udział kukurydzy lub oleju roślinnego\n→ Zmniejsz udział otrębów");
+      }
+    } else if (sprawdzNorme(em, aktualnaNorma.em, 0.05) === "za-wysoko") {
+      sugestie.push("⚡ ENERGIA ZA WYSOKA:\n→ Zmniejsz udział kukurydzy lub oleju\n→ Zwiększ udział otrębów pszennych lub jęczmienia");
+    }
+
+    // Sprawdzamy białko
+    if (sprawdzNorme(bialko, aktualnaNorma.bialko, 0.05) === "za-nisko") {
+      if (!maSrute) {
+        sugestie.push("🥜 BIAŁKO ZA NISKIE:\n→ KONIECZNIE dodaj śrutę sojową lub rzepakową - to główne źródło białka\n→ Śruta sojowa ma ~46% białka!");
+      } else {
+        sugestie.push("🥜 BIAŁKO ZA NISKIE:\n→ Zwiększ udział śruty sojowej lub rzepakowej\n→ Zmniejsz udział zbóż");
+      }
+    } else if (sprawdzNorme(bialko, aktualnaNorma.bialko, 0.05) === "za-wysoko") {
+      sugestie.push("🥜 BIAŁKO ZA WYSOKIE:\n→ Zmniejsz udział śruty\n→ Zwiększ udział zbóż (pszenica, kukurydza)");
+    }
+
+    // Sprawdzamy wapń
+    if (sprawdzNorme(ca, aktualnaNorma.ca, 0.1) === "za-nisko") {
+      if (!maKrede) {
+        sugestie.push("🦴 WAPŃ ZA NISKI:\n→ KONIECZNIE dodaj kredę pastewną (2-4%)\n→ Bez wapnia kury nie będą miały mocnych skorupek!\n→ Kreda ma 38% wapnia");
+      } else {
+        sugestie.push("🦴 WAPŃ ZA NISKI:\n→ Zwiększ udział kredy pastewnej\n→ Dla kur niosek to bardzo ważne!");
+      }
+    } else if (sprawdzNorme(ca, aktualnaNorma.ca, 0.1) === "za-wysoko") {
+      sugestie.push("🦴 WAPŃ ZA WYSOKI:\n→ Zmniejsz udział kredy pastewnej\n→ Nadmiar wapnia może zaburzać wchłanianie innych składników");
+    }
+
+    // Sprawdzamy fosfor
+    if (sprawdzNorme(p, aktualnaNorma.p, 0.1) === "za-nisko") {
+      if (!maFosforan) {
+        sugestie.push("⚗️ FOSFOR ZA NISKI:\n→ Dodaj fosforan wapnia (1-2%)\n→ Fosfor jest kluczowy dla metabolizmu i kości\n→ Fosforan ma 18% fosforu i 24% wapnia");
+      } else {
+        sugestie.push("⚗️ FOSFOR ZA NISKI:\n→ Zwiększ udział fosforanu wapnia\n→ Możesz też zwiększyć śrutę - zawiera fosfor");
+      }
+    } else if (sprawdzNorme(p, aktualnaNorma.p, 0.1) === "za-wysoko") {
+      sugestie.push("⚗️ FOSFOR ZA WYSOKI:\n→ Zmniejsz udział fosforanu wapnia\n→ Nadmiar fosforu obciąża nerki");
+    }
+
+    // Ogólna sugestia jeśli brakuje podstawowych składników
+    if (sugestie.length > 0) {
+      const brakujace: string[] = [];
+      if (!maZboza) brakujace.push("zboża (pszenica/kukurydza)");
+      if (!maSrute) brakujace.push("śruta białkowa (sojowa/rzepakowa)");
+      if (!maKrede && aktualnaNorma.ca > 1.5) brakujace.push("kreda pastewna");
+      if (!maFosforan) brakujace.push("fosforan wapnia");
+
+      if (brakujace.length > 0) {
+        sugestie.push("📋 BRAKUJĄCE SKŁADNIKI:\n→ " + brakujace.join("\n→ "));
+      }
+    }
+
+    return sugestie;
+  };
+
+  const przeliczOptymalneProporcje = () => {
+    if (!aktualnaNorma) return;
+
+    const aktywneSkladniki = skladniki.filter(
+      (s) =>
+        s.nazwa &&
+        (parseFloat(String(s.em)) > 0 ||
+          parseFloat(String(s.bialko)) > 0 ||
+          parseFloat(String(s.ca)) > 0 ||
+          parseFloat(String(s.p)) > 0)
+    );
+
+    if (aktywneSkladniki.length < 2) {
+      alert(
+        "Dodaj co najmniej 2 składniki z wartościami odżywczymi aby móc przeliczyć optymalne proporcje."
+      );
+      return;
+    }
+
+    let najlepszeSkladniki: TestowySkladnik[] = aktywneSkladniki.map((s) => ({
+      ...s,
+      procent: 100 / aktywneSkladniki.length,
+    }));
+    let najlepszyBlad = obliczBladNormy(najlepszeSkladniki);
+
+    for (let iteracja = 0; iteracja < 1000; iteracja++) {
+      const testoweSkladniki = najlepszeSkladniki.map((s) => ({ ...s }));
+
+      const idx1 = Math.floor(Math.random() * testoweSkladniki.length);
+      let idx2 = Math.floor(Math.random() * testoweSkladniki.length);
+      while (idx2 === idx1 && testoweSkladniki.length > 1) {
+        idx2 = Math.floor(Math.random() * testoweSkladniki.length);
+      }
+
+      const zmiana = Math.random() * 20 - 10;
+      testoweSkladniki[idx1].procent = Math.max(
+        0.1,
+        Math.min(99, testoweSkladniki[idx1].procent + zmiana)
+      );
+      testoweSkladniki[idx2].procent = Math.max(
+        0.1,
+        Math.min(99, testoweSkladniki[idx2].procent - zmiana)
+      );
+
+      const suma = testoweSkladniki.reduce((s, sk) => s + sk.procent, 0);
+      testoweSkladniki.forEach((sk) => (sk.procent = (sk.procent / suma) * 100));
+
+      const blad = obliczBladNormy(testoweSkladniki);
+      if (blad < najlepszyBlad) {
+        najlepszyBlad = blad;
+        najlepszeSkladniki = testoweSkladniki;
+      }
+    }
+
+    const noweSkladniki = skladniki.map((s) => {
+      const znaleziony = najlepszeSkladniki.find((ns) => ns.nazwa === s.nazwa);
+      if (znaleziony) {
+        return {
+          ...s,
+          procent: znaleziony.procent.toFixed(1),
+        };
+      }
+      return s;
+    });
+
+    setSkladniki(noweSkladniki);
+
+    setTimeout(() => {
+      const sugestie = generujSugestie(noweSkladniki);
+      if (sugestie.length > 0) {
+        const komunikat =
+          "Proporcje zostały przeliczone, ale niektóre parametry są poza normą.\n\n" +
+          "🔧 SUGESTIE POPRAWEK:\n\n" +
+          sugestie.join("\n\n");
+        alert(komunikat);
+      } else {
+        alert("✅ Świetnie! Proporcje zostały przeliczone i wszystkie parametry są w normie!");
+      }
+    }, 100);
+  };
+
   const sumaProcentow = skladniki.reduce(
     (suma, s) => suma + (parseFloat(s.procent) || 0),
     0
@@ -553,6 +758,9 @@ const KalkulatorPasz = () => {
                         wartości uzupełnią się automatycznie. Wpisz ceny zakupu
                         składników, aby obliczyć koszt mieszanki. Suma % powinna
                         wynosić 100%.
+                        <br />
+                        <strong>🎯 Funkcja "Przelicz":</strong> Jeśli suma wynosi 100%, kliknij "Przelicz optymalne proporcje" 
+                        aby automatycznie dopasować udział składników do norm żywieniowych!
                       </p>
                     </CardContent>
                   </Card>
@@ -708,9 +916,27 @@ const KalkulatorPasz = () => {
                     </table>
                   </div>
 
-                  <Button onClick={dodajSkladnik} className="w-full md:w-auto">
-                    ➕ Dodaj kolejny składnik
-                  </Button>
+                  <div className="flex flex-wrap gap-3">
+                    <Button onClick={dodajSkladnik} className="w-full md:w-auto">
+                      ➕ Dodaj kolejny składnik
+                    </Button>
+
+                    <Button
+                      onClick={przeliczOptymalneProporcje}
+                      disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
+                      variant="secondary"
+                      className="w-full md:w-auto"
+                      title={
+                        !aktualnaNorma
+                          ? "Najpierw wybierz rodzaj drobiu i okres"
+                          : Math.abs(sumaProcentow - 100) > 0.1
+                          ? "Suma składników musi wynosić 100%"
+                          : "Optymalizuj proporcje składników"
+                      }
+                    >
+                      🎯 Przelicz optymalne proporcje
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
 
