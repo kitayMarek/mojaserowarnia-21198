@@ -232,6 +232,68 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
+              {/* Kalkulator Pasz */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-pasz"
+                      variant="compact"
+                    />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    {/* Icon */}
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator Pasz
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Zbilansuj paszę dla drobiu zgodnie z normami żywieniowymi. Kalkulator dla kur, brojlerów, kaczek, gęsi i indyków z automatycznym przeliczaniem składników.
+                      </p>
+                    </div>
+
+                    {/* Features List */}
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Normy dla 6 typów drobiu</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Automatyczne wyliczenia EM, Ca, P</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Baza 11 popularnych składników</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Analiza kosztów mieszanki</span>
+                      </li>
+                    </ul>
+
+                    {/* Button */}
+                    <Button 
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white shadow-warm"
+                    >
+                      <a 
+                        href="/kalkulator-pasz"
+                        className="flex items-center justify-center gap-2"
+                      >
+                        Otwórz Kalkulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Placeholder for future tools */}
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
