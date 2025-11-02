@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ReactionButton from "@/components/ReactionButton";
+import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
 
 interface Skladnik {
   nazwa: string;
@@ -48,12 +49,23 @@ const KalkulatorPasz = () => {
   useEffect(() => {
     document.title = "Kalkulator Pasz dla Drobiu | Serowarstwo.pl";
     const metaDescription = document.querySelector('meta[name="description"]');
+    
+    // Open Graph meta tags for social sharing
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
         "Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków."
       );
     }
+
+    if (ogTitle) ogTitle.setAttribute('content', 'Kalkulator Pasz dla Drobiu - Poultry Feed Calculator');
+    if (ogDescription) ogDescription.setAttribute('content', 'Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków.');
+    if (ogImage) ogImage.setAttribute('content', `${window.location.origin}${kalkulatorPaszHeader}`);
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
   }, []);
 
   const [drob, setDrob] = useState("kury-nioski-lekkie");
@@ -619,13 +631,21 @@ const KalkulatorPasz = () => {
       <Navigation />
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-12 md:py-16 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+        <section 
+          className="py-12 md:py-16 bg-gradient-to-br from-primary/10 via-background to-secondary/10 relative overflow-hidden"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url(${kalkulatorPaszHeader})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg mb-4">
                 🌾 Kalkulator Pasz dla Drobiu
               </h1>
-              <p className="text-muted-foreground text-lg mb-4">
+              <p className="text-white text-lg mb-4 drop-shadow-md">
                 Prosty sposób na zbilansowanie paszy dla Twojego stada
               </p>
               <ReactionButton
