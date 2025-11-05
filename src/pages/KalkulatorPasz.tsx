@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { AlertCircle, CheckCircle, Info } from "lucide-react";
 import ReactionButton from "@/components/ReactionButton";
+import { AlertCircle, CheckCircle, Info } from 'lucide-react';
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
 
 interface Skladnik {
@@ -43,18 +43,17 @@ const KalkulatorPasz = () => {
   useEffect(() => {
     document.title = "Kalkulator Pasz dla Drobiu | Serowarstwo.pl";
     const metaDescription = document.querySelector('meta[name="description"]');
-    
     const ogTitle = document.querySelector('meta[property="og:title"]');
     const ogDescription = document.querySelector('meta[property="og:description"]');
     const ogImage = document.querySelector('meta[property="og:image"]');
     const ogUrl = document.querySelector('meta[property="og:url"]');
+    
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
         "Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków."
       );
     }
-
     if (ogTitle) ogTitle.setAttribute('content', 'Kalkulator Pasz dla Drobiu - Poultry Feed Calculator');
     if (ogDescription) ogDescription.setAttribute('content', 'Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków.');
     if (ogImage) ogImage.setAttribute('content', `${window.location.origin}${kalkulatorPaszHeader}`);
@@ -105,7 +104,7 @@ const KalkulatorPasz = () => {
     'indyki': [
       { okres: 'Zarodowe', em: 11.8, bialko: 19.0, ca: 3.5, p: 0.58, tluszcz: 3.3, wlokno: 4.0, na: 0.16, k: 0.58, mg: 0.048, mn: 105, zn: 85, se: 0.32, fe: 62, i: 1.1 },
       { okres: '1-4 tygodnie', em: 11.9, bialko: 28.0, ca: 1.2, p: 0.80, tluszcz: 3.5, wlokno: 3.5, na: 0.16 },
-      { okres: '5-8 tygodnie', em: 12.1, bialko: 24.0, ca: 1.1, p: 0.70, tluszcz: 4.0, wlokno: 4.0, na: 0.16 },
+      { okres: '5-8 tygodni', em: 12.1, bialko: 24.0, ca: 1.1, p: 0.70, tluszcz: 4.0, wlokno: 4.0, na: 0.16 },
       { okres: '9-12 tygodni', em: 12.3, bialko: 20.0, ca: 1.0, p: 0.65, tluszcz: 4.5, wlokno: 4.5, na: 0.15 },
       { okres: '13-16 tygodni', em: 12.5, bialko: 17.0, ca: 1.0, p: 0.60, tluszcz: 5.0, wlokno: 5.0, na: 0.15 },
       { okres: 'Powyżej 16 tygodni', em: 12.1, bialko: 14.0, ca: 1.0, p: 0.55, tluszcz: 4.5, wlokno: 6.0, na: 0.15 }
@@ -417,18 +416,16 @@ const KalkulatorPasz = () => {
       procent: 100 / aktywneSkladniki.length
     }));
     
-    const straczkoweIndeksy: number[] = [];
-    najlepszeSkladniki.forEach((s, idx) => {
+    najlepszeSkladniki.forEach((s) => {
       if (s.nazwa === 'Groch' || s.nazwa === 'Bobik') {
-        straczkoweIndeksy.push(idx);
-        if (s.procent > maxStraczkowe) {
+        if ((s.procent as number) > maxStraczkowe) {
           s.procent = maxStraczkowe;
         }
       }
     });
     
-    let suma = najlepszeSkladniki.reduce((s, sk) => s + sk.procent, 0);
-    najlepszeSkladniki.forEach(sk => sk.procent = (sk.procent / suma) * 100);
+    let suma = najlepszeSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
+    najlepszeSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
     
     let najlepszyBlad = obliczBladNormy(najlepszeSkladniki);
 
@@ -442,17 +439,17 @@ const KalkulatorPasz = () => {
       }
 
       const zmiana = (Math.random() * 20 - 10);
-      testoweSkladniki[idx1].procent = Math.max(0.1, Math.min(99, testoweSkladniki[idx1].procent + zmiana));
-      testoweSkladniki[idx2].procent = Math.max(0.1, Math.min(99, testoweSkladniki[idx2].procent - zmiana));
+      testoweSkladniki[idx1].procent = Math.max(0.1, Math.min(99, (testoweSkladniki[idx1].procent as number) + zmiana));
+      testoweSkladniki[idx2].procent = Math.max(0.1, Math.min(99, (testoweSkladniki[idx2].procent as number) - zmiana));
 
       testoweSkladniki.forEach(s => {
-        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && s.procent > maxStraczkowe) {
+        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && (s.procent as number) > maxStraczkowe) {
           s.procent = maxStraczkowe;
         }
       });
 
-      suma = testoweSkladniki.reduce((s, sk) => s + sk.procent, 0);
-      testoweSkladniki.forEach(sk => sk.procent = (sk.procent / suma) * 100);
+      suma = testoweSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
+      testoweSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
 
       const blad = obliczBladNormy(testoweSkladniki);
       if (blad < najlepszyBlad) {
@@ -466,7 +463,7 @@ const KalkulatorPasz = () => {
       if (znaleziony) {
         return {
           ...s,
-          procent: znaleziony.procent.toFixed(1)
+          procent: (znaleziony.procent as number).toFixed(1)
         };
       }
       return s;
@@ -507,14 +504,14 @@ const KalkulatorPasz = () => {
 
     const maxStraczkowe = pobierzMaxStraczkowe();
 
-    const obliczKosztTest = (testoweSkladniki: any[]) => {
+    const obliczKosztMieszanki = (testoweSkladniki: any[]) => {
       return testoweSkladniki.reduce((suma, s) => {
-        return suma + (s.procent * parseFloat(s.cena) / 100);
+        return suma + ((s.procent as number) * parseFloat(s.cena) / 100);
       }, 0);
     };
 
     const obliczFunkcjeCelu = (testoweSkladniki: any[]) => {
-      const koszt = obliczKosztTest(testoweSkladniki);
+      const koszt = obliczKosztMieszanki(testoweSkladniki);
       const bladNormy = obliczBladNormy(testoweSkladniki);
       
       return koszt * 0.3 + bladNormy * 100;
@@ -527,22 +524,19 @@ const KalkulatorPasz = () => {
     
     najlepszeSkladniki.forEach((s) => {
       if (s.nazwa === 'Groch' || s.nazwa === 'Bobik') {
-        if (s.procent > maxStraczkowe) {
+        if ((s.procent as number) > maxStraczkowe) {
           s.procent = maxStraczkowe;
         }
       }
     });
     
-    let suma = najlepszeSkladniki.reduce((s, sk) => s + sk.procent, 0);
-    najlepszeSkladniki.forEach(sk => sk.procent = (sk.procent / suma) * 100);
+    let suma = najlepszeSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
+    najlepszeSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
     
     let najlepszyWynik = obliczFunkcjeCelu(najlepszeSkladniki);
-    let najnizszyKoszt = obliczKosztTest(najlepszeSkladniki);
 
     for (let iteracja = 0; iteracja < 2000; iteracja++) {
       const testoweSkladniki = najlepszeSkladniki.map(s => ({...s}));
-      
-      const cenySkladnikow = testoweSkladniki.map(s => parseFloat(s.cena));
       
       const wybierzSkladnik = () => {
         const rand = Math.random();
@@ -572,25 +566,23 @@ const KalkulatorPasz = () => {
         zmiana = -Math.abs(zmiana);
       }
       
-      testoweSkladniki[idx1].procent = Math.max(0.5, Math.min(95, testoweSkladniki[idx1].procent + zmiana));
-      testoweSkladniki[idx2].procent = Math.max(0.5, Math.min(95, testoweSkladniki[idx2].procent - zmiana));
+      testoweSkladniki[idx1].procent = Math.max(0.5, Math.min(95, (testoweSkladniki[idx1].procent as number) + zmiana));
+      testoweSkladniki[idx2].procent = Math.max(0.5, Math.min(95, (testoweSkladniki[idx2].procent as number) - zmiana));
 
       testoweSkladniki.forEach(s => {
-        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && s.procent > maxStraczkowe) {
+        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && (s.procent as number) > maxStraczkowe) {
           s.procent = maxStraczkowe;
         }
       });
 
-      suma = testoweSkladniki.reduce((s, sk) => s + sk.procent, 0);
-      testoweSkladniki.forEach(sk => sk.procent = (sk.procent / suma) * 100);
+      suma = testoweSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
+      testoweSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
 
       const wynik = obliczFunkcjeCelu(testoweSkladniki);
-      const koszt = obliczKosztTest(testoweSkladniki);
       
       if (wynik < najlepszyWynik) {
         najlepszyWynik = wynik;
         najlepszeSkladniki = testoweSkladniki;
-        najnizszyKoszt = koszt;
       }
     }
 
@@ -599,7 +591,7 @@ const KalkulatorPasz = () => {
       if (znaleziony) {
         return {
           ...s,
-          procent: znaleziony.procent.toFixed(1)
+          procent: (znaleziony.procent as number).toFixed(1)
         };
       }
       return s;
@@ -714,7 +706,7 @@ const KalkulatorPasz = () => {
     }
 
     if (sugestie.length > 0) {
-      const brakujace = [];
+      const brakujace: string[] = [];
       if (!maZboza) brakujace.push('zboża (pszenica/kukurydza/owies)');
       if (!maBialko) brakujace.push('źródło białka (śruta/groch/bobik)');
       if (!maKrede && aktualnaNorma.ca > 1.5) brakujace.push('kreda pastewna');
@@ -756,7 +748,7 @@ const KalkulatorPasz = () => {
   };
 
   const dodajNowySkladnik = () => {
-    const nowySkladnik: PrzykladowySkladnik = {
+    const nowySkladnik = {
       nazwa: 'Nowy składnik',
       em: 0,
       bialko: 0,
@@ -806,560 +798,749 @@ const KalkulatorPasz = () => {
     setPokazModalPrzywroc(false);
   };
 
-  const czyTrybZarodowy = () => {
-    return okres === 'Zarodowe';
-  };
-
   return (
     <>
       <Navigation />
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section 
-          className="py-12 md:py-16 bg-gradient-to-br from-primary/10 via-background to-secondary/10 relative overflow-hidden"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url(${kalkulatorPaszHeader})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg mb-4">
-                🌾 Kalkulator Pasz dla Drobiu
-              </h1>
-              <p className="text-white text-lg mb-4 drop-shadow-md">
-                Prosty sposób na zbilansowanie paszy dla Twojego stada
-              </p>
-              <ReactionButton contentType="page" contentId="kalkulator-pasz" />
-            </div>
-          </div>
-        </section>
+      <div
+        className="relative min-h-[400px] flex items-center justify-center text-white"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${kalkulatorPaszHeader})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="container mx-auto px-4 py-16 text-center relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+            Kalkulator Pasz dla Drobiu
+          </h1>
+          <p className="text-xl md:text-2xl" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+            Zbilansuj paszę dla swoich ptaków zgodnie z normami żywieniowymi
+          </p>
+        </div>
+      </div>
 
-        {/* Main Content */}
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
-          <div className="max-w-6xl mx-auto">
-            {!zalogowanyAdmin && (
-              <div className="text-right mb-2">
-                <button
-                  onClick={() => setPokazModalHaslo(true)}
-                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  🔧 Admin
-                </button>
-              </div>
-            )}
-
-            {/* Modal dialogs */}
-            {pokazModalHaslo && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 w-80 max-w-full">
-                  <h2 className="text-lg font-semibold mb-4">Panel Admina - Logowanie</h2>
-                  <input
-                    type="password"
-                    value={inputHaslo}
-                    onChange={e => setInputHaslo(e.target.value)}
-                    className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
-                    placeholder="Wpisz hasło"
-                    onKeyDown={e => { if (e.key === 'Enter') zalogujAdmin(); }}
-                  />
-                  <div className="flex justify-end space-x-2">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">🦅 Kalkulator Pasz dla Drobiu</h2>
+              
+              <div className="flex gap-2">
+                {zalogowanyAdmin ? (
+                  <>
                     <button
-                      onClick={() => setPokazModalHaslo(false)}
-                      className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                      onClick={() => setPanelAdmin(!panelAdmin)}
+                      className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                     >
-                      Anuluj
+                      {panelAdmin ? '👁️ Ukryj Panel' : '⚙️ Panel Admina'}
                     </button>
                     <button
-                      onClick={zalogujAdmin}
-                      className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                      onClick={wylogujAdmin}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                     >
-                      Zaloguj
+                      🔓 Wyloguj
                     </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {pokazModalUsun && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 w-96 max-w-full">
-                  <h2 className="text-lg font-semibold mb-4">Potwierdź usunięcie składnika</h2>
-                  <p>Czy na pewno chcesz usunąć składnik <strong>{skladnikDoUsuniecia}</strong>?</p>
-                  <div className="flex justify-end space-x-2 mt-4">
-                    <button
-                      onClick={() => setPokazModalUsun(false)}
-                      className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                    >
-                      Anuluj
-                    </button>
-                    <button
-                      onClick={potwierdzUsuniecie}
-                      className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-                    >
-                      Usuń
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {pokazModalPrzywroc && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 w-96 max-w-full">
-                  <h2 className="text-lg font-semibold mb-4">Przywróć domyślne składniki</h2>
-                  <p>Czy na pewno chcesz przywrócić domyślną listę składników? Wszystkie zmiany zostaną utracone.</p>
-                  <div className="flex justify-end space-x-2 mt-4">
-                    <button
-                      onClick={() => setPokazModalPrzywroc(false)}
-                      className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                    >
-                      Anuluj
-                    </button>
-                    <button
-                      onClick={potwierdzPrzywrocenie}
-                      className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-                    >
-                      Przywróć
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {pokazModalEksport && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 w-96 max-w-full overflow-auto max-h-[80vh]">
-                  <h2 className="text-lg font-semibold mb-4">Eksport receptury ({eksportTyp.toUpperCase()})</h2>
-                  <textarea
-                    readOnly
-                    value={eksportTresc}
-                    className="w-full h-64 border border-gray-300 rounded p-2 font-mono text-xs"
-                  />
-                  <div className="flex justify-end mt-4">
-                    <button
-                      onClick={() => setPokazModalEksport(false)}
-                      className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Zamknij
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Admin Panel */}
-            {zalogowanyAdmin && panelAdmin && (
-              <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold">Panel Admina - Edycja składników</h2>
+                  </>
+                ) : (
                   <button
-                    onClick={wylogujAdmin}
-                    className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
+                    onClick={() => setPokazModalHaslo(true)}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                   >
-                    Wyloguj
+                    🔐 Panel Admina
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Panel Admina */}
+            {panelAdmin && zalogowanyAdmin && (
+              <div className="mb-8 p-6 bg-purple-50 border-2 border-purple-300 rounded-lg">
+                <h3 className="text-xl font-bold text-purple-800 mb-4">⚙️ Panel Administratora - Zarządzanie Składnikami</h3>
+                
+                <div className="flex gap-3 mb-4">
+                  <button
+                    onClick={dodajNowySkladnik}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    ➕ Dodaj Nowy Składnik
+                  </button>
+                  <button
+                    onClick={przywrocDomyslne}
+                    className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                  >
+                    🔄 Przywróć Domyślne
                   </button>
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left border border-gray-200 rounded">
-                    <thead className="bg-gray-100">
+                  <table className="w-full text-sm">
+                    <thead className="bg-purple-200">
                       <tr>
-                        <th className="px-3 py-2 border border-gray-300">Nazwa</th>
-                        <th className="px-3 py-2 border border-gray-300">EM (MJ/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">Białko (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">Ca (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">P (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">Na (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">K (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">Mg (%)</th>
-                        <th className="px-3 py-2 border border-gray-300">Mn (mg/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">Zn (mg/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">Se (mg/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">Fe (mg/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">I (mg/kg)</th>
-                        <th className="px-3 py-2 border border-gray-300">Akcje</th>
+                        <th className="p-2 text-left">Nazwa</th>
+                        <th className="p-2">EM</th>
+                        <th className="p-2">Białko</th>
+                        <th className="p-2">Ca</th>
+                        <th className="p-2">P</th>
+                        <th className="p-2">Na</th>
+                        <th className="p-2">K</th>
+                        <th className="p-2">Mg</th>
+                        <th className="p-2">Mn</th>
+                        <th className="p-2">Zn</th>
+                        <th className="p-2">Se</th>
+                        <th className="p-2">Fe</th>
+                        <th className="p-2">I</th>
+                        <th className="p-2">Akcje</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {przykladoweSkladniki.map((s, idx) => (
-                        <tr key={idx} className="border-t border-gray-200">
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="text"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.nazwa : s.nazwa}
-                              onChange={e => setEdytowanySkladnik({ ...s, nazwa: e.target.value, staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.em : s.em}
-                              onChange={e => setEdytowanySkladnik({ ...s, em: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.bialko : s.bialko}
-                              onChange={e => setEdytowanySkladnik({ ...s, bialko: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.ca : s.ca}
-                              onChange={e => setEdytowanySkladnik({ ...s, ca: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.p : s.p}
-                              onChange={e => setEdytowanySkladnik({ ...s, p: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.na : s.na}
-                              onChange={e => setEdytowanySkladnik({ ...s, na: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.k : s.k}
-                              onChange={e => setEdytowanySkladnik({ ...s, k: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.mg : s.mg}
-                              onChange={e => setEdytowanySkladnik({ ...s, mg: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.mn : s.mn}
-                              onChange={e => setEdytowanySkladnik({ ...s, mn: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.zn : s.zn}
-                              onChange={e => setEdytowanySkladnik({ ...s, zn: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.se : s.se}
-                              onChange={e => setEdytowanySkladnik({ ...s, se: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.fe : s.fe}
-                              onChange={e => setEdytowanySkladnik({ ...s, fe: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300">
-                            <input
-                              type="number"
-                              value={edytowanySkladnik?.nazwa === s.nazwa ? edytowanySkladnik.i : s.i}
-                              onChange={e => setEdytowanySkladnik({ ...s, i: parseFloat(e.target.value), staraNazwa: s.nazwa })}
-                              className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                            />
-                          </td>
-                          <td className="px-2 py-1 border border-gray-300 text-center">
-                            <button
-                              onClick={() => usunSkladnikZBazy(s.nazwa)}
-                              className="text-red-600 hover:text-red-800"
-                              title="Usuń składnik"
-                            >
-                              &times;
-                            </button>
+                      {przykladoweSkladniki.map((skladnik, idx) => (
+                        <tr key={idx} className="border-b hover:bg-purple-100">
+                          <td className="p-2 font-medium">{skladnik.nazwa}</td>
+                          <td className="p-2 text-center">{skladnik.em}</td>
+                          <td className="p-2 text-center">{skladnik.bialko}</td>
+                          <td className="p-2 text-center">{skladnik.ca}</td>
+                          <td className="p-2 text-center">{skladnik.p}</td>
+                          <td className="p-2 text-center">{skladnik.na || 0}</td>
+                          <td className="p-2 text-center">{skladnik.k || 0}</td>
+                          <td className="p-2 text-center">{skladnik.mg || 0}</td>
+                          <td className="p-2 text-center">{skladnik.mn || 0}</td>
+                          <td className="p-2 text-center">{skladnik.zn || 0}</td>
+                          <td className="p-2 text-center">{skladnik.se || 0}</td>
+                          <td className="p-2 text-center">{skladnik.fe || 0}</td>
+                          <td className="p-2 text-center">{skladnik.i || 0}</td>
+                          <td className="p-2">
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() => setEdytowanySkladnik({...skladnik, staraNazwa: skladnik.nazwa})}
+                                className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                              >
+                                ✏️
+                              </button>
+                              <button
+                                onClick={() => usunSkladnikZBazy(skladnik.nazwa)}
+                                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                              >
+                                🗑️
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
 
-                <div className="mt-4 flex space-x-2">
-                  <button
-                    onClick={dodajNowySkladnik}
-                    className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-                  >
-                    Dodaj nowy składnik
-                  </button>
-                  {edytowanySkladnik && (
-                    <button
-                      onClick={zapiszEdycjeSkladnika}
-                      className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Zapisz zmiany
-                    </button>
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Rodzaj drobiu:
+                </label>
+                <select
+                  value={drob}
+                  onChange={(e) => {
+                    setDrob(e.target.value);
+                    setOkres('');
+                  }}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  {typyDrobiu.map(typ => (
+                    <option key={typ.value} value={typ.value}>{typ.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Okres życia / Wiek:
+                </label>
+                <select
+                  value={okres}
+                  onChange={(e) => setOkres(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="">-- Wybierz okres --</option>
+                  {normy[drob]?.map((norma, idx) => (
+                    <option key={idx} value={norma.okres}>{norma.okres}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {aktualnaNorma && (
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h3 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                  <Info size={20} />
+                  Normy żywieniowe dla wybranego okresu:
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                  <div>
+                    <span className="font-semibold">EM:</span> {aktualnaNorma.em} MJ/kg
+                  </div>
+                  <div>
+                    <span className="font-semibold">Białko:</span> {aktualnaNorma.bialko}%
+                  </div>
+                  <div>
+                    <span className="font-semibold">Ca:</span> {aktualnaNorma.ca}%
+                  </div>
+                  <div>
+                    <span className="font-semibold">P:</span> {aktualnaNorma.p}%
+                  </div>
+                  {aktualnaNorma.na && (
+                    <div>
+                      <span className="font-semibold">Na:</span> {aktualnaNorma.na}%
+                    </div>
                   )}
-                  <button
-                    onClick={przywrocDomyslne}
-                    className="px-4 py-2 rounded bg-yellow-600 text-white hover:bg-yellow-700"
-                  >
-                    Przywróć domyślne
-                  </button>
+                  {aktualnaNorma.k && (
+                    <div>
+                      <span className="font-semibold">K:</span> {aktualnaNorma.k}%
+                    </div>
+                  )}
+                  {aktualnaNorma.mg && (
+                    <div>
+                      <span className="font-semibold">Mg:</span> {aktualnaNorma.mg}%
+                    </div>
+                  )}
+                  {aktualnaNorma.mn && (
+                    <div>
+                      <span className="font-semibold">Mn:</span> {aktualnaNorma.mn} mg/kg
+                    </div>
+                  )}
+                  {aktualnaNorma.zn && (
+                    <div>
+                      <span className="font-semibold">Zn:</span> {aktualnaNorma.zn} mg/kg
+                    </div>
+                  )}
+                  {aktualnaNorma.se && (
+                    <div>
+                      <span className="font-semibold">Se:</span> {aktualnaNorma.se} mg/kg
+                    </div>
+                  )}
+                  {aktualnaNorma.fe && (
+                    <div>
+                      <span className="font-semibold">Fe:</span> {aktualnaNorma.fe} mg/kg
+                    </div>
+                  )}
+                  {aktualnaNorma.i && (
+                    <div>
+                      <span className="font-semibold">I:</span> {aktualnaNorma.i} mg/kg
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* Kalkulator */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4">Kalkulator Pasz</h2>
-
-              <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold mb-1" htmlFor="drob-select">Wybierz rodzaj drobiu:</label>
-                  <select
-                    id="drob-select"
-                    value={drob}
-                    onChange={e => {
-                      setDrob(e.target.value);
-                      setOkres('');
-                    }}
-                    className="w-full border border-gray-300 rounded px-3 py-2"
-                  >
-                    {typyDrobiu.map(t => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block font-semibold mb-1" htmlFor="okres-select">Wybierz okres:</label>
-                  <select
-                    id="okres-select"
-                    value={okres}
-                    onChange={e => setOkres(e.target.value)}
-                    className="w-full border border-gray-300 rounded px-3 py-2"
-                  >
-                    <option value="">-- wybierz okres --</option>
-                    {normy[drob]?.map((n, idx) => (
-                      <option key={idx} value={n.okres}>{n.okres}</option>
-                    ))}
-                  </select>
-                </div>
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-semibold text-gray-800">Składniki paszy:</h3>
+                <button
+                  onClick={dodajSkladnik}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  + Dodaj składnik
+                </button>
               </div>
 
-              {okres && (
-                <>
-                  <div className="overflow-x-auto mb-4">
-                    <table className="w-full text-sm text-left border border-gray-200 rounded">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="px-3 py-2 border border-gray-300">Składnik</th>
-                          <th className="px-3 py-2 border border-gray-300 w-20">Udział (%)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-20">EM (MJ/kg)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-20">Białko (%)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-20">Ca (%)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-20">P (%)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-24">Cena (zł/kg)</th>
-                          <th className="px-3 py-2 border border-gray-300 w-12">Usuń</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {skladniki.map((s, idx) => (
-                          <tr key={idx} className="border-t border-gray-200">
-                            <td className="px-2 py-1 border border-gray-300">
-                              <select
-                                value={s.nazwa}
-                                onChange={e => aktualizujSkladnik(idx, 'nazwa', e.target.value)}
-                                className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                              >
-                                <option value="">-- wybierz składnik --</option>
-                                {przykladoweSkladniki.map((ps, i) => (
-                                  <option key={i} value={ps.nazwa}>{ps.nazwa}</option>
-                                ))}
-                              </select>
-                            </td>
-                            <td className="px-2 py-1 border border-gray-300">
-                              <input
-                                type="number"
-                                min={0}
-                                max={100}
-                                step={0.1}
-                                value={s.procent}
-                                onChange={e => aktualizujSkladnik(idx, 'procent', e.target.value)}
-                                className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                              />
-                            </td>
-                            <td className="px-2 py-1 border border-gray-300 text-center">{parseFloat(s.em as string).toFixed(2)}</td>
-                            <td className="px-2 py-1 border border-gray-300 text-center">{parseFloat(s.bialko as string).toFixed(2)}</td>
-                            <td className="px-2 py-1 border border-gray-300 text-center">{parseFloat(s.ca as string).toFixed(2)}</td>
-                            <td className="px-2 py-1 border border-gray-300 text-center">{parseFloat(s.p as string).toFixed(2)}</td>
-                            <td className="px-2 py-1 border border-gray-300">
-                              <input
-                                type="number"
-                                min={0}
-                                step={0.01}
-                                value={s.cena}
-                                onChange={e => aktualizujSkladnik(idx, 'cena', e.target.value)}
-                                className="w-full border border-gray-300 rounded px-1 py-0.5 text-xs"
-                                placeholder="0.00"
-                              />
-                            </td>
-                            <td className="px-2 py-1 border border-gray-300 text-center">
-                              <button
-                                onClick={() => usunSkladnik(idx)}
-                                className="text-red-600 hover:text-red-800"
-                                title="Usuń składnik"
-                              >
-                                &times;
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="p-2 text-left">Składnik</th>
+                      <th className="p-2">Udział (%)</th>
+                      <th className="p-2">EM (MJ/kg)</th>
+                      <th className="p-2">Białko (%)</th>
+                      <th className="p-2">Ca (%)</th>
+                      <th className="p-2">P (%)</th>
+                      <th className="p-2">Cena (zł/kg)</th>
+                      <th className="p-2">Akcje</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {skladniki.map((skladnik, idx) => (
+                      <tr key={idx} className="border-b">
+                        <td className="p-2">
+                          <input
+                            type="text"
+                            list={`skladniki-${idx}`}
+                            value={skladnik.nazwa}
+                            onChange={(e) => aktualizujSkladnik(idx, 'nazwa', e.target.value)}
+                            className="w-full p-2 border rounded"
+                            placeholder="Wpisz nazwę..."
+                          />
+                          <datalist id={`skladniki-${idx}`}>
+                            {przykladoweSkladniki.map(przyklad => (
+                              <option key={przyklad.nazwa} value={przyklad.nazwa} />
+                            ))}
+                          </datalist>
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={skladnik.procent}
+                            onChange={(e) => aktualizujSkladnik(idx, 'procent', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={skladnik.em}
+                            onChange={(e) => aktualizujSkladnik(idx, 'em', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={skladnik.bialko}
+                            onChange={(e) => aktualizujSkladnik(idx, 'bialko', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={skladnik.ca}
+                            onChange={(e) => aktualizujSkladnik(idx, 'ca', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={skladnik.p}
+                            onChange={(e) => aktualizujSkladnik(idx, 'p', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={skladnik.cena}
+                            onChange={(e) => aktualizujSkladnik(idx, 'cena', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                            placeholder="0.00"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <button
+                            onClick={() => usunSkladnik(idx)}
+                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                          >
+                            ✕
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-                  <div className="flex space-x-2 mb-4">
-                    <button
-                      onClick={dodajSkladnik}
-                      className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-                    >
-                      Dodaj składnik
-                    </button>
-                    <button
-                      onClick={przeliczOptymalneProporcje}
-                      className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Przelicz optymalne proporcje
-                    </button>
-                    <button
-                      onClick={przeliczNajtanszaMieszanke}
-                      disabled={czyTrybZarodowy()}
-                      className={`px-4 py-2 rounded text-white ${czyTrybZarodowy() ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700'}`}
-                      title={czyTrybZarodowy() ? 'Tryb zarodowy wyłącza optymalizację kosztową' : ''}
-                    >
-                      Przelicz koszt (najtańsza)
-                    </button>
+            <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <h3 className="font-bold text-gray-800 mb-3">📊 Podsumowanie mieszanki:</h3>
+              
+              <div className="mb-3">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-semibold">Suma udziałów:</span>
+                  <span className={`font-bold ${Math.abs(sumaProcentow - 100) < 0.1 ? 'text-green-600' : 'text-red-600'}`}>
+                    {sumaProcentow.toFixed(1)}%
+                  </span>
+                </div>
+                {Math.abs(sumaProcentow - 100) > 0.1 && (
+                  <div className="flex items-center gap-2 text-amber-600 text-sm">
+                    <AlertCircle size={16} />
+                    <span>Suma udziałów powinna wynosić 100%</span>
                   </div>
+                )}
+              </div>
 
-                  <div className="mb-4">
-                    <p className={`font-semibold ${Math.abs(sumaProcentow - 100) > 0.1 ? 'text-red-600' : 'text-green-700'}`}>
-                      Suma udziałów: {sumaProcentow.toFixed(2)}%
-                    </p>
-                  </div>
-
-                  {Math.abs(sumaProcentow - 100) < 0.1 && aktualnaNorma && (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={exportCSV}
-                        className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-                      >
-                        Eksportuj CSV
-                      </button>
-                      <button
-                        onClick={exportTXT}
-                        className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                      >
-                        Eksportuj TXT
-                      </button>
+              {aktualnaNorma && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div>
+                    <div className="text-sm font-semibold">Energia (EM):</div>
+                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('em'), aktualnaNorma.em, 0.05) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      {obliczCalkowita('em').toFixed(2)} MJ/kg
                     </div>
-                  )}
-                </>
+                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.em}</div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-sm font-semibold">Białko:</div>
+                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('bialko'), aktualnaNorma.bialko, 0.05) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      {obliczCalkowita('bialko').toFixed(2)}%
+                    </div>
+                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.bialko}%</div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-sm font-semibold">Wapń (Ca):</div>
+                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('ca'), aktualnaNorma.ca, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      {obliczCalkowita('ca').toFixed(2)}%
+                    </div>
+                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.ca}%</div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-sm font-semibold">Fosfor (P):</div>
+                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('p'), aktualnaNorma.p, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      {obliczCalkowita('p').toFixed(2)}%
+                    </div>
+                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.p}%</div>
+                  </div>
+                </div>
               )}
 
-              <div className="mt-6">
-                <h3 className="font-bold text-lg mb-3">ℹ️ Informacje dodatkowe</h3>
-                <div className="text-sm text-gray-700 space-y-2">
-                  <p><strong>EM (Energia Metaboliczna)</strong> - energia dostępna dla ptaków po strawieniu paszy</p>
-                  <p><strong>Białko ogólne</strong> - zawartość białka w paszy, niezbędnego do wzrostu i produkcji jaj</p>
-                  <p><strong>Wapń (Ca)</strong> - ważny dla tworzenia skorupek jaj i zdrowia kości</p>
-                  <p><strong>Fosfor (P)</strong> - niezbędny dla metabolizmu i zdrowia szkieletu</p>
-                  
-                  <div className="mt-4 pt-3 border-t border-gray-200">
-                    <p className="text-green-800 font-semibold">
-                      📥 EKSPORT RECEPTURY:
-                    </p>
-                    <div className="mt-2 text-xs text-gray-600 space-y-1">
-                      <p><strong>📊 CSV (Excel):</strong> Eksportuje recepturę do pliku CSV który można otworzyć w Excel, LibreOffice lub Google Sheets. Zawiera wszystkie składniki z pełnymi parametrami żywieniowymi i sumami.</p>
-                      <p><strong>📄 TXT:</strong> Eksportuje recepturę jako czytelny plik tekstowy z pełnym zestawieniem składników, parametrów i kosztów. Idealny do wydruku lub prostego udostępniania.</p>
-                      <p className="text-green-700 mt-2 font-semibold">💡 Przyciski eksportu pojawiają się automatycznie gdy receptura jest kompletna (suma = 100%).</p>
-                    </div>
+              {obliczKoszt() > 0 && (
+                <div className="mt-4 pt-4 border-t border-gray-300">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-lg">💰 Koszt mieszanki:</span>
+                    <span className="font-bold text-xl text-green-700">{obliczKoszt().toFixed(2)} zł/kg</span>
                   </div>
-                  
-                  <div className="mt-4 pt-3 border-t border-gray-200">
-                    <p className="text-purple-800 font-semibold">
-                      🥚 TRYB ZARODOWY:
-                    </p>
-                    <p className="mt-2 text-purple-700 text-xs">
-                      Specjalny tryb dla ptaków reprodukcyjnych. Oprócz podstawowych parametrów sprawdza dodatkowo 8 mikroelementów: 
-                      sód, potas, magnez, mangan, cynk, selen, żelazo i jod. Mikroelementy są kluczowe dla prawidłowego rozwoju zarodków.
-                      W tym trybie optymalizacja kosztowa jest wyłączona - priorytetem jest jakość paszy dla reprodukcji.
-                    </p>
-                  </div>
-                  
-                  <div className="mt-4 pt-3 border-t border-gray-200">
-                    <p className="text-blue-800 font-semibold">
-                      🎯 DWA TRYBY OPTYMALIZACJI:
-                    </p>
-                    <div className="mt-2 space-y-2">
-                      <div className="bg-blue-50 p-2 rounded">
-                        <p className="font-semibold text-blue-900">Przelicz optymalne proporcje</p>
-                        <p className="text-xs text-blue-700">Priorytet: maksymalne zbliżenie do norm żywieniowych. Używaj gdy zależy Ci na najlepszej jakości paszy dla zdrowia ptaków.</p>
-                      </div>
-                      <div className="bg-orange-50 p-2 rounded">
-                        <p className="font-semibold text-orange-900">Przelicz koszt (najtańsza)</p>
-                        <p className="text-xs text-orange-700">Priorytet: najniższy koszt przy zachowaniu rozsądnych norm. Używaj gdy chcesz zaoszczędzić, ale wciąż zapewnić przyzwoite żywienie. Niedostępne w trybie zarodowym.</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 pt-3 border-t border-gray-200">
-                    <p className="text-orange-800 font-semibold">
-                      ⚠️ WAŻNE OGRANICZENIA DLA GROCHU I BOBIKU:
-                    </p>
-                    <ul className="mt-2 space-y-1 text-orange-700">
-                      <li>• Młode ptaki (1-6 tyg.): maksymalnie <strong>5%</strong> paszy</li>
-                      <li>• Ptaki rosnące (7-20 tyg.): maksymalnie <strong>10%</strong> paszy</li>
-                      <li>• Ptaki dorosłe: maksymalnie <strong>20%</strong> paszy</li>
-                    </ul>
-                    <p className="mt-2 text-orange-700 text-xs">
-                      Nadmiar roślin strączkowych może powodować problemy trawienne i pogorszenie przyswajalności składników pokarmowych.
-                    </p>
-                  </div>
-                  
-                  <p className="mt-4 pt-3 border-t border-gray-200 text-green-800">
-                    <strong>💊 PAMIĘTAJ O WITAMINACH!</strong><br/>
-                    Zawsze dodawaj do paszy premiks witaminowo-mineralny (0,5-1% mieszanki) zawierający:<br/>
-                    • Witaminy A, D3, E, K oraz grupę B<br/>
-                    • Mikroelementy (mangan, cynk, miedź, żelazo, selen, jod)<br/>
-                    Bez premiksu ptaki mogą cierpieć na niedobory mimo prawidłowo zbilansowanej paszy!
-                  </p>
                 </div>
-              </div>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-3 mb-6">
+              <button
+                onClick={przeliczOptymalneProporcje}
+                disabled={!aktualnaNorma}
+                className="flex-1 min-w-[200px] px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
+              >
+                🎯 Przelicz optymalne proporcje
+              </button>
+              
+              <button
+                onClick={przeliczNajtanszaMieszanke}
+                disabled={!aktualnaNorma || !czyCenyWypelnione()}
+                className="flex-1 min-w-[200px] px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
+              >
+                💰 Najtańsza mieszanka
+              </button>
+              
+              <button
+                onClick={exportCSV}
+                disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
+                className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
+              >
+                📊 Eksport CSV
+              </button>
+              
+              <button
+                onClick={exportTXT}
+                disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
+                className="px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
+              >
+                📄 Eksport TXT
+              </button>
+            </div>
+
+            <div className="text-sm text-gray-600 space-y-2">
+              <p className="flex items-start gap-2">
+                <Info size={16} className="mt-0.5 flex-shrink-0" />
+                <span>
+                  <strong>Wskazówka:</strong> Po wybraniu składnika z listy, wartości odżywcze uzupełnią się automatycznie.
+                </span>
+              </p>
+              <p className="flex items-start gap-2">
+                <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
+                <span>
+                  <strong>Ważne:</strong> Optymalizacja uwzględnia ograniczenia dla roślin strączkowych (groch, bobik) w zależności od wieku ptaków.
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mb-6">
+            <ReactionButton contentId="kalkulator-pasz" contentType="tool" />
+          </div>
+        </div>
+      </div>
+
+      {/* Modal hasło admina */}
+      {pokazModalHaslo && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4">🔐 Panel Administratora</h3>
+            <p className="text-sm text-gray-600 mb-4">Wprowadź hasło dostępu:</p>
+            <input
+              type="password"
+              value={inputHaslo}
+              onChange={(e) => setInputHaslo(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && zalogujAdmin()}
+              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+              placeholder="Hasło"
+              autoFocus
+            />
+            <div className="flex gap-3">
+              <button
+                onClick={zalogujAdmin}
+                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              >
+                Zaloguj
+              </button>
+              <button
+                onClick={() => {
+                  setPokazModalHaslo(false);
+                  setInputHaslo('');
+                }}
+                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Anuluj
+              </button>
             </div>
           </div>
         </div>
-      </main>
+      )}
+
+      {/* Modal edycji składnika */}
+      {edytowanySkladnik && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full my-8">
+            <h3 className="text-xl font-bold mb-4">✏️ Edytuj składnik</h3>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Nazwa:</label>
+                <input
+                  type="text"
+                  value={edytowanySkladnik.nazwa}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, nazwa: e.target.value})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">EM (MJ/kg):</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={edytowanySkladnik.em}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, em: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Białko (%):</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={edytowanySkladnik.bialko}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, bialko: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Ca (%):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.ca}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, ca: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">P (%):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.p}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, p: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Na (%):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.na || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, na: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">K (%):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.k || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, k: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Mg (%):</label>
+                <input
+                  type="number"
+                  step="0.001"
+                  value={edytowanySkladnik.mg || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, mg: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Mn (mg/kg):</label>
+                <input
+                  type="number"
+                  step="1"
+                  value={edytowanySkladnik.mn || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, mn: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Zn (mg/kg):</label>
+                <input
+                  type="number"
+                  step="1"
+                  value={edytowanySkladnik.zn || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, zn: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Se (mg/kg):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.se || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, se: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Fe (mg/kg):</label>
+                <input
+                  type="number"
+                  step="1"
+                  value={edytowanySkladnik.fe || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, fe: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">I (mg/kg):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={edytowanySkladnik.i || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, i: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={zapiszEdycjeSkladnika}
+                className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                💾 Zapisz
+              </button>
+              <button
+                onClick={() => setEdytowanySkladnik(null)}
+                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Anuluj
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal potwierdzenia usunięcia */}
+      {pokazModalUsun && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4">⚠️ Potwierdzenie usunięcia</h3>
+            <p className="mb-4">Czy na pewno chcesz usunąć składnik <strong>{skladnikDoUsuniecia}</strong>?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={potwierdzUsuniecie}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Usuń
+              </button>
+              <button
+                onClick={() => {
+                  setPokazModalUsun(false);
+                  setSkladnikDoUsuniecia(null);
+                }}
+                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Anuluj
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal potwierdzenia przywrócenia */}
+      {pokazModalPrzywroc && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4">🔄 Przywrócenie domyślnych</h3>
+            <p className="mb-4">Czy na pewno chcesz przywrócić domyślną listę składników? Wszystkie Twoje zmiany zostaną utracone.</p>
+            <div className="flex gap-3">
+              <button
+                onClick={potwierdzPrzywrocenie}
+                className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+              >
+                Przywróć
+              </button>
+              <button
+                onClick={() => setPokazModalPrzywroc(false)}
+                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Anuluj
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal eksportu */}
+      {pokazModalEksport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <h3 className="text-xl font-bold mb-4">📋 Eksport {eksportTyp.toUpperCase()}</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Skopiuj poniższą treść i zapisz w pliku .{eksportTyp}
+            </p>
+            <textarea
+              value={eksportTresc}
+              readOnly
+              className="w-full h-96 p-3 border border-gray-300 rounded-lg font-mono text-sm"
+              onClick={(e) => e.currentTarget.select()}
+            />
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(eksportTresc);
+                  alert('Skopiowano do schowka!');
+                }}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                📋 Kopiuj do schowka
+              </button>
+              <button
+                onClick={() => setPokazModalEksport(false)}
+                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              >
+                Zamknij
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </>
   );
