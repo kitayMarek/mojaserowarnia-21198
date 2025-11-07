@@ -1196,6 +1196,86 @@ const KalkulatorPasz = () => {
                     </div>
                     <div className="text-xs text-gray-500">norma: {aktualnaNorma.p}%</div>
                   </div>
+
+                  {aktualnaNorma.na && (
+                    <div>
+                      <div className="text-sm font-semibold">Sód (Na):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('na').toFixed(2)}%
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.na}%</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.k && (
+                    <div>
+                      <div className="text-sm font-semibold">Potas (K):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('k').toFixed(2)}%
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.k}%</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.mg && (
+                    <div>
+                      <div className="text-sm font-semibold">Magnez (Mg):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('mg').toFixed(3)}%
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.mg}%</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.mn && (
+                    <div>
+                      <div className="text-sm font-semibold">Mangan (Mn):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('mn').toFixed(1)} mg/kg
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.mn} mg/kg</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.zn && (
+                    <div>
+                      <div className="text-sm font-semibold">Cynk (Zn):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('zn').toFixed(1)} mg/kg
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.zn} mg/kg</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.se && (
+                    <div>
+                      <div className="text-sm font-semibold">Selen (Se):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('se').toFixed(2)} mg/kg
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.se} mg/kg</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.fe && (
+                    <div>
+                      <div className="text-sm font-semibold">Żelazo (Fe):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('fe').toFixed(1)} mg/kg
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.fe} mg/kg</div>
+                    </div>
+                  )}
+
+                  {aktualnaNorma.i && (
+                    <div>
+                      <div className="text-sm font-semibold">Jod (I):</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('i').toFixed(2)} mg/kg
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.i} mg/kg</div>
+                    </div>
+                  )}
                 </div>
               )}
 
