@@ -728,6 +728,23 @@ const KalkulatorPasz = () => {
     return 'ok';
   };
 
+  const znajdzBogateSkladniki = (mikroskładnik: 'na' | 'k' | 'mg' | 'mn' | 'zn' | 'se' | 'fe' | 'i') => {
+    // Sortuj składniki według zawartości danego mikroskładnika (malejąco)
+    const posortowane = [...przykladoweSkladniki]
+      .filter(s => {
+        const wartosc = s[mikroskładnik] || 0;
+        return typeof wartosc === 'number' && wartosc > 0;
+      })
+      .sort((a, b) => {
+        const wartoscA = (a[mikroskładnik] as number) || 0;
+        const wartoscB = (b[mikroskładnik] as number) || 0;
+        return wartoscB - wartoscA;
+      });
+
+    // Weź top 3 najbogatsze źródła
+    return posortowane.slice(0, 3);
+  };
+
   const sumaProcentow = skladniki.reduce((suma, s) => suma + (parseFloat(s.procent as string) || 0), 0);
 
   const zalogujAdmin = () => {
@@ -1292,138 +1309,274 @@ const KalkulatorPasz = () => {
               {aktualnaNorma && Math.abs(sumaProcentow - 100) < 0.1 && (
                 <div className="mt-4 pt-4 border-t border-gray-300 space-y-2">
                   {aktualnaNorma.na && sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Sód (Na):</strong> {obliczCalkowita('na').toFixed(3)}% 
-                        {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.na}%, brakuje ${(aktualnaNorma.na - obliczCalkowita('na')).toFixed(3)}%)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.na}%, nadmiar ${(obliczCalkowita('na') - aktualnaNorma.na).toFixed(3)}%)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Sód (Na):</strong> {obliczCalkowita('na').toFixed(3)}% 
+                          {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.na}%, brakuje ${(aktualnaNorma.na - obliczCalkowita('na')).toFixed(3)}%)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.na}%, nadmiar ${(obliczCalkowita('na') - aktualnaNorma.na).toFixed(3)}%)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('na').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.na || 0).toFixed(2)}% Na)
+                              {idx < znajdzBogateSkladniki('na').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.k && sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Potas (K):</strong> {obliczCalkowita('k').toFixed(3)}% 
-                        {sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.k}%, brakuje ${(aktualnaNorma.k - obliczCalkowita('k')).toFixed(3)}%)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.k}%, nadmiar ${(obliczCalkowita('k') - aktualnaNorma.k).toFixed(3)}%)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Potas (K):</strong> {obliczCalkowita('k').toFixed(3)}% 
+                          {sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.k}%, brakuje ${(aktualnaNorma.k - obliczCalkowita('k')).toFixed(3)}%)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.k}%, nadmiar ${(obliczCalkowita('k') - aktualnaNorma.k).toFixed(3)}%)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('k').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.k || 0).toFixed(2)}% K)
+                              {idx < znajdzBogateSkladniki('k').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.mg && sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Magnez (Mg):</strong> {obliczCalkowita('mg').toFixed(3)}% 
-                        {sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.mg}%, brakuje ${(aktualnaNorma.mg - obliczCalkowita('mg')).toFixed(3)}%)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.mg}%, nadmiar ${(obliczCalkowita('mg') - aktualnaNorma.mg).toFixed(3)}%)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Magnez (Mg):</strong> {obliczCalkowita('mg').toFixed(3)}% 
+                          {sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.mg}%, brakuje ${(aktualnaNorma.mg - obliczCalkowita('mg')).toFixed(3)}%)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.mg}%, nadmiar ${(obliczCalkowita('mg') - aktualnaNorma.mg).toFixed(3)}%)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('mg').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.mg || 0).toFixed(2)}% Mg)
+                              {idx < znajdzBogateSkladniki('mg').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.mn && sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Mangan (Mn):</strong> {obliczCalkowita('mn').toFixed(1)} mg/kg 
-                        {sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.mn} mg/kg, brakuje ${(aktualnaNorma.mn - obliczCalkowita('mn')).toFixed(1)} mg/kg)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.mn} mg/kg, nadmiar ${(obliczCalkowita('mn') - aktualnaNorma.mn).toFixed(1)} mg/kg)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Mangan (Mn):</strong> {obliczCalkowita('mn').toFixed(1)} mg/kg 
+                          {sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.mn} mg/kg, brakuje ${(aktualnaNorma.mn - obliczCalkowita('mn')).toFixed(1)} mg/kg)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.mn} mg/kg, nadmiar ${(obliczCalkowita('mn') - aktualnaNorma.mn).toFixed(1)} mg/kg)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('mn').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.mn || 0).toFixed(0)} mg/kg Mn)
+                              {idx < znajdzBogateSkladniki('mn').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.zn && sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Cynk (Zn):</strong> {obliczCalkowita('zn').toFixed(1)} mg/kg 
-                        {sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.zn} mg/kg, brakuje ${(aktualnaNorma.zn - obliczCalkowita('zn')).toFixed(1)} mg/kg)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.zn} mg/kg, nadmiar ${(obliczCalkowita('zn') - aktualnaNorma.zn).toFixed(1)} mg/kg)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Cynk (Zn):</strong> {obliczCalkowita('zn').toFixed(1)} mg/kg 
+                          {sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.zn} mg/kg, brakuje ${(aktualnaNorma.zn - obliczCalkowita('zn')).toFixed(1)} mg/kg)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.zn} mg/kg, nadmiar ${(obliczCalkowita('zn') - aktualnaNorma.zn).toFixed(1)} mg/kg)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('zn').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.zn || 0).toFixed(0)} mg/kg Zn)
+                              {idx < znajdzBogateSkladniki('zn').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.se && sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Selen (Se):</strong> {obliczCalkowita('se').toFixed(2)} mg/kg 
-                        {sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.se} mg/kg, brakuje ${(aktualnaNorma.se - obliczCalkowita('se')).toFixed(2)} mg/kg)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.se} mg/kg, nadmiar ${(obliczCalkowita('se') - aktualnaNorma.se).toFixed(2)} mg/kg)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Selen (Se):</strong> {obliczCalkowita('se').toFixed(2)} mg/kg 
+                          {sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.se} mg/kg, brakuje ${(aktualnaNorma.se - obliczCalkowita('se')).toFixed(2)} mg/kg)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.se} mg/kg, nadmiar ${(obliczCalkowita('se') - aktualnaNorma.se).toFixed(2)} mg/kg)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('se').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.se || 0).toFixed(2)} mg/kg Se)
+                              {idx < znajdzBogateSkladniki('se').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.fe && sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Żelazo (Fe):</strong> {obliczCalkowita('fe').toFixed(1)} mg/kg 
-                        {sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.fe} mg/kg, brakuje ${(aktualnaNorma.fe - obliczCalkowita('fe')).toFixed(1)} mg/kg)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.fe} mg/kg, nadmiar ${(obliczCalkowita('fe') - aktualnaNorma.fe).toFixed(1)} mg/kg)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Żelazo (Fe):</strong> {obliczCalkowita('fe').toFixed(1)} mg/kg 
+                          {sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.fe} mg/kg, brakuje ${(aktualnaNorma.fe - obliczCalkowita('fe')).toFixed(1)} mg/kg)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.fe} mg/kg, nadmiar ${(obliczCalkowita('fe') - aktualnaNorma.fe).toFixed(1)} mg/kg)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('fe').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.fe || 0).toFixed(0)} mg/kg Fe)
+                              {idx < znajdzBogateSkladniki('fe').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {aktualnaNorma.i && sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) !== 'ok' && (
-                    <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 text-red-800 border border-red-200' 
-                        : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
                     }`}>
-                      <AlertCircle size={18} className="mt-0.5 flex-shrink-0" />
-                      <div className="text-sm">
-                        <strong>Jod (I):</strong> {obliczCalkowita('i').toFixed(2)} mg/kg 
-                        {sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' 
-                          ? ` - za mało! (norma: ${aktualnaNorma.i} mg/kg, brakuje ${(aktualnaNorma.i - obliczCalkowita('i')).toFixed(2)} mg/kg)`
-                          : ` - za dużo! (norma: ${aktualnaNorma.i} mg/kg, nadmiar ${(obliczCalkowita('i') - aktualnaNorma.i).toFixed(2)} mg/kg)`
-                        }
+                      <div className="flex items-start gap-2 mb-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Jod (I):</strong> {obliczCalkowita('i').toFixed(2)} mg/kg 
+                          {sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.i} mg/kg, brakuje ${(aktualnaNorma.i - obliczCalkowita('i')).toFixed(2)} mg/kg)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.i} mg/kg, nadmiar ${(obliczCalkowita('i') - aktualnaNorma.i).toFixed(2)} mg/kg)`
+                          }
+                        </div>
                       </div>
+                      {sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' && (
+                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
+                          {znajdzBogateSkladniki('i').map((s, idx) => (
+                            <span key={idx}>
+                              <strong>{s.nazwa}</strong> ({(s.i || 0).toFixed(2)} mg/kg I)
+                              {idx < znajdzBogateSkladniki('i').length - 1 ? ', ' : ''}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
