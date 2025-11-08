@@ -745,6 +745,42 @@ const KalkulatorPasz = () => {
     return posortowane.slice(0, 3);
   };
 
+  const dodajSkladnikZSugestii = (nazwaSkladnika: string) => {
+    const przyklad = przykladoweSkladniki.find(p => p.nazwa === nazwaSkladnika);
+    if (!przyklad) return;
+
+    // Znajdź pierwszy pusty wiersz lub dodaj nowy
+    const pustyIndex = skladniki.findIndex(s => !s.nazwa || s.nazwa === '');
+    
+    const nowySkladnik: Skladnik = {
+      nazwa: przyklad.nazwa,
+      procent: '',
+      em: przyklad.em,
+      bialko: przyklad.bialko,
+      ca: przyklad.ca,
+      p: przyklad.p,
+      cena: '',
+      na: przyklad.na || 0,
+      k: przyklad.k || 0,
+      mg: przyklad.mg || 0,
+      mn: przyklad.mn || 0,
+      zn: przyklad.zn || 0,
+      se: przyklad.se || 0,
+      fe: przyklad.fe || 0,
+      i: przyklad.i || 0
+    };
+
+    if (pustyIndex !== -1) {
+      // Zastąp pusty wiersz
+      const noweSkladniki = [...skladniki];
+      noweSkladniki[pustyIndex] = nowySkladnik;
+      setSkladniki(noweSkladniki);
+    } else {
+      // Dodaj nowy wiersz
+      setSkladniki([...skladniki, nowySkladnik]);
+    }
+  };
+
   const sumaProcentow = skladniki.reduce((suma, s) => suma + (parseFloat(s.procent as string) || 0), 0);
 
   const zalogujAdmin = () => {
@@ -1333,7 +1369,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('na').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.na || 0).toFixed(2)}% Na)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.na || 0).toFixed(2)}% Na)
                               {idx < znajdzBogateSkladniki('na').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1367,7 +1409,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('k').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.k || 0).toFixed(2)}% K)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.k || 0).toFixed(2)}% K)
                               {idx < znajdzBogateSkladniki('k').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1401,7 +1449,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('mg').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.mg || 0).toFixed(2)}% Mg)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.mg || 0).toFixed(2)}% Mg)
                               {idx < znajdzBogateSkladniki('mg').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1435,7 +1489,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('mn').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.mn || 0).toFixed(0)} mg/kg Mn)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.mn || 0).toFixed(0)} mg/kg Mn)
                               {idx < znajdzBogateSkladniki('mn').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1469,7 +1529,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('zn').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.zn || 0).toFixed(0)} mg/kg Zn)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.zn || 0).toFixed(0)} mg/kg Zn)
                               {idx < znajdzBogateSkladniki('zn').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1503,7 +1569,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('se').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.se || 0).toFixed(2)} mg/kg Se)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.se || 0).toFixed(2)} mg/kg Se)
                               {idx < znajdzBogateSkladniki('se').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1537,7 +1609,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('fe').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.fe || 0).toFixed(0)} mg/kg Fe)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.fe || 0).toFixed(0)} mg/kg Fe)
                               {idx < znajdzBogateSkladniki('fe').length - 1 ? ', ' : ''}
                             </span>
                           ))}
@@ -1571,7 +1649,13 @@ const KalkulatorPasz = () => {
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('i').map((s, idx) => (
                             <span key={idx}>
-                              <strong>{s.nazwa}</strong> ({(s.i || 0).toFixed(2)} mg/kg I)
+                              <button
+                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
+                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
+                              >
+                                {s.nazwa}
+                              </button>
+                              {' '}({(s.i || 0).toFixed(2)} mg/kg I)
                               {idx < znajdzBogateSkladniki('i').length - 1 ? ', ' : ''}
                             </span>
                           ))}
