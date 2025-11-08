@@ -14,13 +14,279 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      culture_audit_log: {
+        Row: {
+          change_source: string | null
+          changed_at: string
+          changed_by: string | null
+          culture_name: string
+          culture_shop: string
+          field_changed: string
+          id: string
+          new_value: string | null
+          notes: string | null
+          old_value: string | null
+          user_id: string | null
+        }
+        Insert: {
+          change_source?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          culture_name: string
+          culture_shop: string
+          field_changed: string
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          change_source?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          culture_name?: string
+          culture_shop?: string
+          field_changed?: string
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      feed_recipes: {
+        Row: {
+          created_at: string
+          id: string
+          nazwa: string
+          norma: string
+          skladniki: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nazwa: string
+          norma: string
+          skladniki: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nazwa?: string
+          norma?: string
+          skladniki?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      invoices: {
+        Row: {
+          created_at: string
+          data_wystawienia: string
+          id: string
+          kwota_brutto: number
+          kwota_netto: number
+          nabywca_adres: string
+          nabywca_nazwa: string
+          nabywca_nip: string | null
+          numer_rachunku: string
+          pozycje: Json
+          user_id: string
+          uwagi: string | null
+          wydrukowany: boolean
+        }
+        Insert: {
+          created_at?: string
+          data_wystawienia: string
+          id?: string
+          kwota_brutto: number
+          kwota_netto: number
+          nabywca_adres: string
+          nabywca_nazwa: string
+          nabywca_nip?: string | null
+          numer_rachunku: string
+          pozycje: Json
+          user_id: string
+          uwagi?: string | null
+          wydrukowany?: boolean
+        }
+        Update: {
+          created_at?: string
+          data_wystawienia?: string
+          id?: string
+          kwota_brutto?: number
+          kwota_netto?: number
+          nabywca_adres?: string
+          nabywca_nazwa?: string
+          nabywca_nip?: string | null
+          numer_rachunku?: string
+          pozycje?: Json
+          user_id?: string
+          uwagi?: string | null
+          wydrukowany?: boolean
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          created_at: string
+          id: string
+          jednostka: string
+          nazwa: string
+          ostatnia_cena: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jednostka?: string
+          nazwa: string
+          ostatnia_cena?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jednostka?: string
+          nazwa?: string
+          ostatnia_cena?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          adres: string | null
+          created_at: string
+          email: string | null
+          firma_nazwa: string | null
+          id: string
+          nip: string | null
+          nr_weterynaryjny: string | null
+          telefon: string | null
+          updated_at: string
+        }
+        Insert: {
+          adres?: string | null
+          created_at?: string
+          email?: string | null
+          firma_nazwa?: string | null
+          id: string
+          nip?: string | null
+          nr_weterynaryjny?: string | null
+          telefon?: string | null
+          updated_at?: string
+        }
+        Update: {
+          adres?: string | null
+          created_at?: string
+          email?: string | null
+          firma_nazwa?: string | null
+          id?: string
+          nip?: string | null
+          nr_weterynaryjny?: string | null
+          telefon?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reactions: {
+        Row: {
+          content_id: string
+          content_type: string
+          created_at: string
+          id: string
+          reaction_type: string
+          user_id: string
+        }
+        Insert: {
+          content_id: string
+          content_type: string
+          created_at?: string
+          id?: string
+          reaction_type: string
+          user_id: string
+        }
+        Update: {
+          content_id?: string
+          content_type?: string
+          created_at?: string
+          id?: string
+          reaction_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sales_records: {
+        Row: {
+          created_at: string
+          data_sprzedazy: string
+          id: string
+          ilosc: number
+          jednostka: string
+          kwota_przychodu: number
+          numer_rachunku: string | null
+          odbiorca_nazwa: string | null
+          odbiorca_typ: string
+          rodzaj_zywnosci: string
+          user_id: string
+          uwagi: string | null
+        }
+        Insert: {
+          created_at?: string
+          data_sprzedazy: string
+          id?: string
+          ilosc: number
+          jednostka: string
+          kwota_przychodu: number
+          numer_rachunku?: string | null
+          odbiorca_nazwa?: string | null
+          odbiorca_typ: string
+          rodzaj_zywnosci: string
+          user_id: string
+          uwagi?: string | null
+        }
+        Update: {
+          created_at?: string
+          data_sprzedazy?: string
+          id?: string
+          ilosc?: number
+          jednostka?: string
+          kwota_przychodu?: number
+          numer_rachunku?: string | null
+          odbiorca_nazwa?: string | null
+          odbiorca_typ?: string
+          rodzaj_zywnosci?: string
+          user_id?: string
+          uwagi?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      reactions_stats: {
+        Row: {
+          content_id: string | null
+          content_type: string | null
+          likes_count: number | null
+          loves_count: number | null
+          total_points: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      generate_invoice_number: { Args: { user_uuid: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
