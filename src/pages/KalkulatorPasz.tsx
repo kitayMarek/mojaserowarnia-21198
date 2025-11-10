@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ReactionButton from "@/components/ReactionButton";
-import { AlertCircle, CheckCircle, Info, Save, FolderOpen } from 'lucide-react';
+import { AlertCircle, CheckCircle, Info } from 'lucide-react';
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
-import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 
 interface Skladnik {
   nazwa: string;
@@ -166,14 +163,6 @@ const KalkulatorPasz = () => {
   const [pokazModalEksport, setPokazModalEksport] = useState(false);
   const [eksportTresc, setEksportTresc] = useState('');
   const [eksportTyp, setEksportTyp] = useState('csv');
-  
-  // Stan dla zapisywania/wczytywania receptur
-  const { user } = useAuth();
-  const [zapisaneReceptury, setZapisaneReceptury] = useState<any[]>([]);
-  const [pokazModalZapisz, setPokazModalZapisz] = useState(false);
-  const [pokazModalWczytaj, setPokazModalWczytaj] = useState(false);
-  const [nazwaReceptury, setNazwaReceptury] = useState('');
-  const [ladowanie, setLadowanie] = useState(false);
 
   const obliczKoszt = () => {
     return skladniki.reduce((suma, s) => {
@@ -860,184 +849,6 @@ const KalkulatorPasz = () => {
   const potwierdzPrzywrocenie = () => {
     zapiszSkladniki(domyslneSkladniki);
     setPokazModalPrzywroc(false);
-  };
-
-  // Pobieranie zapisanych receptur
-  useEffect(() => {
-    if (user) {
-      pobierzReceptury();
-    }
-  }, [user]);
-
-  const pobierzReceptury = async () => {
-    if (!user) return;
-    
-    try {
-      // @ts-ignore
-      const { data, error } = await supabase
-        .from('feed_recipes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setZapisaneReceptury(data || []);
-    } catch (error) {
-      console.error('Błąd pobierania receptur:', error);
-      toast({
-        title: "Błąd",
-        description: "Nie udało się pobrać zapisanych receptur",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const zapiszRecepture = async () => {
-    if (!user) {
-      toast({
-        title: "Wymagane logowanie",
-        description: "Zaloguj się aby zapisać recepturę",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!nazwaReceptury.trim()) {
-      toast({
-        title: "Brak nazwy",
-        description: "Podaj nazwę receptury",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (Math.abs(sumaProcentow - 100) > 0.1) {
-      toast({
-        title: "Nieprawidłowa receptura",
-        description: "Suma składników musi wynosić 100%",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setLadowanie(true);
-    try {
-      const skladnikiDoZapisu = skladniki
-        .filter(s => parseFloat(s.procent as string) > 0)
-        .map(s => ({
-          nazwa: s.nazwa,
-          procent: parseFloat(s.procent as string),
-          cena: s.cena || ''
-        }));
-
-      // @ts-ignore
-      const { error } = await supabase
-        .from('feed_recipes')
-        .insert({
-          user_id: user.id,
-          nazwa: nazwaReceptury,
-          norma: `${drob} - ${okres}`,
-          skladniki: skladnikiDoZapisu
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Sukces",
-        description: "Receptura została zapisana"
-      });
-      setPokazModalZapisz(false);
-      setNazwaReceptury('');
-      pobierzReceptury();
-    } catch (error) {
-      console.error('Błąd zapisywania receptury:', error);
-      toast({
-        title: "Błąd",
-        description: "Nie udało się zapisać receptury",
-        variant: "destructive"
-      });
-    } finally {
-      setLadowanie(false);
-    }
-  };
-
-  const wczytajRecepture = (receptura: any) => {
-    const skladnikiReceptury = receptura.skladniki || [];
-    const noweSkladniki = [...skladniki];
-    
-    // Wyczyść obecne wartości
-    noweSkladniki.forEach(s => {
-      s.procent = '';
-      s.cena = '';
-    });
-    
-    // Wczytaj składniki z receptury
-    skladnikiReceptury.forEach((sr: any) => {
-      const index = noweSkladniki.findIndex(s => s.nazwa === sr.nazwa);
-      if (index !== -1) {
-        noweSkladniki[index].procent = sr.procent;
-        noweSkladniki[index].cena = sr.cena || '';
-      } else {
-        // Dodaj nowy wiersz jeśli składnik nie istnieje
-        const pustyIndex = noweSkladniki.findIndex(s => !s.nazwa);
-        if (pustyIndex !== -1) {
-          noweSkladniki[pustyIndex].nazwa = sr.nazwa;
-          noweSkladniki[pustyIndex].procent = sr.procent;
-          noweSkladniki[pustyIndex].cena = sr.cena || '';
-          
-          // Uzupełnij wartości odżywcze
-          const przyklad = przykladoweSkladniki.find(p => p.nazwa === sr.nazwa);
-          if (przyklad) {
-            noweSkladniki[pustyIndex].em = przyklad.em;
-            noweSkladniki[pustyIndex].bialko = przyklad.bialko;
-            noweSkladniki[pustyIndex].ca = przyklad.ca;
-            noweSkladniki[pustyIndex].p = przyklad.p;
-            noweSkladniki[pustyIndex].na = przyklad.na || 0;
-            noweSkladniki[pustyIndex].k = przyklad.k || 0;
-            noweSkladniki[pustyIndex].mg = przyklad.mg || 0;
-            noweSkladniki[pustyIndex].mn = przyklad.mn || 0;
-            noweSkladniki[pustyIndex].zn = przyklad.zn || 0;
-            noweSkladniki[pustyIndex].se = przyklad.se || 0;
-            noweSkladniki[pustyIndex].fe = przyklad.fe || 0;
-            noweSkladniki[pustyIndex].i = przyklad.i || 0;
-          }
-        }
-      }
-    });
-    
-    setSkladniki(noweSkladniki);
-    setPokazModalWczytaj(false);
-    toast({
-      title: "Wczytano",
-      description: `Receptura "${receptura.nazwa}" została wczytana`
-    });
-  };
-
-  const usunRecepture = async (id: string) => {
-    if (!confirm('Czy na pewno chcesz usunąć tę recepturę?')) return;
-    
-    try {
-      // @ts-ignore
-      const { error } = await supabase
-        .from('feed_recipes')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Usunięto",
-        description: "Receptura została usunięta"
-      });
-      pobierzReceptury();
-    } catch (error) {
-      console.error('Błąd usuwania receptury:', error);
-      toast({
-        title: "Błąd",
-        description: "Nie udało się usunąć receptury",
-        variant: "destructive"
-      });
-    }
   };
 
   return (
@@ -1872,28 +1683,6 @@ const KalkulatorPasz = () => {
               >
                 💰 Najtańsza mieszanka
               </button>
-            </div>
-
-            <div className="flex flex-wrap gap-3 mb-6">
-              <button
-                onClick={() => setPokazModalZapisz(true)}
-                disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma || !user}
-                className="flex-1 min-w-[200px] px-4 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold flex items-center justify-center gap-2"
-                title={!user ? "Zaloguj się aby zapisać recepturę" : ""}
-              >
-                <Save size={20} />
-                Zapisz recepturę
-              </button>
-              
-              <button
-                onClick={() => setPokazModalWczytaj(true)}
-                disabled={!user || zapisaneReceptury.length === 0}
-                className="flex-1 min-w-[200px] px-4 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold flex items-center justify-center gap-2"
-                title={!user ? "Zaloguj się aby wczytać recepturę" : ""}
-              >
-                <FolderOpen size={20} />
-                Wczytaj recepturę {zapisaneReceptury.length > 0 && `(${zapisaneReceptury.length})`}
-              </button>
               
               <button
                 onClick={exportCSV}
@@ -2202,112 +1991,6 @@ const KalkulatorPasz = () => {
               <button
                 onClick={() => setPokazModalEksport(false)}
                 className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Zamknij
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal zapisywania receptury */}
-      {pokazModalZapisz && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Save size={24} className="text-emerald-600" />
-              Zapisz recepturę
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Podaj nazwę receptury, aby zapisać ją w bazie danych
-            </p>
-            <input
-              type="text"
-              value={nazwaReceptury}
-              onChange={(e) => setNazwaReceptury(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && zapiszRecepture()}
-              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-              placeholder="Np. Mieszanka dla kur niosek"
-              autoFocus
-            />
-            <div className="text-xs text-gray-500 mb-4">
-              Norma: {drob} - {okres}
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={zapiszRecepture}
-                disabled={ladowanie}
-                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                {ladowanie ? 'Zapisywanie...' : 'Zapisz'}
-              </button>
-              <button
-                onClick={() => {
-                  setPokazModalZapisz(false);
-                  setNazwaReceptury('');
-                }}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Anuluj
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal wczytywania receptury */}
-      {pokazModalWczytaj && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <FolderOpen size={24} className="text-cyan-600" />
-              Wczytaj recepturę
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Wybierz recepturę z listy, aby wczytać jej składniki
-            </p>
-            {zapisaneReceptury.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                Nie masz jeszcze zapisanych receptur
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {zapisaneReceptury.map((receptura) => (
-                  <div
-                    key={receptura.id}
-                    className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-gray-800">{receptura.nazwa}</h4>
-                        <p className="text-sm text-gray-600">{receptura.norma}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {new Date(receptura.created_at).toLocaleDateString('pl-PL')}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => wczytajRecepture(receptura)}
-                          className="px-3 py-1 bg-cyan-600 text-white text-sm rounded hover:bg-cyan-700"
-                        >
-                          Wczytaj
-                        </button>
-                        <button
-                          onClick={() => usunRecepture(receptura.id)}
-                          className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
-                        >
-                          Usuń
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => setPokazModalWczytaj(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
               >
                 Zamknij
               </button>
