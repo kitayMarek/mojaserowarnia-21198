@@ -401,7 +401,20 @@ const KalkulatorPasz = () => {
     if (!aktualnaNorma) return;
 
     const aktywneSkladniki = skladniki.filter(s => 
-      s.nazwa && (parseFloat(s.em as string) > 0 || parseFloat(s.bialko as string) > 0 || parseFloat(s.ca as string) > 0 || parseFloat(s.p as string) > 0)
+      s.nazwa && (
+        parseFloat(s.em as string) > 0 || 
+        parseFloat(s.bialko as string) > 0 || 
+        parseFloat(s.ca as string) > 0 || 
+        parseFloat(s.p as string) > 0 ||
+        parseFloat(s.na as string) > 0 ||
+        parseFloat(s.k as string) > 0 ||
+        parseFloat(s.mg as string) > 0 ||
+        parseFloat(s.mn as string) > 0 ||
+        parseFloat(s.zn as string) > 0 ||
+        parseFloat(s.se as string) > 0 ||
+        parseFloat(s.fe as string) > 0 ||
+        parseFloat(s.i as string) > 0
+      )
     );
 
     if (aktywneSkladniki.length < 2) {
@@ -493,7 +506,20 @@ const KalkulatorPasz = () => {
 
     const aktywneSkladniki = skladniki.filter(s => 
       s.nazwa && 
-      (parseFloat(s.em as string) > 0 || parseFloat(s.bialko as string) > 0 || parseFloat(s.ca as string) > 0 || parseFloat(s.p as string) > 0) &&
+      (
+        parseFloat(s.em as string) > 0 || 
+        parseFloat(s.bialko as string) > 0 || 
+        parseFloat(s.ca as string) > 0 || 
+        parseFloat(s.p as string) > 0 ||
+        parseFloat(s.na as string) > 0 ||
+        parseFloat(s.k as string) > 0 ||
+        parseFloat(s.mg as string) > 0 ||
+        parseFloat(s.mn as string) > 0 ||
+        parseFloat(s.zn as string) > 0 ||
+        parseFloat(s.se as string) > 0 ||
+        parseFloat(s.fe as string) > 0 ||
+        parseFloat(s.i as string) > 0
+      ) &&
       parseFloat(s.cena) > 0
     );
 

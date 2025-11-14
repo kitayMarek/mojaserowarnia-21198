@@ -63,7 +63,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Create profile if signup successful
     if (data.user) {
-      const { error: profileError } = await supabase
+      // @ts-ignore - Lovable Cloud type generation issue
+      const { error: profileError} = await supabase
         .from("profiles")
         .insert({
           id: data.user.id,
