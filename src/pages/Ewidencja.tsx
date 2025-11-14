@@ -50,6 +50,7 @@ export default function Ewidencja() {
 
   const fetchRecords = async () => {
     setLoading(true);
+    // @ts-ignore - Lovable Cloud type generation issue
     const { data, error } = await supabase
       .from("sales_records")
       .select("*")
@@ -68,6 +69,7 @@ export default function Ewidencja() {
   };
 
   const fetchProducts = async () => {
+    // @ts-ignore - Lovable Cloud type generation issue
     const { data } = await supabase
       .from("products")
       .select("*")
@@ -93,6 +95,7 @@ export default function Ewidencja() {
         uwagi: uwagi || undefined,
       });
 
+      // @ts-ignore - Lovable Cloud type generation issue
       const { error } = await supabase.from("sales_records").insert([{
         user_id: user!.id,
         data_sprzedazy: validatedData.data_sprzedazy,
@@ -108,6 +111,7 @@ export default function Ewidencja() {
       if (error) throw error;
 
       // Save/update product
+      // @ts-ignore - Lovable Cloud type generation issue
       await supabase
         .from("products")
         .upsert({
@@ -154,6 +158,7 @@ export default function Ewidencja() {
   const handleDelete = async (id: string) => {
     if (!confirm("Czy na pewno chcesz usunąć ten wpis?")) return;
 
+    // @ts-ignore - Lovable Cloud type generation issue
     const { error } = await supabase.from("sales_records").delete().eq("id", id);
 
     if (error) {
