@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_attempts: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          ip_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          ip_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          ip_address?: string | null
+        }
+        Relationships: []
+      }
       culture_audit_log: {
         Row: {
           change_source: string | null
@@ -286,6 +307,7 @@ export type Database = {
       }
     }
     Functions: {
+      cleanup_old_contact_attempts: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: { user_uuid: string }; Returns: string }
     }
     Enums: {
