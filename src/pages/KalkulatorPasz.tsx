@@ -12,6 +12,7 @@ interface Skladnik {
   bialko: string | number;
   ca: string | number;
   p: string | number;
+  wlokno: string | number;
   cena: string;
   na: string | number;
   k: string | number;
@@ -29,6 +30,7 @@ interface PrzykladowySkladnik {
   bialko: number;
   ca: number;
   p: number;
+  wlokno?: number;
   na?: number;
   k?: number;
   mg?: number;
@@ -63,7 +65,7 @@ const KalkulatorPasz = () => {
   const [drob, setDrob] = useState('kury-nioski-lekkie');
   const [okres, setOkres] = useState('');
   const [skladniki, setSkladniki] = useState<Skladnik[]>([
-    { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }
+    { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }
   ]);
 
   const normy: Record<string, any[]> = {
@@ -121,22 +123,22 @@ const KalkulatorPasz = () => {
   ];
 
   const domyslneSkladniki: PrzykladowySkladnik[] = [
-    { nazwa: 'Pszenica', em: 13.5, bialko: 12.0, ca: 0.05, p: 0.35, na: 0.02, k: 0.45, mg: 0.13, mn: 40, zn: 30, se: 0.05, fe: 45, i: 0.08 },
-    { nazwa: 'Kukurydza', em: 14.5, bialko: 8.5, ca: 0.02, p: 0.28, na: 0.01, k: 0.35, mg: 0.12, mn: 6, zn: 20, se: 0.03, fe: 25, i: 0.05 },
-    { nazwa: 'Jęczmień', em: 12.5, bialko: 11.0, ca: 0.08, p: 0.38, na: 0.02, k: 0.50, mg: 0.12, mn: 15, zn: 25, se: 0.04, fe: 35, i: 0.06 },
-    { nazwa: 'Owies', em: 11.0, bialko: 11.0, ca: 0.08, p: 0.35, na: 0.02, k: 0.43, mg: 0.14, mn: 45, zn: 32, se: 0.06, fe: 48, i: 0.07 },
-    { nazwa: 'Groch', em: 12.5, bialko: 23.0, ca: 0.10, p: 0.40, na: 0.02, k: 1.00, mg: 0.13, mn: 12, zn: 35, se: 0.08, fe: 50, i: 0.09 },
-    { nazwa: 'Bobik', em: 12.0, bialko: 27.0, ca: 0.15, p: 0.45, na: 0.03, k: 1.10, mg: 0.15, mn: 14, zn: 38, se: 0.09, fe: 55, i: 0.10 },
-    { nazwa: 'Ziemniaki gotowane', em: 13.5, bialko: 9.0, ca: 0.01, p: 0.20, na: 0.01, k: 0.42, mg: 0.02, mn: 3, zn: 3, se: 0.01, fe: 8, i: 0.02 },
-    { nazwa: 'Śruta słonecznikowa', em: 10.5, bialko: 32.0, ca: 0.25, p: 0.70, na: 0.03, k: 0.95, mg: 0.35, mn: 30, zn: 50, se: 0.70, fe: 70, i: 0.12 },
-    { nazwa: 'Śruta sojowa', em: 9.5, bialko: 46.0, ca: 0.30, p: 0.65, na: 0.02, k: 2.00, mg: 0.28, mn: 25, zn: 45, se: 0.12, fe: 90, i: 0.15 },
-    { nazwa: 'Śruta rzepakowa', em: 8.5, bialko: 34.0, ca: 0.70, p: 1.10, na: 0.03, k: 1.20, mg: 0.40, mn: 50, zn: 60, se: 1.10, fe: 150, i: 0.20 },
-    { nazwa: 'Otręby pszenne', em: 8.0, bialko: 16.0, ca: 0.12, p: 1.20, na: 0.02, k: 1.15, mg: 0.50, mn: 120, zn: 70, se: 0.30, fe: 140, i: 0.08 },
-    { nazwa: 'Kreda pastewna', em: 0, bialko: 0, ca: 38.0, p: 0.01, na: 0.10, k: 0.01, mg: 0.50, mn: 5, zn: 3, se: 0.01, fe: 10, i: 0.02 },
-    { nazwa: 'Fosforan wapnia', em: 0, bialko: 0, ca: 24.0, p: 18.0, na: 0.30, k: 0.02, mg: 0.20, mn: 8, zn: 10, se: 0.02, fe: 15, i: 0.03 },
-    { nazwa: 'Sól kamienna', em: 0, bialko: 0, ca: 0, p: 0, na: 39.0, k: 0.01, mg: 0.01, mn: 0, zn: 0, se: 0, fe: 0, i: 0.01 },
-    { nazwa: 'Premiks witaminowy', em: 0, bialko: 0, ca: 0, p: 0, na: 0, k: 0, mg: 0.10, mn: 8000, zn: 6000, se: 30, fe: 5000, i: 100 },
-    { nazwa: 'Olej roślinny', em: 37.0, bialko: 0, ca: 0, p: 0, na: 0, k: 0, mg: 0, mn: 0, zn: 0, se: 0, fe: 0, i: 0 }
+    { nazwa: 'Pszenica', em: 13.5, bialko: 12.0, ca: 0.05, p: 0.35, wlokno: 2.5, na: 0.02, k: 0.45, mg: 0.13, mn: 40, zn: 30, se: 0.05, fe: 45, i: 0.08 },
+    { nazwa: 'Kukurydza', em: 14.5, bialko: 8.5, ca: 0.02, p: 0.28, wlokno: 2.0, na: 0.01, k: 0.35, mg: 0.12, mn: 6, zn: 20, se: 0.03, fe: 25, i: 0.05 },
+    { nazwa: 'Jęczmień', em: 12.5, bialko: 11.0, ca: 0.08, p: 0.38, wlokno: 5.0, na: 0.02, k: 0.50, mg: 0.12, mn: 15, zn: 25, se: 0.04, fe: 35, i: 0.06 },
+    { nazwa: 'Owies', em: 11.0, bialko: 11.0, ca: 0.08, p: 0.35, wlokno: 10.0, na: 0.02, k: 0.43, mg: 0.14, mn: 45, zn: 32, se: 0.06, fe: 48, i: 0.07 },
+    { nazwa: 'Groch', em: 12.5, bialko: 23.0, ca: 0.10, p: 0.40, wlokno: 5.5, na: 0.02, k: 1.00, mg: 0.13, mn: 12, zn: 35, se: 0.08, fe: 50, i: 0.09 },
+    { nazwa: 'Bobik', em: 12.0, bialko: 27.0, ca: 0.15, p: 0.45, wlokno: 8.0, na: 0.03, k: 1.10, mg: 0.15, mn: 14, zn: 38, se: 0.09, fe: 55, i: 0.10 },
+    { nazwa: 'Ziemniaki gotowane', em: 13.5, bialko: 9.0, ca: 0.01, p: 0.20, wlokno: 1.8, na: 0.01, k: 0.42, mg: 0.02, mn: 3, zn: 3, se: 0.01, fe: 8, i: 0.02 },
+    { nazwa: 'Śruta słonecznikowa', em: 10.5, bialko: 32.0, ca: 0.25, p: 0.70, wlokno: 25.0, na: 0.03, k: 0.95, mg: 0.35, mn: 30, zn: 50, se: 0.70, fe: 70, i: 0.12 },
+    { nazwa: 'Śruta sojowa', em: 9.5, bialko: 46.0, ca: 0.30, p: 0.65, wlokno: 6.0, na: 0.02, k: 2.00, mg: 0.28, mn: 25, zn: 45, se: 0.12, fe: 90, i: 0.15 },
+    { nazwa: 'Śruta rzepakowa', em: 8.5, bialko: 34.0, ca: 0.70, p: 1.10, wlokno: 12.0, na: 0.03, k: 1.20, mg: 0.40, mn: 50, zn: 60, se: 1.10, fe: 150, i: 0.20 },
+    { nazwa: 'Otręby pszenne', em: 8.0, bialko: 16.0, ca: 0.12, p: 1.20, wlokno: 42.0, na: 0.02, k: 1.15, mg: 0.50, mn: 120, zn: 70, se: 0.30, fe: 140, i: 0.08 },
+    { nazwa: 'Kreda pastewna', em: 0, bialko: 0, ca: 38.0, p: 0.01, wlokno: 0, na: 0.10, k: 0.01, mg: 0.50, mn: 5, zn: 3, se: 0.01, fe: 10, i: 0.02 },
+    { nazwa: 'Fosforan wapnia', em: 0, bialko: 0, ca: 24.0, p: 18.0, wlokno: 0, na: 0.30, k: 0.02, mg: 0.20, mn: 8, zn: 10, se: 0.02, fe: 15, i: 0.03 },
+    { nazwa: 'Sól kamienna', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 39.0, k: 0.01, mg: 0.01, mn: 0, zn: 0, se: 0, fe: 0, i: 0.01 },
+    { nazwa: 'Premiks witaminowy', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0.10, mn: 8000, zn: 6000, se: 30, fe: 5000, i: 100 },
+    { nazwa: 'Olej roślinny', em: 37.0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0, mn: 0, zn: 0, se: 0, fe: 0, i: 0 }
   ];
 
   const wczytajSkladniki = (): PrzykladowySkladnik[] => {
@@ -247,6 +249,9 @@ const KalkulatorPasz = () => {
     txt += `Białko ogólne:        ${obliczCalkowita('bialko').toFixed(2)}% (norma: ${aktualnaNorma.bialko}%)\n`;
     txt += `Wapń (Ca):            ${obliczCalkowita('ca').toFixed(2)}% (norma: ${aktualnaNorma.ca}%)\n`;
     txt += `Fosfor (P):           ${obliczCalkowita('p').toFixed(2)}% (norma: ${aktualnaNorma.p}%)\n`;
+    if (aktualnaNorma.wlokno) {
+      txt += `Włókno:               ${obliczCalkowita('wlokno').toFixed(2)}% (norma: ${aktualnaNorma.wlokno}%)\n`;
+    }
 
     if (obliczKoszt() > 0) {
       txt += `\nKoszt mieszanki:      ${obliczKoszt().toFixed(2)} zł/kg\n`;
@@ -288,7 +293,7 @@ const KalkulatorPasz = () => {
   const aktualnaNorma = okres ? normy[drob]?.find((n: any) => n.okres === okres) : null;
 
   const dodajSkladnik = () => {
-    setSkladniki([...skladniki, { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }]);
+    setSkladniki([...skladniki, { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }]);
   };
 
   const usunSkladnik = (index: number) => {
@@ -785,6 +790,7 @@ const KalkulatorPasz = () => {
       bialko: przyklad.bialko,
       ca: przyklad.ca,
       p: przyklad.p,
+      wlokno: przyklad.wlokno || 0,
       cena: '',
       na: przyklad.na || 0,
       k: przyklad.k || 0,
@@ -961,6 +967,7 @@ const KalkulatorPasz = () => {
                         <th className="p-2">Białko</th>
                         <th className="p-2">Ca</th>
                         <th className="p-2">P</th>
+                        <th className="p-2">Włókno</th>
                         <th className="p-2">Na</th>
                         <th className="p-2">K</th>
                         <th className="p-2">Mg</th>
@@ -980,6 +987,7 @@ const KalkulatorPasz = () => {
                           <td className="p-2 text-center">{skladnik.bialko}</td>
                           <td className="p-2 text-center">{skladnik.ca}</td>
                           <td className="p-2 text-center">{skladnik.p}</td>
+                          <td className="p-2 text-center">{skladnik.wlokno || 0}</td>
                           <td className="p-2 text-center">{skladnik.na || 0}</td>
                           <td className="p-2 text-center">{skladnik.k || 0}</td>
                           <td className="p-2 text-center">{skladnik.mg || 0}</td>
@@ -1132,6 +1140,7 @@ const KalkulatorPasz = () => {
                       <th className="p-2">Białko (%)</th>
                       <th className="p-2">Ca (%)</th>
                       <th className="p-2">P (%)</th>
+                      <th className="p-2">Włókno (%)</th>
                       <th className="p-2">Cena (zł/kg)</th>
                       <th className="p-2">Akcje</th>
                     </tr>
@@ -1196,6 +1205,15 @@ const KalkulatorPasz = () => {
                             step="0.01"
                             value={skladnik.p}
                             onChange={(e) => aktualizujSkladnik(idx, 'p', e.target.value)}
+                            className="w-20 p-2 border rounded text-center"
+                          />
+                        </td>
+                        <td className="p-2">
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={skladnik.wlokno}
+                            onChange={(e) => aktualizujSkladnik(idx, 'wlokno', e.target.value)}
                             className="w-20 p-2 border rounded text-center"
                           />
                         </td>
@@ -1275,6 +1293,16 @@ const KalkulatorPasz = () => {
                     </div>
                     <div className="text-xs text-gray-500">norma: {aktualnaNorma.p}%</div>
                   </div>
+
+                  {aktualnaNorma.wlokno && (
+                    <div>
+                      <div className="text-sm font-semibold">Włókno:</div>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                        {obliczCalkowita('wlokno').toFixed(2)}%
+                      </div>
+                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.wlokno}%</div>
+                    </div>
+                  )}
 
                   {aktualnaNorma.na && (
                     <div>
@@ -1370,6 +1398,29 @@ const KalkulatorPasz = () => {
               {/* Ostrzeżenia dla mikroskładników poza normą */}
               {aktualnaNorma && Math.abs(sumaProcentow - 100) < 0.1 && (
                 <div className="mt-4 pt-4 border-t border-gray-300 space-y-2">
+                  {aktualnaNorma.wlokno && sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) !== 'ok' && (
+                    <div className={`p-3 rounded-lg ${
+                      sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
+                        ? 'bg-red-50 border border-red-200' 
+                        : 'bg-amber-50 border border-amber-200'
+                    }`}>
+                      <div className="flex items-start gap-2">
+                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
+                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                        }`} />
+                        <div className={`text-sm ${
+                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                        }`}>
+                          <strong>Włókno:</strong> {obliczCalkowita('wlokno').toFixed(2)}% 
+                          {sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
+                            ? ` - za mało! (norma: ${aktualnaNorma.wlokno}%, brakuje ${(aktualnaNorma.wlokno - obliczCalkowita('wlokno')).toFixed(2)}%)`
+                            : ` - za dużo! (norma: ${aktualnaNorma.wlokno}%, nadmiar ${(obliczCalkowita('wlokno') - aktualnaNorma.wlokno).toFixed(2)}%)`
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {aktualnaNorma.na && sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) !== 'ok' && (
                     <div className={`p-3 rounded-lg ${
                       sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
@@ -1837,6 +1888,16 @@ const KalkulatorPasz = () => {
                   step="0.01"
                   value={edytowanySkladnik.p}
                   onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, p: parseFloat(e.target.value) || 0})}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Włókno (%):</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={edytowanySkladnik.wlokno || 0}
+                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, wlokno: parseFloat(e.target.value) || 0})}
                   className="w-full p-2 border rounded"
                 />
               </div>
