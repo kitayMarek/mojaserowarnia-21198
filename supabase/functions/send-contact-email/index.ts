@@ -1,8 +1,15 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const OWNER_EMAIL = Deno.env.get("RESEND_OWNER_EMAIL") || "kitaymw@gmail.com";
+
+// Initialize Supabase client with service role for rate limiting
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -50,6 +57,13 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { name, email, subject, message }: ContactEmailRequest = await req.json();
+
+    // Get client IP address for logging (optional)
+    const clientIP = req.headers.get('x-forwarded-for') || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+
+    console.log("Contact form submission attempt from:", email, "IP:", clientIP);
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -110,6 +124,45 @@ const handler = async (req: Request): Promise<Response> => {
           headers: { "Content-Type": "application/json", ...corsHeaders },
         }
       );
+    }
+
+    // Check rate limiting: max 3 attempts per hour per email
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    
+    const { data: recentAttempts, error: rateLimitError } = await supabase
+      .from('contact_attempts')
+      .select('id')
+      .eq('email', sanitizedEmail)
+      .gte('created_at', oneHourAgo);
+
+    if (rateLimitError) {
+      console.error("Rate limit check error:", rateLimitError);
+      // Don't block the request if rate limit check fails, just log it
+    } else if (recentAttempts && recentAttempts.length >= 3) {
+      console.log("Rate limit exceeded for:", sanitizedEmail);
+      return new Response(
+        JSON.stringify({ 
+          ok: false, 
+          error: 'Przekroczono limit wysyłania wiadomości. Możesz wysłać maksymalnie 3 wiadomości na godzinę. Spróbuj ponownie później.' 
+        }),
+        {
+          status: 429, // Too Many Requests
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Log the attempt to database for rate limiting
+    const { error: insertAttemptError } = await supabase
+      .from('contact_attempts')
+      .insert({
+        email: sanitizedEmail,
+        ip_address: clientIP,
+      });
+
+    if (insertAttemptError) {
+      console.error("Failed to log contact attempt:", insertAttemptError);
+      // Don't block the request if logging fails
     }
 
     console.log("Sending contact email from:", sanitizedEmail, "name:", sanitizedName);
