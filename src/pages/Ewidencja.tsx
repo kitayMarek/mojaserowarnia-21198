@@ -10,8 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, Plus, Trash2, FileDown } from "lucide-react";
+import { Loader2, Plus, Trash2, FileDown, Printer } from "lucide-react";
 import { z } from "zod";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const salesSchema = z.object({
   data_sprzedazy: z.string().min(1, "Data jest wymagana"),
@@ -253,6 +255,78 @@ export default function Ewidencja() {
     });
   };
 
+  const exportToPDF = () => {
+    if (records.length === 0) {
+      toast({
+        title: "Brak danych",
+        description: "Nie ma wpisów do wydrukowania",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(16);
+    doc.text("Ewidencja sprzedaży - RHD", 14, 15);
+    
+    doc.setFontSize(10);
+    doc.text(`Data wydruku: ${new Date().toLocaleDateString("pl-PL")}`, 14, 22);
+
+    // Table
+    const tableData = recordsWithCumulative.map((record, index) => [
+      index + 1,
+      new Date(record.data_sprzedazy).toLocaleDateString("pl-PL"),
+      record.rodzaj_zywnosci,
+      `${record.ilosc} ${record.jednostka}`,
+      `${Number(record.kwota_przychodu).toFixed(2)} zł`,
+      `${record.cumulative.toFixed(2)} zł`,
+      record.odbiorca_typ,
+      record.odbiorca_nazwa || "-",
+      record.numer_rachunku || "-",
+      record.uwagi || "-"
+    ]);
+
+    autoTable(doc, {
+      startY: 28,
+      head: [[
+        "Lp.",
+        "Data",
+        "Rodzaj",
+        "Ilość",
+        "Kwota",
+        "Narastająco",
+        "Typ odbiorcy",
+        "Nazwa",
+        "Rachunek",
+        "Uwagi"
+      ]],
+      body: tableData,
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [59, 130, 246] },
+      columnStyles: {
+        0: { cellWidth: 10 },
+        1: { cellWidth: 20 },
+        2: { cellWidth: 30 },
+        3: { cellWidth: 15 },
+        4: { cellWidth: 20 },
+        5: { cellWidth: 25 },
+        6: { cellWidth: 25 },
+        7: { cellWidth: 20 },
+        8: { cellWidth: 15 },
+        9: { cellWidth: 15 }
+      }
+    });
+
+    doc.save(`ewidencja_sprzedazy_${new Date().toISOString().split('T')[0]}.pdf`);
+
+    toast({
+      title: "Sukces",
+      description: "Ewidencja została wydrukowana do PDF",
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -272,6 +346,10 @@ export default function Ewidencja() {
           <Button variant="outline" onClick={exportToCSV} disabled={records.length === 0}>
             <FileDown className="h-4 w-4 mr-2" />
             Eksportuj CSV
+          </Button>
+          <Button variant="outline" onClick={exportToPDF} disabled={records.length === 0}>
+            <Printer className="h-4 w-4 mr-2" />
+            Drukuj PDF
           </Button>
           <Button onClick={() => setShowForm(!showForm)}>
             <Plus className="h-4 w-4 mr-2" />
