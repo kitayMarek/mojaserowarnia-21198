@@ -311,6 +311,7 @@ const KalkulatorPasz = () => {
         noweSkladniki[index].bialko = przyklad.bialko;
         noweSkladniki[index].ca = przyklad.ca;
         noweSkladniki[index].p = przyklad.p;
+        noweSkladniki[index].wlokno = przyklad.wlokno || 0;
         noweSkladniki[index].na = przyklad.na || 0;
         noweSkladniki[index].k = przyklad.k || 0;
         noweSkladniki[index].mg = przyklad.mg || 0;
