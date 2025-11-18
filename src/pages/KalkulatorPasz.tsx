@@ -137,6 +137,7 @@ const KalkulatorPasz = () => {
     { nazwa: 'Kreda pastewna', em: 0, bialko: 0, ca: 38.0, p: 0.01, wlokno: 0, na: 0.10, k: 0.01, mg: 0.50, mn: 5, zn: 3, se: 0.01, fe: 10, i: 0.02 },
     { nazwa: 'Fosforan wapnia', em: 0, bialko: 0, ca: 24.0, p: 18.0, wlokno: 0, na: 0.30, k: 0.02, mg: 0.20, mn: 8, zn: 10, se: 0.02, fe: 15, i: 0.03 },
     { nazwa: 'Sól kamienna', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 39.0, k: 0.01, mg: 0.01, mn: 0, zn: 0, se: 0, fe: 0, i: 0.01 },
+    { nazwa: 'Dolmix Capri', em: 2.5, bialko: 7.0, ca: 12.0, p: 5.0, wlokno: 1.5, na: 0.25, k: 0.30, mg: 0.45, mn: 1200, zn: 800, se: 8.0, fe: 600, i: 15 },
     { nazwa: 'Premiks witaminowy', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0.10, mn: 8000, zn: 6000, se: 30, fe: 5000, i: 100 },
     { nazwa: 'Olej roślinny', em: 37.0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0, mn: 0, zn: 0, se: 0, fe: 0, i: 0 }
   ];
