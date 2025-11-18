@@ -192,6 +192,67 @@ export default function Ewidencja() {
 
   const recordsWithCumulative = calculateCumulative();
 
+  const exportToCSV = () => {
+    if (records.length === 0) {
+      toast({
+        title: "Brak danych",
+        description: "Nie ma wpisów do wyeksportowania",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const headers = [
+      "Lp.",
+      "Data sprzedaży",
+      "Rodzaj żywności",
+      "Ilość",
+      "Jednostka",
+      "Kwota przychodu (zł)",
+      "Narastająco (zł)",
+      "Typ odbiorcy",
+      "Nazwa odbiorcy",
+      "Numer rachunku",
+      "Uwagi"
+    ];
+
+    const csvData = recordsWithCumulative.map((record, index) => [
+      index + 1,
+      new Date(record.data_sprzedazy).toLocaleDateString("pl-PL"),
+      record.rodzaj_zywnosci,
+      record.ilosc,
+      record.jednostka,
+      Number(record.kwota_przychodu).toFixed(2),
+      record.cumulative.toFixed(2),
+      record.odbiorca_typ,
+      record.odbiorca_nazwa || "",
+      record.numer_rachunku || "",
+      record.uwagi || ""
+    ]);
+
+    const csvContent = [
+      headers.join(";"),
+      ...csvData.map(row => row.join(";"))
+    ].join("\n");
+
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `ewidencja_sprzedazy_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast({
+      title: "Sukces",
+      description: "Ewidencja została wyeksportowana",
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -207,10 +268,16 @@ export default function Ewidencja() {
           <h2 className="text-3xl font-bold">Ewidencja sprzedaży</h2>
           <p className="text-muted-foreground">Rejestr sprzedaży w ramach RHD</p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Plus className="h-4 w-4 mr-2" />
-          {showForm ? "Anuluj" : "Dodaj wpis"}
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={exportToCSV} disabled={records.length === 0}>
+            <FileDown className="h-4 w-4 mr-2" />
+            Eksportuj CSV
+          </Button>
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="h-4 w-4 mr-2" />
+            {showForm ? "Anuluj" : "Dodaj wpis"}
+          </Button>
+        </div>
       </div>
 
       {showForm && (
