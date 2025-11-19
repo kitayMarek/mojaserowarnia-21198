@@ -293,15 +293,15 @@ export default function Ewidencja() {
     doc.setFontSize(9);
     doc.text("AGROJELONKI", 14, 28);
 
-    // Table
+    // Table - replace Polish characters for PDF compatibility
     const tableData = recordsWithCumulative.map((record, index) => [
       index + 1,
       new Date(record.data_sprzedazy).toLocaleDateString("pl-PL"),
       record.rodzaj_zywnosci,
       `${record.ilosc} ${record.jednostka}`,
-      `${Number(record.kwota_przychodu).toFixed(2)} zł`,
-      `${record.cumulative.toFixed(2)} zł`,
-      record.odbiorca_typ,
+      `${Number(record.kwota_przychodu).toFixed(2)} PLN`,
+      `${record.cumulative.toFixed(2)} PLN`,
+      record.odbiorca_typ.replace("ń", "n").replace("ł", "l"),
       record.odbiorca_nazwa || "-",
       record.numer_rachunku || "-",
       record.uwagi || "-"
