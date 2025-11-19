@@ -14,6 +14,7 @@ import { Loader2, Plus, Trash2, FileDown, Printer } from "lucide-react";
 import { z } from "zod";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import logoAgrojelonki from "@/assets/logo-agrojelonki.jpg";
 
 const salesSchema = z.object({
   data_sprzedazy: z.string().min(1, "Data jest wymagana"),
@@ -255,7 +256,7 @@ export default function Ewidencja() {
     });
   };
 
-  const exportToPDF = () => {
+  const exportToPDF = async () => {
     if (records.length === 0) {
       toast({
         title: "Brak danych",
@@ -267,12 +268,30 @@ export default function Ewidencja() {
 
     const doc = new jsPDF();
     
+    // Load and add logo
+    try {
+      const img = new Image();
+      img.src = logoAgrojelonki;
+      await new Promise((resolve) => {
+        img.onload = resolve;
+      });
+      
+      // Add logo in top right corner
+      const logoWidth = 40;
+      const logoHeight = (img.height / img.width) * logoWidth;
+      doc.addImage(img, 'JPEG', doc.internal.pageSize.width - logoWidth - 14, 10, logoWidth, logoHeight);
+    } catch (error) {
+      console.error("Error loading logo:", error);
+    }
+    
     // Title
     doc.setFontSize(16);
     doc.text("Ewidencja sprzedaży - RHD", 14, 15);
     
     doc.setFontSize(10);
     doc.text(`Data wydruku: ${new Date().toLocaleDateString("pl-PL")}`, 14, 22);
+    doc.setFontSize(9);
+    doc.text("AGROJELONKI", 14, 28);
 
     // Table
     const tableData = recordsWithCumulative.map((record, index) => [
@@ -289,7 +308,7 @@ export default function Ewidencja() {
     ]);
 
     autoTable(doc, {
-      startY: 28,
+      startY: 34,
       head: [[
         "Lp.",
         "Data",
