@@ -286,7 +286,7 @@ export default function Ewidencja() {
     
     // Title
     doc.setFontSize(16);
-    doc.text("Ewidencja sprzedaży - RHD", 14, 15);
+    doc.text("Ewidencja sprzedazy - RHD", 14, 15);
     
     doc.setFontSize(10);
     doc.text(`Data wydruku: ${new Date().toLocaleDateString("pl-PL")}`, 14, 22);
@@ -313,16 +313,16 @@ export default function Ewidencja() {
         "Lp.",
         "Data",
         "Rodzaj",
-        "Ilość",
+        "Ilosc",
         "Kwota",
-        "Narastająco",
+        "Narastajaco",
         "Typ odbiorcy",
         "Nazwa",
         "Rachunek",
         "Uwagi"
       ]],
       body: tableData,
-      styles: { fontSize: 8 },
+      styles: { fontSize: 8, font: 'helvetica' },
       headStyles: { fillColor: [59, 130, 246] },
       columnStyles: {
         0: { cellWidth: 10 },
