@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SearchCommand from "@/components/SearchCommand";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,6 +70,7 @@ const Navigation = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button
               variant="ghost"
               className="rounded-full hover:bg-secondary gap-2"
