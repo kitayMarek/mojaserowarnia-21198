@@ -8,7 +8,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import CookieConsent from "react-cookie-consent";
-import DisclaimerModal from "@/components/DisclaimerModal";
 
 // Lazy load all pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -57,7 +56,6 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <DisclaimerModal />
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
             <Route path="/" element={<Index />} />
@@ -149,20 +147,21 @@ const App = () => (
               console.log('[Cookie Consent] Użytkownik odrzucił cookies');
             }}
           >
-            <div className="text-sm text-white">
-              <p className="mb-2">
-                Ta strona wykorzystuje pliki cookie w celu poprawy komfortu użytkowania. 
-                Kontynuując przeglądanie strony, wyrażasz zgodę na ich użycie.
-              </p>
-              <p>
-                <a 
-                  href="/nota-prawna" 
-                  className="underline text-amber-400 hover:text-amber-300 transition-colors"
-                >
-                  Polityka Prywatności i Cookies
-                </a>
-              </p>
-            </div>
+        <div className="text-sm text-white">
+          <p className="mb-2">
+            Serwis prezentuje informacje o kulturach bakteryjnych i przepisach na podstawie publicznie dostępnych danych. 
+            Nie gwarantujemy kompletności informacji - zawsze weryfikuj dane u producenta. 
+            Strona wykorzystuje pliki cookie.
+          </p>
+          <p>
+            <a 
+              href="/nota-prawna" 
+              className="underline text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              Nota Prawna i Polityka Cookies
+            </a>
+          </p>
+        </div>
           </CookieConsent>
       </BrowserRouter>
     </TooltipProvider>
