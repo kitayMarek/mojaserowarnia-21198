@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,40 +6,45 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import DisclaimerModal from "@/components/DisclaimerModal";
-import Index from "./pages/Index";
-import BazaKultur from "./pages/BazaKultur";
-import Przepisy from "./pages/Przepisy";
-import RecipeDetails from "./pages/RecipeDetails";
-import PoradnikiHub from "./pages/PoradnikiHub";
-import Poradnik from "./pages/Poradnik";
-import BakterieKultury from "./pages/BakterieKultury";
-import SilaPodpuszczki from "./pages/SilaPodpuszczki";
-import GdzieKupicPodpuszczke from "./pages/GdzieKupicPodpuszczke";
-import Prawo from "./pages/Prawo";
-import Narzedzia from "./pages/Narzedzia";
-import KalkulatorBeaugel from "./pages/KalkulatorBeaugel";
-import KalkulatorKosztuSera from "./pages/KalkulatorKosztuSera";
-import KalkulatorMiar from "./pages/KalkulatorMiar";
-import KalkulatorPasz from "./pages/KalkulatorPasz";
-import PorownanieWartosciOdzywczych from "./pages/PorownanieWartosciOdzywczych";
-import AktyPrawneUE from "./pages/AktyPrawneUE";
-import RHD from "./pages/RHD";
-import RHDDokumenty from "./pages/RHDDokumenty";
-import MOL from "./pages/MOL";
-import MOLDokumenty from "./pages/MOLDokumenty";
-import RzezniRolnicza from "./pages/RzezniRolnicza";
-import Auth from "./pages/Auth";
+
+// Lazy load all pages for better performance
+const Index = lazy(() => import("./pages/Index"));
+const BazaKultur = lazy(() => import("./pages/BazaKultur"));
+const Przepisy = lazy(() => import("./pages/Przepisy"));
+const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
+const PoradnikiHub = lazy(() => import("./pages/PoradnikiHub"));
+const Poradnik = lazy(() => import("./pages/Poradnik"));
+const BakterieKultury = lazy(() => import("./pages/BakterieKultury"));
+const SilaPodpuszczki = lazy(() => import("./pages/SilaPodpuszczki"));
+const GdzieKupicPodpuszczke = lazy(() => import("./pages/GdzieKupicPodpuszczke"));
+const Prawo = lazy(() => import("./pages/Prawo"));
+const Narzedzia = lazy(() => import("./pages/Narzedzia"));
+const KalkulatorBeaugel = lazy(() => import("./pages/KalkulatorBeaugel"));
+const KalkulatorKosztuSera = lazy(() => import("./pages/KalkulatorKosztuSera"));
+const KalkulatorMiar = lazy(() => import("./pages/KalkulatorMiar"));
+const KalkulatorPasz = lazy(() => import("./pages/KalkulatorPasz"));
+const PorownanieWartosciOdzywczych = lazy(() => import("./pages/PorownanieWartosciOdzywczych"));
+const AktyPrawneUE = lazy(() => import("./pages/AktyPrawneUE"));
+const RHD = lazy(() => import("./pages/RHD"));
+const RHDDokumenty = lazy(() => import("./pages/RHDDokumenty"));
+const MOL = lazy(() => import("./pages/MOL"));
+const MOLDokumenty = lazy(() => import("./pages/MOLDokumenty"));
+const RzezniRolnicza = lazy(() => import("./pages/RzezniRolnicza"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Ewidencja = lazy(() => import("./pages/Ewidencja"));
+const NewInvoice = lazy(() => import("./pages/NewInvoice"));
+const Invoices = lazy(() => import("./pages/Invoices"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Contact = lazy(() => import("./pages/Contact"));
+const PorownywarkaKultur = lazy(() => import("./pages/PorownywarkaKultur"));
+const NotaPrawna = lazy(() => import("./pages/NotaPrawna"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
-import Dashboard from "./pages/Dashboard";
-import Ewidencja from "./pages/Ewidencja";
-import NewInvoice from "./pages/NewInvoice";
-import Invoices from "./pages/Invoices";
-import Settings from "./pages/Settings";
-import Contact from "./pages/Contact";
-import PorownywarkaKultur from "./pages/PorownywarkaKultur";
-import NotaPrawna from "./pages/NotaPrawna";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -51,7 +57,8 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <DisclaimerModal />
-            <Routes>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
@@ -85,10 +92,11 @@ const App = () => (
               <Route path="rachunki" element={<Invoices />} />
               <Route path="ustawienia" element={<Settings />} />
             </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
     </ThemeProvider>
