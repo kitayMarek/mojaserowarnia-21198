@@ -907,11 +907,11 @@ const KalkulatorPasz = () => {
         </div>
       </div>
 
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
+      <div className="min-h-screen bg-background p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
             <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">🦅 Kalkulator Pasz dla Drobiu</h2>
+              <h2 className="text-2xl font-bold text-foreground">🦅 Kalkulator Pasz dla Drobiu</h2>
               
               <div className="flex gap-2">
                 {zalogowanyAdmin ? (
@@ -942,8 +942,8 @@ const KalkulatorPasz = () => {
 
             {/* Panel Admina */}
             {panelAdmin && zalogowanyAdmin && (
-              <div className="mb-8 p-6 bg-purple-50 border-2 border-purple-300 rounded-lg">
-                <h3 className="text-xl font-bold text-purple-800 mb-4">⚙️ Panel Administratora - Zarządzanie Składnikami</h3>
+              <div className="mb-8 p-6 bg-secondary/20 border-2 border-secondary rounded-lg">
+                <h3 className="text-xl font-bold text-foreground mb-4">⚙️ Panel Administratora - Zarządzanie Składnikami</h3>
                 
                 <div className="flex gap-3 mb-4">
                   <button
@@ -962,23 +962,23 @@ const KalkulatorPasz = () => {
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-purple-200">
+                    <thead className="bg-secondary">
                       <tr>
-                        <th className="p-2 text-left">Nazwa</th>
-                        <th className="p-2">EM</th>
-                        <th className="p-2">Białko</th>
-                        <th className="p-2">Ca</th>
-                        <th className="p-2">P</th>
-                        <th className="p-2">Włókno</th>
-                        <th className="p-2">Na</th>
-                        <th className="p-2">K</th>
-                        <th className="p-2">Mg</th>
-                        <th className="p-2">Mn</th>
-                        <th className="p-2">Zn</th>
-                        <th className="p-2">Se</th>
-                        <th className="p-2">Fe</th>
-                        <th className="p-2">I</th>
-                        <th className="p-2">Akcje</th>
+                        <th className="p-2 text-left text-secondary-foreground">Nazwa</th>
+                        <th className="p-2 text-secondary-foreground">EM</th>
+                        <th className="p-2 text-secondary-foreground">Białko</th>
+                        <th className="p-2 text-secondary-foreground">Ca</th>
+                        <th className="p-2 text-secondary-foreground">P</th>
+                        <th className="p-2 text-secondary-foreground">Włókno</th>
+                        <th className="p-2 text-secondary-foreground">Na</th>
+                        <th className="p-2 text-secondary-foreground">K</th>
+                        <th className="p-2 text-secondary-foreground">Mg</th>
+                        <th className="p-2 text-secondary-foreground">Mn</th>
+                        <th className="p-2 text-secondary-foreground">Zn</th>
+                        <th className="p-2 text-secondary-foreground">Se</th>
+                        <th className="p-2 text-secondary-foreground">Fe</th>
+                        <th className="p-2 text-secondary-foreground">I</th>
+                        <th className="p-2 text-secondary-foreground">Akcje</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1024,7 +1024,7 @@ const KalkulatorPasz = () => {
 
             <div className="grid md:grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Rodzaj drobiu:
                 </label>
                 <select
@@ -1033,7 +1033,7 @@ const KalkulatorPasz = () => {
                     setDrob(e.target.value);
                     setOkres('');
                   }}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full p-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   {typyDrobiu.map(typ => (
                     <option key={typ.value} value={typ.value}>{typ.label}</option>
@@ -1042,13 +1042,13 @@ const KalkulatorPasz = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Okres życia / Wiek:
                 </label>
                 <select
                   value={okres}
                   onChange={(e) => setOkres(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full p-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   <option value="">-- Wybierz okres --</option>
                   {normy[drob]?.map((norma, idx) => (
@@ -1059,8 +1059,8 @@ const KalkulatorPasz = () => {
             </div>
 
             {aktualnaNorma && (
-              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+              <div className="mb-6 p-4 bg-accent/20 border border-accent rounded-lg">
+                <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
                   <Info size={20} />
                   Normy żywieniowe dla wybranego okresu:
                 </h3>
@@ -1123,7 +1123,7 @@ const KalkulatorPasz = () => {
 
             <div className="mb-4">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-800">Składniki paszy:</h3>
+                <h3 className="text-lg font-semibold text-foreground">Składniki paszy:</h3>
                 <button
                   onClick={dodajSkladnik}
                   className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -1134,29 +1134,29 @@ const KalkulatorPasz = () => {
 
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="bg-gray-100">
+                  <thead className="bg-muted">
                     <tr>
-                      <th className="p-2 text-left">Składnik</th>
-                      <th className="p-2">Udział (%)</th>
-                      <th className="p-2">EM (MJ/kg)</th>
-                      <th className="p-2">Białko (%)</th>
-                      <th className="p-2">Ca (%)</th>
-                      <th className="p-2">P (%)</th>
-                      <th className="p-2">Włókno (%)</th>
-                      <th className="p-2">Cena (zł/kg)</th>
-                      <th className="p-2">Akcje</th>
+                      <th className="p-2 text-left text-muted-foreground">Składnik</th>
+                      <th className="p-2 text-muted-foreground">Udział (%)</th>
+                      <th className="p-2 text-muted-foreground">EM (MJ/kg)</th>
+                      <th className="p-2 text-muted-foreground">Białko (%)</th>
+                      <th className="p-2 text-muted-foreground">Ca (%)</th>
+                      <th className="p-2 text-muted-foreground">P (%)</th>
+                      <th className="p-2 text-muted-foreground">Włókno (%)</th>
+                      <th className="p-2 text-muted-foreground">Cena (zł/kg)</th>
+                      <th className="p-2 text-muted-foreground">Akcje</th>
                     </tr>
                   </thead>
                   <tbody>
                     {skladniki.map((skladnik, idx) => (
-                      <tr key={idx} className="border-b">
+                      <tr key={idx} className="border-b border-border">
                         <td className="p-2">
                           <input
                             type="text"
                             list={`skladniki-${idx}`}
                             value={skladnik.nazwa}
                             onChange={(e) => aktualizujSkladnik(idx, 'nazwa', e.target.value)}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border border-input bg-background text-foreground rounded"
                             placeholder="Wpisz nazwę..."
                           />
                           <datalist id={`skladniki-${idx}`}>
@@ -1171,7 +1171,7 @@ const KalkulatorPasz = () => {
                             step="0.1"
                             value={skladnik.procent}
                             onChange={(e) => aktualizujSkladnik(idx, 'procent', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1180,7 +1180,7 @@ const KalkulatorPasz = () => {
                             step="0.1"
                             value={skladnik.em}
                             onChange={(e) => aktualizujSkladnik(idx, 'em', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1189,7 +1189,7 @@ const KalkulatorPasz = () => {
                             step="0.1"
                             value={skladnik.bialko}
                             onChange={(e) => aktualizujSkladnik(idx, 'bialko', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1198,7 +1198,7 @@ const KalkulatorPasz = () => {
                             step="0.01"
                             value={skladnik.ca}
                             onChange={(e) => aktualizujSkladnik(idx, 'ca', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1207,7 +1207,7 @@ const KalkulatorPasz = () => {
                             step="0.01"
                             value={skladnik.p}
                             onChange={(e) => aktualizujSkladnik(idx, 'p', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1216,7 +1216,7 @@ const KalkulatorPasz = () => {
                             step="0.1"
                             value={skladnik.wlokno}
                             onChange={(e) => aktualizujSkladnik(idx, 'wlokno', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
                         <td className="p-2">
@@ -1225,7 +1225,7 @@ const KalkulatorPasz = () => {
                             step="0.01"
                             value={skladnik.cena}
                             onChange={(e) => aktualizujSkladnik(idx, 'cena', e.target.value)}
-                            className="w-20 p-2 border rounded text-center"
+                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                             placeholder="0.00"
                           />
                         </td>
@@ -1244,18 +1244,18 @@ const KalkulatorPasz = () => {
               </div>
             </div>
 
-            <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-              <h3 className="font-bold text-gray-800 mb-3">📊 Podsumowanie mieszanki:</h3>
-              
+            <div className="mb-6 p-4 bg-muted border border-border rounded-lg">
+              <h3 className="font-bold text-foreground mb-3">📊 Podsumowanie mieszanki:</h3>
+
               <div className="mb-3">
                 <div className="flex justify-between items-center mb-1">
                   <span className="font-semibold">Suma udziałów:</span>
-                  <span className={`font-bold ${Math.abs(sumaProcentow - 100) < 0.1 ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`font-bold ${Math.abs(sumaProcentow - 100) < 0.1 ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
                     {sumaProcentow.toFixed(1)}%
                   </span>
                 </div>
                 {Math.abs(sumaProcentow - 100) > 0.1 && (
-                  <div className="flex items-center gap-2 text-amber-600 text-sm">
+                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 text-sm">
                     <AlertCircle size={16} />
                     <span>Suma udziałów powinna wynosić 100%</span>
                   </div>
@@ -1369,49 +1369,49 @@ const KalkulatorPasz = () => {
                   {aktualnaNorma.fe && (
                     <div>
                       <div className="text-sm font-semibold">Żelazo (Fe):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.1) === 'ok' ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
                         {obliczCalkowita('fe').toFixed(1)} mg/kg
                       </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.fe} mg/kg</div>
+                      <div className="text-xs text-muted-foreground">norma: {aktualnaNorma.fe} mg/kg</div>
                     </div>
                   )}
 
                   {aktualnaNorma.i && (
                     <div>
                       <div className="text-sm font-semibold">Jod (I):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.1) === 'ok' ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
                         {obliczCalkowita('i').toFixed(2)} mg/kg
                       </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.i} mg/kg</div>
+                      <div className="text-xs text-muted-foreground">norma: {aktualnaNorma.i} mg/kg</div>
                     </div>
                   )}
                 </div>
               )}
 
               {obliczKoszt() > 0 && (
-                <div className="mt-4 pt-4 border-t border-gray-300">
+                <div className="mt-4 pt-4 border-t border-border">
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-lg">💰 Koszt mieszanki:</span>
-                    <span className="font-bold text-xl text-green-700">{obliczKoszt().toFixed(2)} zł/kg</span>
+                    <span className="font-bold text-xl text-green-600 dark:text-green-400">{obliczKoszt().toFixed(2)} zł/kg</span>
                   </div>
                 </div>
               )}
 
               {/* Ostrzeżenia dla mikroskładników poza normą */}
               {aktualnaNorma && Math.abs(sumaProcentow - 100) < 0.1 && (
-                <div className="mt-4 pt-4 border-t border-gray-300 space-y-2">
+                <div className="mt-4 pt-4 border-t border-border space-y-2">
                   {aktualnaNorma.wlokno && sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg border ${
                       sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
+                        ? 'bg-destructive/10 border-destructive/30' 
+                        : 'bg-amber-100 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
                     }`}>
                       <div className="flex items-start gap-2">
                         <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-600 dark:text-amber-400'
                         }`} />
                         <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-900 dark:text-amber-200'
                         }`}>
                           <strong>Włókno:</strong> {obliczCalkowita('wlokno').toFixed(2)}% 
                           {sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
@@ -1424,17 +1424,17 @@ const KalkulatorPasz = () => {
                   )}
 
                   {aktualnaNorma.na && sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
+                    <div className={`p-3 rounded-lg border ${
                       sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
+                        ? 'bg-destructive/10 border-destructive/30' 
+                        : 'bg-amber-100 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
                     }`}>
                       <div className="flex items-start gap-2 mb-2">
                         <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
+                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-600 dark:text-amber-400'
                         }`} />
                         <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
+                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-900 dark:text-amber-200'
                         }`}>
                           <strong>Sód (Na):</strong> {obliczCalkowita('na').toFixed(3)}% 
                           {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
@@ -1444,7 +1444,7 @@ const KalkulatorPasz = () => {
                         </div>
                       </div>
                       {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
+                        <div className="ml-6 text-xs text-muted-foreground bg-muted/50 p-2 rounded">
                           💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
                           {znajdzBogateSkladniki('na').map((s, idx) => (
                             <span key={idx}>
