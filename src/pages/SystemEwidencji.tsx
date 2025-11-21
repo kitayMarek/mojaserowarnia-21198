@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import ewidencjaHeader from "@/assets/ewidencja-header.png";
 
 const SystemEwidencji = () => {
   const { user } = useAuth();
@@ -63,8 +64,18 @@ const SystemEwidencji = () => {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container mx-auto px-4">
+        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={ewidencjaHeader} 
+              alt="Serowarnia z ewidencją i rachunkami RHD" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
                 <Shield className="h-4 w-4" />
