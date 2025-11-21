@@ -18,6 +18,7 @@ interface ProfileData {
   nip?: string;
   adres?: string;
   telefon?: string;
+  marketing_consent?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -69,7 +70,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .insert({
           id: data.user.id,
           email: data.user.email,
-          ...profileData
+          ...profileData,
+          marketing_consent_date: profileData?.marketing_consent ? new Date().toISOString() : null
         });
 
       if (profileError) {

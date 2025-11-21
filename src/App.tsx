@@ -41,10 +41,12 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Contact = lazy(() => import("./pages/Contact"));
 const PorownywarkaKultur = lazy(() => import("./pages/PorownywarkaKultur"));
 const NotaPrawna = lazy(() => import("./pages/NotaPrawna"));
+const Admin = lazy(() => import("./pages/Admin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import AdminRoute from "./components/AdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +86,7 @@ const App = () => (
             <Route path="/kontakt" element={<Contact />} />
             <Route path="/nota-prawna" element={<NotaPrawna />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="ewidencja" element={<Ewidencja />} />
