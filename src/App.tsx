@@ -101,74 +101,74 @@ const App = () => (
               </Routes>
             </Suspense>
           </AuthProvider>
-          
-          {/* Cookie Consent Banner - RODO/GDPR Compliance */}
-          <CookieConsent
-            location="bottom"
-            buttonText="Akceptuję wszystkie"
-            declineButtonText="Odrzuć"
-            enableDeclineButton
-            cookieName="moja-serowarnia-consent"
-            style={{
-              background: "rgba(0, 0, 0, 0.95)",
-              padding: "20px",
-              alignItems: "center",
-            }}
-            buttonStyle={{
-              background: "#F59E0B",
-              color: "white",
-              fontSize: "14px",
-              borderRadius: "8px",
-              padding: "12px 24px",
-              fontWeight: "600",
-              cursor: "pointer",
-              border: "none",
-            }}
-            declineButtonStyle={{
-              background: "transparent",
-              border: "1px solid white",
-              color: "white",
-              fontSize: "14px",
-              borderRadius: "8px",
-              padding: "12px 24px",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-            expires={365}
-            onAccept={() => {
-              // Włącz Google Analytics tracking
-              if ((window as any).gtag) {
-                (window as any).gtag('consent', 'update', {
-                  analytics_storage: 'granted'
-                });
-              }
-              console.log('[Cookie Consent] Użytkownik zaakceptował cookies');
-            }}
-            onDecline={() => {
-              // Wyłącz Google Analytics tracking
-              if ((window as any)['ga-disable-G-XR997KZQKB']) {
-                (window as any)['ga-disable-G-XR997KZQKB'] = true;
-              }
-              console.log('[Cookie Consent] Użytkownik odrzucił cookies');
-            }}
-          >
-        <div className="text-sm text-white">
-          <p className="mb-2">
-            Serwis prezentuje informacje o kulturach bakteryjnych i przepisach na podstawie publicznie dostępnych danych. 
-            Nie gwarantujemy kompletności informacji - zawsze weryfikuj dane u producenta. 
-            Strona wykorzystuje pliki cookie.
-          </p>
-          <p>
-            <a 
-              href="/nota-prawna" 
-              className="underline text-amber-400 hover:text-amber-300 transition-colors"
-            >
-              Nota Prawna i Polityka Cookies
-            </a>
-          </p>
-        </div>
-          </CookieConsent>
-      </BrowserRouter>
+        </BrowserRouter>
+        
+        {/* Cookie Consent Banner - RODO/GDPR Compliance */}
+        <CookieConsent
+          location="bottom"
+          buttonText="Akceptuję wszystkie"
+          declineButtonText="Odrzuć"
+          enableDeclineButton
+          cookieName="moja-serowarnia-consent"
+          style={{
+            background: "rgba(0, 0, 0, 0.95)",
+            padding: "20px",
+            alignItems: "center",
+          }}
+          buttonStyle={{
+            background: "#F59E0B",
+            color: "white",
+            fontSize: "14px",
+            borderRadius: "8px",
+            padding: "12px 24px",
+            fontWeight: "600",
+            cursor: "pointer",
+            border: "none",
+          }}
+          declineButtonStyle={{
+            background: "transparent",
+            border: "1px solid white",
+            color: "white",
+            fontSize: "14px",
+            borderRadius: "8px",
+            padding: "12px 24px",
+            fontWeight: "600",
+            cursor: "pointer",
+          }}
+          expires={365}
+          onAccept={() => {
+            // Włącz Google Analytics tracking
+            if ((window as any).gtag) {
+              (window as any).gtag('consent', 'update', {
+                analytics_storage: 'granted'
+              });
+            }
+            console.log('[Cookie Consent] Użytkownik zaakceptował cookies');
+          }}
+          onDecline={() => {
+            // Wyłącz Google Analytics tracking
+            if ((window as any)['ga-disable-G-XR997KZQKB']) {
+              (window as any)['ga-disable-G-XR997KZQKB'] = true;
+            }
+            console.log('[Cookie Consent] Użytkownik odrzucił cookies');
+          }}
+        >
+          <div className="text-sm text-white">
+            <p className="mb-2">
+              Serwis prezentuje informacje o kulturach bakteryjnych i przepisach na podstawie publicznie dostępnych danych. 
+              Nie gwarantujemy kompletności informacji - zawsze weryfikuj dane u producenta. 
+              Strona wykorzystuje pliki cookie.
+            </p>
+            <p>
+              <a 
+                href="/nota-prawna" 
+                className="underline text-amber-400 hover:text-amber-300 transition-colors"
+              >
+                Nota Prawna i Polityka Cookies
+              </a>
+            </p>
+          </div>
+        </CookieConsent>
     </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
