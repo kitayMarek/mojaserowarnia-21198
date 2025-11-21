@@ -253,7 +253,14 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
                       className="cursor-pointer"
                     >
                       <div className="flex flex-col gap-1 flex-1">
-                        <span className="font-medium">{item.title}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{item.title}</span>
+                          {item.featured && (
+                            <Badge variant="default" className="text-xs">
+                              ⭐ Popularne
+                            </Badge>
+                          )}
+                        </div>
                         <span className="text-xs text-muted-foreground line-clamp-2">
                           {item.description}
                         </span>

@@ -11,6 +11,7 @@ export interface SearchItem {
   shop?: string;
   type?: string;
   price?: string;
+  featured?: boolean;
 }
 
 // Helper function to create culture search items
@@ -144,13 +145,85 @@ const prawoItems: SearchItem[] = [
 // Narzędzia
 const narzedziaItems: SearchItem[] = [
   {
+    id: "kalkulator-pasz",
+    title: "Kalkulator Pasz",
+    description:
+      "Zaawansowane narzędzie do bilansowania mieszanek paszowych dla drobiu - obliczenia składników, norm żywieniowych i kosztów produkcji paszy.",
+    category: "narzedzia",
+    href: "/kalkulator-pasz",
+    keywords: [
+      "kalkulator pasz",
+      "pasza",
+      "mieszanka paszowa",
+      "bilansowanie",
+      "drób",
+      "kury",
+      "brojlery",
+      "kaczki",
+      "gęsi",
+      "indyki",
+      "nioski",
+      "kurczęta",
+      "pisklęta",
+      "zboża",
+      "kukurydza",
+      "pszenica",
+      "jęczmień",
+      "owies",
+      "soja",
+      "śruta sojowa",
+      "białko",
+      "tłuszcz",
+      "energia",
+      "EM",
+      "energia metaboliczna",
+      "normy żywieniowe",
+      "wymagania pokarmowe",
+      "składniki paszowe",
+      "receptura",
+      "feed calculator",
+      "poultry",
+      "chicken feed",
+      "obliczenia paszowe",
+      "koszt paszy",
+      "wydajność",
+      "hodowla",
+      "żywienie",
+      "pasze treściwe",
+    ],
+    featured: true,
+  },
+  {
     id: "kalkulator-miar",
     title: "Kalkulator Miar",
     description:
       "Dwukierunkowy przelicznik jednostek miar: długość, masa, objętość, temperatura, prędkość, ciśnienie i powierzchnia.",
     category: "narzedzia",
     href: "/kalkulator-miar.html",
-    keywords: ["kalkulator", "miary", "przelicznik", "konwerter", "jednostki"],
+    keywords: [
+      "kalkulator",
+      "miary",
+      "przelicznik",
+      "konwerter",
+      "jednostki",
+      "przeliczenia",
+      "konwersja",
+      "metryczny",
+      "imperial",
+      "temperatura",
+      "objętość",
+      "masa",
+      "długość",
+      "ciśnienie",
+      "powierzchnia",
+      "prędkość",
+      "kg",
+      "litry",
+      "metry",
+      "stopnie",
+      "celsius",
+      "fahrenheit",
+    ],
   },
   {
     id: "kalkulator-beaugel",
@@ -159,7 +232,24 @@ const narzedziaItems: SearchItem[] = [
       "Precyzyjne obliczenia dawki dla podpuszczek Beaugel (5/50/500) oraz uniwersalny kalkulator IMCU dla wszystkich rodzajów podpuszczek.",
     category: "narzedzia",
     href: "/kalkulator-beaugel",
-    keywords: ["kalkulator", "podpuszczka", "Beaugel", "IMCU", "dawkowanie"],
+    keywords: [
+      "kalkulator",
+      "podpuszczka",
+      "Beaugel",
+      "IMCU",
+      "dawkowanie",
+      "rennet",
+      "Coquard",
+      "flokulacja",
+      "krzepnięcie",
+      "enzym",
+      "siła podpuszczki",
+      "obliczenia",
+      "ilość",
+      "mleko",
+      "ser",
+      "koagulacja",
+    ],
   },
   {
     id: "kalkulator-kosztu-sera",
@@ -168,7 +258,25 @@ const narzedziaItems: SearchItem[] = [
       "Kompleksowy kalkulator obliczający koszty produkcji sera: wydajność z mleka, składniki, koszty stałe, marża i cena sprzedaży.",
     category: "narzedzia",
     href: "/kalkulator-kosztu-sera",
-    keywords: ["kalkulator", "koszt", "ser", "produkcja", "cena", "marża"],
+    keywords: [
+      "kalkulator",
+      "koszt",
+      "ser",
+      "produkcja",
+      "cena",
+      "marża",
+      "kalkulacja",
+      "rentowność",
+      "wydajność",
+      "zysk",
+      "opłacalność",
+      "biznes plan",
+      "finanse",
+      "mleko",
+      "składniki",
+      "koszty stałe",
+      "amortyzacja",
+    ],
   },
 ];
 
@@ -234,6 +342,16 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
       const allWordsPresent = words.every((word) => searchText.includes(word));
       if (allWordsPresent) {
         score += 100;
+      }
+
+      // Featured item bonus - high priority
+      if (item.featured) {
+        score += 300;
+      }
+
+      // Category bonus - prioritize tools
+      if (item.category === "narzedzia") {
+        score += 150;
       }
 
       // Individual word matches
