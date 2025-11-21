@@ -25,6 +25,7 @@ const Navigation = () => {
     { label: "Przepisy", href: "/przepisy" },
     { label: "Poradniki", href: "/poradniki" },
     { label: "Narzędzia", href: "/narzedzia" },
+    { label: "Ewidencja", href: "/system-ewidencji" },
     { label: "Kontakt", href: "/kontakt" },
   ];
 

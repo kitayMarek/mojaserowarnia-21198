@@ -43,6 +43,7 @@ const PorownywarkaKultur = lazy(() => import("./pages/PorownywarkaKultur"));
 const NotaPrawna = lazy(() => import("./pages/NotaPrawna"));
 const Admin = lazy(() => import("./pages/Admin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -85,6 +86,7 @@ const App = () => (
             <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />
             <Route path="/kontakt" element={<Contact />} />
             <Route path="/nota-prawna" element={<NotaPrawna />} />
+            <Route path="/system-ewidencji" element={<SystemEwidencji />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/dashboard" element={<DashboardLayout />}>

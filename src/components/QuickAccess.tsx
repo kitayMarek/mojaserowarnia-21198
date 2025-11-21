@@ -11,8 +11,7 @@ const QuickAccess = () => {
       title: "System Ewidencji",
       description: "Ewidencja sprzedaży i rachunki RHD",
       color: "from-green-500 to-emerald-600",
-      href: user ? "/dashboard" : "/auth",
-      requiresAuth: true,
+      href: "/system-ewidencji",
     },
     {
       icon: Database,
