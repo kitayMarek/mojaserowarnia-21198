@@ -192,6 +192,8 @@ export type Database = {
           email: string | null
           firma_nazwa: string | null
           id: string
+          marketing_consent: boolean
+          marketing_consent_date: string | null
           nip: string | null
           nr_weterynaryjny: string | null
           telefon: string | null
@@ -203,6 +205,8 @@ export type Database = {
           email?: string | null
           firma_nazwa?: string | null
           id: string
+          marketing_consent?: boolean
+          marketing_consent_date?: string | null
           nip?: string | null
           nr_weterynaryjny?: string | null
           telefon?: string | null
@@ -214,6 +218,8 @@ export type Database = {
           email?: string | null
           firma_nazwa?: string | null
           id?: string
+          marketing_consent?: boolean
+          marketing_consent_date?: string | null
           nip?: string | null
           nr_weterynaryjny?: string | null
           telefon?: string | null
@@ -293,6 +299,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       reactions_stats: {
@@ -309,9 +336,31 @@ export type Database = {
     Functions: {
       cleanup_old_contact_attempts: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: { user_uuid: string }; Returns: string }
+      get_users_with_roles: {
+        Args: never
+        Returns: {
+          adres: string
+          created_at: string
+          email: string
+          firma_nazwa: string
+          marketing_consent: boolean
+          marketing_consent_date: string
+          nip: string
+          roles: string[]
+          telefon: string
+          user_id: string
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -438,6 +487,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

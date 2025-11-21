@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 
@@ -37,6 +38,7 @@ export default function Auth() {
   const [nip, setNip] = useState("");
   const [adres, setAdres] = useState("");
   const [telefon, setTelefon] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
 
   // Redirect if already logged in
   if (user) {
@@ -100,6 +102,7 @@ export default function Auth() {
         nip: nip || undefined,
         adres: adres || undefined,
         telefon: telefon || undefined,
+        marketing_consent: marketingConsent,
       });
       
       if (error) {
@@ -238,6 +241,21 @@ export default function Auth() {
                     value={telefon}
                     onChange={(e) => setTelefon(e.target.value)}
                   />
+                </div>
+                <div className="flex items-start space-x-2 pt-2">
+                  <Checkbox
+                    id="marketing-consent"
+                    checked={marketingConsent}
+                    onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+                  />
+                  <Label
+                    htmlFor="marketing-consent"
+                    className="text-sm font-normal leading-relaxed cursor-pointer"
+                  >
+                    Wyrażam zgodę na otrzymywanie informacji marketingowych, w tym powiadomień o 
+                    nowych funkcjach i aktualizacjach systemu, na podany adres email. Zgoda jest 
+                    dobrowolna i można ją wycofać w każdej chwili.
+                  </Label>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Rejestracja..." : "Zarejestruj się"}
