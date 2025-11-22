@@ -155,6 +155,48 @@ export type Database = {
         }
         Relationships: []
       }
+      news_banners: {
+        Row: {
+          created_at: string
+          date: string
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          link_url: string
+          subtitle: string | null
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          link_url: string
+          subtitle?: string | null
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          link_url?: string
+          subtitle?: string | null
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           created_at: string
