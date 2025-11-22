@@ -1,4 +1,4 @@
-import { Database, BookOpen, GraduationCap, Scale, Users, Calculator, FileText } from "lucide-react";
+import { Database, BookOpen, GraduationCap, Scale, Users, Calculator, FileText, Newspaper } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -33,6 +33,13 @@ const QuickAccess = () => {
       description: "Kompletne przewodniki po produkcji sera",
       color: "from-amber-600 to-yellow-600",
       href: "/poradniki",
+    },
+    {
+      icon: Newspaper,
+      title: "Wiadomości",
+      description: "Aktualności ze świata serowarstwa",
+      color: "from-indigo-500 to-blue-500",
+      href: "/wiadomosci",
     },
     {
       icon: Scale,
