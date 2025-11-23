@@ -42,6 +42,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const PorownywarkaKultur = lazy(() => import("./pages/PorownywarkaKultur"));
 const NotaPrawna = lazy(() => import("./pages/NotaPrawna"));
 const Admin = lazy(() => import("./pages/Admin"));
+const AdminNews = lazy(() => import("./pages/AdminNews"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
@@ -91,6 +92,7 @@ const App = () => (
             <Route path="/wiadomosci" element={<Wiadomosci />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
+            <Route path="/admin/news" element={<AdminRoute><AdminNews /></AdminRoute>} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="ewidencja" element={<Ewidencja />} />
