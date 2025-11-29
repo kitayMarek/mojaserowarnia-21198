@@ -27,6 +27,7 @@ const Footer = () => {
         { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },
         { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
         { label: "System ewidencji", href: "/dashboard" },
+        { label: "Automatyzacja Social Media", href: "/automatyzacja-social-media" },
       ],
     },
     {
