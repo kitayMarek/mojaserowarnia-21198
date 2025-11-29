@@ -5,6 +5,7 @@ import RecipeCard from "@/components/RecipeCard";
 import { recipesData } from "@/data/recipesData";
 import { Button } from "@/components/ui/button";
 import przepisyHeaderImage from "@/assets/przepisy-header.webp";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 const Przepisy = () => {
   const [filter, setFilter] = useState<string>("all");
@@ -21,8 +22,33 @@ const Przepisy = () => {
     ? recipesData 
     : recipesData.filter(r => r.difficulty === filter);
 
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Przepisy na domowe sery",
+    "description": "Kompletna lista przepisów na tradycyjne sery domowe",
+    "numberOfItems": recipesData.length,
+    "itemListElement": recipesData.map((recipe, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `https://mojaserowarnia.pl/przepisy/${recipe.id}`,
+      "name": recipe.name,
+      "description": recipe.description.slice(0, 160)
+    }))
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema, null, 2) }}
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: "Strona główna", url: "https://mojaserowarnia.pl/" },
+          { name: "Przepisy", url: "https://mojaserowarnia.pl/przepisy" }
+        ]}
+      />
       <Navigation />
       
       <main className="flex-1 pt-20">
