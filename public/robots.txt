@@ -16,7 +16,7 @@ Disallow: /dashboard/
 Disallow: /auth
 Disallow: /api/
 
-Sitemap: https://mojaserowarnia.pl/sitemap.xml
+Sitemap: https://isypstatsbyacnnfpukx.supabase.co/functions/v1/generate-sitemap
 
 # Crawl-delay
 Crawl-delay: 1
