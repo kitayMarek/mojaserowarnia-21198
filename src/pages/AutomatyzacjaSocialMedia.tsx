@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Rss, Facebook, Zap, Send, Copy, CheckCircle2, AlertCircle } from "lucide-react";
+import { Rss, Facebook, Zap, Send, Copy, CheckCircle2, AlertCircle, Check, Info, BookOpen } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const AutomatyzacjaSocialMedia = () => {
@@ -135,120 +135,181 @@ const AutomatyzacjaSocialMedia = () => {
             </Alert>
 
             {/* Main Content Tabs */}
-            <Tabs defaultValue="zapier" className="space-y-6">
+            <Tabs defaultValue="dlvr" className="space-y-6">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="zapier">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Zapier
+                <TabsTrigger value="dlvr">
+                  <Rss className="h-4 w-4 mr-2" />
+                  dlvr.it (Darmowe)
                 </TabsTrigger>
                 <TabsTrigger value="ifttt">
                   <Send className="h-4 w-4 mr-2" />
                   IFTTT
                 </TabsTrigger>
                 <TabsTrigger value="webhook">
-                  <Send className="h-4 w-4 mr-2" />
+                  <Zap className="h-4 w-4 mr-2" />
                   Webhook Panel
                 </TabsTrigger>
               </TabsList>
 
-              {/* Zapier Instructions */}
-              <TabsContent value="zapier" className="space-y-6">
+              {/* dlvr.it Instructions */}
+              <TabsContent value="dlvr" className="space-y-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Zap className="h-5 w-5 text-primary" />
-                      Automatyzacja przez Zapier
+                      <Rss className="h-5 w-5 text-primary" />
+                      dlvr.it - Darmowa automatyzacja RSS → Facebook
                     </CardTitle>
                     <CardDescription>
-                      Połącz RSS Feed z Facebookiem używając Zapier (w pełni automatyczne)
+                      Profesjonalne narzędzie specjalizujące się w automatycznym publikowaniu z RSS na social media
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {/* Step 1 */}
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                        1
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Utwórz konto w Zapier</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Przejdź na <a href="https://zapier.com" target="_blank" rel="noopener" className="text-primary hover:underline">zapier.com</a> i załóż darmowe konto.
-                        </p>
-                      </div>
+                    {/* Why dlvr.it */}
+                    <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                      <h4 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                        <Check className="h-5 w-5" />
+                        Dlaczego dlvr.it?
+                      </h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li className="flex items-start gap-2">
+                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span><strong>100% darmowe</strong> dla 3 profili społecznościowych i 5 RSS feedów</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span>Specjalizacja w RSS → Social Media (prostsze niż Zapier)</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span>Automatyczne skracanie linków i dodawanie obrazków</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span>Wsparcie dla Facebook Pages (nie wymaga płatnego planu)</span>
+                        </li>
+                      </ul>
                     </div>
 
-                    {/* Step 2 */}
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                        2
+                    {/* Step by step */}
+                    <div>
+                      <h4 className="font-semibold mb-4 flex items-center gap-2">
+                        <BookOpen className="h-5 w-5 text-primary" />
+                        Instrukcja krok po kroku
+                      </h4>
+                      
+                      {/* Step 1 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          1
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Zarejestruj się na dlvr.it</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Przejdź na stronę{" "}
+                            <a
+                              href="https://dlvrit.com"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              dlvr.it
+                            </a>{" "}
+                            i załóż darmowe konto. Plan Free pozwala na 3 połączenia społecznościowe i 5 RSS feedów.
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Utwórz nowy Zap</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Kliknij "Create Zap" i wybierz trigger:
-                        </p>
-                        <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
-                          <li>Trigger: <strong>RSS by Zapier</strong> → "New Item in Feed"</li>
-                          <li>Wklej URL RSS Feed (skopiuj powyżej)</li>
-                          <li>Test: Zapier pobierze najnowsze elementy z feedu</li>
-                        </ul>
-                      </div>
-                    </div>
 
-                    {/* Step 3 */}
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                        3
+                      {/* Step 2 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          2
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Dodaj swój RSS Feed</h3>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            W panelu dlvr.it kliknij <strong>"Add Source"</strong> lub <strong>"Add RSS Feed"</strong> i wklej URL:
+                          </p>
+                          <div className="p-3 bg-muted rounded-lg font-mono text-xs break-all">
+                            {rssUrl}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Połącz z Facebookiem</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Dodaj Action:
-                        </p>
-                        <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
-                          <li>Action: <strong>Facebook Pages</strong> → "Create Page Post"</li>
-                          <li>Połącz swoje konto Facebook i wybierz stronę</li>
-                          <li>Skonfiguruj treść posta:
-                            <ul className="ml-6 mt-1 space-y-1">
-                              <li><strong>Message</strong>: [Title] - [Description]</li>
-                              <li><strong>Link</strong>: [Link]</li>
-                              <li><strong>Photo URL</strong>: [Image] (opcjonalnie)</li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
 
-                    {/* Step 4 */}
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                        4
+                      {/* Step 3 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          3
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Połącz stronę Facebook</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Kliknij <strong>"Add Route"</strong> → wybierz <strong>"Facebook"</strong> → zaloguj się do swojego konta Facebook i wybierz stronę, na której chcesz publikować.
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Filtruj duplikaty (opcjonalnie)</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Dodaj step "Filter by Zapier" między RSS a Facebookiem, aby unikać duplikatów lub publikować tylko wybrane kategorie.
-                        </p>
-                      </div>
-                    </div>
 
-                    {/* Step 5 */}
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                        5
+                      {/* Step 4 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          4
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Skonfiguruj szablon posta</h3>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            dlvr.it automatycznie pobierze tytuł, opis i obrazek z RSS. Możesz dostosować szablon posta:
+                          </p>
+                          <div className="p-3 bg-muted rounded-lg text-sm">
+                            <p className="font-semibold mb-2 text-foreground">Przykładowy szablon:</p>
+                            <code className="text-xs text-muted-foreground whitespace-pre-wrap">
+{`🧀 Nowy przepis: [title]
+
+[description]
+
+👉 Sprawdź pełny przepis: [link]
+
+#ser #serowarstwo #przepis #mojaserowarnia`}
+                            </code>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Aktywuj Zap</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Zapisz i włącz Zap. Od teraz każdy nowy przepis lub news pojawi się automatycznie na Facebooku!
-                        </p>
+
+                      {/* Step 5 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          5
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Ustaw harmonogram publikacji</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Wybierz, jak często dlvr.it ma sprawdzać RSS feed (np. co 30 minut, co godzinę). Możesz też ustawić interwały między postami, aby nie spamować.
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Step 6 */}
+                      <div className="flex gap-4 mb-6">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                          6
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2">Zapisz i aktywuj!</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Kliknij <strong>"Save"</strong>. Od teraz każdy nowy wpis w RSS będzie automatycznie publikowany na Facebooku! 🎉
+                          </p>
+                        </div>
                       </div>
                     </div>
 
                     <Alert>
-                      <AlertCircle className="h-4 w-4" />
+                      <Info className="h-4 w-4" />
                       <AlertDescription>
-                        <strong>Częstotliwość sprawdzania:</strong> Darmowy plan Zapier sprawdza RSS co 15 minut. Plan płatny sprawdza co 1-5 minut.
+                        <p className="font-semibold mb-2">Wskazówki:</p>
+                        <ul className="space-y-1 text-sm">
+                          <li>• dlvr.it automatycznie skraca długie linki</li>
+                          <li>• Możesz dodać własne hashtagi w szablonie</li>
+                          <li>• Obrazki z RSS są automatycznie dołączane do postów</li>
+                          <li>• Funkcja "Power Scheduler" (płatna) pozwala na wybór najlepszych godzin publikacji</li>
+                        </ul>
                       </AlertDescription>
                     </Alert>
                   </CardContent>
@@ -261,10 +322,10 @@ const AutomatyzacjaSocialMedia = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Send className="h-5 w-5 text-primary" />
-                      Automatyzacja przez IFTTT
+                      IFTTT - Alternatywne rozwiązanie
                     </CardTitle>
                     <CardDescription>
-                      Alternatywna metoda automatyzacji używając IFTTT
+                      Darmowy plan IFTTT pozwala na 2 aktywne aplety - wystarczające dla prostej automatyzacji
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -334,10 +395,18 @@ const AutomatyzacjaSocialMedia = () => {
                       </div>
                     </div>
 
-                    <Alert>
-                      <AlertCircle className="h-4 w-4" />
+                    <Alert variant="default" className="border-amber-500/20 bg-amber-500/5">
+                      <Info className="h-4 w-4 text-amber-600" />
                       <AlertDescription>
-                        <strong>Częstotliwość:</strong> IFTTT sprawdza RSS co ~15 minut na darmowym planie. Plan Pro+ oferuje sprawdzanie co 5 minut.
+                        <p className="font-semibold mb-2 text-foreground">Ograniczenia darmowego planu IFTTT:</p>
+                        <ul className="space-y-1 text-sm">
+                          <li>• Tylko 2 aktywne aplety jednocześnie</li>
+                          <li>• Sprawdzanie RSS co 1 godzinę (wolniejsze niż dlvr.it)</li>
+                          <li>• Brak zaawansowanych opcji formatowania</li>
+                        </ul>
+                        <p className="mt-2 text-foreground">
+                          💡 <strong>Rekomendacja:</strong> Użyj dlvr.it jako głównego narzędzia, a IFTTT jako backup lub dla innych platform.
+                        </p>
                       </AlertDescription>
                     </Alert>
                   </CardContent>
@@ -432,10 +501,78 @@ const AutomatyzacjaSocialMedia = () => {
               </TabsContent>
             </Tabs>
 
+            {/* Comparison Section */}
+            <Card className="mt-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CheckCircle2 className="h-6 w-6 text-primary" />
+                  Porównanie narzędzi
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* dlvr.it */}
+                  <div className="bg-primary/5 rounded-lg p-6 border border-primary/20">
+                    <h3 className="font-semibold text-lg mb-3 text-primary flex items-center gap-2">
+                      <Check className="h-5 w-5" />
+                      dlvr.it (Rekomendowane)
+                    </h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">✓</span>
+                        <span><strong>Darmowe:</strong> 3 profile, 5 RSS feedów</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">✓</span>
+                        <span><strong>Szybkie:</strong> Sprawdzanie co 30 min</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">✓</span>
+                        <span><strong>Proste:</strong> Specjalizacja w RSS → Social</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">✓</span>
+                        <span>Automatyczne obrazki i skracanie linków</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  {/* IFTTT */}
+                  <div className="bg-secondary/5 rounded-lg p-6 border border-secondary/20">
+                    <h3 className="font-semibold text-lg mb-3 text-secondary flex items-center gap-2">
+                      <Send className="h-5 w-5" />
+                      IFTTT (Alternatywa)
+                    </h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <span className="text-secondary font-bold">✓</span>
+                        <span><strong>Darmowe:</strong> 2 aplety</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-muted-foreground">○</span>
+                        <span><strong>Wolniejsze:</strong> Sprawdzanie co 1h</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-muted-foreground">○</span>
+                        <span>Mniej opcji formatowania</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-secondary font-bold">✓</span>
+                        <span>Dobre jako backup lub dla innych platform</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Benefits Section */}
             <Card className="mt-8">
               <CardHeader>
-                <CardTitle>Korzyści z automatyzacji</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <CheckCircle2 className="h-6 w-6 text-primary" />
+                  Korzyści z automatyzacji
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
