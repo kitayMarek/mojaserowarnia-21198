@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Scale } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -53,6 +54,7 @@ const Prawo = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Prawo" }]} />
       
       <main className="flex-1 pt-20">
         <header className="relative border-b border-border py-12 md:py-16 overflow-hidden">

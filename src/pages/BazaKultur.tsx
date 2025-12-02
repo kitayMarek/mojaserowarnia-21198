@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,7 @@ const BazaKultur = () => {
   const types = Array.from(new Set(culturesData.map(c => c.type)));
   return <div className="min-h-screen flex flex-col">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Baza Kultur" }]} />
       <main className="flex-1 pt-20" role="main">
         {/* Hero Section */}
         <section className="relative py-12 md:py-16 overflow-hidden">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
@@ -18,6 +19,10 @@ const BakterieKultury = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Poradniki", href: "/poradniki" },
+        { label: "Bakterie i Kultury" }
+      ]} />
       
       <main className="pt-20">
         {/* Hero Section */}

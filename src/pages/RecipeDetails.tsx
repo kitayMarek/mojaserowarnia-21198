@@ -8,7 +8,7 @@ import { ArrowLeft, Clock, ChefHat } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ReactionButton from "@/components/ReactionButton";
 import RecipeSchema from "@/components/RecipeSchema";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -45,14 +45,11 @@ const RecipeDetails = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <RecipeSchema recipe={recipe} />
-      <BreadcrumbSchema 
-        items={[
-          { name: "Strona główna", url: "https://mojaserowarnia.pl/" },
-          { name: "Przepisy", url: "https://mojaserowarnia.pl/przepisy" },
-          { name: recipe.name, url: `https://mojaserowarnia.pl/przepisy/${recipe.id}` }
-        ]}
-      />
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Przepisy", href: "/przepisy" },
+        { label: recipe.name }
+      ]} />
       
       <main className="flex-1 pt-20">
         <article className="container mx-auto px-4 py-12 max-w-5xl">

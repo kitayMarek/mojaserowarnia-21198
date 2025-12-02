@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -217,6 +218,10 @@ const KalkulatorMiar = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Narzędzia", href: "/narzedzia" },
+        { label: "Kalkulator Miar" }
+      ]} />
       
       <main className="pt-20">
         {/* Hero */}

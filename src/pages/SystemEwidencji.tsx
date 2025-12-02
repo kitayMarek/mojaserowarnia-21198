@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ewidencjaHeader from "@/assets/ewidencja-header.png";
@@ -61,6 +62,7 @@ const SystemEwidencji = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "System Ewidencji" }]} />
       
       <main className="flex-1">
         {/* Hero Section */}

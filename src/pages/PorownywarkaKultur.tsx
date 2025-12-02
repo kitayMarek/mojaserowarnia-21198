@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -96,6 +97,10 @@ const PorownywarkaKultur = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Kultury", href: "/baza-kultur" },
+        { label: "Porównywarka Kultur" }
+      ]} />
       <main className="pt-20 pb-12" role="main">
         {/* Header */}
         <header className="bg-gradient-to-r from-primary/10 to-primary/5 border-b">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Calculator } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ const Narzedzia = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Narzędzia" }]} />
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 overflow-hidden">

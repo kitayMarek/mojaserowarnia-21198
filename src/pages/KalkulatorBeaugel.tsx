@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -89,6 +90,10 @@ const KalkulatorBeaugel = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Narzędzia", href: "/narzedzia" },
+        { label: "Kalkulator Podpuszczki" }
+      ]} />
       
       <main className="pt-20">
         {/* Hero Section */}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
 import { AlertCircle, CheckCircle, Info } from 'lucide-react';
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
@@ -888,6 +889,10 @@ const KalkulatorPasz = () => {
   return (
     <>
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Narzędzia", href: "/narzedzia" },
+        { label: "Kalkulator Pasz" }
+      ]} />
       <div
         className="relative min-h-[400px] flex items-center justify-center text-white"
         style={{

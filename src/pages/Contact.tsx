@@ -6,6 +6,7 @@ import * as z from "zod";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -159,6 +160,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Kontakt" }]} />
       
       <main className="pt-28 pb-20">
         <div className="container mx-auto px-4">
