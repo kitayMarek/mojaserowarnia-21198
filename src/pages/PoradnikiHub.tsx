@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Beaker, ShoppingCart, Scale } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
@@ -49,6 +50,7 @@ const PoradnikiHub = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Poradniki" }]} />
       
       <main className="pt-20">
         {/* Hero Section */}

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, FileText, AlertCircle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -80,6 +81,10 @@ const AktyPrawneUE = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Prawo", href: "/prawo" },
+        { label: "Akty Prawne UE" }
+      ]} />
       
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
         <div className="max-w-5xl mx-auto">

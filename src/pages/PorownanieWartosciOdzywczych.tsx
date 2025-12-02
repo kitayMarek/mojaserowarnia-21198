@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
@@ -230,6 +231,10 @@ const PorownanieWartosciOdzywczych = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Poradniki", href: "/poradniki" },
+        { label: "Porównanie Wartości Odżywczych" }
+      ]} />
       
       <main className="flex-grow container mx-auto px-4 py-8 mt-16">
         <Link to="/poradniki" className="inline-flex items-center text-primary hover:underline mb-6">

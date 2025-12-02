@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { BannerSection } from "@/components/news/BannerSection";
 import { Newspaper } from "lucide-react";
 
@@ -17,6 +18,7 @@ const Wiadomosci = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Wiadomości" }]} />
       <main className="pt-20" role="main">
         {/* Hero Section */}
         <section className="bg-gradient-to-b from-primary/5 to-background py-16">

@@ -5,7 +5,7 @@ import RecipeCard from "@/components/RecipeCard";
 import { recipesData } from "@/data/recipesData";
 import { Button } from "@/components/ui/button";
 import przepisyHeaderImage from "@/assets/przepisy-header.webp";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 const Przepisy = () => {
   const [filter, setFilter] = useState<string>("all");
@@ -43,13 +43,8 @@ const Przepisy = () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema, null, 2) }}
       />
-      <BreadcrumbSchema 
-        items={[
-          { name: "Strona główna", url: "https://mojaserowarnia.pl/" },
-          { name: "Przepisy", url: "https://mojaserowarnia.pl/przepisy" }
-        ]}
-      />
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Przepisy" }]} />
       
       <main className="flex-1 pt-20">
         <section className="relative py-12 md:py-16 overflow-hidden">

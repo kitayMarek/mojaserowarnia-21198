@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
@@ -18,6 +19,7 @@ const NotaPrawna = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
+      <PageBreadcrumbs items={[{ label: "Nota Prawna" }]} />
       <main className="pt-20 pb-12" role="main">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <h1 className="text-3xl md:text-4xl font-bold mb-6">Nota Prawna</h1>

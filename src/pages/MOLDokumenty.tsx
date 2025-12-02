@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, CheckCircle2, Info } from "lucide-react";
@@ -21,6 +22,11 @@ const MOLDokumenty = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
       <Navigation />
+      <PageBreadcrumbs items={[
+        { label: "Prawo", href: "/prawo" },
+        { label: "MOL", href: "/prawo/mol" },
+        { label: "Dokumenty" }
+      ]} />
       
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
         <div className="max-w-4xl mx-auto">
