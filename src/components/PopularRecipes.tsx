@@ -13,7 +13,15 @@ interface RecipeWithStats extends Recipe {
 }
 
 const PopularRecipes = () => {
-  const [popularRecipes, setPopularRecipes] = useState<RecipeWithStats[]>([]);
+  // Initialize with first 4 recipes as fallback immediately
+  const [popularRecipes, setPopularRecipes] = useState<RecipeWithStats[]>(
+    recipesData.slice(0, 4).map((r) => ({
+      ...r,
+      totalPoints: 0,
+      likesCount: 0,
+      lovesCount: 0,
+    }))
+  );
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
