@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { culturesData } from "@/data/culturesDataComplete";
 import { recipesData } from "@/data/recipesData";
 import heroImage from "@/assets/hero-cheese-clean.webp";
-
+import HeroSearch from "./HeroSearch";
 const Hero = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -55,11 +55,15 @@ const Hero = () => {
           <p className="text-xl md:text-2xl text-white/95 mb-4 font-light drop-shadow">
             Największa polska baza wiedzy o produkcji sera
           </p>
-          <p className="text-base md:text-lg text-white/90 mb-8 max-w-2xl mx-auto drop-shadow">
+          <p className="text-base md:text-lg text-white/90 mb-6 max-w-2xl mx-auto drop-shadow">
             145+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
             i regulacje prawne – wszystko czego potrzebuje polski serowar
           </p>
 
+          {/* Search */}
+          <div className="mb-8">
+            <HeroSearch />
+          </div>
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-10">
             {stats.map((stat, index) => {
