@@ -22,7 +22,7 @@ const PopularRecipes = () => {
       lovesCount: 0,
     }))
   );
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const fetchPopularRecipes = async () => {
