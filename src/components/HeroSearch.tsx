@@ -22,11 +22,20 @@ const categoryLabels: Record<string, string> = {
   kontakt: "Kontakt",
 };
 
+const popularSearches = [
+  { label: "Camembert", query: "camembert" },
+  { label: "Feta", query: "feta" },
+  { label: "Kalkulator podpuszczki", query: "kalkulator podpuszczki" },
+  { label: "RHD", query: "rhd" },
+  { label: "Kultury mezofilne", query: "mezofilne" },
+];
+
 const HeroSearch = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [showPopular, setShowPopular] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -36,6 +45,7 @@ const HeroSearch = () => {
       const searchResults = searchItems(query, 8);
       setResults(searchResults);
       setIsOpen(searchResults.length > 0);
+      setShowPopular(false);
       setSelectedIndex(-1);
     } else {
       setResults([]);
@@ -52,6 +62,7 @@ const HeroSearch = () => {
         !inputRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        setShowPopular(false);
       }
     };
 
@@ -62,6 +73,7 @@ const HeroSearch = () => {
   const handleSelect = (item: SearchItem) => {
     setQuery("");
     setIsOpen(false);
+    setShowPopular(false);
     
     if (item.href.startsWith("http")) {
       window.open(item.href, "_blank");
@@ -69,6 +81,19 @@ const HeroSearch = () => {
       window.location.href = item.href;
     } else {
       navigate(item.href);
+    }
+  };
+
+  const handlePopularClick = (searchQuery: string) => {
+    setQuery(searchQuery);
+    setShowPopular(false);
+  };
+
+  const handleFocus = () => {
+    if (query.length >= 2 && results.length > 0) {
+      setIsOpen(true);
+    } else if (query.length < 2) {
+      setShowPopular(true);
     }
   };
 
@@ -106,12 +131,38 @@ const HeroSearch = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          onFocus={() => query.length >= 2 && results.length > 0 && setIsOpen(true)}
+          onFocus={handleFocus}
           placeholder="Szukaj kultur, przepisów, narzędzi..."
           className="w-full h-12 pl-12 pr-4 rounded-full bg-white/95 backdrop-blur-sm border-0 shadow-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
         />
       </div>
 
+      {/* Popular searches dropdown */}
+      {showPopular && !isOpen && (
+        <div
+          ref={resultsRef}
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-border/50 overflow-hidden z-50 animate-fade-in"
+        >
+          <div className="px-4 py-3 border-b border-border/30">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              Popularne wyszukiwania
+            </p>
+          </div>
+          <div className="p-3 flex flex-wrap gap-2">
+            {popularSearches.map((item) => (
+              <button
+                key={item.query}
+                onClick={() => handlePopularClick(item.query)}
+                className="px-3 py-1.5 text-sm bg-muted hover:bg-primary/10 hover:text-primary rounded-full transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Search results dropdown */}
       {isOpen && results.length > 0 && (
         <div
           ref={resultsRef}
