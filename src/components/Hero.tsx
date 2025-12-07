@@ -1,12 +1,36 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Users, BookOpen, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { culturesData } from "@/data/culturesDataComplete";
+import { recipesData } from "@/data/recipesData";
 import heroImage from "@/assets/hero-cheese-clean.webp";
 
 const Hero = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [usersCount, setUsersCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchUsersCount = async () => {
+      const { count } = await supabase
+        .from("profiles")
+        .select("*", { count: "exact", head: true });
+      
+      if (count !== null) {
+        setUsersCount(count);
+      }
+    };
+    fetchUsersCount();
+  }, []);
+
+  const stats = [
+    { icon: Database, value: culturesData.length, label: "kultur bakteryjnych" },
+    { icon: BookOpen, value: recipesData.length, label: "przepisów" },
+    { icon: Users, value: usersCount, label: "serowarów" },
+  ];
 
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden" aria-label="Strona główna">
@@ -31,10 +55,31 @@ const Hero = () => {
           <p className="text-xl md:text-2xl text-white/95 mb-4 font-light drop-shadow">
             Największa polska baza wiedzy o produkcji sera
           </p>
-          <p className="text-base md:text-lg text-white/90 mb-12 max-w-2xl mx-auto drop-shadow">
+          <p className="text-base md:text-lg text-white/90 mb-8 max-w-2xl mx-auto drop-shadow">
             145+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
             i regulacje prawne – wszystko czego potrzebuje polski serowar
           </p>
+
+          {/* Stats */}
+          <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-10">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <div 
+                  key={index} 
+                  className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/20"
+                >
+                  <Icon className="h-6 w-6 text-primary" />
+                  <div className="text-left">
+                    <div className="text-2xl md:text-3xl font-bold text-white">
+                      {stat.value > 0 ? stat.value : "..."}
+                    </div>
+                    <div className="text-xs md:text-sm text-white/80">{stat.label}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
