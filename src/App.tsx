@@ -25,6 +25,7 @@ const KalkulatorBeaugel = lazy(() => import("./pages/KalkulatorBeaugel"));
 const KalkulatorKosztuSera = lazy(() => import("./pages/KalkulatorKosztuSera"));
 const KalkulatorMiar = lazy(() => import("./pages/KalkulatorMiar"));
 const KalkulatorPasz = lazy(() => import("./pages/KalkulatorPasz"));
+const KalkulatorPaszBydlo = lazy(() => import("./pages/KalkulatorPaszBydlo"));
 const PorownanieWartosciOdzywczych = lazy(() => import("./pages/PorownanieWartosciOdzywczych"));
 const AktyPrawneUE = lazy(() => import("./pages/AktyPrawneUE"));
 const RHD = lazy(() => import("./pages/RHD"));
@@ -81,6 +82,7 @@ const App = () => (
             <Route path="/kalkulator-kosztu-sera" element={<KalkulatorKosztuSera />} />
             <Route path="/kalkulator-miar" element={<KalkulatorMiar />} />
             <Route path="/kalkulator-pasz" element={<KalkulatorPasz />} />
+            <Route path="/kalkulator-pasz-bydlo" element={<KalkulatorPaszBydlo />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />

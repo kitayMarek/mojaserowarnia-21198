@@ -296,6 +296,58 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
+              {/* Kalkulator Pasz Bydło */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-pasz-bydlo"
+                      variant="compact"
+                    />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator Pasz dla Bydła
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Profesjonalne bilansowanie dawek pokarmowych dla bydła mlecznego i mięsnego wg norm INRAz/INRA 2018.
+                      </p>
+                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Krowy mleczne i bydło opasowe</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>27 składników paszowych</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Bilans energii, białka, NDF, Ca, P</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Kalkulacja kosztów dawki</span>
+                      </li>
+                    </ul>
+                    <Button 
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white shadow-warm"
+                    >
+                      <a href="/kalkulator-pasz-bydlo" className="flex items-center justify-center gap-2">
+                        Otwórz Kalkulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Placeholder for future tools */}
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
