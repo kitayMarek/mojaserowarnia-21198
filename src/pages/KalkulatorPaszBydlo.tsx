@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
-import { AlertCircle, CheckCircle, Info, Plus, Trash2, Calculator, Download, ChevronDown, ChevronUp, Beef } from 'lucide-react';
+import { AlertCircle, CheckCircle, Info, Plus, Trash2, Calculator, Download, ChevronDown, ChevronUp, Beef, Wand2, Settings2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { 
   SKLADNIKI_PASZY, 
   TYPY_BYDLA, 
@@ -22,6 +25,7 @@ import {
   type SkladnikPaszy,
   type NormyZywieniowe 
 } from "@/data/cattleFeedData";
+import { useFeedOptimizer, type OgraniczeniaSkladnika } from "@/hooks/useFeedOptimizer";
 
 interface DawkaSkladnik {
   skladnik: SkladnikPaszy;
@@ -51,6 +55,11 @@ const KalkulatorPaszBydlo = () => {
   // Stan dawki
   const [dawka, setDawka] = useState<DawkaSkladnik[]>([]);
   const [pokazSkladniki, setPokazSkladniki] = useState(true);
+  
+  // Stan optymalizatora
+  const [pokazOptymalizator, setPokazOptymalizator] = useState(false);
+  const [ograniczenia, setOgraniczenia] = useState<OgraniczeniaSkladnika[]>([]);
+  const [optymalizujeProcess, setOptymalizujeProcess] = useState(false);
 
   // Oblicz normy na podstawie parametrów
   const normy: NormyZywieniowe = useMemo(() => {
@@ -61,6 +70,9 @@ const KalkulatorPaszBydlo = () => {
       return obliczNormyBydloMiesne(waga, przyrost, plec);
     }
   }, [typBydla, waga, mleko, tluszcz, przyrost]);
+
+  // Hook optymalizatora
+  const { optymalizuj } = useFeedOptimizer(SKLADNIKI_PASZY, normy, typBydla);
 
   // Oblicz bilans dawki
   const bilans = useMemo(() => {
@@ -119,6 +131,91 @@ const KalkulatorPaszBydlo = () => {
 
   const wyczysc = () => {
     setDawka([]);
+    setOgraniczenia([]);
+  };
+
+  // Dodaj składnik do optymalizatora
+  const dodajDoOptymalizatora = (skladnik: SkladnikPaszy) => {
+    const istnieje = ograniczenia.find(o => o.skladnik.nazwa === skladnik.nazwa);
+    if (!istnieje) {
+      setOgraniczenia([...ograniczenia, {
+        skladnik,
+        minKg: 0,
+        maxKg: skladnik.kategoria === 'Kiszonki' ? 30 : 
+               skladnik.kategoria === 'Siano' ? 10 :
+               skladnik.kategoria === 'Minerały' ? 0.5 : 5,
+        wymagany: false
+      }]);
+    }
+  };
+
+  const usunZOptymalizatora = (nazwa: string) => {
+    setOgraniczenia(ograniczenia.filter(o => o.skladnik.nazwa !== nazwa));
+  };
+
+  const aktualizujOgraniczenie = (nazwa: string, pole: keyof OgraniczeniaSkladnika, wartosc: number | boolean) => {
+    setOgraniczenia(ograniczenia.map(o => 
+      o.skladnik.nazwa === nazwa ? { ...o, [pole]: wartosc } : o
+    ));
+  };
+
+  const uruchomOptymalizacje = useCallback(() => {
+    if (ograniczenia.length === 0) {
+      toast.error("Dodaj składniki do optymalizatora");
+      return;
+    }
+    
+    setOptymalizujeProcess(true);
+    
+    // Daj czas na rendering
+    setTimeout(() => {
+      const wynik = optymalizuj(ograniczenia, 800);
+      
+      if (wynik.dawka.length > 0) {
+        setDawka(wynik.dawka);
+        toast.success(wynik.komunikat);
+      } else {
+        toast.error(wynik.komunikat);
+      }
+      
+      setOptymalizujeProcess(false);
+      setPokazOptymalizator(false);
+    }, 50);
+  }, [ograniczenia, optymalizuj]);
+
+  const wczytajDomyslneOgraniczenia = () => {
+    const domyslne: OgraniczeniaSkladnika[] = [];
+    
+    if (typBydla === "mleczne") {
+      // Składniki dla krowy mlecznej
+      const kzk = SKLADNIKI_PASZY.find(s => s.nazwa.includes("Kiszonka z kukurydzy (30-35%"));
+      const sianok = SKLADNIKI_PASZY.find(s => s.nazwa === "Sianokiszonka łąkowa");
+      const jeczmien = SKLADNIKI_PASZY.find(s => s.nazwa === "Jęczmień");
+      const soja = SKLADNIKI_PASZY.find(s => s.nazwa === "Śruta sojowa 46% PB");
+      const rzepak = SKLADNIKI_PASZY.find(s => s.nazwa === "Śruta rzepakowa");
+      const kreda = SKLADNIKI_PASZY.find(s => s.nazwa.includes("kreda"));
+      
+      if (kzk) domyslne.push({ skladnik: kzk, minKg: 15, maxKg: 35, wymagany: true });
+      if (sianok) domyslne.push({ skladnik: sianok, minKg: 5, maxKg: 20, wymagany: true });
+      if (jeczmien) domyslne.push({ skladnik: jeczmien, minKg: 0, maxKg: 6, wymagany: false });
+      if (soja) domyslne.push({ skladnik: soja, minKg: 0, maxKg: 4, wymagany: false });
+      if (rzepak) domyslne.push({ skladnik: rzepak, minKg: 0, maxKg: 4, wymagany: false });
+      if (kreda) domyslne.push({ skladnik: kreda, minKg: 0, maxKg: 0.3, wymagany: false });
+    } else {
+      // Składniki dla opasa
+      const kzk = SKLADNIKI_PASZY.find(s => s.nazwa.includes("Kiszonka z kukurydzy (25-30%"));
+      const sianok = SKLADNIKI_PASZY.find(s => s.nazwa === "Sianokiszonka łąkowa");
+      const kukurydza = SKLADNIKI_PASZY.find(s => s.nazwa === "Kukurydza (ziarno)");
+      const rzepak = SKLADNIKI_PASZY.find(s => s.nazwa === "Śruta rzepakowa");
+      
+      if (kzk) domyslne.push({ skladnik: kzk, minKg: 10, maxKg: 30, wymagany: true });
+      if (sianok) domyslne.push({ skladnik: sianok, minKg: 3, maxKg: 15, wymagany: true });
+      if (kukurydza) domyslne.push({ skladnik: kukurydza, minKg: 0, maxKg: 5, wymagany: false });
+      if (rzepak) domyslne.push({ skladnik: rzepak, minKg: 0, maxKg: 3, wymagany: false });
+    }
+    
+    setOgraniczenia(domyslne);
+    toast.success("Wczytano domyślne ograniczenia");
   };
 
   const wczytajPrzykladowaDawke = () => {
@@ -351,6 +448,136 @@ const KalkulatorPaszBydlo = () => {
                 {pokazSkladniki ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
                 Baza składników
               </Button>
+              
+              {/* Przycisk optymalizatora */}
+              <Dialog open={pokazOptymalizator} onOpenChange={setPokazOptymalizator}>
+                <DialogTrigger asChild>
+                  <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">
+                    <Wand2 className="w-4 h-4 mr-1" /> Optymalizator
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Wand2 className="w-5 h-5 text-emerald-600" />
+                      Automatyczny optymalizator dawki
+                    </DialogTitle>
+                    <DialogDescription>
+                      Wybierz składniki i ustaw ograniczenia. Algorytm znajdzie najtańszą dawkę spełniającą normy.
+                    </DialogDescription>
+                  </DialogHeader>
+                  
+                  <div className="space-y-4 py-4">
+                    {/* Przyciski pomocnicze */}
+                    <div className="flex flex-wrap gap-2">
+                      <Button size="sm" variant="outline" onClick={wczytajDomyslneOgraniczenia}>
+                        <Settings2 className="w-4 h-4 mr-1" /> Wczytaj domyślne
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => setOgraniczenia([])}>
+                        Wyczyść
+                      </Button>
+                    </div>
+                    
+                    {/* Dodawanie składników */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">Dodaj składniki do optymalizacji:</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-1 max-h-48 overflow-y-auto border rounded p-2">
+                        {SKLADNIKI_PASZY.filter(s => !ograniczenia.find(o => o.skladnik.nazwa === s.nazwa)).map(skladnik => (
+                          <Button 
+                            key={skladnik.nazwa} 
+                            size="sm" 
+                            variant="ghost" 
+                            className="justify-start text-xs h-auto py-1 px-2"
+                            onClick={() => dodajDoOptymalizatora(skladnik)}
+                          >
+                            <Plus className="w-3 h-3 mr-1 flex-shrink-0" />
+                            <span className="truncate">{skladnik.nazwa}</span>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Lista ograniczeń */}
+                    {ograniczenia.length > 0 && (
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium">Ograniczenia składników:</Label>
+                        <div className="space-y-2 max-h-64 overflow-y-auto">
+                          {ograniczenia.map(ogr => (
+                            <div key={ogr.skladnik.nazwa} className="flex items-center gap-2 p-2 bg-muted/50 rounded text-sm">
+                              <div className="flex items-center gap-1">
+                                <Checkbox 
+                                  checked={ogr.wymagany}
+                                  onCheckedChange={(checked) => aktualizujOgraniczenie(ogr.skladnik.nazwa, 'wymagany', !!checked)}
+                                />
+                                <span className="text-xs text-muted-foreground">Wym.</span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium truncate text-xs">{ogr.skladnik.nazwa}</p>
+                                <p className="text-xs text-muted-foreground">{ogr.skladnik.cenaKg.toFixed(2)} zł/kg</p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Input
+                                  type="number"
+                                  value={ogr.minKg}
+                                  onChange={e => aktualizujOgraniczenie(ogr.skladnik.nazwa, 'minKg', Number(e.target.value))}
+                                  className="w-16 h-7 text-xs"
+                                  min={0}
+                                  step={0.5}
+                                />
+                                <span className="text-xs">-</span>
+                                <Input
+                                  type="number"
+                                  value={ogr.maxKg}
+                                  onChange={e => aktualizujOgraniczenie(ogr.skladnik.nazwa, 'maxKg', Number(e.target.value))}
+                                  className="w-16 h-7 text-xs"
+                                  min={0}
+                                  step={0.5}
+                                />
+                                <span className="text-xs">kg</span>
+                              </div>
+                              <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => usunZOptymalizatora(ogr.skladnik.nazwa)}>
+                                <Trash2 className="w-3 h-3 text-destructive" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {ograniczenia.length === 0 && (
+                      <Alert>
+                        <Info className="w-4 h-4" />
+                        <AlertDescription>
+                          Dodaj składniki powyżej lub wczytaj domyślne ograniczenia.
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
+                  
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setPokazOptymalizator(false)}>
+                      Anuluj
+                    </Button>
+                    <Button 
+                      onClick={uruchomOptymalizacje} 
+                      disabled={ograniczenia.length === 0 || optymalizujeProcess}
+                      className="bg-emerald-600 hover:bg-emerald-700"
+                    >
+                      {optymalizujeProcess ? (
+                        <>
+                          <span className="animate-spin mr-2">⏳</span>
+                          Optymalizuję...
+                        </>
+                      ) : (
+                        <>
+                          <Wand2 className="w-4 h-4 mr-1" /> Optymalizuj dawkę
+                        </>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              
               {dawka.length > 0 && (
                 <Button onClick={eksportujCSV} variant="secondary">
                   <Download className="w-4 h-4 mr-1" /> Eksport CSV
