@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
-import { AlertCircle, CheckCircle, Info, Plus, Trash2, Calculator, Download, ChevronDown, ChevronUp, Beef, Wand2, Settings2 } from 'lucide-react';
+import { AlertCircle, CheckCircle, Info, Plus, Trash2, Calculator, Download, ChevronDown, ChevronUp, Beef, Wand2, Settings2, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { 
   SKLADNIKI_PASZY, 
   TYPY_BYDLA, 
@@ -255,7 +257,7 @@ const KalkulatorPaszBydlo = () => {
   };
 
   const eksportujCSV = () => {
-    let csv = "Składnik;Ilość (kg);Sucha masa (kg);Cena (PLN)\n";
+    let csv = "Skladnik;Ilosc (kg);Sucha masa (kg);Cena (PLN)\n";
     dawka.forEach(({ skladnik, iloscKg }) => {
       const smKg = iloscKg * (skladnik.sm / 100);
       csv += `${skladnik.nazwa};${iloscKg.toFixed(2)};${smKg.toFixed(2)};${(iloscKg * skladnik.cenaKg).toFixed(2)}\n`;
@@ -269,6 +271,162 @@ const KalkulatorPaszBydlo = () => {
     link.download = `dawka_bydlo_${typBydla}.csv`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const eksportujPDF = () => {
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 14;
+    let y = 20;
+
+    // Tytuł
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Bilans dawki pokarmowej dla bydla', pageWidth / 2, y, { align: 'center' });
+    y += 10;
+
+    // Data
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Data: ${new Date().toLocaleDateString('pl-PL')}`, pageWidth / 2, y, { align: 'center' });
+    y += 12;
+
+    // Parametry zwierzęcia
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Parametry zwierzecia', margin, y);
+    y += 6;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    const typLabel = TYPY_BYDLA.find(t => t.value === typBydla)?.label || typBydla;
+    doc.text(`Typ bydla: ${typLabel}`, margin, y); y += 5;
+    doc.text(`Masa ciala: ${waga} kg`, margin, y); y += 5;
+    
+    if (typBydla === "mleczne") {
+      doc.text(`Produkcja mleka: ${mleko} L/dzien`, margin, y); y += 5;
+      doc.text(`Zawartosc tluszczu: ${tluszcz}%`, margin, y); y += 5;
+    } else {
+      doc.text(`Przyrost dzienny: ${przyrost} kg/dzien`, margin, y); y += 5;
+    }
+    y += 5;
+
+    // Tabela składników
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Sklad dawki', margin, y);
+    y += 4;
+
+    const skladnikiData = dawka.map(({ skladnik, iloscKg }) => {
+      const smKg = iloscKg * (skladnik.sm / 100);
+      return [
+        skladnik.nazwa,
+        iloscKg.toFixed(2),
+        smKg.toFixed(2),
+        skladnik.cenaKg.toFixed(2),
+        (iloscKg * skladnik.cenaKg).toFixed(2)
+      ];
+    });
+
+    skladnikiData.push([
+      'SUMA',
+      dawka.reduce((s, d) => s + d.iloscKg, 0).toFixed(2),
+      bilans.sm.toFixed(2),
+      '-',
+      bilans.koszt.toFixed(2)
+    ]);
+
+    autoTable(doc, {
+      startY: y,
+      head: [['Skladnik', 'Ilosc (kg)', 'SM (kg)', 'Cena/kg', 'Wartosc (PLN)']],
+      body: skladnikiData,
+      theme: 'striped',
+      headStyles: { fillColor: [34, 139, 34], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 9, cellPadding: 2 },
+      columnStyles: {
+        0: { cellWidth: 70 },
+        1: { cellWidth: 25, halign: 'right' },
+        2: { cellWidth: 25, halign: 'right' },
+        3: { cellWidth: 25, halign: 'right' },
+        4: { cellWidth: 30, halign: 'right' }
+      }
+    });
+
+    y = (doc as any).lastAutoTable.finalY + 10;
+
+    // Bilans żywieniowy
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Bilans zywieniowy', margin, y);
+    y += 4;
+
+    const energiaLabel = typBydla === "mleczne" ? "JPM-L" : "JPM-O";
+    const energiaNorma = typBydla === "mleczne" ? normy.jpmlMj : normy.jpmoMj;
+    const energiaBilans = typBydla === "mleczne" ? bilans.jpml : bilans.jpmo;
+
+    const bilansData = [
+      ['Sucha masa', `${bilans.sm.toFixed(2)} kg`, `${normy.smKg.toFixed(2)} kg`, `${pokrycie.sm.toFixed(0)}%`],
+      [`Energia (${energiaLabel})`, `${energiaBilans.toFixed(2)} MJ`, `${energiaNorma.toFixed(2)} MJ`, `${pokrycie.energia.toFixed(0)}%`],
+      ['Bialko ogolne (PB)', `${bilans.pb.toFixed(0)} g`, `${normy.pbG.toFixed(0)} g`, `${pokrycie.pb.toFixed(0)}%`],
+      ['PBJT', `${bilans.pbjt.toFixed(0)} g`, `${normy.pbjtG.toFixed(0)} g`, `${pokrycie.pbjt.toFixed(0)}%`],
+      ['NDF', `${bilans.ndf.toFixed(1)}%`, `${normy.ndfMin}-${normy.ndfMax}%`, pokrycie.ndf ? 'OK' : 'Poza norma'],
+      ['Wapn (Ca)', `${bilans.ca.toFixed(1)} g`, `${normy.caG.toFixed(0)} g`, `${pokrycie.ca.toFixed(0)}%`],
+      ['Fosfor (P)', `${bilans.p.toFixed(1)} g`, `${normy.pG.toFixed(0)} g`, `${pokrycie.p.toFixed(0)}%`]
+    ];
+
+    autoTable(doc, {
+      startY: y,
+      head: [['Skladnik odzywczy', 'Dawka', 'Norma', 'Pokrycie']],
+      body: bilansData,
+      theme: 'striped',
+      headStyles: { fillColor: [34, 139, 34], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 9, cellPadding: 2 },
+      columnStyles: {
+        0: { cellWidth: 55 },
+        1: { cellWidth: 40, halign: 'right' },
+        2: { cellWidth: 40, halign: 'right' },
+        3: { cellWidth: 35, halign: 'right' }
+      },
+      didParseCell: (data) => {
+        if (data.section === 'body' && data.column.index === 3) {
+          const text = data.cell.raw as string;
+          const value = parseFloat(text);
+          if (!isNaN(value)) {
+            if (value >= 95 && value <= 105) {
+              data.cell.styles.textColor = [34, 139, 34];
+            } else if (value >= 85 && value <= 115) {
+              data.cell.styles.textColor = [255, 165, 0];
+            } else {
+              data.cell.styles.textColor = [220, 53, 69];
+            }
+          } else if (text === 'OK') {
+            data.cell.styles.textColor = [34, 139, 34];
+          } else if (text === 'Poza norma') {
+            data.cell.styles.textColor = [220, 53, 69];
+          }
+        }
+      }
+    });
+
+    y = (doc as any).lastAutoTable.finalY + 10;
+
+    // Koszt
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Calkowity koszt dawki: ${bilans.koszt.toFixed(2)} PLN/dzien`, margin, y);
+
+    // Stopka
+    const pageHeight = doc.internal.pageSize.getHeight();
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(128);
+    doc.text('Wygenerowano przez Serowarstwo.pl - Kalkulator Pasz dla Bydla', pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text('Obliczenia wg norm INRAz/INRA 2018', pageWidth / 2, pageHeight - 6, { align: 'center' });
+
+    // Zapisz
+    const typNazwa = typBydla === "mleczne" ? "mleczne" : "miesne";
+    doc.save(`bilans_dawki_bydlo_${typNazwa}_${new Date().toISOString().slice(0, 10)}.pdf`);
+    toast.success("PDF został wygenerowany");
   };
 
   const getStatusColor = (value: number, min = 95, max = 105) => {
@@ -579,9 +737,14 @@ const KalkulatorPaszBydlo = () => {
               </Dialog>
               
               {dawka.length > 0 && (
-                <Button onClick={eksportujCSV} variant="secondary">
-                  <Download className="w-4 h-4 mr-1" /> Eksport CSV
-                </Button>
+                <>
+                  <Button onClick={eksportujCSV} variant="secondary">
+                    <Download className="w-4 h-4 mr-1" /> CSV
+                  </Button>
+                  <Button onClick={eksportujPDF} variant="secondary">
+                    <FileText className="w-4 h-4 mr-1" /> PDF
+                  </Button>
+                </>
               )}
             </div>
 
