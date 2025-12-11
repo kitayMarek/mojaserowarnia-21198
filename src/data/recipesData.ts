@@ -880,5 +880,562 @@ export const recipesData: Recipe[] = [
       sodiumContent: 750,
       calciumContent: 650
     }
+  },
+  {
+    id: "gouda",
+    name: "Gouda",
+    difficulty: "Średni",
+    description: "Gouda to holenderski ser o łagodnym, kremowym smaku i charakterystycznej słodkiej nucie. Jest jednym z najpopularniejszych serów na świecie, ceniony za swoją wszechstronność - od młodych, miękkich wersji po dojrzałe, krystaliczne odmiany.",
+    yield: "≈ 1,8 kg z 15 L mleka",
+    ageTime: "2-12 miesięcy",
+    image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800",
+    
+    milkBase: "≈ 15 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura mezofilna typu LD (z produkcją CO₂ dla oczek).",
+    coagulant: "Płynna podpuszczka single-strength; ok. 3,5 ml na 15 L mleka.",
+    salting: "Solanka nasycona - 3 godziny na każdy kilogram sera.",
+    aging: "10-13°C, 85% RH przez 2-12 miesięcy.",
+    
+    cultureSubstitutes: [
+      {
+        name: "Flora Danica",
+        type: "mezofilna LD",
+        shop: "Serowar.pl",
+        dosage: "~0,5 g na 15 L",
+        notes: "Klasyczna kultura do Goudy z produkcją CO₂.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,5 g na 15 L",
+        notes: "Alternatywa mezofilna z oczkami.",
+        searchQuery: "MM"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: ~0,5 g kultury mezofilnej + 3,5 ml podpuszczki na 15 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna LD", amount: "~0,5 g", notes: "Flora Danica lub odpowiednik" },
+      { ingredient: "Podpuszczka płynna", amount: "3,5 ml", notes: "Single strength" },
+      { ingredient: "Solanka nasycona", amount: "3 h na kg", notes: "~350 g soli na 1 L wody" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~45 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min.",
+        tip: "Kultura LD produkuje CO₂, tworząc charakterystyczne małe oczka w serze."
+      },
+      {
+        title: "2) Krzepnięcie ~45 min",
+        content: "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu.",
+        tip: "Test skrzepu: czyste złamanie przy podniesieniu nożem."
+      },
+      {
+        title: "3) Cięcie i płukanie wodą",
+        content: "Potnij skrzep na kostki 1 cm. Usuń 1/3 serwatki i zastąp ciepłą wodą 38°C. To 'płukanie' usuwa laktozę i daje słodszy smak.",
+        tip: "Kluczowy etap dla Goudy - płukanie wodą to sekret słodkiego smaku!"
+      },
+      {
+        title: "4) Gotowanie do 38°C ~30 min",
+        content: "Podgrzewaj powoli do 38°C, mieszając delikatnie przez 30 min.",
+        warning: "Nie przekraczaj 40°C - wyższa temperatura zabije kulturę."
+      },
+      {
+        title: "5) Formowanie i prasowanie",
+        content: "Przełóż do formy i prasuj:\n• 30 min przy 4 kg\n• 2 h przy 8 kg\n• 12 h przy 12 kg",
+        tip: "Obracaj ser przy każdej zmianie ciężaru."
+      },
+      {
+        title: "6) Solenie w solance ~3 h/kg",
+        content: "Zanurz w nasyconej solance na 3 godziny na każdy kilogram sera.",
+        tip: "Temperatura solanki 10-15°C."
+      },
+      {
+        title: "7) Dojrzewanie i woskowanie",
+        content: "Osusz przez 2-3 dni, pokryj woskiem. Dojrzewaj 10-13°C, 85% RH przez 2-12 miesięcy.",
+        tip: "Młoda Gouda (2 mies.) - kremowa, Stara Gouda (12+ mies.) - krystaliczna."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Płukanie wodą to kluczowy etap - usuwa laktozę i daje charakterystyczny słodki smak Goudy.",
+        "Woskowanie chroni ser i pozwala na długie dojrzewanie."
+      ],
+      warnings: [],
+      variants: [
+        "Młoda Gouda (2-3 mies.): kremowa, łagodna",
+        "Dojrzała Gouda (6-12 mies.): intensywniejsza, lekko słona",
+        "Stara Gouda (12+ mies.): krystaliczna tekstura, mocny smak"
+      ]
+    },
+    
+    flavor: {
+      taste: "Słodkawy, kremowy, orzechowy",
+      texture: "Gładka, elastyczna (młoda) do krystalicznej (stara)",
+      color: "Jasno do ciemnożółtej",
+      aroma: "Maślany, lekko słodki"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 356,
+      fatContent: 27,
+      saturatedFatContent: 18,
+      proteinContent: 25,
+      carbohydrateContent: 2,
+      sodiumContent: 819,
+      calciumContent: 700
+    }
+  },
+  {
+    id: "cheddar",
+    name: "Cheddar",
+    difficulty: "Zaawansowany",
+    description: "Cheddar to kultowy brytyjski ser o ostrym, wyrazistym smaku. Charakteryzuje się unikalnym procesem 'cheddaringu' - układania i obracania bloków twarogu, który nadaje serowi charakterystyczną teksturę i smak.",
+    yield: "≈ 2 kg z 20 L mleka",
+    ageTime: "3-24 miesiące",
+    image: "https://images.unsplash.com/photo-1618164436241-4473940d1f5c?w=800",
+    
+    milkBase: "≈ 20 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura mezofilna MA (bez produkcji gazu).",
+    coagulant: "Płynna podpuszczka single-strength; ok. 4 ml na 20 L mleka.",
+    salting: "Solenie na sucho - 2% masy sera.",
+    aging: "10-13°C, 85% RH przez 3-24 miesiące.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MA / MA-011",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,6 g na 20 L",
+        notes: "Klasyczna kultura do Cheddara bez gazu.",
+        searchQuery: "MA"
+      },
+      {
+        name: "R-704",
+        type: "mezofilna",
+        shop: "Artiser.pl",
+        dosage: "~0,6 g na 20 L",
+        notes: "Alternatywa do twardych serów.",
+        searchQuery: "R-704"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: ~0,6 g kultury mezofilnej + 4 ml podpuszczki na 20 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna MA", amount: "~0,6 g", notes: "MA-011 lub odpowiednik" },
+      { ingredient: "Podpuszczka płynna", amount: "4 ml", notes: "Single strength" },
+      { ingredient: "Sól", amount: "2% masy sera", notes: "~40 g na 2 kg sera" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~45 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min.",
+        tip: "Cheddar wymaga kultury MA bez produkcji gazu."
+      },
+      {
+        title: "2) Krzepnięcie ~45 min",
+        content: "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu.",
+        tip: "Skrzep powinien być bardzo mocny przed cięciem."
+      },
+      {
+        title: "3) Cięcie i gotowanie do 39°C",
+        content: "Potnij na kostki 1 cm. Podgrzewaj powoli do 39°C przez 40 min, mieszając delikatnie.",
+        warning: "Powolne podgrzewanie - max 1°C na 5 min."
+      },
+      {
+        title: "4) Cheddaring - kluczowy etap",
+        content: "Odsącz serwatkę. Pokrój masę na bloki 10x15 cm. Układaj jeden na drugim, obracaj co 15 min przez 2 h. Bloki staną się gładkie i błyszczące.",
+        tip: "To etap, który nadaje Cheddarowi charakterystyczną teksturę! pH powinno spaść do 5.3-5.4."
+      },
+      {
+        title: "5) Mielenie i solenie",
+        content: "Potnij bloki na paski 1 cm. Wymieszaj z 2% soli (40 g na 2 kg).",
+        tip: "Sól hamuje dalszą fermentację i nadaje smak."
+      },
+      {
+        title: "6) Formowanie i prasowanie",
+        content: "Upakuj w formie i prasuj:\n• 1 h przy 10 kg\n• 12 h przy 20 kg\n• 24 h przy 25 kg",
+        tip: "Prasowanie musi być bardzo mocne dla zwartej tekstury."
+      },
+      {
+        title: "7) Bandażowanie i dojrzewanie",
+        content: "Osusz, owin bandażem i nasmaruj smalcem. Dojrzewaj 10-13°C, 85% RH przez 3-24 miesięcy.",
+        tip: "Mild Cheddar: 3-6 mies., Sharp: 12+ mies., Extra Sharp: 24+ mies."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Cheddaring to kluczowy proces - układanie i obracanie bloków przez 2 h buduje charakterystyczną teksturę.",
+        "Bandażowanie smalcem pozwala na bardzo długie dojrzewanie."
+      ],
+      warnings: [
+        "Proces cheddaring wymaga utrzymania temperatury 32-35°C przez cały czas."
+      ],
+      variants: [
+        "Mild Cheddar (3-6 mies.): łagodny, kremowy",
+        "Sharp Cheddar (12 mies.): wyrazisty, ostry",
+        "Extra Sharp (24+ mies.): bardzo intensywny, krystaliczny"
+      ]
+    },
+    
+    flavor: {
+      taste: "Ostry, wyrazisty, lekko kwaskowy",
+      texture: "Zwarta, krucha (dojrzały) do kremowej (młody)",
+      color: "Jasno do pomarańczowożółtej",
+      aroma: "Intensywny, ziemisty, lekko pikantny"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 403,
+      fatContent: 33,
+      saturatedFatContent: 21,
+      proteinContent: 25,
+      carbohydrateContent: 1,
+      sodiumContent: 621,
+      calciumContent: 721
+    }
+  },
+  {
+    id: "mozzarella",
+    name: "Mozzarella",
+    difficulty: "Łatwy",
+    description: "Mozzarella to włoski ser typu pasta filata, znany z elastycznej, ciągnącej się tekstury. Świeża mozzarella jest idealna do pizzy, sałatek caprese i zapiekanek. To jeden z najszybszych serów do przygotowania w domu.",
+    yield: "≈ 0,5 kg z 4 L mleka",
+    ageTime: "Świeży (1-7 dni)",
+    image: "https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?w=800",
+    
+    milkBase: "≈ 4 L mleka pełnego (najlepiej niepasteryzowane lub pasteryzowane z CaCl₂).",
+    starter: "Typ: kultura termofilna lub kwas cytrynowy.",
+    coagulant: "Płynna podpuszczka single-strength; ok. 1 ml na 4 L mleka.",
+    salting: "Solanka lub sól w wodzie do przechowywania.",
+    aging: "Świeży - do spożycia w ciągu 7 dni.",
+    
+    cultureSubstitutes: [
+      {
+        name: "Kwas cytrynowy",
+        type: "zakwaszacz",
+        shop: "Sklep spożywczy",
+        dosage: "1,5 tsp na 4 L",
+        notes: "Najprostsza metoda - szybka mozzarella.",
+        searchQuery: "kwas cytrynowy"
+      },
+      {
+        name: "TA / TA-61",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,2 g na 4 L",
+        notes: "Tradycyjna metoda z kulturą.",
+        searchQuery: "TA"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1,5 tsp kwasu cytrynowego + 1 ml podpuszczki na 4 L.",
+    dosageTable: [
+      { ingredient: "Kwas cytrynowy", amount: "1,5 tsp (~7 g)", notes: "Rozpuść w 60 ml zimnej wody" },
+      { ingredient: "Podpuszczka płynna", amount: "1 ml (¼ tsp)", notes: "Rozpuść w 60 ml zimnej wody" },
+      { ingredient: "Sól", amount: "Do smaku", notes: "W wodzie do przechowywania" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Zakwaszanie 13°C",
+        content: "Rozpuść kwas cytrynowy w 60 ml zimnej wody. Wlej do zimnego mleka (13°C) i wymieszaj.",
+        tip: "Kwas cytrynowy działa natychmiast - można też użyć kultury termofilnej (dłuższy proces)."
+      },
+      {
+        title: "2) Podgrzanie do 32°C i dodanie podpuszczki",
+        content: "Podgrzej mleko do 32°C. Dodaj rozpuszczoną podpuszczkę, mieszaj 30 s i zostaw na 5-10 min.",
+        tip: "Skrzep powinien być gładki i odbijać się od ścian."
+      },
+      {
+        title: "3) Cięcie i gotowanie do 40°C",
+        content: "Potnij skrzep na kostki 2-3 cm. Podgrzej do 40°C, delikatnie mieszając.",
+        warning: "Nie mieszaj zbyt intensywnie - ziarna są delikatne."
+      },
+      {
+        title: "4) Odsączanie",
+        content: "Przelej przez sito lub gazę. Zachowaj serwatkę do rozciągania!",
+        tip: "Serwatka jest potrzebna do następnego kroku."
+      },
+      {
+        title: "5) Rozciąganie (pasta filata)",
+        content: "Podgrzej serwatkę do 77-82°C. Zanurz twaróg na 1-2 min, aż zmięknie. Rozciągaj i składaj jak ciasto, aż będzie gładki i błyszczący.",
+        tip: "To kluczowy moment! Ser musi być wystarczająco gorący do rozciągania. Używaj rękawic!"
+      },
+      {
+        title: "6) Formowanie i schładzanie",
+        content: "Uformuj kulki i wrzuć do lodowatej wody na 15 min. Przechowuj w lekko osolonej wodzie w lodówce.",
+        tip: "Świeża mozzarella jest najlepsza w ciągu 1-3 dni."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Temperatura rozciągania jest kluczowa - ser musi być w 77-82°C, żeby się rozciągał.",
+        "Używaj rękawic - gorący ser może poparzyć!"
+      ],
+      warnings: [
+        "Mleko UHT nie zadziała - białka są zbyt uszkodzone.",
+        "Jeśli ser się kruszy zamiast rozciągać - pH jest złe lub temperatura za niska."
+      ],
+      variants: [
+        "Mozzarella di Bufala: z mleka bawolego",
+        "Fior di Latte: z mleka krowiego",
+        "Burrata: mozzarella nadziewana śmietanką"
+      ]
+    },
+    
+    flavor: {
+      taste: "Delikatny, mleczny, lekko słodki",
+      texture: "Elastyczna, ciągnąca się, miękka",
+      color: "Biała, porcelanowa",
+      aroma: "Świeży, mleczny"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 280,
+      fatContent: 17,
+      saturatedFatContent: 11,
+      proteinContent: 28,
+      carbohydrateContent: 3,
+      sodiumContent: 627,
+      calciumContent: 505
+    }
+  },
+  {
+    id: "camembert",
+    name: "Camembert",
+    difficulty: "Zaawansowany",
+    description: "Camembert to francuski ser pleśniowy o kremowej, rozpływającej się konsystencji i intensywnym aromacie. Charakterystyczna biała pleśń Penicillium candidum tworzy jadalną skórkę, pod którą kryje się aksamitne wnętrze.",
+    yield: "≈ 0,5 kg z 4 L mleka",
+    ageTime: "3-5 tygodni",
+    image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800",
+    
+    milkBase: "≈ 4 L mleka pełnego (najlepiej niepasteryzowane).",
+    starter: "Typ: kultura mezofilna + Penicillium candidum.",
+    coagulant: "Płynna podpuszczka single-strength; ok. 1 ml na 4 L mleka.",
+    salting: "Solenie na sucho - 1,5% masy sera.",
+    aging: "11-13°C, 90-95% RH przez 3-5 tygodni.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,3 g na 4 L",
+        notes: "Podstawowa kultura do Camemberta.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Penicillium candidum",
+        type: "pleśń biała",
+        shop: "Serowar.pl",
+        dosage: "~szczypta na 4 L",
+        notes: "Tworzy charakterystyczną białą skórkę.",
+        searchQuery: "Penicillium candidum"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: ~0,3 g kultury mezofilnej + szczypta P. candidum + 1 ml podpuszczki na 4 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,3 g", notes: "MM-100 lub odpowiednik" },
+      { ingredient: "Penicillium candidum", amount: "~1/16 tsp", notes: "Rozpuść w mleku" },
+      { ingredient: "Podpuszczka płynna", amount: "1 ml", notes: "Single strength" },
+      { ingredient: "Sól", amount: "~7 g na 0,5 kg", notes: "1,5% masy sera" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~90 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i Penicillium candidum. Pozostaw na 90 min.",
+        tip: "Dodaj P. candidum na początku - potrzebuje czasu na rozprowadzenie."
+      },
+      {
+        title: "2) Krzepnięcie ~60 min",
+        content: "Dodaj podpuszczkę i pozostaw na 60 min do utworzenia delikatnego skrzepu.",
+        tip: "Skrzep Camemberta jest delikatniejszy niż w twardych serach."
+      },
+      {
+        title: "3) Cięcie i przełożenie do form",
+        content: "Potnij skrzep na kostki 2 cm. Delikatnie przełóż łyżką cedzakową do form Camembert (10-11 cm średnicy).",
+        warning: "Nie prasuj! Camembert sam odsącza przez grawitację."
+      },
+      {
+        title: "4) Odsączanie 12-24 h",
+        content: "Pozostaw formy w temp. pokojowej. Obracaj co 2-3 h przez pierwszy dzień. Ser znacznie się skurczy.",
+        tip: "Po 24 h ser będzie miał ~3 cm wysokości."
+      },
+      {
+        title: "5) Solenie na sucho",
+        content: "Wyjmij z formy i posól ze wszystkich stron (~1,5% masy). Pozostaw na 24 h w chłodnym miejscu.",
+        tip: "Sól można posypać lub potrzeć delikatnie."
+      },
+      {
+        title: "6) Dojrzewanie z pleśnią",
+        content: "Przenieś do 11-13°C i 90-95% RH. Obracaj codziennie. Po 7-10 dniach pojawi się biała pleśń.",
+        tip: "Wysoka wilgotność jest kluczowa dla rozwoju pleśni!"
+      },
+      {
+        title: "7) Zawijanie i finalne dojrzewanie",
+        content: "Gdy pleśń pokryje cały ser (~14 dni), zawiń w papier do sera. Dojrzewaj jeszcze 1-2 tygodnie.",
+        tip: "Gotowy Camembert jest miękki pod skórką i lekko sprężysty w środku."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Wysoka wilgotność (90-95%) jest absolutnie kluczowa dla rozwoju białej pleśni.",
+        "Codzienne obracanie zapewnia równomierny rozwój pleśni ze wszystkich stron."
+      ],
+      warnings: [
+        "Zbyt niska wilgotność = sucha, popękana skórka.",
+        "Zbyt wysoka temperatura = ser rozmięknie zbyt szybko."
+      ],
+      variants: [
+        "Camembert de Normandie: tradycyjny z mleka niepasteryzowanego",
+        "Brie: większa forma, łagodniejszy smak",
+        "Camembert truflowy: z dodatkiem trufli"
+      ]
+    },
+    
+    flavor: {
+      taste: "Kremowy, grzybowy, lekko ziemisty",
+      texture: "Kremowa, rozpływająca się pod skórką",
+      color: "Biała skórka, jasno-kremowe wnętrze",
+      aroma: "Intensywny, grzybowy, ziemisty"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 299,
+      fatContent: 24,
+      saturatedFatContent: 15,
+      proteinContent: 20,
+      carbohydrateContent: 0,
+      sodiumContent: 842,
+      calciumContent: 388
+    }
+  },
+  {
+    id: "halloumi",
+    name: "Halloumi",
+    difficulty: "Łatwy",
+    description: "Halloumi to cypryjski ser o unikalnej właściwości - nie topi się podczas smażenia czy grillowania. Dzięki temu jest idealny na grilla, patelnię czy do sałatek. Charakteryzuje się słono-mlecznym smakiem i sprężystą teksturą.",
+    yield: "≈ 0,6 kg z 4 L mleka",
+    ageTime: "Świeży (do 2 tygodni w solance)",
+    image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800",
+    
+    milkBase: "≈ 4 L mleka pełnego (tradycyjnie mieszanka owczego i koziego).",
+    starter: "Brak lub minimalna kultura - Halloumi opiera się głównie na podpuszczce.",
+    coagulant: "Płynna podpuszczka single-strength; ok. 1 ml na 4 L mleka.",
+    salting: "Gotowanie w serwatce + przechowywanie w solance.",
+    aging: "Świeży - do 2 tygodni w solance w lodówce.",
+    
+    cultureSubstitutes: [
+      {
+        name: "Bez kultury",
+        type: "brak",
+        shop: "-",
+        dosage: "-",
+        notes: "Halloumi tradycyjnie robi się bez kultury starterowej.",
+        searchQuery: ""
+      },
+      {
+        name: "Lipaza",
+        type: "enzym",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp na 4 L",
+        notes: "Opcjonalnie - dodaje pikantny smak.",
+        searchQuery: "lipaza"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1 ml podpuszczki na 4 L mleka, bez kultury.",
+    dosageTable: [
+      { ingredient: "Podpuszczka płynna", amount: "1 ml", notes: "Single strength" },
+      { ingredient: "Mięta suszona", amount: "1-2 łyżki", notes: "Tradycyjny dodatek" },
+      { ingredient: "Sól do solanki", amount: "~100 g na 1 L", notes: "Do przechowywania" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie do 32°C",
+        content: "Podgrzej mleko do 32°C. Halloumi nie wymaga kultury starterowej.",
+        tip: "Tradycyjnie używa się mieszanki mleka owczego i koziego, ale krowie też działa."
+      },
+      {
+        title: "2) Krzepnięcie ~45 min",
+        content: "Dodaj podpuszczkę i pozostaw na 45 min do utworzenia mocnego skrzepu.",
+        tip: "Skrzep powinien być bardzo mocny."
+      },
+      {
+        title: "3) Cięcie i gotowanie do 40°C",
+        content: "Potnij skrzep na kostki 1-2 cm. Podgrzej do 40°C przez 20 min, mieszając delikatnie.",
+        warning: "Delikatne mieszanie - ziarna są kruche."
+      },
+      {
+        title: "4) Odsączanie i formowanie",
+        content: "Przełóż do formy wyłożonej gazą. Prasuj lekko przez 1 h. Pokrój na bloki ~10x7x3 cm.",
+        tip: "Zachowaj serwatkę - będzie potrzebna!"
+      },
+      {
+        title: "5) Gotowanie w serwatce - kluczowy etap",
+        content: "Podgrzej serwatkę do 90-95°C. Wrzuć bloki sera i gotuj 30-60 min, aż wypłyną na powierzchnię.",
+        tip: "To etap, który sprawia, że Halloumi się nie topi! Ser 'pływa' gdy jest gotowy."
+      },
+      {
+        title: "6) Dodanie mięty i składanie",
+        content: "Wyjmij bloki, posyp suszoną miętą i złóż na pół. Lekko dociśnij.",
+        tip: "Mięta to tradycyjny dodatek cypryjski - nadaje charakterystyczny aromat."
+      },
+      {
+        title: "7) Przechowywanie w solance",
+        content: "Przechowuj w solance (100 g soli na 1 L wody) w lodówce do 2 tygodni.",
+        tip: "Przed smażeniem opłucz z nadmiaru soli."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Gotowanie w gorącej serwatce to sekret Halloumi - denaturuje białka i ser nie topi się na patelni.",
+        "Mięta to tradycyjny cypryjski dodatek, ale można pominąć."
+      ],
+      warnings: [
+        "Temperatura gotowania musi być wysoka (90-95°C) - inaczej ser będzie się topić.",
+        "Zbyt słone? Namocz w wodzie przez 30 min przed smażeniem."
+      ],
+      variants: [
+        "Halloumi klasyczny: z miętą",
+        "Halloumi bez mięty: neutralny smak",
+        "Halloumi grillowany: najlepszy sposób podania"
+      ]
+    },
+    
+    flavor: {
+      taste: "Słono-mleczny, lekko pikantny",
+      texture: "Sprężysta, 'skrzypiąca', nie topi się",
+      color: "Biała do jasno-kremowej",
+      aroma: "Mleczny z nutą mięty (tradycyjny)"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 321,
+      fatContent: 25,
+      saturatedFatContent: 16,
+      proteinContent: 22,
+      carbohydrateContent: 3,
+      sodiumContent: 1390,
+      calciumContent: 680
+    }
   }
 ];
