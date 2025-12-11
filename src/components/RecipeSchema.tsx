@@ -61,7 +61,20 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
       "ratingCount": "45",
       "bestRating": "5",
       "worstRating": "1"
-    }
+    },
+    ...(recipe.nutrition && {
+      "nutrition": {
+        "@type": "NutritionInformation",
+        "servingSize": recipe.nutrition.servingSize,
+        "calories": `${recipe.nutrition.calories} kcal`,
+        "fatContent": `${recipe.nutrition.fatContent} g`,
+        "saturatedFatContent": `${recipe.nutrition.saturatedFatContent} g`,
+        "proteinContent": `${recipe.nutrition.proteinContent} g`,
+        "carbohydrateContent": `${recipe.nutrition.carbohydrateContent} g`,
+        "sodiumContent": `${recipe.nutrition.sodiumContent} mg`,
+        "calciumContent": `${recipe.nutrition.calciumContent} mg`
+      }
+    })
   };
 
   return (
