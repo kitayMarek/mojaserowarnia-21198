@@ -19,6 +19,17 @@ export interface RecipeStep {
   warning?: string;
 }
 
+export interface NutritionInfo {
+  servingSize: string;
+  calories: number;
+  fatContent: number;
+  saturatedFatContent: number;
+  proteinContent: number;
+  carbohydrateContent: number;
+  sodiumContent: number;
+  calciumContent: number;
+}
+
 export interface Recipe {
   id: string;
   name: string;
@@ -63,6 +74,9 @@ export interface Recipe {
     color: string;
     aroma: string;
   };
+  
+  // Wartości odżywcze
+  nutrition?: NutritionInfo;
 }
 
 export const recipesData: Recipe[] = [
@@ -231,6 +245,17 @@ export const recipesData: Recipe[] = [
       texture: "Miękka, elastyczna, otwarta struktura",
       color: "Jasna, bladożółta do kremowej",
       aroma: "Świeży, mleczny z delikatnymi nutami masłanymi"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 350,
+      fatContent: 27,
+      saturatedFatContent: 17,
+      proteinContent: 24,
+      carbohydrateContent: 2,
+      sodiumContent: 890,
+      calciumContent: 700
     }
   },
   {
@@ -378,6 +403,17 @@ export const recipesData: Recipe[] = [
       texture: "Półmiękka, gładka, rozpływa się w ustach",
       color: "Biała do jasno-żółtej, jednorodna",
       aroma: "Świeży, mleczny z nutami maslanymi"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 320,
+      fatContent: 25,
+      saturatedFatContent: 16,
+      proteinContent: 22,
+      carbohydrateContent: 2,
+      sodiumContent: 650,
+      calciumContent: 600
     }
   },
   {
@@ -527,6 +563,17 @@ export const recipesData: Recipe[] = [
       texture: "Jędrna, sprężysta",
       color: "Jasno-żółty",
       aroma: "Mleczny, z nutami maslanymi"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 380,
+      fatContent: 30,
+      saturatedFatContent: 19,
+      proteinContent: 25,
+      carbohydrateContent: 1,
+      sodiumContent: 800,
+      calciumContent: 720
     }
   },
   {
@@ -675,6 +722,17 @@ export const recipesData: Recipe[] = [
       texture: "Gładka, kremowa, elastyczna - można kroić w plastry",
       color: "Biała do jasnokremowej",
       aroma: "Świeży, mleczny z nutami jogurtowymi"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 264,
+      fatContent: 21,
+      saturatedFatContent: 14,
+      proteinContent: 14,
+      carbohydrateContent: 4,
+      sodiumContent: 1116,
+      calciumContent: 493
     }
   },
   {
@@ -810,6 +868,17 @@ export const recipesData: Recipe[] = [
       texture: "Krucha do sprężystej, kremowe odczucie w ustach",
       color: "Jasno-biały do bladożółtego",
       aroma: "Świeży, mleczny z nutami maslanymi"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 340,
+      fatContent: 26,
+      saturatedFatContent: 17,
+      proteinContent: 23,
+      carbohydrateContent: 2,
+      sodiumContent: 750,
+      calciumContent: 650
     }
   }
 ];

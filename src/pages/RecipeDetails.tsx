@@ -176,7 +176,7 @@ const RecipeDetails = () => {
 
           {/* Profil smakowy */}
           {recipe.flavor && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8">
+            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-6">🎯 Profil smakowy</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -185,6 +185,52 @@ const RecipeDetails = () => {
                 <div><strong className="text-primary">Barwa:</strong> {recipe.flavor.color}</div>
                 <div><strong className="text-primary">Zapach:</strong> {recipe.flavor.aroma}</div>
               </div>
+            </section>
+          )}
+
+          {/* Wartości odżywcze */}
+          {recipe.nutrition && (
+            <section className="bg-card rounded-xl shadow-card border border-border p-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-6">🥗 Wartości odżywcze (na {recipe.nutrition.servingSize})</h2>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <tbody>
+                    <tr className="border-b border-border">
+                      <td className="py-3 font-medium">Energia</td>
+                      <td className="py-3 text-right">{recipe.nutrition.calories} kcal</td>
+                    </tr>
+                    <tr className="border-b border-border">
+                      <td className="py-3 font-medium">Tłuszcz</td>
+                      <td className="py-3 text-right">{recipe.nutrition.fatContent} g</td>
+                    </tr>
+                    <tr className="border-b border-border bg-secondary/5">
+                      <td className="py-3 text-muted-foreground pl-4">w tym tłuszcze nasycone</td>
+                      <td className="py-3 text-right text-muted-foreground">{recipe.nutrition.saturatedFatContent} g</td>
+                    </tr>
+                    <tr className="border-b border-border">
+                      <td className="py-3 font-medium">Węglowodany</td>
+                      <td className="py-3 text-right">{recipe.nutrition.carbohydrateContent} g</td>
+                    </tr>
+                    <tr className="border-b border-border">
+                      <td className="py-3 font-medium">Białko</td>
+                      <td className="py-3 text-right">{recipe.nutrition.proteinContent} g</td>
+                    </tr>
+                    <tr className="border-b border-border">
+                      <td className="py-3 font-medium">Sód</td>
+                      <td className="py-3 text-right">{recipe.nutrition.sodiumContent} mg</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 font-medium">Wapń</td>
+                      <td className="py-3 text-right font-semibold text-green-600">{recipe.nutrition.calciumContent} mg</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <p className="text-sm text-muted-foreground mt-4">
+                * Wartości orientacyjne dla sera domowego. Faktyczne wartości mogą się różnić w zależności od użytego mleka i procesu produkcji.
+              </p>
             </section>
           )}
         </article>
