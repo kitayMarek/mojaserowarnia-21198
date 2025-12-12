@@ -2023,5 +2023,621 @@ export const recipesData: Recipe[] = [
       sodiumContent: 917,
       calciumContent: 493
     }
+  },
+  {
+    id: "gorgonzola",
+    name: "Gorgonzola",
+    difficulty: "Zaawansowany",
+    description: "Gorgonzola to włoski ser z niebieską pleśnią z regionu Lombardii i Piemontu. Znany od IX wieku, jest jednym z najstarszych serów pleśniowych świata. Dostępny w dwóch odmianach: Dolce (kremowy, łagodny) i Piccante (twardy, ostry).",
+    yield: "≈ 1,5 kg z 11 L mleka",
+    ageTime: "2-4 miesiące",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gorgonzola_Cheese.jpg/1280px-Gorgonzola_Cheese.jpg",
+    
+    milkBase: "≈ 11 L mleka pełnego krowiego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura mezofilna + Penicillium roqueforti dla niebieskiej pleśni.",
+    coagulant: "Płynna podpuszczka; ok. 3 ml na 11 L mleka.",
+    salting: "Solenie suche przez 3-4 dni.",
+    aging: "10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,15 tsp (~0,7 g)",
+        notes: "Główna kultura mezofilna.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Penicillium roqueforti",
+        type: "pleśń niebieska",
+        shop: "Serowar.pl",
+        dosage: "~1/16 tsp",
+        notes: "Pleśń niebieska - kluczowa dla Gorgonzoli.",
+        searchQuery: "roqueforti"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 0,15 tsp MM-100 + 1/16 tsp P. roqueforti + 3 ml podpuszczki na 11 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,15 tsp (~0,7 g)", notes: "MM-100 lub Flora Danica" },
+      { ingredient: "Penicillium roqueforti", amount: "~1/16 tsp", notes: "Pleśń niebieska" },
+      { ingredient: "Podpuszczka płynna", amount: "3 ml", notes: "Single strength" },
+      { ingredient: "Sól", amount: "2-3% wagi sera", notes: "Suche solenie" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~60 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 60 min.",
+        tip: "Pleśń roqueforti dodawana na początku rozprowadza się w całym serze."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~45 min",
+        content: "Dodaj 3 ml podpuszczki. Pozostaw na 45 min do utworzenia delikatnego skrzepu.",
+        warning: "Skrzep musi być delikatny - zbyt mocny da twardy ser."
+      },
+      {
+        title: "3) Cięcie na duże kostki 2-3 cm",
+        content: "Potnij skrzep na duże kostki 2-3 cm. Pozostaw na 10 min.",
+        tip: "Duże kostki tworzą kieszonki powietrza gdzie rozwinie się pleśń."
+      },
+      {
+        title: "4) Delikatne mieszanie i odsączanie",
+        content: "Bardzo delikatnie mieszaj przez 15 min. Przełóż do formy warstwami.",
+        warning: "Nie zgniataj ziaren - zachowaj otwartą strukturę!"
+      },
+      {
+        title: "5) Samoociekanie 24h",
+        content: "Pozostaw w formie bez prasowania przez 24h w temperaturze pokojowej. Obracaj co 2-3 godziny.",
+        tip: "Grawitacja wystarczy - nie prasuj."
+      },
+      {
+        title: "6) Solenie suche 3-4 dni",
+        content: "Posyp ser solą ze wszystkich stron. Przez 3-4 dni codziennie dosolaj i obracaj.",
+        tip: "Sól powoli wnika do środka."
+      },
+      {
+        title: "7) Nakłuwanie - po 2 tygodniach",
+        content: "Po 2 tygodniach nakłuj ser długą igłą (30-40 nakłuć) aby wpuścić powietrze dla pleśni.",
+        warning: "Bez nakłuwania pleśń nie rozwinie się w środku!"
+      },
+      {
+        title: "8) Dojrzewanie 2-4 miesiące",
+        content: "Dojrzewaj w 10-13°C i 90-95% RH. Nakłuwaj co 2 tygodnie. Obracaj codziennie.",
+        tip: "Dolce: 2 miesiące, Piccante: 3-4 miesiące."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Nakłuwanie jest kluczowe - pleśń potrzebuje tlenu aby się rozwijać.",
+        "Wysoka wilgotność (90-95%) jest niezbędna."
+      ],
+      warnings: [
+        "Zbyt niska wilgotność = suchy ser bez pleśni.",
+        "Zbyt ciasne formowanie = brak miejsca na pleśń."
+      ],
+      variants: [
+        "Gorgonzola Dolce: kremowa, łagodna, 2 miesiące",
+        "Gorgonzola Piccante: twarda, ostra, 3-4 miesiące"
+      ]
+    },
+    
+    flavor: {
+      taste: "Kremowy, ostry, pikantny z nutami orzechowymi",
+      texture: "Kremowa (Dolce) lub krucha (Piccante)",
+      color: "Biało-kremowa z niebiesko-zielonymi żyłkami",
+      aroma: "Intensywny, charakterystyczny dla serów pleśniowych"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 353,
+      fatContent: 29,
+      saturatedFatContent: 19,
+      proteinContent: 21,
+      carbohydrateContent: 2,
+      sodiumContent: 1376,
+      calciumContent: 528
+    }
+  },
+  {
+    id: "roquefort",
+    name: "Roquefort",
+    difficulty: "Zaawansowany",
+    description: "Roquefort to król francuskich serów pleśniowych, wytwarzany wyłącznie z mleka owiec rasy Lacaune w regionie Roquefort-sur-Soulzon. Dojrzewa w naturalnych jaskiniach przez minimum 3 miesiące. Ma status AOC od 1925 roku.",
+    yield: "≈ 1,2 kg z 10 L mleka",
+    ageTime: "3-5 miesięcy",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Roquefort_cheese.jpg/1280px-Roquefort_cheese.jpg",
+    
+    milkBase: "≈ 10 L mleka owczego (lub krowiego jako alternatywa).",
+    starter: "Typ: kultura mezofilna + Penicillium roqueforti.",
+    coagulant: "Płynna podpuszczka; ok. 2,5 ml na 10 L mleka.",
+    salting: "Solenie suche przez 5 dni.",
+    aging: "8-10°C, 95% RH przez 3-5 miesięcy w jaskini lub piwnicy.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Główna kultura mezofilna.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Penicillium roqueforti",
+        type: "pleśń niebieska",
+        shop: "Serowar.pl",
+        dosage: "~1/16 tsp",
+        notes: "Pleśń niebieska z Roquefort.",
+        searchQuery: "roqueforti"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1/8 tsp MM-100 + 1/16 tsp P. roqueforti + 2,5 ml podpuszczki na 10 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,125 tsp (~0,6 g)", notes: "MM-100" },
+      { ingredient: "Penicillium roqueforti", amount: "~1/16 tsp", notes: "Pleśń niebieska" },
+      { ingredient: "Podpuszczka płynna", amount: "2,5 ml", notes: "Single strength" },
+      { ingredient: "Sól", amount: "3% wagi sera", notes: "Suche solenie" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 30-32°C ~90 min",
+        content: "Podgrzej mleko owcze do 30-32°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 90 min.",
+        tip: "Mleko owcze daje najbardziej autentyczny smak."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~60 min",
+        content: "Dodaj 2,5 ml podpuszczki. Długie krzepnięcie (60 min) dla delikatnego skrzepu.",
+        warning: "Delikatny skrzep = otwarta tekstura dla pleśni."
+      },
+      {
+        title: "3) Cięcie na kostki 2 cm",
+        content: "Potnij skrzep na kostki 2 cm. Pozostaw na 15 min bez mieszania.",
+        tip: "Duże kostki tworzą kieszonki dla pleśni."
+      },
+      {
+        title: "4) Delikatne przekładanie do formy",
+        content: "Bez mieszania! Delikatnie przekładaj ziarna do formy warstwami.",
+        warning: "Zachowaj otwartą strukturę - nie zgniataj!"
+      },
+      {
+        title: "5) Samoociekanie 24-48h",
+        content: "Pozostaw w formie w temperaturze pokojowej na 24-48h. Obracaj co 3-4 godziny.",
+        tip: "Cierpliwość - niech serwatka sama odpłynie."
+      },
+      {
+        title: "6) Solenie suche 5 dni",
+        content: "Posyp ser gruboziarnistą solą. Przez 5 dni codziennie dosolaj i obracaj.",
+        tip: "Sól penetruje powoli - cierpliwość."
+      },
+      {
+        title: "7) Nakłuwanie igłą",
+        content: "Po 2-3 tygodniach nakłuj ser długą igłą (40-50 nakłuć) od góry i boków.",
+        warning: "Nakłuwanie wpuszcza tlen dla Penicillium!"
+      },
+      {
+        title: "8) Dojrzewanie w jaskini 3-5 miesięcy",
+        content: "Dojrzewaj w 8-10°C i 95% RH. Nakłuwaj co 3 tygodnie. Minimum 3 miesiące.",
+        tip: "Naturalna jaskinia lub piwnica z wysoką wilgotnością."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Mleko owcze jest kluczowe dla autentycznego Roquefort.",
+        "Naturalne jaskinie mają idealne warunki - wysoka wilgotność i stała temperatura."
+      ],
+      warnings: [
+        "Bez nakłuwania pleśń nie rozwinie się.",
+        "Zbyt niska wilgotność = suchy, pokruszony ser."
+      ],
+      variants: [
+        "Roquefort klasyczny: minimum 3 miesiące",
+        "Roquefort dojrzały: 5+ miesięcy, intensywniejszy"
+      ]
+    },
+    
+    flavor: {
+      taste: "Intensywny, słony, pikantny, kremowy",
+      texture: "Kremowa, krucha, rozpływająca się",
+      color: "Biała z niebiesko-zielonymi żyłkami",
+      aroma: "Intensywny, owczy, z nutami jaskini"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 369,
+      fatContent: 31,
+      saturatedFatContent: 19,
+      proteinContent: 22,
+      carbohydrateContent: 2,
+      sodiumContent: 1809,
+      calciumContent: 662
+    }
+  },
+  {
+    id: "stilton",
+    name: "Stilton",
+    difficulty: "Zaawansowany",
+    description: "Stilton to angielski ser z niebieską pleśnią, często nazywany 'Królem Serów'. Może być produkowany tylko w trzech hrabstwach: Derbyshire, Leicestershire i Nottinghamshire. Znany od XVIII wieku, ma status PDO.",
+    yield: "≈ 2 kg z 15 L mleka",
+    ageTime: "9-12 tygodni",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cropwell_Bishop_Stilton_Cheese.jpg/1280px-Cropwell_Bishop_Stilton_Cheese.jpg",
+    
+    milkBase: "≈ 15 L mleka pełnego krowiego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura mezofilna + Penicillium roqueforti.",
+    coagulant: "Płynna podpuszczka; ok. 4 ml na 15 L mleka.",
+    salting: "Solenie suche warstwowe podczas formowania.",
+    aging: "10-12°C, 90% RH przez 9-12 tygodni.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,2 tsp (~0,9 g)",
+        notes: "Główna kultura mezofilna.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Penicillium roqueforti",
+        type: "pleśń niebieska",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp",
+        notes: "Pleśń niebieska dla Stilton.",
+        searchQuery: "roqueforti"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 0,2 tsp MM-100 + 1/8 tsp P. roqueforti + 4 ml podpuszczki na 15 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,2 tsp (~0,9 g)", notes: "MM-100" },
+      { ingredient: "Penicillium roqueforti", amount: "~1/8 tsp", notes: "Pleśń niebieska" },
+      { ingredient: "Podpuszczka płynna", amount: "4 ml", notes: "Single strength" },
+      { ingredient: "Sól", amount: "2-2,5% wagi sera", notes: "Warstwowe solenie" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 30°C ~90 min",
+        content: "Podgrzej mleko do 30°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 90 min.",
+        tip: "Niższa temperatura = wolniejszy rozwój, lepszy smak."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~90 min",
+        content: "Dodaj 4 ml podpuszczki. Bardzo długie krzepnięcie (90 min) dla delikatnego skrzepu.",
+        warning: "Stilton wymaga bardzo delikatnego skrzepu."
+      },
+      {
+        title: "3) Cięcie na kostki 1,5 cm",
+        content: "Potnij skrzep na kostki 1,5 cm. Bardzo delikatnie mieszaj przez 10 min.",
+        tip: "Średnie kostki = balans wilgoci."
+      },
+      {
+        title: "4) Odsączanie nocne",
+        content: "Przełóż skrzep do worka płóciennego i powieś na noc do odsączenia.",
+        warning: "Nie prasuj - grawitacja wystarczy."
+      },
+      {
+        title: "5) Mielenie i solenie warstwowe",
+        content: "Następnego dnia pokrusz skrzep na kawałki wielkości orzecha. Układaj w formie warstwami, soląc każdą warstwę.",
+        tip: "2% soli równomiernie rozłożone."
+      },
+      {
+        title: "6) Formowanie i obracanie 5-7 dni",
+        content: "Pozostaw w formie w temperaturze pokojowej. Obracaj codziennie przez 5-7 dni.",
+        tip: "Ser się konsoliduje sam."
+      },
+      {
+        title: "7) Skórka i nakłuwanie",
+        content: "Po utworzeniu skórki (2-3 tygodnie) nakłuj ser igłą (25-30 nakłuć).",
+        warning: "Nakłuwanie dopiero po utworzeniu skórki!"
+      },
+      {
+        title: "8) Dojrzewanie 9-12 tygodni",
+        content: "Dojrzewaj w 10-12°C i 90% RH. Nie obracaj - Stilton dojrzewa stojąc.",
+        tip: "Stilton nigdy się nie obraca podczas dojrzewania!"
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Stilton nigdy się nie obraca podczas dojrzewania - to unikalna cecha.",
+        "Skórka naturalna tworzy się sama."
+      ],
+      warnings: [
+        "Nie obracaj podczas dojrzewania!",
+        "Nakłuwanie przed utworzeniem skórki = zbyt dużo pleśni na zewnątrz."
+      ],
+      variants: [
+        "Blue Stilton: klasyczny z pleśnią",
+        "White Stilton: bez pleśni, łagodniejszy"
+      ]
+    },
+    
+    flavor: {
+      taste: "Intensywny, słodko-pikantny, orzechowy, kremowy",
+      texture: "Kremowa w środku, bardziej zwarta na zewnątrz",
+      color: "Kremowa z niebieskimi żyłkami, naturalna skórka",
+      aroma: "Intensywny, aromatyczny, z nutami masła"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 410,
+      fatContent: 35,
+      saturatedFatContent: 22,
+      proteinContent: 24,
+      carbohydrateContent: 1,
+      sodiumContent: 1150,
+      calciumContent: 520
+    }
+  },
+  {
+    id: "gruyere",
+    name: "Gruyère",
+    difficulty: "Zaawansowany",
+    description: "Gruyère to szwajcarski ser alpejski z kantonu Fribourg, znany od XII wieku. Charakteryzuje się kremową teksturą z małymi oczkami i kompleksowym, orzechowym smakiem. Ma status AOC i jest podstawą fondue oraz quiche.",
+    yield: "≈ 3 kg z 30 L mleka",
+    ageTime: "5-12 miesięcy",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Gruyère_Cheese_Wheel.jpg/1280px-Gruyère_Cheese_Wheel.jpg",
+    
+    milkBase: "≈ 30 L mleka pełnego krowiego (surowe lub pasteryzowane z CaCl₂).",
+    starter: "Typ: kultura termofilna + Propionibacterium dla oczek.",
+    coagulant: "Płynna podpuszczka; ok. 7,5 ml na 30 L mleka.",
+    salting: "Solanka nasycona przez 24h.",
+    aging: "13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki.",
+    
+    cultureSubstitutes: [
+      {
+        name: "TA / TA-61",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,25 tsp (~1,2 g)",
+        notes: "Główna kultura termofilna.",
+        searchQuery: "TA"
+      },
+      {
+        name: "LH / LH-100",
+        type: "Helveticus",
+        shop: "GAP Poland",
+        dosage: "~0,06 tsp (~0,3 g)",
+        notes: "Dla słodkiej nuty i charakterystycznego smaku.",
+        searchQuery: "LH"
+      },
+      {
+        name: "Propionic Shermanii",
+        type: "propionic",
+        shop: "Serowar.pl",
+        dosage: "~1/16 tsp",
+        notes: "Dla tworzenia oczek (opcjonalnie).",
+        searchQuery: "propionic"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1/4 tsp TA-61 + 1/16 tsp LH-100 + 7,5 ml podpuszczki na 30 L.",
+    dosageTable: [
+      { ingredient: "Kultura termofilna", amount: "~0,25 tsp (~1,2 g)", notes: "TA-61" },
+      { ingredient: "Kultura Helveticus", amount: "~0,06 tsp (~0,3 g)", notes: "LH-100" },
+      { ingredient: "Propionic (opcjonalnie)", amount: "~1/16 tsp", notes: "Dla oczek" },
+      { ingredient: "Podpuszczka płynna", amount: "7,5 ml", notes: "Single strength" },
+      { ingredient: "Sól (solanka)", amount: "24h", notes: "Solanka nasycona" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~45 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kultury termofilne i Helveticus. Opcjonalnie Propionic. Pozostaw na 45 min.",
+        tip: "Propionic tworzy charakterystyczne oczka."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~30 min",
+        content: "Dodaj 7,5 ml podpuszczki. Pozostaw na 30 min do utworzenia mocnego skrzepu.",
+        warning: "Mocny skrzep = twardy ser."
+      },
+      {
+        title: "3) Cięcie na drobne ziarna 3-5 mm",
+        content: "Potnij skrzep na bardzo drobne ziarna (3-5 mm) używając harfy serowej.",
+        tip: "Im drobniejsze ziarna, tym twardszy ser."
+      },
+      {
+        title: "4) Gotowanie do 55°C przez 45 min",
+        content: "Powoli podgrzewaj do 55°C przez 45 min, ciągle mieszając. Tempo ~0,5°C/min.",
+        warning: "Zbyt szybkie podgrzewanie = nierówna tekstura."
+      },
+      {
+        title: "5) Odsączanie i formowanie pod serwatką",
+        content: "Przełóż ziarna do formy pod lustrem serwatki. Formuj pod ciśnieniem hydraulicznym.",
+        tip: "Formowanie pod serwatką = brak dziur powietrznych."
+      },
+      {
+        title: "6) Prasowanie ciężkie 24h",
+        content: "Prasuj ciężarem ~10x wagi sera (30 kg na 3 kg sera) przez 24h. Obracaj co 6h.",
+        warning: "Ciężkie prasowanie jest kluczowe!"
+      },
+      {
+        title: "7) Solenie w solance 24h",
+        content: "Zanurz ser w nasyconej solance na 24h. Temperatura solanki 12-15°C.",
+        tip: "Sól wnika powoli do twardego sera."
+      },
+      {
+        title: "8) Dojrzewanie 5-12 miesięcy",
+        content: "Dojrzewaj w 13-14°C i 92% RH. Myj skórkę solanką 2x w tygodniu. Obracaj codziennie.",
+        tip: "Mycie skórki: solanka + bakterie nadają kolor i smak."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Mycie skórki solanką tworzy charakterystyczny brązowy kolor.",
+        "Dłuższe dojrzewanie = intensywniejszy smak."
+      ],
+      warnings: [
+        "Zbyt niska temperatura gotowania = ser z dużymi oczkami (nie Gruyère).",
+        "Bez mycia skórki ser wyschnie."
+      ],
+      variants: [
+        "Gruyère młody: 5-6 miesięcy, łagodniejszy",
+        "Gruyère dojrzały: 10-12 miesięcy, intensywny",
+        "Gruyère Reserve: 15+ miesięcy, bardzo intensywny"
+      ]
+    },
+    
+    flavor: {
+      taste: "Orzechowy, słodki, lekko słony, kompleksowy",
+      texture: "Twarda, gładka, kremowa w ustach",
+      color: "Bladożółta do ciemnożółtej, brązowa skórka",
+      aroma: "Orzechowy, ziemisty, z nutami masła"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 413,
+      fatContent: 32,
+      saturatedFatContent: 19,
+      proteinContent: 30,
+      carbohydrateContent: 0,
+      sodiumContent: 819,
+      calciumContent: 1011
+    }
+  },
+  {
+    id: "emmental",
+    name: "Emmental",
+    difficulty: "Zaawansowany",
+    description: "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. Jest jednym z największych serów świata - koła mogą ważyć do 130 kg.",
+    yield: "≈ 4 kg z 40 L mleka",
+    ageTime: "4-12 miesięcy",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Emmentaler_cheese.jpg/1280px-Emmentaler_cheese.jpg",
+    
+    milkBase: "≈ 40 L mleka pełnego krowiego (najlepiej surowe; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura termofilna + Propionibacterium shermanii dla oczek.",
+    coagulant: "Płynna podpuszczka; ok. 10 ml na 40 L mleka.",
+    salting: "Solanka nasycona przez 48h.",
+    aging: "Etapowe: 10°C → 22°C → 10°C przez 4-12 miesięcy.",
+    
+    cultureSubstitutes: [
+      {
+        name: "TA / TA-61",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,3 tsp (~1,5 g)",
+        notes: "Główna kultura termofilna.",
+        searchQuery: "TA"
+      },
+      {
+        name: "LH / LH-100",
+        type: "Helveticus",
+        shop: "GAP Poland",
+        dosage: "~0,08 tsp (~0,4 g)",
+        notes: "Dla słodkiej nuty.",
+        searchQuery: "LH"
+      },
+      {
+        name: "Propionic Shermanii",
+        type: "propionic",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp",
+        notes: "KLUCZOWY dla tworzenia oczek!",
+        searchQuery: "propionic"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 0,3 tsp TA-61 + 0,08 tsp LH-100 + 1/8 tsp Propionic + 10 ml podpuszczki na 40 L.",
+    dosageTable: [
+      { ingredient: "Kultura termofilna", amount: "~0,3 tsp (~1,5 g)", notes: "TA-61" },
+      { ingredient: "Kultura Helveticus", amount: "~0,08 tsp (~0,4 g)", notes: "LH-100" },
+      { ingredient: "Propionic Shermanii", amount: "~1/8 tsp", notes: "KLUCZOWY dla oczek!" },
+      { ingredient: "Podpuszczka płynna", amount: "10 ml", notes: "Single strength" },
+      { ingredient: "Sól (solanka)", amount: "48h", notes: "Solanka nasycona" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~30 min",
+        content: "Podgrzej mleko do 32°C. Dodaj wszystkie kultury: termofilna, Helveticus i Propionic. Pozostaw na 30 min.",
+        tip: "Propionic jest absolutnie kluczowy dla oczek!"
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~30 min",
+        content: "Dodaj 10 ml podpuszczki. Pozostaw na 30 min do utworzenia mocnego skrzepu.",
+        warning: "Mocny skrzep potrzebny dla dużego sera."
+      },
+      {
+        title: "3) Cięcie na drobne ziarna 3-5 mm",
+        content: "Potnij skrzep na bardzo drobne ziarna (3-5 mm, wielkość pszenicy) używając harfy.",
+        tip: "Drobne ziarna = mało wilgoci = duży, twardy ser."
+      },
+      {
+        title: "4) Gotowanie do 52-55°C przez 45 min",
+        content: "Powoli podgrzewaj do 52-55°C przez 45 min, ciągle mieszając.",
+        warning: "Emmental wymaga wysokiej temperatury gotowania."
+      },
+      {
+        title: "5) Formowanie pod serwatką i prasowanie",
+        content: "Zbierz ziarna w płótno pod lustrem serwatki. Prasuj bardzo ciężko (50-60 kg) przez 24h.",
+        tip: "Duży ser wymaga ciężkiego prasowania."
+      },
+      {
+        title: "6) Solenie w solance 48h",
+        content: "Zanurz ser w nasyconej solance na 48h (1 dzień na każdy kg + 1 dzień).",
+        warning: "Duży ser potrzebuje dłuższego solenia."
+      },
+      {
+        title: "7) Wstępne dojrzewanie 10°C - 2 tygodnie",
+        content: "Dojrzewaj w chłodnym magazynie (10°C, 85% RH) przez 2 tygodnie.",
+        tip: "Wstępne dojrzewanie przed etapem ciepłym."
+      },
+      {
+        title: "8) Ciepłe dojrzewanie 22°C - 4-6 tygodni",
+        content: "Przenieś do ciepłego magazynu (22°C, 85% RH). Tu tworzą się oczka! Obserwuj puchnięcie sera.",
+        warning: "To etap tworzenia oczek - ser puchnie od CO₂!"
+      },
+      {
+        title: "9) Końcowe dojrzewanie 10°C - 3-10 miesięcy",
+        content: "Wróć do chłodni (10°C, 85% RH). Dojrzewaj 3-10 miesięcy. Obracaj co tydzień.",
+        tip: "Im dłużej, tym intensywniejszy smak."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Etap ciepły (22°C) jest kluczowy - to wtedy Propionic tworzy oczka.",
+        "Ser powinien widocznie 'puchnąć' podczas ciepłego dojrzewania."
+      ],
+      warnings: [
+        "Bez Propionic = brak oczek!",
+        "Zbyt krótki etap ciepły = małe oczka.",
+        "Zbyt długi etap ciepły = pęknięcia w serze."
+      ],
+      variants: [
+        "Emmental młody: 4 miesiące, łagodny",
+        "Emmental dojrzały: 8-12 miesięcy, intensywny",
+        "Emmental Reserve: 14+ miesięcy, bardzo intensywny"
+      ]
+    },
+    
+    flavor: {
+      taste: "Słodki, orzechowy, maślany, lekko owocowy",
+      texture: "Twarda ale elastyczna, duże oczka",
+      color: "Bladożółta, kremowa, z dużymi okrągłymi oczkami",
+      aroma: "Orzechowy, słodki, lekko fermentowany"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 380,
+      fatContent: 28,
+      saturatedFatContent: 18,
+      proteinContent: 28,
+      carbohydrateContent: 0,
+      sodiumContent: 610,
+      calciumContent: 970
+    }
   }
 ];
