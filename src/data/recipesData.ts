@@ -1437,5 +1437,591 @@ export const recipesData: Recipe[] = [
       sodiumContent: 1390,
       calciumContent: 680
     }
+  },
+  {
+    id: "brie",
+    name: "Brie",
+    difficulty: "Zaawansowany",
+    description: "Brie to królowa serów miękkich z Francji, pokryta białą pleśnią Penicillium candidum. Ser o kremowej, rozpływającej się konsystencji i intensywnym, grzybowym aromacie. Pochodzi z regionu Brie w północnej Francji i jest jednym z najstarszych serów na świecie.",
+    yield: "≈ 0,5 kg z 7,6 L mleka",
+    ageTime: "4-6 tygodni",
+    image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Brie_01.jpg",
+    
+    milkBase: "≈ 7,6 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
+    starter: "Typ: kultura mezofilna MM100/Flora Danica + Penicillium candidum do białej skórki.",
+    coagulant: "Płynna podpuszczka single-strength; ok. 2,5 ml na 7,6 L mleka.",
+    salting: "Suche solenie - posypywanie solą podczas dojrzewania.",
+    aging: "10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Główna kultura mezofilna do Brie.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Flora Danica",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Klasyczna kultura duńska, alternatywa dla MM.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "Penicillium candidum",
+        type: "pleśń biała",
+        shop: "Serowar.pl",
+        dosage: "~1/16 tsp",
+        notes: "KLUCZOWA dla białej skórki Brie!",
+        searchQuery: "candidum"
+      },
+      {
+        name: "Geotrichum candidum",
+        type: "drożdże",
+        shop: "Serowar.pl",
+        dosage: "~1/32 tsp",
+        notes: "Opcjonalnie - poprawia teksturę skórki.",
+        searchQuery: "Geotrichum"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1/8 tsp MM-100 + 1/16 tsp P. candidum + 2,5 ml podpuszczki na 7,6 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,125 tsp (~0,6 g)", notes: "MM-100 lub Flora Danica" },
+      { ingredient: "Penicillium candidum", amount: "~1/16 tsp", notes: "Do białej skórki" },
+      { ingredient: "Podpuszczka płynna", amount: "2,5 ml (½ tsp)", notes: "Single strength" },
+      { ingredient: "Sól", amount: "~15 g na ser", notes: "Suche solenie" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~60 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i P. candidum. Pozostaw na 60 min do dojrzewania.",
+        tip: "Niska temperatura i długie dojrzewanie = więcej wilgoci w serze."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~60-90 min",
+        content: "Dodaj 2,5 ml podpuszczki. Bardzo długie krzepnięcie (60-90 min) dla delikatnego skrzepu.",
+        warning: "Nie śpiesz się - Brie wymaga bardzo delikatnego skrzepu!"
+      },
+      {
+        title: "3) Cięcie na duże kostki 2-3 cm",
+        content: "Potnij skrzep na duże kostki 2-3 cm. Pozostaw na 10 min bez mieszania.",
+        tip: "Duże ziarna = więcej wilgoci = kremowa konsystencja."
+      },
+      {
+        title: "4) Delikatne mieszanie ~20 min",
+        content: "Bardzo delikatnie mieszaj przez 20 min. Unikaj łamania ziaren.",
+        warning: "Zbyt intensywne mieszanie zniszczy teksturę Brie!"
+      },
+      {
+        title: "5) Formowanie warstwowe",
+        content: "Przełóż skrzep do form (bez płótna!) warstwami. Formy okrągłe ~15 cm średnicy. Pozostaw do samoociekania przez 24h w 20-22°C, obracając co 2-3h.",
+        tip: "Brie formuje się bez prasowania - tylko grawitacja."
+      },
+      {
+        title: "6) Solenie suche",
+        content: "Po 24h wyjmij z formy i posyp solą ze wszystkich stron (ok. 15g na ser). Pozostaw na 24h.",
+        tip: "Równomierne pokrycie solą jest kluczowe dla rozwoju pleśni."
+      },
+      {
+        title: "7) Dojrzewanie wstępne 10-13°C ~7 dni",
+        content: "Przenieś do dojrzewalni 10-13°C, 90-95% wilgotności. Obracaj codziennie. Po 5-7 dniach pojawi się biała pleśń.",
+        warning: "Zbyt niska wilgotność = sucha skórka i słaby rozwój pleśni."
+      },
+      {
+        title: "8) Dojrzewanie końcowe 3-5 tygodni",
+        content: "Kontynuuj dojrzewanie, obracając co 2-3 dni. Pleśń pokryje cały ser. Ser jest gotowy gdy środek jest miękki i kremowy.",
+        tip: "Test gotowości: delikatnie naciśnij środek - powinien być sprężysty ale miękki."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Temperatura dojrzewania jest kluczowa - zbyt ciepło = zbyt szybkie dojrzewanie i gorzki smak.",
+        "Biała pleśń powinna być gęsta i jednorodna - plamy oznaczają problemy z wilgotnością."
+      ],
+      warnings: [
+        "Unikaj zielonej/niebieskiej pleśni - to zanieczyszczenie!",
+        "Amoniakalny zapach = ser przejrzały."
+      ],
+      variants: [
+        "Brie de Meaux: większy, dłuższe dojrzewanie",
+        "Brie z ziołami: dodaj zioła do środka",
+        "Brie z truflami: luksusowa wersja"
+      ]
+    },
+    
+    flavor: {
+      taste: "Kremowy, grzybowy, lekko orzechowy, delikatnie pikantny",
+      texture: "Miękka, rozpływająca się, kremowy środek",
+      color: "Biała skórka, kremowo-żółty środek",
+      aroma: "Intensywny, grzybowy, ziemisty"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 334,
+      fatContent: 28,
+      saturatedFatContent: 17,
+      proteinContent: 21,
+      carbohydrateContent: 0.5,
+      sodiumContent: 629,
+      calciumContent: 184
+    }
+  },
+  {
+    id: "parmezan",
+    name: "Parmezan (Parmigiano-Reggiano)",
+    difficulty: "Zaawansowany",
+    description: "Parmigiano-Reggiano to król serów włoskich, dojrzewający minimum 12 miesięcy. Charakteryzuje się krystaliczną strukturą, intensywnym smakiem umami i orzechowymi nutami. Ten ser wymaga cierpliwości, ale efekt jest niezrównany.",
+    yield: "≈ 2 kg z 22,7 L mleka",
+    ageTime: "12-24 miesiące",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/72/Parmigiano_Reggiano.jpg",
+    
+    milkBase: "≈ 22,7 L mleka pełnego (nie UHT; częściowo odtłuszczone przez nocne odstanie).",
+    starter: "Typ: naturalna serwatka startowa lub kultura termofilna + Lactobacillus helveticus.",
+    coagulant: "Podpuszczka cielęca; ok. 5 ml na 22,7 L mleka.",
+    salting: "Solanka nasycona przez 20-25 dni.",
+    aging: "13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem.",
+    
+    cultureSubstitutes: [
+      {
+        name: "TA / TA-61",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Główna kultura termofilna.",
+        searchQuery: "TA"
+      },
+      {
+        name: "LH / LH-100",
+        type: "Helveticus",
+        shop: "GAP Poland",
+        dosage: "~0,03 tsp (~0,15 g)",
+        notes: "KLUCZOWA dla charakterystycznego smaku Parmezanu!",
+        searchQuery: "LH"
+      },
+      {
+        name: "TH LYO",
+        type: "termofilna",
+        shop: "GAP Poland",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Do twardych serów gotowanych.",
+        searchQuery: "TH"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1/8 tsp TA-61 + 1/16 tsp LH-100 + 5 ml podpuszczki na 22,7 L.",
+    dosageTable: [
+      { ingredient: "Kultura termofilna", amount: "~0,125 tsp (~0,6 g)", notes: "TA-61 lub TH LYO" },
+      { ingredient: "Kultura Helveticus", amount: "~0,03 tsp (~0,15 g)", notes: "LH-100 - dla umami" },
+      { ingredient: "Podpuszczka cielęca", amount: "5 ml (1 tsp)", notes: "Tradycyjna cielęca" },
+      { ingredient: "Sól (solanka)", amount: "20-25 dni", notes: "Solanka nasycona" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Przygotowanie mleka - nocne odstanie",
+        content: "Wieczorem: wlej mleko do szerokiego naczynia i odstaw w lodówce na noc. Rano: zbierz śmietankę z powierzchni (mleko będzie częściowo odtłuszczone).",
+        tip: "Tradycyjny Parmezan używa mleka częściowo odtłuszczonego - to daje charakterystyczną teksturę."
+      },
+      {
+        title: "2) Podgrzanie i zakwaszanie 33-35°C ~30 min",
+        content: "Podgrzej mleko do 33-35°C. Dodaj kulturę termofilną i Helveticus. Pozostaw na 30 min.",
+        tip: "Kultura Helveticus jest kluczowa dla smaku umami!"
+      },
+      {
+        title: "3) Krzepnięcie podpuszczka ~15 min",
+        content: "Dodaj 5 ml podpuszczki cielęcej. Krzepnięcie powinno nastąpić w 15 min.",
+        warning: "Używaj podpuszczki cielęcej dla autentycznego smaku."
+      },
+      {
+        title: "4) Cięcie na drobne ziarna ~3 mm",
+        content: "Potnij skrzep na bardzo drobne ziarna wielkości ziarna ryżu (3 mm). Użyj trzepaczki lub harfy serowej.",
+        tip: "Im drobniejsze ziarna, tym twardszy i bardziej suchy ser."
+      },
+      {
+        title: "5) Gotowanie ziaren do 55°C ~45 min",
+        content: "Powoli podgrzewaj do 55°C przez 45 min, ciągle mieszając. Tempo: około 0,5°C na minutę.",
+        warning: "Zbyt szybkie podgrzewanie = nierównomierna tekstura!"
+      },
+      {
+        title: "6) Odsączanie i formowanie",
+        content: "Pozostaw ziarna na dnie na 30 min. Usuń serwatkę. Przełóż masę do formy wyłożonej płótnem.",
+        tip: "Ziarna powinny być suche i sprężyste - nie sklejać się."
+      },
+      {
+        title: "7) Prasowanie ~24h",
+        content: "Prasuj przy rosnącym ciśnieniu: 4h przy 10 kg, 8h przy 20 kg, 12h przy 30 kg. Obracaj co 2-3h.",
+        warning: "Długie prasowanie jest kluczowe dla gęstej tekstury."
+      },
+      {
+        title: "8) Solenie w solance 20-25 dni",
+        content: "Zanurz ser w nasyconej solance na 20-25 dni (1 dzień na każdy kg + 5 dni). Temperatura 15-18°C. Obracaj codziennie.",
+        tip: "Długie solenie to charakterystyka Parmezanu - sól przenika głęboko."
+      },
+      {
+        title: "9) Dojrzewanie 12-24 miesiące",
+        content: "Dojrzewaj w 13-15°C, 80-85% wilgotności. Obracaj co tydzień. Szczotkuj powierzchnię oliwą co miesiąc.",
+        tip: "12 miesięcy = młody, 24+ miesięcy = intensywny, krystaliczny."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Cierpliwość jest kluczowa - prawdziwy Parmezan wymaga minimum 12 miesięcy.",
+        "Kryształy aminokwasów (tyrozyna) to znak dobrze dojrzałego sera."
+      ],
+      warnings: [
+        "Zbyt wysoka wilgotność = pleśń i pęknięcia.",
+        "Zbyt niska = wysychanie i pękanie skórki."
+      ],
+      variants: [
+        "Parmigiano-Reggiano 12 miesięcy: młody, łagodny",
+        "Parmigiano-Reggiano 24 miesięcy: klasyczny, intensywny",
+        "Parmigiano-Reggiano 36+ miesięcy: stravecchio, bardzo intensywny"
+      ]
+    },
+    
+    flavor: {
+      taste: "Intensywny umami, orzechowy, lekko słony, kryształki",
+      texture: "Twarda, krucha, z kryształkami aminokwasów",
+      color: "Słomkowo-żółta, ciemniejsza przy dłuższym dojrzewaniu",
+      aroma: "Intensywny, orzechowy, lekko owocowy"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 431,
+      fatContent: 29,
+      saturatedFatContent: 18,
+      proteinContent: 38,
+      carbohydrateContent: 3.2,
+      sodiumContent: 1529,
+      calciumContent: 1184
+    }
+  },
+  {
+    id: "ricotta",
+    name: "Ricotta",
+    difficulty: "Łatwy",
+    description: "Ricotta to tradycyjny włoski ser serwatkowy, wytwarzany z serwatki pozostałej po produkcji innych serów. Nazwa pochodzi od włoskiego 'ricotta' - 'ponownie gotowana'. Ser ma delikatny, słodkawy smak i kremową teksturę, idealny do deserów i dań makaronowych.",
+    yield: "≈ 0,5 kg z 4 L serwatki + 2 L mleka",
+    ageTime: "Świeża (do 7 dni)",
+    image: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Ricotta_fresca_italiana.jpg",
+    
+    milkBase: "4 L świeżej serwatki + 2 L mleka pełnego (dla większej wydajności).",
+    starter: "Brak kultury - ser kwasowy.",
+    coagulant: "Kwas cytrynowy lub ocet - 60 ml na 6 L płynu.",
+    salting: "Opcjonalna szczypta soli do smaku.",
+    aging: "Brak dojrzewania - ser świeży.",
+    
+    cultureSubstitutes: [],
+    
+    dosageReference: "Odniesienie: 60 ml kwasu cytrynowego (lub octu) na 6 L płynu.",
+    dosageTable: [
+      { ingredient: "Serwatka świeża", amount: "4 L", notes: "Z produkcji innego sera" },
+      { ingredient: "Mleko pełne", amount: "2 L", notes: "Zwiększa wydajność" },
+      { ingredient: "Kwas cytrynowy", amount: "60 ml (4 łyżki)", notes: "Lub ocet biały" },
+      { ingredient: "Sól", amount: "szczypta", notes: "Opcjonalnie" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Przygotowanie płynu",
+        content: "Połącz 4 L świeżej serwatki z 2 L mleka pełnego w dużym garnku.",
+        tip: "Użyj serwatki z tego samego dnia - stara serwatka da gorzki smak."
+      },
+      {
+        title: "2) Podgrzewanie do 85-90°C",
+        content: "Powoli podgrzewaj mieszankę do 85-90°C, mieszając delikatnie. Nie dopuść do zagotowania!",
+        warning: "Gotowanie zniszczy delikatną strukturę Ricotty!"
+      },
+      {
+        title: "3) Dodanie kwasu",
+        content: "Gdy płyn osiągnie 85°C, dodaj 60 ml kwasu cytrynowego (4 łyżki). Delikatnie zamieszaj. Białka natychmiast zaczną się ścinać.",
+        tip: "Jeśli nie widać kłaczków, dodaj więcej kwasu po łyżce."
+      },
+      {
+        title: "4) Odpoczynek ~10 min",
+        content: "Zdejmij z ognia i pozostaw na 10 min bez mieszania. Białka uniosą się na powierzchnię.",
+        warning: "Nie mieszaj! Delikatne kłaczki mogą się rozpaść."
+      },
+      {
+        title: "5) Odsączanie",
+        content: "Delikatnie przelewaj przez gazę lub sitko wyłożone gazą. Pozostaw do ociekania 30-60 min.",
+        tip: "Im dłużej odciekasz, tym gęstsza Ricotta."
+      },
+      {
+        title: "6) Doprawianie (opcjonalnie)",
+        content: "Dodaj szczyptę soli do smaku. Możesz też dodać zioła, miód lub cytrynę.",
+        tip: "Ricotta jest bazą - dostosuj smak do planowanego zastosowania."
+      },
+      {
+        title: "7) Przechowywanie",
+        content: "Przełóż do szczelnego pojemnika. Przechowuj w lodówce do 7 dni.",
+        warning: "Ricotta szybko się psuje - jedz świeżą!"
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Najlepsza Ricotta pochodzi ze świeżej serwatki - zrób ją tego samego dnia co główny ser.",
+        "Dodaj mleko dla większej wydajności i kremowszej tekstury."
+      ],
+      warnings: [
+        "Stara serwatka = gorzki smak.",
+        "Nie przechowuj dłużej niż tydzień."
+      ],
+      variants: [
+        "Ricotta salata: osolona i suszona, do tarcia",
+        "Ricotta al forno: pieczona, do deserów",
+        "Ricotta z ziołami: z bazylią, oregano"
+      ]
+    },
+    
+    flavor: {
+      taste: "Delikatny, słodkawy, mleczny, świeży",
+      texture: "Kremowa, delikatna, lekko ziarnista",
+      color: "Biała, kremowa",
+      aroma: "Świeży, mleczny, neutralny"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 174,
+      fatContent: 13,
+      saturatedFatContent: 8,
+      proteinContent: 11,
+      carbohydrateContent: 3,
+      sodiumContent: 84,
+      calciumContent: 207
+    }
+  },
+  {
+    id: "mascarpone",
+    name: "Mascarpone",
+    difficulty: "Łatwy",
+    description: "Mascarpone to luksusowy włoski ser kremowy z regionu Lombardii. Charakteryzuje się aksamitną teksturą i delikatnym, słodkawym smakiem. Jest niezbędnym składnikiem tiramisu i wielu włoskich deserów. Produkcja jest bardzo prosta - to idealny ser dla początkujących.",
+    yield: "≈ 0,4 kg z 1 L śmietanki",
+    ageTime: "Świeży (do 5 dni)",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/47/Mascarpone_01.jpg",
+    
+    milkBase: "1 L śmietanki kremowej (30-36% tłuszczu).",
+    starter: "Brak kultury - ser kwasowy.",
+    coagulant: "Kwas cytrynowy lub winny - 30 ml na 1 L śmietanki.",
+    salting: "Brak solenia.",
+    aging: "Brak dojrzewania - ser świeży.",
+    
+    cultureSubstitutes: [],
+    
+    dosageReference: "Odniesienie: 30 ml soku z cytryny (lub 15 ml kwasu winnego) na 1 L śmietanki.",
+    dosageTable: [
+      { ingredient: "Śmietanka kremowa", amount: "1 L", notes: "30-36% tłuszczu" },
+      { ingredient: "Sok z cytryny", amount: "30 ml (2 łyżki)", notes: "Lub 15 ml kwasu winnego" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Przygotowanie kąpieli wodnej",
+        content: "Napełnij duży garnek wodą do 1/3 wysokości. Wstaw mniejszy garnek ze śmietanką. Stwórz kąpiel wodną (bain-marie).",
+        tip: "Kąpiel wodna zapewnia równomierne podgrzewanie bez przypalania."
+      },
+      {
+        title: "2) Podgrzewanie śmietanki do 85°C",
+        content: "Powoli podgrzewaj śmietankę do 85°C, mieszając delikatnie. Używaj termometru.",
+        warning: "Nie dopuść do zagotowania - pogorszy teksturę!"
+      },
+      {
+        title: "3) Dodanie kwasu",
+        content: "Gdy śmietanka osiągnie 85°C, dodaj 30 ml soku z cytryny. Mieszaj delikatnie przez 5 min na niskim ogniu.",
+        tip: "Śmietanka lekko zgęstnieje - to normalne."
+      },
+      {
+        title: "4) Schładzanie ~1h",
+        content: "Zdejmij z ognia i pozostaw do ostygnięcia na 1h w temperaturze pokojowej.",
+        tip: "Nie przyspieszaj schładzania - pozwól na naturalne ostygnięcie."
+      },
+      {
+        title: "5) Chłodzenie w lodówce 8-12h",
+        content: "Przenieś garnek do lodówki na 8-12h (najlepiej na noc). Mascarpone zgęstnieje.",
+        warning: "Ten krok jest kluczowy - nie skracaj czasu chłodzenia!"
+      },
+      {
+        title: "6) Odsączanie (opcjonalnie)",
+        content: "Jeśli chcesz gęstszą konsystencję, przełóż przez gazę i pozostaw do ociekania 2-4h.",
+        tip: "Dla tiramisu lepsza jest gęstsza wersja."
+      },
+      {
+        title: "7) Przechowywanie",
+        content: "Przełóż do szczelnego pojemnika. Przechowuj w lodówce do 5 dni.",
+        warning: "Mascarpone jest bardzo wrażliwe - jedz świeże!"
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Użyj najwyższej jakości śmietanki - to jedyny składnik!",
+        "Kwas winny daje delikatniejszy smak niż cytrynowy."
+      ],
+      warnings: [
+        "Nie używaj śmietanki UHT - słabszy wynik.",
+        "Przechowuj maksymalnie 5 dni."
+      ],
+      variants: [
+        "Mascarpone słodkie: z cukrem pudrem",
+        "Mascarpone waniliowe: z ekstraktem wanilii",
+        "Mascarpone z owocami: do deserów"
+      ]
+    },
+    
+    flavor: {
+      taste: "Delikatny, słodkawy, kremowy, maślany",
+      texture: "Aksamitna, gładka, kremowa",
+      color: "Biało-kremowa",
+      aroma: "Delikatny, mleczny, maślany"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 429,
+      fatContent: 44,
+      saturatedFatContent: 28,
+      proteinContent: 5,
+      carbohydrateContent: 3.5,
+      sodiumContent: 41,
+      calciumContent: 98
+    }
+  },
+  {
+    id: "feta-grecka",
+    name: "Feta Grecka",
+    difficulty: "Średni",
+    description: "Feta to tradycyjny grecki ser solankowy z mleka owczego lub mieszanki owczo-koziej. Charakteryzuje się białą barwą, kruchą teksturą i słono-kwaśnym smakiem. To jeden z najstarszych serów świata, wspomniany już w Odysei Homera.",
+    yield: "≈ 1 kg z 7,6 L mleka",
+    ageTime: "2-3 miesiące w solance",
+    image: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Feta_Cheese.jpg",
+    
+    milkBase: "≈ 7,6 L mleka owczego (lub mieszanka 70% owcze + 30% kozie). Można użyć krowiego.",
+    starter: "Typ: kultura mezofilna MM100 lub Flora Danica + Lipaza dla charakterystycznego smaku.",
+    coagulant: "Płynna podpuszczka; ok. 2,5 ml na 7,6 L mleka.",
+    salting: "Solanka 7-10% przez 2-3 miesiące.",
+    aging: "W solance w lodówce przez 2-3 miesiące.",
+    
+    cultureSubstitutes: [
+      {
+        name: "MM / MM-100",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Główna kultura mezofilna.",
+        searchQuery: "MM"
+      },
+      {
+        name: "Flora Danica",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "~0,125 tsp (~0,6 g)",
+        notes: "Alternatywa dla MM.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "Lipaza",
+        type: "enzym",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp",
+        notes: "Dla intensywnego, ostrego smaku greckiej Fety.",
+        searchQuery: "lipaza"
+      }
+    ],
+    
+    dosageReference: "Odniesienie: 1/8 tsp MM-100 + 1/8 tsp lipazy + 2,5 ml podpuszczki na 7,6 L.",
+    dosageTable: [
+      { ingredient: "Kultura mezofilna", amount: "~0,125 tsp (~0,6 g)", notes: "MM-100 lub Flora Danica" },
+      { ingredient: "Lipaza (opcjonalnie)", amount: "~1/8 tsp", notes: "Dla ostrzejszego smaku" },
+      { ingredient: "Podpuszczka płynna", amount: "2,5 ml (½ tsp)", notes: "Single strength" },
+      { ingredient: "Sól (solanka)", amount: "7-10%", notes: "Do przechowywania" }
+    ],
+    
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32°C ~60 min",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i opcjonalnie lipazę. Pozostaw na 60 min.",
+        tip: "Lipaza dodaje charakterystycznego pikantnego smaku greckiej Fety."
+      },
+      {
+        title: "2) Krzepnięcie podpuszczka ~45-60 min",
+        content: "Dodaj 2,5 ml podpuszczki. Długie krzepnięcie (45-60 min) dla delikatnego skrzepu.",
+        warning: "Test skrzepu: czysty, sprężysty skrzep bez resztek płynnych."
+      },
+      {
+        title: "3) Cięcie na kostki 1,5-2 cm",
+        content: "Potnij skrzep na kostki 1,5-2 cm. Pozostaw na 10 min bez mieszania.",
+        tip: "Większe kostki = więcej wilgoci w serze."
+      },
+      {
+        title: "4) Delikatne mieszanie ~20 min",
+        content: "Bardzo delikatnie mieszaj przez 20 min. Ziarna powinny się wzmocnić ale pozostać wilgotne.",
+        warning: "Nie podgrzewaj! Feta wymaga niskiej temperatury."
+      },
+      {
+        title: "5) Odsączanie i formowanie",
+        content: "Przełóż skrzep do formy wyłożonej płótnem. Pozostaw do samoociekania 4-6h w temperaturze pokojowej. Obracaj co godzinę.",
+        tip: "Feta nie wymaga prasowania - tylko grawitacja i czas."
+      },
+      {
+        title: "6) Solenie suche - dzień 1-3",
+        content: "Po sformowaniu posyp ser solą ze wszystkich stron. Pozostaw w temperaturze pokojowej na 1-3 dni, codziennie obracając i dosolając.",
+        tip: "Sól wyciąga wilgoć i chroni przed zepsuciem."
+      },
+      {
+        title: "7) Przygotowanie solanki",
+        content: "Przygotuj solankę 7-10%: 70-100 g soli na 1 L wody. Dodaj 1 łyżkę octu i 1 łyżkę CaCl₂. Schłodź do temperatury lodówki.",
+        tip: "Solanka o niższym stężeniu = łagodniejsza Feta."
+      },
+      {
+        title: "8) Dojrzewanie w solance 2-3 miesiące",
+        content: "Zanurz ser w solance i przechowuj w lodówce. Ser powinien być całkowicie zanurzony. Dojrzewaj minimum 2 miesiące.",
+        tip: "Im dłużej w solance, tym intensywniejszy smak."
+      }
+    ],
+    
+    notes: {
+      tips: [
+        "Mleko owcze daje najbardziej autentyczny smak, ale krowie też działa.",
+        "Lipaza jest opcjonalna, ale dodaje charakterystycznego greckiego 'kopa'."
+      ],
+      warnings: [
+        "Zbyt mocna solanka = bardzo słony ser. Można namaczać przed jedzeniem.",
+        "Ser musi być zanurzony - wystawione części pleśnieją."
+      ],
+      variants: [
+        "Feta klasyczna: 70% owcze + 30% kozie",
+        "Feta z krowiego: łagodniejsza wersja",
+        "Feta z ziołami: oregano, tymianek w solance"
+      ]
+    },
+    
+    flavor: {
+      taste: "Słono-kwaśny, pikantny, intensywny",
+      texture: "Krucha, kremowa, rozpada się",
+      color: "Biała do kremowej",
+      aroma: "Ostry, mleczny, lekko kozłowy (przy mleku owczym/kozim)"
+    },
+    
+    nutrition: {
+      servingSize: "100 g",
+      calories: 264,
+      fatContent: 21,
+      saturatedFatContent: 15,
+      proteinContent: 14,
+      carbohydrateContent: 4,
+      sodiumContent: 917,
+      calciumContent: 493
+    }
   }
 ];
