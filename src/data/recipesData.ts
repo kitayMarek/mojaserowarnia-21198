@@ -2,6 +2,22 @@ import asiagoImage from "@/assets/asiago.jpg";
 import dunlopImage from "@/assets/dunlop.jpg";
 import fetaBulgarskaImage from "@/assets/feta-bulgarska.jpg";
 import yorkshireImage from "@/assets/yorkshire.jpg";
+import caciottaImage from "@/assets/caciotta.jpg";
+import goudaImage from "@/assets/gouda.jpg";
+import cheddarImage from "@/assets/cheddar.jpg";
+import mozzarellaImage from "@/assets/mozzarella.jpg";
+import camembertImage from "@/assets/camembert.jpg";
+import halloumiImage from "@/assets/halloumi.jpg";
+import brieImage from "@/assets/brie.jpg";
+import parmezanImage from "@/assets/parmezan.jpg";
+import ricottaImage from "@/assets/ricotta.jpg";
+import mascarponeImage from "@/assets/mascarpone.jpg";
+import fetaGreckaImage from "@/assets/feta-grecka.jpg";
+import gorgonzolaImage from "@/assets/gorgonzola.jpg";
+import roquefortImage from "@/assets/roquefort.jpg";
+import stiltonImage from "@/assets/stilton.jpg";
+import gruyereImage from "@/assets/gruyere.jpg";
+import emmentalImage from "@/assets/emmental.jpg";
 
 export interface CultureSubstitute {
   name: string;
@@ -265,7 +281,7 @@ export const recipesData: Recipe[] = [
     description: "Caciotta to kremowy, półmiękki ser z środkowych Włoch, tradycyjnie wytwarzany z mleka owczego, krowiego, koziego lub bawolego. Charakteryzuje się niezwykłym procesem \"stufatura\" (gotowanie parą), który nadaje serowi unikalną teksturę. Ten ser dla początkujących znajdzie się na każdym włoskim stole - od regionu Pienza/Siena w południowej Toskanii po całe Włochy.",
     yield: "≈ 0,9 kg z 7,6 L mleka",
     ageTime: "2 miesiące (można jeść młodszą)",
-    image: "https://www.cheese.com/media/img/cheese/22-Caciotta-shutterstock_632211605.webp",
+    image: caciottaImage,
     
     milkBase: "≈ 7,6 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta).",
     starter: "Typ: kultura termofilna C201 (odpowiedniki z tabeli poniżej).",
@@ -888,7 +904,7 @@ export const recipesData: Recipe[] = [
     description: "Gouda to holenderski ser o łagodnym, kremowym smaku i charakterystycznej słodkiej nucie. Jest jednym z najpopularniejszych serów na świecie, ceniony za swoją wszechstronność - od młodych, miękkich wersji po dojrzałe, krystaliczne odmiany.",
     yield: "≈ 1,8 kg z 15 L mleka",
     ageTime: "2-12 miesięcy",
-    image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800",
+    image: goudaImage,
     
     milkBase: "≈ 15 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura mezofilna typu LD (z produkcją CO₂ dla oczek).",
@@ -998,7 +1014,7 @@ export const recipesData: Recipe[] = [
     description: "Cheddar to kultowy brytyjski ser o ostrym, wyrazistym smaku. Charakteryzuje się unikalnym procesem 'cheddaringu' - układania i obracania bloków twarogu, który nadaje serowi charakterystyczną teksturę i smak.",
     yield: "≈ 2 kg z 20 L mleka",
     ageTime: "3-24 miesiące",
-    image: "https://images.unsplash.com/photo-1618164436241-4473940d1f5c?w=800",
+    image: cheddarImage,
     
     milkBase: "≈ 20 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura mezofilna MA (bez produkcji gazu).",
@@ -1110,7 +1126,7 @@ export const recipesData: Recipe[] = [
     description: "Mozzarella to włoski ser typu pasta filata, znany z elastycznej, ciągnącej się tekstury. Świeża mozzarella jest idealna do pizzy, sałatek caprese i zapiekanek. To jeden z najszybszych serów do przygotowania w domu.",
     yield: "≈ 0,5 kg z 4 L mleka",
     ageTime: "Świeży (1-7 dni)",
-    image: "https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?w=800",
+    image: mozzarellaImage,
     
     milkBase: "≈ 4 L mleka pełnego (najlepiej niepasteryzowane lub pasteryzowane z CaCl₂).",
     starter: "Typ: kultura termofilna lub kwas cytrynowy.",
@@ -1218,7 +1234,7 @@ export const recipesData: Recipe[] = [
     description: "Camembert to francuski ser pleśniowy o kremowej, rozpływającej się konsystencji i intensywnym aromacie. Charakterystyczna biała pleśń Penicillium candidum tworzy jadalną skórkę, pod którą kryje się aksamitne wnętrze.",
     yield: "≈ 0,5 kg z 4 L mleka",
     ageTime: "3-5 tygodni",
-    image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800",
+    image: camembertImage,
     
     milkBase: "≈ 4 L mleka pełnego (najlepiej niepasteryzowane).",
     starter: "Typ: kultura mezofilna + Penicillium candidum.",
@@ -1332,7 +1348,7 @@ export const recipesData: Recipe[] = [
     description: "Halloumi to cypryjski ser o unikalnej właściwości - nie topi się podczas smażenia czy grillowania. Dzięki temu jest idealny na grilla, patelnię czy do sałatek. Charakteryzuje się słono-mlecznym smakiem i sprężystą teksturą.",
     yield: "≈ 0,6 kg z 4 L mleka",
     ageTime: "Świeży (do 2 tygodni w solance)",
-    image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800",
+    image: halloumiImage,
     
     milkBase: "≈ 4 L mleka pełnego (tradycyjnie mieszanka owczego i koziego).",
     starter: "Brak lub minimalna kultura - Halloumi opiera się głównie na podpuszczce.",
@@ -1445,7 +1461,7 @@ export const recipesData: Recipe[] = [
     description: "Brie to królowa serów miękkich z Francji, pokryta białą pleśnią Penicillium candidum. Ser o kremowej, rozpływającej się konsystencji i intensywnym, grzybowym aromacie. Pochodzi z regionu Brie w północnej Francji i jest jednym z najstarszych serów na świecie.",
     yield: "≈ 0,5 kg z 7,6 L mleka",
     ageTime: "4-6 tygodni",
-    image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Brie_01.jpg",
+    image: brieImage,
     
     milkBase: "≈ 7,6 L mleka pełnego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura mezofilna MM100/Flora Danica + Penicillium candidum do białej skórki.",
@@ -1580,7 +1596,7 @@ export const recipesData: Recipe[] = [
     description: "Parmigiano-Reggiano to król serów włoskich, dojrzewający minimum 12 miesięcy. Charakteryzuje się krystaliczną strukturą, intensywnym smakiem umami i orzechowymi nutami. Ten ser wymaga cierpliwości, ale efekt jest niezrównany.",
     yield: "≈ 2 kg z 22,7 L mleka",
     ageTime: "12-24 miesiące",
-    image: "https://upload.wikimedia.org/wikipedia/commons/7/72/Parmigiano_Reggiano.jpg",
+    image: parmezanImage,
     
     milkBase: "≈ 22,7 L mleka pełnego (nie UHT; częściowo odtłuszczone przez nocne odstanie).",
     starter: "Typ: naturalna serwatka startowa lub kultura termofilna + Lactobacillus helveticus.",
@@ -1712,7 +1728,7 @@ export const recipesData: Recipe[] = [
     description: "Ricotta to tradycyjny włoski ser serwatkowy, wytwarzany z serwatki pozostałej po produkcji innych serów. Nazwa pochodzi od włoskiego 'ricotta' - 'ponownie gotowana'. Ser ma delikatny, słodkawy smak i kremową teksturę, idealny do deserów i dań makaronowych.",
     yield: "≈ 0,5 kg z 4 L serwatki + 2 L mleka",
     ageTime: "Świeża (do 7 dni)",
-    image: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Ricotta_fresca_italiana.jpg",
+    image: ricottaImage,
     
     milkBase: "4 L świeżej serwatki + 2 L mleka pełnego (dla większej wydajności).",
     starter: "Brak kultury - ser kwasowy.",
@@ -1809,7 +1825,7 @@ export const recipesData: Recipe[] = [
     description: "Mascarpone to luksusowy włoski ser kremowy z regionu Lombardii. Charakteryzuje się aksamitną teksturą i delikatnym, słodkawym smakiem. Jest niezbędnym składnikiem tiramisu i wielu włoskich deserów. Produkcja jest bardzo prosta - to idealny ser dla początkujących.",
     yield: "≈ 0,4 kg z 1 L śmietanki",
     ageTime: "Świeży (do 5 dni)",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/47/Mascarpone_01.jpg",
+    image: mascarponeImage,
     
     milkBase: "1 L śmietanki kremowej (30-36% tłuszczu).",
     starter: "Brak kultury - ser kwasowy.",
@@ -1904,7 +1920,7 @@ export const recipesData: Recipe[] = [
     description: "Feta to tradycyjny grecki ser solankowy z mleka owczego lub mieszanki owczo-koziej. Charakteryzuje się białą barwą, kruchą teksturą i słono-kwaśnym smakiem. To jeden z najstarszych serów świata, wspomniany już w Odysei Homera.",
     yield: "≈ 1 kg z 7,6 L mleka",
     ageTime: "2-3 miesiące w solance",
-    image: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Feta_Cheese.jpg",
+    image: fetaGreckaImage,
     
     milkBase: "≈ 7,6 L mleka owczego (lub mieszanka 70% owcze + 30% kozie). Można użyć krowiego.",
     starter: "Typ: kultura mezofilna MM100 lub Flora Danica + Lipaza dla charakterystycznego smaku.",
@@ -2031,7 +2047,7 @@ export const recipesData: Recipe[] = [
     description: "Gorgonzola to włoski ser z niebieską pleśnią z regionu Lombardii i Piemontu. Znany od IX wieku, jest jednym z najstarszych serów pleśniowych świata. Dostępny w dwóch odmianach: Dolce (kremowy, łagodny) i Piccante (twardy, ostry).",
     yield: "≈ 1,5 kg z 11 L mleka",
     ageTime: "2-4 miesiące",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gorgonzola_Cheese.jpg/1280px-Gorgonzola_Cheese.jpg",
+    image: gorgonzolaImage,
     
     milkBase: "≈ 11 L mleka pełnego krowiego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura mezofilna + Penicillium roqueforti dla niebieskiej pleśni.",
@@ -2149,7 +2165,7 @@ export const recipesData: Recipe[] = [
     description: "Roquefort to król francuskich serów pleśniowych, wytwarzany wyłącznie z mleka owiec rasy Lacaune w regionie Roquefort-sur-Soulzon. Dojrzewa w naturalnych jaskiniach przez minimum 3 miesiące. Ma status AOC od 1925 roku.",
     yield: "≈ 1,2 kg z 10 L mleka",
     ageTime: "3-5 miesięcy",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Roquefort_cheese.jpg/1280px-Roquefort_cheese.jpg",
+    image: roquefortImage,
     
     milkBase: "≈ 10 L mleka owczego (lub krowiego jako alternatywa).",
     starter: "Typ: kultura mezofilna + Penicillium roqueforti.",
@@ -2267,7 +2283,7 @@ export const recipesData: Recipe[] = [
     description: "Stilton to angielski ser z niebieską pleśnią, często nazywany 'Królem Serów'. Może być produkowany tylko w trzech hrabstwach: Derbyshire, Leicestershire i Nottinghamshire. Znany od XVIII wieku, ma status PDO.",
     yield: "≈ 2 kg z 15 L mleka",
     ageTime: "9-12 tygodni",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cropwell_Bishop_Stilton_Cheese.jpg/1280px-Cropwell_Bishop_Stilton_Cheese.jpg",
+    image: stiltonImage,
     
     milkBase: "≈ 15 L mleka pełnego krowiego (nie UHT; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura mezofilna + Penicillium roqueforti.",
@@ -2385,7 +2401,7 @@ export const recipesData: Recipe[] = [
     description: "Gruyère to szwajcarski ser alpejski z kantonu Fribourg, znany od XII wieku. Charakteryzuje się kremową teksturą z małymi oczkami i kompleksowym, orzechowym smakiem. Ma status AOC i jest podstawą fondue oraz quiche.",
     yield: "≈ 3 kg z 30 L mleka",
     ageTime: "5-12 miesięcy",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Gruyère_Cheese_Wheel.jpg/1280px-Gruyère_Cheese_Wheel.jpg",
+    image: gruyereImage,
     
     milkBase: "≈ 30 L mleka pełnego krowiego (surowe lub pasteryzowane z CaCl₂).",
     starter: "Typ: kultura termofilna + Propionibacterium dla oczek.",
@@ -2513,7 +2529,7 @@ export const recipesData: Recipe[] = [
     description: "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. Jest jednym z największych serów świata - koła mogą ważyć do 130 kg.",
     yield: "≈ 4 kg z 40 L mleka",
     ageTime: "4-12 miesięcy",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Emmentaler_cheese.jpg/1280px-Emmentaler_cheese.jpg",
+    image: emmentalImage,
     
     milkBase: "≈ 40 L mleka pełnego krowiego (najlepiej surowe; przy pasteryzowanym dodaj CaCl₂).",
     starter: "Typ: kultura termofilna + Propionibacterium shermanii dla oczek.",
