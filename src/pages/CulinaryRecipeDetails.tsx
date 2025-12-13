@@ -18,8 +18,20 @@ import {
   AlertTriangle,
   Wine,
   Utensils,
-  CheckCircle2
+  CheckCircle2,
+  Flame,
+  Beef,
+  Wheat,
+  Droplets
 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const CulinaryRecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -254,6 +266,81 @@ const CulinaryRecipeDetails = () => {
                       </li>
                     ))}
                   </ol>
+                </CardContent>
+              </Card>
+
+              {/* Nutrition Table */}
+              <Card className="border-border/50">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Flame className="w-5 h-5 text-primary" />
+                    Wartości odżywcze
+                  </h2>
+                  <p className="text-sm text-muted-foreground mb-4">Na 1 porcję</p>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[180px]">Składnik</TableHead>
+                        <TableHead className="text-right">Wartość</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Flame className="w-4 h-4 text-orange-500" />
+                            Kalorie
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right font-semibold">{recipe.nutrition.calories} kcal</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Beef className="w-4 h-4 text-red-500" />
+                            Białko
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{recipe.nutrition.protein} g</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Wheat className="w-4 h-4 text-amber-500" />
+                            Węglowodany
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{recipe.nutrition.carbs} g</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Droplets className="w-4 h-4 text-yellow-500" />
+                            Tłuszcze
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{recipe.nutrition.fat} g</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Wheat className="w-4 h-4 text-green-600" />
+                            Błonnik
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{recipe.nutrition.fiber} g</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <Droplets className="w-4 h-4 text-blue-500" />
+                            Sód
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{recipe.nutrition.sodium} mg</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </CardContent>
               </Card>
 
