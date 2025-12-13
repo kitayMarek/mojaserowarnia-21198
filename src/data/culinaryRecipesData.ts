@@ -16,6 +16,15 @@ export interface CulinaryStep {
   warning?: string;
 }
 
+export interface NutritionInfo {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  sodium: number;
+}
+
 export interface CulinaryRecipe {
   id: string;
   name: string;
@@ -33,6 +42,7 @@ export interface CulinaryRecipe {
   presentation: string[];
   wineRecommendation?: string;
   tags: string[];
+  nutrition: NutritionInfo;
 }
 
 export const culinaryRecipesData: CulinaryRecipe[] = [
@@ -115,7 +125,15 @@ export const culinaryRecipesData: CulinaryRecipe[] = [
       "Udekoruj świeżymi gałązkami tymianku."
     ],
     wineRecommendation: "Do cielęciny z goudą świetnie pasuje Chardonnay z dębową nutą (jeśli preferujesz białe) lub lekki, owocowy Pinot Noir (czerwone). Oba wina podkreślą kremowość sera i delikatność cielęciny.",
-    tags: ["cielęcina", "gouda", "romantyczna kolacja", "eleganckie", "roladki", "ser", "duszone"]
+    tags: ["cielęcina", "gouda", "romantyczna kolacja", "eleganckie", "roladki", "ser", "duszone"],
+    nutrition: {
+      calories: 485,
+      protein: 38,
+      carbs: 12,
+      fat: 32,
+      fiber: 3,
+      sodium: 580
+    }
   },
   {
     id: "zapiekane-brie-miodem-orzechami",
@@ -182,7 +200,15 @@ export const culinaryRecipesData: CulinaryRecipe[] = [
       "Podawaj z małymi nożykami do sera."
     ],
     wineRecommendation: "Półsłodki Riesling lub Gewürztraminer doskonale zrównoważą słoność sera i słodycz miodu. Dla miłośników czerwonych win - lekkie Beaujolais.",
-    tags: ["brie", "przystawka", "deser", "eleganckie", "szybkie", "wino", "orzechy", "miód"]
+    tags: ["brie", "przystawka", "deser", "eleganckie", "szybkie", "wino", "orzechy", "miód"],
+    nutrition: {
+      calories: 420,
+      protein: 14,
+      carbs: 28,
+      fat: 29,
+      fiber: 2,
+      sodium: 490
+    }
   },
   {
     id: "kremowe-risotto-gorgonzola",
@@ -252,7 +278,15 @@ export const culinaryRecipesData: CulinaryRecipe[] = [
       "Podawaj natychmiast - risotto nie lubi czekać."
     ],
     wineRecommendation: "Klasyczne połączenie to Barolo lub Barbaresco z Piemontu. Dla lżejszej opcji - Pinot Grigio z Alto Adige, które orzeźwi podniebienie po intensywnym serze.",
-    tags: ["risotto", "gorgonzola", "gruszka", "włoskie", "eleganckie", "romantyczna kolacja", "wegetariańskie"]
+    tags: ["risotto", "gorgonzola", "gruszka", "włoskie", "eleganckie", "romantyczna kolacja", "wegetariańskie"],
+    nutrition: {
+      calories: 520,
+      protein: 18,
+      carbs: 58,
+      fat: 24,
+      fiber: 3,
+      sodium: 720
+    }
   },
   {
     id: "rustykalna-tarta-camembert",
@@ -322,6 +356,14 @@ export const culinaryRecipesData: CulinaryRecipe[] = [
       "Tarta jest pyszna ciepła, letnia i zimna - uniwersalna!"
     ],
     wineRecommendation: "Normandzki Cidre (cydr jabłkowy) to klasyczne, regionalne połączenie. Alternatywnie - lekkie, owocowe Beaujolais lub białe Burgundy (Chablis).",
-    tags: ["tarta", "camembert", "cebula", "francuskie", "eleganckie", "brunch", "wegetariańskie", "przekąska"]
+    tags: ["tarta", "camembert", "cebula", "francuskie", "eleganckie", "brunch", "wegetariańskie", "przekąska"],
+    nutrition: {
+      calories: 380,
+      protein: 12,
+      carbs: 24,
+      fat: 26,
+      fiber: 2,
+      sodium: 420
+    }
   }
 ];
