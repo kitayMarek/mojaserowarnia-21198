@@ -14,6 +14,8 @@ const Index = lazy(() => import("./pages/Index"));
 const BazaKultur = lazy(() => import("./pages/BazaKultur"));
 const Przepisy = lazy(() => import("./pages/Przepisy"));
 const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
+const PrzepisyKulinarne = lazy(() => import("./pages/PrzepisyKulinarne"));
+const CulinaryRecipeDetails = lazy(() => import("./pages/CulinaryRecipeDetails"));
 const PoradnikiHub = lazy(() => import("./pages/PoradnikiHub"));
 const Poradnik = lazy(() => import("./pages/Poradnik"));
 const BakterieKultury = lazy(() => import("./pages/BakterieKultury"));
@@ -70,6 +72,8 @@ const App = () => (
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
+            <Route path="/przepisy-kulinarne" element={<PrzepisyKulinarne />} />
+            <Route path="/przepisy-kulinarne/:id" element={<CulinaryRecipeDetails />} />
             <Route path="/poradniki" element={<PoradnikiHub />} />
           <Route path="/poradnik" element={<Poradnik />} />
           <Route path="/bakterie-kultury" element={<BakterieKultury />} />
