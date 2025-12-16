@@ -3,6 +3,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import DatasetSchema from "@/components/DatasetSchema";
 import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,37 @@ const BazaKultur = () => {
   const shops = Array.from(new Set(culturesData.map(c => c.shop)));
   const types = Array.from(new Set(culturesData.map(c => c.type)));
   return <div className="min-h-screen flex flex-col">
+      <DatasetSchema
+        name="Baza Kultur Bakteryjnych do Produkcji Sera"
+        description={`Kompletna baza ${culturesData.length} kultur bakteryjnych do produkcji domowych serów z polskich sklepów specjalistycznych. Zawiera informacje o składzie bakteryjnym, zastosowaniu w serowarstwie, temperaturze pracy, typie kultury i aktualnych cenach.`}
+        url="https://mojaserowarnia.pl/baza-kultur"
+        keywords={[
+          "kultury bakteryjne",
+          "serowarstwo",
+          "bakterie mlekowe",
+          "kultury starterowe",
+          "kultury mezofilne",
+          "kultury termofilne",
+          "produkcja sera",
+          "domowy ser"
+        ]}
+        creator={{ name: "Moja Serowarnia", type: "Organization" }}
+        variableMeasured={[
+          "nazwa kultury",
+          "skład bakteryjny",
+          "temperatura pracy",
+          "zastosowanie",
+          "typ kultury",
+          "cena"
+        ]}
+        dateModified={new Date().toISOString().split('T')[0]}
+        distribution={[
+          {
+            encodingFormat: "text/html",
+            contentUrl: "https://mojaserowarnia.pl/baza-kultur"
+          }
+        ]}
+      />
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Baza Kultur" }]} />
       <main className="flex-1 pt-20" role="main">
