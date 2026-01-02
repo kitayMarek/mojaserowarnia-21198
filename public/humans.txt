@@ -1,0 +1,42 @@
+/* TEAM */
+Twórca: Moja Serowarnia
+Rola: Portal wiedzy o serowarstwie domowym
+Lokalizacja: Polska
+Kontakt: kontakt@mojaserowarnia.pl
+
+/* THANKS */
+Dziękujemy wszystkim serowarom, którzy dzielą się wiedzą i doświadczeniem.
+Dziękujemy społeczności polskich producentów sera rzemieślniczego.
+
+/* SITE */
+Ostatnia aktualizacja: 2026-01-02
+Język: Polski
+Doctype: HTML5
+IDE: Lovable
+Technologie: React 18, Vite, TypeScript, Tailwind CSS, Supabase
+Komponenty UI: shadcn/ui, Radix UI
+Ikony: Lucide React
+Fonty: System fonts
+
+/* ZAWARTOŚĆ */
+Baza kultur bakteryjnych: 145+ kultur
+Przepisy na sery: 30+ przepisów
+Poradniki: RHD, MOL, Prawo UE
+Kalkulatory: Podpuszczka, Koszty, Miary, Beaugel
+Słownik: 100+ terminów serowarskich
+
+/* MISJA */
+Moja Serowarnia to największa polska baza wiedzy o produkcji sera.
+Tworzymy portal przez serowarów, dla serowarów.
+Naszym celem jest dzielenie się wiedzą i wspieranie
+polskiego serowarstwa domowego i rzemieślniczego.
+
+/* LICENCJA */
+Treści edukacyjne: Wolne do użytku niekomercyjnego
+Kod źródłowy: Własnościowy
+Zdjęcia: Różne licencje - sprawdź indywidualnie
+
+/* KONTAKT */
+Strona: https://mojaserowarnia.pl
+Email: kontakt@mojaserowarnia.pl
+Formularz: https://mojaserowarnia.pl/kontakt
