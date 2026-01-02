@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -8,13 +8,6 @@ import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
 const PoradnikiHub = () => {
-  useEffect(() => {
-    document.title = "Poradniki serowara | Start";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Kompletne poradniki dla serowarów: kompleksowy przewodnik po produkcji sera oraz szczegółowe informacje o sile podpuszczki i metodzie flokulacji.");
-    }
-  }, []);
 
   const guides = [
     {
@@ -49,6 +42,11 @@ const PoradnikiHub = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Poradniki serowara | Start</title>
+        <meta name="description" content="Kompletne poradniki dla serowarów: kompleksowy przewodnik po produkcji sera oraz szczegółowe informacje o sile podpuszczki i metodzie flokulacji." />
+        <link rel="canonical" href="https://mojaserowarnia.pl/poradniki" />
+      </Helmet>
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Poradniki" }]} />
       

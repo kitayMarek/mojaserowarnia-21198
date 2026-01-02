@@ -11,7 +11,8 @@ import HeroSearch from "./HeroSearch";
 const Hero = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [usersCount, setUsersCount] = useState<number>(0);
+  // Fallback value for SSG prerendering - will be updated dynamically after hydration
+  const [usersCount, setUsersCount] = useState<number>(150);
 
   useEffect(() => {
     const fetchUsersCount = async () => {

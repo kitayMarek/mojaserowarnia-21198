@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -8,16 +8,14 @@ import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
 const BakterieKultury = () => {
-  useEffect(() => {
-    document.title = "Kultury bakteryjne i pleśnie w serowarstwie — przewodnik praktyczny | Moja Serowarnia";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Rozszerzony przewodnik dla początkujących serowarów: charakterystyka kultur bakteryjnych i pleśni, dawki startowe, temperatury, pH, typowe błędy, przykładowe mieszanki do popularnych serów.");
-    }
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Kultury bakteryjne i pleśnie w serowarstwie — przewodnik praktyczny | Moja Serowarnia</title>
+        <meta name="description" content="Rozszerzony przewodnik dla początkujących serowarów: charakterystyka kultur bakteryjnych i pleśni, dawki startowe, temperatury, pH, typowe błędy, przykładowe mieszanki do popularnych serów." />
+        <link rel="canonical" href="https://mojaserowarnia.pl/bakterie-kultury" />
+      </Helmet>
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Poradniki", href: "/poradniki" },
