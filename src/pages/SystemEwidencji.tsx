@@ -6,9 +6,33 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import FAQSchema from "@/components/FAQSchema";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ewidencjaHeader from "@/assets/ewidencja-header.png";
+
+const faqs = [
+  {
+    question: "Czym jest system ewidencji sprzedaży RHD?",
+    answer: "To narzędzie do rejestrowania transakcji sprzedaży w ramach Rolniczego Handlu Detalicznego. Umożliwia monitoring przychodów, śledzenie limitu 100 000 zł rocznie oraz wystawianie profesjonalnych rachunków."
+  },
+  {
+    question: "Jaki jest limit przychodu w RHD?",
+    answer: "Roczny limit przychodu w Rolniczym Handlu Detalicznym wynosi 100 000 zł. System automatycznie śledzi postęp względem tego limitu i ostrzega przy zbliżaniu się do granicy."
+  },
+  {
+    question: "Jak długo należy przechowywać ewidencję sprzedaży?",
+    answer: "Ewidencję sprzedaży należy przechowywać przez 2 lata od końca roku, którego dotyczą. System umożliwia archiwizację i eksport danych do CSV oraz PDF."
+  },
+  {
+    question: "Co powinien zawierać rachunek RHD?",
+    answer: "Rachunek RHD musi zawierać: numer dokumentu, datę, dane sprzedającego i nabywcy, rodzaj i ilość sprzedanej żywności, cenę jednostkową i wartość łączną oraz numer weterynaryjny (jeśli nadany)."
+  },
+  {
+    question: "Czy system ewidencji jest zgodny z przepisami?",
+    answer: "Tak, system zaprojektowano zgodnie z wymogami ustawy o RHD i rozporządzeniem MRiRW z 12.09.2022. Zawiera wszystkie wymagane pola ewidencji i generuje dokumenty spełniające wymogi prawne."
+  }
+];
 
 const SystemEwidencji = () => {
   const { user } = useAuth();
@@ -63,6 +87,7 @@ const SystemEwidencji = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <FAQSchema faqs={faqs} />
       <Navigation />
       <PageBreadcrumbs items={[{ label: "System Ewidencji" }]} />
       

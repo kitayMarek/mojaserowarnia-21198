@@ -4,10 +4,38 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import FAQSchema from "@/components/FAQSchema";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
+
+const faqs = [
+  {
+    question: "Co to jest rzeźnia rolnicza?",
+    answer: "Rzeźnia rolnicza to zakład uboju zlokalizowany na terenie gospodarstwa, działający z uproszczonymi wymaganiami i limitami. Rozwiązanie funkcjonuje w Polsce od 18.02.2020 r. na podstawie rozporządzenia MRiRW."
+  },
+  {
+    question: "Jakie są limity uboju w rzeźni rolniczej?",
+    answer: "Limit dzienny wynosi do 50 sztuk drobiu, a limit roczny do 18 250 sztuk. W szczególnych sytuacjach PLW może dopuścić przekroczenie limitu dziennego, o ile nie zostanie przekroczony limit roczny."
+  },
+  {
+    question: "Jak uruchomić małą ubojnię drobiu?",
+    answer: "Kroki: 1) Konsultacja z PLW, 2) Projekt technologiczny zakładu, 3) Adaptacja pomieszczeń, 4) Przygotowanie dokumentacji GHP/HACCP, 5) Wniosek o zatwierdzenie i numer weterynaryjny, 6) Ustalenie zasad nadzoru weterynaryjnego."
+  },
+  {
+    question: "Jaka temperatura przechowywania mięsa drobiowego?",
+    answer: "Mięso drobiu po uboju musi być szybko schłodzone i utrzymywane w temperaturze ≤ 4°C zgodnie z rozporządzeniem 853/2004. Wymagane jest dokumentowanie kontroli temperatur w rejestrach."
+  },
+  {
+    question: "Jaką dokumentację musi prowadzić rzeźnia rolnicza?",
+    answer: "Wymagana dokumentacja obejmuje: GHP/GMP, uproszczony HACCP, rejestr temperatur, ewidencję uboju i sprzedaży, traceability (numery partii, źródło zwierząt), SOP dobrostanowe oraz dokumentację UPPZ."
+  },
+  {
+    question: "Komu można sprzedawać mięso z rzeźni rolniczej?",
+    answer: "Mięso można sprzedawać konsumentowi końcowemu oraz lokalnemu detalowi/gastronomii zgodnie z reżimem RHD/MOL i ograniczeniami obszarowymi oraz ilościowymi."
+  }
+];
 
 const RzezniRolnicza = () => {
   useEffect(() => {
@@ -23,6 +51,7 @@ const RzezniRolnicza = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
+      <FAQSchema faqs={faqs} />
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Prawo", href: "/prawo" },
