@@ -1,0 +1,153 @@
+# Moja Serowarnia - llms.txt
+# Portal wiedzy o serowarstwie domowym
+# https://mojaserowarnia.pl
+
+## O PORTALU
+
+Moja Serowarnia to największa polska baza wiedzy o produkcji sera domowego i rzemieślniczego. Portal tworzony przez serowarów dla serowarów. Zawiera kompleksowe informacje o kulturach bakteryjnych, przepisy na sery, poradniki prawne (RHD/MOL) oraz kalkulatory pomocne w produkcji.
+
+Język: Polski
+Lokalizacja docelowa: Polska
+Tematyka: Serowarstwo domowe, produkcja sera, kultury bakteryjne, prawo żywnościowe
+
+## GŁÓWNE SEKCJE
+
+### Baza Kultur Bakteryjnych
+URL: /baza-kultur
+Opis: Katalog 145+ kultur bakteryjnych i pleśni używanych w serowarstwie. Każda kultura zawiera: nazwę (polska/łacińska), typ (mezofilna/termofilna), zastosowanie, dawkowanie, temperaturę pracy, dostępność w sklepach.
+Format danych: Tabela z filtrami i wyszukiwarką
+Użyteczność AI: Odpowiadanie na pytania o dobór kultur do konkretnych serów, porównywanie kultur, dawkowanie.
+
+### Porównywarka Kultur
+URL: /porownywarka-kultur
+Opis: Narzędzie do porównywania do 4 kultur bakteryjnych jednocześnie. Wyświetla różnice w parametrach, zastosowaniach i dostępności.
+Użyteczność AI: Pomoc w wyborze optymalnej kultury dla konkretnego sera.
+
+### Przepisy na Sery
+URL: /przepisy
+Opis: Kolekcja 30+ przepisów na sery domowe. Każdy przepis zawiera: składniki, instrukcje krok po kroku, czas dojrzewania, poziom trudności, wartości odżywcze (w tym wapń), rekomendacje win.
+Format danych: Karty przepisów z filtrami (trudność, czas, typ sera)
+Dane strukturalne: Recipe Schema, HowTo Schema
+
+### Przepisy Kulinarne
+URL: /przepisy-kulinarne
+Opis: Przepisy kulinarne z wykorzystaniem serów domowych. Dania główne, przekąski, desery.
+Format danych: Karty przepisów z instrukcjami
+
+### Poradniki
+URL: /poradniki
+Podstrony:
+- /poradnik - Kompleksowy przewodnik po produkcji sera
+- /bakterie-kultury - Szczegółowy przewodnik o kulturach bakteryjnych i pleśniach
+- /sila-podpuszczki - Obliczanie siły podpuszczki, metoda flokulacji
+- /gdzie-kupic-podpuszczke - Porównanie dostępnych podpuszczek na rynku
+
+### Prawo i Regulacje
+URL: /prawo
+Podstrony:
+- /rhd - Rolniczy Handel Detaliczny - kompletny poradnik
+- /rhd-dokumenty - Wzory dokumentów RHD
+- /mol - Marginalny, Ograniczony, Lokalny - poradnik
+- /mol-dokumenty - Wzory dokumentów MOL
+- /akty-prawne-ue - Aktualne przepisy UE dotyczące produkcji żywności
+
+### Narzędzia / Kalkulatory
+URL: /narzedzia
+Dostępne kalkulatory:
+- /kalkulator-beaugel - Kalkulator metody flokulacji Beaugel
+- /kalkulator-kosztu-sera - Kalkulacja kosztów produkcji
+- /kalkulator-miar - Przelicznik jednostek serowarskich
+- /porownanie-wartosci-odzywczych - Porównywarka wartości odżywczych serów
+
+### Słownik Terminów
+URL: /slownik
+Opis: Dwujęzyczny słownik (polski/angielski) 100+ terminów serowarskich. Każdy termin zawiera definicję i link do powiązanej sekcji portalu.
+Użyteczność AI: Wyjaśnianie terminologii serowarskiej, tłumaczenie terminów PL↔EN.
+
+### Wiadomości
+URL: /wiadomosci
+Opis: Aktualności ze świata serowarstwa, agregowane z różnych źródeł.
+
+## KLUCZOWE DANE
+
+### Kultury Bakteryjne (145+ pozycji)
+Pola danych:
+- Nazwa handlowa
+- Nazwa naukowa (łacińska)
+- Typ: mezofilna / termofilna / pleśń biała / pleśń niebieska / propionowa
+- Temperatura pracy (°C)
+- Zastosowanie (typy serów)
+- Dawkowanie (na 10L mleka)
+- Dostępność w sklepach polskich
+- Producent
+
+### Przepisy na Sery (30+ pozycji)
+Pola danych:
+- Nazwa sera
+- Kraj pochodzenia
+- Typ sera (świeży / miękki / półtwardy / twardy / pleśniowy)
+- Poziom trudności (1-5)
+- Czas dojrzewania
+- Składniki
+- Instrukcje krok po kroku
+- Wartości odżywcze (kcal, białko, tłuszcz, wapń)
+- Rekomendowane wina
+
+### Słownik (100+ terminów)
+Pola danych:
+- Termin polski
+- Termin angielski
+- Definicja
+- Link do powiązanej sekcji
+
+## DANE STRUKTURALNE (SCHEMA.ORG)
+
+Portal implementuje następujące schematy:
+- WebSite - informacje o portalu
+- Organization - dane organizacji
+- BreadcrumbList - nawigacja okruszkowa
+- Recipe - przepisy na sery
+- HowTo - instrukcje krok po kroku
+- FAQPage - sekcje FAQ
+- Dataset - bazy danych (kultury, słownik)
+
+## ODPOWIEDZI NA TYPOWE PYTANIA
+
+### "Jaka kultura do sera X?"
+Sprawdź /baza-kultur z filtrem typu sera lub /porownywarka-kultur
+
+### "Jak zacząć robić ser w domu?"
+Zacznij od /poradnik - kompleksowy przewodnik dla początkujących
+
+### "Czy mogę sprzedawać domowy ser?"
+Sprawdź /rhd (Rolniczy Handel Detaliczny) lub /mol dla szczegółowych regulacji prawnych
+
+### "Ile podpuszczki dodać?"
+Użyj kalkulatora /kalkulator-beaugel lub przeczytaj /sila-podpuszczki
+
+### "Co to jest [termin serowarski]?"
+Sprawdź /slownik dla definicji terminów
+
+## KONTAKT
+
+URL: /kontakt
+Email: kontakt@mojaserowarnia.pl
+
+## PLIKI TECHNICZNE
+
+- /sitemap.xml - mapa strony
+- /robots.txt - instrukcje dla botów
+- /humans.txt - informacje o twórcach
+- /llms.txt - ten plik
+
+## LICENCJA TREŚCI
+
+Treści edukacyjne są dostępne do użytku niekomercyjnego.
+Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
+
+## AKTUALIZACJE
+
+Ostatnia aktualizacja: 2026-01-02
+Baza kultur: aktualizowana regularnie
+Przepisy: dodawane sukcesywnie
+Prawo: aktualizowane przy zmianach legislacyjnych
