@@ -10,6 +10,18 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronDown, Filter, X } from "lucide-react";
 import przepisyHeaderImage from "@/assets/przepisy-header.webp";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import DatasetSchema from "@/components/DatasetSchema";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
+
+// See Also links for Przepisy page
+const seeAlsoLinks = [
+  { title: "Baza kultur bakteryjnych", href: "/baza-kultur", description: "Wybierz odpowiednie kultury starterowe" },
+  { title: "Poradnik dla serowarów", href: "/poradnik", description: "Podstawy produkcji sera krok po kroku" },
+  { title: "Przepisy kulinarne z serem", href: "/przepisy-kulinarne", description: "Jak wykorzystać domowy ser w kuchni" },
+  { title: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera", description: "Oblicz opłacalność produkcji" },
+  { title: "Gdzie kupić podpuszczkę?", href: "/gdzie-kupic-podpuszczke", description: "Lista sprawdzonych dostawców" }
+];
 
 // Helper function to parse aging time to days for filtering
 const parseAgingTimeToDays = (ageTime: string): { min: number; max: number } => {
@@ -173,6 +185,28 @@ const Przepisy = () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema, null, 2) }}
       />
+      <DatasetSchema
+        name="Przepisy na Domowe Sery - Kolekcja Receptur"
+        description={`Zbiór ${recipesData.length} sprawdzonych przepisów na domowe sery różnych typów: świeże, półtwarde i twarde. Każdy przepis zawiera listę składników, instrukcje krok po kroku, czas dojrzewania i wartości odżywcze.`}
+        url="https://mojaserowarnia.pl/przepisy"
+        keywords={[
+          "przepisy na ser",
+          "domowy ser",
+          "sery dojrzewające",
+          "ser półtwardy",
+          "ser twardy",
+          "serowarstwo domowe",
+          "cheese recipes"
+        ]}
+        creator={{ name: "Moja Serowarnia", type: "Organization" }}
+        variableMeasured={[
+          "czas przygotowania",
+          "czas dojrzewania",
+          "poziom trudności",
+          "wartości odżywcze"
+        ]}
+        dateModified={new Date().toISOString().split('T')[0]}
+      />
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Przepisy" }]} />
       
@@ -195,6 +229,19 @@ const Przepisy = () => {
                 Sprawdzone przepisy z pełnymi instrukcjami krok po kroku
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* TL;DR Section */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <TLDRSection>
+              <p>
+                <strong>{recipesData.length} sprawdzonych przepisów</strong> na domowe sery (ang. homemade cheese recipes) 
+                od łatwych po zaawansowane. Od świeżej ricotty (ang. fresh cheese) po dojrzewające twarde sery typu Parmezan. 
+                Każdy przepis zawiera pełne instrukcje, listę składników, czas dojrzewania (ang. aging time) i wartości odżywcze.
+              </p>
+            </TLDRSection>
           </div>
         </section>
 
@@ -349,6 +396,13 @@ const Przepisy = () => {
                 </div>
               )}
             </div>
+          </div>
+        </section>
+
+        {/* See Also Section */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <SeeAlso links={seeAlsoLinks} />
           </div>
         </section>
       </main>

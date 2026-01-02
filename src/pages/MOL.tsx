@@ -7,6 +7,38 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, Info, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
+import FAQSchema from "@/components/FAQSchema";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
+
+// FAQ data for SEO
+const faqData = [
+  {
+    question: "Czym jest działalność marginalna, lokalna i ograniczona (MOL)?",
+    answer: "MOL to forma produkcji i sprzedaży produktów żywnościowych pochodzenia zwierzęcego w uproszczonym trybie, skierowana do małych producentów-rolników. Umożliwia przetwarzanie mięsa, produktów mlecznych i jaj na określonych limitach ilościowych i obszarowych."
+  },
+  {
+    question: "Jakie są limity produkcji w MOL?",
+    answer: "Dla produktów mlecznych limit wynosi 0,5 tony tygodniowo, dla jaj przetworzonych 0,15 tony tygodniowo, dla gotowych posiłków 1,5 tony tygodniowo. Sprzedaż ograniczona jest do województwa produkcji lub sąsiednich powiatów."
+  },
+  {
+    question: "Jak zarejestrować działalność MOL?",
+    answer: "Należy złożyć wniosek do powiatowego lekarza weterynarii co najmniej 30 dni przed planowanym rozpoczęciem działalności. Po uzyskaniu decyzji i numeru identyfikacyjnego weterynaryjnego można rozpocząć produkcję."
+  },
+  {
+    question: "Jaka jest różnica między MOL a RHD?",
+    answer: "MOL dotyczy głównie produktów pochodzenia zwierzęcego z określonymi limitami wagowymi, wymaga rejestracji weterynaryjnej. RHD jest szersze - obejmuje także produkty roślinne, ma limit przychodowy (100 000 zł/rok) i różne wymagania rejestracyjne."
+  }
+];
+
+// See Also links
+const seeAlsoLinks = [
+  { title: "Rolniczy Handel Detaliczny (RHD)", href: "/prawo/rhd", description: "Alternatywna forma działalności dla rolników" },
+  { title: "Wymagane dokumenty w MOL", href: "/prawo/mol/dokumenty", description: "Kompletna dokumentacja MOL" },
+  { title: "Przepisy prawne UE", href: "/prawo/akty-prawne-ue", description: "Unijne regulacje dotyczące żywności" },
+  { title: "Rzeźnia rolnicza", href: "/prawo/rzeznia-rolnicza", description: "Przepisy dotyczące uboju na własne potrzeby" },
+  { title: "Poradnik dla serowarów", href: "/poradnik", description: "Praktyczna wiedza o produkcji sera" }
+];
 
 const MOL = () => {
   useEffect(() => {
@@ -47,6 +79,18 @@ const MOL = () => {
               </p>
             </div>
           </div>
+
+          {/* TL;DR Section */}
+          <TLDRSection>
+            <p>
+              <strong>Działalność MOL (marginalna, lokalna, ograniczona)</strong> to uproszczona forma produkcji 
+              produktów pochodzenia zwierzęcego dla małych producentów. Limit dla produktów mlecznych: 0,5 tony/tydzień. 
+              Wymaga rejestracji u powiatowego lekarza weterynarii min. 30 dni przed startem. 
+              Sprzedaż ograniczona do województwa lub sąsiednich powiatów.
+            </p>
+          </TLDRSection>
+
+          <FAQSchema faqs={faqData} />
 
           {/* Menu nawigacyjne */}
           <Card className="mb-6">
@@ -431,6 +475,9 @@ const MOL = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* See Also Section */}
+          <SeeAlso links={seeAlsoLinks} />
         </div>
       </main>
 

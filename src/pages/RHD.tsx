@@ -7,6 +7,38 @@ import { ArrowLeft, FileText, Scale, Users, ShoppingBag, ClipboardCheck, Euro, M
 import { Link } from "react-router-dom";
 import rhdHeaderImage from "@/assets/rhd-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+import FAQSchema from "@/components/FAQSchema";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
+
+// FAQ data for SEO
+const faqData = [
+  {
+    question: "Czym jest Rolniczy Handel Detaliczny (RHD)?",
+    answer: "RHD to wyodrębniona w polskim prawie forma handlu detalicznego umożliwiająca rolnikom produkcję żywności z własnej uprawy/hodowli oraz jej zbywanie konsumentom końcowym w uproszczonym trybie prawnym i podatkowym."
+  },
+  {
+    question: "Kto może prowadzić RHD?",
+    answer: "RHD może prowadzić rolnik posiadający gospodarstwo rodzinne lub inny rolniczy podmiot, który posiada własny surowiec z hodowli, chowu lub uprawy. Wymagane jest, aby co najmniej jeden składnik produktu pochodził z własnego gospodarstwa."
+  },
+  {
+    question: "Jakie produkty można sprzedawać w ramach RHD?",
+    answer: "W RHD można sprzedawać produkty pochodzenia roślinnego (warzywa, owoce, przetwory), produkty mleczne (sery, jogurty, masło), produkty mięsne, jaja, miód oraz produkty złożone, pod warunkiem że zawierają składnik z własnego gospodarstwa."
+  },
+  {
+    question: "Jak zarejestrować działalność RHD?",
+    answer: "Dla żywności roślinnej: zgłoszenie do Państwowej Inspekcji Sanitarnej min. 14 dni przed rozpoczęciem. Dla żywności zwierzęcej lub złożonej: wniosek do powiatowego lekarza weterynarii min. 30 dni przed rozpoczęciem działalności."
+  }
+];
+
+// See Also links
+const seeAlsoLinks = [
+  { title: "Działalność marginalna, lokalna i ograniczona (MOL)", href: "/prawo/mol", description: "Alternatywna forma działalności dla serowarów" },
+  { title: "Wymagane dokumenty w RHD", href: "/prawo/rhd/dokumenty", description: "Ewidencje, rejestry i procedury" },
+  { title: "Przepisy prawne UE", href: "/prawo/akty-prawne-ue", description: "Unijne regulacje dotyczące żywności" },
+  { title: "System ewidencji sprzedaży", href: "/system-ewidencji", description: "Narzędzie do prowadzenia dokumentacji RHD" },
+  { title: "Poradnik dla serowarów", href: "/poradnik", description: "Praktyczna wiedza o produkcji sera" }
+];
 
 const RHD = () => {
   useEffect(() => {
@@ -56,6 +88,18 @@ const RHD = () => {
               </p>
             </div>
           </div>
+
+          {/* TL;DR Section */}
+          <TLDRSection>
+            <p>
+              <strong>Rolniczy Handel Detaliczny (RHD)</strong> to uproszczona forma działalności dla rolników. 
+              Pozwala na produkcję i sprzedaż żywności z własnego gospodarstwa bezpośrednio konsumentom. 
+              Wymaga rejestracji w Sanepidzie (produkty roślinne) lub u lekarza weterynarii (produkty zwierzęce). 
+              Limit przychodów: 100 000 zł/rok ze zwolnieniem z podatku dochodowego.
+            </p>
+          </TLDRSection>
+
+          <FAQSchema faqs={faqData} />
 
           {/* Menu szybkiego dostępu */}
           <Card className="mb-6 bg-primary/5 border-primary/20">
@@ -492,6 +536,9 @@ const RHD = () => {
               </div>
             </div>
           </div>
+
+          {/* See Also Section */}
+          <SeeAlso links={seeAlsoLinks} />
         </div>
       </main>
 
