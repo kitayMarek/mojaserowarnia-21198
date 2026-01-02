@@ -8,6 +8,8 @@ import { ArrowLeft, Clock, ChefHat } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ReactionButton from "@/components/ReactionButton";
 import RecipeSchema from "@/components/RecipeSchema";
+import HowToSchema from "@/components/HowToSchema";
+import SeeAlso from "@/components/SeeAlso";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 const RecipeDetails = () => {
@@ -42,9 +44,49 @@ const RecipeDetails = () => {
     );
   }
 
+  // Prepare HowTo steps from recipe steps
+  const howToSteps = recipe.steps.map((step) => ({
+    name: step.title,
+    text: step.content + (step.tip ? ` Wskazówka: ${step.tip}` : '') + (step.warning ? ` Uwaga: ${step.warning}` : ''),
+  }));
+
+  // Prepare supplies from recipe
+  const supplies = [
+    recipe.milkBase,
+    recipe.starter,
+    recipe.coagulant,
+  ].filter(Boolean);
+
+  // Prepare SeeAlso links - filter out current recipe
+  const seeAlsoLinks = recipesData
+    .filter(r => r.id !== recipe.id)
+    .slice(0, 5)
+    .map(r => ({
+      title: r.name,
+      href: `/przepisy/${r.id}`,
+      description: `${r.difficulty} • ${r.ageTime}`,
+    }));
+
+  // Add related pages
+  const relatedLinks = [
+    { title: "Baza kultur bakteryjnych", href: "/baza-kultur", description: "Znajdź odpowiednie kultury do swojego sera" },
+    { title: "Porównywarka kultur", href: "/porownywarka-kultur", description: "Porównaj kultury różnych producentów" },
+    { title: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera", description: "Oblicz koszt produkcji sera" },
+    { title: "Poradnik serowarski", href: "/poradnik", description: "Praktyczne wskazówki dla serowarów" },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <RecipeSchema recipe={recipe} />
+      <HowToSchema
+        name={`Jak zrobić ${recipe.name} - przepis krok po kroku`}
+        description={recipe.description}
+        image={typeof recipe.image === 'string' ? recipe.image : undefined}
+        totalTime={recipe.ageTime.includes('dni') ? `P${recipe.ageTime.match(/\d+/)?.[0] || '30'}D` : undefined}
+        supply={supplies}
+        tool={["Kocioł serowarski", "Termometr", "Formy serowarskie", "Prasa"]}
+        steps={howToSteps}
+      />
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Przepisy", href: "/przepisy" },
@@ -233,6 +275,12 @@ const RecipeDetails = () => {
               </p>
             </section>
           )}
+
+          {/* See Also Section */}
+          <SeeAlso 
+            links={[...seeAlsoLinks, ...relatedLinks]} 
+            title="Zobacz również" 
+          />
         </article>
       </main>
       
