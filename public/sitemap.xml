@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- STRONA GŁÓWNA -->
   <url>
     <loc>https://mojaserowarnia.pl/</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- BAZY DANYCH -->
   <url>
     <loc>https://mojaserowarnia.pl/baza-kultur</loc>
     <lastmod>2026-01-02</lastmod>
@@ -19,6 +22,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/slownik</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- PRZEPISY -->
+  <url>
     <loc>https://mojaserowarnia.pl/przepisy</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -30,6 +41,8 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- PORADNIKI -->
   <url>
     <loc>https://mojaserowarnia.pl/poradniki</loc>
     <lastmod>2026-01-02</lastmod>
@@ -43,35 +56,25 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/wiadomosci</loc>
+    <loc>https://mojaserowarnia.pl/bakterie-kultury</loc>
     <lastmod>2026-01-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/prawo</loc>
+    <loc>https://mojaserowarnia.pl/sila-podpuszczki</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/prawo/rhd</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mojaserowarnia.pl/prawo/mol</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mojaserowarnia.pl/prawo/rzeznia-rolnicza</loc>
+    <loc>https://mojaserowarnia.pl/gdzie-kupic-podpuszczke</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+
+  <!-- NARZĘDZIA / KALKULATORY -->
   <url>
     <loc>https://mojaserowarnia.pl/narzedzia</loc>
     <lastmod>2026-01-02</lastmod>
@@ -91,6 +94,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/kalkulator-miar</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/kalkulator-pasz</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -103,66 +112,91 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/gdzie-kupic-podpuszczke</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://mojaserowarnia.pl/sila-podpuszczki</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://mojaserowarnia.pl/kalkulator-miar</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://mojaserowarnia.pl/porownanie-wartosci-odzywczych</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+
+  <!-- PRAWO -->
   <url>
-    <loc>https://mojaserowarnia.pl/kontakt</loc>
-    <lastmod>2026-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mojaserowarnia.pl/slownik</loc>
+    <loc>https://mojaserowarnia.pl/prawo</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/bakterie-kultury</loc>
+    <loc>https://mojaserowarnia.pl/prawo/rhd</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/akty-prawne-ue</loc>
+    <loc>https://mojaserowarnia.pl/prawo/rhd/dokumenty</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/rhd-dokumenty</loc>
+    <loc>https://mojaserowarnia.pl/prawo/mol</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/prawo/mol/dokumenty</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mojaserowarnia.pl/mol-dokumenty</loc>
+    <loc>https://mojaserowarnia.pl/prawo/akty-prawne-ue</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <!-- Pliki metadanych dla botów i AI -->
+  <url>
+    <loc>https://mojaserowarnia.pl/prawo/rzeznia-rolnicza</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- WIADOMOŚCI -->
+  <url>
+    <loc>https://mojaserowarnia.pl/wiadomosci</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- INNE STRONY PUBLICZNE -->
+  <url>
+    <loc>https://mojaserowarnia.pl/kontakt</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/nota-prawna</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/system-ewidencji</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/automatyzacja-social-media</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- PLIKI METADANYCH -->
   <url>
     <loc>https://mojaserowarnia.pl/llms.txt</loc>
     <lastmod>2026-01-02</lastmod>
