@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -8,7 +9,7 @@ import DatasetSchema from "@/components/DatasetSchema";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, BookOpen } from "lucide-react";
+import { Search, BookOpen, ExternalLink } from "lucide-react";
 import { useState, useMemo } from "react";
 
 interface GlossaryTerm {
@@ -16,82 +17,84 @@ interface GlossaryTerm {
   en: string;
   definition: string;
   category: string;
+  link?: string;
+  linkLabel?: string;
 }
 
 const glossaryTerms: GlossaryTerm[] = [
   // Podstawowe pojęcia
-  { pl: "Ser", en: "Cheese", definition: "Produkt mleczny otrzymywany przez koagulację białek mleka, głównie kazeiny.", category: "Podstawy" },
-  { pl: "Serowarstwo", en: "Cheesemaking", definition: "Proces i rzemiosło produkcji sera z mleka.", category: "Podstawy" },
-  { pl: "Serowarnia", en: "Cheese dairy / Fromagerie", definition: "Zakład lub pomieszczenie do produkcji serów.", category: "Podstawy" },
-  { pl: "Mleko surowe", en: "Raw milk", definition: "Mleko niepasteryzowane, zachowujące naturalną mikroflorę.", category: "Podstawy" },
-  { pl: "Pasteryzacja", en: "Pasteurization", definition: "Proces obróbki termicznej mleka w celu eliminacji patogenów.", category: "Podstawy" },
+  { pl: "Ser", en: "Cheese", definition: "Produkt mleczny otrzymywany przez koagulację białek mleka, głównie kazeiny.", category: "Podstawy", link: "/przepisy", linkLabel: "Przepisy na sery" },
+  { pl: "Serowarstwo", en: "Cheesemaking", definition: "Proces i rzemiosło produkcji sera z mleka.", category: "Podstawy", link: "/poradniki", linkLabel: "Poradniki" },
+  { pl: "Serowarnia", en: "Cheese dairy / Fromagerie", definition: "Zakład lub pomieszczenie do produkcji serów.", category: "Podstawy", link: "/poradnik", linkLabel: "Organizacja serowarni" },
+  { pl: "Mleko surowe", en: "Raw milk", definition: "Mleko niepasteryzowane, zachowujące naturalną mikroflorę.", category: "Podstawy", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Pasteryzacja", en: "Pasteurization", definition: "Proces obróbki termicznej mleka w celu eliminacji patogenów.", category: "Podstawy", link: "/poradnik", linkLabel: "Poradnik" },
   
   // Kultury i enzymy
-  { pl: "Kultury starterowe", en: "Starter cultures", definition: "Wyselekcjonowane szczepy bakterii kwasu mlekowego inicjujące fermentację.", category: "Kultury" },
-  { pl: "Podpuszczka", en: "Rennet", definition: "Enzym powodujący koagulację kazeiny w mleku.", category: "Kultury" },
-  { pl: "Chymozyna", en: "Chymosin", definition: "Główny enzym w podpuszczce odpowiedzialny za krzepnięcie mleka.", category: "Kultury" },
-  { pl: "Kultury mezofilne", en: "Mesophilic cultures", definition: "Bakterie aktywne w temperaturze 20-40°C.", category: "Kultury" },
-  { pl: "Kultury termofilne", en: "Thermophilic cultures", definition: "Bakterie aktywne w temperaturze 40-55°C.", category: "Kultury" },
-  { pl: "Kultury aromatyczne", en: "Aromatic cultures", definition: "Bakterie wytwarzające związki aromatyczne i CO₂.", category: "Kultury" },
-  { pl: "Pleśń szlachetna", en: "Noble mold", definition: "Grzyby Penicillium nadające serom charakterystyczny smak i wygląd.", category: "Kultury" },
-  { pl: "Bakterie propionowe", en: "Propionic bacteria", definition: "Bakterie tworzące oczka w serach typu szwajcarskiego.", category: "Kultury" },
-  { pl: "Brevibacterium linens", en: "Brevibacterium linens", definition: "Bakteria nadająca pomarańczowy kolor i intensywny aromat serom.", category: "Kultury" },
+  { pl: "Kultury starterowe", en: "Starter cultures", definition: "Wyselekcjonowane szczepy bakterii kwasu mlekowego inicjujące fermentację.", category: "Kultury", link: "/baza-kultur", linkLabel: "Baza kultur" },
+  { pl: "Podpuszczka", en: "Rennet", definition: "Enzym powodujący koagulację kazeiny w mleku.", category: "Kultury", link: "/sila-podpuszczki", linkLabel: "Kalkulator siły" },
+  { pl: "Chymozyna", en: "Chymosin", definition: "Główny enzym w podpuszczce odpowiedzialny za krzepnięcie mleka.", category: "Kultury", link: "/sila-podpuszczki", linkLabel: "Kalkulator siły" },
+  { pl: "Kultury mezofilne", en: "Mesophilic cultures", definition: "Bakterie aktywne w temperaturze 20-40°C.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
+  { pl: "Kultury termofilne", en: "Thermophilic cultures", definition: "Bakterie aktywne w temperaturze 40-55°C.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
+  { pl: "Kultury aromatyczne", en: "Aromatic cultures", definition: "Bakterie wytwarzające związki aromatyczne i CO₂.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
+  { pl: "Pleśń szlachetna", en: "Noble mold", definition: "Grzyby Penicillium nadające serom charakterystyczny smak i wygląd.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
+  { pl: "Bakterie propionowe", en: "Propionic bacteria", definition: "Bakterie tworzące oczka w serach typu szwajcarskiego.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
+  { pl: "Brevibacterium linens", en: "Brevibacterium linens", definition: "Bakteria nadająca pomarańczowy kolor i intensywny aromat serom.", category: "Kultury", link: "/bakterie-kultury", linkLabel: "Przewodnik kultur" },
   
   // Proces produkcji
-  { pl: "Koagulacja", en: "Coagulation", definition: "Proces krzepnięcia mleka pod wpływem podpuszczki lub kwasu.", category: "Proces" },
-  { pl: "Skrzep", en: "Curd", definition: "Skoagulowane białka mleka przed oddzieleniem serwatki.", category: "Proces" },
-  { pl: "Serwatka", en: "Whey", definition: "Płynna frakcja pozostała po oddzieleniu skrzepu.", category: "Proces" },
-  { pl: "Formowanie", en: "Molding", definition: "Nadawanie kształtu serowi w formach.", category: "Proces" },
-  { pl: "Prasowanie", en: "Pressing", definition: "Usuwanie nadmiaru serwatki poprzez nacisk.", category: "Proces" },
-  { pl: "Solenie", en: "Salting", definition: "Dodawanie soli w celu konserwacji i kształtowania smaku.", category: "Proces" },
-  { pl: "Solanka", en: "Brine", definition: "Roztwór soli do zanurzeniowego solenia serów.", category: "Proces" },
-  { pl: "Dojrzewanie", en: "Aging / Ripening / Affinage", definition: "Proces leżakowania sera w kontrolowanych warunkach.", category: "Proces" },
-  { pl: "Pielęgnacja skórki", en: "Rind care", definition: "Zabiegi wykonywane na powierzchni sera podczas dojrzewania.", category: "Proces" },
-  { pl: "Krojenie skrzepu", en: "Cutting the curd", definition: "Dzielenie skrzepu na mniejsze kawałki harfą serowarską.", category: "Proces" },
-  { pl: "Dogrzewanie", en: "Scalding", definition: "Podgrzewanie skrzepu w celu zwiększenia odwadniania.", category: "Proces" },
-  { pl: "Cheddaring", en: "Cheddaring", definition: "Technika układania i obracania bloków skrzepu.", category: "Proces" },
-  { pl: "Ciągnięcie ciasta", en: "Stretching / Pasta filata", definition: "Rozciąganie gorącego skrzepu w produkcji mozzarelli.", category: "Proces" },
+  { pl: "Koagulacja", en: "Coagulation", definition: "Proces krzepnięcia mleka pod wpływem podpuszczki lub kwasu.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Skrzep", en: "Curd", definition: "Skoagulowane białka mleka przed oddzieleniem serwatki.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Serwatka", en: "Whey", definition: "Płynna frakcja pozostała po oddzieleniu skrzepu.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Formowanie", en: "Molding", definition: "Nadawanie kształtu serowi w formach.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Prasowanie", en: "Pressing", definition: "Usuwanie nadmiaru serwatki poprzez nacisk.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Solenie", en: "Salting", definition: "Dodawanie soli w celu konserwacji i kształtowania smaku.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Solanka", en: "Brine", definition: "Roztwór soli do zanurzeniowego solenia serów.", category: "Proces", link: "/poradnik", linkLabel: "Kalkulator solanki" },
+  { pl: "Dojrzewanie", en: "Aging / Ripening / Affinage", definition: "Proces leżakowania sera w kontrolowanych warunkach.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Pielęgnacja skórki", en: "Rind care", definition: "Zabiegi wykonywane na powierzchni sera podczas dojrzewania.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Krojenie skrzepu", en: "Cutting the curd", definition: "Dzielenie skrzepu na mniejsze kawałki harfą serowarską.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Dogrzewanie", en: "Scalding", definition: "Podgrzewanie skrzepu w celu zwiększenia odwadniania.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Cheddaring", en: "Cheddaring", definition: "Technika układania i obracania bloków skrzepu.", category: "Proces", link: "/przepis/cheddar", linkLabel: "Przepis na Cheddar" },
+  { pl: "Ciągnięcie ciasta", en: "Stretching / Pasta filata", definition: "Rozciąganie gorącego skrzepu w produkcji mozzarelli.", category: "Proces", link: "/przepis/mozzarella", linkLabel: "Przepis na Mozzarellę" },
   
   // Typy serów
-  { pl: "Ser twardy", en: "Hard cheese", definition: "Ser o niskiej zawartości wody, długo dojrzewający.", category: "Typy" },
-  { pl: "Ser półtwardy", en: "Semi-hard cheese", definition: "Ser o średniej twardości i wilgotności.", category: "Typy" },
-  { pl: "Ser miękki", en: "Soft cheese", definition: "Ser o wysokiej zawartości wody i kremowej konsystencji.", category: "Typy" },
-  { pl: "Ser świeży", en: "Fresh cheese", definition: "Ser niefermentowany lub krótko dojrzewający.", category: "Typy" },
-  { pl: "Ser pleśniowy", en: "Blue cheese / Mold cheese", definition: "Ser z pleśnią wewnątrz lub na powierzchni.", category: "Typy" },
-  { pl: "Ser z białą pleśnią", en: "White mold cheese", definition: "Ser pokryty białą pleśnią Penicillium candidum.", category: "Typy" },
-  { pl: "Ser z niebieską pleśnią", en: "Blue-veined cheese", definition: "Ser z przerostami Penicillium roqueforti.", category: "Typy" },
-  { pl: "Ser z myciem skórki", en: "Washed-rind cheese", definition: "Ser pielęgnowany przez mycie solanką lub alkoholem.", category: "Typy" },
-  { pl: "Ser podpuszczkowy", en: "Rennet cheese", definition: "Ser wytwarzany z użyciem podpuszczki.", category: "Typy" },
-  { pl: "Ser kwasowy", en: "Acid-set cheese", definition: "Ser wytwarzany przez zakwaszenie mleka.", category: "Typy" },
+  { pl: "Ser twardy", en: "Hard cheese", definition: "Ser o niskiej zawartości wody, długo dojrzewający.", category: "Typy", link: "/przepisy", linkLabel: "Przepisy" },
+  { pl: "Ser półtwardy", en: "Semi-hard cheese", definition: "Ser o średniej twardości i wilgotności.", category: "Typy", link: "/przepisy", linkLabel: "Przepisy" },
+  { pl: "Ser miękki", en: "Soft cheese", definition: "Ser o wysokiej zawartości wody i kremowej konsystencji.", category: "Typy", link: "/przepisy", linkLabel: "Przepisy" },
+  { pl: "Ser świeży", en: "Fresh cheese", definition: "Ser niefermentowany lub krótko dojrzewający.", category: "Typy", link: "/przepis/ricotta", linkLabel: "Przepis na Ricottę" },
+  { pl: "Ser pleśniowy", en: "Blue cheese / Mold cheese", definition: "Ser z pleśnią wewnątrz lub na powierzchni.", category: "Typy", link: "/przepis/gorgonzola", linkLabel: "Przepis na Gorgonzolę" },
+  { pl: "Ser z białą pleśnią", en: "White mold cheese", definition: "Ser pokryty białą pleśnią Penicillium candidum.", category: "Typy", link: "/przepis/camembert", linkLabel: "Przepis na Camembert" },
+  { pl: "Ser z niebieską pleśnią", en: "Blue-veined cheese", definition: "Ser z przerostami Penicillium roqueforti.", category: "Typy", link: "/przepis/roquefort", linkLabel: "Przepis na Roquefort" },
+  { pl: "Ser z myciem skórki", en: "Washed-rind cheese", definition: "Ser pielęgnowany przez mycie solanką lub alkoholem.", category: "Typy", link: "/przepisy", linkLabel: "Przepisy" },
+  { pl: "Ser podpuszczkowy", en: "Rennet cheese", definition: "Ser wytwarzany z użyciem podpuszczki.", category: "Typy", link: "/sila-podpuszczki", linkLabel: "Kalkulator podpuszczki" },
+  { pl: "Ser kwasowy", en: "Acid-set cheese", definition: "Ser wytwarzany przez zakwaszenie mleka.", category: "Typy", link: "/przepisy", linkLabel: "Przepisy" },
   
   // Sprzęt
-  { pl: "Kocioł serowy", en: "Cheese vat", definition: "Naczynie do podgrzewania mleka i formowania skrzepu.", category: "Sprzęt" },
-  { pl: "Harfa serowarska", en: "Cheese harp / Curd cutter", definition: "Narzędzie z drucikami do krojenia skrzepu.", category: "Sprzęt" },
-  { pl: "Forma serowarska", en: "Cheese mold", definition: "Pojemnik nadający kształt serowi.", category: "Sprzęt" },
-  { pl: "Prasa serowarska", en: "Cheese press", definition: "Urządzenie do prasowania sera.", category: "Sprzęt" },
-  { pl: "Dojrzewalnia", en: "Aging room / Cave", definition: "Pomieszczenie o kontrolowanej temperaturze i wilgotności.", category: "Sprzęt" },
-  { pl: "Termometr", en: "Thermometer", definition: "Przyrząd do pomiaru temperatury mleka i skrzepu.", category: "Sprzęt" },
-  { pl: "pH-metr", en: "pH meter", definition: "Urządzenie do pomiaru kwasowości.", category: "Sprzęt" },
-  { pl: "Mata drenarsko-prasownicza", en: "Cheese mat / Draining mat", definition: "Mata ułatwiająca odpływ serwatki.", category: "Sprzęt" },
+  { pl: "Kocioł serowy", en: "Cheese vat", definition: "Naczynie do podgrzewania mleka i formowania skrzepu.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Harfa serowarska", en: "Cheese harp / Curd cutter", definition: "Narzędzie z drucikami do krojenia skrzepu.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Forma serowarska", en: "Cheese mold", definition: "Pojemnik nadający kształt serowi.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Prasa serowarska", en: "Cheese press", definition: "Urządzenie do prasowania sera.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Dojrzewalnia", en: "Aging room / Cave", definition: "Pomieszczenie o kontrolowanej temperaturze i wilgotności.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Termometr", en: "Thermometer", definition: "Przyrząd do pomiaru temperatury mleka i skrzepu.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "pH-metr", en: "pH meter", definition: "Urządzenie do pomiaru kwasowości.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
+  { pl: "Mata drenarsko-prasownicza", en: "Cheese mat / Draining mat", definition: "Mata ułatwiająca odpływ serwatki.", category: "Sprzęt", link: "/poradnik", linkLabel: "Wyposażenie" },
   
   // Parametry i właściwości
-  { pl: "Kwasowość", en: "Acidity", definition: "Poziom pH wpływający na teksturę i smak sera.", category: "Parametry" },
-  { pl: "Wilgotność", en: "Moisture content", definition: "Procentowa zawartość wody w serze.", category: "Parametry" },
-  { pl: "Zawartość tłuszczu", en: "Fat content", definition: "Procent tłuszczu w suchej masie sera.", category: "Parametry" },
-  { pl: "Sucha masa", en: "Dry matter", definition: "Składniki sera po odjęciu wody.", category: "Parametry" },
-  { pl: "Oczka", en: "Eyes / Holes", definition: "Otwory w serze utworzone przez CO₂.", category: "Parametry" },
-  { pl: "Skórka", en: "Rind", definition: "Zewnętrzna warstwa sera.", category: "Parametry" },
-  { pl: "Ciasto", en: "Paste / Body", definition: "Wewnętrzna część sera.", category: "Parametry" },
-  { pl: "Konsystencja", en: "Texture", definition: "Właściwości dotykowe i strukturalne sera.", category: "Parametry" },
-  { pl: "Aromat", en: "Aroma / Bouquet", definition: "Zapach sera.", category: "Parametry" },
+  { pl: "Kwasowość", en: "Acidity", definition: "Poziom pH wpływający na teksturę i smak sera.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Wilgotność", en: "Moisture content", definition: "Procentowa zawartość wody w serze.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Zawartość tłuszczu", en: "Fat content", definition: "Procent tłuszczu w suchej masie sera.", category: "Parametry", link: "/porownanie-wartosci-odzywczych", linkLabel: "Porównanie wartości" },
+  { pl: "Sucha masa", en: "Dry matter", definition: "Składniki sera po odjęciu wody.", category: "Parametry", link: "/porownanie-wartosci-odzywczych", linkLabel: "Porównanie wartości" },
+  { pl: "Oczka", en: "Eyes / Holes", definition: "Otwory w serze utworzone przez CO₂.", category: "Parametry", link: "/przepis/emmental", linkLabel: "Przepis na Emmental" },
+  { pl: "Skórka", en: "Rind", definition: "Zewnętrzna warstwa sera.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Ciasto", en: "Paste / Body", definition: "Wewnętrzna część sera.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Konsystencja", en: "Texture", definition: "Właściwości dotykowe i strukturalne sera.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Aromat", en: "Aroma / Bouquet", definition: "Zapach sera.", category: "Parametry", link: "/poradnik", linkLabel: "Poradnik" },
   
   // Prawne i handlowe
-  { pl: "RHD (Rolniczy Handel Detaliczny)", en: "Farm Retail Trade", definition: "Forma sprzedaży produktów rolnych bezpośrednio konsumentom.", category: "Prawo" },
-  { pl: "MOL (Działalność Marginalna, Lokalna i Ograniczona)", en: "Marginal, Local and Limited Activity", definition: "Uproszczona forma działalności przetwórczej.", category: "Prawo" },
-  { pl: "Numer weterynaryjny", en: "Veterinary number", definition: "Identyfikator zakładu zatwierdzony przez Inspekcję Weterynaryjną.", category: "Prawo" },
-  { pl: "Chroniona Nazwa Pochodzenia", en: "Protected Designation of Origin (PDO)", definition: "Oznaczenie produktów wytwarzanych tradycyjnie w określonym regionie.", category: "Prawo" },
-  { pl: "Chronione Oznaczenie Geograficzne", en: "Protected Geographical Indication (PGI)", definition: "Oznaczenie produktów związanych z określonym regionem.", category: "Prawo" },
-  { pl: "Gwarantowana Tradycyjna Specjalność", en: "Traditional Speciality Guaranteed (TSG)", definition: "Oznaczenie produktów wytwarzanych tradycyjną metodą.", category: "Prawo" },
+  { pl: "RHD (Rolniczy Handel Detaliczny)", en: "Farm Retail Trade", definition: "Forma sprzedaży produktów rolnych bezpośrednio konsumentom.", category: "Prawo", link: "/rhd", linkLabel: "Przewodnik RHD" },
+  { pl: "MOL (Działalność Marginalna, Lokalna i Ograniczona)", en: "Marginal, Local and Limited Activity", definition: "Uproszczona forma działalności przetwórczej.", category: "Prawo", link: "/mol", linkLabel: "Przewodnik MOL" },
+  { pl: "Numer weterynaryjny", en: "Veterinary number", definition: "Identyfikator zakładu zatwierdzony przez Inspekcję Weterynaryjną.", category: "Prawo", link: "/prawo", linkLabel: "Prawo żywnościowe" },
+  { pl: "Chroniona Nazwa Pochodzenia", en: "Protected Designation of Origin (PDO)", definition: "Oznaczenie produktów wytwarzanych tradycyjnie w określonym regionie.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
+  { pl: "Chronione Oznaczenie Geograficzne", en: "Protected Geographical Indication (PGI)", definition: "Oznaczenie produktów związanych z określonym regionem.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
+  { pl: "Gwarantowana Tradycyjna Specjalność", en: "Traditional Speciality Guaranteed (TSG)", definition: "Oznaczenie produktów wytwarzanych tradycyjną metodą.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
 ];
 
 const categories = [...new Set(glossaryTerms.map(term => term.category))];
@@ -248,6 +251,15 @@ const Slownik = () => {
                             <p className="text-sm text-primary font-medium">
                               {term.en}
                             </p>
+                            {term.link && (
+                              <Link 
+                                to={term.link} 
+                                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors mt-1"
+                              >
+                                <ExternalLink className="h-3 w-3" />
+                                {term.linkLabel || "Więcej"}
+                              </Link>
+                            )}
                           </div>
                           <p className="text-sm text-muted-foreground md:text-right md:max-w-[60%]">
                             {term.definition}
