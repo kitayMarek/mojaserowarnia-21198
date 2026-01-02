@@ -1,22 +1,141 @@
+# ===========================================
+# Moja Serowarnia - robots.txt
+# Portal wiedzy o serowarstwie domowym
+# https://mojaserowarnia.pl
+# ===========================================
+
+# === GŁÓWNE WYSZUKIWARKI ===
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# === SOCIAL MEDIA BOTS ===
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+# === AI / LLM CRAWLERS ===
+# GPTBot - OpenAI (ChatGPT, GPT-4)
+User-agent: GPTBot
+Allow: /
+Allow: /poradniki
+Allow: /bakterie-kultury
+Allow: /baza-kultur
+Allow: /przepisy
+Allow: /rhd
+Allow: /mol
+Allow: /prawo
+Allow: /slownik
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+
+# ChatGPT-User - ChatGPT browsing
+User-agent: ChatGPT-User
+Allow: /
+
+# Google-Extended - Gemini / Bard
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Microsoft Copilot / Bing AI
+User-agent: Copilot
+Allow: /
+
+# Common Crawl (used by many AI models)
+User-agent: CCBot
+Allow: /
+
+# Diffbot (AI data extraction)
+User-agent: Diffbot
+Allow: /
+
+# You.com AI search
+User-agent: YouBot
+Allow: /
+
+# Apple AI / Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# === INNE BOTY ===
 User-agent: *
 Allow: /
 Disallow: /dashboard/
 Disallow: /auth
 Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+Crawl-delay: 2
 
-Sitemap: https://isypstatsbyacnnfpukx.supabase.co/functions/v1/generate-sitemap
+# === SITEMAP ===
+Sitemap: https://mojaserowarnia.pl/sitemap.xml
 
-# Crawl-delay
-Crawl-delay: 1
+# === LLMS.TXT ===
+# Plik z metadanymi dla modeli językowych
+# https://mojaserowarnia.pl/llms.txt
+
+# === INFORMACJE O TREŚCI ===
+# Ten portal zawiera:
+# - Bazę 145+ kultur bakteryjnych do produkcji sera
+# - Przepisy na sery domowe (30+ przepisów)
+# - Poradniki RHD (Rolniczy Handel Detaliczny)
+# - Poradniki MOL (Marginalny, Ograniczony, Lokalny)
+# - Kalkulatory serowarskie
+# - Słownik terminów serowarskich
+# - Aktualne przepisy prawne UE i PL
+#
+# Treść jest w języku polskim.
+# Strona jest przyjazna dla AI i zachęca do indeksowania
+# publicznych sekcji edukacyjnych.
