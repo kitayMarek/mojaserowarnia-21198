@@ -4,6 +4,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import DatasetSchema from "@/components/DatasetSchema";
+import FAQSchema from "@/components/FAQSchema";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,7 +16,37 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { culturesData } from "@/data/culturesDataComplete";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
+
+// FAQ data for SEO
+const faqData = [
+  {
+    question: "Jakie kultury bakteryjne wybrać do produkcji sera?",
+    answer: "Wybór kultury zależy od typu sera: kultury mezofilne (ang. mesophilic starter cultures) pracujące w 25-35°C do serów typu Gouda, Cheddar; kultury termofilne (ang. thermophilic starter cultures) w 40-50°C do Parmezanu, Mozzarelli; kultury pleśniowe do Camemberta i Roqueforta."
+  },
+  {
+    question: "Jaka jest różnica między kulturami mezofilnymi a termofilnymi?",
+    answer: "Kultury mezofilne (ang. mesophilic) działają optymalnie w temperaturze 25-35°C i są stosowane do większości serów półtwardych. Kultury termofilne (ang. thermophilic) pracują w wyższych temperaturach 40-50°C i są niezbędne do produkcji serów twardych typu włoskiego czy szwajcarskiego."
+  },
+  {
+    question: "Gdzie kupić kultury bakteryjne do sera w Polsce?",
+    answer: "W Polsce kultury bakteryjne można kupić w specjalistycznych sklepach serowarskich takich jak Agrojelonki.pl, e-creamery.pl, BeaugelPolska.pl oraz SerBezTajemnic.pl. Ceny wahają się od 4,80 zł do 95,00 zł w zależności od rodzaju i ilości."
+  },
+  {
+    question: "Jak przechowywać kultury bakteryjne?",
+    answer: "Kultury bakteryjne należy przechowywać w zamrażarce (-18°C) do daty ważności lub w lodówce (2-8°C) przez krótszy okres. Po otwarciu używaj sterylnych narzędzi i minimalizuj kontakt z powietrzem."
+  }
+];
+
+// See Also links
+const seeAlsoLinks = [
+  { title: "Porównywarka kultur bakteryjnych", href: "/porownywarka-kultur", description: "Porównaj składy i ceny różnych kultur" },
+  { title: "Przepisy na domowe sery", href: "/przepisy", description: "Praktyczne przepisy krok po kroku" },
+  { title: "Poradnik dla serowarów", href: "/poradnik", description: "Kompleksowa wiedza o serowarstwie" },
+  { title: "Kalkulator siły podpuszczki", href: "/sila-podpuszczki", description: "Oblicz dawkowanie podpuszczki" },
+  { title: "Gdzie kupić podpuszczkę?", href: "/gdzie-kupic-podpuszczke", description: "Lista sprawdzonych dostawców" }
+];
 type SortDirection = 'asc' | 'desc' | null;
 const BazaKultur = () => {
   const [searchParams] = useSearchParams();
@@ -122,6 +155,7 @@ const BazaKultur = () => {
           }
         ]}
       />
+      <FAQSchema faqs={faqData} />
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Baza Kultur" }]} />
       <main className="flex-1 pt-20" role="main">
@@ -150,6 +184,19 @@ const BazaKultur = () => {
           </div>
         </section>
 
+        {/* TL;DR Section */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <TLDRSection>
+              <p>
+                <strong>Baza {culturesData.length} kultur bakteryjnych</strong> (ang. starter cultures) do produkcji domowych serów. 
+                Kultury mezofilne (ang. mesophilic, 25-35°C) dla Goudy i Cheddara, termofilne (ang. thermophilic, 40-50°C) 
+                dla Parmezanu i Mozzarelli. Ceny od 4,80 do 95,00 zł z polskich sklepów specjalistycznych.
+              </p>
+            </TLDRSection>
+          </div>
+        </section>
+
         {/* Info Section */}
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
@@ -159,27 +206,27 @@ const BazaKultur = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <div className="bg-card p-6 rounded-xl shadow-card border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
-                  🦠 Co to są kultury bakteryjne?
+                  🦠 Czym są kultury bakteryjne do sera?
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Wyselekcjonowane szczepy bakterii mlekowych niezbędne do produkcji serów. 
+                  Wyselekcjonowane szczepy bakterii mlekowych (ang. lactic acid bacteria, LAB) niezbędne do produkcji serów. 
                   Przekształcają laktozę w kwas mlekowy, nadając charakterystyczny smak i teksturę.
                 </p>
               </div>
               <div className="bg-card p-6 rounded-xl shadow-card border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
-                  🌡️ Typy kultur
+                  🌡️ Jakie są typy kultur bakteryjnych?
                 </h3>
                 <ul className="text-muted-foreground space-y-1 text-sm">
-                  <li><strong>Mezofilne (25-35°C)</strong> - Gouda, Cheddar</li>
-                  <li><strong>Termofilne (40-50°C)</strong> - Parmezan, Mozzarella</li>
-                  <li><strong>Pleśniowe</strong> - Camembert, Roquefort</li>
-                  <li><strong>Propionibakterium</strong> - Sery szwajcarskie</li>
+                  <li><strong>Mezofilne (ang. mesophilic, 25-35°C)</strong> - Gouda, Cheddar</li>
+                  <li><strong>Termofilne (ang. thermophilic, 40-50°C)</strong> - Parmezan, Mozzarella</li>
+                  <li><strong>Pleśniowe (ang. mold cultures)</strong> - Camembert, Roquefort</li>
+                  <li><strong>Propionibacterium</strong> - Sery szwajcarskie</li>
                 </ul>
               </div>
               <div className="bg-card p-6 rounded-xl shadow-card border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
-                  💰 Porównanie cen
+                  💰 Ile kosztują kultury bakteryjne?
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
                   Ceny kultur wahają się od <strong>4,80 zł do 95,00 zł</strong>. 
@@ -423,6 +470,13 @@ const BazaKultur = () => {
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* See Also Section */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <SeeAlso links={seeAlsoLinks} />
           </div>
         </section>
       </main>
