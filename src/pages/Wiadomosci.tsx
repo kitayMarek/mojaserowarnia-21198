@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { BannerSection } from "@/components/news/BannerSection";
 import { Newspaper } from "lucide-react";
 
@@ -44,6 +46,20 @@ const Wiadomosci = () => {
           </div>
         </section>
 
+        {/* TL;DR Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <TLDRSection>
+              <ul className="space-y-1">
+                <li>• Najnowsze <strong>wydarzenia branżowe</strong> i szkolenia serowarskie</li>
+                <li>• Informacje o <strong>zmianach prawnych</strong> dotyczących RHD i MOL</li>
+                <li>• <strong>Kursy i warsztaty</strong> serowarstwa w Polsce</li>
+                <li>• Nowości produktowe – kultury, podpuszczki, sprzęt</li>
+              </ul>
+            </TLDRSection>
+          </div>
+        </section>
+
         {/* Info Section */}
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
@@ -55,6 +71,18 @@ const Wiadomosci = () => {
                 Sprawdzaj regularnie, aby nie przegapić ważnych aktualności!
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* See Also Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <SeeAlso links={[
+              { href: "/przepisy", title: "Przepisy na domowe sery", description: "Krok po kroku jak zrobić ser" },
+              { href: "/prawo", title: "Prawo dla serowarów", description: "RHD, MOL i akty prawne UE" },
+              { href: "/poradnik", title: "Poradnik serowarstwa", description: "Teoria i praktyka produkcji sera" },
+              { href: "/baza-kultur", title: "Baza kultur bakteryjnych", description: "Kultury mezofilne i termofilne" }
+            ]} />
           </div>
         </section>
       </main>

@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -52,6 +54,16 @@ const RzezniRolnicza = () => {
               </p>
             </div>
           </div>
+
+          {/* TL;DR Section */}
+          <TLDRSection>
+            <ul className="space-y-1">
+              <li>• <strong>Limit:</strong> do 50 szt. drobiu/dzień, do 18 250 szt./rok (small-scale poultry slaughterhouse)</li>
+              <li>• <strong>Rejestracja:</strong> projekt technologiczny → zatwierdzenie przez PLW → numer weterynaryjny</li>
+              <li>• <strong>Wymagania:</strong> rozdzielenie stref, chłodnia ≤4°C, dokumentacja GHP/HACCP</li>
+              <li>• <strong>Sprzedaż:</strong> konsument końcowy lub lokalny detal (RHD/MOL)</li>
+            </ul>
+          </TLDRSection>
 
           <div className="space-y-6">
             <Card>
@@ -465,6 +477,14 @@ const RzezniRolnicza = () => {
                 </ul>
               </CardContent>
             </Card>
+
+            {/* See Also Section */}
+            <SeeAlso links={[
+              { href: "/prawo/rhd", title: "Rolniczy Handel Detaliczny", description: "Sprzedaż mięsa w ramach RHD" },
+              { href: "/prawo/rhd/dokumenty", title: "Dokumenty w RHD", description: "Wymagana dokumentacja" },
+              { href: "/prawo/mol", title: "Działalność MOL", description: "Sprzedaż do sklepów i restauracji" },
+              { href: "/prawo/akty-prawne-ue", title: "Akty prawne UE", description: "Rozporządzenia 852, 853, 854/2004" }
+            ]} />
           </div>
         </div>
       </main>
