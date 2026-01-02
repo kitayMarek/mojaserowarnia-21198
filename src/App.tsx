@@ -50,6 +50,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
 const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialMedia"));
+const Slownik = lazy(() => import("./pages/Slownik"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -98,6 +99,7 @@ const App = () => (
             <Route path="/system-ewidencji" element={<SystemEwidencji />} />
             <Route path="/wiadomosci" element={<Wiadomosci />} />
             <Route path="/automatyzacja-social-media" element={<AutomatyzacjaSocialMedia />} />
+            <Route path="/slownik" element={<Slownik />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/admin/news" element={<AdminRoute><AdminNews /></AdminRoute>} />
