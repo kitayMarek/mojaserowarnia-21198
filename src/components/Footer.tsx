@@ -8,6 +8,7 @@ const Footer = () => {
         { label: "Bazy kultur", href: "/baza-kultur" },
         { label: "Przepisy", href: "/przepisy" },
         { label: "Poradniki", href: "/poradniki" },
+        { label: "Słownik terminów", href: "/slownik" },
         { label: "Narzędzia", href: "/narzedzia" },
       ],
     },
