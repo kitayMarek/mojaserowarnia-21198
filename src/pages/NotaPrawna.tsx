@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
@@ -23,6 +25,16 @@ const NotaPrawna = () => {
       <main className="pt-20 pb-12" role="main">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <h1 className="text-3xl md:text-4xl font-bold mb-6">Nota Prawna</h1>
+          
+          {/* TL;DR Section */}
+          <TLDRSection>
+            <ul className="space-y-1">
+              <li>• Informacje w serwisie mają charakter <strong>edukacyjno-informacyjny</strong></li>
+              <li>• <strong>Zawsze weryfikuj</strong> dane produktów u producentów przed użyciem</li>
+              <li>• Serwis <strong>nie odpowiada</strong> za skutki użycia prezentowanych informacji</li>
+              <li>• Dane są chronione zgodnie z <strong>RODO</strong></li>
+            </ul>
+          </TLDRSection>
           
           <Alert className="mb-6">
             <Info className="h-4 w-4" />
@@ -138,6 +150,14 @@ const NotaPrawna = () => {
           <div className="mt-8 text-center text-sm text-muted-foreground">
             <p>Ostatnia aktualizacja: 27 października 2025</p>
           </div>
+
+          {/* See Also Section */}
+          <SeeAlso links={[
+            { href: "/kontakt", title: "Kontakt", description: "Zgłoś błąd lub nieścisłość" },
+            { href: "/prawo", title: "Prawo dla serowarów", description: "RHD, MOL i regulacje UE" },
+            { href: "/poradnik", title: "Poradnik serowarstwa", description: "Jak zacząć robić ser" },
+            { href: "/baza-kultur", title: "Baza kultur bakteryjnych", description: "Kultury i ich zastosowanie" }
+          ]} />
         </div>
       </main>
       <Footer />

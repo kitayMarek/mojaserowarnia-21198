@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -43,6 +45,16 @@ const RHDDokumenty = () => {
               W RHD część dokumentów jest obowiązkowa, a część mocno zalecana (często sprawdzana przy kontroli). Poniżej praktyczny zestaw.
             </p>
           </div>
+
+          {/* TL;DR Section */}
+          <TLDRSection>
+            <ul className="space-y-1">
+              <li>• <strong>Obowiązkowe:</strong> ewidencja sprzedaży, dokumentacja ilości, dowody zbycia, rejestracja i oznakowanie</li>
+              <li>• <strong>Zalecane:</strong> rejestry GHP/GMP (mycie, temperatury, DDD), traceability, specyfikacje surowców</li>
+              <li>• Wpisy uzupełniaj <strong>w dniu sprzedaży</strong>, przechowuj <strong>2 lata</strong></li>
+              <li>• Przygotuj <strong>procedurę wycofania produktu</strong> (food recall procedure)</li>
+            </ul>
+          </TLDRSection>
 
           <div className="space-y-6">
             {/* Sekcja: Dokumenty obowiązkowe */}
@@ -394,6 +406,14 @@ const RHDDokumenty = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* See Also Section */}
+            <SeeAlso links={[
+              { href: "/prawo/rhd", title: "Rolniczy Handel Detaliczny", description: "Kompletny przewodnik po RHD" },
+              { href: "/prawo/mol", title: "Działalność MOL", description: "Marginalna, lokalna i ograniczona" },
+              { href: "/system-ewidencji", title: "System Ewidencji Sprzedaży", description: "Elektroniczna ewidencja RHD" },
+              { href: "/przepisy", title: "Przepisy na domowe sery", description: "Co produkować w ramach RHD" }
+            ]} />
           </div>
         </div>
       </main>

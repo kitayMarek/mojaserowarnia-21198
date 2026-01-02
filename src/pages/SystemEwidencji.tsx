@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ewidencjaHeader from "@/assets/ewidencja-header.png";
@@ -184,6 +186,20 @@ const SystemEwidencji = () => {
           </div>
         </section>
 
+        {/* TL;DR Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <TLDRSection>
+              <ul className="space-y-1">
+                <li>• <strong>Pulpit</strong> – monitoring przychodów i limitu 100 tys. zł (RHD revenue tracking)</li>
+                <li>• <strong>Ewidencja sprzedaży</strong> – rejestracja transakcji z eksportem do CSV/PDF</li>
+                <li>• <strong>Rachunki RHD</strong> – profesjonalne rachunki z automatyczną numeracją</li>
+                <li>• <strong>Zgodność</strong> – dokumentacja zgodna z przepisami o Rolniczym Handlu Detalicznym</li>
+              </ul>
+            </TLDRSection>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">
@@ -206,6 +222,18 @@ const SystemEwidencji = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
+          </div>
+        </section>
+
+        {/* See Also Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <SeeAlso links={[
+              { href: "/prawo/rhd", title: "Rolniczy Handel Detaliczny", description: "Kompletny przewodnik po RHD" },
+              { href: "/prawo/rhd/dokumenty", title: "Wymagane dokumenty w RHD", description: "Ewidencje i rejestry" },
+              { href: "/prawo/mol", title: "Działalność MOL", description: "Marginalna, lokalna i ograniczona" },
+              { href: "/przepisy", title: "Przepisy na domowe sery", description: "Co sprzedawać w ramach RHD" }
+            ]} />
           </div>
         </section>
       </main>
