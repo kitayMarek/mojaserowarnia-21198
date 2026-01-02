@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Scale } from "lucide-react";
 import { Link } from "react-router-dom";
 import prawoHeaderImage from "@/assets/prawo-header.webp";
 import ReactionButton from "@/components/ReactionButton";
-
 const Prawo = () => {
   useEffect(() => {
     document.title = "Prawo - Serowarstwo.pl";
@@ -76,6 +77,16 @@ const Prawo = () => {
         
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
+            {/* TL;DR Section */}
+            <TLDRSection>
+              <ul className="space-y-1">
+                <li>• <strong>RHD</strong> (Rolniczy Handel Detaliczny) – sprzedaż bezpośrednia do 100 tys. zł/rok bez rejestracji działalności</li>
+                <li>• <strong>MOL</strong> (Marginal, Local, Limited) – sprzedaż do sklepów i restauracji w promieniu 100 km</li>
+                <li>• <strong>Akty prawne UE</strong> – rozporządzenia 852, 853, 854/2004 o higienie produkcji żywności</li>
+                <li>• <strong>Rzeźnia rolnicza</strong> – ubój drobiu przy gospodarstwie (do 200 szt./dzień)</li>
+              </ul>
+            </TLDRSection>
+
             <div className="space-y-4">
             {legalTopics.map((topic) => {
               const Icon = topic.icon;
@@ -105,6 +116,14 @@ const Prawo = () => {
               );
             })}
             </div>
+
+            {/* See Also Section */}
+            <SeeAlso links={[
+              { href: "/przepisy", title: "Przepisy na domowe sery", description: "Jak legalnie produkować ser" },
+              { href: "/poradnik", title: "Poradnik serowarstwa", description: "Podstawy produkcji sera" },
+              { href: "/narzedzia", title: "Narzędzia dla serowara", description: "Kalkulatory i przeliczniki" },
+              { href: "/baza-kultur", title: "Baza kultur bakteryjnych", description: "Kultury mezofilne i termofilne" }
+            ]} />
           </div>
         </div>
       </main>

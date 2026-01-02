@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Calculator } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
 import ReactionButton from "@/components/ReactionButton";
-
 const Narzedzia = () => {
   useEffect(() => {
     document.title = "Narzędzia dla Serowara - Kalkulatory i Konwertery | Serowarstwo.pl";
@@ -382,6 +383,32 @@ const Narzedzia = () => {
               </Card>
 
             </div>
+          </div>
+        </section>
+
+        {/* TL;DR Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <TLDRSection>
+              <ul className="space-y-1">
+                <li>• <strong>Kalkulator Miar</strong> – przelicznik jednostek (imperial ↔ metryczny)</li>
+                <li>• <strong>Kalkulator Podpuszczki</strong> – dawkowanie Beaugel i IMCU (rennet dosage calculator)</li>
+                <li>• <strong>Kalkulator Kosztu Sera</strong> – koszt produkcji, marża i cena sprzedaży (cheese cost calculator)</li>
+                <li>• <strong>Kalkulatory Pasz</strong> – bilansowanie dawek dla drobiu i bydła</li>
+              </ul>
+            </TLDRSection>
+          </div>
+        </section>
+
+        {/* See Also Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <SeeAlso links={[
+              { href: "/przepisy", title: "Przepisy na domowe sery", description: "Krok po kroku jak zrobić ser" },
+              { href: "/baza-kultur", title: "Baza kultur bakteryjnych", description: "Porównanie kultur mezofilnych i termofilnych" },
+              { href: "/gdzie-kupic-podpuszczke", title: "Gdzie kupić podpuszczkę?", description: "Sklepy z podpuszczką i kulturami" },
+              { href: "/poradnik", title: "Poradnik serowarstwa", description: "Teoria i praktyka produkcji sera" }
+            ]} />
           </div>
         </section>
 
