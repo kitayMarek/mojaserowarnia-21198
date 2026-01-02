@@ -4,9 +4,37 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import FAQSchema from "@/components/FAQSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+
+const faqs = [
+  {
+    question: "Jakie dokumenty są obowiązkowe w RHD?",
+    answer: "Obowiązkowe dokumenty w RHD to: ewidencja sprzedaży żywności, dokumentacja ilości zbywanej żywności, dowody zbycia przy sprzedaży do sklepów/gastronomii, zgłoszenie/rejestracja zakładu oraz dokumenty dotyczące oznakowania produktów."
+  },
+  {
+    question: "Jak długo przechowywać ewidencję sprzedaży w RHD?",
+    answer: "Ewidencję sprzedaży w RHD należy przechowywać przez 2 lata od końca roku, którego dotyczą. Wpisy uzupełnia się niezwłocznie po każdej sprzedaży, najlepiej w dniu transakcji."
+  },
+  {
+    question: "Gdzie zarejestrować działalność RHD?",
+    answer: "Produkty pochodzenia zwierzęcego lub żywność złożoną rejestruje się u Powiatowego Lekarza Weterynarii (30 dni przed startem). Produkty roślinne rejestruje się u Państwowego Inspektora Sanitarnego (14 dni przed startem)."
+  },
+  {
+    question: "Co musi zawierać ewidencja sprzedaży RHD?",
+    answer: "Ewidencja musi zawierać: numer kolejnego wpisu, datę zbycia/uzyskania przychodu, kwotę przychodu (i przychód narastająco) oraz rodzaj i ilość zbytej/przetworzonej żywności."
+  },
+  {
+    question: "Jakie rejestry GHP/GMP są zalecane w RHD?",
+    answer: "Zalecane rejestry to: plan mycia i dezynfekcji, monitoring temperatur, kontrola szkodników (umowa DDD), jakość wody, postępowanie z odpadami oraz szkolenia i higiena personelu."
+  },
+  {
+    question: "Czym jest procedura wycofania produktu?",
+    answer: "Procedura wycofania produktu (food recall) to dokument opisujący sposób identyfikacji partii, listę odbiorców i procedurę powiadamiania w przypadku konieczności wycofania produktu z rynku."
+  }
+];
 
 const RHDDokumenty = () => {
   useEffect(() => {
@@ -22,6 +50,7 @@ const RHDDokumenty = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
+      <FAQSchema faqs={faqs} />
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Prawo", href: "/prawo" },
