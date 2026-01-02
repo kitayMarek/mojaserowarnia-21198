@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import HowToSchema from "@/components/HowToSchema";
+import SeeAlso from "@/components/SeeAlso";
 import { culinaryRecipesData } from "@/data/culinaryRecipesData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -90,12 +92,58 @@ const CulinaryRecipeDetails = () => {
     garnish: 'Dekoracja',
   };
 
+  // Prepare HowTo steps for schema
+  const howToSteps = recipe.steps.map(step => ({
+    name: step.title,
+    text: step.content + (step.tip ? ` Wskazówka: ${step.tip}` : '') + (step.warning ? ` Uwaga: ${step.warning}` : '')
+  }));
+
+  // Prepare supplies (ingredients) for schema
+  const supplies = recipe.ingredients.map(i => `${i.name} - ${i.amount}`);
+
+  // Prepare tools for schema
+  const tools = [
+    "Patelnia",
+    "Deska do krojenia", 
+    "Nóż kuchenny",
+    "Garnek lub rondel"
+  ];
+
+  // Convert prep+cook time to ISO 8601 duration
+  const parseTime = (timeStr: string): number => {
+    const match = timeStr.match(/(\d+)/);
+    return match ? parseInt(match[1]) : 0;
+  };
+  const prepMinutes = parseTime(recipe.prepTime);
+  const cookMinutes = parseTime(recipe.cookTime);
+  const totalMinutes = prepMinutes + cookMinutes;
+  const totalTime = `PT${totalMinutes}M`;
+
+  // SeeAlso links for culinary recipes
+  const seeAlsoLinks = [
+    { href: "/przepisy-kulinarne", title: "Wszystkie przepisy kulinarne z serami" },
+    { href: "/przepisy", title: "Przepisy na domowe sery" },
+    { href: "/baza-kultur", title: "Baza kultur bakteryjnych do serowarstwa" },
+    { href: "/poradnik", title: "Poradnik serowarstwa domowego" },
+    { href: "/gdzie-kupic-podpuszczke", title: "Gdzie kupić podpuszczkę i kultury?" }
+  ];
+
   return (
     <>
       <Helmet>
         <title>{recipe.name} | Przepisy Kulinarne | Moja Serowarnia</title>
         <meta name="description" content={recipe.description} />
       </Helmet>
+
+      <HowToSchema
+        name={recipe.name}
+        description={recipe.description}
+        image={recipe.image}
+        totalTime={totalTime}
+        supply={supplies}
+        tool={tools}
+        steps={howToSteps}
+      />
 
       <Navigation />
 
@@ -395,6 +443,11 @@ const CulinaryRecipeDetails = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* See Also Section */}
+        <div className="container mx-auto px-4 mt-8">
+          <SeeAlso links={seeAlsoLinks} />
         </div>
 
         {/* Bottom Spacing */}
