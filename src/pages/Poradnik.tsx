@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import poradnikMainHeaderImage from "@/assets/poradnik-main-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
+import FAQSchema from "@/components/FAQSchema";
 
 const Poradnik = () => {
   useEffect(() => {
@@ -44,8 +47,43 @@ const Poradnik = () => {
     setCaclResult(`Zakres: ${min.toFixed(0)}–${max.toFixed(0)} g czystego CaCl₂ (lub odpowiednia ilość roztworu 30–33%).`);
   };
 
+  const faqData = [
+    {
+      question: "Od czego zacząć robienie sera w domu?",
+      answer: "Zacznij od wyboru 1-2 typów sera (np. camembert i gouda), przygotuj higieniczne stanowisko pracy, zaopatrz się w podstawowy sprzęt (termometr, formy, kocioł) i zadbaj o świeże, czyste mleko. Prowadź dokładne zapisy każdej partii."
+    },
+    {
+      question: "Jakie temperatury stosować przy podgrzewaniu ziarna?",
+      answer: "Temperatury zależą od typu sera: sery kwaśne 30-40°C, miękkie (camembert) 32-36°C, półtwarde (gouda) 38-45°C, twarde (ementalski) 50-57°C, parzone (oscypek) 70-90°C."
+    },
+    {
+      question: "Jak przygotować solankę do sera?",
+      answer: "Standardowa solanka ma stężenie 18-22% NaCl. Aby przygotować np. 20% solankę z 10 kg wody, potrzebujesz 2 kg soli. Solanka powinna być schłodzona do temperatury sera (ok. 10-15°C)."
+    },
+    {
+      question: "Ile chlorku wapnia (CaCl₂) dodać do mleka?",
+      answer: "Zalecana dawka to 0,2-0,3 g CaCl₂ na 1 litr mleka pasteryzowanego. Dla 50 litrów mleka będzie to 10-15 g czystego CaCl₂ lub odpowiednio więcej roztworu 30-33%."
+    },
+    {
+      question: "Jakie są najczęstsze błędy przy robieniu sera?",
+      answer: "Najczęstsze błędy to: wzdęcia (zanieczyszczenia, za wysoka temperatura), gumowata tekstura (za małe ziarno, agresywne dogrzewanie), miękka struktura (słaby skrzep, zbyt wczesne krojenie) i gorzki smak (nadmiar podpuszczki, niekontrolowana proteoliza)."
+    }
+  ];
+
+  const seeAlsoLinks = [
+    { title: "Baza kultur bakteryjnych", href: "/baza-kultur", description: "Kompletna baza kultur z cenami i dawkowaniem" },
+    { title: "Przepisy na sery", href: "/przepisy", description: "Szczegółowe przepisy na różne typy serów" },
+    { title: "Porównywarka kultur", href: "/porownywarka-kultur", description: "Porównaj kultury różnych producentów" },
+    { title: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera", description: "Oblicz koszt produkcji sera" },
+    { title: "Kalkulator siły podpuszczki", href: "/sila-podpuszczki", description: "Przelicz dawkowanie podpuszczki" },
+    { title: "Sprzedaż bezpośrednia (RHD)", href: "/prawo/rhd", description: "Przepisy prawne dotyczące RHD" },
+    { title: "Przepisy kulinarne z serem", href: "/przepisy-kulinarne", description: "Dania z wykorzystaniem domowego sera" },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <FAQSchema faqs={faqData} />
+      <div className="min-h-screen bg-background">
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Poradniki", href: "/poradniki" },
@@ -106,6 +144,16 @@ const Poradnik = () => {
           </div>
 
           <div className="container mx-auto px-4 py-8">
+            {/* TL;DR Section */}
+            <TLDRSection title="W skrócie (TL;DR)">
+              <p>
+                <strong>Produkcja sera domowego</strong> (ang. <em>artisan cheesemaking</em>) wymaga: świeżego mleka o niskim obciążeniu bakteryjnym, 
+                kultur starterowych (ang. <em>starter cultures</em>), podpuszczki (ang. <em>rennet</em>), kontroli temperatury i pH oraz 
+                cierpliwości w dojrzewaniu. Kluczowe etapy: zaszczepienie mleka → tworzenie skrzepu (ang. <em>curd</em>) → 
+                cięcie i dogrzewanie → formowanie → solenie → dojrzewanie. Zacznij od prostych serów (camembert, gouda), 
+                prowadź dokładne zapisy i stopniowo rozwijaj umiejętności.
+              </p>
+            </TLDRSection>
             {/* Od czego zacząć */}
             <section id="sekcja-start" className="py-12">
               <h2 className="text-2xl md:text-3xl font-bold mb-6">Od czego zacząć (dla rolników)</h2>
@@ -446,12 +494,16 @@ const Poradnik = () => {
                 </CardContent>
               </Card>
             </section>
+
+            {/* See Also Section */}
+            <SeeAlso links={seeAlsoLinks} title="Zobacz również" />
           </div>
         </main>
       </div>
 
       <Footer />
     </div>
+    </>
   );
 };
 
