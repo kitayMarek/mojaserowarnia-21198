@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import TLDRSection from "@/components/TLDRSection";
+import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calculator, Plus, Trash2, Copy, FileJson, Printer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ReactionButton from "@/components/ReactionButton";
-
 interface Ingredient {
   id: string;
   name: string;
@@ -612,6 +613,24 @@ const KalkulatorKosztuSera = () => {
               <div className="text-xs text-muted-foreground text-center">
                 Przeliczniki: 1 lb = 453.59237 g, 1 oz = 28.349523125 g • 1 L = 1000 ml
               </div>
+
+              {/* TL;DR Section */}
+              <TLDRSection>
+                <ul className="space-y-1">
+                  <li>• Wprowadź <strong>ilość mleka</strong> – kalkulator obliczy wagę sera z wydajności (cheese yield calculator)</li>
+                  <li>• Dodaj <strong>składniki z cenami</strong> – podpuszczka, kultury, sól, CaCl₂</li>
+                  <li>• Ustaw <strong>marżę i VAT</strong> – otrzymasz sugerowaną cenę sprzedaży</li>
+                  <li>• Uwzględnij <strong>koszty stałe</strong> – energia, amortyzacja, pakowanie</li>
+                </ul>
+              </TLDRSection>
+
+              {/* See Also Section */}
+              <SeeAlso links={[
+                { href: "/kalkulator-beaugel", title: "Kalkulator podpuszczki", description: "Dawkowanie Beaugel i IMCU" },
+                { href: "/przepisy", title: "Przepisy na domowe sery", description: "Krok po kroku jak zrobić ser" },
+                { href: "/baza-kultur", title: "Baza kultur bakteryjnych", description: "Wybór odpowiedniej kultury" },
+                { href: "/prawo/rhd", title: "Rolniczy Handel Detaliczny", description: "Legalna sprzedaż serów" }
+              ]} />
             </div>
           </div>
         </section>
