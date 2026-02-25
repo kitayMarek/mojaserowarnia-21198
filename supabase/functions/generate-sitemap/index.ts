@@ -35,7 +35,17 @@ const staticPages = [
   { path: '/nota-prawna', priority: 0.3, changefreq: 'yearly' },
 ];
 
-const recipes = ['asiago', 'caciotta', 'dunlop', 'feta-bulgarska', 'yorkshire'];
+const cheeseRecipes = [
+  'asiago', 'caciotta', 'dunlop', 'feta_bulgarische', 'yorkshire',
+  'gouda', 'cheddar', 'mozzarella', 'camembert', 'halloumi',
+  'brie', 'parmezan', 'ricotta', 'mascarpone', 'feta-grecka',
+  'gorgonzola', 'roquefort', 'stilton', 'gruyere', 'emmental'
+];
+
+const culinaryRecipes = [
+  'aksamitne-involtini-gouda', 'zapiekane-brie-miodem-orzechami',
+  'kremowe-risotto-gorgonzola', 'rustykalna-tarta-camembert'
+];
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -79,13 +89,23 @@ serve(async (req) => {
       xml += '  </url>\n';
     }
 
-    // Add recipe pages
-    for (const recipeId of recipes) {
+    // Add cheese recipe pages
+    for (const recipeId of cheeseRecipes) {
       xml += '  <url>\n';
       xml += `    <loc>https://mojaserowarnia.pl/przepisy/${recipeId}</loc>\n`;
       xml += `    <lastmod>${currentDate}</lastmod>\n`;
       xml += `    <changefreq>monthly</changefreq>\n`;
       xml += `    <priority>0.7</priority>\n`;
+      xml += '  </url>\n';
+    }
+
+    // Add culinary recipe pages
+    for (const recipeId of culinaryRecipes) {
+      xml += '  <url>\n';
+      xml += `    <loc>https://mojaserowarnia.pl/przepisy-kulinarne/${recipeId}</loc>\n`;
+      xml += `    <lastmod>${currentDate}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.6</priority>\n`;
       xml += '  </url>\n';
     }
 
