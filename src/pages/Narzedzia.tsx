@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { Calculator } from "lucide-react";
+import { Calculator, Bird, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
@@ -349,19 +349,54 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
-              {/* Placeholder for future tools */}
-              <Card className="border-border border-dashed bg-card/50">
-                <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
-                  <div className="w-20 h-20 rounded-2xl bg-muted/30 flex items-center justify-center">
-                    <span className="text-4xl text-muted-foreground/50">?</span>
+              {/* Menadżer Fermy Drobiu */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="menedzer-fermy-drobiu"
+                      variant="compact"
+                    />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-display font-bold text-muted-foreground mb-2">
-                      Wkrótce
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Kolejne narzędzia są w przygotowaniu
-                    </p>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Bird className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Menadżer Fermy Drobiu
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Kompleksowa aplikacja PWA do zarządzania fermą drobiu: stada, dziennik codzienny, pasze, zdrowie, ważenia, ubój, sprzedaż i finanse.
+                      </p>
+                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Stada i partie – pełna ewidencja</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Dziennik codzienny – jaja, pasze, zdarzenia</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Pasze i żywienie – receptury i koszty</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Finanse i raporty – przychody, koszty, zysk</span>
+                      </li>
+                    </ul>
+                    <Button
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white shadow-warm"
+                    >
+                      <a href="https://hodowla-drobiu-pwa.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                        Otwórz Aplikację <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -395,6 +430,7 @@ const Narzedzia = () => {
                 <li>• <strong>Kalkulator Podpuszczki</strong> – dawkowanie Beaugel i IMCU (rennet dosage calculator)</li>
                 <li>• <strong>Kalkulator Kosztu Sera</strong> – koszt produkcji, marża i cena sprzedaży (cheese cost calculator)</li>
                 <li>• <strong>Kalkulatory Pasz</strong> – bilansowanie dawek dla drobiu i bydła</li>
+                <li>• <strong>Menadżer Fermy Drobiu</strong> – zarządzanie stadami, dziennik, pasze, finanse (PWA)</li>
               </ul>
             </TLDRSection>
           </div>
