@@ -26,16 +26,17 @@ const PorownywarkaKultur = () => {
   const [selectedShopFilters, setSelectedShopFilters] = useState<Set<string>>(new Set());
   const [selectedItems, setSelectedItems] = useState<Culture[]>([]);
   const [showComparison, setShowComparison] = useState(false);
+  const { cultures: culturesData, loading } = useCultures();
 
   // Get unique shops
   const shops = useMemo(() => {
     const uniqueShops = [...new Set(culturesData.map(c => c.shop).filter(Boolean))];
     return uniqueShops.sort();
-  }, []);
+  }, [culturesData]);
 
   // Filter data
   const filteredData = useMemo(() => {
-    let items = culturesData;
+    let items: Culture[] = culturesData;
 
     // Filter by shop
     if (selectedShopFilters.size > 0) {

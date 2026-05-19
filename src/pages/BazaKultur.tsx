@@ -105,8 +105,8 @@ const BazaKultur = () => {
         let aValue: string | number = (a as unknown as Record<string, string>)[sortField] ?? "";
         let bValue: string | number = (b as unknown as Record<string, string>)[sortField] ?? "";
         if (sortField === 'price') {
-          aValue = a.price_numeric ?? parseFloat((a.price || "").replace(' zł', '').replace(',', '.')) || 0;
-          bValue = b.price_numeric ?? parseFloat((b.price || "").replace(' zł', '').replace(',', '.')) || 0;
+          aValue = a.price_numeric ?? (parseFloat((a.price || "").replace(' zł', '').replace(',', '.')) || 0);
+          bValue = b.price_numeric ?? (parseFloat((b.price || "").replace(' zł', '').replace(',', '.')) || 0);
         }
         if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
