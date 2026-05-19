@@ -16,6 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useCultures } from "@/hooks/useCultures";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+import AddToListButton from "@/components/AddToListButton";
 
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 
