@@ -22,6 +22,7 @@ const Navigation = () => {
 
   const navItems = [
     { label: "Kultury", href: "/baza-kultur" },
+    { label: "Moje listy", href: "/moje-listy" },
     { label: "Przepisy", href: "/przepisy" },
     { label: "Kuchnia", href: "/przepisy-kulinarne" },
     { label: "Poradniki", href: "/poradniki" },

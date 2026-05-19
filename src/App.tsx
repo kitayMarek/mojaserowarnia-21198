@@ -51,6 +51,7 @@ const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
 const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialMedia"));
 const Slownik = lazy(() => import("./pages/Slownik"));
+const MojeListy = lazy(() => import("./pages/MojeListy"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -71,6 +72,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
+            <Route path="/moje-listy" element={<MojeListy />} />
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/przepisy-kulinarne" element={<PrzepisyKulinarne />} />
