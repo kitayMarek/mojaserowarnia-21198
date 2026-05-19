@@ -1,23 +1,46 @@
 
-# Dodanie karty "Menadżer Fermy Drobiu" do Narzędzi
+# Migracja kultur bakteryjnych do bazy danych
 
-## Co robimy
-Zastąpimy pierwszy placeholder "Wkrótce" na stronie Narzędzia nową kartą z opisem aplikacji Hodowla Drobiu PWA i linkiem do zewnętrznego wdrożenia.
+## Zakres
 
-## Zmiany
+Przeniesienie 147 kultur z hardcoded `src/data/culturesDataComplete.ts` do bazy Lovable Cloud, wymiana statycznych importów na hook `useCultures()` w dwóch stronach.
 
-### 1. Edycja `src/pages/Narzedzia.tsx`
-- Zamienię pierwszy placeholder (linie 352-367) na pełną kartę narzędzia "Menadżer Fermy Drobiu"
-- Ikona: `Bird` z lucide-react (lub emoji 🐔)
-- Gradient: fioletowy (`from-purple-500 to-violet-600`)
-- Opis: zarządzanie stadami drobiu, dziennik codzienny, pasze, zdrowie, ważenia, ubój, sprzedaż, finanse i raporty
-- Lista funkcji: stada i partie, dziennik codzienny, pasze i żywienie, finanse i raporty
-- Przycisk "Otwórz Aplikację" z linkiem do `https://hodowla-drobiu-pwa.vercel.app` (lub inny URL, który podasz po wdrożeniu)
-- ReactionButton z `contentId="menedzer-fermy-drobiu"`
-- Dodam znacznik `target="_blank"` na linku (otwiera w nowej karcie)
+## Kroki
 
-### 2. Aktualizacja TLDRSection
-- Dodanie punktu o Menadżerze Fermy Drobiu do listy TL;DR
+### 1. Migracja bazy danych (SQL Editor)
+Uruchomię całą zawartość `migration_cultures.sql` przez narzędzie migracji. Tworzy:
+- tabelę `cultures` (z indeksami + FTS) + RLS (public SELECT, admin INSERT/UPDATE)
+- tabelę `price_history` + RLS
+- tabele `user_culture_lists` i `user_culture_list_items` + RLS per użytkownik
+- funkcję+trigger `update_updated_at` (nazwa różna od istniejącego `update_updated_at_column`, brak konfliktu)
+- INSERT seedujący 147 rekordów
 
-### Uwaga
-Będziesz musiał wdrożyć aplikację hodowla-drobiu-pwa na Vercel/Netlify i podać mi URL — na razie wstawię placeholder URL, który łatwo podmienisz.
+Po migracji zweryfikuję `SELECT count(*) FROM public.cultures` — oczekiwane 147.
+
+### 2. Hook
+Skopiuję `user-uploads://useCultures.ts` → `src/hooks/useCultures.ts` bez zmian. Eksportuje `useCultures()`, `useCultureDetail()`, typ `Culture` (zgodny ze starym + nowe pola `id`, `is_active`, `created_at`, `updated_at`).
+
+### 3. Podmiana importów
+
+**`src/pages/PorownywarkaKultur.tsx`**
+- Usuwam `import { culturesData, Culture } from "@/data/culturesDataComplete"`
+- Dodaję `import { useCultures, type Culture } from "@/hooks/useCultures"`
+- W komponencie: `const { cultures: culturesData, loading } = useCultures()`
+- Dodaję prosty wskaźnik ładowania nad listą wyników
+- Reszta logiki (filtry/porównanie) pozostaje — interfejs `Culture` ma te same pola (`name`, `shop`, `price`, `composition`, `type`, `temperature`, `application`, `productUrl`, `lastChanged`)
+
+**`src/pages/BazaKultur.tsx`**
+- Analogicznie: zamieniam import na `useCultures` i `culturesData` na dane z hooka
+- Sortowanie po cenie zacznie wykorzystywać już dostępny string `price` (bez zmian logiki) — opcjonalnie mogę użyć `price_numeric` jeśli chcesz dokładniejszego sortu (do potwierdzenia)
+- Dodaję stan loading
+
+## Uwagi techniczne
+
+- Nie zmieniam `culturesDataComplete.ts` — zostaje jako fallback/historia (można usunąć później, gdy potwierdzisz, że nikt go nie importuje)
+- Po migracji `src/integrations/supabase/types.ts` zostanie auto-zregenerowane przez Lovable — hook będzie miał poprawne typy
+- RLS dla SELECT jest publiczne (`is_active = true`), więc dane będą widoczne bez logowania — zgodnie z obecnym zachowaniem strony
+
+## Czego NIE robię w tej iteracji
+
+- Nie buduję UI do zarządzania kulturami (admin) ani UI list użytkownika — tabele `user_culture_lists*` są przygotowane na przyszłość
+- Nie podpinam `useCultureDetail()` (brak strony szczegółów kultury w obecnym kodzie)
