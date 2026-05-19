@@ -77,6 +77,63 @@ export type Database = {
         }
         Relationships: []
       }
+      cultures: {
+        Row: {
+          application: string | null
+          composition: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          last_changed: string | null
+          last_checked: string | null
+          name: string
+          price_label: string | null
+          price_numeric: number | null
+          product_url: string | null
+          shop: string | null
+          shop_url: string | null
+          temperature: string | null
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          application?: string | null
+          composition?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_changed?: string | null
+          last_checked?: string | null
+          name: string
+          price_label?: string | null
+          price_numeric?: number | null
+          product_url?: string | null
+          shop?: string | null
+          shop_url?: string | null
+          temperature?: string | null
+          type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          application?: string | null
+          composition?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_changed?: string | null
+          last_checked?: string | null
+          name?: string
+          price_label?: string | null
+          price_numeric?: number | null
+          product_url?: string | null
+          shop?: string | null
+          shop_url?: string | null
+          temperature?: string | null
+          type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feed_recipes: {
         Row: {
           created_at: string
@@ -199,6 +256,41 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      price_history: {
+        Row: {
+          culture_id: string
+          id: string
+          price_label: string
+          price_numeric: number | null
+          recorded_at: string
+          source: string | null
+        }
+        Insert: {
+          culture_id: string
+          id?: string
+          price_label: string
+          price_numeric?: number | null
+          recorded_at?: string
+          source?: string | null
+        }
+        Update: {
+          culture_id?: string
+          id?: string
+          price_label?: string
+          price_numeric?: number | null
+          recorded_at?: string
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_history_culture_id_fkey"
+            columns: ["culture_id"]
+            isOneToOne: false
+            referencedRelation: "cultures"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -341,6 +433,69 @@ export type Database = {
           rodzaj_zywnosci?: string
           user_id?: string
           uwagi?: string | null
+        }
+        Relationships: []
+      }
+      user_culture_list_items: {
+        Row: {
+          added_at: string
+          culture_id: string
+          id: string
+          list_id: string
+          notes: string | null
+        }
+        Insert: {
+          added_at?: string
+          culture_id: string
+          id?: string
+          list_id: string
+          notes?: string | null
+        }
+        Update: {
+          added_at?: string
+          culture_id?: string
+          id?: string
+          list_id?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_culture_list_items_culture_id_fkey"
+            columns: ["culture_id"]
+            isOneToOne: false
+            referencedRelation: "cultures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_culture_list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "user_culture_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_culture_lists: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          user_id?: string
         }
         Relationships: []
       }
