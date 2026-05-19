@@ -356,6 +356,9 @@ const BazaKultur = () => {
                       >
                         {culture.productUrl ? 'Kup w sklepie' : 'Odwiedź sklep'}
                       </a>
+                      <div className="pt-2">
+                        <AddToListButton cultureId={culture.id} cultureName={culture.name} variant="text" />
+                      </div>
                     </div>
                   </div>
                 ))
@@ -412,11 +415,12 @@ const BazaKultur = () => {
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
+                        <TableHead className="text-white w-12"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredData.length === 0 ? <TableRow>
-                          <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
+                          <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
                             Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
                           </TableCell>
                         </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
@@ -458,6 +462,9 @@ const BazaKultur = () => {
                             </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
                               {culture.price}
+                            </TableCell>
+                            <TableCell className="w-12">
+                              <AddToListButton cultureId={culture.id} cultureName={culture.name} />
                             </TableCell>
                           </TableRow>)}
                     </TableBody>
