@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { culturesData } from "@/data/culturesDataComplete";
+import { useCultures } from "@/hooks/useCultures";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -55,6 +55,7 @@ const BazaKultur = () => {
   const [shopFilter, setShopFilter] = useState("all");
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+  const { cultures: culturesData, loading } = useCultures();
 
   // Odczytaj parametry z URL i ustaw SEO
   useEffect(() => {
@@ -100,12 +101,12 @@ const BazaKultur = () => {
       return matchesSearch && matchesType && matchesShop;
     });
     if (sortField && sortDirection) {
-      filtered.sort((a, b) => {
-        let aValue: string | number = a[sortField];
-        let bValue: string | number = b[sortField];
+      filtered = [...filtered].sort((a, b) => {
+        let aValue: string | number = (a as unknown as Record<string, string>)[sortField] ?? "";
+        let bValue: string | number = (b as unknown as Record<string, string>)[sortField] ?? "";
         if (sortField === 'price') {
-          aValue = parseFloat(a.price.replace(' zł', '').replace(',', '.'));
-          bValue = parseFloat(b.price.replace(' zł', '').replace(',', '.'));
+          aValue = a.price_numeric ?? parseFloat((a.price || "").replace(' zł', '').replace(',', '.')) || 0;
+          bValue = b.price_numeric ?? parseFloat((b.price || "").replace(' zł', '').replace(',', '.')) || 0;
         }
         if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
@@ -113,7 +114,7 @@ const BazaKultur = () => {
       });
     }
     return filtered;
-  }, [searchQuery, typeFilter, shopFilter, sortField, sortDirection]);
+  }, [culturesData, searchQuery, typeFilter, shopFilter, sortField, sortDirection]);
   const resetFilters = () => {
     setSearchQuery("");
     setTypeFilter("all");
