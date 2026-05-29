@@ -348,6 +348,14 @@ const BazaKultur = () => {
                         <span className="font-bold text-primary min-w-[70px]">Cena:</span>
                         <span className="font-bold text-lg text-foreground">{culture.price}</span>
                       </div>
+                      <div className="pt-1">
+                        <BuyButton
+                          productUrl={culture.productUrl}
+                          shopUrl={culture.shopUrl}
+                          shopName={culture.shop}
+                          cultureName={culture.name}
+                        />
+                      </div>
                       <a 
                         href={culture.productUrl || culture.shopUrl} 
                         target="_blank" 
@@ -461,7 +469,15 @@ const BazaKultur = () => {
                               </a>
                             </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
-                              {culture.price}
+                              <div className="flex flex-col gap-1">
+                                <span>{culture.price}</span>
+                                <BuyButton
+                                  productUrl={culture.productUrl}
+                                  shopUrl={culture.shopUrl}
+                                  shopName={culture.shop}
+                                  cultureName={culture.name}
+                                />
+                              </div>
                             </TableCell>
                             <TableCell className="w-12">
                               <AddToListButton cultureId={culture.id} cultureName={culture.name} />
