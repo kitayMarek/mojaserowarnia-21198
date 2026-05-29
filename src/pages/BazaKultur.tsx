@@ -406,19 +406,7 @@ const BazaKultur = () => {
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('type')}>
-                          <div className="flex items-center gap-2">
-                            Typ
-                            <ArrowUpDown className="h-4 w-4" />
-                          </div>
-                        </TableHead>
                         <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('shop')}>
-                          <div className="flex items-center gap-2">
-                            Sklep
-                            <ArrowUpDown className="h-4 w-4" />
-                          </div>
-                        </TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('price')}>
                           <div className="flex items-center gap-2">
                             Cena
                             <ArrowUpDown className="h-4 w-4" />
