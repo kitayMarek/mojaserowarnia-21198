@@ -77,6 +77,30 @@ export type Database = {
         }
         Relationships: []
       }
+      culture_clicks: {
+        Row: {
+          clicked_at: string
+          culture_name: string
+          id: string
+          shop_name: string
+          user_agent: string | null
+        }
+        Insert: {
+          clicked_at?: string
+          culture_name: string
+          id?: string
+          shop_name: string
+          user_agent?: string | null
+        }
+        Update: {
+          clicked_at?: string
+          culture_name?: string
+          id?: string
+          shop_name?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       cultures: {
         Row: {
           application: string | null
