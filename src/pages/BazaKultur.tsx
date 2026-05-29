@@ -423,7 +423,7 @@ const BazaKultur = () => {
                     </TableHeader>
                     <TableBody>
                       {filteredData.length === 0 ? <TableRow>
-                          <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
+                          <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                             Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
                           </TableCell>
                         </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
