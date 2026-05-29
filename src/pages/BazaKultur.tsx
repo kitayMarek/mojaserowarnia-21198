@@ -452,11 +452,6 @@ const BazaKultur = () => {
                                 {culture.type}
                               </span>
                             </TableCell>
-                            <TableCell className="font-medium">
-                              <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                {culture.shop}
-                              </a>
-                            </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
                               <div className="flex flex-col gap-1">
                                 <span>{culture.price}</span>
