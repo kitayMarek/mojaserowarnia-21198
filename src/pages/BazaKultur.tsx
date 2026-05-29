@@ -414,12 +414,6 @@ const BazaKultur = () => {
                         </TableHead>
                         <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('shop')}>
                           <div className="flex items-center gap-2">
-                            Sklep
-                            <ArrowUpDown className="h-4 w-4" />
-                          </div>
-                        </TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('price')}>
-                          <div className="flex items-center gap-2">
                             Cena
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
@@ -429,7 +423,7 @@ const BazaKultur = () => {
                     </TableHeader>
                     <TableBody>
                       {filteredData.length === 0 ? <TableRow>
-                          <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
+                          <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                             Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
                           </TableCell>
                         </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
@@ -463,11 +457,6 @@ const BazaKultur = () => {
                               <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-foreground border border-primary/20">
                                 {culture.type}
                               </span>
-                            </TableCell>
-                            <TableCell className="font-medium">
-                              <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                {culture.shop}
-                              </a>
                             </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
                               <div className="flex flex-col gap-1">
