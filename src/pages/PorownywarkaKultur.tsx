@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { X, AlertCircle } from "lucide-react";
 import { useCultures, type Culture } from "@/hooks/useCultures";
 import ReactionButton from "@/components/ReactionButton";
+import BuyButton from "@/components/BuyButton";
 
 const PorownywarkaKultur = () => {
   useEffect(() => {
@@ -289,11 +290,19 @@ const PorownywarkaKultur = () => {
                               {item.application}
                             </p>
                           </CardContent>
-                          <CardFooter className="flex items-center justify-between">
-                            <p className="text-sm font-semibold">{item.price}</p>
-                            <Button size="sm" variant="outline" onClick={() => addToComparison(item)}>
-                              Dodaj
-                            </Button>
+                          <CardFooter className="flex flex-col gap-2 items-stretch">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-semibold">{item.price}</p>
+                              <Button size="sm" variant="outline" onClick={() => addToComparison(item)}>
+                                Dodaj
+                              </Button>
+                            </div>
+                            <BuyButton
+                              productUrl={item.productUrl}
+                              shopUrl={item.shopUrl}
+                              shopName={item.shop}
+                              cultureName={item.name}
+                            />
                           </CardFooter>
                         </Card>
                       ))}
