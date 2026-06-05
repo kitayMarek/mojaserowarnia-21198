@@ -44,23 +44,43 @@ interface PrzykladowySkladnik {
 
 const KalkulatorPasz = () => {
   useEffect(() => {
-    document.title = "Kalkulator Pasz dla Drobiu | Serowarstwo.pl";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków."
-      );
+    const TITLE = "Kalkulator Pasz dla Drobiu - Bilansowanie Mieszanek | Moja Serowarnia";
+    const DESCRIPTION = "Darmowy kalkulator pasz dla drobiu: bilansuj mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków. Normy żywieniowe: energia, białko, Ca, P, aminokwasy, mikroelementy.";
+    const CANONICAL = "https://mojaserowarnia.pl/kalkulator-pasz";
+
+    document.title = TITLE;
+
+    const setMeta = (selector: string, attr: string, value: string) => {
+      let el = document.querySelector(selector) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement('meta');
+        const [, key, name] = selector.match(/\[(\w+)="([^"]+)"\]/) || [];
+        if (key && name) el.setAttribute(key, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, value);
+    };
+
+    setMeta('meta[name="description"]', 'content', DESCRIPTION);
+    setMeta('meta[property="og:title"]', 'content', TITLE);
+    setMeta('meta[property="og:description"]', 'content', DESCRIPTION);
+    setMeta('meta[property="og:url"]', 'content', CANONICAL);
+    setMeta('meta[property="og:image"]', 'content', `https://mojaserowarnia.pl${kalkulatorPaszHeader}`);
+    setMeta('meta[name="twitter:title"]', 'content', TITLE);
+    setMeta('meta[name="twitter:description"]', 'content', DESCRIPTION);
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
     }
-    if (ogTitle) ogTitle.setAttribute('content', 'Kalkulator Pasz dla Drobiu - Poultry Feed Calculator');
-    if (ogDescription) ogDescription.setAttribute('content', 'Prosty kalkulator do zbilansowania paszy dla drobiu. Obliczenia norm żywieniowych dla kur, brojlerów, kaczek, gęsi i indyków.');
-    if (ogImage) ogImage.setAttribute('content', `${window.location.origin}${kalkulatorPaszHeader}`);
-    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+    const prevCanonical = canonical.getAttribute('href');
+    canonical.setAttribute('href', CANONICAL);
+
+    return () => {
+      if (prevCanonical) canonical?.setAttribute('href', prevCanonical);
+    };
   }, []);
 
   const [drob, setDrob] = useState('kury-nioski-lekkie');
