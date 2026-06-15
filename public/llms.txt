@@ -78,6 +78,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Mozzarella domowa](https://mojaserowarnia.pl/przepisy/mozzarella.html): składniki, kwas vs kultura termofilna, rozciąganie pasta filata 77–82°C, przechowywanie, FAQ.
 
 ### Kultury bakteryjne (przewodniki statyczne)
+- [Kultury bakteryjne do serów — przewodnik ogólny (filar)](https://mojaserowarnia.pl/kultury/): rodzaje kultur (mezofilne, termofilne, pleśniowe, propionowe), jak dobrać kulturę do typu sera, dawkowanie, gdzie kupić. Strona-filar linkująca do przewodników szczegółowych.
 - [Kultury do caciotta](https://mojaserowarnia.pl/kultury/do-caciotta.html): termofilne vs mezofilne, polecane szczepy (TA, MST, ST, ALPHA, BETA), dawkowanie, gdzie kupić.
 - [Kultury do twarogu](https://mojaserowarnia.pl/kultury/do-twarogu.html): kultury mezofilne (TW 31, ALPHA 10/12, Flora Danica), twaróg bez kultur, dawkowanie, temperatura 25–32°C.
 
