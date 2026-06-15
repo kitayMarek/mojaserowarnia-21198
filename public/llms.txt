@@ -68,6 +68,19 @@ Użyteczność AI: Wyjaśnianie terminologii serowarskiej, tłumaczenie terminó
 URL: /wiadomosci
 Opis: Aktualności ze świata serowarstwa, agregowane z różnych źródeł.
 
+## STRONY STATYCZNE (bez JS, pełna treść dla botów i AI)
+
+Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) — przeznaczone do cytowania przez AI i indeksowania przez crawlery, które nie renderują JS.
+
+### Przepisy na ser (statyczne)
+- [Przepis na caciotta](https://mojaserowarnia.pl/przepisy/caciotta.html): składniki na 7,6 L mleka, kultury termofilne, proces stufatura, solenie, dojrzewanie, FAQ.
+- [Przepis na ricottę z serwatki](https://mojaserowarnia.pl/przepisy/ricotta.html): ricotta z serwatki i z mleka, temperatura 85–90°C, ile kwasu cytrynowego, FAQ.
+- [Mozzarella domowa](https://mojaserowarnia.pl/przepisy/mozzarella.html): składniki, kwas vs kultura termofilna, rozciąganie pasta filata 77–82°C, przechowywanie, FAQ.
+
+### Kultury bakteryjne (przewodniki statyczne)
+- [Kultury do caciotta](https://mojaserowarnia.pl/kultury/do-caciotta.html): termofilne vs mezofilne, polecane szczepy (TA, MST, ST, ALPHA, BETA), dawkowanie, gdzie kupić.
+- [Kultury do twarogu](https://mojaserowarnia.pl/kultury/do-twarogu.html): kultury mezofilne (TW 31, ALPHA 10/12, Flora Danica), twaróg bez kultur, dawkowanie, temperatura 25–32°C.
+
 ## KLUCZOWE DANE
 
 ### Kultury Bakteryjne (145+ pozycji)
@@ -147,7 +160,7 @@ Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
 
 ## AKTUALIZACJE
 
-Ostatnia aktualizacja: 2026-01-02
+Ostatnia aktualizacja: 2026-06-15
 Baza kultur: aktualizowana regularnie
 Przepisy: dodawane sukcesywnie
 Prawo: aktualizowane przy zmianach legislacyjnych

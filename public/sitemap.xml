@@ -164,6 +164,38 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- STATYCZNE STRONY SEO/GEO (bez JS, treść dla botów i AI) -->
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/caciotta.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/do-caciotta.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/ricotta.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/do-twarogu.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/mozzarella.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- PRZEPISY KULINARNE (podstrony) -->
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/aksamitne-involtini-gouda</loc>
