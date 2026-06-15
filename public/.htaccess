@@ -85,10 +85,10 @@
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # --- Korekty starych/błędnych ścieżek (SEO: eliminuje pozorne 404) ---
-  # /przepis/<id> (liczba pojedyncza) -> /przepisy/<id>
-  RewriteRule ^przepis/(.+)$ /przepisy/$1 [R=301,L]
-  # literówka w starej trasie kalkulatora wartości odżywczych
-  RewriteRule ^porownawie-wartosci-odzywczych/?$ /porownanie-wartosci-odzywczych [R=301,L]
+  # /przepis/<id> (liczba pojedyncza) -> /przepisy/<id> (https, jeden przeskok)
+  RewriteRule ^przepis/(.+)$ https://mojaserowarnia.pl/przepisy/$1 [R=301,L]
+  # literówka w starej trasie kalkulatora wartości odżywczych (https, jeden przeskok)
+  RewriteRule ^porownawie-wartosci-odzywczych/?$ https://mojaserowarnia.pl/porownanie-wartosci-odzywczych [R=301,L]
 
   # Nie przepisuj istniejących plików i katalogów
   RewriteCond %{REQUEST_FILENAME} !-f
