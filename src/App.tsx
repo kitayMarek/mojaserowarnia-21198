@@ -82,7 +82,7 @@ const App = () => (
           <Route path="/bakterie-kultury" element={<BakterieKultury />} />
           <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
           <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />
-          <Route path="/porownawie-wartosci-odzywczych" element={<PorownanieWartosciOdzywczych />} />
+          <Route path="/porownanie-wartosci-odzywczych" element={<PorownanieWartosciOdzywczych />} />
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />

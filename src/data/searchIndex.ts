@@ -97,7 +97,7 @@ const poradnikiItems: SearchItem[] = [
     description:
       "Interaktywny kalkulator pozwalający porównać wartości odżywcze różnych rodzajów serów: kalorie, białko, tłuszcz, wapń.",
     category: "poradniki",
-    href: "/porownawie-wartosci-odzywczych",
+    href: "/porownanie-wartosci-odzywczych",
     keywords: ["wartości odżywcze", "kalorie", "białko", "kalkulator", "porównanie"],
   },
 ];

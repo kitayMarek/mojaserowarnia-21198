@@ -17,8 +17,10 @@
     <meta name="keywords" content="kultury bakteryjne do sera, baza kultur, przepisy na ser, RHD serowarnia, MOL produkcja sera, kalkulator podpuszczki, kultury mezofilne, kultury termofilne, serowarstwo polska" />
     <meta name="author" content="Moja Serowarnia" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://mojaserowarnia.pl/" />
-    
+    <!-- Canonical ustawiany per-strona przez react-helmet (np. Index.tsx, Slownik.tsx).
+         Brak statycznego canonical tutaj jest celowy: ten sam index.html serwuje wszystkie
+         trasy SPA, więc statyczny tag wskazywałby błędnie stronę główną dla każdej podstrony. -->
+
     <!-- Preload Critical Resources -->
     <link rel="preload" as="image" href="/src/assets/hero-cheese-clean.webp" type="image/webp" fetchpriority="high" />
     
