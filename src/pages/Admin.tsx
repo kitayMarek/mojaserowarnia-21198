@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { Download, Mail, Users, CheckCircle2, XCircle, Loader2, Newspaper } from "lucide-react";
+import { Download, Mail, Users, CheckCircle2, XCircle, Loader2, Newspaper, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 
@@ -214,6 +214,11 @@ export default function Admin() {
           <Button onClick={() => window.location.href = '/admin/news'} variant="outline">
             <Newspaper className="mr-2 h-4 w-4" />
             Zarządzanie Newsami
+          </Button>
+
+          <Button onClick={() => window.location.href = '/admin/statystyki-llm'} variant="outline">
+            <MessageSquare className="mr-2 h-4 w-4" />
+            Statystyki „Zapytaj AI"
           </Button>
 
           <Dialog>
