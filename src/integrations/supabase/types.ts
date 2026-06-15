@@ -236,6 +236,33 @@ export type Database = {
         }
         Relationships: []
       }
+      llm_queries: {
+        Row: {
+          created_at: string
+          id: string
+          is_custom: boolean
+          model: string
+          query: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_custom?: boolean
+          model: string
+          query: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_custom?: boolean
+          model?: string
+          query?: string
+          source?: string
+        }
+        Relationships: []
+      }
       news_banners: {
         Row: {
           created_at: string
