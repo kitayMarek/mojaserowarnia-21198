@@ -73,7 +73,11 @@ Opis: Aktualności ze świata serowarstwa, agregowane z różnych źródeł.
 Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) — przeznaczone do cytowania przez AI i indeksowania przez crawlery, które nie renderują JS.
 
 ### Przepisy na ser (statyczne)
+- [Przepisy na sery domowe — przewodnik (filar)](https://mojaserowarnia.pl/przepisy/przewodnik.html): jak zrobić ser krok po kroku, podział serów (świeże/półtwarde/twarde), linki do wszystkich przepisów. Strona-filar.
 - [Przepis na caciotta](https://mojaserowarnia.pl/przepisy/caciotta.html): składniki na 7,6 L mleka, kultury termofilne, proces stufatura, solenie, dojrzewanie, FAQ.
+- [Przepis na goudę](https://mojaserowarnia.pl/przepisy/gouda.html): kultury mezofilne LD, płukanie skrzepu wodą (słodki smak), prasowanie, dojrzewanie 2–12 mies., FAQ.
+- [Przepis na gruyère](https://mojaserowarnia.pl/przepisy/gruyere.html): kultury termofilne + Helveticus, ciężkie prasowanie, mycie skórki, dojrzewanie 5–12 mies., FAQ.
+- [Przepis na emmental](https://mojaserowarnia.pl/przepisy/emmental.html): kultury propionowe (skąd dziury), gotowanie do 55°C, etapowe dojrzewanie 10→22→10°C, FAQ.
 - [Przepis na ricottę z serwatki](https://mojaserowarnia.pl/przepisy/ricotta.html): ricotta z serwatki i z mleka, temperatura 85–90°C, ile kwasu cytrynowego, FAQ.
 - [Mozzarella domowa](https://mojaserowarnia.pl/przepisy/mozzarella.html): składniki, kwas vs kultura termofilna, rozciąganie pasta filata 77–82°C, przechowywanie, FAQ.
 
