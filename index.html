@@ -98,6 +98,38 @@
   </head>
 
   <body>
+    <!-- Mapa treści dla botów/asystentów AI bez JavaScriptu (użytkownicy z JS jej nie widzą — React renderuje aplikację). -->
+    <noscript>
+      <div style="max-width:780px;margin:0 auto;padding:2rem 1.25rem;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1f2937">
+        <h1 style="color:#92400e;font-size:1.7rem">Moja Serowarnia — centrum wiedzy o serowarstwie domowym</h1>
+        <p>Portal o domowej i rzemieślniczej produkcji sera: baza ponad 145 kultur bakteryjnych, przepisy na sery, kalkulatory oraz przewodniki prawne (RHD/MOL). Poniżej mapa najważniejszych treści w pełnej, statycznej formie (czytelnej bez JavaScriptu):</p>
+
+        <h2 style="color:#92400e;font-size:1.15rem">Kultury bakteryjne</h2>
+        <ul>
+          <li><a href="/kultury/baza.html">Pełna baza wszystkich 147 kultur</a> — nazwa, skład, zastosowanie, temperatura pracy, sklep, cena</li>
+          <li><a href="/kultury/">Przewodnik: jak dobrać kulturę do sera</a> (rodzaje, dawkowanie, gdzie kupić)</li>
+          <li><a href="/kultury/mezofilne.html">Kultury mezofilne</a> · <a href="/kultury/termofilne.html">termofilne</a> · <a href="/kultury/jogurtowe.html">jogurtowe</a></li>
+        </ul>
+
+        <h2 style="color:#92400e;font-size:1.15rem">Przepisy na sery</h2>
+        <ul>
+          <li><a href="/przepisy/przewodnik.html">Przewodnik: jak zrobić ser krok po kroku</a></li>
+          <li><a href="/przepisy/caciotta.html">Caciotta</a> · <a href="/przepisy/ricotta.html">Ricotta</a> · <a href="/przepisy/mozzarella.html">Mozzarella</a> · <a href="/przepisy/gouda.html">Gouda</a> · <a href="/przepisy/gruyere.html">Gruyère</a> · <a href="/przepisy/emmental.html">Emmental</a></li>
+        </ul>
+
+        <h2 style="color:#92400e;font-size:1.15rem">Sprzedaż domowego sera — prawo</h2>
+        <ul>
+          <li><a href="/prawo/przewodnik.html">RHD i MOL — najważniejsze informacje</a> (limity, rejestracja, ewidencja sprzedaży)</li>
+        </ul>
+
+        <h2 style="color:#92400e;font-size:1.15rem">Sery wege</h2>
+        <ul>
+          <li><a href="/wege/">Ser wegetariański i wegański — jak to możliwe</a> (rodzaje podpuszczki, kultury wegańskie)</li>
+        </ul>
+
+        <p>Pełna mapa treści dla asystentów AI: <a href="/llms.txt">/llms.txt</a>. Aplikacja interaktywna (z filtrami, kalkulatorami i wyszukiwarką) wymaga JavaScriptu.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
