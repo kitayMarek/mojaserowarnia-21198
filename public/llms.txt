@@ -78,6 +78,20 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Przepis na goudę](https://mojaserowarnia.pl/przepisy/gouda.html): kultury mezofilne LD, płukanie skrzepu wodą (słodki smak), prasowanie, dojrzewanie 2–12 mies., FAQ.
 - [Przepis na gruyère](https://mojaserowarnia.pl/przepisy/gruyere.html): kultury termofilne + Helveticus, ciężkie prasowanie, mycie skórki, dojrzewanie 5–12 mies., FAQ.
 - [Przepis na emmental](https://mojaserowarnia.pl/przepisy/emmental.html): kultury propionowe (skąd dziury), gotowanie do 55°C, etapowe dojrzewanie 10→22→10°C, FAQ.
+- [Przepis na Asiago](https://mojaserowarnia.pl/przepisy/asiago.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Brie](https://mojaserowarnia.pl/przepisy/brie.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Camembert](https://mojaserowarnia.pl/przepisy/camembert.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Cheddar](https://mojaserowarnia.pl/przepisy/cheddar.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Dunlop](https://mojaserowarnia.pl/przepisy/dunlop.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Feta bułgarska (Sirene)](https://mojaserowarnia.pl/przepisy/feta_bulgarische.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Feta grecka](https://mojaserowarnia.pl/przepisy/feta-grecka.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Gorgonzola](https://mojaserowarnia.pl/przepisy/gorgonzola.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Halloumi](https://mojaserowarnia.pl/przepisy/halloumi.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Mascarpone](https://mojaserowarnia.pl/przepisy/mascarpone.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Parmezan](https://mojaserowarnia.pl/przepisy/parmezan.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Roquefort](https://mojaserowarnia.pl/przepisy/roquefort.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Stilton](https://mojaserowarnia.pl/przepisy/stilton.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
+- [Przepis na Yorkshire (Wensleydale)](https://mojaserowarnia.pl/przepisy/yorkshire.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
 - [Przepis na ricottę z serwatki](https://mojaserowarnia.pl/przepisy/ricotta.html): ricotta z serwatki i z mleka, temperatura 85–90°C, ile kwasu cytrynowego, FAQ.
 - [Mozzarella domowa](https://mojaserowarnia.pl/przepisy/mozzarella.html): składniki, kwas vs kultura termofilna, rozciąganie pasta filata 77–82°C, przechowywanie, FAQ.
 
@@ -93,6 +107,10 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Kultury jogurtowe](https://mojaserowarnia.pl/kultury/jogurtowe.html): domowy jogurt, fermentacja 42–45°C, szczepy (Yo-Mix, LAMBDA, Beaugel Yog), jogurt z mleka koziego/owczego.
 - [Sery i nabiał wege](https://mojaserowarnia.pl/wege/): dlaczego klasyczny ser bywa niewegetariański (podpuszczka zwierzęca), podpuszczka mikrobiologiczna i roślinna, sery z natury wege (ricotta, mascarpone), ser wegański z mleka roślinnego + kultury wegańskie (ARTiVEG, Beaugel Soja).
 - [Kultury do twarogu](https://mojaserowarnia.pl/kultury/do-twarogu.html): kultury mezofilne (TW 31, ALPHA 10/12, Flora Danica), twaróg bez kultur, dawkowanie, temperatura 25–32°C.
+
+
+### Słownik serowarski (statyczny)
+- [Słownik serowarski — 60 terminów PL/EN](https://mojaserowarnia.pl/slownik.html): dwujęzyczne definicje terminów (podstawy, proces, typy serów, kultury, parametry, sprzęt, prawo).
 
 ## KLUCZOWE DANE
 
