@@ -11,7 +11,7 @@ import prawoHeaderImage from "@/assets/prawo-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 const Prawo = () => {
   useEffect(() => {
-    document.title = "Prawo - Serowarstwo.pl";
+    document.title = "Prawo - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

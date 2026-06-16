@@ -37,7 +37,7 @@ interface DawkaSkladnik {
 const KalkulatorPaszBydlo = () => {
   // SEO
   useEffect(() => {
-    document.title = "Kalkulator Pasz dla Bydła | Serowarstwo.pl";
+    document.title = "Kalkulator Pasz dla Bydła | Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
@@ -420,7 +420,7 @@ const KalkulatorPaszBydlo = () => {
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(128);
-    doc.text('Wygenerowano przez Serowarstwo.pl - Kalkulator Pasz dla Bydla', pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text('Wygenerowano przez mojaserowarnia.pl - Kalkulator Pasz dla Bydla', pageWidth / 2, pageHeight - 10, { align: 'center' });
     doc.text('Obliczenia wg norm INRAz/INRA 2018', pageWidth / 2, pageHeight - 6, { align: 'center' });
 
     // Zapisz

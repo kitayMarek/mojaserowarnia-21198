@@ -38,7 +38,7 @@ const faqs = [
 
 const RHDDokumenty = () => {
   useEffect(() => {
-    document.title = "Wymagane dokumenty w RHD - Serowarstwo.pl";
+    document.title = "Wymagane dokumenty w RHD - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

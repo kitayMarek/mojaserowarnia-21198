@@ -42,7 +42,7 @@ const seeAlsoLinks = [
 
 const RHD = () => {
   useEffect(() => {
-    document.title = "Rolniczy Handel Detaliczny (RHD) - Serowarstwo.pl";
+    document.title = "Rolniczy Handel Detaliczny (RHD) - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

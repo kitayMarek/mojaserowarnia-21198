@@ -42,7 +42,7 @@ const seeAlsoLinks = [
 
 const MOL = () => {
   useEffect(() => {
-    document.title = "Działalność marginalna, lokalna i ograniczona (MOL) - Serowarstwo.pl";
+    document.title = "Działalność marginalna, lokalna i ograniczona (MOL) - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

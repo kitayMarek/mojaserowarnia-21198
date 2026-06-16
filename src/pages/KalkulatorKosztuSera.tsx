@@ -34,7 +34,7 @@ const KalkulatorKosztuSera = () => {
   const { toast } = useToast();
   
   useEffect(() => {
-    document.title = "Kalkulator Kosztu Sera - Oblicz Rentowność Produkcji | Serowarstwo.pl";
+    document.title = "Kalkulator Kosztu Sera - Oblicz Rentowność Produkcji | Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", "Kompleksowy kalkulator kosztów produkcji sera: wydajność z mleka, składniki, marża i cena sprzedaży. Uwzględnia VAT, straty i koszty stałe.");

@@ -39,7 +39,7 @@ const faqs = [
 
 const RzezniRolnicza = () => {
   useEffect(() => {
-    document.title = "Rzeźnia Rolnicza - Serowarstwo.pl";
+    document.title = "Rzeźnia Rolnicza - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

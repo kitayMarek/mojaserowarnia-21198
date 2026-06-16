@@ -10,7 +10,7 @@ import ReactionButton from "@/components/ReactionButton";
 
 const AktyPrawneUE = () => {
   useEffect(() => {
-    document.title = "Najważniejsze akty prawne UE - Serowarstwo.pl";
+    document.title = "Najważniejsze akty prawne UE - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

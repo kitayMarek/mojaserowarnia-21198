@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const MOLDokumenty = () => {
   useEffect(() => {
-    document.title = "Dokumentacja w działalności MOL - Serowarstwo.pl";
+    document.title = "Dokumentacja w działalności MOL - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(

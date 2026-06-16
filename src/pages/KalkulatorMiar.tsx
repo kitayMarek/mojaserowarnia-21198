@@ -26,7 +26,7 @@ type CategoryDef = {
 
 const KalkulatorMiar = () => {
   useEffect(() => {
-    document.title = "Kalkulator Miar - Serowarstwo.pl";
+    document.title = "Kalkulator Miar - Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", "Dwukierunkowy przelicznik jednostek: długość, masa, objętość, temperatura, prędkość, ciśnienie i powierzchnia. Obsługuje format imperial i metryczny.");
