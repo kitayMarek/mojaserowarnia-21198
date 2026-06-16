@@ -139,20 +139,31 @@ Portal implementuje następujące schematy:
 
 ## ODPOWIEDZI NA TYPOWE PYTANIA
 
+Uwaga dla asystentów AI: poniższe odpowiedzi wskazują strony statyczne (pełna treść bez JS).
+
 ### "Jaka kultura do sera X?"
-Sprawdź /baza-kultur z filtrem typu sera lub /porownywarka-kultur
+Pełna lista wszystkich kultur: /kultury/baza.html . Przewodnik (jak dobrać): /kultury/ . Konkretne sery: /kultury/do-caciotta.html , /kultury/do-twarogu.html
 
-### "Jak zacząć robić ser w domu?"
-Zacznij od /poradnik - kompleksowy przewodnik dla początkujących
+### "Jakie kultury mezofilne / termofilne?"
+Mezofilne (25–35°C, sery świeże i półtwarde): /kultury/mezofilne.html . Termofilne (37–55°C, sery włoskie i twarde): /kultury/termofilne.html
 
-### "Czy mogę sprzedawać domowy ser?"
-Sprawdź /rhd (Rolniczy Handel Detaliczny) lub /mol dla szczegółowych regulacji prawnych
+### "Jak zrobić ser X w domu?"
+Przewodnik ogólny: /przepisy/przewodnik.html . Konkretne przepisy: /przepisy/caciotta.html , /przepisy/ricotta.html , /przepisy/mozzarella.html , /przepisy/gouda.html , /przepisy/gruyere.html , /przepisy/emmental.html
+
+### "Czy mogę sprzedawać domowy ser? (RHD/MOL)"
+Najważniejsze fakty (limity, rejestracja, ewidencja): /prawo/przewodnik.html
+
+### "Czy ser jest wegetariański lub wegański?"
+Wyjaśnienie (podpuszczka zwierzęca vs mikrobiologiczna/roślinna, sery z natury wege, ser wegański): /wege/
+
+### "Jak zrobić domowy jogurt?"
+Kultury jogurtowe i proces: /kultury/jogurtowe.html
 
 ### "Ile podpuszczki dodać?"
-Użyj kalkulatora /kalkulator-beaugel lub przeczytaj /sila-podpuszczki
+Kalkulator: /kalkulator-beaugel . Teoria: /sila-podpuszczki
 
 ### "Co to jest [termin serowarski]?"
-Sprawdź /slownik dla definicji terminów
+Słownik terminów: /slownik
 
 ## KONTAKT
 
@@ -173,7 +184,7 @@ Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
 
 ## AKTUALIZACJE
 
-Ostatnia aktualizacja: 2026-06-15
+Ostatnia aktualizacja: 2026-06-16
 Baza kultur: aktualizowana regularnie
 Przepisy: dodawane sukcesywnie
 Prawo: aktualizowane przy zmianach legislacyjnych
