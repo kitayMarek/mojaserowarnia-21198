@@ -87,6 +87,10 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 ### Kultury bakteryjne (przewodniki statyczne)
 - [Kultury bakteryjne do serów — przewodnik ogólny (filar)](https://mojaserowarnia.pl/kultury/): rodzaje kultur (mezofilne, termofilne, pleśniowe, propionowe), jak dobrać kulturę do typu sera, dawkowanie, gdzie kupić. Strona-filar linkująca do przewodników szczegółowych.
 - [Kultury do caciotta](https://mojaserowarnia.pl/kultury/do-caciotta.html): termofilne vs mezofilne, polecane szczepy (TA, MST, ST, ALPHA, BETA), dawkowanie, gdzie kupić.
+- [Kultury mezofilne do sera](https://mojaserowarnia.pl/kultury/mezofilne.html): 25–35°C, do jakich serów (gouda, twaróg, cheddar), szczepy (Flora Danica, MA 4001, ALPHA), dawkowanie.
+- [Kultury termofilne do sera](https://mojaserowarnia.pl/kultury/termofilne.html): 37–55°C, do serów włoskich i twardych (caciotta, mozzarella, parmezan), szczepy (TA-61, MST, LH-100).
+- [Kultury jogurtowe](https://mojaserowarnia.pl/kultury/jogurtowe.html): domowy jogurt, fermentacja 42–45°C, szczepy (Yo-Mix, LAMBDA, Beaugel Yog), jogurt z mleka koziego/owczego.
+- [Sery i nabiał wege](https://mojaserowarnia.pl/wege/): dlaczego klasyczny ser bywa niewegetariański (podpuszczka zwierzęca), podpuszczka mikrobiologiczna i roślinna, sery z natury wege (ricotta, mascarpone), ser wegański z mleka roślinnego + kultury wegańskie (ARTiVEG, Beaugel Soja).
 - [Kultury do twarogu](https://mojaserowarnia.pl/kultury/do-twarogu.html): kultury mezofilne (TW 31, ALPHA 10/12, Flora Danica), twaróg bez kultur, dawkowanie, temperatura 25–32°C.
 
 ## KLUCZOWE DANE
