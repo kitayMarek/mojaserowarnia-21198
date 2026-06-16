@@ -90,6 +90,12 @@
   # literówka w starej trasie kalkulatora wartości odżywczych (https, jeden przeskok)
   RewriteRule ^porownawie-wartosci-odzywczych/?$ https://mojaserowarnia.pl/porownanie-wartosci-odzywczych [R=301,L]
 
+  # --- Trasy SPA kolidujące z fizycznym katalogiem ---
+  # /przepisy ma podstrony statyczne (/przepisy/*.html), ale samo /przepisy to trasa React.
+  # Bez tego Apache widzi katalog bez index.html i zwraca 403. Serwujemy aplikację.
+  # (Pliki /przepisy/<coś>.html nadal działają — ta reguła łapie tylko samo /przepisy[/].)
+  RewriteRule ^przepisy/?$ /index.html [L]
+
   # Nie przepisuj istniejących plików i katalogów
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
