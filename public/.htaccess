@@ -95,6 +95,8 @@
   # Bez tego Apache widzi katalog bez index.html i zwraca 403. Serwujemy aplikację.
   # (Pliki /przepisy/<coś>.html nadal działają — ta reguła łapie tylko samo /przepisy[/].)
   RewriteRule ^przepisy/?$ /index.html [L]
+  # /prawo ma podstrony statyczne (/prawo/*.html) — to samo zabezpieczenie co dla /przepisy.
+  RewriteRule ^prawo/?$ /index.html [L]
 
   # Nie przepisuj istniejących plików i katalogów
   RewriteCond %{REQUEST_FILENAME} !-f
