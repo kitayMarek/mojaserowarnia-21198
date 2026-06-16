@@ -85,6 +85,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [RHD i MOL — najważniejsze informacje (filar)](https://mojaserowarnia.pl/prawo/przewodnik.html): RHD vs MOL, limity (RHD 100 000 zł/rok, MOL mleczne ~0,5 t/tydzień), rejestracja (Sanepid 14 dni / weterynaria 30 dni), co musi zawierać ewidencja sprzedaży RHD. Strona-filar.
 
 ### Kultury bakteryjne (przewodniki statyczne)
+- [Pełna baza kultur — lista wszystkich 147 (statyczna, bez JS)](https://mojaserowarnia.pl/kultury/baza.html): kompletna tabela wszystkich kultur z nazwą, składem bakteryjnym, zastosowaniem, temperaturą pracy, sklepem i ceną, pogrupowana wg typu (mezofilne, termofilne, pleśniowe, propionowe, jogurtowe, kefirowe, wegańskie i in.). Źródło dla asystentów AI.
 - [Kultury bakteryjne do serów — przewodnik ogólny (filar)](https://mojaserowarnia.pl/kultury/): rodzaje kultur (mezofilne, termofilne, pleśniowe, propionowe), jak dobrać kulturę do typu sera, dawkowanie, gdzie kupić. Strona-filar linkująca do przewodników szczegółowych.
 - [Kultury do caciotta](https://mojaserowarnia.pl/kultury/do-caciotta.html): termofilne vs mezofilne, polecane szczepy (TA, MST, ST, ALPHA, BETA), dawkowanie, gdzie kupić.
 - [Kultury mezofilne do sera](https://mojaserowarnia.pl/kultury/mezofilne.html): 25–35°C, do jakich serów (gouda, twaróg, cheddar), szczepy (Flora Danica, MA 4001, ALPHA), dawkowanie.
