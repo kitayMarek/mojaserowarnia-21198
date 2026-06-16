@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { Calculator, Bird, ExternalLink } from "lucide-react";
+import { Calculator, ClipboardList, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
@@ -361,42 +361,54 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
-                      <Bird className="h-10 w-10 text-white" />
+                      <ClipboardList className="h-10 w-10 text-white" />
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                        Menadżer Fermy Drobiu
+                        Fermly – gospodarstwo i ewidencja RHD
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        Kompleksowa aplikacja PWA do zarządzania fermą drobiu: stada, dziennik codzienny, pasze, zdrowie, ważenia, ubój, sprzedaż i finanse.
+                        Aplikacja do zarządzania całym gospodarstwem rolnym — z gotowym <strong>rejestrem sprzedaży RHD</strong> dla
+                        serów, mleka, jaj i drobiu: automatyczne pilnowanie limitu 100 000 zł, ewidencja nabywców, wydruk i raporty.
                       </p>
                     </div>
                     <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Stada i partie – pełna ewidencja</span>
+                        <span><strong>Rejestr sprzedaży RHD</strong> – wpisy, limit 100 000 zł, wydruk</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Dziennik codzienny – jaja, pasze, zdarzenia</span>
+                        <span>Sprzedaż i nabywcy – szybkie dodawanie transakcji</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Pasze i żywienie – receptury i koszty</span>
+                        <span>Przyjęcia mleka i partie produkcyjne (mleczarnia)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Finanse i raporty – przychody, koszty, zysk</span>
+                        <span>Kasa/bank, finanse i raporty całego gospodarstwa</span>
                       </li>
                     </ul>
-                    <Button
-                      asChild
-                      className="w-full mt-4 bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white shadow-warm"
-                    >
-                      <a href="https://hodowla-drobiu-pwa.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                        Otwórz Aplikację <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
+                    <div className="w-full space-y-2 mt-4">
+                      <Button
+                        asChild
+                        className="w-full bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white shadow-warm"
+                      >
+                        <a href="https://fermly.pl" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                          Otwórz Fermly <ExternalLink className="h-4 w-4" />
+                        </a>
+                      </Button>
+                      <div className="flex items-center justify-center gap-4 text-xs">
+                        <a href="https://fermly.pl/mleko/rhd" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          Rejestr RHD
+                        </a>
+                        <span className="text-muted-foreground/40">·</span>
+                        <a href="https://fermly.pl/przewodnik-rhd.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          Przewodnik RHD
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
