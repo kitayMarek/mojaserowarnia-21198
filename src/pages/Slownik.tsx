@@ -95,6 +95,14 @@ const glossaryTerms: GlossaryTerm[] = [
   { pl: "Chroniona Nazwa Pochodzenia", en: "Protected Designation of Origin (PDO)", definition: "Oznaczenie produktów wytwarzanych tradycyjnie w określonym regionie.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
   { pl: "Chronione Oznaczenie Geograficzne", en: "Protected Geographical Indication (PGI)", definition: "Oznaczenie produktów związanych z określonym regionem.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
   { pl: "Gwarantowana Tradycyjna Specjalność", en: "Traditional Speciality Guaranteed (TSG)", definition: "Oznaczenie produktów wytwarzanych tradycyjną metodą.", category: "Prawo", link: "/akty-prawne-ue", linkLabel: "Akty prawne UE" },
+
+  // Dodatkowe pojęcia (pod realne zapytania)
+  { pl: "Flokulacja", en: "Flocculation", definition: "Metoda wyznaczania momentu cięcia skrzepu — obserwacja pojawienia się pierwszych płatków białka po dodaniu podpuszczki; czas flokulacji mnoży się przez współczynnik zależny od typu sera.", category: "Proces", link: "/kalkulator-beaugel", linkLabel: "Kalkulator flokulacji" },
+  { pl: "IMCU", en: "International Milk-Clotting Units", definition: "Międzynarodowa jednostka siły podpuszczki, określająca jej zdolność do krzepnięcia mleka. Im wyższa wartość IMCU, tym silniejsza podpuszczka.", category: "Parametry", link: "/sila-podpuszczki", linkLabel: "Siła podpuszczki" },
+  { pl: "Chlorek wapnia (CaCl₂)", en: "Calcium chloride", definition: "Dodatek przywracający mleku pasteryzowanemu zdolność do prawidłowego krzepnięcia — uzupełnia wapń utracony podczas pasteryzacji.", category: "Proces", link: "/poradnik", linkLabel: "Poradnik" },
+  { pl: "Lipaza", en: "Lipase", definition: "Enzym rozkładający tłuszcze mleka; dodawany dla intensywniejszego, pikantnego smaku niektórych serów (np. włoskich czy feta).", category: "Kultury", link: "/baza-kultur", linkLabel: "Baza kultur" },
+  { pl: "Kultury ochronne (bioprotekcja)", en: "Protective / bioprotective cultures", definition: "Kultury chroniące ser przed niepożądanymi drobnoustrojami (pleśnie, drożdże, bakterie psujące), poprawiające bezpieczeństwo i trwałość produktu.", category: "Kultury", link: "/baza-kultur", linkLabel: "Baza kultur" },
+  { pl: "Liofilizat (DVI/DVS)", en: "Lyophilizate / freeze-dried", definition: "Forma kultur i podpuszczki w postaci wysuszonego proszku do bezpośredniego dodania do mleka (Direct Vat Inoculation/Set), bez wcześniejszego namnażania.", category: "Kultury", link: "/baza-kultur", linkLabel: "Baza kultur" },
 ];
 
 const categories = [...new Set(glossaryTerms.map(term => term.category))];
