@@ -130,7 +130,7 @@ def skip_for(path):
 
 def main():
     apply = '--apply' in sys.argv
-    targets = []
+    targets = glob.glob(os.path.join(PUB, '*.html'))  # strony w katalogu glownym (np. poradnik.html)
     for d in ['przepisy', 'kultury', 'prawo', 'wege']:
         targets += glob.glob(os.path.join(PUB, d, '**', '*.html'), recursive=True)
     EXCLUDE = {'slownik.html', 'baza.html'}
@@ -141,6 +141,8 @@ def main():
     total = 0
     for path in targets:
         html = open(path, encoding='utf-8').read()
+        if 'class="glo"' in html:  # juz podlinkowane — pomijamy (idempotencja, brak duplikatow)
+            continue
         new, chosen = process(html, skip_for(path))
         if chosen:
             new = ensure_css(new)
