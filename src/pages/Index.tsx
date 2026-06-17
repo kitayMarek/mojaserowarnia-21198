@@ -11,7 +11,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Helmet>
-        <title>Moja Serowarnia - 145+ Kultur Bakteryjnych, Przepisy, RHD/MOL dla Serowarów</title>
+        <title>Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL</title>
         <meta name="description" content="Największa polska baza 145+ kultur bakteryjnych do produkcji sera, sprawdzone przepisy, kalkulatory i kompletne poradniki RHD/MOL. Portal stworzony przez serowarów dla serowarów." />
         <link rel="canonical" href="https://mojaserowarnia.pl/" />
       </Helmet>
