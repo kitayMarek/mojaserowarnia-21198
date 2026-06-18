@@ -77,7 +77,7 @@ def gen_html(items):
     o = []
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</title>")
-    o.append(f'  <meta name="description" content="Pełna baza {total} kultur bakteryjnych do produkcji sera: nazwa, skład, zastosowanie, temperatura pracy, typ, sklep i cena. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
+    o.append(f'  <meta name="description" content="Pełna baza {total} kultur bakteryjnych do sera: nazwa, skład, zastosowanie, temperatura, sklep i cena. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
     o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/kultury/baza.html" />\n  <meta name="robots" content="index, follow" />')
     o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/kultury/baza.html" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
