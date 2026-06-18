@@ -122,6 +122,10 @@
   
   # CSS
   AddType text/css .css
+
+  # Wymuszenie UTF-8 dla plikow tekstowych z polskimi znakami
+  # (llms.txt, kultury.summary.txt, sitemap.xml — bez tego ryzyko zlej dekodacji przy nosniff)
+  AddCharset utf-8 .txt .xml
 </IfModule>
 
 # ===== OPTYMALIZACJA ETags =====
