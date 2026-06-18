@@ -157,19 +157,28 @@ SUMMARY_TITLES = {
 }
 
 
+def _cell(v):
+    """Wartość do komórki pipe — pusta → '—', wewnętrzny '|' → '/'."""
+    v = (v or "").strip().replace("|", "/")
+    return v if v else "—"
+
+
 def gen_summary(items):
     seen, buckets = set(), {k: [] for k in SUMMARY_ORDER}
     for it in items:
         if it["name"] in seen:
             continue
         seen.add(it["name"])
-        buckets[bucket_of(it)].append(it["name"])
+        buckets[bucket_of(it)].append(it)
     out = [f"BAZA KULTUR BAKTERYJNYCH — mojaserowarnia.pl ({len(seen)} pozycji)",
-           "Streszczenie pogrupowane wg zastosowania. Pełna baza z dawkowaniem, ceną i dostępnością: https://mojaserowarnia.pl/baza-kultur", ""]
+           "Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/kultury/baza.html",
+           "Wersja interaktywna z filtrami i porównywarką: https://mojaserowarnia.pl/baza-kultur",
+           "Format wierszy: Nazwa | Temperatura pracy | Zastosowanie | Sklep", ""]
     for k in SUMMARY_ORDER:
         if buckets[k]:
-            out.append(SUMMARY_TITLES[k] + ":")
-            out.append(", ".join(buckets[k]))
+            out.append(f"=== {SUMMARY_TITLES[k]} ===")
+            for it in buckets[k]:
+                out.append(f"{_cell(it['name'])} | {_cell(it['temp'])} | {_cell(it['app'])} | {_cell(it['shop'])}")
             out.append("")
     return "\n".join(out).rstrip() + "\n"
 
