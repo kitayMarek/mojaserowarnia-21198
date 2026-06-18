@@ -12,7 +12,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Helmet>
         <title>Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL</title>
-        <meta name="description" content="Największa polska baza 145+ kultur bakteryjnych do produkcji sera, sprawdzone przepisy, kalkulatory i kompletne poradniki RHD/MOL. Portal stworzony przez serowarów dla serowarów." />
+        {/* meta description: jedyne źródło to statyczny tag w index.html (uniknięcie duplikatu „more than one meta description" w Bing) */}
         <link rel="canonical" href="https://mojaserowarnia.pl/" />
       </Helmet>
       <Navigation />

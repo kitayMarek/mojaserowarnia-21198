@@ -101,7 +101,7 @@
     <!-- Mapa treści dla botów/asystentów AI bez JavaScriptu (użytkownicy z JS jej nie widzą — React renderuje aplikację). -->
     <noscript>
       <div style="max-width:780px;margin:0 auto;padding:2rem 1.25rem;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1f2937">
-        <h1 style="color:#92400e;font-size:1.7rem">Moja Serowarnia — centrum wiedzy o serowarstwie domowym</h1>
+        <p style="color:#92400e;font-size:1.7rem;font-weight:700;margin:0 0 .5rem">Moja Serowarnia — centrum wiedzy o serowarstwie domowym</p>
         <p>Portal o domowej i rzemieślniczej produkcji sera: baza ponad 145 kultur bakteryjnych, przepisy na sery, kalkulatory oraz przewodniki prawne (RHD/MOL). Poniżej mapa najważniejszych treści w pełnej, statycznej formie (czytelnej bez JavaScriptu):</p>
 
         <h2 style="color:#92400e;font-size:1.15rem">Kultury bakteryjne</h2>
@@ -141,7 +141,8 @@
         <p>Pełna mapa treści dla asystentów AI: <a href="/llms.txt">/llms.txt</a>. Aplikacja interaktywna (z filtrami, kalkulatorami i wyszukiwarką) wymaga JavaScriptu.</p>
       </div>
     </noscript>
-    <div id="root"></div>
+    <!-- Fallback h1 dla botów (Bing nie liczy h1 z <noscript>); React podmienia #root przy starcie → dokładnie jeden h1 w surowym HTML i po renderze. -->
+    <div id="root"><h1 style="max-width:780px;margin:2rem auto;padding:0 1.25rem;font:700 1.7rem/1.3 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#92400e">Moja Serowarnia — centrum wiedzy o serowarstwie domowym</h1></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
