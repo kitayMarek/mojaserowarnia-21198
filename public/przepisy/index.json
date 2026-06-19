@@ -1,8 +1,8 @@
 {
   "wersjaSchematu": 2,
   "zrodlo": "serowarnia-kurated",
+  "faza": "3b",
   "wygenerowano": "skrypt gen-przepisy-json.py",
-  "faza": "3a",
   "przepisy": [
     {
       "wersjaSchematu": 2,
@@ -63,11 +63,19 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 35–36 °C ~30 min",
           "opis": "Podgrzej mleko do 35–36 °C. Dodaj kulturę termofilną TA-61 (~1/8 tsp) i kulturę Helveticus LH-100 (~1/16 tsp). Pozostaw na 30 min do dojrzewania.",
           "wskazowka": "Kluczowe kultury: TA-61 (termofilna) + LH-100 (Helveticus). Helveticus zostawia część laktozy nienaruszoną, dając słodką nutę!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 35,
+            "max": 36
+          },
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -75,18 +83,26 @@
           "opis": "Dodaj 5 ml (1 tsp) płynnej podpuszczki single-strength. Mieszaj ruchem góra-dół do równomiernego rozprowadzenia. Skrzep powinien powstać w ~25 min.",
           "wskazowka": "Test skrzepu: Skrzep musi się czysto rozdzielać - poczekaj na pełną koagulację przed cięciem.",
           "temperaturaC": null,
-          "czasMin": null,
-          "warunekKonca": null,
+          "czasMin": 25,
+          "warunekKonca": "czysty rozłam skrzepu (clean break)",
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
           "nazwa": "3) Cięcie i wstępne mieszanie ~1 cm",
           "opis": "Potnij skrzep na ziarna ~1 cm (3/8-1/2 cala). Powoli mieszaj przez 15–20 min, aż ziarna się wzmocnią. Utrzymuj temperaturę 35–36 °C.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 35,
+            "max": 36
+          },
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -96,8 +112,8 @@
           "nazwa": "4) Gotowanie ziaren etap I: do 41 °C przez 20 min",
           "opis": "Podgrzewaj do 41 °C w ciągu 20 min. Utrzymaj temperaturę przez 15 min, powoli mieszając.",
           "wskazowka": "Tempo: ~0,3 °C na minutę - powolne i równomierne podgrzewanie.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 41,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -107,8 +123,8 @@
           "nazwa": "5) Gotowanie ziaren etap II: do 48 °C przez 10 min",
           "opis": "W następnych 10 min podgrzej do 48 °C (w chłodną pogodę lub przy wysokotłuszczowym mleku może do 51 °C). Pozwól ziarnom osiąść na 20 min, mieszając co 3–5 min.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 48,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -141,7 +157,7 @@
           "opis": "Prasuj według schematu:\\ • 30 min przy ~5,5 kg\\ • 2 h przy ~11 kg (po obrocie)\\ • 2 h przy ~11 kg (po ponownym obrocie)\\ • Noc (8-10 h) przy ~11 kg (po kolejnym obrocie)",
           "wskazowka": "Nocowanie: Po prasowaniu zostaw ser w formie w temperaturze 24–29 °C przez noc - bakterie kontynuują pracę!",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -151,7 +167,10 @@
           "nazwa": "9) Drugi dzień - dojrzewanie w formie",
           "opis": "Zostaw ser w formie przez kolejną noc w 24–29 °C BEZ SOLI. To kluczowy etap rozwoju kwasowości i smaku.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 24,
+            "max": 29
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -163,7 +182,7 @@
           "opis": "Trzeciego dnia zanurz ser w nasyconej solance na 3 godziny na każdy kilogram sera (zwykle ~8-9 godzin dla całego sera).",
           "wskazowka": "Solanka nasycona: ~350 g soli na 1 L wody, temperatura pokojowa.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 180,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -173,15 +192,31 @@
           "nazwa": "11) Dojrzewanie końcowe",
           "opis": "Dojrzewaj w 13–14 °C i 85–87% RH przez 30–40 dni. Powierzchniowe pleśnie ścieraj solanką co 3-5 dni.",
           "wskazowka": "Pielęgnacja: Regularnie obracaj ser i kontroluj wilgotność. Młode Asiago ma jasną barwę i delikatny smak.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 13,
+            "max": 14
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": 3.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 30,
+        "temperaturaC": {
+          "min": 13,
+          "max": 14
+        },
+        "wilgotnoscProc": 85,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 2.7,
       "uwagi": "Czas dojrzewania: 30–40 dni (młode Asiago dolce). 13–14 °C, 85–87% RH przez 30–40 dni. Powierzchniowe pleśnie ścieraj solanką."
     },
@@ -228,11 +263,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~60 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i P. candidum. Pozostaw na 60 min do dojrzewania.",
           "wskazowka": "Niska temperatura i długie dojrzewanie = więcej wilgoci w serze.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -240,10 +280,15 @@
           "opis": "Dodaj 2,5 ml podpuszczki. Bardzo długie krzepnięcie (60-90 min) dla delikatnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -251,7 +296,7 @@
           "opis": "Potnij skrzep na duże kostki 2-3 cm. Pozostaw na 10 min bez mieszania.",
           "wskazowka": "Duże ziarna = więcej wilgoci = kremowa konsystencja.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -262,7 +307,7 @@
           "opis": "Bardzo delikatnie mieszaj przez 20 min. Unikaj łamania ziaren.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -272,8 +317,11 @@
           "nazwa": "5) Formowanie warstwowe",
           "opis": "Przełóż skrzep do form (bez płótna!) warstwami. Formy okrągłe ~15 cm średnicy. Pozostaw do samoociekania przez 24h w 20-22°C, obracając co 2-3h.",
           "wskazowka": "Brie formuje się bez prasowania - tylko grawitacja.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 20,
+            "max": 22
+          },
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -284,7 +332,7 @@
           "opis": "Po 24h wyjmij z formy i posyp solą ze wszystkich stron (ok. 15g na ser). Pozostaw na 24h.",
           "wskazowka": "Równomierne pokrycie solą jest kluczowe dla rozwoju pleśni.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -294,7 +342,10 @@
           "nazwa": "7) Dojrzewanie wstępne 10-13°C ~7 dni",
           "opis": "Przenieś do dojrzewalni 10-13°C, 90-95% wilgotności. Obracaj codziennie. Po 5-7 dniach pojawi się biała pleśń.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -312,8 +363,21 @@
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 28,
+        "temperaturaC": {
+          "min": 10,
+          "max": 13
+        },
+        "wilgotnoscProc": 90,
+        "pielegnacja": "10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem."
+      },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: 4-6 tygodni. 10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem."
     },
@@ -368,11 +432,16 @@
           "nazwa": "1) Zakwaszanie i podgrzewanie 37°C ~45-60 min",
           "opis": "Podgrzej mleko do 37°C. Dodaj kulturę termofilną (~0,17 tsp na 7,6 L). Pozostaw na 45-60 min do dojrzewania w tej temperaturze.",
           "wskazowka": "Wyższa temperatura: 37°C (vs 32°C w serach mezofilnych) sprzyja bakteriom termofilnym i tworzy charakterystyczny profil smakowy Caciotta!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 37,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -380,10 +449,15 @@
           "opis": "Dodaj 2,5 ml (½ tsp) płynnej podpuszczki single-strength. Pozostaw na 20 min do utworzenia mocnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -391,7 +465,7 @@
           "opis": "Potnij skrzep na kawałki wielkości orzecha włoskiego. Najpierw cięcia pionowe, czekaj 5 min, potem poziome. Mieszaj bardzo delikatnie przez 10 min.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -401,8 +475,8 @@
           "nazwa": "4) Opcjonalne podgrzewanie do 40°C ~15 min",
           "opis": "Jeśli ziarna są za wilgotne, podgrzej do 40°C przez 15 min mieszania. Jeśli nie - pozostań przy 37°C przez cały czas.",
           "wskazowka": "Test wilgotności: Łączny czas mieszania to 25 min. Decyzja o podgrzewaniu zależy od jakości mleka i procesu.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 40,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -423,8 +497,11 @@
           "nazwa": "6) \"Stufatura\" - gotowanie parą 37-43°C ~1-1,5 h",
           "opis": "Przygotuj \"stufaturę\": duży garnek z kratką odciągającą kilka cm nad wodą 49°C. Umieść formy na kratce, przykryj garnek. Obracaj ser co 15-30 min.",
           "wskazowka": "Kluczowy etap: Ten proces utrzymuje bakterie w pracy i kończy konwersję laktozy - bez tego ser będzie kwaśny i kruchy!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 37,
+            "max": 43
+          },
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -434,8 +511,11 @@
           "nazwa": "7) Studzenie i konsolidacja",
           "opis": "Po 1 h usuń gazę, po 1,5 h przenieś do temp. pokojowej. Wieczorem do 13-15°C na przygotowanie do solanki. Ser będzie zwięzły z odciskiem koszyków.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 13,
+            "max": 15
+          },
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -445,18 +525,29 @@
           "nazwa": "8) Solenie w solance ~2 h",
           "opis": "Przygotuj solankę nasycona: 3,8 L wody + 0,86 kg soli + 1 łyżka CaCl₂ + 1 łyżka octu białego. Temperatura 10-13°C. Sol ser przez 2 h, obracając w połowie.",
           "wskazowka": "Posypywanie solą: Ser pływa nad solanką - posyp górną powierzchnię solą. Obróć i posól ponownie po godzinie.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 13
+          },
+          "czasMin": 120,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "chlorek wapnia (CaCl2)",
+              "dawka": "0,2-0,3 g/L"
+            }
+          ]
         },
         {
           "nr": 9,
           "nazwa": "9) Dojrzewanie 13-15°C, 85-90% RH",
           "opis": "Osusz powierzchnię i przenieś do przestrzeni dojrzewania 13-15°C i 85-90% wilgotności. Codziennie obracaj i wycieraj szmatką zwilżoną 6-8% solanką.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 13,
+            "max": 15
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -474,8 +565,18 @@
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": 2.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 60,
+        "temperaturaC": null,
+        "wilgotnoscProc": 85,
+        "pielegnacja": "52-55°C i 85-90% wilgotności przez 2 miesiące z codziennym obracaniem i wycieraniem."
+      },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 2 miesiące (można jeść młodszą). 52-55°C i 85-90% wilgotności przez 2 miesiące z codziennym obracaniem i wycieraniem."
     },
@@ -514,11 +615,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~90 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i Penicillium candidum. Pozostaw na 90 min.",
           "wskazowka": "Dodaj P. candidum na początku - potrzebuje czasu na rozprowadzenie.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -526,10 +632,15 @@
           "opis": "Dodaj podpuszczkę i pozostaw na 60 min do utworzenia delikatnego skrzepu.",
           "wskazowka": "Skrzep Camemberta jest delikatniejszy niż w twardych serach.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -548,7 +659,7 @@
           "opis": "Pozostaw formy w temp. pokojowej. Obracaj co 2-3 h przez pierwszy dzień. Ser znacznie się skurczy.",
           "wskazowka": "Po 24 h ser będzie miał ~3 cm wysokości.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -559,7 +670,7 @@
           "opis": "Wyjmij z formy i posól ze wszystkich stron (~1,5% masy). Pozostaw na 24 h w chłodnym miejscu.",
           "wskazowka": "Sól można posypać lub potrzeć delikatnie.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -569,7 +680,10 @@
           "nazwa": "6) Dojrzewanie z pleśnią",
           "opis": "Przenieś do 11-13°C i 90-95% RH. Obracaj codziennie. Po 7-10 dniach pojawi się biała pleśń.",
           "wskazowka": "Wysoka wilgotność jest kluczowa dla rozwoju pleśni!",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -587,8 +701,21 @@
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": 5,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 21,
+        "temperaturaC": {
+          "min": 11,
+          "max": 13
+        },
+        "wilgotnoscProc": 90,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: 3-5 tygodni. 11-13°C, 90-95% RH przez 3-5 tygodni."
     },
@@ -627,11 +754,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~45 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min.",
           "wskazowka": "Cheddar wymaga kultury MA bez produkcji gazu.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -639,18 +771,23 @@
           "opis": "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu.",
           "wskazowka": "Skrzep powinien być bardzo mocny przed cięciem.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
           "nazwa": "3) Cięcie i gotowanie do 39°C",
           "opis": "Potnij na kostki 1 cm. Podgrzewaj powoli do 39°C przez 40 min, mieszając delikatnie.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 39,
+          "czasMin": 40,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -661,7 +798,7 @@
           "opis": "Odsącz serwatkę. Pokrój masę na bloki 10x15 cm. Układaj jeden na drugim, obracaj co 15 min przez 2 h. Bloki staną się gładkie i błyszczące.",
           "wskazowka": "To etap, który nadaje Cheddarowi charakterystyczną teksturę! pH powinno spaść do 5.3-5.4.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -683,7 +820,7 @@
           "opis": "Upakuj w formie i prasuj: • 1 h przy 10 kg • 12 h przy 20 kg • 24 h przy 25 kg",
           "wskazowka": "Prasowanie musi być bardzo mocne dla zwartej tekstury.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -693,15 +830,31 @@
           "nazwa": "7) Bandażowanie i dojrzewanie",
           "opis": "Osusz, owin bandażem i nasmaruj smalcem. Dojrzewaj 10-13°C, 85% RH przez 3-24 miesięcy.",
           "wskazowka": "Mild Cheddar: 3-6 mies., Sharp: 12+ mies., Extra Sharp: 24+ mies.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": 2,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 90,
+        "temperaturaC": {
+          "min": 10,
+          "max": 13
+        },
+        "wilgotnoscProc": 85,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 3-24 miesiące. 10-13°C, 85% RH przez 3-24 miesiące."
     },
@@ -752,8 +905,8 @@
           "nazwa": "1) Zakwaszanie 30 °C ~60 min",
           "opis": "Podgrzej mleko do 30 °C. Zaszczep kulturą mezofilną (niskie dawki, patrz tabela doboru kultur) i pozostaw na ~60 min w stałej temperaturze.",
           "wskazowka": "Utrzymuj stabilne 30 °C — zbyt wysokie temperatury przyspieszają zakwaszanie i mogą nadmiernie osuszyć ziarno.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 30,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -764,10 +917,15 @@
           "opis": "Dodaj płynną podpuszczkę (single-strength), mieszając ok. 1 min. Pozostaw na ~45 min, aż uzyskasz czyste pęknięcie.",
           "wskazowka": "Test skrzepu: Unieś skrzep płaską stroną noża. Rozdział powinien być czysty wzdłuż krawędzi, bez drobnych odrywających się kawałków. Jeśli zbyt miękki — poczekaj 5–10 min i sprawdź ponownie.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -775,7 +933,7 @@
           "opis": "Potnij skrzep na kawałki wielkości ~19 mm. Wykonaj pionowe cięcia w dwóch prostopadłych kierunkach. Pozostaw na 5 min. Następnie wykonaj poziome cięcia. Gdy ziarno zostanie w pełni pocięte, delikatnie wymieszaj przez kilkadziesiąt sekund. Odstaw na ok. 5 min do zagojenia. Mieszaj bardzo delikatnie przez ok. 10 minut.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 5,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -785,8 +943,8 @@
           "nazwa": "4) Podgrzewanie i podsuszanie ziaren do 36 °C przez 20–30 min",
           "opis": "Rozpocznij powolne podgrzewanie skrzepu. Podnieś temperaturę do 36 °C w ciągu ok. 20 minut, zwiększając ją o 1 °C co 5 minut na początku procesu. Całkowity czas 'gotowania' wynosi 20 minut, ale jeśli ziarna są wciąż miękkie, możesz wydłużyć proces o dodatkowe 10 minut.",
           "wskazowka": "Tempo: zwiększaj o ~1 °C co 5 min do 36 °C. Zbyt szybkie grzanie = zbyt suche ziarno. Ziarna po zakończeniu powinny być jednolicie ugotowane i sprężyste.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 36,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -796,8 +954,8 @@
           "nazwa": "5) Rozwijanie kwasowości (kluczowy etap) ~6,5-7 h całkowicie",
           "opis": "Usuń serwatkę do poziomu ziaren i zostaw je pokryte cienką warstwą serwatki. Ziarna muszą pozostać w cieple (~30 °C), aby rozwijała się kwasowość przez kolejne 5–6 godzin. Mieszaj co 30 min bardzo delikatnie.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 30,
+          "czasMin": 420,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -809,8 +967,8 @@
           "wskazowka": "Test kwasowości: Serwatka powinna mieć wyraźnie kwaśny smak. Jeśli masz pH-metr, sprawdź — pH 5,6-5,9 jest optymalne.",
           "temperaturaC": null,
           "czasMin": null,
-          "warunekKonca": null,
-          "pH": null,
+          "warunekKonca": "pH 5,6",
+          "pH": 5.6,
           "dodatki": []
         },
         {
@@ -819,7 +977,7 @@
           "opis": "Zwiąż gazę i umieść blok w naczyniu w temp. pokojowej. Przykryj ściereczką. Co 20 minut rozwijaj blok, obracaj, ponownie zawijaj. Powtarzaj przez 1–1,5 h, aż masa się zwarto zlepi i będzie lekko gumowa.",
           "wskazowka": "Etap 'cheddaring': Masa ma się zlać w elastyczną, gumowatą bryłę. Ten proces trwa ~1–1,5 h.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -841,7 +999,7 @@
           "opis": "Zważ ziarna (ok. 1,4 kg z 15 L). Wsyp 2% masy soli (~28 g na 1,4 kg). Wymieszaj równomiernie i odstaw na 10 minut, aby sól się wchłonęła.",
           "wskazowka": "Dawkowanie soli: 2% masy ziaren (~28 g na 1,4 kg) to optymalna ilość dla Dunlopa.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -852,7 +1010,7 @@
           "opis": "Wyłóż formę średnicy ~17–18 cm gazą serowarską. Ciasno upakuj posypane solą ziarna, wyrównaj fałdy tkaniny nad wierzchem i załóż tłok.  Prasowanie stopniowe: • 15 min przy ~2,3 kg • 30 min przy ~4,5 kg po obrocie • 2 h przy ~9 kg po obrocie • 6 h przy ~13,5 kg po obrocie • 12 h przy ~18 kg (noc) po obrocie",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -862,7 +1020,10 @@
           "nazwa": "11) Osuszanie powierzchni",
           "opis": "Wyjmij ser z formy i pozostaw na deseczce lub macie w temperaturze pokojowej (~18–21 °C) przez 2–3 dni. Obracaj codziennie, aż powierzchnia będzie sucha w dotyku.",
           "wskazowka": "Suszenie: Powierzchnia musi być sucha przed woskowaniem lub dojrzewaniem, aby zapobiec pleśni.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 18,
+            "max": 21
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -873,15 +1034,31 @@
           "nazwa": "12) Woskowanie i dojrzewanie",
           "opis": "Zabezpiecz bochenek woskiem serowarskim lub opatrunkiem płóciennym. Dojrzewaj w 11–13 °C i 80–85% RH przez 3–9 miesięcy (typowo 5–7 mies.). Obracaj co 5–7 dni.",
           "wskazowka": "Dojrzewanie: Im dłużej, tym bardziej pikantny smak. Młody Dunlop (3 mies.) ma łagodny, maślany smak. Starszy (6–9 mies.) jest bardziej charakterystyczny.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": 2,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 90,
+        "temperaturaC": {
+          "min": 11,
+          "max": 13
+        },
+        "wilgotnoscProc": 80,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 1.4,
       "uwagi": "Czas dojrzewania: 3–9 miesięcy (typowo 6 mies.). 11–13 °C, 80–85% RH przez 3–9 miesięcy, obrót co 5–7 dni."
     },
@@ -924,11 +1101,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~30 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj wszystkie kultury: termofilna, Helveticus i Propionic. Pozostaw na 30 min.",
           "wskazowka": "Propionic jest absolutnie kluczowy dla oczek!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -936,10 +1118,15 @@
           "opis": "Dodaj 10 ml podpuszczki. Pozostaw na 30 min do utworzenia mocnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -957,8 +1144,11 @@
           "nazwa": "4) Gotowanie do 52-55°C przez 45 min",
           "opis": "Powoli podgrzewaj do 52-55°C przez 45 min, ciągle mieszając.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 52,
+            "max": 55
+          },
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -969,7 +1159,7 @@
           "opis": "Zbierz ziarna w płótno pod lustrem serwatki. Prasuj bardzo ciężko (50-60 kg) przez 24h.",
           "wskazowka": "Duży ser wymaga ciężkiego prasowania.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -980,7 +1170,7 @@
           "opis": "Zanurz ser w nasyconej solance na 48h (1 dzień na każdy kg + 1 dzień).",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 2880,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -990,7 +1180,7 @@
           "nazwa": "7) Wstępne dojrzewanie 10°C - 2 tygodnie",
           "opis": "Dojrzewaj w chłodnym magazynie (10°C, 85% RH) przez 2 tygodnie.",
           "wskazowka": "Wstępne dojrzewanie przed etapem ciepłym.",
-          "temperaturaC": null,
+          "temperaturaC": 10,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1001,7 +1191,7 @@
           "nazwa": "8) Ciepłe dojrzewanie 22°C - 4-6 tygodni",
           "opis": "Przenieś do ciepłego magazynu (22°C, 85% RH). Tu tworzą się oczka! Obserwuj puchnięcie sera.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": 22,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1012,15 +1202,25 @@
           "nazwa": "9) Końcowe dojrzewanie 10°C - 3-10 miesięcy",
           "opis": "Wróć do chłodni (10°C, 85% RH). Dojrzewaj 3-10 miesięcy. Obracaj co tydzień.",
           "wskazowka": "Im dłużej, tym intensywniejszy smak.",
-          "temperaturaC": null,
+          "temperaturaC": 10,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": 48.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 120,
+        "temperaturaC": 10,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 4.0,
       "uwagi": "Czas dojrzewania: 4-12 miesięcy. Etapowe: 10°C → 22°C → 10°C przez 4-12 miesięcy."
     },
@@ -1063,11 +1263,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~60 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i opcjonalnie lipazę. Pozostaw na 60 min.",
           "wskazowka": "Lipaza dodaje charakterystycznego pikantnego smaku greckiej Fety.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -1075,10 +1280,15 @@
           "opis": "Dodaj 2,5 ml podpuszczki. Długie krzepnięcie (45-60 min) dla delikatnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -1086,7 +1296,7 @@
           "opis": "Potnij skrzep na kostki 1,5-2 cm. Pozostaw na 10 min bez mieszania.",
           "wskazowka": "Większe kostki = więcej wilgoci w serze.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1097,7 +1307,7 @@
           "opis": "Bardzo delikatnie mieszaj przez 20 min. Ziarna powinny się wzmocnić ale pozostać wilgotne.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1108,7 +1318,7 @@
           "opis": "Przełóż skrzep do formy wyłożonej płótnem. Pozostaw do samoociekania 4-6h w temperaturze pokojowej. Obracaj co godzinę.",
           "wskazowka": "Feta nie wymaga prasowania - tylko grawitacja i czas.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 360,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1133,7 +1343,12 @@
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "chlorek wapnia (CaCl2)",
+              "dawka": "0,2-0,3 g/L"
+            }
+          ]
         },
         {
           "nr": 8,
@@ -1147,8 +1362,18 @@
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": 7,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 60,
+        "temperaturaC": null,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 1.0,
       "uwagi": "Czas dojrzewania: 2-3 miesiące w solance. W solance w lodówce przez 2-3 miesiące."
     },
@@ -1203,11 +1428,19 @@
           "nazwa": "1) Zakwaszanie 30-31 °C ~30-40 min",
           "opis": "Podgrzej mleko do 30-31 °C. Dodaj kulturę mezofilną i jogurt bułgarski. Przykryj i pozostaw na 30-40 min do dojrzewania.",
           "wskazowka": "Krótszy czas: Feta bułgarska potrzebuje MNIEJ kwasowości niż grecka - dlatego krótszy czas dojrzewania (30-40 min vs 60 min)!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 30,
+            "max": 31
+          },
+          "czasMin": 40,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -1215,10 +1448,15 @@
           "opis": "Dodaj 1,25 ml (¼ tsp) płynnej podpuszczki single-strength. Pozostaw na 60 min do utworzenia mocnego skrzepu.",
           "wskazowka": "Dłuższy czas krzepnięcia: 60 min (vs 45 min w greckiej) = więcej wilgoci i kremowa tekstura!",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -1226,7 +1464,7 @@
           "opis": "Potnij skrzep na duże kawałki ~5 cm (2-3 cale) w szachownicę. Pozwól usiąść 10-15 min bez mieszania.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1237,7 +1475,7 @@
           "opis": "Przełóż duże kawałki skrzepu (~1,5-2 cm końcowe) do cedzaka z gazą. Zawiń i dociąż ~2 kg na 1-1,5 h.",
           "wskazowka": "Większe kawałki = więcej wilgoci: Im większe kawałki, tym bardziej wilgotny ser. Możesz dostosować do swoich preferencji!",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1248,7 +1486,7 @@
           "opis": "Rozwiń, pokrój na kawałki 5-7 cm, zawiń ponownie i zwiąż. Dociąż ~2 kg na kolejne 1-1,5 h. Powtórz jeszcze raz.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1258,8 +1496,11 @@
           "nazwa": "6) Formowanie końcowe",
           "opis": "Przełóż do koszyków odsączających. Lekko dociśnij ręką i zostaw pod ciężarem ~1 kg w 24-29 °C przez 8-10 h.",
           "wskazowka": "Ciepło dla bakterii: Utrzymuj 24-29 °C aby bakterie dokończyły pracę i wyprodukowane zostały ostatnie kwasy.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 24,
+            "max": 29
+          },
+          "czasMin": 600,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1272,7 +1513,7 @@
           "temperaturaC": null,
           "czasMin": null,
           "warunekKonca": null,
-          "pH": null,
+          "pH": 4.8,
           "dodatki": []
         },
         {
@@ -1280,7 +1521,10 @@
           "nazwa": "8) Cięcie i solenie na sucho",
           "opis": "Pokrój ser na bloki. Wysol 5% masy sera (900g sera = 45g soli) przez 2-3 dni w 11-13 °C, 70-75% RH.",
           "wskazowka": "Przykład dawkowania: 0,9 kg sera → 45g soli (~3 łyżki stołowe) rozłożone na 2-3 dni, obracając ser codziennie.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1291,7 +1535,10 @@
           "nazwa": "9) Odpoczynek po soleniu",
           "opis": "Po soleniu zostaw ser na kolejne 4 dni w tych samych warunkach (11-13 °C) bez soli - ser dojrzewa i twardnieje.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1302,15 +1549,31 @@
           "nazwa": "10) Solanka do przechowywania",
           "opis": "Przygotuj solankę 6-8% (60-80g soli na 1L wody). Zanurz ser w słoiku i dojrzewaj w 11-13 °C przez 1 miesiąc do roku.",
           "wskazowka": "Elastyczność czasowa: Młodsza Feta (1 miesiąc) ma łagodny, kremowy smak. Starsza (3-12 mies.) jest bardziej intensywna i słona. Można przechowywać w solance do roku!",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": 5,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 30,
+        "temperaturaC": {
+          "min": 11,
+          "max": 13
+        },
+        "wilgotnoscProc": 6,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 1 miesiąc w solance (można do roku). 11-13 °C w solance 6-8% przez 1 miesiąc do roku. Młodszy ser = łagodniejszy smak."
     },
@@ -1349,11 +1612,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~60 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 60 min.",
           "wskazowka": "Pleśń roqueforti dodawana na początku rozprowadza się w całym serze.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -1361,10 +1629,15 @@
           "opis": "Dodaj 3 ml podpuszczki. Pozostaw na 45 min do utworzenia delikatnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -1372,7 +1645,7 @@
           "opis": "Potnij skrzep na duże kostki 2-3 cm. Pozostaw na 10 min.",
           "wskazowka": "Duże kostki tworzą kieszonki powietrza gdzie rozwinie się pleśń.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1383,7 +1656,7 @@
           "opis": "Bardzo delikatnie mieszaj przez 15 min. Przełóż do formy warstwami.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1394,7 +1667,7 @@
           "opis": "Pozostaw w formie bez prasowania przez 24h w temperaturze pokojowej. Obracaj co 2-3 godziny.",
           "wskazowka": "Grawitacja wystarczy - nie prasuj.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1426,15 +1699,31 @@
           "nazwa": "8) Dojrzewanie 2-4 miesiące",
           "opis": "Dojrzewaj w 10-13°C i 90-95% RH. Nakłuwaj co 2 tygodnie. Obracaj codziennie.",
           "wskazowka": "Dolce: 2 miesiące, Piccante: 3-4 miesiące.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 60,
+        "temperaturaC": {
+          "min": 10,
+          "max": 13
+        },
+        "wilgotnoscProc": 90,
+        "pielegnacja": "10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem."
+      },
       "wydajnoscKg": 1.5,
       "uwagi": "Czas dojrzewania: 2-4 miesiące. 10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem."
     },
@@ -1473,11 +1762,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~45 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min.",
           "wskazowka": "Kultura LD produkuje CO₂, tworząc charakterystyczne małe oczka w serze.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -1485,17 +1779,22 @@
           "opis": "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu.",
           "wskazowka": "Test skrzepu: czyste złamanie przy podniesieniu nożem.",
           "temperaturaC": null,
-          "czasMin": null,
-          "warunekKonca": null,
+          "czasMin": 45,
+          "warunekKonca": "czysty rozłam skrzepu (clean break)",
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
           "nazwa": "3) Cięcie i płukanie wodą",
           "opis": "Potnij skrzep na kostki 1 cm. Usuń 1/3 serwatki i zastąp ciepłą wodą 38°C. To 'płukanie' usuwa laktozę i daje słodszy smak.",
           "wskazowka": "Kluczowy etap dla Goudy - płukanie wodą to sekret słodkiego smaku!",
-          "temperaturaC": null,
+          "temperaturaC": 38,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1506,8 +1805,8 @@
           "nazwa": "4) Gotowanie do 38°C ~30 min",
           "opis": "Podgrzewaj powoli do 38°C, mieszając delikatnie przez 30 min.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 38,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1518,7 +1817,7 @@
           "opis": "Przełóż do formy i prasuj: • 30 min przy 4 kg • 2 h przy 8 kg • 12 h przy 12 kg",
           "wskazowka": "Obracaj ser przy każdej zmianie ciężaru.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1529,7 +1828,7 @@
           "opis": "Zanurz w nasyconej solance na 3 godziny na każdy kilogram sera.",
           "wskazowka": "Temperatura solanki 10-15°C.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 180,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1539,15 +1838,31 @@
           "nazwa": "7) Dojrzewanie i woskowanie",
           "opis": "Osusz przez 2-3 dni, pokryj woskiem. Dojrzewaj 10-13°C, 85% RH przez 2-12 miesięcy.",
           "wskazowka": "Młoda Gouda (2 mies.) - kremowa, Stara Gouda (12+ mies.) - krystaliczna.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": 3.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 60,
+        "temperaturaC": {
+          "min": 10,
+          "max": 13
+        },
+        "wilgotnoscProc": 85,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 1.8,
       "uwagi": "Czas dojrzewania: 2-12 miesięcy. 10-13°C, 85% RH przez 2-12 miesięcy."
     },
@@ -1590,11 +1905,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 32°C ~45 min",
           "opis": "Podgrzej mleko do 32°C. Dodaj kultury termofilne i Helveticus. Opcjonalnie Propionic. Pozostaw na 45 min.",
           "wskazowka": "Propionic tworzy charakterystyczne oczka.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -1602,10 +1922,15 @@
           "opis": "Dodaj 7,5 ml podpuszczki. Pozostaw na 30 min do utworzenia mocnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -1623,8 +1948,8 @@
           "nazwa": "4) Gotowanie do 55°C przez 45 min",
           "opis": "Powoli podgrzewaj do 55°C przez 45 min, ciągle mieszając. Tempo ~0,5°C/min.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 55,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1646,7 +1971,7 @@
           "opis": "Prasuj ciężarem ~10x wagi sera (30 kg na 3 kg sera) przez 24h. Obracaj co 6h.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1656,8 +1981,11 @@
           "nazwa": "7) Solenie w solance 24h",
           "opis": "Zanurz ser w nasyconej solance na 24h. Temperatura solanki 12-15°C.",
           "wskazowka": "Sól wnika powoli do twardego sera.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 12,
+            "max": 15
+          },
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1667,15 +1995,31 @@
           "nazwa": "8) Dojrzewanie 5-12 miesięcy",
           "opis": "Dojrzewaj w 13-14°C i 92% RH. Myj skórkę solanką 2x w tygodniu. Obracaj codziennie.",
           "wskazowka": "Mycie skórki: solanka + bakterie nadają kolor i smak.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 13,
+            "max": 14
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": 24.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 150,
+        "temperaturaC": {
+          "min": 13,
+          "max": 14
+        },
+        "wilgotnoscProc": 92,
+        "pielegnacja": "13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki."
+      },
       "wydajnoscKg": 3.0,
       "uwagi": "Czas dojrzewania: 5-12 miesięcy. 13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki."
     },
@@ -1714,7 +2058,7 @@
           "nazwa": "1) Podgrzanie do 32°C",
           "opis": "Podgrzej mleko do 32°C. Halloumi nie wymaga kultury starterowej.",
           "wskazowka": "Tradycyjnie używa się mieszanki mleka owczego i koziego, ale krowie też działa.",
-          "temperaturaC": null,
+          "temperaturaC": 32,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1726,18 +2070,23 @@
           "opis": "Dodaj podpuszczkę i pozostaw na 45 min do utworzenia mocnego skrzepu.",
           "wskazowka": "Skrzep powinien być bardzo mocny.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
           "nazwa": "3) Cięcie i gotowanie do 40°C",
           "opis": "Potnij skrzep na kostki 1-2 cm. Podgrzej do 40°C przez 20 min, mieszając delikatnie.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 40,
+          "czasMin": 20,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1748,7 +2097,7 @@
           "opis": "Przełóż do formy wyłożonej gazą. Prasuj lekko przez 1 h. Pokrój na bloki ~10x7x3 cm.",
           "wskazowka": "Zachowaj serwatkę - będzie potrzebna!",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1758,8 +2107,11 @@
           "nazwa": "5) Gotowanie w serwatce - kluczowy etap",
           "opis": "Podgrzej serwatkę do 90-95°C. Wrzuć bloki sera i gotuj 30-60 min, aż wypłyną na powierzchnię.",
           "wskazowka": "To etap, który sprawia, że Halloumi się nie topi! Ser 'pływa' gdy jest gotowy.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 90,
+            "max": 95
+          },
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1788,7 +2140,12 @@
         }
       ],
       "solenie": null,
-      "dojrzewanie": null,
+      "dojrzewanie": {
+        "dni": 14,
+        "temperaturaC": null,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.6,
       "uwagi": "Czas dojrzewania: Świeży (do 2 tygodni w solance). Świeży - do 2 tygodni w solance w lodówce."
     },
@@ -1829,7 +2186,7 @@
           "nazwa": "2) Podgrzewanie śmietanki do 85°C",
           "opis": "Powoli podgrzewaj śmietankę do 85°C, mieszając delikatnie. Używaj termometru.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": 85,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1840,8 +2197,8 @@
           "nazwa": "3) Dodanie kwasu",
           "opis": "Gdy śmietanka osiągnie 85°C, dodaj 30 ml soku z cytryny. Mieszaj delikatnie przez 5 min na niskim ogniu.",
           "wskazowka": "Śmietanka lekko zgęstnieje - to normalne.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 85,
+          "czasMin": 5,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1852,7 +2209,7 @@
           "opis": "Zdejmij z ognia i pozostaw do ostygnięcia na 1h w temperaturze pokojowej.",
           "wskazowka": "Nie przyspieszaj schładzania - pozwól na naturalne ostygnięcie.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1863,7 +2220,7 @@
           "opis": "Przenieś garnek do lodówki na 8-12h (najlepiej na noc). Mascarpone zgęstnieje.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 720,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1874,7 +2231,7 @@
           "opis": "Jeśli chcesz gęstszą konsystencję, przełóż przez gazę i pozostaw do ociekania 2-4h.",
           "wskazowka": "Dla tiramisu lepsza jest gęstsza wersja.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 240,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1892,7 +2249,12 @@
         }
       ],
       "solenie": null,
-      "dojrzewanie": null,
+      "dojrzewanie": {
+        "dni": 5,
+        "temperaturaC": null,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.4,
       "uwagi": "Czas dojrzewania: Świeży (do 5 dni). Brak dojrzewania - ser świeży."
     },
@@ -1931,7 +2293,7 @@
           "nazwa": "1) Zakwaszanie 13°C",
           "opis": "Rozpuść kwas cytrynowy w 60 ml zimnej wody. Wlej do zimnego mleka (13°C) i wymieszaj.",
           "wskazowka": "Kwas cytrynowy działa natychmiast - można też użyć kultury termofilnej (dłuższy proces).",
-          "temperaturaC": null,
+          "temperaturaC": 13,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1942,18 +2304,23 @@
           "nazwa": "2) Podgrzanie do 32°C i dodanie podpuszczki",
           "opis": "Podgrzej mleko do 32°C. Dodaj rozpuszczoną podpuszczkę, mieszaj 30 s i zostaw na 5-10 min.",
           "wskazowka": "Skrzep powinien być gładki i odbijać się od ścian.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 32,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
           "nazwa": "3) Cięcie i gotowanie do 40°C",
           "opis": "Potnij skrzep na kostki 2-3 cm. Podgrzej do 40°C, delikatnie mieszając.",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": 40,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -1975,8 +2342,11 @@
           "nazwa": "5) Rozciąganie (pasta filata)",
           "opis": "Podgrzej serwatkę do 77-82°C. Zanurz twaróg na 1-2 min, aż zmięknie. Rozciągaj i składaj jak ciasto, aż będzie gładki i błyszczący.",
           "wskazowka": "To kluczowy moment! Ser musi być wystarczająco gorący do rozciągania. Używaj rękawic!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 77,
+            "max": 82
+          },
+          "czasMin": 2,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -1987,14 +2357,24 @@
           "opis": "Uformuj kulki i wrzuć do lodowatej wody na 15 min. Przechowuj w lekko osolonej wodzie w lodówce.",
           "wskazowka": "Świeża mozzarella jest najlepsza w ciągu 1-3 dni.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 1,
+        "temperaturaC": null,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: Świeży (1-7 dni). Świeży - do spożycia w ciągu 7 dni."
     },
@@ -2048,11 +2428,19 @@
           "nazwa": "2) Podgrzanie i zakwaszanie 33-35°C ~30 min",
           "opis": "Podgrzej mleko do 33-35°C. Dodaj kulturę termofilną i Helveticus. Pozostaw na 30 min.",
           "wskazowka": "Kultura Helveticus jest kluczowa dla smaku umami!",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 33,
+            "max": 35
+          },
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -2060,10 +2448,15 @@
           "opis": "Dodaj 5 ml podpuszczki cielęcej. Krzepnięcie powinno nastąpić w 15 min.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 4,
@@ -2081,8 +2474,8 @@
           "nazwa": "5) Gotowanie ziaren do 55°C ~45 min",
           "opis": "Powoli podgrzewaj do 55°C przez 45 min, ciągle mieszając. Tempo: około 0,5°C na minutę.",
           "wskazowka": null,
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 55,
+          "czasMin": 45,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2093,7 +2486,7 @@
           "opis": "Pozostaw ziarna na dnie na 30 min. Usuń serwatkę. Przełóż masę do formy wyłożonej płótnem.",
           "wskazowka": "Ziarna powinny być suche i sprężyste - nie sklejać się.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2104,7 +2497,7 @@
           "opis": "Prasuj przy rosnącym ciśnieniu: 4h przy 10 kg, 8h przy 20 kg, 12h przy 30 kg. Obracaj co 2-3h.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 1440,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2114,7 +2507,10 @@
           "nazwa": "8) Solenie w solance 20-25 dni",
           "opis": "Zanurz ser w nasyconej solance na 20-25 dni (1 dzień na każdy kg + 5 dni). Temperatura 15-18°C. Obracaj codziennie.",
           "wskazowka": "Długie solenie to charakterystyka Parmezanu - sól przenika głęboko.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 15,
+            "max": 18
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -2125,15 +2521,31 @@
           "nazwa": "9) Dojrzewanie 12-24 miesiące",
           "opis": "Dojrzewaj w 13-15°C, 80-85% wilgotności. Obracaj co tydzień. Szczotkuj powierzchnię oliwą co miesiąc.",
           "wskazowka": "12 miesięcy = młody, 24+ miesięcy = intensywny, krystaliczny.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 13,
+            "max": 15
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 360,
+        "temperaturaC": {
+          "min": 13,
+          "max": 15
+        },
+        "wilgotnoscProc": 80,
+        "pielegnacja": "13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem."
+      },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 12-24 miesiące. 13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem."
     },
@@ -2174,7 +2586,10 @@
           "nazwa": "2) Podgrzewanie do 85-90°C",
           "opis": "Powoli podgrzewaj mieszankę do 85-90°C, mieszając delikatnie. Nie dopuść do zagotowania!",
           "wskazowka": null,
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 85,
+            "max": 90
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -2185,7 +2600,7 @@
           "nazwa": "3) Dodanie kwasu",
           "opis": "Gdy płyn osiągnie 85°C, dodaj 60 ml kwasu cytrynowego (4 łyżki). Delikatnie zamieszaj. Białka natychmiast zaczną się ścinać.",
           "wskazowka": "Jeśli nie widać kłaczków, dodaj więcej kwasu po łyżce.",
-          "temperaturaC": null,
+          "temperaturaC": 85,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
@@ -2197,7 +2612,7 @@
           "opis": "Zdejmij z ognia i pozostaw na 10 min bez mieszania. Białka uniosą się na powierzchnię.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2208,7 +2623,7 @@
           "opis": "Delikatnie przelewaj przez gazę lub sitko wyłożone gazą. Pozostaw do ociekania 30-60 min.",
           "wskazowka": "Im dłużej odciekasz, tym gęstsza Ricotta.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2237,7 +2652,12 @@
         }
       ],
       "solenie": null,
-      "dojrzewanie": null,
+      "dojrzewanie": {
+        "dni": 7,
+        "temperaturaC": null,
+        "wilgotnoscProc": null,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: Świeża (do 7 dni). Brak dojrzewania - ser świeży."
     },
@@ -2276,11 +2696,19 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 30-32°C ~90 min",
           "opis": "Podgrzej mleko owcze do 30-32°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 90 min.",
           "wskazowka": "Mleko owcze daje najbardziej autentyczny smak.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": {
+            "min": 30,
+            "max": 32
+          },
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -2288,10 +2716,15 @@
           "opis": "Dodaj 2,5 ml podpuszczki. Długie krzepnięcie (60 min) dla delikatnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -2299,7 +2732,7 @@
           "opis": "Potnij skrzep na kostki 2 cm. Pozostaw na 15 min bez mieszania.",
           "wskazowka": "Duże kostki tworzą kieszonki dla pleśni.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 15,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2321,7 +2754,7 @@
           "opis": "Pozostaw w formie w temperaturze pokojowej na 24-48h. Obracaj co 3-4 godziny.",
           "wskazowka": "Cierpliwość - niech serwatka sama odpłynie.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 2880,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2353,15 +2786,25 @@
           "nazwa": "8) Dojrzewanie w jaskini 3-5 miesięcy",
           "opis": "Dojrzewaj w 8-10°C i 95% RH. Nakłuwaj co 3 tygodnie. Minimum 3 miesiące.",
           "wskazowka": "Naturalna jaskinia lub piwnica z wysoką wilgotnością.",
-          "temperaturaC": null,
+          "temperaturaC": 10,
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 90,
+        "temperaturaC": 10,
+        "wilgotnoscProc": 95,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 1.2,
       "uwagi": "Czas dojrzewania: 3-5 miesięcy. 8-10°C, 95% RH przez 3-5 miesięcy w jaskini lub piwnicy."
     },
@@ -2400,11 +2843,16 @@
           "nazwa": "1) Podgrzanie i zakwaszanie 30°C ~90 min",
           "opis": "Podgrzej mleko do 30°C. Dodaj kulturę mezofilną i Penicillium roqueforti. Pozostaw na 90 min.",
           "wskazowka": "Niższa temperatura = wolniejszy rozwój, lepszy smak.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 30,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
         },
         {
           "nr": 2,
@@ -2412,10 +2860,15 @@
           "opis": "Dodaj 4 ml podpuszczki. Bardzo długie krzepnięcie (90 min) dla delikatnego skrzepu.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 90,
           "warunekKonca": null,
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -2423,7 +2876,7 @@
           "opis": "Potnij skrzep na kostki 1,5 cm. Bardzo delikatnie mieszaj przez 10 min.",
           "wskazowka": "Średnie kostki = balans wilgoci.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 10,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2477,15 +2930,31 @@
           "nazwa": "8) Dojrzewanie 9-12 tygodni",
           "opis": "Dojrzewaj w 10-12°C i 90% RH. Nie obracaj - Stilton dojrzewa stojąc.",
           "wskazowka": "Stilton nigdy się nie obraca podczas dojrzewania!",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 10,
+            "max": 12
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": null,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 63,
+        "temperaturaC": {
+          "min": 10,
+          "max": 12
+        },
+        "wilgotnoscProc": 90,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 9-12 tygodni. 10-12°C, 90% RH przez 9-12 tygodni."
     },
@@ -2536,8 +3005,8 @@
           "nazwa": "1) Zakwaszanie 30 °C ~60 min",
           "opis": "Podgrzej mleko do 30 °C. Zaszczep POŁOWĄ standardowej dawki kultury mezofilnej (~0,03 tsp / ~0,15 g) i pozostaw na ~60 min w stałej temperaturze.",
           "wskazowka": "Wskazówka: Posyp kulturę na powierzchni mleka, odczekaj 2 min na nawilżenie, potem delikatnie wymieszaj. Yorkshire potrzebuje wolnego, długiego rozwoju kwasowości.",
-          "temperaturaC": null,
-          "czasMin": null,
+          "temperaturaC": 30,
+          "czasMin": 60,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2548,10 +3017,15 @@
           "opis": "Dodaj 1,25 ml (¼ tsp) płynnej podpuszczki (single-strength), mieszając ok. 30 s góra-dół. Pozostaw na ~45 min, aż uzyskasz mocny skrzep.",
           "wskazowka": "Test skrzepu: Skrzep powinien się czysto rozdzielać przy podniesieniu płaską stroną noża, bez drobnych odrywających się kawałków.",
           "temperaturaC": null,
-          "czasMin": null,
-          "warunekKonca": null,
+          "czasMin": 45,
+          "warunekKonca": "czysty rozłam skrzepu (clean break)",
           "pH": null,
-          "dodatki": []
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
         },
         {
           "nr": 3,
@@ -2559,7 +3033,7 @@
           "opis": "Potnij skrzep na kostki ~1,2 cm. Odczekaj 5 min, następnie bardzo delikatnie przewracaj ziarna co 3–5 min ruchem z dołu do góry.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 5,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2569,9 +3043,9 @@
           "nazwa": "4) Suszenie ziaren (BEZ gotowania!) ~30 °C przez 90 min",
           "opis": "Utrzymuj 30 °C (nie podgrzewaj wyżej!). Mieszaj powoli przez 90 min ruchem z dołu do góry, aby równomiernie oddały serwatkę.",
           "wskazowka": "Test gotowości: Ziarno po złamaniu ma być jędrne i sprężyste przez całą grubość, z umiarkowanym oporem przy ściśnięciu między palcami.",
-          "temperaturaC": null,
-          "czasMin": null,
-          "warunekKonca": null,
+          "temperaturaC": 30,
+          "czasMin": 90,
+          "warunekKonca": "ziarno odpowiednio jędrne",
           "pH": null,
           "dodatki": []
         },
@@ -2581,7 +3055,7 @@
           "opis": "Przełóż ziarna do cedzaka wyłożonego gazą serowarską (butter muslin). Zwiąż w węzeł i odwróć na supeł. Utrzymuj ciepło przez ~30 min.",
           "wskazowka": "Wskazówka: Można dociążyć deską i naczyniem z ciepłą wodą (~2 kg), aby masa się dobrze związała w blok.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2592,7 +3066,7 @@
           "opis": "Pokrój masę na bloki ~5 cm. Zwiąż ponownie i utrzymuj ciepło. Co 30 min przez 2 h otwieraj, każdy kawałek dziel na pół i zwiąż ponownie.",
           "wskazowka": null,
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 30,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2603,7 +3077,7 @@
           "opis": "Zważ ziarna (ok. 0,9–1,0 kg z 7,6 L). Wymieszaj 1,5% soli (~15 g na 1 kg ziaren) — połowę dawki wsyp, rozprowadź, po 2–3 min dodaj resztę i ponownie wymieszaj.",
           "wskazowka": "Przykład: Przy masie 1 kg ziaren → 15 g soli (~1 łyżka stołowa średnioziarnistej soli serowarskiej).",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 3,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2614,7 +3088,7 @@
           "opis": "Wyłóż formę gazą, ciasno upakuj ziarna, wyrównaj fałdy tkaniny, zawiń nad wierzchem i załóż tłok.  Prasowanie stopniowe: • 12 h przy ~2,3 kg — noc • 5 h przy ~9 kg — rano • 12 h przy ~20 kg • 12 h przy ~20 kg po obrocie",
           "wskazowka": "Przy każdym etapie: Wyjmij ser, odwiń, odwróć, ponownie zawiń i wróć do prasy. Wyciekanie serwatki ma być 'łzawe' — pojedyncze krople, nie strumień.",
           "temperaturaC": null,
-          "czasMin": null,
+          "czasMin": 720,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
@@ -2624,15 +3098,31 @@
           "nazwa": "9) Woskowanie i dojrzewanie",
           "opis": "Osusz bochenek i zabezpiecz woskiem serowarskim lub opatrunkiem płóciennym. Dojrzewaj w 11–13 °C i 80–85% RH przez 2–4 miesiące (typowo 3 mies.). Obracaj co 5–7 dni.",
           "wskazowka": "Dojrzewanie: Gotowy Yorkshire ma delikatnie słodkawy smak z subtelną kwaśną nutą, kruchą do sprężystej teksturę i kremowy odczucie w ustach.",
-          "temperaturaC": null,
+          "temperaturaC": {
+            "min": 11,
+            "max": 13
+          },
           "czasMin": null,
           "warunekKonca": null,
           "pH": null,
           "dodatki": []
         }
       ],
-      "solenie": null,
-      "dojrzewanie": null,
+      "solenie": {
+        "typ": "w masie",
+        "stezenieProc": 5,
+        "czasH": null,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 60,
+        "temperaturaC": {
+          "min": 11,
+          "max": 13
+        },
+        "wilgotnoscProc": 80,
+        "pielegnacja": null
+      },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 2–4 miesiące (typowo 3 mies.). 11–13 °C, 80–85% RH przez 2–4 miesiące (typowo 3 mies.), obrót co 5–7 dni."
     }
