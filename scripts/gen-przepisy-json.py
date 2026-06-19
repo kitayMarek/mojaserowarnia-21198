@@ -108,6 +108,23 @@ def cold_only(t):
     return t if t <= 20 else None
 
 
+def ubytek_for(rodzina):
+    """Całkowity % ubytku wagi przez zalecane dojrzewanie (estymata domenowa per rodzina).
+    Ubytek = utrata wilgoci; twarde/długodojrzewające tracą najwięcej, miękkie/świeże mało.
+    Kolejność warunków istotna (półtwardy zawiera 'twardy')."""
+    r = (rodzina or "").lower()
+    if "długodojrzew" in r or "dlugodojrzew" in r: return 30
+    if "alpejski" in r: return 28
+    if "oczka" in r: return 22
+    if "półtward" in r or "poltward" in r: return 14
+    if "twardy" in r: return 25
+    if "niebieska" in r: return 12
+    if "biała" in r or "biala" in r: return 8
+    if "solankowy" in r or "pasta filata" in r: return 2
+    if "rikotta" in r or "śmietank" in r or "smietank" in r: return 0
+    return 12  # inne dojrzewające
+
+
 def parse_solenie(s):
     if not s or not s.strip():
         return None
@@ -192,6 +209,9 @@ def build(slug, r, meta):
             "dodatki": parse_dodatki(co),
         })
     uwagi = " ".join(p for p in [f"Czas dojrzewania: {r['ageTime']}." if r["ageTime"] else "", r["aging"]] if p) or None
+    dojrz = parse_dojrzewanie(r["aging"], r["ageTime"])
+    if dojrz is not None:
+        dojrz["ubytekWagiProc"] = ubytek_for(meta["rodzina"])   # BRIEF #5: ubytek wagi w dojrzewaniu
     return {
         "wersjaSchematu": 2,
         "slug": slug, "nazwa": meta["nazwa"], "rodzina": meta["rodzina"],
@@ -203,7 +223,7 @@ def build(slug, r, meta):
                         if r["coagulant"] else None),
         "kroki": kroki,
         "solenie": parse_solenie(r["salting"]),
-        "dojrzewanie": parse_dojrzewanie(r["aging"], r["ageTime"]),
+        "dojrzewanie": dojrz,
         "wydajnoscKg": num(r["yield_"]),
         "uwagi": uwagi,
     }

@@ -215,7 +215,8 @@
           "max": 14
         },
         "wilgotnoscProc": 85,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 14
       },
       "wydajnoscKg": 2.7,
       "uwagi": "Czas dojrzewania: 30–40 dni (młode Asiago dolce). 13–14 °C, 85–87% RH przez 30–40 dni. Powierzchniowe pleśnie ścieraj solanką."
@@ -376,7 +377,8 @@
           "max": 13
         },
         "wilgotnoscProc": 90,
-        "pielegnacja": "10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem."
+        "pielegnacja": "10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem.",
+        "ubytekWagiProc": 8
       },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: 4-6 tygodni. 10-13°C, 90-95% RH przez 4-6 tygodni z regularnym obracaniem."
@@ -575,7 +577,8 @@
         "dni": 60,
         "temperaturaC": null,
         "wilgotnoscProc": 85,
-        "pielegnacja": "52-55°C i 85-90% wilgotności przez 2 miesiące z codziennym obracaniem i wycieraniem."
+        "pielegnacja": "52-55°C i 85-90% wilgotności przez 2 miesiące z codziennym obracaniem i wycieraniem.",
+        "ubytekWagiProc": 14
       },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 2 miesiące (można jeść młodszą). 52-55°C i 85-90% wilgotności przez 2 miesiące z codziennym obracaniem i wycieraniem."
@@ -714,7 +717,8 @@
           "max": 13
         },
         "wilgotnoscProc": 90,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 8
       },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: 3-5 tygodni. 11-13°C, 90-95% RH przez 3-5 tygodni."
@@ -853,7 +857,8 @@
           "max": 13
         },
         "wilgotnoscProc": 85,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 25
       },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 3-24 miesiące. 10-13°C, 85% RH przez 3-24 miesiące."
@@ -1057,7 +1062,8 @@
           "max": 13
         },
         "wilgotnoscProc": 80,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 25
       },
       "wydajnoscKg": 1.4,
       "uwagi": "Czas dojrzewania: 3–9 miesięcy (typowo 6 mies.). 11–13 °C, 80–85% RH przez 3–9 miesięcy, obrót co 5–7 dni."
@@ -1219,7 +1225,8 @@
         "dni": 120,
         "temperaturaC": 10,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 22
       },
       "wydajnoscKg": 4.0,
       "uwagi": "Czas dojrzewania: 4-12 miesięcy. Etapowe: 10°C → 22°C → 10°C przez 4-12 miesięcy."
@@ -1372,7 +1379,8 @@
         "dni": 60,
         "temperaturaC": null,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 2
       },
       "wydajnoscKg": 1.0,
       "uwagi": "Czas dojrzewania: 2-3 miesiące w solance. W solance w lodówce przez 2-3 miesiące."
@@ -1572,7 +1580,8 @@
           "max": 13
         },
         "wilgotnoscProc": 6,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 2
       },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 1 miesiąc w solance (można do roku). 11-13 °C w solance 6-8% przez 1 miesiąc do roku. Młodszy ser = łagodniejszy smak."
@@ -1722,7 +1731,8 @@
           "max": 13
         },
         "wilgotnoscProc": 90,
-        "pielegnacja": "10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem."
+        "pielegnacja": "10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem.",
+        "ubytekWagiProc": 12
       },
       "wydajnoscKg": 1.5,
       "uwagi": "Czas dojrzewania: 2-4 miesiące. 10-13°C, 90-95% RH przez 2-4 miesiące z nakłuwaniem."
@@ -1861,7 +1871,8 @@
           "max": 13
         },
         "wilgotnoscProc": 85,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 14
       },
       "wydajnoscKg": 1.8,
       "uwagi": "Czas dojrzewania: 2-12 miesięcy. 10-13°C, 85% RH przez 2-12 miesięcy."
@@ -2018,7 +2029,8 @@
           "max": 14
         },
         "wilgotnoscProc": 92,
-        "pielegnacja": "13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki."
+        "pielegnacja": "13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki.",
+        "ubytekWagiProc": 28
       },
       "wydajnoscKg": 3.0,
       "uwagi": "Czas dojrzewania: 5-12 miesięcy. 13-14°C, 92% RH przez 5-12 miesięcy z myciem skórki."
@@ -2144,7 +2156,8 @@
         "dni": 14,
         "temperaturaC": null,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 2
       },
       "wydajnoscKg": 0.6,
       "uwagi": "Czas dojrzewania: Świeży (do 2 tygodni w solance). Świeży - do 2 tygodni w solance w lodówce."
@@ -2253,7 +2266,8 @@
         "dni": 5,
         "temperaturaC": null,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 0
       },
       "wydajnoscKg": 0.4,
       "uwagi": "Czas dojrzewania: Świeży (do 5 dni). Brak dojrzewania - ser świeży."
@@ -2373,7 +2387,8 @@
         "dni": 1,
         "temperaturaC": null,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 2
       },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: Świeży (1-7 dni). Świeży - do spożycia w ciągu 7 dni."
@@ -2544,7 +2559,8 @@
           "max": 15
         },
         "wilgotnoscProc": 80,
-        "pielegnacja": "13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem."
+        "pielegnacja": "13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem.",
+        "ubytekWagiProc": 30
       },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 12-24 miesiące. 13-15°C, 80-85% RH przez 12-24 miesiące z regularnym obracaniem."
@@ -2656,7 +2672,8 @@
         "dni": 7,
         "temperaturaC": null,
         "wilgotnoscProc": null,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 0
       },
       "wydajnoscKg": 0.5,
       "uwagi": "Czas dojrzewania: Świeża (do 7 dni). Brak dojrzewania - ser świeży."
@@ -2803,7 +2820,8 @@
         "dni": 90,
         "temperaturaC": 10,
         "wilgotnoscProc": 95,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 12
       },
       "wydajnoscKg": 1.2,
       "uwagi": "Czas dojrzewania: 3-5 miesięcy. 8-10°C, 95% RH przez 3-5 miesięcy w jaskini lub piwnicy."
@@ -2953,7 +2971,8 @@
           "max": 12
         },
         "wilgotnoscProc": 90,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 12
       },
       "wydajnoscKg": 2.0,
       "uwagi": "Czas dojrzewania: 9-12 tygodni. 10-12°C, 90% RH przez 9-12 tygodni."
@@ -3121,7 +3140,8 @@
           "max": 13
         },
         "wilgotnoscProc": 80,
-        "pielegnacja": null
+        "pielegnacja": null,
+        "ubytekWagiProc": 14
       },
       "wydajnoscKg": 0.9,
       "uwagi": "Czas dojrzewania: 2–4 miesiące (typowo 3 mies.). 11–13 °C, 80–85% RH przez 2–4 miesiące (typowo 3 mies.), obrót co 5–7 dni."
