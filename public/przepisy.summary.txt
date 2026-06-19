@@ -1,0 +1,25 @@
+PRZEPISY NA SERY — mojaserowarnia.pl (20 serów)
+Pełne przepisy (składniki, kultury, kroki krok po kroku, FAQ): https://mojaserowarnia.pl/przepisy/przewodnik.html
+Kontrakt slug→ser dla integracji. Slug = identyfikator z URL (STABILNY). Format wiersza:
+slug | nazwa PL | URL | rodzina
+
+asiago | Asiago | https://mojaserowarnia.pl/przepisy/asiago.html | ser dojrzewający (półtwardy)
+brie | Brie | https://mojaserowarnia.pl/przepisy/brie.html | ser dojrzewający (miękki, biała pleśń)
+caciotta | Caciotta | https://mojaserowarnia.pl/przepisy/caciotta.html | ser dojrzewający (półtwardy)
+camembert | Camembert | https://mojaserowarnia.pl/przepisy/camembert.html | ser dojrzewający (miękki, biała pleśń)
+cheddar | Cheddar | https://mojaserowarnia.pl/przepisy/cheddar.html | ser dojrzewający (twardy)
+dunlop | Dunlop | https://mojaserowarnia.pl/przepisy/dunlop.html | ser dojrzewający (twardy)
+emmental | Emmental | https://mojaserowarnia.pl/przepisy/emmental.html | ser dojrzewający (twardy, oczka)
+feta-grecka | Feta Grecka | https://mojaserowarnia.pl/przepisy/feta-grecka.html | ser świeży/solankowy
+feta_bulgarische | Feta Bułgarska (Sirene) | https://mojaserowarnia.pl/przepisy/feta_bulgarische.html | ser świeży/solankowy
+gorgonzola | Gorgonzola | https://mojaserowarnia.pl/przepisy/gorgonzola.html | ser dojrzewający (niebieska pleśń)
+gouda | Gouda | https://mojaserowarnia.pl/przepisy/gouda.html | ser dojrzewający (półtwardy)
+gruyere | Gruyère | https://mojaserowarnia.pl/przepisy/gruyere.html | ser dojrzewający (twardy, alpejski)
+halloumi | Halloumi | https://mojaserowarnia.pl/przepisy/halloumi.html | ser świeży/parzony (solankowy)
+mascarpone | Mascarpone | https://mojaserowarnia.pl/przepisy/mascarpone.html | produkt śmietankowy (świeży)
+mozzarella | Mozzarella domowa | https://mojaserowarnia.pl/przepisy/mozzarella.html | ser świeży (pasta filata)
+parmezan | Parmezan (Parmigiano-Reggiano) | https://mojaserowarnia.pl/przepisy/parmezan.html | ser dojrzewający (twardy, długodojrzewający)
+ricotta | Ricotta z serwatki | https://mojaserowarnia.pl/przepisy/ricotta.html | serwatkowy (rikotta)
+roquefort | Roquefort | https://mojaserowarnia.pl/przepisy/roquefort.html | ser dojrzewający (niebieska pleśń)
+stilton | Stilton | https://mojaserowarnia.pl/przepisy/stilton.html | ser dojrzewający (niebieska pleśń)
+yorkshire | Yorkshire (Wensleydale) | https://mojaserowarnia.pl/przepisy/yorkshire.html | ser dojrzewający (półtwardy)
