@@ -67,6 +67,12 @@
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # CORS dla publicznych kontraktów integracyjnych (.json/.txt/.xml) — pozwala fermly.pl
+  # fetchować dane serowarni po stronie klienta. Tylko pliki danych, dane i tak publiczne.
+  <FilesMatch "\.(json|txt|xml)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
 </IfModule>
 
 # ===== SPA ROUTING (React Router) =====
