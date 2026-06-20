@@ -49,12 +49,26 @@ Minimalny zestaw etapów (dostosuj nazwy): zakwaszenie → koagulacja (czas „c
 - **`datePublished` + `dateModified`** (robi `add-dates.py`).
 - **Self-canonical**, slug stabilny.
 
-## 5. Pipeline po dodaniu
+## 5. Metadane fasetowe — kategoria / mleko / trudność (BRIEF #9, filtr serów w Fermly)
+Wystawiane w `index.json` przez `gen-przepisy-json.py`; **mapy domenowe trzymamy W GENERATORZE**
+(`DIFF_MAP`, `MILK_TYPES`, `CATEGORY`), nie w `recipesData.ts`. **Dodając nowy ser — dopisz go do `MILK_TYPES` i `CATEGORY`.**
+
+- **`trudnosc`** — z `recipe.difficulty` (nasza skala 3-poziomowa): `Łatwy→latwy`, `Średni→sredni`, `Zaawansowany→zaawansowany`. Nic nie dopisujesz, byle `difficulty` było ustawione.
+- **`mleko.typy`** (tablica) — WSZYSTKIE wykonalne mleka, żeby ser pojawił się pod każdą facetą. **NIE „mieszane"** — feta kozia i feta owcza to ta sama receptura w dwóch pozycjach (`["owcze","kozie"]`). Dopuszcza alternatywę („można użyć krowiego")? → dodaj `krowie`. `[0]` = wiodące/tradycyjne (→ `mleko.typ`).
+- **`kategoria`** (faseta RODZAJ) — `miekki | twardy | plesniowy | swiezy | inne` (zasady Marka, 2026-06-20):
+  - **miekki** = feta / twaróg (miękkie, solankowe-cured) — **NIE** caciotta;
+  - **twardy** = prasowane/dojrzewające — **w tym PÓŁTWARDE na razie** (gouda, caciotta, asiago…);
+  - **swiezy** = świeże nieukwaszone (mozzarella, ricotta, mascarpone);
+  - **plesniowy** = biała/niebieska pleśń (camembert, brie, gorgonzola, roquefort, stilton);
+  - **inne** = nietypowe (halloumi — półtwardy solankowy do grillowania).
+  - 🔭 **Planowane:** osobny kubełek **`poltwardy`** (gouda/caciotta/asiago/halloumi tam trafią). Na razie „nie mieszamy" — siedzą w `twardy`/`inne`. Przy wprowadzaniu: uzgodnić enum z Fermly + przemapować.
+
+## 6. Pipeline po dodaniu
 1. Dane → `recipesData.ts`.
 2. `python scripts/gen-przepisy.py` (jeśli generowany) — lub ręczna statyk wg wzoru istniejących.
 3. `python scripts/link-slownik.py --apply` (linki do słownika).
 4. `python scripts/add-dates.py --apply` (daty).
-5. `python scripts/gen-przepisy-summary.py` + `python scripts/gen-przepisy-json.py` (kontrakty dla Fermly).
+5. Dopisz nowy ser do map `MILK_TYPES` i `CATEGORY` w `gen-przepisy-json.py` (§5), potem `python scripts/gen-przepisy-summary.py` + `python scripts/gen-przepisy-json.py` (kontrakty dla Fermly).
 6. Dopisz slug do `sitemap.xml`, `llms.txt`, mapy `<noscript>` w `index.html`.
 7. FTP upload zmienionych plików (statyki bez przebudowy; `index.html` → build + `dist/index.html`).
 
@@ -64,6 +78,7 @@ Minimalny zestaw etapów (dostosuj nazwy): zakwaszenie → koagulacja (czas „c
 - [ ] Zamienniki wg mikroflory + dywersyfikacja sklepów + **linki aktualne** (nie desktop.html).
 - [ ] Recipe+FAQPage JSON-LD; `meta description` ≤160; daty; `title` ≤60.
 - [ ] `index.json` i `summary.txt` regenerują się bez błędu (kontrakt Fermly v2).
+- [ ] Nowy ser dopisany do `MILK_TYPES` + `CATEGORY` (§5) — `trudnosc`/`mleko.typy`/`kategoria` nie są `null`.
 - [ ] `link-slownik.py` + `add-dates.py` odpalone; deploy zweryfikowany (200) na żywo.
 
 ---

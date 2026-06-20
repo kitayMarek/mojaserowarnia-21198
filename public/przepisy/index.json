@@ -9,13 +9,18 @@
       "slug": "asiago",
       "nazwa": "Asiago",
       "rodzina": "ser dojrzewający (półtwardy)",
+      "kategoria": "twardy",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/asiago.html",
       "mleko": {
         "litry": 22.7,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -226,13 +231,18 @@
       "slug": "brie",
       "nazwa": "Brie",
       "rodzina": "ser dojrzewający (miękki, biała pleśń)",
+      "kategoria": "plesniowy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/brie.html",
       "mleko": {
         "litry": 7.6,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -388,13 +398,18 @@
       "slug": "caciotta",
       "nazwa": "Caciotta",
       "rodzina": "ser dojrzewający (półtwardy)",
+      "kategoria": "twardy",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/caciotta.html",
       "mleko": {
         "litry": 7.6,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -588,13 +603,18 @@
       "slug": "camembert",
       "nazwa": "Camembert",
       "rodzina": "ser dojrzewający (miękki, biała pleśń)",
+      "kategoria": "plesniowy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/camembert.html",
       "mleko": {
         "litry": 4.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -728,13 +748,18 @@
       "slug": "cheddar",
       "nazwa": "Cheddar",
       "rodzina": "ser dojrzewający (twardy)",
+      "kategoria": "twardy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/cheddar.html",
       "mleko": {
         "litry": 20.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -868,13 +893,18 @@
       "slug": "dunlop",
       "nazwa": "Dunlop",
       "rodzina": "ser dojrzewający (twardy)",
+      "kategoria": "twardy",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/dunlop.html",
       "mleko": {
         "litry": 15.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1073,6 +1103,8 @@
       "slug": "emmental",
       "nazwa": "Emmental",
       "rodzina": "ser dojrzewający (twardy, oczka)",
+      "kategoria": "twardy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
@@ -1080,6 +1112,9 @@
       "mleko": {
         "litry": 40.0,
         "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1236,13 +1271,20 @@
       "slug": "feta-grecka",
       "nazwa": "Feta Grecka",
       "rodzina": "ser świeży/solankowy",
+      "kategoria": "miekki",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/feta-grecka.html",
       "mleko": {
         "litry": 7.6,
-        "typ": "krowie",
+        "typ": "owcze",
+        "typy": [
+          "owcze",
+          "kozie",
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1390,13 +1432,19 @@
       "slug": "feta_bulgarische",
       "nazwa": "Feta Bułgarska (Sirene)",
       "rodzina": "ser świeży/solankowy",
+      "kategoria": "miekki",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/feta_bulgarische.html",
       "mleko": {
         "litry": 3.8,
-        "typ": null,
+        "typ": "owcze",
+        "typy": [
+          "owcze",
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1591,6 +1639,8 @@
       "slug": "gorgonzola",
       "nazwa": "Gorgonzola",
       "rodzina": "ser dojrzewający (niebieska pleśń)",
+      "kategoria": "plesniowy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
@@ -1598,6 +1648,9 @@
       "mleko": {
         "litry": 11.0,
         "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1742,13 +1795,18 @@
       "slug": "gouda",
       "nazwa": "Gouda",
       "rodzina": "ser dojrzewający (półtwardy)",
+      "kategoria": "twardy",
+      "trudnosc": "sredni",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/gouda.html",
       "mleko": {
         "litry": 15.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -1882,6 +1940,8 @@
       "slug": "gruyere",
       "nazwa": "Gruyère",
       "rodzina": "ser dojrzewający (twardy, alpejski)",
+      "kategoria": "twardy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
@@ -1889,6 +1949,9 @@
       "mleko": {
         "litry": 30.0,
         "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2040,6 +2103,8 @@
       "slug": "halloumi",
       "nazwa": "Halloumi",
       "rodzina": "ser świeży/parzony (solankowy)",
+      "kategoria": "inne",
+      "trudnosc": "latwy",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
@@ -2047,6 +2112,10 @@
       "mleko": {
         "litry": 4.0,
         "typ": "owcze",
+        "typy": [
+          "owcze",
+          "kozie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2167,13 +2236,18 @@
       "slug": "mascarpone",
       "nazwa": "Mascarpone",
       "rodzina": "produkt śmietankowy (świeży)",
+      "kategoria": "swiezy",
+      "trudnosc": "latwy",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/mascarpone.html",
       "mleko": {
         "litry": 1.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [],
@@ -2277,13 +2351,18 @@
       "slug": "mozzarella",
       "nazwa": "Mozzarella domowa",
       "rodzina": "ser świeży (pasta filata)",
+      "kategoria": "swiezy",
+      "trudnosc": "latwy",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/mozzarella.html",
       "mleko": {
         "litry": 4.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2398,13 +2477,18 @@
       "slug": "parmezan",
       "nazwa": "Parmezan (Parmigiano-Reggiano)",
       "rodzina": "ser dojrzewający (twardy, długodojrzewający)",
+      "kategoria": "twardy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/parmezan.html",
       "mleko": {
         "litry": 22.7,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2570,13 +2654,18 @@
       "slug": "ricotta",
       "nazwa": "Ricotta z serwatki",
       "rodzina": "serwatkowy (rikotta)",
+      "kategoria": "swiezy",
+      "trudnosc": "latwy",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/ricotta.html",
       "mleko": {
         "litry": 4.0,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [],
@@ -2683,13 +2772,19 @@
       "slug": "roquefort",
       "nazwa": "Roquefort",
       "rodzina": "ser dojrzewający (niebieska pleśń)",
+      "kategoria": "plesniowy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/roquefort.html",
       "mleko": {
         "litry": 10.0,
-        "typ": "krowie",
+        "typ": "owcze",
+        "typy": [
+          "owcze",
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2831,6 +2926,8 @@
       "slug": "stilton",
       "nazwa": "Stilton",
       "rodzina": "ser dojrzewający (niebieska pleśń)",
+      "kategoria": "plesniowy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
@@ -2838,6 +2935,9 @@
       "mleko": {
         "litry": 15.0,
         "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [
@@ -2982,13 +3082,18 @@
       "slug": "yorkshire",
       "nazwa": "Yorkshire (Wensleydale)",
       "rodzina": "ser dojrzewający (półtwardy)",
+      "kategoria": "twardy",
+      "trudnosc": "zaawansowany",
       "zrodlo": "serowarnia-kurated",
       "autor": null,
       "licencja": null,
       "url": "https://mojaserowarnia.pl/przepisy/yorkshire.html",
       "mleko": {
         "litry": 7.6,
-        "typ": null,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
         "pasteryzacja": null
       },
       "kultury": [

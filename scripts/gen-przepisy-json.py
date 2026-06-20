@@ -183,7 +183,8 @@ def parse_recipes(src):
             name=grab(block, "name"), milkBase=grab(block, "milkBase"),
             coagulant=grab(block, "coagulant"), ageTime=grab(block, "ageTime"),
             aging=grab(block, "aging"), yield_=grab(block, "yield"),
-            salting=grab(block, "salting"), cultures=cultures, steps=steps)
+            salting=grab(block, "salting"), cultures=cultures, steps=steps,
+            difficulty=grab(block, "difficulty"))
     return out
 
 
@@ -193,6 +194,43 @@ def milk_typ(s):
         if k in s:
             return v
     return None
+
+
+# BRIEF #9 — metadane do fasetowego filtra serów w Fermly.
+# Trudnosc = nasza skala (3 poziomy) -> ASCII enum.
+DIFF_MAP = {"Łatwy": "latwy", "Średni": "sredni", "Zaawansowany": "zaawansowany"}
+
+# mleko.typy = WSZYSTKIE wykonalne mleka (ser pojawia sie pod kazda faseta; NIE "mieszane"
+# - feta kozia i feta owcza to ta sama receptura w dwoch pozycjach). [0] = wiodace/tradycyjne.
+# Wiedza domenowa Marka (2026-06-20).
+MILK_TYPES = {
+    "asiago": ["krowie"], "caciotta": ["krowie"], "dunlop": ["krowie"],
+    "feta_bulgarische": ["owcze", "krowie"], "yorkshire": ["krowie"], "gouda": ["krowie"],
+    "cheddar": ["krowie"], "mozzarella": ["krowie"], "camembert": ["krowie"],
+    "halloumi": ["owcze", "kozie"], "brie": ["krowie"], "parmezan": ["krowie"],
+    "ricotta": ["krowie"], "mascarpone": ["krowie"],
+    "feta-grecka": ["owcze", "kozie", "krowie"], "gorgonzola": ["krowie"],
+    "roquefort": ["owcze", "krowie"], "stilton": ["krowie"],
+    "gruyere": ["krowie"], "emmental": ["krowie"],
+}
+
+# Kanoniczna kategoria (faseta RODZAJ): miekki|twardy|plesniowy|swiezy|inne.
+# Pewniejsze niz derive z opisowej `rodzina`. Zasady Marka (2026-06-20):
+#  - miekki = feta/twarog (miekkie, solankowe-cured) — NIE caciotta;
+#  - twardy = prasowane/dojrzewajace (w tym POLTWARDE na razie: gouda/caciotta/asiago...);
+#  - swiezy = swieze nieukwaszone (mozzarella, ricotta, mascarpone);
+#  - plesniowy = biala/niebieska plesn;
+#  - inne = nietypowe (halloumi — poltwardy solankowy do grillowania).
+# TODO domenowe: docelowo osobny kubelek "poltwardy" (gouda/caciotta/asiago/halloumi tam trafia)
+#   — na razie "nie mieszamy". Podzial utrzymywany u nas: patrz docs/jak-dodac-przepis.md.
+CATEGORY = {
+    "asiago": "twardy", "caciotta": "twardy", "dunlop": "twardy", "yorkshire": "twardy",
+    "gouda": "twardy", "cheddar": "twardy", "parmezan": "twardy", "gruyere": "twardy",
+    "emmental": "twardy", "brie": "plesniowy", "camembert": "plesniowy",
+    "gorgonzola": "plesniowy", "roquefort": "plesniowy", "stilton": "plesniowy",
+    "mozzarella": "swiezy", "ricotta": "swiezy", "mascarpone": "swiezy",
+    "feta-grecka": "miekki", "feta_bulgarische": "miekki", "halloumi": "inne",
+}
 
 
 def build(slug, r, meta):
@@ -212,12 +250,16 @@ def build(slug, r, meta):
     dojrz = parse_dojrzewanie(r["aging"], r["ageTime"])
     if dojrz is not None:
         dojrz["ubytekWagiProc"] = ubytek_for(meta["rodzina"])   # BRIEF #5: ubytek wagi w dojrzewaniu
+    mtypes = MILK_TYPES.get(slug) or ([milk_typ(r["milkBase"])] if milk_typ(r["milkBase"]) else [])
     return {
         "wersjaSchematu": 2,
         "slug": slug, "nazwa": meta["nazwa"], "rodzina": meta["rodzina"],
+        "kategoria": CATEGORY.get(slug),
+        "trudnosc": DIFF_MAP.get(r.get("difficulty")),
         "zrodlo": "serowarnia-kurated", "autor": None, "licencja": None,
         "url": f"https://mojaserowarnia.pl/przepisy/{slug}.html",
-        "mleko": {"litry": num(r["milkBase"]), "typ": milk_typ(r["milkBase"]), "pasteryzacja": None},
+        "mleko": {"litry": num(r["milkBase"]), "typ": (mtypes[0] if mtypes else None),
+                  "typy": mtypes or None, "pasteryzacja": None},
         "kultury": [{"co": c, "dawka": "wg producenta"} for c in r["cultures"]],
         "podpuszczka": ({"typ": None, "dawka": r["coagulant"], "czasKrzepnieciaMin": None}
                         if r["coagulant"] else None),
