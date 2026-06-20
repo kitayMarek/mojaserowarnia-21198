@@ -1,0 +1,86 @@
+{
+  "wersjaSchematu": 2,
+  "zrodlo": "fermly-spolecznosc",
+  "wygenerowano": "2026-06-20T10:00:00Z",
+  "przepisy": [
+    {
+      "wersjaSchematu": 2,
+      "slug": "user-1718900000",
+      "nazwa": "Gouda z kminkiem (po podlasku)",
+      "rodzina": "ser dojrzewający (półtwardy)",
+      "zrodlo": "fermly-spolecznosc",
+      "autor": "Marek z Podlasia",
+      "licencja": "© Marek z Podlasia, użytek domowy",
+      "dataZatwierdzenia": "2026-06-19T18:30:00Z",
+      "mleko": { "litry": 8, "typ": "krowie", "pasteryzacja": "lagodna" },
+      "kultury": [{ "co": "kultura mezofilna (typ Gouda)", "dawka": "wg producenta" }],
+      "podpuszczka": { "typ": "cielęca w płynie", "dawka": "wg siły podpuszczki", "czasKrzepnieciaMin": 45 },
+      "kroki": [
+        {
+          "nr": 1, "nazwa": "Zakwaszanie", "opis": "Podgrzej mleko i zaszczep kulturą mezofilną (patrz tabela doboru kultur).",
+          "wskazowka": "Niskie dawki dają łagodniejszy smak.",
+          "temperaturaC": 30, "czasMin": 45, "warunekKonca": null, "pH": null,
+          "dodatki": [{ "co": "kultura startowa", "dawka": "wg producenta" }]
+        },
+        {
+          "nr": 2, "nazwa": "Krzepnięcie", "opis": "Dodaj podpuszczkę (wg siły podpuszczki) i wymieszaj 1 min. Odstaw do czystego rozłamu.",
+          "wskazowka": null,
+          "temperaturaC": 30, "czasMin": 45, "warunekKonca": "czysty rozłam skrzepu (clean break)", "pH": null,
+          "dodatki": [{ "co": "podpuszczka", "dawka": "wg siły podpuszczki" }]
+        },
+        {
+          "nr": 3, "nazwa": "Krojenie i płukanie skrzepu", "opis": "Pokrój na ziarno ok. 1 cm. Odlej część serwatki i zastąp ją ciepłą wodą, podgrzewając ziarno.",
+          "wskazowka": "Płukanie skrzepu to znak rozpoznawczy goudy — wypłukuje laktozę, daje słodszy ser.",
+          "temperaturaC": { "from": 30, "to": 37, "rampMin": 20 }, "czasMin": 30, "warunekKonca": "ziarno odpowiednio jędrne", "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 4, "nazwa": "Formowanie i prasowanie", "opis": "Przełóż ziarno do formy, prasuj zwiększając obciążenie. Na koniec wmieszaj sparzony kminek.",
+          "wskazowka": null,
+          "temperaturaC": { "min": 20, "max": 22 }, "czasMin": 360, "warunekKonca": null, "pH": 5.3,
+          "dodatki": [{ "co": "kminek (sparzony)", "dawka": "1 łyżka" }]
+        }
+      ],
+      "solenie": { "typ": "solanka", "stezenieProc": 20, "czasH": 6, "temperaturaC": 12 },
+      "dojrzewanie": { "dni": 30, "temperaturaC": 12, "wilgotnoscProc": 85, "pielegnacja": "Obracaj codziennie; po wyschnięciu skórki możesz powlec woskiem.", "ubytekWagiProc": 14 },
+      "wydajnoscKg": 0.8,
+      "uwagi": "Domowa gouda z kminkiem na podlaską nutę. Pierwszy raz wyszła rewelacyjnie po 6 tygodniach."
+    },
+    {
+      "wersjaSchematu": 2,
+      "slug": "user-1718905000",
+      "nazwa": "Twarożek ziołowy na śniadanie",
+      "rodzina": "ser świeży (biała)",
+      "zrodlo": "fermly-spolecznosc",
+      "autor": "Anna K.",
+      "dataZatwierdzenia": "2026-06-20T08:15:00Z",
+      "mleko": { "litry": 4, "typ": "krowie", "pasteryzacja": "pelna" },
+      "kultury": [{ "co": "kultura do twarogu (mezofilna)", "dawka": "wg producenta" }],
+      "podpuszczka": { "typ": null, "dawka": "kilka kropli (opcjonalnie)", "czasKrzepnieciaMin": null },
+      "kroki": [
+        {
+          "nr": 1, "nazwa": "Ukwaszenie", "opis": "Zaszczep mleko kulturą do twarogu. Pozostaw na noc do skrzepnięcia.",
+          "wskazowka": "Im cieplej, tym szybciej — ale nie powyżej 30°C.",
+          "temperaturaC": { "min": 22, "max": 24 }, "czasMin": null, "warunekKonca": "gęsty skrzep, lekko odchodzi serwatka", "pH": 4.6,
+          "dodatki": [{ "co": "kultura do twarogu", "dawka": "wg producenta" }]
+        },
+        {
+          "nr": 2, "nazwa": "Odcedzanie", "opis": "Przełóż skrzep na gazę i odcedź serwatkę do pożądanej konsystencji.",
+          "wskazowka": null,
+          "temperaturaC": null, "czasMin": 120, "warunekKonca": null, "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 3, "nazwa": "Doprawienie", "opis": "Wymieszaj ze szczyptą soli, posiekanym szczypiorkiem i koperkiem.",
+          "wskazowka": "Świetnie pasuje też rzodkiewka i odrobina pieprzu.",
+          "temperaturaC": null, "czasMin": null, "warunekKonca": null, "pH": null,
+          "dodatki": [{ "co": "zioła + sól", "dawka": "do smaku" }]
+        }
+      ],
+      "solenie": { "typ": "w masie", "stezenieProc": null, "czasH": null, "temperaturaC": null },
+      "dojrzewanie": null,
+      "wydajnoscKg": 0.6,
+      "uwagi": "Szybki twarożek bez dojrzewania — gotowy następnego dnia. Idealny na świeże pieczywo."
+    }
+  ]
+}
