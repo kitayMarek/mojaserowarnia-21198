@@ -95,6 +95,8 @@
   RewriteRule ^przepis/(.+)$ https://mojaserowarnia.pl/przepisy/$1 [R=301,L]
   # literówka w starej trasie kalkulatora wartości odżywczych (https, jeden przeskok)
   RewriteRule ^porownawie-wartosci-odzywczych/?$ https://mojaserowarnia.pl/porownanie-wartosci-odzywczych [R=301,L]
+  # stary mirror etykiety -> opisowy slug GEO (mirror przeniesiony, jeden przeskok)
+  RewriteRule ^etykieta-rhd\.html$ https://mojaserowarnia.pl/etykieta-do-sprzedazy-rhd.html [R=301,L]
 
   # --- Trasy SPA kolidujące z fizycznym katalogiem ---
   # /przepisy ma podstrony statyczne (/przepisy/*.html), ale samo /przepisy to trasa React.
