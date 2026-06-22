@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { Calculator, ClipboardList, ExternalLink } from "lucide-react";
+import { Calculator, ClipboardList, ExternalLink, Tag } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
@@ -413,6 +413,42 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
+              {/* Etykieta RHD */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton contentType="tool" contentId="etykieta-rhd" variant="compact" />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Tag className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Etykieta RHD
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Wymagania prawne etykiety sera w rolniczym handlu detalicznym + darmowy edytor do druku. Wzór, podstawa prawna i pola do uzupełnienia.
+                      </p>
+                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Obowiązkowe pola wg rozp. (UE) 1169/2011</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Live podgląd + druk / PDF (10×7 cm)</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Auto-pogrubienie alergenów w składzie</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Dane producenta zapisywane lokalnie</span></li>
+                    </ul>
+                    <Button
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-warm"
+                    >
+                      <a href="/etykieta-rhd" className="flex items-center justify-center gap-2">
+                        Otwórz Edytor
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
                   <div className="w-20 h-20 rounded-2xl bg-muted/30 flex items-center justify-center">
@@ -443,6 +479,7 @@ const Narzedzia = () => {
                 <li>• <strong>Kalkulator Kosztu Sera</strong> – koszt produkcji, marża i cena sprzedaży (cheese cost calculator)</li>
                 <li>• <strong>Kalkulatory Pasz</strong> – bilansowanie dawek dla drobiu i bydła</li>
                 <li>• <strong>Menadżer Fermy Drobiu</strong> – zarządzanie stadami, dziennik, pasze, finanse (PWA)</li>
+                <li>• <strong>Etykieta RHD</strong> – wymagania prawne + darmowy edytor etykiety sera do druku (RHD label generator)</li>
               </ul>
             </TLDRSection>
           </div>

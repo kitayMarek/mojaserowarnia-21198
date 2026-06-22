@@ -58,6 +58,7 @@ Dostępne kalkulatory:
 - /kalkulator-kosztu-sera - Kalkulacja kosztów produkcji
 - /kalkulator-miar - Przelicznik jednostek serowarskich
 - /porownanie-wartosci-odzywczych - Porównywarka wartości odżywczych serów
+- /etykieta-rhd - Wymagania prawne etykiety RHD na ser (rozp. 1169/2011) + darmowy edytor etykiety do druku. Treść statyczna: /etykieta-rhd.html
 
 ### Słownik Terminów
 URL: /slownik
