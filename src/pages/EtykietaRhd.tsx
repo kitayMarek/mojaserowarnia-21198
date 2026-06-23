@@ -152,6 +152,12 @@ function LabelCard({ d }: { d: LabelData }) {
           <span style={{ color: "#555" }}>Skład: </span>{renderSkladniki(d.skladniki, d.alergeny)}.
         </div>
       )}
+      {d.alergeny && (
+        <div style={{ fontSize: "9px", marginTop: "2px" }}>
+          <span style={{ color: "#555" }}>Alergeny: </span>
+          <strong style={{ textTransform: "uppercase" }}>{d.alergeny}</strong>
+        </div>
+      )}
       {d.mleko_surowe && (
         <div style={{ fontSize: "9px", fontWeight: 700, marginTop: "2px" }}>Wyprodukowano z mleka surowego.</div>
       )}
@@ -324,7 +330,7 @@ const EtykietaRhd = () => {
         </section>
 
         {/* Edytor + live podgląd */}
-        <section className="py-12">
+        <section className="py-12 bg-gradient-to-b from-amber-50/60 to-orange-50/40 dark:from-amber-950/20 dark:to-orange-950/10 border-y border-amber-100 dark:border-amber-900/30">
           <div className="container mx-auto px-4 max-w-6xl">
             <h2 className="text-2xl font-display font-bold text-foreground mb-2">Generator etykiety</h2>
             <p className="text-muted-foreground mb-6">

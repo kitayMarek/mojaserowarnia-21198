@@ -58,6 +58,7 @@ const navItems: NavItem[] = [
       { label: "Kalkulator pasz", href: "/kalkulator-pasz" },
       { label: "Kalkulator pasz (bydło)", href: "/kalkulator-pasz-bydlo" },
       { label: "Wartości odżywcze serów", href: "/porownanie-wartosci-odzywczych" },
+      { label: "Etykieta RHD", href: "/etykieta-rhd" },
       { label: "Wszystkie narzędzia", href: "/narzedzia" },
     ],
   },
