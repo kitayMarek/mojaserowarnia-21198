@@ -56,24 +56,6 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 const PRODUCER_KEY = "rhd-label-producer";
 
-const EXAMPLE: LabelData = {
-  nazwa: "Gouda dojrzewająca",
-  kategoria: "ser-dojrzewajacy",
-  masa: "0,4 kg",
-  producent_imie: "Jan Kowalski",
-  producent_adres: "Serowa 7, 11-001 Przykładów, woj. warmińsko-mazurskie",
-  nr_wet: "WIW-RHD-14-0023/2024",
-  data_produkcji: "2026-06-22",
-  typ_daty: "trwalosc",
-  data_waznosci: "2026-09-22",
-  przechowywanie: "Przechowywać w temp. 4–10°C",
-  skladniki: "MLEKO krowie, sól, kultury bakteryjne, podpuszczka",
-  alergeny: "mleko",
-  mleko_surowe: false,
-  numer_partii: "GOUDA-20260622-A",
-  uwagi: "Ser z mleka własnego gospodarstwa.",
-};
-
 const fmtDate = (iso: string) => {
   if (!iso) return "—";
   const p = iso.split("-");
@@ -180,6 +162,7 @@ const EtykietaRhd = () => {
     alergeny: "mleko", mleko_surowe: false, numer_partii: "", uwagi: "",
   });
   const [saved, setSaved] = useState(false);
+  const [kopie, setKopie] = useState(8);
 
   useEffect(() => {
     document.title = "Etykieta RHD na ser — wymagania + darmowy generator | Moja Serowarnia";
@@ -213,14 +196,19 @@ const EtykietaRhd = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* CSS druku: pokaż TYLKO etykietę */}
+      {/* CSS druku: na wydruku pokazujemy TYLKO arkusz etykiet (siatka na A4 do wycięcia) */}
       <style>{`
+        @media screen { #label-print-sheet { display: none; } }
         @media print {
           body * { visibility: hidden !important; }
-          #label-print-area, #label-print-area * { visibility: visible !important; }
-          #label-print-area { position: fixed !important; top: 0; left: 0; }
-          #label-print-area > div { border: 1px solid #333 !important; }
-          @page { size: 100mm 70mm; margin: 0; }
+          #label-print-sheet, #label-print-sheet * { visibility: visible !important; }
+          #label-print-sheet {
+            position: fixed !important; top: 0; left: 0; right: 0;
+            display: grid !important; grid-template-columns: repeat(auto-fill, 100mm);
+            justify-content: center; align-content: start; gap: 1.5mm; padding: 4mm;
+          }
+          #label-print-sheet > div { border: 1px solid #333 !important; break-inside: avoid; }
+          @page { size: A4 portrait; margin: 0; }
         }
       `}</style>
 
@@ -322,9 +310,14 @@ const EtykietaRhd = () => {
             <h2 className="text-2xl font-display font-bold text-foreground mb-2">Wzór etykiety (przykład)</h2>
             <p className="text-muted-foreground mb-5">Tak może wyglądać poprawna etykieta dojrzewającego sera w RHD (10 × 7 cm):</p>
             <div className="flex justify-center">
-              <div className="shadow-card rounded-md overflow-hidden">
-                <LabelCard d={EXAMPLE} />
-              </div>
+              <img
+                src="/wzor-etykiety-rhd-na-ser.svg"
+                alt="Wzór etykiety RHD na ser dojrzewający (gouda) — przykład z polami obowiązkowymi: nazwa, masa netto, producent i adres, data produkcji i przydatności, skład z wyróżnionym alergenem MLEKO, numer partii i weterynaryjny"
+                width={500}
+                height={350}
+                loading="lazy"
+                className="rounded-md border border-border shadow-card max-w-full h-auto"
+              />
             </div>
           </div>
         </section>
@@ -424,19 +417,33 @@ const EtykietaRhd = () => {
 
               {/* Podgląd + druk */}
               <div className="lg:sticky lg:top-24 self-start">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
                   <span className="text-sm font-semibold text-foreground">Podgląd na żywo</span>
-                  <Button onClick={() => window.print()} className="gap-2">
-                    <Printer className="h-4 w-4" /> Drukuj / Zapisz PDF
-                  </Button>
-                </div>
-                <div className="flex justify-center bg-muted/30 rounded-lg p-4">
-                  <div id="label-print-area">
-                    <LabelCard d={d} />
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-muted-foreground whitespace-nowrap" htmlFor="kopie">Sztuk na A4:</label>
+                    <select
+                      id="kopie"
+                      className="rounded-md border border-border bg-background px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                      value={kopie}
+                      onChange={(e) => setKopie(Number(e.target.value))}
+                    >
+                      {[1, 2, 4, 6, 8].map((n) => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                    <Button onClick={() => window.print()} className="gap-2">
+                      <Printer className="h-4 w-4" /> Drukuj / PDF
+                    </Button>
                   </div>
                 </div>
+                <div className="flex justify-center bg-muted/30 rounded-lg p-4">
+                  <LabelCard d={d} />
+                </div>
+                {/* Arkusz do druku (tylko na wydruku): siatka kopii na A4 do wycięcia */}
+                <div id="label-print-sheet">
+                  {Array.from({ length: kopie }).map((_, i) => <LabelCard key={i} d={d} />)}
+                </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  Druk: w oknie drukowania wybierz rozmiar 10×7 cm lub „Zapisz jako PDF". Na wydruku pojawia się tylko etykieta.
+                  Druk układa <strong>{kopie}</strong> {kopie === 1 ? "etykietę" : "etykiet"} na arkuszu <strong>A4</strong> do wycięcia
+                  (np. papier samoprzylepny). W oknie drukowania ustaw rozmiar A4 i marginesy „brak/minimalne", albo „Zapisz jako PDF".
                 </p>
               </div>
             </div>

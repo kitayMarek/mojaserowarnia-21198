@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="500" height="350" font-family="Arial, Helvetica, sans-serif" role="img" aria-label="Wzór etykiety RHD na ser dojrzewający (gouda) z polami obowiązkowymi">
+  <rect x="2" y="2" width="496" height="346" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+  <!-- Naglowek -->
+  <text x="24" y="40" font-size="25" font-weight="700" fill="#111111">Gouda dojrzewająca</text>
+  <text x="476" y="40" font-size="21" font-weight="700" fill="#111111" text-anchor="end">0,4 kg</text>
+  <text x="24" y="58" font-size="12" fill="#444444" letter-spacing="0.6">ROLNICZY HANDEL DETALICZNY</text>
+  <line x1="24" y1="70" x2="476" y2="70" stroke="#cccccc" stroke-width="1"/>
+  <!-- Wiersze danych -->
+  <g font-size="14" fill="#111111">
+    <text x="24" y="92" fill="#555555">Producent</text><text x="205" y="92" font-weight="700">Jan Kowalski</text>
+    <text x="24" y="114" fill="#555555">Adres</text><text x="205" y="114">Serowa 7, 11-001 Przykładów, woj.</text>
+    <text x="205" y="130">warmińsko-mazurskie</text>
+    <text x="24" y="154" fill="#555555">Data produkcji</text><text x="205" y="154">22.06.2026</text>
+    <text x="24" y="176" fill="#555555">Najlepiej spożyć przed</text><text x="205" y="176" font-weight="700">22.09.2026</text>
+    <text x="24" y="198" fill="#555555">Przechowywanie</text><text x="205" y="198">Przechowywać w temp. 4–10°C</text>
+    <text x="24" y="220" fill="#555555">Nr partii</text><text x="205" y="220">GOUDA-20260622-A</text>
+    <text x="24" y="242" fill="#555555">Nr wet.</text><text x="205" y="242">WIW-RHD-14-0023/2024</text>
+  </g>
+  <line x1="24" y1="258" x2="476" y2="258" stroke="#eeeeee" stroke-width="1"/>
+  <text x="24" y="280" font-size="13" fill="#111111"><tspan fill="#555555">Skład: </tspan><tspan font-weight="700">MLEKO</tspan> krowie, sól, kultury bakteryjne, podpuszczka.</text>
+  <text x="24" y="300" font-size="13" fill="#111111"><tspan fill="#555555">Alergeny: </tspan><tspan font-weight="700">MLEKO</tspan></text>
+  <text x="24" y="324" font-size="12" fill="#666666">Ser z mleka własnego gospodarstwa.</text>
+</svg>
