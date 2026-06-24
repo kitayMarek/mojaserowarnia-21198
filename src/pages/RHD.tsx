@@ -42,12 +42,12 @@ const seeAlsoLinks = [
 
 const RHD = () => {
   useEffect(() => {
-    document.title = "Rolniczy Handel Detaliczny (RHD) - Moja Serowarnia";
+    document.title = "Rolniczy handel detaliczny (RHD) — zasady, limity, rejestracja";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Kompletny przewodnik po formie działalności RHD - produkcja i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom"
+        "RHD: kto może prowadzić, co można sprzedawać, limit 100 000 zł bez podatku PIT, rejestracja w Sanepidzie (14 dni) lub u powiatowego lekarza weterynarii (30 dni)."
       );
     }
   }, []);

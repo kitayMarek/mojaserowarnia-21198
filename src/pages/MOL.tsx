@@ -42,12 +42,12 @@ const seeAlsoLinks = [
 
 const MOL = () => {
   useEffect(() => {
-    document.title = "Działalność marginalna, lokalna i ograniczona (MOL) - Moja Serowarnia";
+    document.title = "MOL (marginalna, lokalna, ograniczona) — limity i rejestracja";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Kompletny przewodnik po działalności marginalnej, lokalnej i ograniczonej (MOL) - uproszczona forma produkcji produktów pochodzenia zwierzęcego"
+        "Działalność MOL: limity produkcji (mleczne 0,5 t/tydzień), rejestracja u powiatowego lekarza weterynarii (30 dni), obszar sprzedaży i różnica MOL a RHD."
       );
     }
   }, []);
