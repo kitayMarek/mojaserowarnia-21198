@@ -19,7 +19,7 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     if (recipe) {
-      document.title = `${recipe.name} - Przepis | Moja Serowarnia`;
+      document.title = `${recipe.name} — przepis na ser krok po kroku | Moja Serowarnia`;
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute("content", recipe.description.slice(0, 160));
