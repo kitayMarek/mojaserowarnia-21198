@@ -75,6 +75,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 
 ### Przepisy na ser (statyczne)
 - [Przepisy na sery domowe — przewodnik (filar)](https://mojaserowarnia.pl/przepisy/przewodnik.html): jak zrobić ser krok po kroku, podział serów (świeże/półtwarde/twarde), linki do wszystkich przepisów. Strona-filar.
+- [Przepis na Ser Koryciński Swojski](https://mojaserowarnia.pl/przepisy/korycinski.html): polski ser regionalny z Podlasia (ChOG od 2012), krąg formowany w koszyku z czarnuszką/ziołami, mleko krowie, drobne oczka; świeży lub leżakowany; krok po kroku + FAQ.
 - [Przepis na caciotta](https://mojaserowarnia.pl/przepisy/caciotta.html): składniki na 7,6 L mleka, kultury termofilne, proces stufatura, solenie, dojrzewanie, FAQ.
 - [Przepis na goudę](https://mojaserowarnia.pl/przepisy/gouda.html): kultury mezofilne LD, płukanie skrzepu wodą (słodki smak), prasowanie, dojrzewanie 2–12 mies., FAQ.
 - [Przepis na gruyère](https://mojaserowarnia.pl/przepisy/gruyere.html): kultury termofilne + Helveticus, ciężkie prasowanie, mycie skórki, dojrzewanie 5–12 mies., FAQ.
@@ -172,7 +173,7 @@ Pełna lista wszystkich kultur: /kultury/baza.html . Przewodnik (jak dobrać): /
 Mezofilne (25–35°C, sery świeże i półtwarde): /kultury/mezofilne.html . Termofilne (37–55°C, sery włoskie i twarde): /kultury/termofilne.html
 
 ### "Jak zrobić ser X w domu?"
-Przewodnik ogólny: /przepisy/przewodnik.html . Konkretne przepisy: /przepisy/caciotta.html , /przepisy/ricotta.html , /przepisy/mozzarella.html , /przepisy/gouda.html , /przepisy/gruyere.html , /przepisy/emmental.html
+Przewodnik ogólny: /przepisy/przewodnik.html . Konkretne przepisy: /przepisy/korycinski.html , /przepisy/caciotta.html , /przepisy/ricotta.html , /przepisy/mozzarella.html , /przepisy/gouda.html , /przepisy/gruyere.html , /przepisy/emmental.html
 
 ### "Czy mogę sprzedawać domowy ser? (RHD/MOL)"
 Najważniejsze fakty (limity, rejestracja, ewidencja): /prawo/przewodnik.html

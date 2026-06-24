@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Ser Koryciński Swojski - krąg z drobnymi oczkami i czarnuszką (ilustracja)">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="85%">
+      <stop offset="0%" stop-color="#fdf3dd"/>
+      <stop offset="100%" stop-color="#eedcb2"/>
+    </radialGradient>
+    <radialGradient id="cheese" cx="42%" cy="36%" r="72%">
+      <stop offset="0%" stop-color="#fbf0cf"/>
+      <stop offset="68%" stop-color="#f3e2ad"/>
+      <stop offset="100%" stop-color="#e6cb8a"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <ellipse cx="324" cy="302" rx="172" ry="26" fill="#000000" opacity="0.08"/>
+  <circle cx="320" cy="178" r="150" fill="url(#cheese)" stroke="#c8a861" stroke-width="3"/>
+  <circle cx="320" cy="178" r="150" fill="none" stroke="#c9a85e" stroke-width="11" stroke-dasharray="6 7" opacity="0.5"/>
+  <circle cx="320" cy="178" r="139" fill="none" stroke="#d8bd84" stroke-width="2" opacity="0.6"/>
+  <g fill="#e3cb92">
+    <ellipse cx="270" cy="138" rx="10" ry="8"/>
+    <ellipse cx="332" cy="118" rx="7" ry="6"/>
+    <ellipse cx="382" cy="158" rx="11" ry="9"/>
+    <ellipse cx="300" cy="188" rx="8" ry="7"/>
+    <ellipse cx="356" cy="213" rx="9" ry="7"/>
+    <ellipse cx="255" cy="198" rx="7" ry="6"/>
+    <ellipse cx="320" cy="243" rx="10" ry="8"/>
+    <ellipse cx="392" cy="223" rx="6" ry="5"/>
+    <ellipse cx="285" cy="243" rx="6" ry="5"/>
+    <ellipse cx="345" cy="163" rx="6" ry="5"/>
+  </g>
+  <g fill="#2b2b2b">
+    <circle cx="248" cy="158" r="2.4"/><circle cx="300" cy="148" r="2.2"/><circle cx="360" cy="133" r="2.5"/>
+    <circle cx="395" cy="188" r="2.3"/><circle cx="340" cy="198" r="2.2"/><circle cx="280" cy="168" r="2.4"/>
+    <circle cx="310" cy="223" r="2.3"/><circle cx="365" cy="248" r="2.2"/><circle cx="262" cy="223" r="2.3"/>
+    <circle cx="330" cy="178" r="2.2"/><circle cx="375" cy="203" r="2.1"/><circle cx="295" cy="118" r="2.2"/>
+    <circle cx="240" cy="188" r="2.2"/><circle cx="345" cy="118" r="2.1"/><circle cx="405" cy="158" r="2.2"/>
+  </g>
+  <ellipse cx="270" cy="123" rx="60" ry="28" fill="#ffffff" opacity="0.18"/>
+</svg>

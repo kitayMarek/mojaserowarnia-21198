@@ -207,7 +207,7 @@ MILK_TYPES = {
     "asiago": ["krowie"], "caciotta": ["krowie"], "dunlop": ["krowie"],
     "feta_bulgarische": ["owcze", "krowie"], "yorkshire": ["krowie"], "gouda": ["krowie"],
     "cheddar": ["krowie"], "mozzarella": ["krowie"], "camembert": ["krowie"],
-    "halloumi": ["owcze", "kozie"], "brie": ["krowie"], "parmezan": ["krowie"],
+    "halloumi": ["owcze", "kozie"], "korycinski": ["krowie"], "brie": ["krowie"], "parmezan": ["krowie"],
     "ricotta": ["krowie"], "mascarpone": ["krowie"],
     "feta-grecka": ["owcze", "kozie", "krowie"], "gorgonzola": ["krowie"],
     "roquefort": ["owcze", "krowie"], "stilton": ["krowie"],
@@ -226,7 +226,7 @@ MILK_TYPES = {
 CATEGORY = {
     "asiago": "twardy", "caciotta": "twardy", "dunlop": "twardy", "yorkshire": "twardy",
     "gouda": "twardy", "cheddar": "twardy", "parmezan": "twardy", "gruyere": "twardy",
-    "emmental": "twardy", "brie": "plesniowy", "camembert": "plesniowy",
+    "emmental": "twardy", "korycinski": "twardy", "brie": "plesniowy", "camembert": "plesniowy",
     "gorgonzola": "plesniowy", "roquefort": "plesniowy", "stilton": "plesniowy",
     "mozzarella": "swiezy", "ricotta": "swiezy", "mascarpone": "swiezy",
     "feta-grecka": "miekki", "feta_bulgarische": "miekki", "halloumi": "inne",

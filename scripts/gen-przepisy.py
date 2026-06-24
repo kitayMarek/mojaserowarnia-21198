@@ -15,7 +15,7 @@ OUTDIR = os.path.join(ROOT, "public", "przepisy")
 
 # Sery do wygenerowania (te bez ręcznej statycznej strony)
 TARGET_IDS = ["asiago", "brie", "camembert", "cheddar", "dunlop", "feta_bulgarische",
-              "feta-grecka", "gorgonzola", "halloumi", "mascarpone", "parmezan",
+              "feta-grecka", "gorgonzola", "halloumi", "korycinski", "mascarpone", "parmezan",
               "roquefort", "stilton", "yorkshire"]
 
 STR = r'"((?:\\.|[^"])*)"'

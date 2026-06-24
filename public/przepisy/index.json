@@ -2233,6 +2233,173 @@
     },
     {
       "wersjaSchematu": 2,
+      "slug": "korycinski",
+      "nazwa": "Ser Koryciński Swojski",
+      "rodzina": "ser podpuszczkowy (półtwardy, regionalny)",
+      "kategoria": "twardy",
+      "trudnosc": "latwy",
+      "zrodlo": "serowarnia-kurated",
+      "autor": null,
+      "licencja": null,
+      "url": "https://mojaserowarnia.pl/przepisy/korycinski.html",
+      "mleko": {
+        "litry": 10.0,
+        "typ": "krowie",
+        "typy": [
+          "krowie"
+        ],
+        "pasteryzacja": null
+      },
+      "kultury": [
+        {
+          "co": "MA 4001 / MA 4002 (Choozit MA)",
+          "dawka": "wg producenta"
+        },
+        {
+          "co": "Flora Danica",
+          "dawka": "wg producenta"
+        },
+        {
+          "co": "MM 100 / MM 101",
+          "dawka": "wg producenta"
+        },
+        {
+          "co": "MESO / kultura mezofilna",
+          "dawka": "wg producenta"
+        }
+      ],
+      "podpuszczka": {
+        "typ": null,
+        "dawka": "Płynna podpuszczka single-strength; ~2,5 ml (~1/2 tsp) na 10 L mleka. Czas krzepnięcia 35–45 min.",
+        "czasKrzepnieciaMin": null
+      },
+      "kroki": [
+        {
+          "nr": 1,
+          "nazwa": "1) Podgrzanie i zakwaszanie 32 °C ~45 min",
+          "opis": "Podgrzej mleko krowie do 32 °C. Zaszczep kulturą mezofilną (wg producenta), wymieszaj i odstaw na 45 min, by mleko lekko się zakwasiło.",
+          "wskazowka": "Tradycyjnie Koryciński ścinano samą podpuszczką; kultura mezofilna daje łagodny, lekko kwaskowy profil i charakterystyczne drobne oczka.",
+          "temperaturaC": 32,
+          "czasMin": 45,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": [
+            {
+              "co": "kultura startowa",
+              "dawka": "wg producenta"
+            }
+          ]
+        },
+        {
+          "nr": 2,
+          "nazwa": "2) Dodanie podpuszczki ~35–45 min do czystego rozłamu",
+          "opis": "Rozpuść podpuszczkę w odrobinie chłodnej przegotowanej wody i wmieszaj ruchem góra-dół przez ~1 min. Odstaw bez ruszania, aż powstanie zwarty skrzep dający czysty rozłam (35–45 min).",
+          "wskazowka": "Test: wsuń nóż pod skrzep i unieś — pęka czysto, a serwatka jest klarowna. Wtedy można kroić.",
+          "temperaturaC": null,
+          "czasMin": 45,
+          "warunekKonca": "czysty rozłam skrzepu (clean break)",
+          "pH": null,
+          "dodatki": [
+            {
+              "co": "podpuszczka",
+              "dawka": "wg siły podpuszczki"
+            }
+          ]
+        },
+        {
+          "nr": 3,
+          "nazwa": "3) Krojenie skrzepu ~1,5 cm",
+          "opis": "Potnij skrzep w kratę na ziarno ~1,5 cm. Odczekaj 5 min, potem delikatnie mieszaj 10–15 min, aż ziarno obeschnie i się wzmocni.",
+          "wskazowka": null,
+          "temperaturaC": null,
+          "czasMin": 15,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 4,
+          "nazwa": "4) Lekkie dogrzanie 36–38 °C ~20 min",
+          "opis": "Powoli (ok. 1 °C co 2–3 min) dogrzej ziarno do 36–38 °C, delikatnie mieszając. Trzymaj ~10 min, aż ziarno będzie sprężyste i piszczy w zębach.",
+          "wskazowka": "Wyższa temperatura = jędrniejsze, elastyczne ziarno i wyraźniejsze oczka. Na świeży, miękki Koryciński możesz pominąć dogrzewanie.",
+          "temperaturaC": {
+            "min": 36,
+            "max": 38
+          },
+          "czasMin": 20,
+          "warunekKonca": "ziarno odpowiednio jędrne",
+          "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 5,
+          "nazwa": "5) Dodatki — czarnuszka i zioła",
+          "opis": "Odlej część serwatki do poziomu ziarna. Wmieszaj ulubione dodatki: czarnuszkę, suszone zioła, czosnek lub paprykę (1–2 łyżki na krąg).",
+          "wskazowka": "Czarnuszka to klasyka Korycińskiego — daje charakterystyczny wygląd i lekko orzechowo-pieprzny akcent.",
+          "temperaturaC": null,
+          "czasMin": null,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 6,
+          "nazwa": "6) Formowanie w koszyku — karbowany wzór",
+          "opis": "Przełóż ziarno do koszyka lub cedzaka (stąd charakterystyczny karbowany wzór kręgu). Odciekaj 2–3 h w temperaturze pokojowej, obracając ser co 30–45 min dla równej formy.",
+          "wskazowka": "Tradycyjny krąg waży 2,5–5 kg i ma do 30 cm średnicy — w domu rób mniejszy, z 10 L mleka wyjdzie ok. 1,2–1,5 kg.",
+          "temperaturaC": null,
+          "czasMin": 45,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 7,
+          "nazwa": "7) Solenie w solance",
+          "opis": "Sól w solance 18–20% przez ~2–3 h na każdy kilogram sera (albo natrzyj solą w masie). Po soleniu osusz powierzchnię.",
+          "wskazowka": "Solanka: ~200 g soli na 1 L wody; łyżka octu i odrobina CaCl₂ pomagają wyrobić zdrową skórkę.",
+          "temperaturaC": null,
+          "czasMin": 180,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": []
+        },
+        {
+          "nr": 8,
+          "nazwa": "8) Świeży albo leżakowany",
+          "opis": "Świeży Koryciński jest gotowy do jedzenia po odcieknięciu i posoleniu (1–2 dni w lodówce). Na ser leżakowany/dojrzały trzymaj go 2–6 tygodni w 12–14 °C i 80–85% wilgotności, obracając co 1–2 dni.",
+          "wskazowka": null,
+          "temperaturaC": {
+            "min": 12,
+            "max": 14
+          },
+          "czasMin": null,
+          "warunekKonca": null,
+          "pH": null,
+          "dodatki": []
+        }
+      ],
+      "solenie": {
+        "typ": "solanka",
+        "stezenieProc": 18,
+        "czasH": 3.0,
+        "temperaturaC": null
+      },
+      "dojrzewanie": {
+        "dni": 1,
+        "temperaturaC": {
+          "min": 12,
+          "max": 14
+        },
+        "wilgotnoscProc": 80,
+        "pielegnacja": "Świeży od ręki; leżakowany 2–6 tyg. w 12–14 °C i 80–85% RH, obracać co 1–2 dni. Z mleka surowego min. 60 dni.",
+        "ubytekWagiProc": 14
+      },
+      "wydajnoscKg": 1.2,
+      "uwagi": "Czas dojrzewania: Świeży: 1–2 dni · leżakowany: 2–6 tygodni. Świeży od ręki; leżakowany 2–6 tyg. w 12–14 °C i 80–85% RH, obracać co 1–2 dni. Z mleka surowego min. 60 dni."
+    },
+    {
+      "wersjaSchematu": 2,
       "slug": "mascarpone",
       "nazwa": "Mascarpone",
       "rodzina": "produkt śmietankowy (świeży)",

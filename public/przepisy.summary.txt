@@ -1,4 +1,4 @@
-PRZEPISY NA SERY — mojaserowarnia.pl (20 serów)
+PRZEPISY NA SERY — mojaserowarnia.pl (21 serów)
 Pełne przepisy (składniki, kultury, kroki krok po kroku, FAQ): https://mojaserowarnia.pl/przepisy/przewodnik.html
 Kontrakt slug→ser dla integracji. Slug = identyfikator z URL (STABILNY). Format wiersza:
 slug | nazwa PL | URL | rodzina
@@ -16,6 +16,7 @@ gorgonzola | Gorgonzola | https://mojaserowarnia.pl/przepisy/gorgonzola.html | s
 gouda | Gouda | https://mojaserowarnia.pl/przepisy/gouda.html | ser dojrzewający (półtwardy)
 gruyere | Gruyère | https://mojaserowarnia.pl/przepisy/gruyere.html | ser dojrzewający (twardy, alpejski)
 halloumi | Halloumi | https://mojaserowarnia.pl/przepisy/halloumi.html | ser świeży/parzony (solankowy)
+korycinski | Ser Koryciński Swojski | https://mojaserowarnia.pl/przepisy/korycinski.html | ser podpuszczkowy (półtwardy, regionalny)
 mascarpone | Mascarpone | https://mojaserowarnia.pl/przepisy/mascarpone.html | produkt śmietankowy (świeży)
 mozzarella | Mozzarella domowa | https://mojaserowarnia.pl/przepisy/mozzarella.html | ser świeży (pasta filata)
 parmezan | Parmezan (Parmigiano-Reggiano) | https://mojaserowarnia.pl/przepisy/parmezan.html | ser dojrzewający (twardy, długodojrzewający)

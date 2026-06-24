@@ -30,6 +30,7 @@ FAMILY = {
     "gouda": "ser dojrzewający (półtwardy)",
     "gruyere": "ser dojrzewający (twardy, alpejski)",
     "halloumi": "ser świeży/parzony (solankowy)",
+    "korycinski": "ser podpuszczkowy (półtwardy, regionalny)",
     "mascarpone": "produkt śmietankowy (świeży)",
     "mozzarella": "ser świeży (pasta filata)",
     "parmezan": "ser dojrzewający (twardy, długodojrzewający)",

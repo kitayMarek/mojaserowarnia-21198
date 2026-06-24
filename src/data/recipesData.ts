@@ -18,6 +18,7 @@ import roquefortImage from "@/assets/roquefort.jpg";
 import stiltonImage from "@/assets/stilton.jpg";
 import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
+import korycinskiImage from "@/assets/korycinski.svg";
 
 export interface CultureSubstitute {
   name: string;
@@ -96,6 +97,143 @@ export interface Recipe {
 }
 
 export const recipesData: Recipe[] = [
+  {
+    id: "korycinski",
+    name: "Ser Koryciński Swojski",
+    difficulty: "Łatwy",
+    description: "Ser Koryciński Swojski to polski ser podpuszczkowy z Podlasia (gminy Korycin, Suchowola, Janów) z Chronionym Oznaczeniem Geograficznym (ChOG od 2012 r., tradycja od 2005 r.). Formowany w koszykach krąg o karbowanej powierzchni i drobnych oczkach, z mleka krowiego, często z czarnuszką lub ziołami. Smak łagodny i śmietankowy, z czasem bardziej wyrazisty i lekko pikantny; barwa kremowożółta, konsystencja elastyczna i gąbczasta. Jedzony świeży lub leżakowany.",
+    yield: "≈ 1,2–1,5 kg z 10 L mleka (tradycyjny krąg: 2,5–5 kg)",
+    ageTime: "Świeży: 1–2 dni · leżakowany: 2–6 tygodni",
+    image: korycinskiImage,
+
+    milkBase: "≈ 10 L mleka pełnego krowiego (tradycyjnie surowego od zaufanego źródła; przy pasteryzowanym dodaj CaCl₂). Z mleka surowego dojrzewaj min. 60 dni.",
+    starter: "Kultura mezofilna (np. MA 4001 / Flora Danica) — wg producenta. Tradycyjnie ser ścinano samą podpuszczką; kultura daje łagodny profil i drobne oczka.",
+    coagulant: "Płynna podpuszczka single-strength; ~2,5 ml (~1/2 tsp) na 10 L mleka. Czas krzepnięcia 35–45 min.",
+    salting: "Solanka 18–20%, ~2–3 h na każdy kilogram sera (lub solenie w masie).",
+    aging: "Świeży od ręki; leżakowany 2–6 tyg. w 12–14 °C i 80–85% RH, obracać co 1–2 dni. Z mleka surowego min. 60 dni.",
+
+    cultureSubstitutes: [
+      {
+        name: "MA 4001 / MA 4002 (Choozit MA)",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "wg producenta (~1/8 tsp na 10 L)",
+        notes: "Klasyczna mezofilna — łagodny, lekko maślany profil.",
+        searchQuery: "MA 4001"
+      },
+      {
+        name: "Flora Danica",
+        type: "mezofilna (z Leuconostoc)",
+        shop: "Artiser.pl",
+        dosage: "wg producenta",
+        notes: "Mezofilna z bakteriami gazotwórczymi (Leuconostoc) — wspiera drobne oczka.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "MM 100 / MM 101",
+        type: "mezofilna",
+        shop: "Lactic.pl",
+        dosage: "wg producenta",
+        notes: "Mezofilny starter do serów podpuszczkowych półtwardych.",
+        searchQuery: "MM 100"
+      },
+      {
+        name: "MESO / kultura mezofilna",
+        type: "mezofilna",
+        shop: "GAP Poland",
+        dosage: "wg producenta",
+        notes: "Uniwersalny starter mezofilny do serów zagrodowych.",
+        searchQuery: "mezofilna"
+      }
+    ],
+
+    dosageReference: "Odniesienie: kultura mezofilna wg producenta + ~2,5 ml podpuszczki na 10 L mleka; czarnuszka 1–2 łyżki na krąg.",
+    dosageTable: [
+      { ingredient: "Mleko krowie pełne", amount: "≈ 10 L", notes: "Surowe lub pasteryzowane (+ CaCl₂)" },
+      { ingredient: "Kultura mezofilna", amount: "wg producenta", notes: "np. MA 4001 / Flora Danica" },
+      { ingredient: "Podpuszczka płynna", amount: "~2,5 ml (~1/2 tsp)", notes: "Single strength; krzepnięcie 35–45 min" },
+      { ingredient: "Chlorek wapnia (CaCl₂)", amount: "wg producenta", notes: "Tylko dla mleka pasteryzowanego" },
+      { ingredient: "Czarnuszka / zioła", amount: "1–2 łyżki na krąg", notes: "Wmieszać do ziarna (opcjonalnie)" },
+      { ingredient: "Sól (solanka)", amount: "~2–3 h na kg sera", notes: "Solanka 18–20%" }
+    ],
+
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie 32 °C ~45 min",
+        content: "Podgrzej mleko krowie do 32 °C. Zaszczep kulturą mezofilną (wg producenta), wymieszaj i odstaw na 45 min, by mleko lekko się zakwasiło.",
+        tip: "Tradycyjnie Koryciński ścinano samą podpuszczką; kultura mezofilna daje łagodny, lekko kwaskowy profil i charakterystyczne drobne oczka."
+      },
+      {
+        title: "2) Dodanie podpuszczki ~35–45 min do czystego rozłamu",
+        content: "Rozpuść podpuszczkę w odrobinie chłodnej przegotowanej wody i wmieszaj ruchem góra-dół przez ~1 min. Odstaw bez ruszania, aż powstanie zwarty skrzep dający czysty rozłam (35–45 min).",
+        tip: "Test: wsuń nóż pod skrzep i unieś — pęka czysto, a serwatka jest klarowna. Wtedy można kroić."
+      },
+      {
+        title: "3) Krojenie skrzepu ~1,5 cm",
+        content: "Potnij skrzep w kratę na ziarno ~1,5 cm. Odczekaj 5 min, potem delikatnie mieszaj 10–15 min, aż ziarno obeschnie i się wzmocni.",
+        warning: "Tnij i mieszaj delikatnie — zbyt ostre traktowanie wyciśnie tłuszcz i da twardy, suchy ser."
+      },
+      {
+        title: "4) Lekkie dogrzanie 36–38 °C ~20 min",
+        content: "Powoli (ok. 1 °C co 2–3 min) dogrzej ziarno do 36–38 °C, delikatnie mieszając. Trzymaj ~10 min, aż ziarno będzie sprężyste i piszczy w zębach.",
+        tip: "Wyższa temperatura = jędrniejsze, elastyczne ziarno i wyraźniejsze oczka. Na świeży, miękki Koryciński możesz pominąć dogrzewanie."
+      },
+      {
+        title: "5) Dodatki — czarnuszka i zioła",
+        content: "Odlej część serwatki do poziomu ziarna. Wmieszaj ulubione dodatki: czarnuszkę, suszone zioła, czosnek lub paprykę (1–2 łyżki na krąg).",
+        tip: "Czarnuszka to klasyka Korycińskiego — daje charakterystyczny wygląd i lekko orzechowo-pieprzny akcent."
+      },
+      {
+        title: "6) Formowanie w koszyku — karbowany wzór",
+        content: "Przełóż ziarno do koszyka lub cedzaka (stąd charakterystyczny karbowany wzór kręgu). Odciekaj 2–3 h w temperaturze pokojowej, obracając ser co 30–45 min dla równej formy.",
+        tip: "Tradycyjny krąg waży 2,5–5 kg i ma do 30 cm średnicy — w domu rób mniejszy, z 10 L mleka wyjdzie ok. 1,2–1,5 kg."
+      },
+      {
+        title: "7) Solenie w solance",
+        content: "Sól w solance 18–20% przez ~2–3 h na każdy kilogram sera (albo natrzyj solą w masie). Po soleniu osusz powierzchnię.",
+        tip: "Solanka: ~200 g soli na 1 L wody; łyżka octu i odrobina CaCl₂ pomagają wyrobić zdrową skórkę."
+      },
+      {
+        title: "8) Świeży albo leżakowany",
+        content: "Świeży Koryciński jest gotowy do jedzenia po odcieknięciu i posoleniu (1–2 dni w lodówce). Na ser leżakowany/dojrzały trzymaj go 2–6 tygodni w 12–14 °C i 80–85% wilgotności, obracając co 1–2 dni.",
+        warning: "Z mleka surowego dojrzewaj minimum 60 dni lub użyj mleka pasteryzowanego — ze względów bezpieczeństwa."
+      }
+    ],
+
+    notes: {
+      tips: [
+        "Czarnuszka, czosnek niedźwiedzi, papryka, suszone pomidory lub zioła prowansalskie — wmieszaj do ziarna przed formowaniem.",
+        "Koszyk/cedzak nadaje charakterystyczny karbowany wzór — to znak rozpoznawczy kręgu."
+      ],
+      warnings: [
+        "Surowe mleko: dojrzewaj min. 60 dni albo pasteryzuj — kwestia bezpieczeństwa żywności.",
+        "Nazwa 'Ser Koryciński Swojski' jest chroniona (ChOG) — w sprzedaży używaj jej tylko zgodnie z przepisami; w domu rób ser typu koryciński."
+      ],
+      variants: [
+        "Świeży (1–2 dni) — łagodny, śmietankowy.",
+        "Leżakowany / dojrzały (2–6 tyg.) — wyrazisty, lekko pikantny, ciemniejsza barwa.",
+        "Tradycyjnie dojrzewany w chłodnej piwnicy na słomie żytniej."
+      ]
+    },
+
+    flavor: {
+      taste: "Łagodny, śmietankowy; z dojrzewaniem bardziej wyrazisty i lekko pikantny",
+      texture: "Elastyczna, gąbczasta, z drobnymi oczkami",
+      color: "Kremowożółta, ciemniejąca z czasem",
+      aroma: "Świeży, mleczny, z nutą czarnuszki lub ziół"
+    },
+
+    nutrition: {
+      servingSize: "100 g",
+      calories: 330,
+      fatContent: 26,
+      saturatedFatContent: 17,
+      proteinContent: 22,
+      carbohydrateContent: 1,
+      sodiumContent: 600,
+      calciumContent: 700
+    }
+  },
   {
     id: "asiago",
     name: "Asiago",
