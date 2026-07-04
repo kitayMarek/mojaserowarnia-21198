@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, FileText, AlertCircle, ArrowLeft } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ReactionButton from "@/components/ReactionButton";
@@ -96,14 +97,12 @@ const AktyPrawneUE = () => {
             <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="akty-prawne-ue" variant="default" />
             </div>
-            <div className="mb-4">
-              <h1 className="text-4xl font-bold mb-4 text-primary">
-                Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich
-              </h1>
-              <p className="text-lg text-muted-foreground mb-6">
-                Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim.
-              </p>
-            </div>
+            <PageHeader
+              icon={Scale}
+              color="emerald"
+              title="Najważniejsze akty prawne UE dotyczące produkcji serów farmerskich"
+              subtitle="Wszystkie najważniejsze dokumenty prawne Unii Europejskiej dotyczące produkcji serów ze szczególnym uwzględnieniem produkcji na poziomie farmerskim."
+            />
 
             <Card className="bg-primary/5 border-primary/20">
               <CardContent className="pt-6">

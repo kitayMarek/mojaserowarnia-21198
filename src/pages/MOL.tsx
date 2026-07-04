@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, Info, FileText } from "lucide-react";
+import { ArrowLeft, Info, FileText, Scale } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
 import FAQSchema from "@/components/FAQSchema";
@@ -70,14 +71,12 @@ const MOL = () => {
             <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="mol" variant="default" />
             </div>
-            <div className="mb-4">
-              <h1 className="text-4xl font-bold mb-4 text-primary">
-                Działalność marginalna, lokalna i ograniczona (MOL)
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Kompletny przewodnik po formie działalności MOL dla serowarów i rolników
-              </p>
-            </div>
+            <PageHeader
+              icon={Scale}
+              color="emerald"
+              title="Działalność marginalna, lokalna i ograniczona (MOL)"
+              subtitle="Kompletny przewodnik po formie działalności MOL dla serowarów i rolników"
+            />
           </div>
 
           {/* TL;DR Section */}

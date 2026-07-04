@@ -6,7 +6,8 @@ import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft, BookOpen, Scale } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -76,12 +77,12 @@ const RzezniRolnicza = () => {
             <div className="mb-6">
               <ReactionButton contentType="legal_page" contentId="rzeznia-rolnicza" variant="default" />
             </div>
-            <div className="mb-4">
-              <h1 className="text-4xl font-bold mb-4 text-primary">Rzeźnia Rolnicza</h1>
-              <p className="text-lg text-muted-foreground">
-                Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie
-              </p>
-            </div>
+            <PageHeader
+              icon={Scale}
+              color="emerald"
+              title="Rzeźnia Rolnicza"
+              subtitle="Kompleksowy przewodnik po uruchomieniu małej ubojni drobiu przy gospodarstwie"
+            />
           </div>
 
           {/* TL;DR Section */}

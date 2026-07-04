@@ -7,6 +7,7 @@ import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, CheckCircle, AlertCircle } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 
 const faqs = [
@@ -69,10 +70,12 @@ const RHDDokumenty = () => {
           </Link>
 
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-primary">Wymagane dokumenty w działalności RHD</h1>
-            <p className="text-lg text-muted-foreground">
-              W RHD część dokumentów jest obowiązkowa, a część mocno zalecana (często sprawdzana przy kontroli). Poniżej praktyczny zestaw.
-            </p>
+            <PageHeader
+              icon={FileText}
+              color="emerald"
+              title="Wymagane dokumenty w działalności RHD"
+              subtitle="W RHD część dokumentów jest obowiązkowa, a część mocno zalecana (często sprawdzana przy kontroli). Poniżej praktyczny zestaw."
+            />
           </div>
 
           {/* TL;DR Section */}

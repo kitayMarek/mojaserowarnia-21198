@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, CheckCircle2, Info } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Info, FileText } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 
 const MOLDokumenty = () => {
@@ -35,12 +36,12 @@ const MOLDokumenty = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Powrót do informacji o MOL
             </Link>
-            <h1 className="text-4xl font-bold mb-4 text-primary">
-              Dokumentacja w działalności MOL
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Wymagane dokumenty i ewidencje w działalności marginalnej, lokalnej i ograniczonej
-            </p>
+            <PageHeader
+              icon={FileText}
+              color="emerald"
+              title="Dokumentacja w działalności MOL"
+              subtitle="Wymagane dokumenty i ewidencje w działalności marginalnej, lokalnej i ograniczonej"
+            />
           </div>
 
           <Alert className="mb-6">
