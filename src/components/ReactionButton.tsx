@@ -76,7 +76,8 @@ const ReactionButton = ({ contentType, contentId, variant = "default" }: Reactio
         </Button>
       </div>
 
-      {/* Growing balloon badge with points */}
+      {/* Growing balloon badge with points — ukryty w stanie 0, żeby nie dublować zer */}
+      {stats.totalPoints > 0 && (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -101,6 +102,7 @@ const ReactionButton = ({ contentType, contentId, variant = "default" }: Reactio
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      )}
     </div>
   );
 };

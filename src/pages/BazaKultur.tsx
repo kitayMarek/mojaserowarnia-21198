@@ -177,7 +177,7 @@ const BazaKultur = () => {
             loading="eager"
             fetchPriority="high"
           />
-          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute inset-0 bg-black/45" />
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-4">

@@ -132,7 +132,7 @@ const App = () => (
           cookieName="moja-serowarnia-consent"
           style={{
             background: "rgba(0, 0, 0, 0.95)",
-            padding: "20px",
+            padding: "10px 20px",
             alignItems: "center",
           }}
           buttonStyle={{
@@ -174,19 +174,13 @@ const App = () => (
           }}
         >
           <div className="text-sm text-white">
-            <p className="mb-2">
-              Serwis prezentuje informacje o kulturach bakteryjnych i przepisach na podstawie publicznie dostępnych danych. 
-              Nie gwarantujemy kompletności informacji - zawsze weryfikuj dane u producenta. 
-              Strona wykorzystuje pliki cookie.
-            </p>
-            <p>
-              <a 
-                href="/nota-prawna" 
-                className="underline text-amber-400 hover:text-amber-300 transition-colors"
-              >
-                Nota Prawna i Polityka Cookies
-              </a>
-            </p>
+            Strona używa plików cookie (m.in. Google Analytics). Treści mają charakter informacyjny — weryfikuj dane u producenta.{" "}
+            <a
+              href="/nota-prawna"
+              className="underline text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              Nota Prawna i Polityka Cookies
+            </a>
           </div>
         </CookieConsent>
     </TooltipProvider>

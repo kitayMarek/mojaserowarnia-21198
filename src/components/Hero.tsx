@@ -20,7 +20,7 @@ const Hero = () => {
         .from("profiles")
         .select("*", { count: "exact", head: true });
       
-      if (count !== null) {
+      if (count && count > 0) {
         setUsersCount(count);
       }
     };

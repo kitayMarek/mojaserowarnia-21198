@@ -156,6 +156,9 @@ const RecipeDetails = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Poprowadź produkcję z timerami i alarmami na każdym etapie, a gotowy ser wrzuć do wirtualnej dojrzewalni, która liczy ubytek wagi i przypomina o pielęgnacji.
                 </p>
+                <span className="mt-2 inline-flex items-center text-sm font-semibold text-primary sm:hidden">
+                  Otwórz w Fermly <ArrowRight className="h-4 w-4 ml-1" />
+                </span>
               </div>
               <div className="hidden sm:flex items-center font-semibold text-primary whitespace-nowrap">
                 Otwórz w Fermly

@@ -67,6 +67,8 @@
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # HSTS — wymuś HTTPS na poziomie przeglądarki (bez includeSubDomains/preload = bezpieczny start, łatwy do wycofania)
+  Header always set Strict-Transport-Security "max-age=31536000"
 
   # CORS dla publicznych kontraktów integracyjnych (.json/.txt/.xml) — pozwala fermly.pl
   # fetchować dane serowarni po stronie klienta. Tylko pliki danych, dane i tak publiczne.
