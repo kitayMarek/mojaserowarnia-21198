@@ -74,9 +74,9 @@ const SilaPodpuszczki = () => {
         { label: "Siła Podpuszczki" }
       ]} />
       
-      <div className="pt-20 flex">
+      <div className="pt-20 lg:pt-0 flex">
         {/* Sidebar Navigation */}
-        <aside className="hidden lg:block w-64 border-r border-border bg-card/50 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto">
+        <aside className="hidden lg:block w-64 border-r border-border bg-card/50 sticky top-4 h-[calc(100vh-2rem)] overflow-y-auto">
           <div className="p-6 space-y-6">
             <div className="space-y-1">
               <h3 className="text-lg font-bold">📖 Spis treści</h3>

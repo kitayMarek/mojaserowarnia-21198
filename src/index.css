@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Layout sidebara: usuniecie martwej przestrzeni po starym gornym pasku =====
+   Na desktopie (lg+) tresc jest przesunieta pod staly lewy sidebar i NIE ma juz gornego
+   paska nawigacji. Strony wciaz trzymaly gorna rezerwe na ten pasek (pt-20/pt-24/pt-28/
+   mt-16/mt-20) — co teraz dawalo brzydka pusta belke u gory. Tu ja zerujemy do zwartego
+   odstepu. Hero strony glownej (main[data-hero]) zostaje "flush" do gory. */
+@media (min-width: 1024px) {
+  .lg\:pl-64 main:not([data-hero]) {
+    padding-top: 1.5rem;
+    margin-top: 0;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

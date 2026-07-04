@@ -36,7 +36,7 @@ const PageBreadcrumbs = ({ items, baseUrl = "https://serowarstwo.pl" }: PageBrea
     <>
       <BreadcrumbSchema items={schemaItems} />
       
-      <div className="container mx-auto px-4 py-4 pt-24">
+      <div className="container mx-auto px-4 py-4 pt-24 lg:pt-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

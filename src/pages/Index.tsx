@@ -16,7 +16,7 @@ const Index = () => {
         <link rel="canonical" href="https://mojaserowarnia.pl/" />
       </Helmet>
       <Navigation />
-      <main className="pt-16 lg:pt-0" role="main">
+      <main data-hero className="pt-16 lg:pt-0" role="main">
         <Hero />
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
