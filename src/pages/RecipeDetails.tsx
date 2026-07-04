@@ -140,32 +140,31 @@ const RecipeDetails = () => {
             </div>
           </div>
 
-          {/* CTA: Uwarz w Fermly — deep-link per ser (BRIEF #8) */}
-          <a
-            href={`https://fermly.pl/mleko/warzenie?ser=${recipe.id}`}
-            target="_blank"
-            rel="noopener"
-            className="group block bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl shadow-card border border-primary/30 p-6 mb-8 transition-shadow hover:shadow-lg"
-          >
-            <div className="flex items-center gap-4">
-              <div className="text-4xl shrink-0">🧀</div>
-              <div className="flex-1">
-                <h2 className="text-xl font-display font-bold text-primary mb-1">
-                  Uwarz ten ser krok po kroku w Fermly
-                </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Poprowadź produkcję z timerami i alarmami na każdym etapie, a gotowy ser wrzuć do wirtualnej dojrzewalni, która liczy ubytek wagi i przypomina o pielęgnacji.
-                </p>
-                <span className="mt-2 inline-flex items-center text-sm font-semibold text-primary sm:hidden">
-                  Otwórz w Fermly <ArrowRight className="h-4 w-4 ml-1" />
-                </span>
-              </div>
-              <div className="hidden sm:flex items-center font-semibold text-primary whitespace-nowrap">
-                Otwórz w Fermly
-                <ArrowRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
-              </div>
+          {/* CTA: Uwarz w Fermly — wyróżniony przycisk, deep-link per ser (BRIEF #8) */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl shadow-card p-5 mb-8">
+            <div className="text-4xl shrink-0">🧀</div>
+            <div className="flex-1">
+              <h2 className="text-lg font-display font-bold text-foreground mb-1">
+                Uwarz ten ser krok po kroku w Fermly
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Poprowadź produkcję z timerami i alarmami na każdym etapie, a gotowy ser trafi do wirtualnej dojrzewalni (liczy ubytek wagi, przypomina o pielęgnacji).
+              </p>
             </div>
-          </a>
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto shrink-0 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold shadow-warm"
+            >
+              <a
+                href={`https://fermly.pl/mleko/warzenie?ser=${recipe.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Uwarz w Fermly <ArrowRight className="h-4 w-4 ml-1" />
+              </a>
+            </Button>
+          </div>
 
           {/* Przepis bazowy */}
           <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
