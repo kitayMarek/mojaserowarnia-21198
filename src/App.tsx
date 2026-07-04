@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
@@ -59,6 +59,14 @@ const MojeListy = lazy(() => import("./pages/MojeListy"));
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import AdminRoute from "./components/AdminRoute";
 
+// Powłoka publicznych stron: rezerwuje miejsce na stały lewy sidebar (Navigation) na desktopie (lg+).
+// Dashboard/admin/auth/404 mają własny layout i NIE dostają tego offsetu.
+const SidebarShell = () => (
+  <div className="lg:pl-64">
+    <Outlet />
+  </div>
+);
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -71,6 +79,7 @@ const App = () => (
           <AuthProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
+            <Route element={<SidebarShell />}>
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
@@ -105,6 +114,7 @@ const App = () => (
             <Route path="/wiadomosci" element={<Wiadomosci />} />
             <Route path="/automatyzacja-social-media" element={<AutomatyzacjaSocialMedia />} />
             <Route path="/slownik" element={<Slownik />} />
+            </Route>
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/admin/news" element={<AdminRoute><AdminNews /></AdminRoute>} />
