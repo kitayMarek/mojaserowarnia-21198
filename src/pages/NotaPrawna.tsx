@@ -6,7 +6,8 @@ import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info } from "lucide-react";
+import { Info, Scale } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 const NotaPrawna = () => {
   useEffect(() => {
@@ -24,7 +25,14 @@ const NotaPrawna = () => {
       <PageBreadcrumbs items={[{ label: "Nota Prawna" }]} />
       <main className="pt-20 pb-12" role="main">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6">Nota Prawna</h1>
+          <div className="mb-8">
+            <PageHeader
+              icon={Scale}
+              color="emerald"
+              title="Nota Prawna"
+              subtitle="Zastrzeżenia prawne, zakres odpowiedzialności i polityka plików cookie serwisu"
+            />
+          </div>
           
           {/* TL;DR Section */}
           <TLDRSection>
