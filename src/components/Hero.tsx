@@ -40,11 +40,12 @@ const Hero = () => {
         <img
           src={heroImage}
           alt="Serowar przy produkcji sera rzemieślniczego - Moja Serowarnia baza kultur bakteryjnych"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-[center_25%]"
           loading="eager"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Scrim gradientowy — daje nagłówkowi czyste tło niezależnie od zdjęcia (nie „wyrasta z sylwetki") */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/45" />
       </div>
 
       {/* Content */}
