@@ -54,6 +54,11 @@ const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
 const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialMedia"));
 const Slownik = lazy(() => import("./pages/Slownik"));
 const MojeListy = lazy(() => import("./pages/MojeListy"));
+const KulturyPrzewodnik = lazy(() => import("./pages/KulturyPrzewodnik"));
+const KulturyMezofilne = lazy(() => import("./pages/KulturyMezofilne"));
+const KulturyTermofilne = lazy(() => import("./pages/KulturyTermofilne"));
+const KulturyJogurtowe = lazy(() => import("./pages/KulturyJogurtowe"));
+const SeryWege = lazy(() => import("./pages/SeryWege"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -84,6 +89,11 @@ const App = () => (
             <Route path="/baza-kultur" element={<BazaKultur />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
             <Route path="/moje-listy" element={<MojeListy />} />
+            <Route path="/kultury/przewodnik" element={<KulturyPrzewodnik />} />
+            <Route path="/kultury/mezofilne" element={<KulturyMezofilne />} />
+            <Route path="/kultury/termofilne" element={<KulturyTermofilne />} />
+            <Route path="/kultury/jogurtowe" element={<KulturyJogurtowe />} />
+            <Route path="/sery-wege" element={<SeryWege />} />
             <Route path="/przepisy" element={<Przepisy />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/przepisy-kulinarne" element={<PrzepisyKulinarne />} />
