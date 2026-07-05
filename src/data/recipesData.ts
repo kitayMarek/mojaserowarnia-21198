@@ -18,7 +18,7 @@ import roquefortImage from "@/assets/roquefort.jpg";
 import stiltonImage from "@/assets/stilton.jpg";
 import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
-import korycinskiImage from "@/assets/korycinski.svg";
+import korycinskiImage from "@/assets/korycinski.jpg";
 
 export interface CultureSubstitute {
   name: string;
