@@ -22,7 +22,7 @@ from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = os.path.join(ROOT, "public")
-DATE_MODIFIED = "2026-06-18"  # spójne z Fermly i bieżącą datą
+DATE_MODIFIED = "2026-07-05"  # spójne z Fermly i bieżącą datą
 
 # wstaw po linii @type głównego typu treści (z zachowaniem wcięcia)
 TYPE_RE = re.compile(r'^([ \t]*)("@type":\s*"(?:Article|Recipe|Dataset)",)', re.M)
