@@ -62,6 +62,7 @@ const SeryWege = lazy(() => import("./pages/SeryWege"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import ScrollToTop from "@/components/ScrollToTop";
 import AdminRoute from "./components/AdminRoute";
 
 // Powłoka publicznych stron: rezerwuje miejsce na stały lewy sidebar (Navigation) na desktopie (lg+).
@@ -81,6 +82,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <AuthProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
