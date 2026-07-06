@@ -57,6 +57,8 @@ Dostępne kalkulatory:
 - /kalkulator-beaugel - Kalkulator metody flokulacji Beaugel
 - /kalkulator-kosztu-sera - Kalkulacja kosztów produkcji
 - /kalkulator-miar - Przelicznik jednostek serowarskich
+- /kalkulator-pasz - Kalkulator pasz dla drobiu: normy żywieniowe (kury nioski, brojlery, kaczki, gęsi, indyki), bilansowanie mieszanek, koszt. Treść statyczna: /kalkulator-pasz.html
+- /kalkulator-pasz-bydlo - Kalkulator pasz (dawki) dla bydła
 - /porownanie-wartosci-odzywczych - Porównywarka wartości odżywczych serów
 - /etykieta-rhd - Wymagania prawne etykiety do sprzedaży w RHD (rozp. 1169/2011) + darmowy edytor etykiety do druku. Treść statyczna: /etykieta-do-sprzedazy-rhd.html
 

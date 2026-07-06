@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalkulator pasz dla drobiu — normy i bilansowanie mieszanek</title>
+  <meta name="description" content="Jak zbilansować paszę dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): normy energii, białka, Ca, P i włókna, tabela wartości pokarmowej surowców, dawki i typowe błędy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://mojaserowarnia.pl/kalkulator-pasz.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Kalkulator pasz dla drobiu — normy i bilansowanie mieszanek" />
+  <meta property="og:description" content="Normy żywieniowe drobiu, wartość pokarmowa surowców, instrukcja bilansowania mieszanki i typowe błędy." />
+  <meta property="og:url" content="https://mojaserowarnia.pl/kalkulator-pasz.html" />
+  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />
+
+  <!-- Structured Data: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "datePublished": "2026-07-06",
+    "dateModified": "2026-07-06",
+    "headline": "Kalkulator pasz dla drobiu — normy żywieniowe i bilansowanie mieszanek",
+    "description": "Normy żywieniowe drobiu (kury nioski, brojlery, kaczki, gęsi, indyki), wartość pokarmowa surowców paszowych, instrukcja bilansowania mieszanki i typowe błędy.",
+    "inLanguage": "pl",
+    "url": "https://mojaserowarnia.pl/kalkulator-pasz.html",
+    "image": "https://mojaserowarnia.pl/og-image.png",
+    "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl/" }
+  }
+  </script>
+
+  <!-- Structured Data: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "pl",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Ile białka powinna mieć pasza dla kur niosek?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "W okresie nieśności orientacyjnie 16–17% białka ogólnego. Kluczowy jest też wapń: 3,5–3,8% dla mocnych skorupek jaj (głównie z kredy pastewnej). Młode kurczęta (1–6 tygodni) potrzebują więcej białka (18–19%), a mniej wapnia (ok. 1%)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czym podnieść energię (EM) paszy dla drobiu?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Najwięcej energii metabolicznej dają kukurydza (ok. 14,5 MJ/kg) i olej roślinny (ok. 37 MJ/kg, dodawany w ilości 1–2%). Energię podnosi też pszenica i gotowane ziemniaki. Aby obniżyć energię, zwiększ udział owsa, jęczmienia lub otrębów pszennych."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ile roślin strączkowych (groch, bobik) można dać drobiu?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Orientacyjnie łącznie: do 5% dla młodych ptaków (do 6 tygodni), do 10% dla ptaków rosnących i do 20% dla dorosłych. Nadmiar grochu i bobiku może powodować problemy trawienne, mimo że to dobre, tanie źródło białka roślinnego."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root { --brand: #b45309; --brand-dark: #92400e; --ink: #1f2937; --muted: #6b7280; --line: #e5e7eb; --bg-soft: #fffbeb; }
+    * { box-sizing: border-box; }
+    body { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem;
+           font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: var(--ink); }
+    h1 { font-size: 1.95rem; line-height: 1.25; color: var(--brand-dark); margin: 0 0 .5rem; }
+    h2 { font-size: 1.35rem; margin-top: 2.6rem; color: var(--brand-dark); border-bottom: 2px solid var(--bg-soft); padding-bottom: .3rem; }
+    h3 { font-size: 1.1rem; color: var(--brand-dark); margin: 1.6rem 0 .2rem; }
+    p, li { color: var(--ink); }
+    a { color: var(--brand); }
+    a.glo { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--brand); }
+    a.glo:hover { color: var(--brand); border-bottom-style: solid; }
+    .lead { font-size: 1.08rem; color: var(--muted); }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .9rem; }
+    th, td { border: 1px solid var(--line); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+    th { background: var(--bg-soft); }
+    td.n, th.n { text-align: right; white-space: nowrap; }
+    ul li { margin-bottom: .3rem; }
+    .note { margin: 1rem 0; padding: .8rem 1rem; background: var(--bg-soft); border-left: 4px solid var(--brand); border-radius: .4rem; font-size: .95rem; }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 1rem 0; }
+    .cards a { display: block; border: 1px solid #fde68a; background: var(--bg-soft); border-radius: .7rem;
+               padding: .9rem 1rem; text-decoration: none; }
+    .cards a strong { color: var(--brand-dark); }
+    .cards a span { display: block; color: var(--muted); font-size: .9rem; margin-top: .2rem; }
+    .cta { display: inline-block; margin-top: 1rem; padding: .7rem 1.2rem; background: var(--brand);
+           color: #fff; border-radius: .6rem; text-decoration: none; font-weight: 600; }
+    footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
+    nav.crumbs { font-size: .85rem; color: var(--muted); margin-bottom: 1.2rem; }
+    nav.crumbs a { color: var(--muted); }
+    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } table { font-size: .82rem; } }
+  </style>
+</head>
+<body>
+  <nav class="crumbs">
+    <a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> →
+    <a href="https://mojaserowarnia.pl/narzedzia">Narzędzia</a> →
+    Kalkulator pasz dla drobiu
+  </nav>
+
+  <h1>Kalkulator pasz dla drobiu — normy żywieniowe i bilansowanie mieszanek</h1>
+  <p class="lead">Jak samodzielnie zbilansować paszę dla drobiu: normy energii, białka, wapnia (Ca), fosforu (P) i włókna dla kur niosek, brojlerów, kaczek, gęsi i indyków, wartość pokarmowa najczęstszych surowców, instrukcja krok po kroku oraz typowe błędy. Wartości są orientacyjne — zawsze weryfikuj z zaleceniami producenta i aktualnymi normami żywienia.</p>
+
+  <p><strong>Interaktywny kalkulator</strong> (dobiera proporcje do normy i liczy koszt mieszanki) jest dostępny w aplikacji: <a href="https://mojaserowarnia.pl/kalkulator-pasz">mojaserowarnia.pl/kalkulator-pasz</a>. Poniżej pełne dane w formie statycznej.</p>
+
+  <h2>Do czego służy bilansowanie paszy?</h2>
+  <p>Pasza dla drobiu musi jednocześnie pokryć zapotrzebowanie na <strong>energię</strong> (EM, MJ/kg), <strong>białko ogólne</strong> (%), <strong>wapń</strong> i <strong>fosfor</strong> oraz mieć odpowiednią zawartość włókna i mikroelementów. Żaden pojedynczy surowiec nie spełnia wszystkich norm naraz — dlatego miesza się zboża (energia), surowce białkowe (śruty, strączkowe) i dodatki mineralne (kreda, fosforan, sól). Bilansowanie polega na dobraniu udziałów procentowych tak, by średnia ważona parametrów mieszanki trafiła w normę dla danego gatunku i wieku ptaka.</p>
+
+  <h2>Normy żywieniowe drobiu (na 1 kg mieszanki)</h2>
+  <p>Oznaczenia: <strong>EM</strong> — energia metaboliczna (MJ/kg), <strong>Białko</strong> — białko ogólne (%), <strong>Ca</strong> — wapń (%), <strong>P</strong> — fosfor (%), <strong>Włókno</strong> (%), <strong>Na</strong> — sód (%).</p>
+
+  <h3>Kury nioski — typy lekkie</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">11,7</td><td class="n">17,5</td><td class="n">3,6</td><td class="n">0,55</td><td class="n">4,5</td><td class="n">0,16</td></tr>
+      <tr><td>1–6 tygodni</td><td class="n">11,5</td><td class="n">18,0</td><td class="n">1,0</td><td class="n">0,65</td><td class="n">4,0</td><td class="n">0,15</td></tr>
+      <tr><td>7–14 tygodni</td><td class="n">11,3</td><td class="n">15,0</td><td class="n">1,0</td><td class="n">0,55</td><td class="n">5,0</td><td class="n">0,15</td></tr>
+      <tr><td>15–20 tygodni</td><td class="n">11,0</td><td class="n">14,0</td><td class="n">2,0</td><td class="n">0,50</td><td class="n">6,0</td><td class="n">0,15</td></tr>
+      <tr><td>Nieśność (do 45%)</td><td class="n">11,5</td><td class="n">17,0</td><td class="n">3,5</td><td class="n">0,50</td><td class="n">5,0</td><td class="n">0,16</td></tr>
+      <tr><td>Nieśność (powyżej 45%)</td><td class="n">11,5</td><td class="n">16,0</td><td class="n">3,8</td><td class="n">0,48</td><td class="n">5,0</td><td class="n">0,16</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Kury nioski — typy ciężkie</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">11,7</td><td class="n">17,5</td><td class="n">3,6</td><td class="n">0,55</td><td class="n">4,5</td><td class="n">0,16</td></tr>
+      <tr><td>1–6 tygodni</td><td class="n">11,5</td><td class="n">19,0</td><td class="n">1,0</td><td class="n">0,70</td><td class="n">4,0</td><td class="n">0,15</td></tr>
+      <tr><td>7–14 tygodni</td><td class="n">11,3</td><td class="n">16,0</td><td class="n">1,0</td><td class="n">0,60</td><td class="n">5,0</td><td class="n">0,15</td></tr>
+      <tr><td>15–20 tygodni</td><td class="n">11,0</td><td class="n">14,5</td><td class="n">2,0</td><td class="n">0,55</td><td class="n">6,0</td><td class="n">0,15</td></tr>
+      <tr><td>Nieśność (do 45%)</td><td class="n">11,5</td><td class="n">17,5</td><td class="n">3,5</td><td class="n">0,55</td><td class="n">5,0</td><td class="n">0,16</td></tr>
+      <tr><td>Nieśność (powyżej 45%)</td><td class="n">11,5</td><td class="n">16,5</td><td class="n">3,8</td><td class="n">0,50</td><td class="n">5,0</td><td class="n">0,16</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Brojlery (kurczęta mięsne)</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">12,0</td><td class="n">18,5</td><td class="n">3,2</td><td class="n">0,50</td><td class="n">4,0</td><td class="n">0,16</td></tr>
+      <tr><td>1–3 tygodnie (starter)</td><td class="n">12,5</td><td class="n">21,0</td><td class="n">1,0</td><td class="n">0,70</td><td class="n">3,5</td><td class="n">0,16</td></tr>
+      <tr><td>4–6 tygodni (grower)</td><td class="n">13,0</td><td class="n">19,0</td><td class="n">0,9</td><td class="n">0,65</td><td class="n">4,0</td><td class="n">0,15</td></tr>
+      <tr><td>Powyżej 6 tygodni (finisher)</td><td class="n">13,2</td><td class="n">17,0</td><td class="n">0,9</td><td class="n">0,60</td><td class="n">4,5</td><td class="n">0,15</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Kaczki</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">11,5</td><td class="n">18,0</td><td class="n">3,4</td><td class="n">0,52</td><td class="n">4,2</td><td class="n">0,15</td></tr>
+      <tr><td>1–3 tygodnie</td><td class="n">11,7</td><td class="n">20,0</td><td class="n">0,9</td><td class="n">0,65</td><td class="n">4,0</td><td class="n">0,15</td></tr>
+      <tr><td>4–7 tygodni</td><td class="n">11,7</td><td class="n">16,0</td><td class="n">0,9</td><td class="n">0,60</td><td class="n">5,0</td><td class="n">0,15</td></tr>
+      <tr><td>Powyżej 7 tygodni</td><td class="n">11,3</td><td class="n">15,0</td><td class="n">0,9</td><td class="n">0,55</td><td class="n">6,0</td><td class="n">0,15</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Gęsi</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">11,3</td><td class="n">17,0</td><td class="n">3,3</td><td class="n">0,54</td><td class="n">4,5</td><td class="n">0,15</td></tr>
+      <tr><td>1–4 tygodnie</td><td class="n">11,5</td><td class="n">20,0</td><td class="n">1,0</td><td class="n">0,70</td><td class="n">4,0</td><td class="n">0,15</td></tr>
+      <tr><td>5–8 tygodni</td><td class="n">11,3</td><td class="n">16,0</td><td class="n">0,9</td><td class="n">0,60</td><td class="n">5,0</td><td class="n">0,15</td></tr>
+      <tr><td>Powyżej 8 tygodni</td><td class="n">10,5</td><td class="n">14,0</td><td class="n">0,9</td><td class="n">0,55</td><td class="n">8,0</td><td class="n">0,15</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Indyki</h3>
+  <table>
+    <thead><tr><th>Okres</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th><th class="n">Na</th></tr></thead>
+    <tbody>
+      <tr><td>Zarodowe</td><td class="n">11,8</td><td class="n">19,0</td><td class="n">3,5</td><td class="n">0,58</td><td class="n">4,0</td><td class="n">0,16</td></tr>
+      <tr><td>1–4 tygodnie</td><td class="n">11,9</td><td class="n">28,0</td><td class="n">1,2</td><td class="n">0,80</td><td class="n">3,5</td><td class="n">0,16</td></tr>
+      <tr><td>5–8 tygodni</td><td class="n">12,1</td><td class="n">24,0</td><td class="n">1,1</td><td class="n">0,70</td><td class="n">4,0</td><td class="n">0,16</td></tr>
+      <tr><td>9–12 tygodni</td><td class="n">12,3</td><td class="n">20,0</td><td class="n">1,0</td><td class="n">0,65</td><td class="n">4,5</td><td class="n">0,15</td></tr>
+      <tr><td>13–16 tygodni</td><td class="n">12,5</td><td class="n">17,0</td><td class="n">1,0</td><td class="n">0,60</td><td class="n">5,0</td><td class="n">0,15</td></tr>
+      <tr><td>Powyżej 16 tygodni</td><td class="n">12,1</td><td class="n">14,0</td><td class="n">1,0</td><td class="n">0,55</td><td class="n">6,0</td><td class="n">0,15</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Wartość pokarmowa surowców paszowych (na 1 kg)</h2>
+  <p class="lead">Baza 124 surowców pogrupowanych po rodzaju. Kolumny: EM — energia metaboliczna (MJ/kg), pozostałe w %. Wartości orientacyjne (sucha masa) — zawsze weryfikuj z kartą/etykietą produktu.</p>
+  <h3>Ziarna, nasiona i strączkowe</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Bobik</td><td class="n">11,25</td><td class="n">26,8</td><td class="n">0,12</td><td class="n">0,53</td><td class="n">7,3</td></tr>
+  <tr><td>Groch</td><td class="n">11,25</td><td class="n">20,9</td><td class="n">0,08</td><td class="n">0,36</td><td class="n">6</td></tr>
+  <tr><td>Gryka</td><td class="n">10,35</td><td class="n">11,6</td><td class="n">0,09</td><td class="n">0,33</td><td class="n">14,6</td></tr>
+  <tr><td>Jęczmień</td><td class="n">11,84</td><td class="n">11</td><td class="n">0,04</td><td class="n">0,37</td><td class="n">4,8</td></tr>
+  <tr><td>Jęczmień+enzym</td><td class="n">12,67</td><td class="n">11</td><td class="n">0,04</td><td class="n">0,37</td><td class="n">4,8</td></tr>
+  <tr><td>Kukurydza</td><td class="n">13,75</td><td class="n">9,4</td><td class="n">0,04</td><td class="n">0,34</td><td class="n">2,9</td></tr>
+  <tr><td>Łubin niebieski wąskolistny</td><td class="n">7,21</td><td class="n">31,5</td><td class="n">0,23</td><td class="n">0,37</td><td class="n">14,7</td></tr>
+  <tr><td>Łubin żółty</td><td class="n">8,32</td><td class="n">38,5</td><td class="n">0,24</td><td class="n">0,57</td><td class="n">13,5</td></tr>
+  <tr><td>Owies</td><td class="n">10,77</td><td class="n">11,8</td><td class="n">0,07</td><td class="n">0,37</td><td class="n">8,9</td></tr>
+  <tr><td>Peluszka</td><td class="n">11,18</td><td class="n">22</td><td class="n">0,08</td><td class="n">0,39</td><td class="n">6,9</td></tr>
+  <tr><td>Pszenica</td><td class="n">12,84</td><td class="n">11,9</td><td class="n">0,07</td><td class="n">0,37</td><td class="n">2,9</td></tr>
+  <tr><td>Pszenica+enzym</td><td class="n">13,61</td><td class="n">11,9</td><td class="n">0,07</td><td class="n">0,37</td><td class="n">2,9</td></tr>
+  <tr><td>Pszenżyto</td><td class="n">12,58</td><td class="n">12,2</td><td class="n">0,04</td><td class="n">0,37</td><td class="n">2,4</td></tr>
+  <tr><td>Pszenżyto+enzym</td><td class="n">13,46</td><td class="n">12,2</td><td class="n">0,04</td><td class="n">0,37</td><td class="n">2,4</td></tr>
+  <tr><td>Rzepak 00</td><td class="n">18,85</td><td class="n">20,7</td><td class="n">0,34</td><td class="n">0,73</td><td class="n">10,1</td></tr>
+  <tr><td>Słonecznik</td><td class="n">14,4</td><td class="n">16,7</td><td class="n">0,2</td><td class="n">0,64</td><td class="n">23,7</td></tr>
+  <tr><td>Soja</td><td class="n">13,79</td><td class="n">32,1</td><td class="n">0,26</td><td class="n">0,62</td><td class="n">6,2</td></tr>
+  <tr><td>Żyto</td><td class="n">10,67</td><td class="n">9,5</td><td class="n">0,07</td><td class="n">0,3</td><td class="n">2,4</td></tr>
+  </tbody></table>
+  <h3>Produkty uboczne, śruty i oleje</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Drożdże pastewne</td><td class="n">10,29</td><td class="n">42,6</td><td class="n">0,5</td><td class="n">1,43</td><td class="n">—</td></tr>
+  <tr><td>Drożdże piwne</td><td class="n">11,72</td><td class="n">48,8</td><td class="n">0,17</td><td class="n">1,38</td><td class="n">—</td></tr>
+  <tr><td>Kiełki kukurydziane</td><td class="n">13,65</td><td class="n">8,8</td><td class="n">0,28</td><td class="n">0,48</td><td class="n">2,2</td></tr>
+  <tr><td>Kiełki pszenne</td><td class="n">8,17</td><td class="n">18,9</td><td class="n">0,07</td><td class="n">0,97</td><td class="n">5,3</td></tr>
+  <tr><td>Kiełki słodowe</td><td class="n">10,02</td><td class="n">24,7</td><td class="n">0,22</td><td class="n">0,64</td><td class="n">13</td></tr>
+  <tr><td>Mąka jęczmienna pastewna</td><td class="n">11,92</td><td class="n">11,5</td><td class="n">0,07</td><td class="n">0,38</td><td class="n">4,3</td></tr>
+  <tr><td>Mąka kukurydziana pastewna</td><td class="n">14,09</td><td class="n">8,8</td><td class="n">0,04</td><td class="n">0,26</td><td class="n">0,9</td></tr>
+  <tr><td>mąka pszenna pastewna</td><td class="n">9,43</td><td class="n">11,6</td><td class="n">0,1</td><td class="n">0,8</td><td class="n">4</td></tr>
+  <tr><td>Melasa</td><td class="n">9,62</td><td class="n">9,9</td><td class="n">0,12</td><td class="n">0,03</td><td class="n">—</td></tr>
+  <tr><td>Odpady piekarnicze</td><td class="n">14,07</td><td class="n">10,9</td><td class="n">0,12</td><td class="n">0,26</td><td class="n">0,9</td></tr>
+  <tr><td>Olej rzepakowy</td><td class="n">35,56</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Otręby pszenne</td><td class="n">8,51</td><td class="n">14,4</td><td class="n">0,11</td><td class="n">1,02</td><td class="n">6,3</td></tr>
+  <tr><td>Płatki owsiane</td><td class="n">13,77</td><td class="n">12,9</td><td class="n">0,07</td><td class="n">0,4</td><td class="n">2,1</td></tr>
+  <tr><td>Płatki ziemniaczane</td><td class="n">10,64</td><td class="n">7,7</td><td class="n">0,05</td><td class="n">0,17</td><td class="n">2,1</td></tr>
+  <tr><td>Śruta poekstrakcyjna arachidowa</td><td class="n">8,59</td><td class="n">42,5</td><td class="n">0,25</td><td class="n">0,59</td><td class="n">10,6</td></tr>
+  <tr><td>Śruta poekstrakcyjna rzepakowa 00</td><td class="n">7,78</td><td class="n">36</td><td class="n">0,66</td><td class="n">1,12</td><td class="n">11,7</td></tr>
+  <tr><td>Śruta poekstrakcyjna słonecznikowa odłuszczona</td><td class="n">6,03</td><td class="n">33,1</td><td class="n">0,32</td><td class="n">0,88</td><td class="n">17,5</td></tr>
+  <tr><td>Śruta sojowa</td><td class="n">9,13</td><td class="n">46</td><td class="n">0,35</td><td class="n">0,54</td><td class="n">6,2</td></tr>
+  <tr><td>Wytłoki rzepakowe</td><td class="n">12,73</td><td class="n">28,9</td><td class="n">—</td><td class="n">—</td><td class="n">11,3</td></tr>
+  <tr><td>Wytłoki rzepakowe-Szestno</td><td class="n">8,6</td><td class="n">32</td><td class="n">0,72</td><td class="n">1,38</td><td class="n">12</td></tr>
+  </tbody></table>
+  <h3>Pasze pochodzenia zwierzęcego</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Kazeina</td><td class="n">17,37</td><td class="n">77,5</td><td class="n">0,37</td><td class="n">0,8</td><td class="n">—</td></tr>
+  <tr><td>Mączka z krwi</td><td class="n">11,82</td><td class="n">75,2</td><td class="n">0,3</td><td class="n">0,17</td><td class="n">—</td></tr>
+  <tr><td>Mączka kostna surowa</td><td class="n">6,07</td><td class="n">23,9</td><td class="n">21,5</td><td class="n">10,19</td><td class="n">—</td></tr>
+  <tr><td>Mączka kostna odklejona</td><td class="n">0,81</td><td class="n">4,7</td><td class="n">25,56</td><td class="n">11,84</td><td class="n">—</td></tr>
+  <tr><td>Mączka mięsna</td><td class="n">12,3</td><td class="n">55</td><td class="n">6</td><td class="n">3,28</td><td class="n">—</td></tr>
+  <tr><td>Mączka mięsna o wyższej zawartości tłuszczu</td><td class="n">12,87</td><td class="n">55,5</td><td class="n">3,6</td><td class="n">2,11</td><td class="n">—</td></tr>
+  <tr><td>Mączka mięsno-kostna</td><td class="n">9,41</td><td class="n">47,3</td><td class="n">8,61</td><td class="n">4,24</td><td class="n">—</td></tr>
+  <tr><td>Mączka KAMBAS-55</td><td class="n">11,3</td><td class="n">55</td><td class="n">6</td><td class="n">3</td><td class="n">—</td></tr>
+  <tr><td>Mączka z piór</td><td class="n">12,65</td><td class="n">86,5</td><td class="n">0,27</td><td class="n">0,61</td><td class="n">0,7</td></tr>
+  <tr><td>Mączka z dorszy</td><td class="n">11,35</td><td class="n">55,9</td><td class="n">7,1</td><td class="n">3,93</td><td class="n">—</td></tr>
+  <tr><td>Mączka rybna do 10% tłuszczu w SM</td><td class="n">11,31</td><td class="n">56,2</td><td class="n">4,36</td><td class="n">2,55</td><td class="n">—</td></tr>
+  <tr><td>Mączka rybna powyżej 10% tłuszczu w SM</td><td class="n">13,81</td><td class="n">55,9</td><td class="n">2,87</td><td class="n">2,11</td><td class="n">—</td></tr>
+  <tr><td>Mączka śledziowa</td><td class="n">12,11</td><td class="n">62,9</td><td class="n">2,01</td><td class="n">1,84</td><td class="n">—</td></tr>
+  <tr><td>Mleko krowie odtłuszczone w proszku</td><td class="n">9,85</td><td class="n">32,7</td><td class="n">1,24</td><td class="n">0,88</td><td class="n">—</td></tr>
+  <tr><td>Tłuszcz drobiowy</td><td class="n">37,66</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Łój</td><td class="n">29,29</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Smalec</td><td class="n">35,56</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Serwatka  w proszku</td><td class="n">8</td><td class="n">12,2</td><td class="n">0,88</td><td class="n">0,8</td><td class="n">—</td></tr>
+  <tr><td>Treść jaja</td><td class="n">—</td><td class="n">13,6</td><td class="n">0,08</td><td class="n">0,21</td><td class="n">—</td></tr>
+  <tr><td>Twaróg świeży,chudy</td><td class="n">5,1</td><td class="n">29,4</td><td class="n">0,37</td><td class="n">0,21</td><td class="n">—</td></tr>
+  </tbody></table>
+  <h3>Susze z roślin zielonych</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Koniczyna czerwona powyżej-20% b.og. w SM</td><td class="n">5,99</td><td class="n">19,8</td><td class="n">—</td><td class="n">—</td><td class="n">20,4</td></tr>
+  <tr><td>Susz z lucerny</td><td class="n">5,44</td><td class="n">20,2</td><td class="n">1,32</td><td class="n">0,31</td><td class="n">20,6</td></tr>
+  <tr><td>Susz z traw</td><td class="n">4,38</td><td class="n">16,3</td><td class="n">0,6</td><td class="n">0,31</td><td class="n">23,3</td></tr>
+  </tbody></table>
+  <h3>Zielonki (pasze świeże)</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Koniczyna perska</td><td class="n">0,95</td><td class="n">3,1</td><td class="n">0,21</td><td class="n">0,07</td><td class="n">2,9</td></tr>
+  <tr><td>Lucerna przed kwitnieniem</td><td class="n">0,95</td><td class="n">4,7</td><td class="n">0,43</td><td class="n">0,07</td><td class="n">5</td></tr>
+  <tr><td>Owies młody</td><td class="n">1,08</td><td class="n">3</td><td class="n">0,08</td><td class="n">0,11</td><td class="n">3,7</td></tr>
+  <tr><td>Pokrzywa młoda</td><td class="n">1,87</td><td class="n">5,6</td><td class="n">0,83</td><td class="n">0,13</td><td class="n">4,8</td></tr>
+  <tr><td>Seradela - początek do połowy kwitnienia</td><td class="n">0,79</td><td class="n">2,8</td><td class="n">0,26</td><td class="n">0,06</td><td class="n">3,7</td></tr>
+  <tr><td>Trawy - kłoszenie</td><td class="n">1,17</td><td class="n">3,9</td><td class="n">0,08</td><td class="n">0,04</td><td class="n">4,7</td></tr>
+  <tr><td>Żyto - strzelanie w źdźbło</td><td class="n">1,13</td><td class="n">3,4</td><td class="n">0,07</td><td class="n">0,07</td><td class="n">2,7</td></tr>
+  </tbody></table>
+  <h3>Kiszonki</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Kukurydza cała roślina dojrzałość mleczna ziarna</td><td class="n">0,85</td><td class="n">1,8</td><td class="n">0,09</td><td class="n">0,05</td><td class="n">4,8</td></tr>
+  <tr><td>Liście buraków cukrowych - czyste</td><td class="n">1,52</td><td class="n">2,8</td><td class="n">0,27</td><td class="n">0,05</td><td class="n">2,7</td></tr>
+  <tr><td>Trawa łąkowa</td><td class="n">1,26</td><td class="n">2,8</td><td class="n">0,12</td><td class="n">0,06</td><td class="n">6,3</td></tr>
+  </tbody></table>
+  <h3>Okopowe i bulwiaste</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Brukiew</td><td class="n">1,42</td><td class="n">1,8</td><td class="n">0,05</td><td class="n">0,04</td><td class="n">1,3</td></tr>
+  <tr><td>Bulwa (topinambur)</td><td class="n">3,7</td><td class="n">1,4</td><td class="n">0,05</td><td class="n">0,07</td><td class="n">1,4</td></tr>
+  <tr><td>Buraki cukrowe</td><td class="n">3,38</td><td class="n">1,8</td><td class="n">0,04</td><td class="n">0,03</td><td class="n">1,3</td></tr>
+  <tr><td>Buraki pastewne</td><td class="n">2,32</td><td class="n">1,5</td><td class="n">0,05</td><td class="n">0,04</td><td class="n">0,9</td></tr>
+  <tr><td>Buraki Poly - Past</td><td class="n">2,74</td><td class="n">1,3</td><td class="n">0,06</td><td class="n">0,04</td><td class="n">1,2</td></tr>
+  <tr><td>Marchew pastewna</td><td class="n">1,93</td><td class="n">1,3</td><td class="n">0,06</td><td class="n">0,05</td><td class="n">1,2</td></tr>
+  <tr><td>Rzepa ścierniskowa</td><td class="n">1,01</td><td class="n">1</td><td class="n">0,05</td><td class="n">0,02</td><td class="n">0,9</td></tr>
+  <tr><td>Ziemniaki parowane</td><td class="n">2,29</td><td class="n">2,2</td><td class="n">0,01</td><td class="n">0,04</td><td class="n">0,7</td></tr>
+  </tbody></table>
+  <h3>Dodatki mineralne</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Fosforan jednowapniowy</td><td class="n">—</td><td class="n">—</td><td class="n">22</td><td class="n">23</td><td class="n">—</td></tr>
+  <tr><td>Fosforan dwuwapniowy</td><td class="n">—</td><td class="n">—</td><td class="n">24</td><td class="n">18</td><td class="n">—</td></tr>
+  <tr><td>Fosforan trójwapniowy</td><td class="n">—</td><td class="n">—</td><td class="n">32</td><td class="n">17</td><td class="n">—</td></tr>
+  <tr><td>Kreda pastewna</td><td class="n">—</td><td class="n">—</td><td class="n">36,06</td><td class="n">0,02</td><td class="n">—</td></tr>
+  <tr><td>Muszle mielone</td><td class="n">—</td><td class="n">—</td><td class="n">38</td><td class="n">0,06</td><td class="n">—</td></tr>
+  <tr><td>Skorupy jaj</td><td class="n">—</td><td class="n">—</td><td class="n">36,8</td><td class="n">0,11</td><td class="n">—</td></tr>
+  <tr><td>Sól kuchenna</td><td class="n">—</td><td class="n">—</td><td class="n">0,3</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Formland</td><td class="n">—</td><td class="n">—</td><td class="n">25,4</td><td class="n">8,2</td><td class="n">—</td></tr>
+  </tbody></table>
+  <h3>Gotowe mieszanki (pełnoporcjowe)</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>DKA - starter - DOBROL</td><td class="n">11,72</td><td class="n">20</td><td class="n">—</td><td class="n">—</td><td class="n">3,5</td></tr>
+  <tr><td>DKA - grower - DOBROL</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>DKA - finiszer - DOBROL</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>KB-1 - DOBROL</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>KB-2 - DOBROL</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>KB-1 - SOJA</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>DKA - grower - SOJA</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>DKA-S - Golub</td><td class="n">12,84</td><td class="n">20,5</td><td class="n">—</td><td class="n">—</td><td class="n">3,5</td></tr>
+  </tbody></table>
+  <h3>Aminokwasy i dodatki paszowe</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Lizyna</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Metionina</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Superkoncentrat-Finiszer</td><td class="n">11</td><td class="n">50</td><td class="n">—</td><td class="n">—</td><td class="n">2</td></tr>
+  <tr><td>Formosan</td><td class="n">—</td><td class="n">—</td><td class="n">31,08</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>enzym</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Avizyme</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Cytromix</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">14,1</td><td class="n">—</td></tr>
+  </tbody></table>
+  <h3>Premiksy</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Premiks IF-M.</td><td class="n">—</td><td class="n">—</td><td class="n">16</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks IF-W</td><td class="n">—</td><td class="n">—</td><td class="n">14</td><td class="n">21</td><td class="n">—</td></tr>
+  <tr><td>Premiks IS-M.</td><td class="n">—</td><td class="n">—</td><td class="n">10</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks IS-W</td><td class="n">—</td><td class="n">—</td><td class="n">15</td><td class="n">12</td><td class="n">—</td></tr>
+  <tr><td>Premiks IB-1 forte</td><td class="n">—</td><td class="n">—</td><td class="n">21,4</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks IB-2 forte</td><td class="n">—</td><td class="n">—</td><td class="n">22,8</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks IB-3 forte</td><td class="n">—</td><td class="n">—</td><td class="n">27,9</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks DKA-G bis</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks DKA-G forte bis</td><td class="n">—</td><td class="n">—</td><td class="n">27,1</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks DKA-F forte bis</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Optamix extra-G</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Optamix extra-IB-f</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks KB forte bis</td><td class="n">—</td><td class="n">—</td><td class="n">28,6</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks 2,5 \"PT\"</td><td class="n">—</td><td class="n">—</td><td class="n">7</td><td class="n">27</td><td class="n">—</td></tr>
+  <tr><td>MMD vit</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+  <tr><td>Premiks 2,5% KW-1</td><td class="n">—</td><td class="n">—</td><td class="n">23,92</td><td class="n">6,64</td><td class="n">—</td></tr>
+  <tr><td>Premix 2.5% GN-1</td><td class="n">—</td><td class="n">—</td><td class="n">19,4</td><td class="n">12,9</td><td class="n">—</td></tr>
+  <tr><td>Ascolac</td><td class="n">—</td><td class="n">35</td><td class="n">0,7</td><td class="n">0,7</td><td class="n">1,95</td></tr>
+  </tbody></table>
+  <h3>Koncentraty</h3>
+  <table><thead><tr><th>Surowiec</th><th class="n">EM</th><th class="n">Białko</th><th class="n">Ca</th><th class="n">P</th><th class="n">Włókno</th></tr></thead><tbody>
+  <tr><td>Superkoncentrat DKA-Starter</td><td class="n">11</td><td class="n">50</td><td class="n">7</td><td class="n">3</td><td class="n">2</td></tr>
+  <tr><td>Koncentrat KW-1</td><td class="n">8,16</td><td class="n">38</td><td class="n">3,7</td><td class="n">1,8</td><td class="n">6,2</td></tr>
+  <tr><td>Polfamix DG-2</td><td class="n">—</td><td class="n">—</td><td class="n">19,4</td><td class="n">12,9</td><td class="n">—</td></tr>
+  <tr><td>Superkoncentrat 10%GN-1</td><td class="n">10,3</td><td class="n">33,1</td><td class="n">5</td><td class="n">3,94</td><td class="n">—</td></tr>
+  </tbody></table>
+
+  <h2>Jak zbilansować paszę — krok po kroku</h2>
+  <ol>
+    <li><strong>Wybierz gatunek i okres</strong> — z tabel powyżej odczytaj normę EM, białka, Ca, P.</li>
+    <li><strong>Baza energetyczna (50–70%)</strong> — zacznij od zbóż (kukurydza, pszenica, jęczmień). To one dostarczają większość energii.</li>
+    <li><strong>Uzupełnij białko</strong> — dodaj śrutę (sojowa ~46%, słonecznikowa ~32%) lub rośliny strączkowe (bobik, groch). Pilnuj limitu strączkowych (patrz niżej).</li>
+    <li><strong>Wyrównaj minerały</strong> — dla niosek koniecznie kreda pastewna (Ca 3,5–3,8%); fosfor uzupełnij fosforanem wapnia; dodaj ~0,3% soli.</li>
+    <li><strong>Mikroelementy i witaminy</strong> — dodaj premiks wg zaleceń producenta.</li>
+    <li><strong>Sprawdź sumę = 100%</strong> i policz średnie ważone parametrów; koryguj udziały aż trafisz w normy. Ten krok wykonuje automatycznie <a href="https://mojaserowarnia.pl/kalkulator-pasz">interaktywny kalkulator</a>.</li>
+  </ol>
+
+  <h2>Typowe błędy i jak je poprawić</h2>
+  <ul>
+    <li><strong>Za niskie białko</strong> → dodaj śrutę sojową (najwydajniejsze źródło) lub słonecznikową; strączkowe tylko do limitu.</li>
+    <li><strong>Za niska energia</strong> → zwiększ kukurydzę lub dodaj 1–2% oleju roślinnego; ogranicz owies i otręby.</li>
+    <li><strong>Za mało wapnia u niosek</strong> → bez kredy pastewnej skorupki jaj będą słabe; celuj w 3,5–3,8% Ca.</li>
+    <li><strong>Za mało fosforu</strong> → dodaj fosforan wapnia (ok. 18% P); nadmiar P obciąża nerki.</li>
+    <li><strong>Za dużo strączkowych</strong> → groch + bobik łącznie orientacyjnie: młode do 5%, rosnące do 10%, dorosłe do 20%. Nadmiar szkodzi trawieniu.</li>
+  </ul>
+
+  <h2>Najczęstsze pytania (FAQ)</h2>
+  <h3>Ile białka powinna mieć pasza dla kur niosek?</h3>
+  <p>W okresie nieśności orientacyjnie 16–17% białka ogólnego oraz 3,5–3,8% wapnia (mocne skorupki). Młode kurczęta (1–6 tygodni) potrzebują więcej białka (18–19%) i mniej wapnia (ok. 1%).</p>
+  <h3>Czym podnieść energię (EM) paszy?</h3>
+  <p>Najwięcej energii dają kukurydza (~14,5 MJ/kg) i olej roślinny (~37 MJ/kg, dodawany 1–2%). Aby obniżyć energię — więcej owsa, jęczmienia lub otrębów.</p>
+  <h3>Ile roślin strączkowych można dać drobiu?</h3>
+  <p>Łącznie groch i bobik: do 5% dla młodych, do 10% dla rosnących, do 20% dla dorosłych ptaków. Nadmiar może powodować problemy trawienne.</p>
+
+  <h2>Zobacz również</h2>
+  <div class="cards">
+    <a href="https://mojaserowarnia.pl/kalkulator-pasz"><strong>Interaktywny kalkulator pasz</strong><span>dobiera proporcje do normy, liczy koszt, eksport CSV/TXT</span></a>
+    <a href="https://mojaserowarnia.pl/kalkulator-pasz-bydlo"><strong>Kalkulator pasz dla bydła</strong><span>bilansowanie dawki dla przeżuwaczy</span></a>
+    <a href="https://mojaserowarnia.pl/narzedzia"><strong>Wszystkie narzędzia</strong><span>kalkulatory serowarskie i hodowlane</span></a>
+    <a href="https://mojaserowarnia.pl/poradnik.html"><strong>Poradnik dla serowarów</strong><span>proces produkcji sera krok po kroku</span></a>
+  </div>
+
+  <a class="cta" href="https://mojaserowarnia.pl/kalkulator-pasz">Otwórz interaktywny kalkulator pasz →</a>
+
+  <footer>
+    Wartości norm i surowców mają charakter orientacyjny — zawsze weryfikuj z zaleceniami producenta i aktualnymi normami żywienia drobiu.
+    Interaktywna wersja z automatycznym doborem proporcji: <a href="https://mojaserowarnia.pl/kalkulator-pasz">mojaserowarnia.pl/kalkulator-pasz</a>.
+  </footer>
+</body>
+</html>
