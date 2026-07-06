@@ -335,6 +335,17 @@ const BazaKultur = () => {
                       )}
                     </div>
                     <div className="p-3 space-y-2 text-xs">
+                      {culture.image_url && (
+                        <div className="flex justify-center pb-1">
+                          <img
+                            src={culture.image_url}
+                            alt={culture.name}
+                            loading="lazy"
+                            className="w-20 h-20 object-contain rounded bg-white border border-border"
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                          />
+                        </div>
+                      )}
                       <div className="flex gap-2">
                         <span className="font-bold text-primary min-w-[70px]">Skład:</span>
                         <span className="text-muted-foreground italic flex-1">{culture.composition}</span>
@@ -406,6 +417,7 @@ const BazaKultur = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-primary hover:bg-primary">
+                        <TableHead className="text-white w-16">Zdjęcie</TableHead>
                         <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('name')}>
                           <div className="flex items-center gap-2">
                             Nazwa Handlowa
@@ -437,10 +449,21 @@ const BazaKultur = () => {
                     </TableHeader>
                     <TableBody>
                       {filteredData.length === 0 ? <TableRow>
-                          <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
+                          <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
                             Nie znaleziono kultur pasujących do kryteriów wyszukiwania.
                           </TableCell>
                         </TableRow> : filteredData.map((culture, index) => <TableRow key={`${culture.name}-${culture.shop}-${index}`}>
+                            <TableCell className="w-16">
+                              {culture.image_url && (
+                                <img
+                                  src={culture.image_url}
+                                  alt={culture.name}
+                                  loading="lazy"
+                                  className="w-12 h-12 object-contain rounded bg-white border border-border"
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                                />
+                              )}
+                            </TableCell>
                             <TableCell className="font-semibold text-primary">
                               <div>
                                 {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-accent transition-colors">

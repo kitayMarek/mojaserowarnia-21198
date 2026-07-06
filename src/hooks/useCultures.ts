@@ -26,6 +26,7 @@ export interface Culture {
   productUrl?: string;
   price: string;           // price_label z bazy — kompatybilność wsteczna
   price_numeric?: number;
+  image_url?: string;      // miniatura produktu ze sklepu (hotlink)
   lastChanged?: string;
   lastChecked?: string;
   is_active: boolean;
@@ -47,6 +48,7 @@ function mapDbRow(row: Record<string, unknown>): Culture {
     productUrl:   row.product_url as string ?? undefined,
     price:        row.price_label as string ?? "",      // kompatybilność wsteczna
     price_numeric: row.price_numeric as number ?? undefined,
+    image_url:    row.image_url as string ?? undefined,
     lastChanged:  row.last_changed as string ?? undefined,
     lastChecked:  row.last_checked as string ?? undefined,
     is_active:    row.is_active as boolean ?? true,
