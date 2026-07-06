@@ -52,10 +52,20 @@ const KalkulatorKosztuSera = () => {
   const [overheadGrossIncl, setOverheadGrossIncl] = useState(true);
   const [batchKgManual, setBatchKgManual] = useState(0);
   const [autoBatch, setAutoBatch] = useState(true);
-  
-  // Ingredients
+
+  // Mleko — osobno, model „cena za litr" (nie opakowaniowy)
+  const [milkPricePerL, setMilkPricePerL] = useState(2.5);
+  const [milkVat, setMilkVat] = useState(5);
+  const [milkGrossIncl, setMilkGrossIncl] = useState(true);
+  const [milkLiters, setMilkLiters] = useState(0);
+
+  // Dodatki (model opakowaniowy) — wstępnie wypełnione nazwami, bez ilości
   const [ingredients, setIngredients] = useState<Ingredient[]>([
-    { id: '1', name: 'Mleko', price: 0, vat: 5, grossIncl: true, packQty: 0, packUnit: 'L', useQty: 0, useUnit: 'L', loss: 0 }
+    { id: '1', name: 'Podpuszczka', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'ml', useQty: 0, useUnit: 'ml', loss: 0 },
+    { id: '2', name: 'Kultury', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
+    { id: '3', name: 'Chlorek wapnia (CaCl₂)', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'ml', useQty: 0, useUnit: 'ml', loss: 0 },
+    { id: '4', name: '', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
+    { id: '5', name: '', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
   ]);
   
   // Results
@@ -125,8 +135,8 @@ const KalkulatorKosztuSera = () => {
   };
 
   const calculate = () => {
-    // 1) Milk-based batch weight
-    const milkL = detectMilkLiters(ingredients);
+    // 1) Milk-based batch weight (mleko z osobnej sekcji)
+    const milkL = milkLiters;
     const autoBatchKg = milkL * (yieldKgPer10L / 10);
     setAutoBatchHint(milkL > 0 ? `${fmt(autoBatchKg, '')} kg (z ${fmt(milkL, '')} L mleka @ ${fmt(yieldKgPer10L, '')} kg / 10 L)` : 'brak mleka w składnikach');
     
@@ -137,8 +147,11 @@ const KalkulatorKosztuSera = () => {
     const effective = currentBatchKg * (1 - Math.min(Math.max(processLoss, 0), 99.9999) / 100);
     setEffKg(effective);
 
-    // 3) Calculate costs for each ingredient per kg of cheese
-    let netSum = 0, grossSum = 0;
+    // 3) Koszt mleka (cena za litr × litry) + koszt dodatków
+    const mVat = Math.max(milkVat, 0) / 100;
+    const milkNet = (milkGrossIncl ? milkPricePerL / (1 + mVat) : milkPricePerL) * milkLiters;
+    const milkGross = (milkGrossIncl ? milkPricePerL : milkPricePerL * (1 + mVat)) * milkLiters;
+    let netSum = milkNet, grossSum = milkGross;
     ingredients.forEach(r => {
       const c = costForRow(r, Math.max(effective, 0.000001));
       if (isFinite(c.netPerKg) && isFinite(c.grossPerKg)) {
@@ -196,7 +209,7 @@ const KalkulatorKosztuSera = () => {
   useEffect(() => {
     calculate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ingredients, currency, yieldKgPer10L, processLoss, marginPct, sellVat, overheadVal, overheadVat, overheadGrossIncl, batchKgManual, autoBatch]);
+  }, [ingredients, milkPricePerL, milkVat, milkGrossIncl, milkLiters, currency, yieldKgPer10L, processLoss, marginPct, sellVat, overheadVal, overheadVat, overheadGrossIncl, batchKgManual, autoBatch]);
 
   const addIngredient = () => {
     setIngredients([...ingredients, {
@@ -222,18 +235,19 @@ const KalkulatorKosztuSera = () => {
   };
 
   const loadDefaults = () => {
+    setMilkPricePerL(2.5); setMilkVat(5); setMilkGrossIncl(true); setMilkLiters(100);
     setIngredients([
-      { id: '1', name: 'Mleko', price: 250, vat: 5, grossIncl: true, packQty: 100, packUnit: 'L', useQty: 100, useUnit: 'L', loss: 0 },
-      { id: '2', name: 'Podpuszczka', price: 40, vat: 23, grossIncl: true, packQty: 50, packUnit: 'ml', useQty: 10, useUnit: 'ml', loss: 0 },
-      { id: '3', name: 'Węglan wapnia', price: 30, vat: 23, grossIncl: true, packQty: 1, packUnit: 'kg', useQty: 0.02, useUnit: 'kg', loss: 0 },
-      { id: '4', name: 'Kultury bakterii', price: 90, vat: 23, grossIncl: true, packQty: 50, packUnit: 'g', useQty: 1, useUnit: 'g', loss: 0 },
-      { id: '5', name: 'Sól', price: 5, vat: 23, grossIncl: true, packQty: 1, packUnit: 'kg', useQty: 0.2, useUnit: 'kg', loss: 0 }
+      { id: '1', name: 'Podpuszczka', price: 40, vat: 23, grossIncl: true, packQty: 50, packUnit: 'ml', useQty: 10, useUnit: 'ml', loss: 0 },
+      { id: '2', name: 'Kultury', price: 90, vat: 23, grossIncl: true, packQty: 50, packUnit: 'g', useQty: 1, useUnit: 'g', loss: 0 },
+      { id: '3', name: 'Chlorek wapnia (CaCl₂)', price: 30, vat: 23, grossIncl: true, packQty: 1000, packUnit: 'ml', useQty: 10, useUnit: 'ml', loss: 0 },
+      { id: '4', name: 'Sól', price: 5, vat: 23, grossIncl: true, packQty: 1, packUnit: 'kg', useQty: 0.2, useUnit: 'kg', loss: 0 },
     ]);
-    toast({ title: "Wczytano domyślne składniki" });
+    toast({ title: "Wczytano przykładowe wartości" });
   };
 
   const clearAll = () => {
     setIngredients([]);
+    setMilkLiters(0); setMilkPricePerL(0);
     setBatchKgManual(0);
     toast({ title: "Wyczyszczono kalkulator" });
   };
@@ -242,6 +256,7 @@ const KalkulatorKosztuSera = () => {
     const data = {
       currency, yieldKgPer10L, processLoss, marginPct, sellVat,
       overheadVal, overheadVat, overheadGrossIncl, batchKgManual, autoBatch,
+      milkPricePerL, milkVat, milkGrossIncl, milkLiters,
       ingredients
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -354,11 +369,45 @@ const KalkulatorKosztuSera = () => {
                 </CardContent>
               </Card>
 
-              {/* Ingredients */}
+              {/* Mleko */}
+              <Card className="border-border shadow-card">
+                <CardHeader>
+                  <CardTitle>2) Mleko</CardTitle>
+                  <CardDescription>Cena za litr × ilość. Litry napędzają wydajność (wagę sera).</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                    <div className="space-y-2">
+                      <Label>Cena za litr ({currency}/L)</Label>
+                      <Input type="number" step="0.01" value={milkPricePerL} onChange={(e) => setMilkPricePerL(parseFloat(e.target.value) || 0)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>VAT %</Label>
+                      <Input type="number" step="0.1" value={milkVat} onChange={(e) => setMilkVat(parseFloat(e.target.value) || 0)} />
+                    </div>
+                    <div className="flex items-center gap-2 pb-2">
+                      <input type="checkbox" id="milk-gross" checked={milkGrossIncl} onChange={(e) => setMilkGrossIncl(e.target.checked)} className="w-4 h-4" />
+                      <Label htmlFor="milk-gross" className="cursor-pointer">cena zawiera VAT?</Label>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Ilość mleka (L)</Label>
+                      <Input type="number" step="0.1" value={milkLiters} onChange={(e) => setMilkLiters(parseFloat(e.target.value) || 0)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Koszt mleka (brutto)</Label>
+                      <div className="h-10 flex items-center font-semibold">
+                        {fmt((milkGrossIncl ? milkPricePerL : milkPricePerL * (1 + Math.max(milkVat, 0) / 100)) * milkLiters, currency)}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Dodatki */}
               <Card className="border-border shadow-card">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle>2) Składniki</CardTitle>
+                    <CardTitle>3) Dodatki (podpuszczka, kultury, wapń…)</CardTitle>
                     <Button onClick={addIngredient} size="sm">
                       <Plus className="h-4 w-4 mr-2" />
                       Dodaj składnik
@@ -374,7 +423,7 @@ const KalkulatorKosztuSera = () => {
                           <th className="text-left p-2 font-semibold min-w-[100px]">Cena opak.</th>
                           <th className="text-left p-2 font-semibold min-w-[70px]">VAT %</th>
                           <th className="text-center p-2 font-semibold min-w-[70px]">Brutto?</th>
-                          <th className="text-left p-2 font-semibold min-w-[100px]">Ilość opak.</th>
+                          <th className="text-left p-2 font-semibold min-w-[100px]">Zawartość opak.</th>
                           <th className="text-left p-2 font-semibold min-w-[80px]">Jedn. opak.</th>
                           <th className="text-left p-2 font-semibold min-w-[100px]">Użycie</th>
                           <th className="text-left p-2 font-semibold min-w-[80px]">Jedn. użycia</th>
@@ -397,13 +446,18 @@ const KalkulatorKosztuSera = () => {
                                 />
                               </td>
                               <td className="p-2">
-                                <Input 
-                                  type="number" 
+                                <Input
+                                  type="number"
                                   step="0.01"
-                                  value={ing.price} 
+                                  value={ing.price}
                                   onChange={(e) => updateIngredient(ing.id, 'price', parseFloat(e.target.value) || 0)}
                                   className="min-w-[90px]"
                                 />
+                                {ing.packQty > 0 && (
+                                  <div className="text-[10px] text-muted-foreground mt-1 whitespace-nowrap">
+                                    = {fmt((ing.grossIncl ? ing.price : ing.price * (1 + ing.vat / 100)) / ing.packQty, currency)}/{ing.packUnit}
+                                  </div>
+                                )}
                               </td>
                               <td className="p-2">
                                 <Input 
@@ -495,8 +549,9 @@ const KalkulatorKosztuSera = () => {
                     </table>
                   </div>
                   <p className="text-xs text-muted-foreground mt-4">
-                    Jednostki masy: kg, g, lb, oz • Jednostki objętości: L, ml • Sztuki: pcs. 
-                    <strong> Wykrywanie mleka:</strong> wiersze z nazwą zawierającą „mleko" i jednostką L/ml.
+                    Jednostki masy: kg, g, lb, oz • objętości: L, ml • sztuki: pcs.
+                    <strong> „Cena opak."</strong> = cena całego opakowania, <strong>„Zawartość opak."</strong> = ile jest w opakowaniu
+                    (np. podpuszczka: 40 zł / 50 ml → 0,80 zł/ml). Pod ceną widać wyliczoną cenę jednostkową.
                   </p>
                 </CardContent>
               </Card>
@@ -504,7 +559,7 @@ const KalkulatorKosztuSera = () => {
               {/* Results */}
               <Card className="border-border shadow-card">
                 <CardHeader>
-                  <CardTitle>3) Wyniki</CardTitle>
+                  <CardTitle>4) Wyniki</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="bg-gradient-to-br from-primary/10 to-accent/10 p-6 rounded-lg border-2 border-primary/20">
