@@ -5,6 +5,9 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
 import { AlertCircle, CheckCircle, Info } from 'lucide-react';
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
+import { feedIngredients, feedCategories } from "@/data/feedIngredients";
+import { useFeedIngredients } from "@/hooks/useFeedIngredients";
+import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
 
 interface Skladnik {
   nazwa: string;
@@ -163,19 +166,15 @@ const KalkulatorPasz = () => {
     { nazwa: 'Olej roślinny', em: 37.0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0, mn: 0, zn: 0, se: 0, fe: 0, i: 0 }
   ];
 
-  const wczytajSkladniki = (): PrzykladowySkladnik[] => {
-    try {
-      const zapisane = localStorage.getItem('adminSkladniki');
-      if (zapisane) {
-        return JSON.parse(zapisane);
-      }
-    } catch (e) {
-      console.error('Błąd wczytywania składników:', e);
-    }
-    return domyslneSkladniki;
-  };
+  // Baza surowców: 124 pozycje z pliku danych (źródło: XLS Marka, scripts/gen-feed-ingredients.py).
+  // Poprzednio: 17 zaszytych + edycja przez localStorage (atrapa admina).
+  const wczytajSkladniki = (): PrzykladowySkladnik[] => feedIngredients;
 
   const [przykladoweSkladniki, setPrzykladoweSkladniki] = useState<PrzykladowySkladnik[]>(wczytajSkladniki());
+  // baza z pliku (124) + zatwierdzone zgłoszenia userów z Supabase
+  const { ingredients: feedMerged, categories: pickerKategorie } = useFeedIngredients();
+  useEffect(() => { setPrzykladoweSkladniki(feedMerged); }, [feedMerged]);
+  const [zaproponujOpen, setZaproponujOpen] = useState(false);
   const [panelAdmin, setPanelAdmin] = useState(false);
   const [zalogowanyAdmin, setZalogowanyAdmin] = useState(false);
   const [edytowanySkladnik, setEdytowanySkladnik] = useState<any>(null);
@@ -280,7 +279,7 @@ const KalkulatorPasz = () => {
     }
 
     txt += '\n═══════════════════════════════════════════════\n';
-    txt += 'Wygenerowano przez: Kalkulator Pasz dla Drobiu - AGROJELONKI\n';
+    txt += 'Wygenerowano przez: Kalkulator Pasz dla Drobiu - mojaserowarnia.pl\n';
     txt += '═══════════════════════════════════════════════\n';
 
     try {
@@ -937,32 +936,6 @@ const KalkulatorPasz = () => {
           <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
             <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
               <h2 className="text-2xl font-bold text-foreground">🦅 Kalkulator Pasz dla Drobiu</h2>
-              
-              <div className="flex gap-2">
-                {zalogowanyAdmin ? (
-                  <>
-                    <button
-                      onClick={() => setPanelAdmin(!panelAdmin)}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                    >
-                      {panelAdmin ? '👁️ Ukryj Panel' : '⚙️ Panel Admina'}
-                    </button>
-                    <button
-                      onClick={wylogujAdmin}
-                      className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                    >
-                      🔓 Wyloguj
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => setPokazModalHaslo(true)}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    🔐 Panel Admina
-                  </button>
-                )}
-              </div>
             </div>
 
             {/* Panel Admina */}
@@ -1147,14 +1120,23 @@ const KalkulatorPasz = () => {
             )}
 
             <div className="mb-4">
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
                 <h3 className="text-lg font-semibold text-foreground">Składniki paszy:</h3>
-                <button
-                  onClick={dodajSkladnik}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  + Dodaj składnik
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setZaproponujOpen(true)}
+                    className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors"
+                    title="Zgłoś nowy składnik do wspólnej bazy (np. kupiony dodatek)"
+                  >
+                    ➕ Zaproponuj składnik
+                  </button>
+                  <button
+                    onClick={dodajSkladnik}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    + Dodaj wiersz
+                  </button>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -1176,19 +1158,20 @@ const KalkulatorPasz = () => {
                     {skladniki.map((skladnik, idx) => (
                       <tr key={idx} className="border-b border-border">
                         <td className="p-2">
-                          <input
-                            type="text"
-                            list={`skladniki-${idx}`}
+                          <select
                             value={skladnik.nazwa}
                             onChange={(e) => aktualizujSkladnik(idx, 'nazwa', e.target.value)}
-                            className="w-full p-2 border border-input bg-background text-foreground rounded"
-                            placeholder="Wpisz nazwę..."
-                          />
-                          <datalist id={`skladniki-${idx}`}>
-                            {przykladoweSkladniki.map(przyklad => (
-                              <option key={przyklad.nazwa} value={przyklad.nazwa} />
+                            className="w-full min-w-[190px] p-2 border border-input bg-background text-foreground rounded"
+                          >
+                            <option value="">— wybierz składnik —</option>
+                            {pickerKategorie.map(kat => (
+                              <optgroup key={kat} label={kat}>
+                                {przykladoweSkladniki.filter(p => p.kategoria === kat).map(p => (
+                                  <option key={p.nazwa} value={p.nazwa}>{p.nazwa}</option>
+                                ))}
+                              </optgroup>
                             ))}
-                          </datalist>
+                          </select>
                         </td>
                         <td className="p-2">
                           <input
@@ -2112,6 +2095,8 @@ const KalkulatorPasz = () => {
           </div>
         </div>
       )}
+
+      {zaproponujOpen && <ZaproponujSkladnikDialog onClose={() => setZaproponujOpen(false)} />}
 
       <Footer />
     </>

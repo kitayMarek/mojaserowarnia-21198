@@ -48,6 +48,7 @@ const NotaPrawna = lazy(() => import("./pages/NotaPrawna"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminNews = lazy(() => import("./pages/AdminNews"));
 const AdminLlmStats = lazy(() => import("./pages/AdminLlmStats"));
+const AdminFeedIngredients = lazy(() => import("./pages/AdminFeedIngredients"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
@@ -131,6 +132,7 @@ const App = () => (
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/admin/news" element={<AdminRoute><AdminNews /></AdminRoute>} />
             <Route path="/admin/statystyki-llm" element={<AdminRoute><AdminLlmStats /></AdminRoute>} />
+            <Route path="/admin/skladniki" element={<AdminRoute><AdminFeedIngredients /></AdminRoute>} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="ewidencja" element={<Ewidencja />} />
