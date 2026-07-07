@@ -181,30 +181,63 @@ const KalkulatorBeaugel = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground">Dawka (ml czystej podpuszczki)</Label>
+                      <Label className="text-muted-foreground">Czysta podpuszczka</Label>
                       <div className="p-4 rounded-lg border-2 border-dashed border-primary/30 bg-muted/30">
                         <p className="text-2xl font-bold text-foreground">{fmt(dosePure)} ml</p>
                       </div>
+                      <p className="text-xs text-muted-foreground">Tyle odmierz z buteleczki (najlepiej strzykawką).</p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground">Dawka przy rozcieńczeniu (ml)</Label>
+                      <Label className="text-muted-foreground">
+                        {dilution === "1" ? "Do wlania do mleka" : "Roztwór do wlania (podpuszczka + woda)"}
+                      </Label>
                       <div className="p-4 rounded-lg border-2 border-dashed border-primary/30 bg-muted/30">
                         <p className="text-2xl font-bold text-foreground">{fmt(doseDiluted)} ml</p>
                       </div>
+                      <p className="text-xs text-muted-foreground">
+                        {dilution === "1"
+                          ? "Bez rozcieńczenia — wlewasz samą podpuszczkę."
+                          : `Podpuszczkę wymieszaj z wodą w proporcji 1:${dilution} — tyle gotowego roztworu wlej do mleka.`}
+                      </p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-muted-foreground">Orientacyjnie</Label>
+                      <Label className="text-muted-foreground">Orientacyjnie w kuchni</Label>
                       <div className="p-4 rounded-lg border-2 border-dashed border-primary/30 bg-muted/30">
                         <p className="text-lg font-bold text-foreground">{doseDrops}</p>
                       </div>
+                      <p className="text-xs text-muted-foreground">
+                        {dilution === "1"
+                          ? "Przybliżona miara czystej podpuszczki, gdy nie masz strzykawki."
+                          : "Przybliżona miara gotowego roztworu (podpuszczka + woda), gdy nie masz strzykawki."}
+                      </p>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground">
-                    Założenia: 20 kropel ≈ 1 ml; 1 łyżeczka ≈ 5 ml.
+                    Założenia: 20 kropel ≈ 1 ml; 1 łyżeczka ≈ 5 ml. Krople i łyżeczki to tylko przybliżenie — dla powtarzalnych warzeń używaj strzykawki lub wagi.
                   </p>
+
+                  <Alert className="border-amber-500/50 bg-amber-50 dark:bg-amber-950/30">
+                    <AlertTriangle className="h-4 w-4 text-amber-600" />
+                    <AlertDescription className="text-sm text-foreground space-y-2">
+                      <p className="font-semibold">Dlaczego właściwa dawka podpuszczki jest ważna?</p>
+                      <p>
+                        <strong>Za mało</strong> — skrzep tworzy się wolno, jest miękki i słaby, gorzej się kroi,
+                        a więcej białka i tłuszczu ucieka do serwatki (niższa wydajność).
+                      </p>
+                      <p>
+                        <strong>Za dużo</strong> — skrzep twardnieje za szybko, ser bywa gumowaty,
+                        a nadmiar enzymu często daje <strong>goryczkę</strong> w dojrzewaniu.
+                      </p>
+                      <p>
+                        <strong>Po co rozcieńczać?</strong> Kilka mililitrów podpuszczki trudno równo wmieszać w kilkadziesiąt litrów mleka.
+                        Rozprowadzenie w niechlorowanej, przegotowanej i ostudzonej wodzie pomaga rozłożyć dawkę równomiernie —
+                        roztwór wlej od razu po odmierzeniu i mieszaj 15–30 s, po czym pozostaw mleko w spokoju do flokulacji.
+                      </p>
+                    </AlertDescription>
+                  </Alert>
                 </CardContent>
               </Card>
 
