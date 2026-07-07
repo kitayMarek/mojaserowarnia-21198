@@ -38,6 +38,7 @@ Format danych: Karty przepisów z instrukcjami
 URL: /poradniki
 Podstrony:
 - /poradnik - Kompleksowy przewodnik po produkcji sera
+- /organizacja-serowarni - Jak zorganizować małą, rzemieślniczą serowarnię: układ pomieszczeń, strefy czyste/brudne, dobór sprzętu, obieg pracy od mleka do sera oraz wymogi lokalowe pod RHD/MOL (z osadzonym filmem instruktażowym)
 - /bakterie-kultury - Szczegółowy przewodnik o kulturach bakteryjnych i pleśniach
 - /sila-podpuszczki - Obliczanie siły podpuszczki, metoda flokulacji
 - /gdzie-kupic-podpuszczke - Porównanie dostępnych podpuszczek na rynku
@@ -101,6 +102,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 
 ### Poradnik serowarski (statyczny)
 - [Poradnik dla serowarów — krok po kroku](https://mojaserowarnia.pl/poradnik.html): pełny proces (mleko → skrzep → cięcie → dogrzewanie → formowanie → solenie → dojrzewanie), zakresy temperatur podgrzewania ziarna, higiena serowni, dojrzewanie, sprzęt, typowe błędy i kalkulatory (solanka 18–22%, chlorek wapnia CaCl₂). Strona-filar.
+- [Organizacja małej serowarni — układ, sprzęt, obieg pracy](https://mojaserowarnia.pl/organizacja-serowarni.html): jak zaplanować rzemieślniczą serowarnię — strefy (odbiór mleka → serownia → ociekalnia → solarnia → dojrzewalnia → ekspedycja), zasada jednokierunkowego przepływu (rozdział czysto/brudno, w małej skali rozdział czasowy), dobór sprzętu wg stref, wymogi lokalowe pod RHD/MOL (zmywalne powierzchnie, woda, umywalki, wentylacja, oddzielenie od części mieszkalnej) oraz najczęstsze błędy. Zawiera polecany film instruktażowy.
 
 ### Prawo: sprzedaż domowego sera (statyczne)
 - [RHD i MOL — najważniejsze informacje (filar)](https://mojaserowarnia.pl/prawo/przewodnik.html): RHD vs MOL, limity (RHD 100 000 zł/rok, MOL mleczne ~0,5 t/tydzień), rejestracja (Sanepid 14 dni / weterynaria 30 dni), co musi zawierać ewidencja sprzedaży RHD. Strona-filar.

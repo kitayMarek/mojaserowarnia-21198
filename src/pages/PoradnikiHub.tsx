@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart, Scale } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale, Factory } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -16,6 +16,13 @@ const PoradnikiHub = () => {
       description: "Kompleksowy przewodnik po całym procesie produkcji sera - od przygotowania mleka, przez wybór kultur, proces technologiczny, po dojrzewanie i pielęgnację. Zawiera praktyczne kalkulatory, zakresy temperatur dla różnych typów serów oraz rozwiązania typowych problemów.",
       href: "/poradnik",
       color: "from-primary to-accent",
+    },
+    {
+      icon: <Factory className="w-12 h-12" />,
+      title: "Organizacja małej serowarni",
+      description: "Jak zaplanować rzemieślniczą (przyzagrodową) serowarnię: układ pomieszczeń i strefy czyste/brudne, dobór sprzętu, obieg pracy od odbioru mleka po ekspedycję sera oraz wymogi lokalowe pod sprzedaż w RHD i MOL. Z polecanym filmem instruktażowym.",
+      href: "/organizacja-serowarni",
+      color: "from-accent to-primary",
     },
     {
       icon: <Beaker className="w-12 h-12" />,
@@ -75,6 +82,7 @@ const PoradnikiHub = () => {
             {guides.map((guide, idx) => {
               const guideIdMap: Record<string, string> = {
                 "/poradnik": "poradnik",
+                "/organizacja-serowarni": "organizacja-serowarni",
                 "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",
                 "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke"

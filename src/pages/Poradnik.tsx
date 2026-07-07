@@ -72,6 +72,7 @@ const Poradnik = () => {
   ];
 
   const seeAlsoLinks = [
+    { title: "Organizacja małej serowarni", href: "/organizacja-serowarni", description: "Układ pomieszczeń, sprzęt i obieg pracy + wymogi RHD" },
     { title: "Baza kultur bakteryjnych", href: "/baza-kultur", description: "Kompletna baza kultur z cenami i dawkowaniem" },
     { title: "Przepisy na sery", href: "/przepisy", description: "Szczegółowe przepisy na różne typy serów" },
     { title: "Porównywarka kultur", href: "/porownywarka-kultur", description: "Porównaj kultury różnych producentów" },
@@ -116,6 +117,7 @@ const Poradnik = () => {
 
             <div className="space-y-2 pt-4 border-t">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Podstrony</p>
+              <a href="/organizacja-serowarni" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">🏭 Organizacja serowarni</a>
               <a href="/baza-kultur" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">🧫 Kultury bakteryjne</a>
               <a href="/przepisy" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">🍶 Przepisy</a>
             </div>
