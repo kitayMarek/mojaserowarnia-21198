@@ -1,5 +1,5 @@
-import { supabase } from "@/integrations/supabase/client";
 import { buildAffiliateUrl } from "@/utils/affiliateUrl";
+import { trackShopClick } from "@/utils/trackShopClick";
 
 interface BuyButtonProps {
   productUrl?: string | null;
@@ -14,19 +14,7 @@ const BuyButton = ({ productUrl, shopUrl, shopName, cultureName }: BuyButtonProp
 
   const href = buildAffiliateUrl(productUrl, cultureName, shopName, shopUrl);
 
-  const handleClick = () => {
-    try {
-      // fire-and-forget
-      // @ts-ignore - culture_clicks may not be in generated types yet
-      supabase.from("culture_clicks").insert({
-        culture_name: cultureName,
-        shop_name: shopName,
-        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-      }).then(() => {}, () => {});
-    } catch {
-      // silent
-    }
-  };
+  const handleClick = () => trackShopClick(cultureName, shopName);
 
   return (
     <a

@@ -11,6 +11,7 @@ import { X, AlertCircle, GitCompare, Check, Plus, Trash2, Lightbulb } from "luci
 import { useCultures, type Culture } from "@/hooks/useCultures";
 import ReactionButton from "@/components/ReactionButton";
 import BuyButton from "@/components/BuyButton";
+import { trackShopClick } from "@/utils/trackShopClick";
 
 const MAX = 5;
 
@@ -249,6 +250,7 @@ const PorownywarkaKultur = () => {
                                 href={item.productUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={() => trackShopClick(item.name, item.shop)}
                                 className="text-primary underline hover:text-primary/80"
                               >
                                 Zobacz

@@ -19,6 +19,7 @@ import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 import AddToListButton from "@/components/AddToListButton";
 import BuyButton from "@/components/BuyButton";
+import { trackShopClick } from "@/utils/trackShopClick";
 import { AskLLMSelect } from "@/components/AskLLMSelect";
 
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
@@ -327,10 +328,11 @@ const BazaKultur = () => {
                   <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card rounded-lg shadow-card border border-border overflow-hidden">
                     <div className="bg-primary px-3 py-2">
                       <h3 className="font-bold text-primary-foreground text-sm">
-                        <a 
-                          href={culture.productUrl || culture.shopUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href={culture.productUrl || culture.shopUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => trackShopClick(culture.name, culture.shop)}
                           className="hover:underline"
                         >
                           {culture.name}
@@ -379,7 +381,7 @@ const BazaKultur = () => {
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold text-primary min-w-[70px]">Sklep:</span>
-                        <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-medium">
+                        <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackShopClick(culture.name, culture.shop)} className="text-accent hover:underline font-medium">
                           {culture.shop}
                         </a>
                       </div>
@@ -395,10 +397,11 @@ const BazaKultur = () => {
                           cultureName={culture.name}
                         />
                       </div>
-                      <a 
-                        href={culture.productUrl || culture.shopUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={culture.productUrl || culture.shopUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackShopClick(culture.name, culture.shop)}
                         className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors"
                       >
                         {culture.productUrl ? 'Kup w sklepie' : 'Odwiedź sklep'}
@@ -479,7 +482,7 @@ const BazaKultur = () => {
                             </TableCell>
                             <TableCell className="font-semibold text-primary">
                               <div>
-                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-accent transition-colors">
+                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackShopClick(culture.name, culture.shop)} className="hover:underline hover:text-accent transition-colors">
                                     {culture.name}
                                   </a> : culture.name}
                                 {culture.lastChanged && (
