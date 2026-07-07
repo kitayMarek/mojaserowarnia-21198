@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -7,9 +8,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
+import PageHeader from "@/components/PageHeader";
 
 interface CheeseNutrition {
   name: string;
@@ -139,16 +141,66 @@ const PorownanieWartosciOdzywczych = () => {
   const [amount3, setAmount3] = useState<number>(100);
   const [comparedCheeses, setComparedCheeses] = useState<SelectedCheese[]>([]);
 
-  useEffect(() => {
-    document.title = "Kalkulator Porównania Wartości Odżywczych Serów | Serowar.pl";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Porównaj wartości odżywcze różnych rodzajów serów. Kalkulator umożliwia porównanie do 3 serów jednocześnie z dokładną analizą składników odżywczych."
-      );
-    }
-  }, []);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        name: "Kalkulator porównania wartości odżywczych serów",
+        url: "https://mojaserowarnia.pl/porownanie-wartosci-odzywczych",
+        applicationCategory: "HealthApplication",
+        operatingSystem: "Web",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "PLN" },
+        description:
+          "Darmowe narzędzie do porównania wartości odżywczych serów — kalorie, białko, tłuszcze, wapń i sód na 100 g i na dowolną porcję. Przydatne do diety, przepisów i etykiet serów.",
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Który ser jest najzdrowszy?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nie ma jednoznacznej odpowiedzi - wybór zależy od indywidualnych potrzeb żywieniowych. Dla osób na diecie najlepszy będzie twaróg chudy, dla sportowców - parmezan, a dla dzieci - gouda lub emmental (wysoka zawartość wapnia).",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Ile sera można jeść dziennie?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Zalecana porcja sera to 30-50g dziennie. Osoby aktywne fizycznie mogą spożywać więcej, natomiast osoby z nadwagą powinny ograniczyć spożycie do 30g dziennie.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Czy ser podnosi cholesterol?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Sery zawierają tłuszcze nasycone, które w nadmiarze mogą podnosić poziom cholesterolu. Kluczem jest umiar - spożywanie sera w rozsądnych ilościach (30-50g/dzień) nie powinno negatywnie wpływać na profil lipidowy.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Które sery są najlepsze dla dzieci?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Dla dzieci polecane są sery bogate w wapń i białko: gouda, emmental, mozzarella oraz twaróg. Należy unikać serów pleśniowych i bardzo dojrzałych ze względu na intensywny smak i wyższą zawartość histaminy.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Czy osoby z nietolerancją laktozy mogą jeść ser?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Tak! Sery dojrzewające i twarde (parmezan, cheddar, gouda) zawierają bardzo mało laktozy, ponieważ podczas dojrzewania laktoza jest rozkładana przez bakterie. Im dłużej dojrzewający ser, tym mniej laktozy.",
+            },
+          },
+        ],
+      },
+    ],
+  };
 
   const handleCompare = () => {
     const selections: SelectedCheese[] = [];
@@ -230,6 +282,15 @@ const PorownanieWartosciOdzywczych = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
+      <Helmet>
+        <title>Kalkulator porównania wartości odżywczych serów | Moja Serowarnia</title>
+        <meta
+          name="description"
+          content="Porównaj wartości odżywcze serów — kalorie, białko, tłuszcze, wapń i sód na 100 g i na dowolną porcję. Do 3 serów naraz. Przydatne do diety, przepisów i etykiet serów."
+        />
+        <link rel="canonical" href="https://mojaserowarnia.pl/porownanie-wartosci-odzywczych" />
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      </Helmet>
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Poradniki", href: "/poradniki" },
@@ -243,19 +304,42 @@ const PorownanieWartosciOdzywczych = () => {
         </Link>
 
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="mb-6">
+          <div className="mb-8">
+            <PageHeader
+              icon={BarChart3}
+              color="teal"
+              title="Kalkulator porównania wartości odżywczych serów"
+              subtitle="Zestaw do 3 serów obok siebie — kalorie, białko, tłuszcze, wapń i sód w przeliczeniu na 100 g i na dowolną porcję (g)."
+            />
+            <div className="mt-4">
               <ReactionButton contentType="guide" contentId="porownawie-wartosci-odzywczych" variant="default" />
             </div>
-            <div className="mb-4">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                🧀 Kalkulator Porównania Wartości Odżywczych Serów
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Porównaj wartości odżywcze różnych rodzajów serów i wybierz najlepszy dla swojej diety
-              </p>
-            </div>
           </div>
+
+          {/* Potencjał / zastosowania — treść pod GEO/LLM */}
+          <Card className="mb-8 border-l-4 border-teal-500 bg-teal-50/40 dark:bg-teal-950/20">
+            <CardHeader>
+              <CardTitle className="text-2xl">Do czego służy ta porównywarka?</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                To darmowe narzędzie, które w kilka sekund zestawia skład odżywczy najpopularniejszych serów — od twarogu i mozzarelli po parmezan i oscypka. Kalorie, białko, tłuszcze (w tym nasycone), węglowodany, wapń i sód pokazujemy na 100 g oraz w przeliczeniu na dowolnie wybraną porcję, więc łatwo dopasować ser do konkretnej diety, przepisu czy etykiety produktu.
+              </p>
+              <div>
+                <h2 className="text-lg font-semibold mb-2 text-foreground">Komu się przyda?</h2>
+                <ul className="list-disc list-inside space-y-1 text-muted-foreground ml-4">
+                  <li><strong className="text-foreground">Dietetykom i osobom liczącym makro</strong> — białko, tłuszcz i kalorie kilku serów obok siebie, w jednym miejscu.</li>
+                  <li><strong className="text-foreground">Blogom kulinarnym i autorom przepisów</strong> — gotowe dane odżywcze do publikacji przy daniu z serem.</li>
+                  <li><strong className="text-foreground">Serowarom zagrodowym (RHD)</strong> — punkt wyjścia do <Link to="/etykieta-rhd" className="text-primary hover:underline">profesjonalnej etykiety wartości odżywczych</Link> na własny ser.</li>
+                  <li><strong className="text-foreground">Sportowcom i osobom na diecie</strong> — wybór sera pod cel: dużo białka, mało tłuszczu albo dużo wapnia.</li>
+                  <li><strong className="text-foreground">Rodzicom</strong> — porównanie serów pod kątem wapnia i białka w diecie dzieci.</li>
+                </ul>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Wartości podajemy na 100 g produktu na podstawie ogólnodostępnych tabel składu; konkretne partie serów mogą się różnić — do etykiety produktu zawsze weryfikuj dane z laboratorium lub specyfikacji surowca.
+              </p>
+            </CardContent>
+          </Card>
 
           {/* Intro Section */}
           <Card className="mb-8 border-l-4 border-primary">
