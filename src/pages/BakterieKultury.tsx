@@ -6,16 +6,45 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+import FAQSchema from "@/components/FAQSchema";
 
 const BakterieKultury = () => {
+  const faqData = [
+    {
+      question: "Czym różni się kultura mezofilna od termofilnej?",
+      answer:
+        "Kultury mezofilne działają w niższych temperaturach (ok. 25–35 °C) i są bazą serów świeżych oraz półtwardych — twarogu, goudy, edamu, cheddara. Kultury termofilne pracują w wyższych temperaturach (ok. 40–55 °C) i wytrzymują mocne dogrzewanie skrzepu, dlatego stosuje się je w serach włoskich i twardych — mozzarelli, parmezanie, gruyère. O wyborze decyduje przede wszystkim temperatura dogrzewania Twojego sera.",
+    },
+    {
+      question: "Jaką kulturę wybrać do goudy?",
+      answer:
+        "Gouda to ser półtwardy dogrzewany łagodnie, więc bazą jest kultura mezofilna (typu LD/LL z Lactococcus lactis). Często dodaje się szczepy aromatyczne/gazotwórcze (Leuconostoc, diacetylactis) dla delikatnych oczek i maślanego aromatu. Konkretne produkty z dawkami i cenami znajdziesz w bazie kultur.",
+    },
+    {
+      question: "Ile kultury dodać do mleka?",
+      answer:
+        "Dawki kultur DVI (liofilizowanych, dodawanych wprost do mleka) są bardzo małe i zależą od producenta — orientacyjnie ułamek jednostki U na kilkadziesiąt litrów mleka. Zawsze kieruj się kartą produktu: w przewodniku podajemy zakresy startowe, a dokładne wartości są przy każdej kulturze w bazie.",
+    },
+    {
+      question: "Czy można zrobić ser bez kultury, na jogurcie?",
+      answer:
+        "Do prostych serów termofilnych (np. domowa mozzarella) można użyć żywego jogurtu naturalnego jako źródła bakterii, ale efekty są mniej powtarzalne niż z kultur serowarskich. Do serów mezofilnych i dojrzewających lepiej użyć dedykowanej kultury — masz kontrolę nad składem szczepów i przebiegiem kwaszenia.",
+    },
+    {
+      question: "Skąd biorą się oczka w serze i jak je uzyskać?",
+      answer:
+        "Za drobne oczka i maślany aromat odpowiadają szczepy gazotwórcze (Leuconostoc, Lactococcus lactis biovar diacetylactis). Duże oczka serów szwajcarskich (np. Emmental) tworzą bakterie propionowe. Jeśli używasz kultury podstawowej bez tych szczepów, oczek będzie mało lub wcale — dobierz kulturę typu LD/DL albo dodaj osobno szczepy aromatyczne.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Kultury bakteryjne i pleśnie w serowarstwie — przewodnik praktyczny | Moja Serowarnia</title>
-        <meta name="description" content="Rozszerzony przewodnik dla początkujących serowarów: charakterystyka kultur bakteryjnych i pleśni, dawki startowe, temperatury, pH, typowe błędy, przykładowe mieszanki do popularnych serów." />
+        <title>Kultury bakteryjne do sera — jak dobrać (mezofilne, termofilne, pleśnie) | Moja Serowarnia</title>
+        <meta name="description" content="Jak dobrać kulturę bakteryjną do sera: mezofilna vs termofilna, dawki startowe, temperatury, pH, gotowe mieszanki (gouda, mozzarella, camembert) oraz typowe błędy. Praktyczny przewodnik krok po kroku." />
         <link rel="canonical" href="https://mojaserowarnia.pl/bakterie-kultury" />
       </Helmet>
+      <FAQSchema faqs={faqData} />
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Poradniki", href: "/poradniki" },
@@ -69,6 +98,39 @@ const BakterieKultury = () => {
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-8 md:py-12">
+          {/* Callout: baza kultur (rola: wyszukanie) + rozdzielenie ról */}
+          <div className="max-w-7xl mx-auto mb-8 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border border-primary/20 bg-primary/5">
+            <div className="flex-1">
+              <p className="font-semibold text-foreground mb-1">Szukasz konkretnej kultury — z ceną i sklepem?</p>
+              <p className="text-sm text-muted-foreground">
+                Ten przewodnik pomaga <strong>zrozumieć i dobrać</strong> kultury. Gotowe produkty z dawkami, cenami i dostępnością w polskich sklepach znajdziesz w <strong>bazie kultur</strong>.
+              </p>
+            </div>
+            <a href="/baza-kultur" className="shrink-0 inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
+              Otwórz bazę kultur →
+            </a>
+          </div>
+
+          {/* Jak dobrać — sekcja pod frazy decyzyjne */}
+          <section className="max-w-7xl mx-auto mb-10">
+            <Card className="p-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">Jak dobrać kulturę do sera?</h2>
+              <p className="text-muted-foreground mb-4">
+                Wybór kultury zaczyna się od <strong>temperatury dogrzewania</strong> Twojego sera oraz tego, jaką <strong>teksturę i aromat</strong> chcesz uzyskać:
+              </p>
+              <ul className="space-y-2 text-muted-foreground mb-4">
+                <li>• <strong>Sery łagodnie dogrzewane</strong> (twaróg, gouda, edam, cheddar, camembert) → baza <strong>mezofilna</strong> (25–35 °C).</li>
+                <li>• <strong>Sery mocno dogrzewane</strong> (mozzarella, parmezan, gruyère, emmental) → <strong>termofilna</strong> (40–55 °C).</li>
+                <li>• <strong>Oczka i maślany aromat</strong> → dodaj szczepy <strong>aromatyczne/gazotwórcze</strong> (Leuconostoc, diacetylactis).</li>
+                <li>• <strong>Skórka i charakter</strong> → pleśnie (P. candidum, P. roqueforti) lub bakterie maziowe (B. linens).</li>
+              </ul>
+              <p className="text-sm text-muted-foreground">
+                Poniżej znajdziesz szczegółową charakterystykę każdej grupy, dawki i temperatury. Gotowe produkty z cenami są w{" "}
+                <a href="/baza-kultur" className="text-primary hover:underline">bazie kultur</a>, a najczęstsze pytania — w sekcji FAQ na dole.
+              </p>
+            </Card>
+          </section>
+
           <div className="grid lg:grid-cols-[280px_1fr] gap-8 max-w-7xl mx-auto">
             {/* Sidebar TOC */}
             <aside className="hidden lg:block">
@@ -515,6 +577,21 @@ const BakterieKultury = () => {
                   Opracowanie: wersja 31 paź 2025 • Dla mojaserowarnia.pl
                 </p>
               </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ — pod frazy „jak/którą" (spójne z FAQSchema) */}
+        <div className="container mx-auto px-4 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6">Najczęściej zadawane pytania o kultury</h2>
+            <div className="space-y-5">
+              {faqData.map((f, i) => (
+                <div key={i}>
+                  <h3 className="text-lg font-semibold mb-2">{f.question}</h3>
+                  <p className="text-muted-foreground">{f.answer}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

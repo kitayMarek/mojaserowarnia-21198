@@ -203,6 +203,19 @@ const BazaKultur = () => {
                 dla Parmezanu i Mozzarelli. Ceny od 4,80 do 95,00 zł z polskich sklepów specjalistycznych.
               </p>
             </TLDRSection>
+
+            {/* Callout: lejek do przewodnika po kulturach + rozdzielenie ról */}
+            <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border border-primary/20 bg-primary/5">
+              <div className="flex-1">
+                <p className="font-semibold text-foreground mb-1">Nie wiesz, którą kulturę wybrać?</p>
+                <p className="text-sm text-muted-foreground">
+                  Ta baza służy do <strong>szybkiego wyszukania</strong> gotowej kultury (cena, sklep, dawka). Jeśli chcesz <strong>zrozumieć i dobrać</strong> kulturę do swojego sera — mezofilna vs termofilna, dawki, temperatury, gotowe mieszanki — zajrzyj do przewodnika.
+                </p>
+              </div>
+              <Button asChild className="shrink-0">
+                <Link to="/bakterie-kultury">Przewodnik po kulturach →</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
