@@ -104,6 +104,16 @@
   # /wege -> /wege/ jawnie na https (Apache DirectorySlash robił przeskok na http = błąd przekierowania)
   RewriteRule ^wege$ https://mojaserowarnia.pl/wege/ [R=301,L]
 
+  # --- Prerender dla botów społecznościowych (per-strona OG: tytuł, opis, obraz) ---
+  # FB/Twitter/LinkedIn/WhatsApp itd. NIE renderują JS, więc dla tras React dostawałyby
+  # generyczny index.html. Zamiast tego serwujemy im statyczny mirror (jeśli istnieje),
+  # który ma własny og:title/description/image. Googlebot NIE jest tu ujęty (indeksuje
+  # wersję kanoniczną). Ludzie (zwykłe przeglądarki) dostają normalnie aplikację React.
+  # $1 z RewriteRule jest dostępne w poprzedzającym RewriteCond (kolejność mod_rewrite).
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^.]+?)/?$ /$1.html [L]
+
   # --- Trasy SPA kolidujące z fizycznym katalogiem ---
   # /przepisy ma podstrony statyczne (/przepisy/*.html), ale samo /przepisy to trasa React.
   # Bez tego Apache widzi katalog bez index.html i zwraca 403. Serwujemy aplikację.
