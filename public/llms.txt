@@ -58,6 +58,7 @@ Dostępne kalkulatory:
 - /kalkulator-beaugel - Kalkulator metody flokulacji Beaugel
 - /kalkulator-kosztu-sera - Kalkulacja kosztów produkcji
 - /kalkulator-miar - Przelicznik jednostek serowarskich
+- /kalkulator-solanki - Kalkulator solanki (ile soli na solankę 18–22%) oraz dawki chlorku wapnia (CaCl₂ 0,2–0,3 g/L mleka). Wzory, gotowe przeliczenia, temperatura solanki, wskazówki. Treść statyczna: /kalkulator-solanki.html
 - /kalkulator-pasz - Kalkulator pasz dla drobiu: normy żywieniowe (kury nioski, brojlery, kaczki, gęsi, indyki), bilansowanie mieszanek, koszt. Treść statyczna: /kalkulator-pasz.html
 - /kalkulator-pasz-bydlo - Kalkulator pasz (dawki) dla bydła
 - /porownanie-wartosci-odzywczych - Porównywarka wartości odżywczych serów

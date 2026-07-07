@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { Calculator, ClipboardList, ExternalLink, Tag } from "lucide-react";
+import { Calculator, ClipboardList, ExternalLink, Tag, Droplets } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
@@ -102,6 +102,64 @@ const Narzedzia = () => {
                     >
                       <a 
                         href="/kalkulator-miar"
+                        className="flex items-center justify-center gap-2"
+                      >
+                        Otwórz Kalkulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Kalkulator Solanki */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton
+                      contentType="tool"
+                      contentId="kalkulator-solanki"
+                      variant="compact"
+                    />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    {/* Icon */}
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <Droplets className="h-10 w-10 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator Solanki
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Ile soli na solankę o danym stężeniu (18–22%) oraz ile chlorku wapnia (CaCl₂) dodać do mleka. Dwa najczęstsze rachunki w serowarni.
+                      </p>
+                    </div>
+
+                    {/* Features List */}
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Solanka 18–22% — ilość soli na wodę</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Dawka CaCl₂ na litr mleka</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Wskazówki: temperatura, pH, higiena</span>
+                      </li>
+                    </ul>
+
+                    {/* Button */}
+                    <Button
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white shadow-warm"
+                    >
+                      <a
+                        href="/kalkulator-solanki"
                         className="flex items-center justify-center gap-2"
                       >
                         Otwórz Kalkulator

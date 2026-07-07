@@ -74,6 +74,7 @@ const RecipeDetails = () => {
     { title: "Przewodnik po kulturach", href: "/bakterie-kultury", description: "Zrozum kultury z tego przepisu — dobór, dawki, temperatury" },
     { title: "Porównywarka kultur", href: "/porownywarka-kultur", description: "Porównaj kultury różnych producentów" },
     { title: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera", description: "Oblicz koszt produkcji sera" },
+    { title: "Kalkulator solanki i CaCl₂", href: "/kalkulator-solanki", description: "Ile soli na solankę i chlorku wapnia do mleka" },
     { title: "Poradnik serowarski", href: "/poradnik", description: "Praktyczne wskazówki dla serowarów" },
   ];
 
