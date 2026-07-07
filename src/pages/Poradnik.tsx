@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import poradnikMainHeaderImage from "@/assets/poradnik-main-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
+import PageHeader from "@/components/PageHeader";
+import { BookOpen } from "lucide-react";
 
 const Poradnik = () => {
   useEffect(() => {
@@ -100,6 +101,7 @@ const Poradnik = () => {
             
             <div className="space-y-2">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Nawigacja</p>
+              <a href="#sekcja-film" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">🎬 Film</a>
               <a href="#sekcja-start" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">Start</a>
               <a href="#sekcja-proces" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">Proces</a>
               <a href="#sekcja-temperatury" className="block py-2 px-3 rounded-md hover:bg-primary/10 text-sm font-medium transition-colors">Zakresy temperatur</a>
@@ -121,23 +123,15 @@ const Poradnik = () => {
         </aside>
 
         <main className="flex-1">
-          {/* Hero Section */}
-          <header className="relative border-b border-border py-12 md:py-16 overflow-hidden">
-            <img
-              src={poradnikMainHeaderImage}
-              alt="Poradnik dla serowarów"
-              className="absolute inset-0 w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
+          {/* Hero Section — spójny PageHeader */}
+          <div className="container mx-auto px-4 pt-6 md:pt-8">
+            <PageHeader
+              icon={BookOpen}
+              color="amber"
+              title="Poradnik dla serowarów i rolników rozpoczynających wytwarzanie sera"
+              subtitle="Praktyka + nauka: higiena, mleko, kultury, obróbka ziarna, solenie, dojrzewanie, kontrola jakości. Opracowane na bazie klasycznej literatury i doświadczeń rzemieślniczych."
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90" />
-            <div className="container mx-auto px-4 relative z-10 text-primary-foreground">
-              <div className="mb-4">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">Poradnik dla serowarów i rolników rozpoczynających wytwarzanie sera</h1>
-                <p className="text-sm text-primary-foreground/90 max-w-3xl">Praktyka + nauka: higiena, mleko, kultury, obróbka ziarna, solenie, dojrzewanie, kontrola jakości. Opracowane na bazie klasycznej literatury i doświadczeń rzemieślniczych.</p>
-              </div>
-            </div>
-          </header>
+          </div>
 
           <div className="container mx-auto px-4 py-6">
             <ReactionButton contentType="guide" contentId="poradnik" variant="default" />
@@ -154,6 +148,32 @@ const Poradnik = () => {
                 prowadź dokładne zapisy i stopniowo rozwijaj umiejętności.
               </p>
             </TLDRSection>
+
+            {/* Film: organizacja małej serowarni */}
+            <section id="sekcja-film" className="py-12">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Film: jak zorganizować małą serowarnię</h2>
+              <p className="text-muted-foreground mb-6 max-w-3xl">
+                Naszym zdaniem najlepszy materiał wideo o organizacji małej, rzemieślniczej serowarni — od układu pomieszczeń
+                i doboru sprzętu po obieg pracy. Dobry punkt wyjścia, zanim przejdziesz do szczegółów w kolejnych sekcjach.
+              </p>
+              <div
+                className="relative w-full max-w-3xl rounded-2xl overflow-hidden border border-border shadow-card"
+                style={{ aspectRatio: "16 / 9" }}
+              >
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube-nocookie.com/embed/J7gCa66a-kI"
+                  title="Organizacja małej serowarni — film instruktażowy"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </section>
+
+            <div className="h-1 bg-gradient-to-r from-primary/30 via-accent/30 to-primary/30 rounded-full my-12" />
+
             {/* Od czego zacząć */}
             <section id="sekcja-start" className="py-12">
               <h2 className="text-2xl md:text-3xl font-bold mb-6">Od czego zacząć (dla rolników)</h2>
