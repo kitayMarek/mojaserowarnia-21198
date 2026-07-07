@@ -7,6 +7,7 @@ import { culinaryRecipesData } from "@/data/culinaryRecipesData";
 import CulinaryRecipeCard from "@/components/CulinaryRecipeCard";
 import { Badge } from "@/components/ui/badge";
 import { ChefHat, UtensilsCrossed, Clock, Users } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 const PrzepisyKulinarne = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
@@ -54,19 +55,13 @@ const PrzepisyKulinarne = () => {
               ]} 
             />
             
-            <div className="max-w-4xl mx-auto text-center mt-8">
-              <div className="flex justify-center mb-6">
-                <div className="p-4 bg-primary/10 rounded-full">
-                  <ChefHat className="w-12 h-12 text-primary" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                Przepisy Kulinarne z Serem
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Odkryj wyjątkowe dania, w których ser jest głównym bohaterem. 
-                Od eleganckich roladek po rustykalne zapiekanki - każdy przepis to kulinarna podróż.
-              </p>
+            <div className="mt-6">
+              <PageHeader
+                icon={ChefHat}
+                color="rose"
+                title="Przepisy kulinarne z serem"
+                subtitle="Odkryj wyjątkowe dania, w których ser jest głównym bohaterem — od eleganckich roladek po rustykalne zapiekanki."
+              />
             </div>
 
             {/* Stats */}

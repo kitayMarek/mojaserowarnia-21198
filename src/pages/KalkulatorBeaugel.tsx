@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, AlertTriangle, Info } from "lucide-react";
 import ReactionButton from "@/components/ReactionButton";
+import PageHeader from "@/components/PageHeader";
 
 const KalkulatorBeaugel = () => {
   useEffect(() => {
@@ -96,24 +97,17 @@ const KalkulatorBeaugel = () => {
       ]} />
       
       <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-subtle">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 mb-6 shadow-warm">
-                <Calculator className="h-10 w-10 text-white" />
-              </div>
-              <div className="mb-4">
-                <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-                  Kalkulator dawki podpuszczki
-                </h1>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Precyzyjne obliczenia dla podpuszczek Beaugel oraz uniwersalny kalkulator IMCU
-                </p>
-              </div>
-            </div>
+        {/* Nagłówek strony — spójny PageHeader */}
+        <div className="container mx-auto px-4 pt-6">
+          <div className="max-w-4xl mx-auto">
+            <PageHeader
+              icon={Calculator}
+              color="sky"
+              title="Kalkulator dawki podpuszczki"
+              subtitle="Precyzyjne obliczenia dla podpuszczek Beaugel oraz uniwersalny kalkulator IMCU"
+            />
           </div>
-        </section>
+        </div>
 
         <div className="container mx-auto px-4 py-6">
           <div className="flex justify-start">

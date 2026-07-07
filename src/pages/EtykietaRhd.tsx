@@ -5,6 +5,7 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import SeeAlso from "@/components/SeeAlso";
 import { Button } from "@/components/ui/button";
 import { Tag, Printer, Info, ExternalLink, Scale } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 /**
  * Narzędzie: Etykieta RHD na ser — wymagania prawne + darmowy edytor (klient-only).
@@ -216,22 +217,17 @@ const EtykietaRhd = () => {
       <PageBreadcrumbs items={[{ label: "Narzędzia", href: "/narzedzia" }, { label: "Etykieta RHD" }]} />
 
       <main className="pt-20">
-        {/* Hero */}
-        <section className="py-12 md:py-16 bg-muted/30">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-warm mx-auto mb-5">
-              <Tag className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
-              Etykieta RHD na ser — wymagania i darmowy generator
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Sprzedajesz ser w ramach rolniczego handlu detalicznego? Etykieta musi być zgodna z prawem znakowania
-              żywności. Poniżej: <strong>co musi się na niej znaleźć</strong> (z podstawą prawną), <strong>wzór</strong> oraz
-              <strong> edytor</strong>, który złoży etykietę do druku.
-            </p>
+        {/* Nagłówek strony — spójny PageHeader */}
+        <div className="container mx-auto px-4 pt-6">
+          <div className="max-w-4xl mx-auto">
+            <PageHeader
+              icon={Tag}
+              color="amber"
+              title="Etykieta RHD na ser — wymagania i darmowy generator"
+              subtitle="Sprzedajesz ser w ramach rolniczego handlu detalicznego? Etykieta musi być zgodna z prawem znakowania żywności — poniżej co musi zawierać (z podstawą prawną), wzór oraz edytor do druku."
+            />
           </div>
-        </section>
+        </div>
 
         {/* Po co etykieta */}
         <section className="py-10">

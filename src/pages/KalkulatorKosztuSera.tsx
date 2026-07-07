@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calculator, Plus, Trash2, Copy, FileJson, Printer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ReactionButton from "@/components/ReactionButton";
+import PageHeader from "@/components/PageHeader";
 interface Ingredient {
   id: string;
   name: string;
@@ -64,8 +65,8 @@ const KalkulatorKosztuSera = () => {
     { id: '1', name: 'Podpuszczka', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'ml', useQty: 0, useUnit: 'ml', loss: 0 },
     { id: '2', name: 'Kultury', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
     { id: '3', name: 'Chlorek wapnia (CaCl₂)', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'ml', useQty: 0, useUnit: 'ml', loss: 0 },
-    { id: '4', name: '', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
-    { id: '5', name: '', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
+    { id: '4', name: 'Sól', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'kg', useQty: 0, useUnit: 'kg', loss: 0 },
+    { id: '5', name: 'Przyprawy', price: 0, vat: 23, grossIncl: true, packQty: 0, packUnit: 'g', useQty: 0, useUnit: 'g', loss: 0 },
   ]);
   
   // Results
@@ -278,32 +279,17 @@ const KalkulatorKosztuSera = () => {
       ]} />
       
       <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-subtle">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 mb-6 shadow-warm">
-                <Calculator className="h-10 w-10 text-white" />
-              </div>
-              <div className="mb-6">
-                <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2">
-                  Kalkulator kosztu sera
-                </h1>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży
-                </p>
-              </div>
-              <div className="flex gap-4 justify-center mt-8">
-                <Button onClick={loadDefaults} variant="outline">
-                  Wczytaj domyślne składniki
-                </Button>
-                <Button onClick={clearAll} variant="outline">
-                  Wyczyść
-                </Button>
-              </div>
-            </div>
+        {/* Nagłówek strony — spójny PageHeader (zamiast wyśrodkowanego hero) */}
+        <div className="container mx-auto px-4 pt-6">
+          <div className="max-w-6xl mx-auto space-y-4">
+            <PageHeader
+              icon={Calculator}
+              color="emerald"
+              title="Kalkulator kosztu sera"
+              subtitle="Wydajność z mleka → waga sera • składniki + koszty stałe + marża → cena sprzedaży"
+            />
           </div>
-        </section>
+        </div>
 
         <div className="container mx-auto px-4 py-6">
           <div className="flex justify-start">
@@ -315,6 +301,15 @@ const KalkulatorKosztuSera = () => {
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto space-y-8">
+
+              <div className="flex flex-wrap gap-3">
+                <Button onClick={loadDefaults} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                  Wczytaj przykładowe wartości
+                </Button>
+                <Button onClick={clearAll} variant="outline" className="border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive">
+                  Wyczyść wszystko
+                </Button>
+              </div>
               
               <Card className="border-border shadow-card">
                 <CardHeader>
@@ -441,7 +436,7 @@ const KalkulatorKosztuSera = () => {
                                 <Input 
                                   value={ing.name} 
                                   onChange={(e) => updateIngredient(ing.id, 'name', e.target.value)}
-                                  placeholder="np. Mleko"
+                                  placeholder="np. przyprawy, bakalie"
                                   className="min-w-[130px]"
                                 />
                               </td>
