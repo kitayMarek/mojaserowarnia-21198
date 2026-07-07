@@ -6,6 +6,7 @@ import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 import { BannerSection } from "@/components/news/BannerSection";
 import { Newspaper } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const Wiadomosci = () => {
   useEffect(() => {
@@ -19,6 +20,9 @@ const Wiadomosci = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <link rel="canonical" href="https://mojaserowarnia.pl/wiadomosci" />
+      </Helmet>
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Wiadomości" }]} />
       <main className="pt-20" role="main">

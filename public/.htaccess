@@ -99,6 +99,10 @@
   RewriteRule ^porownawie-wartosci-odzywczych/?$ https://mojaserowarnia.pl/porownanie-wartosci-odzywczych [R=301,L]
   # stary mirror etykiety -> opisowy slug GEO (mirror przeniesiony, jeden przeskok)
   RewriteRule ^etykieta-rhd\.html$ https://mojaserowarnia.pl/etykieta-do-sprzedazy-rhd.html [R=301,L]
+  # /kalkulator (bez sufiksu) nie jest trasą -> hub narzędzi (usuwa pozorne 404)
+  RewriteRule ^kalkulator/?$ https://mojaserowarnia.pl/narzedzia [R=301,L]
+  # /wege -> /wege/ jawnie na https (Apache DirectorySlash robił przeskok na http = błąd przekierowania)
+  RewriteRule ^wege$ https://mojaserowarnia.pl/wege/ [R=301,L]
 
   # --- Trasy SPA kolidujące z fizycznym katalogiem ---
   # /przepisy ma podstrony statyczne (/przepisy/*.html), ale samo /przepisy to trasa React.

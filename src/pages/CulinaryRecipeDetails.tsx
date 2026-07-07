@@ -133,6 +133,7 @@ const CulinaryRecipeDetails = () => {
       <Helmet>
         <title>{recipe.name} | Przepisy Kulinarne | Moja Serowarnia</title>
         <meta name="description" content={recipe.description} />
+        <link rel="canonical" href={`https://mojaserowarnia.pl/przepisy-kulinarne/${id}`} />
       </Helmet>
 
       <HowToSchema

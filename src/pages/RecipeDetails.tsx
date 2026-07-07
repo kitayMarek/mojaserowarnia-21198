@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -77,6 +78,9 @@ const RecipeDetails = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <link rel="canonical" href={`https://mojaserowarnia.pl/przepisy/${id}`} />
+      </Helmet>
       <RecipeSchema recipe={recipe} />
       <HowToSchema
         name={`Jak zrobić ${recipe.name} - przepis krok po kroku`}
