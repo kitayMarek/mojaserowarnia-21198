@@ -59,6 +59,7 @@ const navItems: NavItem[] = [
     label: "Poradniki", icon: GraduationCap, color: "sky",
     children: [
       { label: "Poradnik główny", href: "/poradnik" },
+      { label: "Organizacja serowarni", href: "/organizacja-serowarni" },
       { label: "Bakterie i kultury", href: "/bakterie-kultury" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
       { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },
