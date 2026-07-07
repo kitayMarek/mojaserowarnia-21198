@@ -80,22 +80,6 @@ const BakterieKultury = () => {
           </div>
         </header>
 
-        {/* Quick Navigation */}
-        <nav className="border-b border-border bg-card sticky top-20 z-40">
-          <div className="container mx-auto px-4">
-            <div className="flex gap-2 py-3 overflow-x-auto">
-              <a href="#sec-mezo" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Mezofilne LAB</a>
-              <a href="#sec-termo" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Termofilne LAB</a>
-              <a href="#sec-nslab" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">NSLAB</a>
-              <a href="#sec-white" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Pleśnie białe</a>
-              <a href="#sec-blue" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Pleśnie niebieskie</a>
-              <a href="#sec-smear" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Sery mazowe</a>
-              <a href="#sec-blends" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Mieszanki</a>
-              <a href="#sec-cheatsheet" className="px-3 py-1.5 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-full whitespace-nowrap transition-colors">Ściąga</a>
-            </div>
-          </div>
-        </nav>
-
         {/* Main Content */}
         <div className="container mx-auto px-4 py-8 md:py-12">
           {/* Callout: baza kultur (rola: wyszukanie) + rozdzielenie ról */}
