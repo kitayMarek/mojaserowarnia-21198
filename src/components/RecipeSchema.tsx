@@ -45,6 +45,7 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
       "position": index + 1,
       "name": step.title,
       "text": step.content,
+      "url": `https://mojaserowarnia.pl/przepisy/${recipe.id}#krok-${index + 1}`,
       ...(step.tip && { "tip": step.tip }),
       ...(step.warning && { "warning": step.warning })
     })),
@@ -55,13 +56,6 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
     },
     "datePublished": "2025-01-15",
     "prepTime": convertToISO8601(recipe.ageTime),
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "45",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
     ...(recipe.nutrition && {
       "nutrition": {
         "@type": "NutritionInformation",

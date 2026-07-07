@@ -102,10 +102,25 @@ def gen_page(r, siblings):
     recipe_ld = {
         "@context": "https://schema.org", "@type": "Recipe", "name": r["name"],
         "description": r["description"], "image": "https://mojaserowarnia.pl/og-image.png",
+        "author": {"@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl"},
+        "datePublished": "2025-01-15",
         "recipeCategory": "Ser", "recipeYield": r["yield_"], "keywords": f"{r['name']}, ser domowy, przepis",
         "recipeIngredient": ingredients,
-        "recipeInstructions": [{"@type": "HowToStep", "name": s[0], "text": s[1]} for s in r["steps"]],
+        "recipeInstructions": [{"@type": "HowToStep", "position": i + 1, "name": s[0], "text": s[1],
+                                "url": f"{url}#krok-{i + 1}"} for i, s in enumerate(r["steps"])],
     }
+    if r["nut"]:
+        nut = r["nut"]
+        ni = {"@type": "NutritionInformation", "servingSize": "100 g"}
+        if nut.get("calories"):
+            ni["calories"] = f"{nut['calories']} kcal"
+        if nut.get("proteinContent"):
+            ni["proteinContent"] = f"{nut['proteinContent']} g"
+        if nut.get("fatContent"):
+            ni["fatContent"] = f"{nut['fatContent']} g"
+        if nut.get("calciumContent"):
+            ni["calciumContent"] = f"{nut['calciumContent']} mg"
+        recipe_ld["nutrition"] = ni
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
 
@@ -148,8 +163,8 @@ def gen_page(r, siblings):
         o.append('  <p>Porównanie i dostępność: <a href="https://mojaserowarnia.pl/kultury/">przewodnik o kulturach</a> i <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur</a>.</p>')
     if r["steps"]:
         o.append("  <h2>Przygotowanie krok po kroku</h2>\n  <ol>")
-        for ti, co in r["steps"]:
-            o.append(f"    <li><strong>{e(ti)}</strong> {e(co)}</li>")
+        for i, (ti, co) in enumerate(r["steps"]):
+            o.append(f'    <li id="krok-{i + 1}"><strong>{e(ti)}</strong> {e(co)}</li>')
         o.append("  </ol>")
     if r["variants"]:
         o.append("  <h2>Warianty</h2>\n  <ul>")

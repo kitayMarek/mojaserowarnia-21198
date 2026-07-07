@@ -228,7 +228,7 @@ const RecipeDetails = () => {
             
             <div className="space-y-6">
               {recipe.steps.map((step, idx) => (
-                <div key={idx} className="bg-secondary/5 rounded-lg p-6 border-l-4 border-accent">
+                <div key={idx} id={`krok-${idx + 1}`} className="bg-secondary/5 rounded-lg p-6 border-l-4 border-accent scroll-mt-24">
                   <h3 className="text-lg font-bold text-primary mb-3">{step.title}</h3>
                   <p className="text-foreground leading-relaxed whitespace-pre-line mb-3">{step.content}</p>
                   
