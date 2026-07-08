@@ -14,7 +14,7 @@ Tematyka: Serowarstwo domowe, produkcja sera, kultury bakteryjne, prawo żywnoś
 
 ### Baza Kultur Bakteryjnych
 URL: /baza-kultur
-Opis: Katalog 145+ kultur bakteryjnych i pleśni używanych w serowarstwie. Każda kultura zawiera: nazwę (polska/łacińska), typ (mezofilna/termofilna), zastosowanie, dawkowanie, temperaturę pracy, dostępność w sklepach.
+Opis: Katalog 180+ kultur bakteryjnych i pleśni używanych w serowarstwie. Każda kultura zawiera: nazwę (polska/łacińska), typ (mezofilna/termofilna), zastosowanie, dawkowanie, temperaturę pracy, dostępność w sklepach.
 Format danych: Tabela z filtrami i wyszukiwarką
 Użyteczność AI: Odpowiadanie na pytania o dobór kultur do konkretnych serów, porównywanie kultur, dawkowanie.
 
@@ -126,7 +126,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 
 ## KLUCZOWE DANE
 
-### Kultury Bakteryjne (145+ pozycji)
+### Kultury Bakteryjne (180+ pozycji)
 Pola danych:
 - Nazwa handlowa
 - Nazwa naukowa (łacińska)

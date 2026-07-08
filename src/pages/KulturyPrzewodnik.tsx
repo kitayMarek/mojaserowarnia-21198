@@ -7,7 +7,7 @@ const faqData = [
   { question: "Jakie kultury do sera?", answer: "Zależnie od typu sera — mezofilne do świeżych i półtwardych, termofilne do włoskich i twardych. Patrz tabela „Jak dobrać kulturę do sera”." },
   { question: "Mezofilne czy termofilne?", answer: "Mezofilne (25–35°C) do serów świeżych i półtwardych, termofilne (37–50°C) do serów włoskich i twardych." },
   { question: "Ile kultury dodać do mleka?", answer: "Orientacyjnie ułamek grama kultury liofilizowanej (LYO) na kilka–kilkanaście litrów mleka, zawsze według wskazań producenta." },
-  { question: "Gdzie kupić kultury bakteryjne do sera w Polsce?", answer: "Serowar.pl, Artiser.pl, Lactic.pl, GAP Poland oraz Wańczykówka. Ceny, skład i dostępność porównasz w bazie 145+ kultur na mojaserowarnia.pl." },
+  { question: "Gdzie kupić kultury bakteryjne do sera w Polsce?", answer: "Serowar.pl, Artiser.pl, Lactic.pl, GAP Poland oraz Wańczykówka. Ceny, skład i dostępność porównasz w bazie 180+ kultur na mojaserowarnia.pl." },
 ];
 
 const Glo = ({ term, children }: { term: string; children: string }) => (
@@ -31,7 +31,7 @@ const KulturyPrzewodnik = () => (
     metaDescription="Przewodnik po kulturach bakteryjnych do sera: rodzaje (mezofilne, termofilne, pleśniowe, propionowe), dobór do sera, dawkowanie i gdzie kupić w Polsce."
     breadcrumb={[{ label: "Kultury serowarskie" }]}
     related={[
-      { label: "Baza kultur (145+ pozycji, filtry i ceny)", href: "/baza-kultur" },
+      { label: "Baza kultur (180+ pozycji, filtry i ceny)", href: "/baza-kultur" },
       { label: "Porównywarka kultur", href: "/porownywarka-kultur" },
       { label: "Bakterie i kultury — poradnik", href: "/bakterie-kultury" },
       { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },
@@ -97,7 +97,7 @@ const KulturyPrzewodnik = () => (
       Kultury do serów oferują polskie sklepy serowarskie, m.in. <strong>Serowar.pl</strong>,{" "}
       <strong>Artiser.pl</strong>, <strong>Lactic.pl</strong>, <strong>GAP Poland</strong> oraz{" "}
       <strong>Wańczykówka</strong>. Aktualne ceny, skład bakteryjny i dostępność wszystkich pozycji porównasz w{" "}
-      <Link to="/baza-kultur">bazie 145+ kultur</Link>.
+      <Link to="/baza-kultur">bazie 180+ kultur</Link>.
     </p>
 
     <h2>Kultury według typu</h2>

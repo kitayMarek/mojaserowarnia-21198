@@ -122,7 +122,7 @@ export function useCultures(options: UseCulturesOptions = {}): UseCulturesReturn
     return () => { cancelled = true; };
   }, [onlyActive, refreshTick]);
 
-  // Filtrowanie po stronie klienta (szybkie dla 147-500 rekordów)
+  // Filtrowanie po stronie klienta (szybkie dla 180-500 rekordów)
   const cultures = useMemo(() => {
     let result = allCultures;
 

@@ -76,11 +76,11 @@ const BazaKultur = () => {
     }
 
     // SEO optimization
-    document.title = "Baza Kultur Bakteryjnych do Sera - 145+ Kultur Mezofilnych i Termofilnych";
+    document.title = "Baza Kultur Bakteryjnych do Sera - 180+ Kultur Mezofilnych i Termofilnych";
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Kompletna baza 145+ kultur bakteryjnych do produkcji sera z polskich sklepów. Kultury mezofilne, termofilne, pleśniowe. Porównanie cen, skład, zastosowanie i temperatura pracy.');
+      metaDescription.setAttribute('content', 'Kompletna baza 180+ kultur bakteryjnych do produkcji sera z polskich sklepów. Kultury mezofilne, termofilne, pleśniowe. Porównanie cen, skład, zastosowanie i temperatura pracy.');
     }
   }, [searchParams]);
   const handleSort = (field: SortField) => {

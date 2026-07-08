@@ -58,7 +58,7 @@ const Hero = () => {
             Największa polska baza wiedzy o produkcji sera
           </p>
           <p className="text-base md:text-lg text-white/90 mb-6 max-w-2xl mx-auto drop-shadow">
-            145+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
+            180+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
             i regulacje prawne – wszystko czego potrzebuje polski serowar
           </p>
 

@@ -19,7 +19,7 @@ Ikony: Lucide React
 Fonty: System fonts
 
 /* ZAWARTOŚĆ */
-Baza kultur bakteryjnych: 145+ kultur
+Baza kultur bakteryjnych: 180+ kultur
 Przepisy na sery: 30+ przepisów
 Poradniki: RHD, MOL, Prawo UE
 Kalkulatory: Podpuszczka, Koszty, Miary, Beaugel
