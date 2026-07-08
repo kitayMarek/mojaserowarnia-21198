@@ -51,6 +51,7 @@ Podstrony:
 - /mol - Marginalny, Ograniczony, Lokalny - poradnik
 - /mol-dokumenty - Wzory dokumentów MOL
 - /akty-prawne-ue - Aktualne przepisy UE dotyczące produkcji żywności
+- /prawo/rzeznia-rolnicza - Rzeźnia rolnicza (mała ubojnia przy gospodarstwie): definicja (art. 4 pkt 13 ustawy o ochronie zwierząt; rozp. MRiRW z 20.12.2019, Dz.U. 2020 poz. 56), limity uboju wszystkich gatunków (dzienne/roczne), zakaz przetwarzania (tylko ubój+rozbiór; przetwory w RHD/MOL), ubój usługowy dla innych rolników, wymagania techniczne (17 odstępstw), procedura zatwierdzenia i numer WNI (symbol 36), badanie na włośnie, monitoring ubojni (w PL nieobowiązkowy), finansowanie (nabór 2026)
 
 ### Narzędzia / Kalkulatory
 URL: /narzedzia
