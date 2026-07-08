@@ -20,7 +20,7 @@ interface PageBreadcrumbsProps {
   baseUrl?: string;
 }
 
-const PageBreadcrumbs = ({ items, baseUrl = "https://serowarstwo.pl" }: PageBreadcrumbsProps) => {
+const PageBreadcrumbs = ({ items, baseUrl = "https://mojaserowarnia.pl" }: PageBreadcrumbsProps) => {
   // Build full breadcrumb path including home
   const homeItem = { name: "Strona główna", url: baseUrl };
   
