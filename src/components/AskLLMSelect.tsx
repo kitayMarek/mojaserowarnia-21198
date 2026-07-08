@@ -42,23 +42,14 @@ export function AskLLMSelect({ source = "baza-kultur" }: { source?: string }) {
   const [selected, setSelected] = useState(QUERIES[0].items[0]);
   const [loading, setLoading] = useState(false);
 
-  const buildPrompt = async (query: string) => {
-    let summary = "";
-    try {
-      const res = await fetch("/kultury.summary.txt");
-      if (res.ok) summary = await res.text();
-    } catch {
-      /* ignoruj — prompt zadziała bez streszczenia */
-    }
-
-    return summary
-      ? `Masz dostęp do dokumentacji na dwa sposoby:\n\n` +
-        `1. Pełna baza kultur: https://mojaserowarnia.pl/baza-kultur\n` +
-        `   (jeśli możesz, przejrzyj ją przed odpowiedzią)\n\n` +
-        `2. Streszczenie bazy:\n${summary}\n\n` +
-        `Na podstawie powyższego odpowiedz: ${query}`
-      : `Przejrzyj https://mojaserowarnia.pl/baza-kultur i odpowiedz: ${query}`;
-  };
+  // Krótki prompt: WSKAZUJEMY źródło zamiast wklejać całą bazę do URL-a.
+  // Wklejanie streszczenia (188 kultur) w ?q= przekraczało limity długości URL —
+  // Perplexity zwracało 414 (URI too large), ChatGPT 431 (headers too large).
+  // Modele z web-searchem i tak pobiorą stronę same — w dodatku ze świeżymi danymi.
+  const buildPrompt = (query: string) =>
+    `Skorzystaj ze źródła: https://mojaserowarnia.pl/baza-kultur ` +
+    `(pełna baza kultur bakteryjnych do sera) oraz https://mojaserowarnia.pl/llms.txt, ` +
+    `a następnie odpowiedz po polsku: ${query}`;
 
   const handleAsk = async (modelKey: string, baseUrl: string) => {
     setLoading(true);
@@ -76,7 +67,7 @@ export function AskLLMSelect({ source = "baza-kultur" }: { source?: string }) {
         /* silent */
       }
 
-      const prompt = await buildPrompt(selected);
+      const prompt = buildPrompt(selected);
       window.open(`${baseUrl}${encodeURIComponent(prompt)}`, "_blank", "noopener,noreferrer");
     } finally {
       setLoading(false);
