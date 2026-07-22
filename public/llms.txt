@@ -39,6 +39,7 @@ URL: /poradniki
 Podstrony:
 - /poradnik - Kompleksowy przewodnik po produkcji sera
 - /organizacja-serowarni - Jak zorganizować małą, rzemieślniczą serowarnię: układ pomieszczeń, strefy czyste/brudne, dobór sprzętu, obieg pracy od mleka do sera oraz wymogi lokalowe pod RHD/MOL (z osadzonym filmem instruktażowym)
+- /wedzenie-sera - Kompletny przewodnik po wędzeniu sera: które sery się nadają (twarde/półtwarde łatwe, miękkie w siatkach), solanka 8–10% + osuszanie (kluczowe!), dobór drewna (olcha/buk/owocowe/dąb, wyłącznie liściaste bez kory), wędzenie NA ZIMNO 20–30 °C (powyżej ser się topi), czas 3–8 h przy rzadkim dymie, obowiązkowe leżakowanie 3–7 dni w lodówce, najczęstsze błędy. Ser wędzony = produkt przetworzony (sprzedaż w ramach RHD). Treść statyczna: /wedzenie-sera.html
 - /bakterie-kultury - Szczegółowy przewodnik o kulturach bakteryjnych i pleśniach
 - /sila-podpuszczki - Obliczanie siły podpuszczki, metoda flokulacji
 - /gdzie-kupic-podpuszczke - Porównanie dostępnych podpuszczek na rynku

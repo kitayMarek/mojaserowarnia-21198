@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart, Scale, Factory } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -23,6 +23,13 @@ const PoradnikiHub = () => {
       description: "Jak zaplanować rzemieślniczą (przyzagrodową) serowarnię: układ pomieszczeń i strefy czyste/brudne, dobór sprzętu, obieg pracy od odbioru mleka po ekspedycję sera oraz wymogi lokalowe pod sprzedaż w RHD i MOL. Z polecanym filmem instruktażowym.",
       href: "/organizacja-serowarni",
       color: "from-accent to-primary",
+    },
+    {
+      icon: <Flame className="w-12 h-12" />,
+      title: "Wędzenie sera",
+      description: "Kompletny przewodnik: które sery się nadają, przygotowanie i osuszanie, wybór drewna (olcha, buk, owocowe), wędzenie na zimno (20–30 °C), leżakowanie po wędzeniu i najczęstsze błędy. Wędzenie wydaje się prostą modyfikacją — ale nią nie jest.",
+      href: "/wedzenie-sera",
+      color: "from-primary to-accent",
     },
     {
       icon: <Beaker className="w-12 h-12" />,
@@ -83,6 +90,7 @@ const PoradnikiHub = () => {
               const guideIdMap: Record<string, string> = {
                 "/poradnik": "poradnik",
                 "/organizacja-serowarni": "organizacja-serowarni",
+                "/wedzenie-sera": "wedzenie-sera",
                 "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",
                 "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke"
