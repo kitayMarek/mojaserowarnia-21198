@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -23,6 +23,13 @@ const PoradnikiHub = () => {
       description: "Jak zaplanować rzemieślniczą (przyzagrodową) serowarnię: układ pomieszczeń i strefy czyste/brudne, dobór sprzętu, obieg pracy od odbioru mleka po ekspedycję sera oraz wymogi lokalowe pod sprzedaż w RHD i MOL. Z polecanym filmem instruktażowym.",
       href: "/organizacja-serowarni",
       color: "from-accent to-primary",
+    },
+    {
+      icon: <LibraryBig className="w-12 h-12" />,
+      title: "Klasyka polskiego serowarstwa",
+      description: "Przegląd historycznych podręczników serowarskich w domenie publicznej: Walerian Józef Klecki (1900), Jan Licznerski (1922) i Encyklopedya rolnicza. Linki do darmowych skanów, cytaty i wiedza ponadczasowa.",
+      href: "/klasyka-serowarstwa",
+      color: "from-violet-500 to-purple-600",
     },
     {
       icon: <Flame className="w-12 h-12" />,
@@ -90,6 +97,7 @@ const PoradnikiHub = () => {
               const guideIdMap: Record<string, string> = {
                 "/poradnik": "poradnik",
                 "/organizacja-serowarni": "organizacja-serowarni",
+                "/klasyka-serowarstwa": "klasyka-serowarstwa",
                 "/wedzenie-sera": "wedzenie-sera",
                 "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",

@@ -33,6 +33,7 @@ const PorownanieWartosciOdzywczych = lazy(() => import("./pages/PorownanieWartos
 const OrganizacjaSerowarni = lazy(() => import("./pages/OrganizacjaSerowarni"));
 const KalkulatorSolanki = lazy(() => import("./pages/KalkulatorSolanki"));
 const WedzenieSera = lazy(() => import("./pages/WedzenieSera"));
+const KlasykaPolskiegoSerowarstwa = lazy(() => import("./pages/KlasykaPolskiegoSerowarstwa"));
 const AktyPrawneUE = lazy(() => import("./pages/AktyPrawneUE"));
 const RHD = lazy(() => import("./pages/RHD"));
 const RHDDokumenty = lazy(() => import("./pages/RHDDokumenty"));
@@ -109,6 +110,7 @@ const App = () => (
           <Route path="/poradnik" element={<Poradnik />} />
           <Route path="/organizacja-serowarni" element={<OrganizacjaSerowarni />} />
           <Route path="/wedzenie-sera" element={<WedzenieSera />} />
+          <Route path="/klasyka-serowarstwa" element={<KlasykaPolskiegoSerowarstwa />} />
           <Route path="/bakterie-kultury" element={<BakterieKultury />} />
           <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
           <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />
