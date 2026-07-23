@@ -20,6 +20,7 @@ import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
 import korycinskiImage from "@/assets/korycinski.jpg";
 import quartiroloImage from "@/assets/quartirolo.jpg";
+import limburskiImage from "@/assets/limburski.jpg";
 
 export interface CultureSubstitute {
   name: string;
@@ -2940,6 +2941,161 @@ export const recipesData: Recipe[] = [
       carbohydrateContent: 1,
       sodiumContent: 520,
       calciumContent: 480
+    }
+  },
+  {
+    id: "limburski",
+    name: "Ser Limburski",
+    difficulty: "Zaawansowany",
+    description: 'Ser limburski (limburger) to miękki ser z mytą skórką, znany z intensywnego, przenikliwego zapachu i kremowej, rozlewnej konsystencji. Pochodzi z regionu Limburgii (pogranicze Belgii, Holandii i Niemiec). Charakterystyczną pomarańczowo-różową skórkę tworzą bakterie Brevibacterium linens, rozwijające się dzięki regularnemu myciu powierzchni roztworem solankowym. Jan Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako ser "który pachnie tak, że nie każdy wytrzyma" — ale podał jeden z najdokładniejszych opisów jego produkcji w polskim piśmiennictwie.',
+    yield: "≈ 0,8–1,0 kg z 8 L mleka",
+    ageTime: "4–8 tygodni (mycie skórki co 2–3 dni)",
+    image: limburskiImage,
+
+    milkBase: "≈ 8 L mleka pełnego krowiego (tradycyjnie surowego; przy pasteryzowanym dodaj CaCl₂ — ok. 1/4 tsp na 8 L w 50 ml wody).",
+    starter: 'Kultura mezofilna (np. MA 4001, Flora Danica) — wg producenta + kultura do mytej skórki: Brevibacterium linens (np. BLC, SR3, Munster Red) do solanki do mycia.',
+    coagulant: "Płynna podpuszczka single-strength; ~2 ml na 8 L mleka. Czas krzepnięcia 30–40 min.",
+    salting: "Solenie suche: ~20 g soli na każdy kg sera (góra + dół), potem mycie solanką 3–5% co 2–3 dni przez cały okres dojrzewania.",
+    aging: "Dojrzewanie: 4–8 tygodni w 12–15°C, 90–95% RH. Mycie skórki solanką z B. linens co 2–3 dni — kluczowy etap.",
+
+    cultureSubstitutes: [
+      {
+        name: "MA 4001 / MA 4002 (Choozit MA)",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "wg producenta (~1/8 tsp na 8 L)",
+        notes: "Podstawowa mezofilna do sera limburskiego — łagodna kwasowość.",
+        searchQuery: "MA 4001"
+      },
+      {
+        name: "Flora Danica",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "wg producenta",
+        notes: "Klasyczna mezofilna — delikatny, maślany profil pod mytą skórkę.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "BLC / Brevibacterium linens",
+        type: "powierzchniowa (do mytej skórki)",
+        shop: "Serowar.pl / Artiser.pl",
+        dosage: "wg producenta (do solanki do mycia)",
+        notes: "Kluczowa kultura! Tworzy pomarańczową skórkę i zapach. Dodawana do solanki myciowej.",
+        searchQuery: "Brevibacterium"
+      },
+      {
+        name: "SR3 / Munster Red",
+        type: "powierzchniowa (do mytej skórki)",
+        shop: "Artiser.pl",
+        dosage: "wg producenta",
+        notes: "Alternatywa BLC — daje łagodniejszą skórkę, mniej intensywny zapach.",
+        searchQuery: "SR3"
+      },
+      {
+        name: "Geotrichum candidum (GEO)",
+        type: "powierzchniowa (pomocnicza)",
+        shop: "Serowar.pl / Artiser.pl",
+        dosage: "wg producenta (do solanki lub oprysku)",
+        notes: "Opcjonalnie: obniża pH skórki przed B. linens — ułatwia rozwój bakterii.",
+        searchQuery: "Geotrichum"
+      }
+    ],
+
+    dosageReference: "Odniesienie: kultura mezofilna wg producenta + ~2 ml podpuszczki na 8 L mleka + B. linens do solanki myciowej.",
+    dosageTable: [
+      { ingredient: "Mleko krowie pełne", amount: "≈ 8 L", notes: "Surowe lub pasteryzowane (+ CaCl₂)" },
+      { ingredient: "Kultura mezofilna", amount: "wg producenta", notes: "MA 4001 lub Flora Danica" },
+      { ingredient: "Podpuszczka płynna", amount: "~2 ml", notes: "Single strength; krzepnięcie 30–40 min" },
+      { ingredient: "Chlorek wapnia (CaCl₂)", amount: "~1/4 tsp", notes: "Tylko dla mleka pasteryzowanego" },
+      { ingredient: "Brevibacterium linens", amount: "wg producenta", notes: "BLC lub SR3 — do solanki myciowej" },
+      { ingredient: "Sól (solenie + mycie)", amount: "~20 g/kg + solanka 3–5%", notes: "Solenie suche + solanka do mycia skórki" }
+    ],
+
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie — 32°C, 30–45 min",
+        content: "Podgrzej 8 L mleka do 32°C. Posyp kulturę mezofilną równomiernie po powierzchni, odczekaj 2 min, wmieszaj ruchami góra-dół. Pozostaw pod przykryciem na 30–45 min.",
+        tip: "Limburski to ser mezofilny — niższa temperatura (32°C) niż quartirolo (37°C). Daje łagodniejszy, bardziej maślany profil startowy."
+      },
+      {
+        title: "2) Krzepnięcie — podpuszczka, 30–40 min",
+        content: "Rozcieńcz ~2 ml podpuszczki w 30 ml chłodnej wody. Wlej do mleka, mieszaj delikatnie 30 sekund. Przykryj i pozostaw w spokoju na 30–40 min.",
+        warning: "Test skrzepu: nóż pod kątem 45° — skrzep łamie się czysto, serwatka zielonkawa. Limburski wymaga delikatnego skrzepu — nie przedłużaj krzepnięcia."
+      },
+      {
+        title: "3) Krojenie skrzepu — kostki 2–3 cm",
+        content: "Pokrój skrzep w kostki 2–3 cm. Cięcia pionowe w kratkę, jedno cięcie poziome. Odczekaj 5 min, potem delikatnie mieszaj przez 10 min.",
+        tip: "Większe kostki niż przy twardych serach, ale mniejsze niż przy quartirolo. Limburski jest miękki, ale nie aż tak rozlewny."
+      },
+      {
+        title: "4) Delikatne mieszanie — 15 min w 32°C, bez podgrzewania",
+        content: "Mieszaj ziarna bardzo delikatnie przez 15 min, utrzymując 32°C. Ziarna powinny obkurczyć się lekko na powierzchni. NIE podgrzewaj — limburski dojrzewa dzięki bakteriom na skórce, nie ciepłu.",
+        warning: "Podgrzewanie powyżej 33°C suszy ziarna i zmniejsza wilgotność sera — limburski musi być wilgotny, żeby B. linens mogły pracować."
+      },
+      {
+        title: "5) Odsączanie i formowanie — bez prasowania",
+        content: "Odcedź serwatkę do poziomu ziarna. Delikatnie przełóż ziarna do form kwadratowych lub prostokątnych (tradycyjny kształt limburskiego) wyłożonych gazą. Ser formuje się pod własnym ciężarem — nie dociskaj!",
+        tip: "Licznerski opisywał małe formy prostokątne (~250–500 g) — idealny format domowy. Ser w mniejszych formach dojrzewa szybciej i równomierniej."
+      },
+      {
+        title: "6) Odwracanie — co 30 min przez 4–6 h",
+        content: "Przez pierwsze 4–6 h obracaj ser w formie co 30 min (6–12 obróceń). Ser oddaje serwatkę i konsoliduje się. Po tym czasie zostaw na noc w temp. pokojowej (18–22°C).",
+        warning: "Częste obracanie jest kluczowe — zapewnia równomierne odsączanie i gładką powierzchnię pod przyszłą skórkę."
+      },
+      {
+        title: "7) Solenie suche — ~20 g/kg, 24 h",
+        content: "Wyjmij ser z formy. Posyp górną powierzchnię solą (~10 g). Po 12 h obróć i posól drugą stronę (~10 g). Łączny czas solenia: 24 h. Ser powinien być sprężysty, biały, z wyraźnym zapachem mleka.",
+        tip: "Limburski solony mocniej niż quartirolo — sól hamuje niepożądane bakterie i przygotowuje skórkę pod B. linens."
+      },
+      {
+        title: "8) Mycie skórki — solanką z B. linens, co 2–3 dni, 4–8 tyg.",
+        content: "Przygotuj solankę myciową: 1 L letniej wody przegotowanej + 30–50 g soli + szczepionka B. linens (BLC/SR3 wg producenta). Przenieś ser do dojrzewalni (12–15°C, 90–95% RH). Co 2–3 dni myj CAŁĄ powierzchnię sera gazikiem nasączonym solanką. Obracaj za każdym razem.",
+        tip: "Pierwszych 7–10 dni skórka jest biała. Potem pojawia się żółtawy nalot → pomarańczowy → intensywny zapach. Nie panikuj — to B. linens w akcji! Licznerski opisywał tę pomarańczową maź — wtedy nie znano jej nazwy, ale technika mycia była identyczna."
+      },
+      {
+        title: "9) Dojrzewanie i gotowość — 4–8 tygodni",
+        content: "Po 4 tygodniach ser jest jadalny — miękki, aromatyczny, z kremowym środkiem. Po 6–8 tygodniach osiąga pełnię: skórka pomarańczowo-brązowa, intensywny zapach, środek płynny i rozlewny. Przechowuj w lodówce, zjedz w ciągu 1–2 tygodni od osiągnięcia pełnej dojrzałości.",
+        warning: "Zapach jest NORMALNY i INTENSYWNY. Przechowuj w szczelnym pojemniku w lodówce — inaczej wszystko w lodówce będzie pachnieć limburskim."
+      }
+    ],
+
+    notes: {
+      tips: [
+        "Mycie skórki to klucz — bez regularnego mycia solanką z B. linens ser nie rozwinie charakterystycznego smaku i zapachu.",
+        "Mniejsze formy (250–500 g) dojrzewają szybciej i łatwiej je opanować — idealny format na początek.",
+        "Geotrichum candidum (GEO) dodany do solanki w pierwszych 2 myciach obniża pH skórki i ułatwia start B. linens.",
+        "Licznerski podkreślał, że ser limburski wymaga cierpliwości — smak ujawnia się dopiero po 4–6 tygodniach."
+      ],
+      warnings: [
+        "Nigdy nie prasuj limburskiego — formuje się wyłącznie pod własnym ciężarem.",
+        "Wilgotność 90–95% jest absolutnie krytyczna — za sucho = sucha skórka, brak B. linens, brak zapachu.",
+        "Surowe mleko: dojrzewaj min. 60 dni (wymogi RHD) lub pasteryzuj i dodaj CaCl₂.",
+        "Zapach jest BARDZO intensywny — przechowuj w szczelnym pojemniku!"
+      ],
+      variants: [
+        "Klasyczny limburski (4–6 tyg.) — mocny zapach, kremowy środek, nie dla każdego.",
+        "Łagodniejszy wariant (3–4 tyg.) — mniej mycia, mniej zapachu, bardziej przystępny.",
+        "Styl herve/maroilles — większe formy, dłuższe dojrzewanie, jeszcze intensywniej.",
+        "Z mlekiem kozim — ostrzejszy, pikantniejszy, dojrzewa szybciej."
+      ]
+    },
+
+    flavor: {
+      taste: "Kremowy, intensywny, pikantny, lekko słony; z dojrzewaniem: mocny, mięsisty, ziemisty",
+      texture: "Miękka, kremowa, rozlewna w dojrzałym serze — od sprężystej (młody) po płynną (dojrzały)",
+      color: "Kremowobiała masa; pomarańczowo-brązowa skórka od B. linens",
+      aroma: "Intensywny, przenikliwy, ziemisty — zapach jest cechą, nie wadą!"
+    },
+
+    nutrition: {
+      servingSize: "100 g",
+      calories: 327,
+      fatContent: 27,
+      saturatedFatContent: 17,
+      proteinContent: 20,
+      carbohydrateContent: 0.5,
+      sodiumContent: 800,
+      calciumContent: 497
     }
   }
 ];

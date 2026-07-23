@@ -29,6 +29,7 @@ const cheeseTypes = [
     ],
     verdict: "Technika prawie identyczna. Zmieniło się źródło pleśni (kupowana vs dzika) i skala.",
     recipe_hint: "Licznerski podaje szczegółowy opis produkcji camemberta i neufchâtela — od temperatury zaprawiania po sposób solenia.",
+    recipe_href: null,
   },
   {
     num: 2,
@@ -51,6 +52,7 @@ const cheeseTypes = [
     ],
     verdict: "Zasady identyczne. Zmienił się surowiec (podpuszczka mikrobiologiczna) i precyzja pomiaru.",
     recipe_hint: null,
+    recipe_href: null,
   },
   {
     num: 3,
@@ -73,6 +75,7 @@ const cheeseTypes = [
     ],
     verdict: "Technika mycia skórki opisana przez Licznerskiego jest fundamentem całej kategorii serów washed-rind.",
     recipe_hint: "Opis produkcji limburskiego krok po kroku — od formowania po schemat mycia skórki.",
+    recipe_href: "/przepisy/limburski",
   },
   {
     num: 4,
@@ -95,6 +98,7 @@ const cheeseTypes = [
     ],
     verdict: "Ser, który Licznerski przedstawiał jako egzotyk, dziś robi się w polskich kuchniach (jako caciotta).",
     recipe_hint: "Opis włoskiej metody produkcji quartirolo z uwagami o adaptacji do polskich warunków.",
+    recipe_href: "/przepisy/quartirolo",
   },
   {
     num: 5,
@@ -117,6 +121,7 @@ const cheeseTypes = [
     ],
     verdict: "Opis Licznerskiego jest technicznie poprawny. Jedyne, czego nie znał, to nazwa bakterii odpowiedzialnej za dziury.",
     recipe_hint: "Pełna procedura produkcji sera ementalskiego — od zaprawiania po schemat trójfazowego dojrzewania.",
+    recipe_href: null,
   },
   {
     num: 6,
@@ -139,6 +144,7 @@ const cheeseTypes = [
     ],
     verdict: "Opis goudy/edama u Licznerskiego to gotowa instrukcja, którą można stosować dziś z minimalnymi modyfikacjami.",
     recipe_hint: "Szczegółowy opis produkcji sera holenderskiego (gouda) — z temperaturami płukania i czasami prasowania.",
+    recipe_href: null,
   },
   {
     num: 7,
@@ -161,6 +167,7 @@ const cheeseTypes = [
     ],
     verdict: "Zasady nie zmieniły się. Zmieniła się precyzja kontroli i diagnostyki.",
     recipe_hint: "Opis ogólnych zasad produkcji serów twardych — parametry gotowania, prasowania i dojrzewania.",
+    recipe_href: null,
   },
   {
     num: 8,
@@ -183,6 +190,7 @@ const cheeseTypes = [
     ],
     verdict: "Z recyklingu wad do globalnego produktu — Licznerski opisał narodziny kategorii, która zdominowała supermarkety.",
     recipe_hint: "Zasady topienia serów z wadami — proporcje, sole emulgujące, technika mieszania.",
+    recipe_href: null,
   },
 ];
 
@@ -419,7 +427,16 @@ const LicznerskiSery = () => {
                   <span>
                     <strong>Przepis Licznerskiego:</strong>{" "}
                     {cheese.recipe_hint}
-                    <span className="text-muted-foreground"> (wkrótce w dziale Sery Licznerskiego)</span>
+                    {cheese.recipe_href ? (
+                      <a
+                        href={cheese.recipe_href}
+                        className="inline-flex items-center gap-1 ml-2 font-semibold text-amber-800 dark:text-amber-300 hover:underline"
+                      >
+                        Zobacz przepis <ArrowRight className="w-3.5 h-3.5" />
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground"> (wkrótce w dziale Sery Licznerskiego)</span>
+                    )}
                   </span>
                 </div>
               )}
@@ -513,7 +530,7 @@ const LicznerskiSery = () => {
                   <span className="text-3xl shrink-0">📝</span>
                   <div>
                     <h2 className="text-xl font-bold text-foreground mb-2">
-                      Sery Licznerskiego — przepisy (wkrótce)
+                      Sery Licznerskiego — przepisy
                     </h2>
                     <p className="text-sm text-foreground/80 leading-relaxed mb-3">
                       Licznerski nie pisał ogólników — podawał{' '}
@@ -523,17 +540,31 @@ const LicznerskiSery = () => {
                       stężenie solanki, warunki dojrzewania.
                     </p>
                     <p className="text-sm text-foreground/80 leading-relaxed mb-3">
-                      Przygotowujemy dział <strong>Sery Licznerskiego</strong>,
-                      w którym te historyczne przepisy zostaną przetłumaczone
-                      na współczesny język: z przeliczeniem dawek podpuszczki
+                      Dział <strong>Sery Licznerskiego</strong> tłumaczy te historyczne
+                      przepisy na współczesny język: z przeliczeniem dawek podpuszczki
                       (kalkulator Beaugel), zamianą kultur (liofilizaty zamiast
                       naturalnego dojrzewania) i uzupełnieniem o CaCl₂ dla mleka
                       pasteryzowanego.
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      Planowane przepisy: ser holenderski (gouda), camembert,
-                      ementaler, limburski, quartirolo, ser topiony.
-                    </p>
+                    <div className="text-sm space-y-1">
+                      <p className="font-semibold text-foreground">Gotowe przepisy:</p>
+                      <ul className="list-disc list-inside text-foreground/80 space-y-0.5">
+                        <li>
+                          <a href="/przepisy/quartirolo" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Quartirolo Lombardo
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/przepisy/limburski" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Ser Limburski
+                          </a>
+                        </li>
+                      </ul>
+                      <p className="text-muted-foreground mt-2">
+                        W przygotowaniu: ser holenderski (gouda), camembert,
+                        ementaler, ser topiony.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
