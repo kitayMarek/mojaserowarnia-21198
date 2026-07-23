@@ -108,6 +108,7 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Przepis na Stilton](https://mojaserowarnia.pl/przepisy/stilton.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
 - [Przepis na Yorkshire (Wensleydale)](https://mojaserowarnia.pl/przepisy/yorkshire.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
 - [Przepis na ricottę z serwatki](https://mojaserowarnia.pl/przepisy/ricotta.html): ricotta z serwatki i z mleka, temperatura 85–90°C, ile kwasu cytrynowego, FAQ.
+- [Quartirolo Lombardo](https://mojaserowarnia.pl/przepisy/quartirolo.html): miękki ser z Lombardii (PDO 1996), kultury termofilne TA/MST/ST, stufatura (gotowanie parą 37–42°C), solenie suche ~15 g/kg, dojrzewanie fresco 5–10 dni lub maturo 30–60 dni; przepis inspirowany Licznerskim (1922), porównanie z caciottą, warianty (kozie, z ziołami), FAQ.
 - [Mozzarella domowa](https://mojaserowarnia.pl/przepisy/mozzarella.html): składniki, kwas vs kultura termofilna, rozciąganie pasta filata 77–82°C, przechowywanie, FAQ.
 
 ### Poradnik serowarski (statyczny)

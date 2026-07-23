@@ -164,6 +164,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/przepisy/quartirolo</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/quartirolo.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/przepisy/emmental</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>

@@ -19,6 +19,7 @@ import stiltonImage from "@/assets/stilton.jpg";
 import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
 import korycinskiImage from "@/assets/korycinski.jpg";
+import quartiroloImage from "@/assets/quartirolo.jpg";
 
 export interface CultureSubstitute {
   name: string;
@@ -2792,6 +2793,153 @@ export const recipesData: Recipe[] = [
       carbohydrateContent: 0,
       sodiumContent: 610,
       calciumContent: 970
+    }
+  },
+  {
+    id: "quartirolo",
+    name: "Quartirolo Lombardo",
+    difficulty: "Średni",
+    description: 'Quartirolo Lombardo to miękki ser z Lombardii o delikatnej, kremowej konsystencji i subtelnym, lekko kwaskowatym smaku. Nazwa pochodzi od "quartirola" — czwartego pokosu trawy, którym karmiono krowy wracające z alpejskich pastwisk jesienią. Ser należy do rodziny stracchino (od "stracca" — zmęczona krowa po zejściu z gór). Jan Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako ser włoski o unikalnym procesie stufatury — gotowania parą, który nadaje mu kremową teksturę bez potrzeby prasowania. Quartirolo ma PDO od 1996 roku.',
+    yield: "≈ 0,8–1,0 kg z 8 L mleka",
+    ageTime: "Młody: 5–10 dni · dojrzały: 30–60 dni",
+    image: quartiroloImage,
+
+    milkBase: "≈ 8 L mleka pełnego krowiego (tradycyjnie surowego; przy pasteryzowanym dodaj CaCl₂ — ok. 1/4 tsp na 8 L rozcieńczonego w 50 ml wody).",
+    starter: "Kultura termofilna (np. TA-61, MST, ST-20) — wg producenta, typowo ~1/8 tsp na 8 L. Można zastąpić mezofilną (Flora Danica, MA 4001) dla łagodniejszego profilu.",
+    coagulant: "Płynna podpuszczka single-strength; ~2 ml na 8 L mleka. Czas krzepnięcia 25–35 min.",
+    salting: "Solenie suche: ~15 g soli na każdy kg sera, posypywane na powierzchnię — góra, obrót po 6 h, spód. Można też solanka 18–20% przez 1,5–2 h.",
+    aging: "Młody (fresco): 5–10 dni w 4–8°C. Dojrzały (maturo): 30–60 dni w 10–13°C, 85–90% RH, obracanie co 2 dni.",
+
+    cultureSubstitutes: [
+      {
+        name: "TA / TA-61 (Choozit)",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp (~0,6 g) na 8 L",
+        notes: "Klasyczna termofilna — delikatna kwasowość, kremowa konsystencja.",
+        searchQuery: "TA"
+      },
+      {
+        name: "MST / MST-910",
+        type: "termofilna",
+        shop: "Serowar.pl",
+        dosage: "~1/8 tsp (~0,6 g) na 8 L",
+        notes: "Streptococcus thermophilus — łagodny profil, dobra do serów miękkich.",
+        searchQuery: "MST"
+      },
+      {
+        name: "ST / ST-20",
+        type: "termofilna",
+        shop: "Artiser.pl",
+        dosage: "~1/8 tsp (~0,6 g) na 8 L",
+        notes: "Podstawowa termofilna, uniwersalna.",
+        searchQuery: "ST"
+      },
+      {
+        name: "Flora Danica (alternatywa mezofilna)",
+        type: "mezofilna",
+        shop: "Serowar.pl",
+        dosage: "wg producenta",
+        notes: "Daje łagodniejszy, bardziej maślany profil — wariant domowy.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "ALPHA 10 / ALPHA 12 (alternatywa mezofilna)",
+        type: "mezofilna",
+        shop: "Lactic.pl",
+        dosage: "wg producenta",
+        notes: "Mezofilna o delikatnej dynamice kwaszenia.",
+        searchQuery: "ALPHA"
+      }
+    ],
+
+    dosageReference: "Odniesienie: ~0,6 g kultury termofilnej + ~2 ml podpuszczki na 8 L mleka krowiego.",
+    dosageTable: [
+      { ingredient: "Mleko krowie pełne", amount: "≈ 8 L", notes: "Surowe lub pasteryzowane (+ CaCl₂)" },
+      { ingredient: "Kultura termofilna", amount: "~1/8 tsp (~0,6 g)", notes: "TA-61, MST lub ST-20" },
+      { ingredient: "Podpuszczka płynna", amount: "~2 ml", notes: "Single strength; krzepnięcie 25–35 min" },
+      { ingredient: "Chlorek wapnia (CaCl₂)", amount: "~1/4 tsp", notes: "Tylko dla mleka pasteryzowanego, w 50 ml wody" },
+      { ingredient: "Sól", amount: "~15 g/kg sera", notes: "Solenie suche lub solanka 18–20%" }
+    ],
+
+    steps: [
+      {
+        title: "1) Podgrzanie i zakwaszanie — 37°C, 45 min",
+        content: "Podgrzej 8 L mleka do 37°C. Posyp kulturę termofilną (~1/8 tsp) równomiernie po powierzchni, odczekaj 2 min aż nawilży, następnie wmieszaj ruchami góra-dół przez 1 min. Pozostaw na 45 min pod przykryciem.",
+        tip: "Licznerski podkreślał: mleko powinno być świeże, najlepiej wieczorne — daje więcej tłuszczu niż poranne."
+      },
+      {
+        title: "2) Krzepnięcie — podpuszczka, 25–35 min",
+        content: "Rozcieńcz ~2 ml podpuszczki w 30 ml chłodnej wody. Wlej do mleka, mieszaj delikatnie góra-dół przez 30 sekund. Przykryj i pozostaw w spokoju na 25–35 min.",
+        warning: "Test skrzepu: wsadź nóż pod kątem 45° — skrzep powinien łamać się czysto, a serwatka w szczelinie być zielonkawa, nie mleczna."
+      },
+      {
+        title: "3) Krojenie skrzepu — duże kostki 3–4 cm",
+        content: "Pokrój skrzep w kostki 3–4 cm — dużo większe niż przy twardych serach! Najpierw cięcia pionowe w kratkę, potem jedno cięcie poziome. Pozostaw 10 min — niech serwatka wystąpi naturalnie.",
+        tip: "To klucz do quartirolo: duże ziarna = dużo wilgoci = kremowa, miękka konsystencja. Nie mąć więcej niż trzeba!"
+      },
+      {
+        title: "4) Delikatne mieszanie — 10–15 min w 37°C",
+        content: "Mieszaj ziarna bardzo delikatnie przez 10–15 min, utrzymując temperaturę 37°C. Ziarna powinny lekko się obkurczyć na powierzchni, ale środek ma pozostać miękki i wilgotny.",
+        warning: "Nie podgrzewaj powyżej 38°C! Quartirolo to ser miękki — za dużo ciepła wysusza ziarna i traci się kremową teksturę."
+      },
+      {
+        title: "5) Stufatura — gotowanie parą 37–42°C, 1–1,5 h",
+        content: "Odcedź większość serwatki. Przygotuj stufaturę: duży garnek z kratką kilka cm nad wodą o temp. 49–50°C. Przełóż ziarna do form wyłożonych gazą, ustaw na kratce, przykryj garnek. Obracaj ser w formie co 20–30 min.",
+        tip: "Stufatura to sekret quartirolo i caciotta — para utrzymuje bakterie aktywne, kończy fermentację laktozy i nadaje serowi jedwavistą teksturę. Licznerski opisał ten proces szczegółowo jako unikalny dla serów włoskich."
+      },
+      {
+        title: "6) Chłodzenie i odsączanie — noc w temp. pokojowej",
+        content: "Zdejmij formy z garnka. Usuń gazę po 1 h. Zostaw ser w formach w temperaturze pokojowej (18–22°C) na noc — ser dalej oddaje serwatkę i konsoliduje się. Obróć 2–3 razy.",
+        warning: "Bez prasowania! Quartirolo formuje się wyłącznie pod własnym ciężarem. Dociśkanie zniszczy kremową strukturę."
+      },
+      {
+        title: "7) Solenie suche — ~15 g/kg, 12–24 h",
+        content: "Wyjący ser z formy powinien być biały, zwięzły, ale miękki w dotyku. Posyp górną powierzchnię solą (~7–8 g). Po 6–12 h obróć i posól drugą stronę. Łączny czas solenia: 12–24 h.",
+        tip: "Solenie suche daje quartirolo bardziej wyrazistą skórkę niż solanka. Możesz też użyć solanki 18–20% przez 1,5–2 h na kg — wtedy skórka będzie bardziej gładka."
+      },
+      {
+        title: "8) Dojrzewanie — fresco (5–10 dni) lub maturo (30–60 dni)",
+        content: "Młody (fresco): przenieś do lodówki (4–8°C) na 5–10 dni. Dojrzały (maturo): trzymaj w 10–13°C i 85–90% wilgotności przez 30–60 dni, obracając co 2 dni i wycierając ewentualną pleśń.",
+        tip: "Młody quartirolo — śnieżnobiały, delikatny, lekko kwaskowy, idealny na sałatki. Dojrzały — skórka różowieje, środek staje się płynny, smak intensywny i złożony."
+      }
+    ],
+
+    notes: {
+      tips: [
+        "Stufatura to kluczowy etap — bez niej ser będzie suchy i kruchy zamiast kremowego.",
+        "Młody quartirolo (fresco) jest gotowy już po 5 dniach — idealny dla niecierpliwych!",
+        "Użyj mleka wieczornego — Licznerski podkreślał, że jest tłustsze od porannego i daje lepszy ser miękki."
+      ],
+      warnings: [
+        "Nigdy nie prasuj quartirolo — formuje się wyłącznie pod własnym ciężarem.",
+        "Dojrzały quartirolo (maturo) wymaga kontroli wilgotności — za sucho = twardy, za mokro = nadmiar pleśni.",
+        "Surowe mleko: dojrzewaj min. 60 dni (wymogi RHD) lub pasteryzuj i dodaj CaCl₂."
+      ],
+      variants: [
+        "Fresco (5–10 dni): biały, delikatny, lekko kwaskowy — do sałatek i kanapek.",
+        "Maturo (30–60 dni): żółtawy, intensywny, płynny środek — jak dojrzały brie.",
+        "Z mlekiem kozim: ostrzejszy smak, bięlśsza barwa, szybsze dojrzewanie.",
+        "Z ziołami: tymianek lub rozmaryn wmieszany do ziarna przed formowaniem."
+      ]
+    },
+
+    flavor: {
+      taste: "Łagodny, śmietankowy, lekko kwaskowy; z dojrzewaniem: intensywny, złożony, grzybowy",
+      texture: "Miękka, kremowa, rozpływająca się — młody zwarty, dojrzały płynny w środku",
+      color: "Śnieżnobiała (fresco); jasnożółta z różową skórką (maturo)",
+      aroma: "Delikatny, mleczny (fresco); intensywny, ziemisty, grzybowy (maturo)"
+    },
+
+    nutrition: {
+      servingSize: "100 g",
+      calories: 295,
+      fatContent: 23,
+      saturatedFatContent: 15,
+      proteinContent: 19,
+      carbohydrateContent: 1,
+      sodiumContent: 520,
+      calciumContent: 480
     }
   }
 ];
