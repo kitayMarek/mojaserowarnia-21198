@@ -20,6 +20,12 @@ const guides = [
     tag: "Klecki 1900",
     featured: true,
   },
+  {
+    href: "/encyklopedia-serowarstwo",
+    title: "Encyklopedya rolnicza — ponadczasowa wiedza o serowarstwie",
+    desc: "Hasło Serowarstwo z tomu IX Encyklopedyi rolniczej (ok. 1900) — 8 zasad produkcji sera, które nie straciły aktualności przez 125 lat. Chemia mleka, koagulacja, klasyfikacja serów, solenie, dojrzewanie.",
+    tag: "Encyklopedia ~1900",
+  },
 ];
 
 const SerowarstwoStaropolskie = () => {

@@ -69,7 +69,7 @@ const KlasykaPolskiegoSerowarstwa = () => {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Strona główna", item: "https://mojaserowarnia.pl/" },
-          { "@type": "ListItem", position: 2, name: "Poradniki", item: "https://mojaserowarnia.pl/poradniki" },
+          { "@type": "ListItem", position: 2, name: "Serowarstwo Staropolskie", item: "https://mojaserowarnia.pl/serowarstwo-staropolskie" },
           { "@type": "ListItem", position: 3, name: "Klasyka polskiego serowarstwa", item: "https://mojaserowarnia.pl/klasyka-serowarstwa" },
         ],
       },
@@ -90,7 +90,7 @@ const KlasykaPolskiegoSerowarstwa = () => {
 
       <Navigation />
       <PageBreadcrumbs
-        items={[{ label: "Poradniki", href: "/poradniki" }, { label: "Klasyka polskiego serowarstwa" }]}
+        items={[{ label: "Serowarstwo Staropolskie", href: "/serowarstwo-staropolskie" }, { label: "Klasyka polskiego serowarstwa" }]}
       />
 
       <main className="lg:ml-64 pt-16 lg:pt-0">
