@@ -61,6 +61,7 @@ const navItems: NavItem[] = [
       { label: "Poradnik główny", href: "/poradnik" },
       { label: "Organizacja serowarni", href: "/organizacja-serowarni" },
       { label: "Wędzenie sera", href: "/wedzenie-sera" },
+      { label: "Serowarstwo Staropolskie", href: "/serowarstwo-staropolskie" },
       { label: "Klasyka serowarstwa", href: "/klasyka-serowarstwa" },
       { label: "Bakterie i kultury", href: "/bakterie-kultury" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
