@@ -26,6 +26,13 @@ const guides = [
     desc: "Hasło Serowarstwo z tomu IX Encyklopedyi rolniczej (ok. 1900) — 8 zasad produkcji sera, które nie straciły aktualności przez 125 lat. Chemia mleka, koagulacja, klasyfikacja serów, solenie, dojrzewanie.",
     tag: "Encyklopedia ~1900",
   },
+  {
+    href: "/licznerski",
+    title: "Jan Licznerski — polska biblia serowarstwa",
+    desc: 'Biografia autora "Praktycznego serowarstwa" (1922, 435 stron). Oś czasu, cytaty, ciekawostki — o człowieku, który spędził 20 lat przy kadzi, a potem spisał wszystko co wiedział.',
+    tag: "Licznerski 1922",
+    featured: true,
+  },
 ];
 
 const SerowarstwoStaropolskie = () => {

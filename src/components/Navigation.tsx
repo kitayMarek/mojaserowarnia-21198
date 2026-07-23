@@ -54,6 +54,7 @@ const navItems: NavItem[] = [
       { label: "Klasyka serowarstwa", href: "/klasyka-serowarstwa" },
       { label: "9 warunków Kleckiego", href: "/klecki-jakosc-mleka" },
       { label: "Encyklopedia rolnicza", href: "/encyklopedia-serowarstwo" },
+      { label: "Jan Licznerski", href: "/licznerski" },
     ],
   },
   {
