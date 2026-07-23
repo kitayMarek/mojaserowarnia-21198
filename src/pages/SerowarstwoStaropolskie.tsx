@@ -39,6 +39,12 @@ const guides = [
     desc: 'Skład chemiczny mleka krowiego, owczego i koziego, mikrobiologia (LAB, Clostridium, propionowe), pasteryzacja za i przeciw, dojrzewanie mleka — 150 stron wiedzy z 1922 roku, która wciąż obowiązuje.',
     tag: "Licznerski 1922",
   },
+  {
+    href: "/licznerski-sery",
+    title: "Rodzaje serów wg Licznerskiego — Część II",
+    desc: '8 typów serów opisanych w 1922 roku: miękkie, podpuszczkowe, limburski, quartirolo, ementalski, holenderski, twarde, topione. Porównanie wtedy vs dziś — co przetrwało 100 lat.',
+    tag: "Licznerski 1922",
+  },
 ];
 
 const SerowarstwoStaropolskie = () => {

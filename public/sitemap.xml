@@ -410,6 +410,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/licznerski-sery</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/licznerski-sery.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/bakterie-kultury</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>

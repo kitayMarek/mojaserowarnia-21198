@@ -56,6 +56,7 @@ const navItems: NavItem[] = [
       { label: "Encyklopedia rolnicza", href: "/encyklopedia-serowarstwo" },
       { label: "Jan Licznerski", href: "/licznerski" },
       { label: "Mleko wg Licznerskiego", href: "/licznerski-mleko" },
+      { label: "Rodzaje serów wg Licznerskiego", href: "/licznerski-sery" },
     ],
   },
   {
