@@ -190,7 +190,7 @@ const cheeseTypes = [
     ],
     verdict: "Z recyklingu wad do globalnego produktu — Licznerski opisał narodziny kategorii, która zdominowała supermarkety.",
     recipe_hint: "Zasady topienia serów z wadami — proporcje, sole emulgujące, technika mieszania.",
-    recipe_href: null,
+    recipe_href: "/przepisy/ser-topiony",
   },
 ];
 
@@ -559,10 +559,15 @@ const LicznerskiSery = () => {
                             Ser Limburski
                           </a>
                         </li>
+                        <li>
+                          <a href="/przepisy/ser-topiony" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Ser Topiony (Parowany)
+                          </a>
+                        </li>
                       </ul>
                       <p className="text-muted-foreground mt-2">
                         W przygotowaniu: ser holenderski (gouda), camembert,
-                        ementaler, ser topiony.
+                        ementaler.
                       </p>
                     </div>
                   </div>

@@ -21,6 +21,7 @@ import emmentalImage from "@/assets/emmental.jpg";
 import korycinskiImage from "@/assets/korycinski.jpg";
 import quartiroloImage from "@/assets/quartirolo.jpg";
 import limburskiImage from "@/assets/limburski.jpg";
+import topionyImage from "@/assets/topiony.jpg";
 
 export interface CultureSubstitute {
   name: string;
@@ -3096,6 +3097,140 @@ export const recipesData: Recipe[] = [
       carbohydrateContent: 0.5,
       sodiumContent: 800,
       calciumContent: 497
+    }
+  },
+  {
+    id: "ser-topiony",
+    name: "Ser Topiony (Parowany)",
+    difficulty: "Łatwy",
+    description: 'Ser topiony (schmelzkäse) to produkt powstający z przetopienia dojrzałego sera z dodatkiem soli emulgujących i wody. Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako sposób na "uratowanie" serów z wadami — zbyt kwaśnych, za twardych, z dziurami w niewłaściwych miejscach. Zamiast je wyrzucać, topiono je z masłem i solami emulgującymi, uzyskując produkt jednolity, trwały i łatwy do krojenia. Z recyklingu wad wyrósł globalny rynek wart miliardy — Licznerski opisał narodziny kategorii.',
+    yield: "≈ 500–600 g sera topionego z 500 g sera bazowego",
+    ageTime: "Gotowy natychmiast (opcjonalnie: 1–3 dni w lodówce dla lepszej tekstury)",
+    image: topionyImage,
+
+    milkBase: "≈ 500 g dojrzałego sera twardego lub półtwardego (gouda, cheddar, ementaler, ser z wadami — mieszanka daje najlepszy smak). Ser powinien mieć min. 4–6 tygodni dojrzewania.",
+    starter: "Sole emulgujące — kluczowy składnik: cytrynian sodu (E331) lub fosforan sodu (E339/E452). Bez nich ser nie stopnieje równomiernie, lecz rozdzieli się na tłuszcz i białko.",
+    coagulant: "Brak — ser topiony nie używa podpuszczki. Koagulacja (emulsja) zachodzi dzięki solom emulgującym, które wiążą wapń z kazeiny i tworzą stabilną emulsję.",
+    salting: "Sól do smaku (ok. 1–2 g na 500 g sera) — jeśli ser bazowy jest już słony, można pominąć.",
+    aging: "Bez dojrzewania — ser topiony jest gotowy od razu po ostudzeniu. Przechowywanie w lodówce do 3–4 tygodni. Tekstura poprawia się po 1–2 dniach w lodówce.",
+
+    cultureSubstitutes: [
+      {
+        name: "Cytrynian sodu (E331)",
+        type: "sól emulgująca",
+        shop: "apteka / sklep chemiczny / online",
+        dosage: "15–20 g na 500 g sera (3–4%)",
+        notes: "Najczęściej używana sól emulgująca. Łagodny smak, dobre topienie. Dostępna jako cytrynian trójsodowy.",
+        searchQuery: "cytrynian sodu"
+      },
+      {
+        name: "Fosforan sodu (E339)",
+        type: "sól emulgująca",
+        shop: "sklep chemiczny / online",
+        dosage: "10–15 g na 500 g sera (2–3%)",
+        notes: "Silniejsze działanie emulgujące niż cytrynian. Nadaje gładszą, bardziej plastyczną teksturę.",
+        searchQuery: "fosforan sodu"
+      },
+      {
+        name: "Polifosforan sodu (E452)",
+        type: "sól emulgująca",
+        shop: "sklep chemiczny / online",
+        dosage: "10–15 g na 500 g sera (2–3%)",
+        notes: "Stosowany przemysłowo. Daje najgładszą teksturę, ale trudniejszy do kupienia w małych ilościach.",
+        searchQuery: "polifosforan sodu"
+      },
+      {
+        name: "Kwas cytrynowy + soda oczyszczona",
+        type: "zamiennik domowy",
+        shop: "sklep spożywczy",
+        dosage: "10 g kwasu cytrynowego + 8 g sody na 500 g sera",
+        notes: "Tworzy cytrynian sodu in situ. Najprostsza opcja domowa — składniki dostępne w każdym sklepie.",
+        searchQuery: "kwas cytrynowy"
+      }
+    ],
+
+    dosageReference: "Odniesienie: 500 g sera + 15–20 g cytrynianu sodu + 80–120 ml wody/mleka + 30–50 g masła.",
+    dosageTable: [
+      { ingredient: "Ser bazowy (dojrzały)", amount: "≈ 500 g", notes: "Gouda, cheddar, ementaler lub mieszanka; starszy = mocniejszy smak" },
+      { ingredient: "Cytrynian sodu (E331)", amount: "15–20 g", notes: "Lub fosforan sodu 10–15 g; lub kwas cytrynowy 10 g + soda 8 g" },
+      { ingredient: "Woda lub mleko", amount: "80–120 ml", notes: "Mleko daje kremowszy efekt; woda — bardziej neutralny" },
+      { ingredient: "Masło", amount: "30–50 g", notes: "Opcjonalnie — dodaje kremowość i połysk" },
+      { ingredient: "Sól", amount: "do smaku (1–2 g)", notes: "Jeśli ser bazowy jest mało słony" },
+      { ingredient: "Dodatki smakowe", amount: "wg uznania", notes: "Szczypiorek, papryka, czosnek, kminek, szynka, grzyby — po zdjęciu z ognia" }
+    ],
+
+    steps: [
+      {
+        title: "1) Przygotowanie sera bazowego — tarcie lub krojenie",
+        content: "Zetrzyj 500 g sera na tarce o grubych oczkach lub pokrój w drobną kostkę (~1 cm). Im drobniejszy, tym szybciej i równomierniej się stopi. Można mieszać różne sery: np. 300 g goudy + 200 g cheddara.",
+        tip: "Licznerski opisywał topienie serów z wadami — to idealny przepis na zagospodarowanie serów, które nie wyszły idealnie: zbyt kwaśnych, za twardych, popękanych, z nieregularnymi dziurami."
+      },
+      {
+        title: "2) Rozpuszczenie soli emulgujących — w wodzie/mleku",
+        content: "W garnku (najlepiej z grubym dnem, nieprzywierającym) wymieszaj 80–120 ml wody lub mleka z 15–20 g cytrynianu sodu. Podgrzej do ok. 40°C, mieszając aż sól się rozpuści.",
+        warning: "Sole emulgujące to klucz do sera topionego — bez nich ser po prostu się rozdzieli na tłuszcz i grudki białka. Nie pomijaj tego kroku!"
+      },
+      {
+        title: "3) Topienie sera — 80–90°C, ciągłe mieszanie, 10–15 min",
+        content: "Dodaj starty ser do garnka z roztworem soli. Podgrzewaj na średnim ogniu, CIĄGLE mieszając drewnianą łyżką lub silikonową szpatułką. Temperatura docelowa: 80–90°C. Mieszaj przez 10–15 min, aż masa będzie całkowicie jednolita, gładka i błyszcząca.",
+        tip: "Licznerski podawał 80–90°C — dokładnie ten sam zakres, który stosuje się dziś. Ciągłe mieszanie zapobiega przypaleniu i zapewnia równomierne topienie."
+      },
+      {
+        title: "4) Dodanie masła i doprawienie",
+        content: "Gdy masa jest gładka i jednolita, dodaj 30–50 g masła. Mieszaj do wchłonięcia — masa powinna być lśniąca i kremowa. Dopraw do smaku: sól, pieprz, a po zdjęciu z ognia — dowolne dodatki smakowe (szczypiorek, papryka, czosnek, kminek, szynka, grzyby).",
+        warning: "Dodatki smakowe dodawaj PO zdjęciu z ognia (ok. 70°C) — w pełnej temperaturze topienia mogą stracić aromat lub zmienić kolor."
+      },
+      {
+        title: "5) Formowanie — formy, folię, słoiki",
+        content: "Natychmiast przelej gorącą masę do form wyłożonych folią spożywczą, do ceramicznych foremek lub do wysterylizowanych słoików (na ciepło). Wyrównaj powierzchnię, zakryj folią (dotykającą sera — bez pęcherzy powietrza) i pozostaw do ostygnięcia w temp. pokojowej.",
+        tip: "Małe foremki (100–150 g) to klasyczny format sera topionego. Folia spożywcza dotykająca powierzchni zapobiega powstawaniu skórki."
+      },
+      {
+        title: "6) Studzenie i gotowość",
+        content: "Po ostudzeniu do temp. pokojowej przenieś do lodówki na min. 4–6 h (najlepiej na noc). Ser topiony tężeje w lodówce i nabiera ostatecznej konsystencji — od miękkiej (kremowej) po krojalną, zależnie od ilości wody i sera bazowego.",
+        tip: "Ser topiony jest gotowy od razu, ale smak i tekstura poprawiają się po 1–2 dniach w lodówce. Przechowuj do 3–4 tygodni."
+      }
+    ],
+
+    notes: {
+      tips: [
+        "Mieszanka serów daje najlepszy smak — np. 60% gouda + 30% cheddar + 10% ementaler.",
+        "Im starszy (dojrzalszy) ser bazowy, tym intensywniejszy smak sera topionego.",
+        "Licznerski podkreślał: ser topiony to doskonały sposób na zagospodarowanie serów z wadami — nie wyrzucaj niedoskonałych serów!",
+        "Cytrynian sodu można łatwo zrobić w domu: kwas cytrynowy + soda oczyszczona (reagują i tworzą cytrynian sodu + CO₂ + woda)."
+      ],
+      warnings: [
+        "Bez soli emulgujących ser się nie stopi równomiernie — rozdzieli się na tłuszcz i białko.",
+        "Ciągłe mieszanie jest kluczowe — ser topiony łatwo się przypala na dnie garnka.",
+        "Nie dodawaj zbyt dużo wody — ser topiony powinien być gęsty, nie płynny. Zacznij od 80 ml i dodawaj w razie potrzeby.",
+        "Ser świeży (młody) nie nadaje się — potrzebujesz sera min. 4–6 tygodni dojrzewania, żeby sole emulgujące miały z czym pracować (dojrzała kazeina)."
+      ],
+      variants: [
+        "Kremowy (spreadable) — więcej wody (120 ml) i masła (50 g), miększy ser bazowy.",
+        "Krojalny (blokowy) — mniej wody (60–80 ml), twardszy ser bazowy, dłuższe chłodzenie.",
+        "Ze szczypiorkiem — klasyka polska; dodaj 2–3 łyżki posiekanego szczypiorku po zdjęciu z ognia.",
+        "Z papryką — 1 łyżka słodkiej papryki w proszku + szczypca ostrej.",
+        "Z grzybami — 50 g smażonych pieczarek lub suszonych borowików (namoczonych).",
+        "Fondue-style — ser topiony rozrzedzony winem (50 ml białego wytrawnego zamiast części wody) + czosnek."
+      ]
+    },
+
+    flavor: {
+      taste: "Łagodny, kremowy, maślany; smak zależy od sera bazowego — gouda daje słodycz, cheddar ostrość, ementaler orzechowość",
+      texture: "Gładka, jednorodna, kremowa do krojalnej — zależy od proporcji wody i sera",
+      color: "Jasnożółta do intensywnie żółtej — zależy od sera bazowego i dodatków (papryka daje pomarańcz)",
+      aroma: "Delikatny, maślany, łagodny — znacznie mniej intensywny niż ser bazowy"
+    },
+
+    nutrition: {
+      servingSize: "100 g",
+      calories: 280,
+      fatContent: 21,
+      saturatedFatContent: 13,
+      proteinContent: 16,
+      carbohydrateContent: 3,
+      sodiumContent: 1200,
+      calciumContent: 550
     }
   }
 ];

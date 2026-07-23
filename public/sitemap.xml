@@ -188,6 +188,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/przepisy/ser-topiony</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/ser-topiony.html</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/przepisy/emmental</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>
