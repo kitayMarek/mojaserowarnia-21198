@@ -1,4 +1,4 @@
-import { Database, BookOpen, GraduationCap, Scale, Calculator, FileText, Newspaper, LucideIcon } from "lucide-react";
+import { Database, BookOpen, GraduationCap, Scale, Calculator, FileText, Newspaper, ScrollText, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState, useRef } from "react";
@@ -87,6 +87,13 @@ const QuickAccess = () => {
       description: "Kompletne przewodniki po produkcji sera",
       color: "from-amber-600 to-yellow-600",
       href: "/poradniki",
+    },
+    {
+      icon: ScrollText,
+      title: "Serowarstwo Staropolskie",
+      description: "Historyczne polskie piśmiennictwo serowarskie",
+      color: "from-amber-600 to-yellow-600",
+      href: "/serowarstwo-staropolskie",
     },
     {
       icon: Newspaper,
