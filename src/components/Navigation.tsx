@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Menu, X, Search, User, LogOut, ChevronDown,
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,14 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    label: "Serowarstwo Staropolskie", icon: ScrollText, color: "amber",
+    children: [
+      { label: "O dziale", href: "/serowarstwo-staropolskie" },
+      { label: "Klasyka serowarstwa", href: "/klasyka-serowarstwa" },
+      { label: "9 warunków Kleckiego", href: "/klecki-jakosc-mleka" },
+    ],
+  },
+  {
     label: "Przepisy na sery", icon: ChefHat, color: "rose",
     children: [
       { label: "Przepisy na sery", href: "/przepisy" },
@@ -61,8 +69,6 @@ const navItems: NavItem[] = [
       { label: "Poradnik główny", href: "/poradnik" },
       { label: "Organizacja serowarni", href: "/organizacja-serowarni" },
       { label: "Wędzenie sera", href: "/wedzenie-sera" },
-      { label: "Serowarstwo Staropolskie", href: "/serowarstwo-staropolskie" },
-      { label: "Klasyka serowarstwa", href: "/klasyka-serowarstwa" },
       { label: "Bakterie i kultury", href: "/bakterie-kultury" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
       { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },
