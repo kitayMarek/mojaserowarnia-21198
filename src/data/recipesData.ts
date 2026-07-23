@@ -1093,12 +1093,12 @@ export const recipesData: Recipe[] = [
       {
         title: "3) Cięcie i płukanie wodą",
         content: "Potnij skrzep na kostki 1 cm. Usuń 1/3 serwatki i zastąp ciepłą wodą 38°C. To 'płukanie' usuwa laktozę i daje słodszy smak.",
-        tip: "Kluczowy etap dla Goudy - płukanie wodą to sekret słodkiego smaku!"
+        tip: "Kluczowy etap dla Goudy - płukanie wodą to sekret słodkiego smaku! Ciekawostka: Licznerski (1922) zalecał cieplejszą wodę — 40-45°C zamiast 38°C — by usunąć jeszcze więcej laktozy i uzyskać słodszy ser."
       },
       {
         title: "4) Gotowanie do 38°C ~30 min",
         content: "Podgrzewaj powoli do 38°C, mieszając delikatnie przez 30 min.",
-        warning: "Nie przekraczaj 40°C - wyższa temperatura zabije kulturę."
+        warning: "Nie przekraczaj 40°C — wyższa temperatura zabije współczesne kultury mezofilne. Uwaga hist.: Licznerski (1922) dopuszczał 40-45°C, bo ówczesne kultury naturalne były odporniejsze na ciepło."
       },
       {
         title: "5) Formowanie i prasowanie",
@@ -1108,7 +1108,7 @@ export const recipesData: Recipe[] = [
       {
         title: "6) Solenie w solance ~3 h/kg",
         content: "Zanurz w nasyconej solance na 3 godziny na każdy kilogram sera.",
-        tip: "Temperatura solanki 10-15°C."
+        tip: "Temperatura solanki 10-15°C. Ciekawostka: Licznerski (1922) stosował słabszą solankę (18-20%) przez dłuższy czas (12-48 h zamiast 3 h/kg w nasyconej). Metoda daje łagodniejsze, bardziej równomierne solenie."
       },
       {
         title: "7) Dojrzewanie i woskowanie",
@@ -1120,7 +1120,8 @@ export const recipesData: Recipe[] = [
     notes: {
       tips: [
         "Płukanie wodą to kluczowy etap - usuwa laktozę i daje charakterystyczny słodki smak Goudy.",
-        "Woskowanie chroni ser i pozwala na długie dojrzewanie."
+        "Woskowanie chroni ser i pozwala na długie dojrzewanie.",
+        "Ciekawostka hist.: Jan Licznerski w 'Praktycznym serowarstwie' (1922) opisał goudę z cieplejszym płukaniem (40-45°C) i słabszą solanką (18-20%, 12-48 h) — podejście typowe dla XIX-wiecznej technologii."
       ],
       warnings: [],
       variants: [
@@ -1439,7 +1440,7 @@ export const recipesData: Recipe[] = [
       {
         title: "6) Dojrzewanie z pleśnią",
         content: "Przenieś do 11-13°C i 90-95% RH. Obracaj codziennie. Po 7-10 dniach pojawi się biała pleśń.",
-        tip: "Wysoka wilgotność jest kluczowa dla rozwoju pleśni!"
+        tip: "Wysoka wilgotność jest kluczowa dla rozwoju pleśni! Ciekawostka: Licznerski (1922) opisywał, że biała pleśń 'narasta samoistnie' z otoczenia — zanim dostępny był komercyjny Penicillium candidum, serowarze polegali na dzikich szczepach z piwnicy."
       },
       {
         title: "7) Zawijanie i finalne dojrzewanie",
@@ -1451,7 +1452,8 @@ export const recipesData: Recipe[] = [
     notes: {
       tips: [
         "Wysoka wilgotność (90-95%) jest absolutnie kluczowa dla rozwoju białej pleśni.",
-        "Codzienne obracanie zapewnia równomierny rozwój pleśni ze wszystkich stron."
+        "Codzienne obracanie zapewnia równomierny rozwój pleśni ze wszystkich stron.",
+        "Ciekawostka hist.: Licznerski (1922) opisywał camembert z samoistnym narastaniem pleśni — bez komercyjnych kultur P. candidum, które upowszechniły się dopiero w XX w."
       ],
       warnings: [
         "Zbyt niska wilgotność = sucha, popękana skórka.",
@@ -2738,7 +2740,7 @@ export const recipesData: Recipe[] = [
       {
         title: "5) Formowanie pod serwatką i prasowanie",
         content: "Zbierz ziarna w płótno pod lustrem serwatki. Prasuj bardzo ciężko (50-60 kg) przez 24h.",
-        tip: "Duży ser wymaga ciężkiego prasowania."
+        tip: "Duży ser wymaga ciężkiego prasowania. Ciekawostka: Licznerski (1922) zalecał jeszcze cięższą prasę — do 100 kg na każdy 1 kg sera (nawet 400 kg dla 4-kilogramowego koła!), co dawało maksymalnie zwarty blok."
       },
       {
         title: "6) Solenie w solance 48h",
@@ -2765,7 +2767,8 @@ export const recipesData: Recipe[] = [
     notes: {
       tips: [
         "Etap ciepły (22°C) jest kluczowy - to wtedy Propionic tworzy oczka.",
-        "Ser powinien widocznie 'puchnąć' podczas ciepłego dojrzewania."
+        "Ser powinien widocznie 'puchnąć' podczas ciepłego dojrzewania.",
+        "Ciekawostka hist.: Licznerski (1922) zalecał prasowanie ementala obciążeniem do 100 kg na kg sera — znacznie więcej niż współczesne 50-60 kg, co dawało maksymalnie zwarty blok."
       ],
       warnings: [
         "Bez Propionic = brak oczek!",

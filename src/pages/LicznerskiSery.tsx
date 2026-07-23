@@ -29,7 +29,7 @@ const cheeseTypes = [
     ],
     verdict: "Technika prawie identyczna. Zmieniło się źródło pleśni (kupowana vs dzika) i skala.",
     recipe_hint: "Licznerski podaje szczegółowy opis produkcji camemberta i neufchâtela — od temperatury zaprawiania po sposób solenia.",
-    recipe_href: null,
+    recipe_href: "/przepisy/camembert",
   },
   {
     num: 2,
@@ -121,7 +121,7 @@ const cheeseTypes = [
     ],
     verdict: "Opis Licznerskiego jest technicznie poprawny. Jedyne, czego nie znał, to nazwa bakterii odpowiedzialnej za dziury.",
     recipe_hint: "Pełna procedura produkcji sera ementalskiego — od zaprawiania po schemat trójfazowego dojrzewania.",
-    recipe_href: null,
+    recipe_href: "/przepisy/emmental",
   },
   {
     num: 6,
@@ -144,7 +144,7 @@ const cheeseTypes = [
     ],
     verdict: "Opis goudy/edama u Licznerskiego to gotowa instrukcja, którą można stosować dziś z minimalnymi modyfikacjami.",
     recipe_hint: "Szczegółowy opis produkcji sera holenderskiego (gouda) — z temperaturami płukania i czasami prasowania.",
-    recipe_href: null,
+    recipe_href: "/przepisy/gouda",
   },
   {
     num: 7,
@@ -564,11 +564,25 @@ const LicznerskiSery = () => {
                             Ser Topiony (Parowany)
                           </a>
                         </li>
+                        <li>
+                          <a href="/przepisy/gouda" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Gouda (ser holenderski)
+                          </a>
+                          {" "}<span className="text-muted-foreground text-xs">+ notatki Licznerskiego</span>
+                        </li>
+                        <li>
+                          <a href="/przepisy/camembert" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Camembert
+                          </a>
+                          {" "}<span className="text-muted-foreground text-xs">+ notatki Licznerskiego</span>
+                        </li>
+                        <li>
+                          <a href="/przepisy/emmental" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">
+                            Emmental (ementaler)
+                          </a>
+                          {" "}<span className="text-muted-foreground text-xs">+ notatki Licznerskiego</span>
+                        </li>
                       </ul>
-                      <p className="text-muted-foreground mt-2">
-                        W przygotowaniu: ser holenderski (gouda), camembert,
-                        ementaler.
-                      </p>
                     </div>
                   </div>
                 </div>
