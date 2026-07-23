@@ -127,7 +127,18 @@
   RewriteCond %{REQUEST_FILENAME} !-d
 
   # Przepisz wszystko inne na index.html
-  RewriteRule ^(.*)$ /index.html [L,QSA]
+  # E=SPA_FALLBACK → env var do nadpisania cache (patrz sekcja Cache Control)
+  RewriteRule ^(.*)$ /index.html [L,QSA,E=SPA_FALLBACK:1]
+</IfModule>
+
+# ===== SPA FALLBACK CACHE FIX =====
+# Gdy SPA rewrite serwuje index.html pod URL-em .js/.css, przeglądarka dostaje HTML
+# z headerem immutable (bo FilesMatch dopasowuje rozszerzenie URL-a, nie pliku).
+# Nadpisujemy to: odpowiedź fallback NIGDY nie jest cache'owalna.
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate" env=REDIRECT_SPA_FALLBACK
+  Header set Pragma "no-cache" env=REDIRECT_SPA_FALLBACK
+  Header set Expires "0" env=REDIRECT_SPA_FALLBACK
 </IfModule>
 
 # ===== MIME TYPES =====
