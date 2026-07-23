@@ -577,11 +577,11 @@ const KleckiJakoscMleka = () => {
 
           <SeeAlso
             links={[
-              { href: "/serowarstwo-staropolskie", label: "Serowarstwo Staropolskie — dział historyczny" },
-              { href: "/klasyka-serowarstwa", label: "Klasyka polskiego serowarstwa — przegląd źródeł" },
-              { href: "/kalkulator-beaugel", label: "Kalkulator Beaugel — przelicz dawkę podpuszczki" },
-              { href: "/bakterie-kultury", label: "Kultury bakteryjne i pleśnie — współczesny przewodnik" },
-              { href: "/kalkulator-solanki", label: "Kalkulator solanki" },
+              { href: "/serowarstwo-staropolskie", title: "Serowarstwo Staropolskie — dział historyczny" },
+              { href: "/klasyka-serowarstwa", title: "Klasyka polskiego serowarstwa — przegląd źródeł" },
+              { href: "/kalkulator-beaugel", title: "Kalkulator Beaugel — przelicz dawkę podpuszczki" },
+              { href: "/bakterie-kultury", title: "Kultury bakteryjne i pleśnie — współczesny przewodnik" },
+              { href: "/kalkulator-solanki", title: "Kalkulator solanki" },
             ]}
           />
         </div>

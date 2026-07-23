@@ -433,10 +433,10 @@ const KlasykaPolskiegoSerowarstwa = () => {
 
           <SeeAlso
             links={[
-              { href: "/poradnik", label: "Poradnik dla serowarów — kompletny przewodnik" },
-              { href: "/bakterie-kultury", label: "Kultury bakteryjne i pleśnie — szczegółowy przewodnik" },
-              { href: "/kalkulator-beaugel", label: "Kalkulator Beaugel — dawka podpuszczki" },
-              { href: "/prawo/rhd", label: "RHD — sprzedaż sera z własnej produkcji" },
+              { href: "/poradnik", title: "Poradnik dla serowarów — kompletny przewodnik" },
+              { href: "/bakterie-kultury", title: "Kultury bakteryjne i pleśnie — szczegółowy przewodnik" },
+              { href: "/kalkulator-beaugel", title: "Kalkulator Beaugel — dawka podpuszczki" },
+              { href: "/prawo/rhd", title: "RHD — sprzedaż sera z własnej produkcji" },
             ]}
           />
         </div>
