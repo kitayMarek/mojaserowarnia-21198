@@ -38,6 +38,7 @@ const SerowarstwoStaropolskie = lazy(() => import("./pages/SerowarstwoStaropolsk
 const KleckiJakoscMleka = lazy(() => import("./pages/KleckiJakoscMleka"));
 const EncyklopediaSerowarstwo = lazy(() => import("./pages/EncyklopediaSerowarstwo"));
 const LicznerskiSerowarstwo = lazy(() => import("./pages/LicznerskiSerowarstwo"));
+const LicznerskiMleko = lazy(() => import("./pages/LicznerskiMleko"));
 const AktyPrawneUE = lazy(() => import("./pages/AktyPrawneUE"));
 const RHD = lazy(() => import("./pages/RHD"));
 const RHDDokumenty = lazy(() => import("./pages/RHDDokumenty"));
@@ -119,6 +120,7 @@ const App = () => (
           <Route path="/klecki-jakosc-mleka" element={<KleckiJakoscMleka />} />
           <Route path="/encyklopedia-serowarstwo" element={<EncyklopediaSerowarstwo />} />
           <Route path="/licznerski" element={<LicznerskiSerowarstwo />} />
+          <Route path="/licznerski-mleko" element={<LicznerskiMleko />} />
           <Route path="/bakterie-kultury" element={<BakterieKultury />} />
           <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
           <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />

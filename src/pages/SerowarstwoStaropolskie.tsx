@@ -33,6 +33,12 @@ const guides = [
     tag: "Licznerski 1922",
     featured: true,
   },
+  {
+    href: "/licznerski-mleko",
+    title: "Mleko wg Licznerskiego — Część I Praktycznego serowarstwa",
+    desc: 'Skład chemiczny mleka krowiego, owczego i koziego, mikrobiologia (LAB, Clostridium, propionowe), pasteryzacja za i przeciw, dojrzewanie mleka — 150 stron wiedzy z 1922 roku, która wciąż obowiązuje.',
+    tag: "Licznerski 1922",
+  },
 ];
 
 const SerowarstwoStaropolskie = () => {

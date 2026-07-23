@@ -55,6 +55,7 @@ const navItems: NavItem[] = [
       { label: "9 warunków Kleckiego", href: "/klecki-jakosc-mleka" },
       { label: "Encyklopedia rolnicza", href: "/encyklopedia-serowarstwo" },
       { label: "Jan Licznerski", href: "/licznerski" },
+      { label: "Mleko wg Licznerskiego", href: "/licznerski-mleko" },
     ],
   },
   {
