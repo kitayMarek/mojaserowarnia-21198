@@ -140,8 +140,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      content: "admin@mojaserowarnia.pl",
-      href: "mailto:admin@mojaserowarnia.pl",
+      content: "marek@fermly.pl",
+      href: "mailto:marek@fermly.pl",
     },
     {
       icon: MapPin,
@@ -304,14 +304,23 @@ const Contact = () => {
                       )}
                     />
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="w-full md:w-auto"
                       disabled={isSubmitting}
                     >
                       <Send className="h-4 w-4 mr-2" />
                       {isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}
                     </Button>
+
+                    <div className="bg-muted/50 border rounded-lg p-4 mt-2">
+                      <p className="text-sm text-muted-foreground">
+                        Formularz może czasowo nie działać. W takim przypadku napisz bezpośrednio na{" "}
+                        <a href="mailto:marek@fermly.pl" className="text-primary hover:underline font-medium">
+                          marek@fermly.pl
+                        </a>
+                      </p>
+                    </div>
                   </form>
                 </Form>
               </CardContent>

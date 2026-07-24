@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, TrendingUp } from "lucide-react";
+import { Loader2, AlertTriangle, TrendingUp, ExternalLink, ArrowRight } from "lucide-react";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -124,6 +124,26 @@ export default function Dashboard() {
             </p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30 border border-purple-200 dark:border-purple-800 rounded-lg p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex-1">
+            <h3 className="font-semibold text-sm mb-1">Potrzebujesz więcej?</h3>
+            <p className="text-sm text-muted-foreground">
+              Fermly.pl to pełne narzędzie dla gospodarstwa — rejestr RHD ze wspólną numeracją, faktury VAT RR (+7% automatycznie), kasa i bank, katalog produktów i odbiorców. Twoje dane z serowarni możesz przenieść.
+            </p>
+          </div>
+          <a
+            href="https://www.fermly.pl/mleko/rhd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap shrink-0"
+          >
+            Otwórz Fermly
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
       </div>
 
       <Card>

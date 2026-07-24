@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, Eye, Trash2, Plus } from "lucide-react";
+import { Loader2, Eye, Trash2, Plus, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Invoices() {
@@ -81,6 +81,25 @@ export default function Invoices() {
           <Plus className="h-4 w-4 mr-2" />
           Nowy rachunek
         </Button>
+      </div>
+
+      <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1">
+            <p className="text-sm">
+              <strong>Sprzedajesz do firm?</strong> W Fermly.pl wystawisz projekt faktury VAT RR z automatycznym +7%, oświadczeniem rolnika i wydrukiem A4. Rachunki, rejestr RHD i kasa w jednym miejscu.
+            </p>
+          </div>
+          <a
+            href="https://www.fermly.pl/vat-rr/nowa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap shrink-0"
+          >
+            Faktura VAT RR
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
       </div>
 
       <Card>

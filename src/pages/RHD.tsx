@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, Scale, Users, ShoppingBag, ClipboardCheck, Euro, MapPin, AlertCircle, CheckCircle } from "lucide-react";
+import { ArrowLeft, FileText, Scale, Users, ShoppingBag, ClipboardCheck, Euro, MapPin, AlertCircle, CheckCircle, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
@@ -716,6 +716,38 @@ const RHD = () => {
                 <p className="text-sm text-muted-foreground">
                   Kto fizycznie wypełnia druk? Formalnie nabywca — ale dopuszczalne jest, że rolnik sam sporządza fakturę VAT RR, gdy nabywca udostępni formularz i przechowa kopię. <strong>KSeF (2026):</strong> dla faktur VAT RR pozostaje fakultatywny — papier z podpisami nadal działa (od 1 kwietnia 2026 r. można też wystawiać w KSeF po uwierzytelnieniu i złożeniu oświadczenia o statusie rolnika ryczałtowego).
                 </p>
+
+                <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30 border border-purple-200 dark:border-purple-800 p-5 rounded-lg mt-4">
+                  <h4 className="font-semibold mb-2 flex items-center gap-2">
+                    <Euro className="h-4 w-4 text-purple-600" />
+                    Przygotuj projekt faktury VAT RR dla kupującego
+                  </h4>
+                  <p className="text-sm mb-3">
+                    W praktyce kupujący (sklep, restauracja) często nie wie o obowiązku wystawienia faktury VAT RR — a to oznacza, że tracisz dodatkowe 7%. Rozwiązanie: przygotuj gotowy projekt dokumentu i wręcz go nabywcy. On go tylko podpisuje.
+                  </p>
+                  <div className="text-sm space-y-1.5 mb-4">
+                    <p><strong>Jak działa generator:</strong></p>
+                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                      <li>Wpisujesz dane nabywcy, produkty, ilości i ceny netto</li>
+                      <li>Kwota zryczałtowanego zwrotu (+7%) liczy się automatycznie</li>
+                      <li>Na dokumencie pojawia się oświadczenie rolnika (art. 116 ust. 3) — gotowe do podpisu</li>
+                      <li>Wydruk A4 w dwóch egzemplarzach (oryginał + kopia)</li>
+                      <li>Tryb demo — możesz wypróbować bez rejestracji; po zalogowaniu projekty faktur są zapisywane</li>
+                    </ul>
+                  </div>
+                  <a
+                    href="https://www.fermly.pl/vat-rr/nowa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
+                    Przygotuj projekt faktury VAT RR
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Generator w aplikacji Fermly.pl — numer dokumentu nadaje nabywca (to jego faktura).
+                  </p>
+                </div>
               </CardContent>
             </Card>
 
