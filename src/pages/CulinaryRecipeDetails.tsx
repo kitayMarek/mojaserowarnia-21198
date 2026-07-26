@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
-import HowToSchema from "@/components/HowToSchema";
+import CulinaryRecipeSchema from "@/components/CulinaryRecipeSchema";
 import SeeAlso from "@/components/SeeAlso";
 import { culinaryRecipesData } from "@/data/culinaryRecipesData";
 import { Button } from "@/components/ui/button";
@@ -101,14 +101,6 @@ const CulinaryRecipeDetails = () => {
   // Prepare supplies (ingredients) for schema
   const supplies = recipe.ingredients.map(i => `${i.name} - ${i.amount}`);
 
-  // Prepare tools for schema
-  const tools = [
-    "Patelnia",
-    "Deska do krojenia", 
-    "Nóż kuchenny",
-    "Garnek lub rondel"
-  ];
-
   // Convert prep+cook time to ISO 8601 duration
   const parseTime = (timeStr: string): number => {
     const match = timeStr.match(/(\d+)/);
@@ -136,14 +128,18 @@ const CulinaryRecipeDetails = () => {
         <link rel="canonical" href={`https://mojaserowarnia.pl/przepisy-kulinarne/${id}`} />
       </Helmet>
 
-      <HowToSchema
+      <CulinaryRecipeSchema
         name={recipe.name}
         description={recipe.description}
         image={recipe.image}
+        prepTime={`PT${prepMinutes}M`}
+        cookTime={`PT${cookMinutes}M`}
         totalTime={totalTime}
-        supply={supplies}
-        tool={tools}
+        recipeYield={recipe.servings}
+        ingredients={supplies}
         steps={howToSteps}
+        nutrition={recipe.nutrition}
+        url={`https://mojaserowarnia.pl/przepisy-kulinarne/${id}`}
       />
 
       <Navigation />
