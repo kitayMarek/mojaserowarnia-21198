@@ -77,7 +77,7 @@ const EncyklopediaSerowarstwo = () => {
         <title>Encyklopedya rolnicza — ponadczasowa wiedza o serowarstwie (ok. 1900)</title>
         <meta
           name="description"
-          content='Hasło "Serowarstwo" z Encyklopedyi rolniczej (tom IX, ok. 1900) — analiza ponadczasowych zasad produkcji sera: chemia mleka, koagulacja, klasyfikacja serów, dojrzewanie. Co obowiązuje do dziś.'
+          content='Hasło "Serowarstwo" z Encyklopedyi rolniczej (ok. 1900) — chemia mleka, koagulacja, klasyfikacja serów, dojrzewanie. Co z tej wiedzy obowiązuje do dziś.'
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/encyklopedia-serowarstwo" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

@@ -94,7 +94,7 @@ const LicznerskiSerowarstwo = () => {
         <title>Jan Licznerski — człowiek, który napisał polską biblię serowarstwa</title>
         <meta
           name="description"
-          content='Biografia Jana Licznerskiego, autora "Praktycznego serowarstwa" (1922). Oś czasu, osiągnięcia, cytaty i ciekawostki o człowieku, którego polscy serowarzy nazywają guru.'
+          content='Biografia Jana Licznerskiego, autora "Praktycznego serowarstwa" (1922). Oś czasu, osiągnięcia i cytaty z polskiej biblii serowarstwa.'
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/licznerski" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

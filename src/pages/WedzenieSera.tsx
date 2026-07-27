@@ -79,10 +79,10 @@ const WedzenieSera = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Wędzenie sera — kompletny przewodnik: drewno, temperatura, czas | Moja Serowarnia</title>
+        <title>Wędzenie sera — drewno, temperatura, czas | Moja Serowarnia</title>
         <meta
           name="description"
-          content="Jak uwędzić ser: które sery się nadają, przygotowanie i osuszanie, jakie drewno wybrać (olcha, buk, owocowe), wędzenie na zimno 20–30 °C, ile wędzić, leżakowanie i najczęstsze błędy."
+          content="Jak uwędzić ser: które sery się nadają, dobór drewna (olcha, buk, owocowe), wędzenie na zimno 20–30°C, czas wędzenia, leżakowanie i typowe błędy."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/wedzenie-sera" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

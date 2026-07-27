@@ -79,10 +79,10 @@ const KlasykaPolskiegoSerowarstwa = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Klasyka polskiego serowarstwa — historyczne podręczniki (domena publiczna)</title>
+        <title>Klasyka polskiego serowarstwa — podręczniki (domena publiczna)</title>
         <meta
           name="description"
-          content="Przegląd polskich klasycznych podręczników serowarskich: Klecki (1900), Licznerski (1922), Encyklopedya rolnicza. Linki do darmowych skanów cyfrowych i cytaty z historycznych źródeł."
+          content="Klecki (1900), Licznerski (1922), Encyklopedya rolnicza — polskie klasyki serowarstwa w domenie publicznej. Darmowe skany i cytaty historyczne."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/klasyka-serowarstwa" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

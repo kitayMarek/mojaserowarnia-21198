@@ -286,7 +286,7 @@ const PorownanieWartosciOdzywczych = () => {
         <title>Kalkulator porównania wartości odżywczych serów | Moja Serowarnia</title>
         <meta
           name="description"
-          content="Porównaj wartości odżywcze serów — kalorie, białko, tłuszcze, wapń i sód na 100 g i na dowolną porcję. Do 3 serów naraz. Przydatne do diety, przepisów i etykiet serów."
+          content="Porównaj wartości odżywcze serów — kalorie, białko, tłuszcze, wapń i sód. Do 3 serów naraz, na 100 g lub dowolną porcję. Przydatne do diety i etykiet."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/porownanie-wartosci-odzywczych" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

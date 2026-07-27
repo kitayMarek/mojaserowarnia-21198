@@ -82,7 +82,7 @@ const KleckiJakoscMleka = () => {
         <title>9 warunków jakości mleka wg Kleckiego (1900) — co decyduje o serze</title>
         <meta
           name="description"
-          content="Prof. Walerian Józef Klecki (UJ, 1900) opisał 9 czynników decydujących o jakości mleka serowarskiego: rasa krów, sezon, żywienie, laktacja, zdrowie, higiena udoju, czas, temperatura, dojrzewanie."
+          content="Prof. Klecki (UJ, 1900) opisał 9 czynników jakości mleka serowarskiego: rasa, sezon, żywienie, laktacja, higiena udoju, czas, temperatura, dojrzewanie mleka."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/klecki-jakosc-mleka" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

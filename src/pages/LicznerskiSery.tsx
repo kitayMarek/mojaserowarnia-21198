@@ -262,10 +262,10 @@ const LicznerskiSery = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Rodzaje serów wg Licznerskiego — Część II Praktycznego serowarstwa (1922)</title>
+        <title>Rodzaje serów wg Licznerskiego — Część II Praktycznego serowarstwa</title>
         <meta
           name="description"
-          content='8 typów serów opisanych przez Jana Licznerskiego: miękkie, podpuszczkowe, limburski, quartirolo, ementalski, holenderski, twarde, topione. Porównanie z współczesnością — co przetrwało 100 lat.'
+          content='8 typów serów wg Licznerskiego (1922): miękkie, limburski, quartirolo, ementalski, holenderski, twarde, topione. Co z tej wiedzy przetrwało 100 lat?'
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/licznerski-sery" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

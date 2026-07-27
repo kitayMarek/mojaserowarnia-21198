@@ -40,8 +40,8 @@ const BakterieKultury = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Kultury bakteryjne do sera — jak dobrać (mezofilne, termofilne, pleśnie) | Moja Serowarnia</title>
-        <meta name="description" content="Jak dobrać kulturę bakteryjną do sera: mezofilna vs termofilna, dawki startowe, temperatury, pH, gotowe mieszanki (gouda, mozzarella, camembert) oraz typowe błędy. Praktyczny przewodnik krok po kroku." />
+        <title>Kultury bakteryjne do sera — jak dobrać | Moja Serowarnia</title>
+        <meta name="description" content="Jak dobrać kulturę bakteryjną do sera: mezofilna vs termofilna, dawki startowe, temperatury, pH, gotowe mieszanki i typowe błędy. Praktyczny przewodnik." />
         <link rel="canonical" href="https://mojaserowarnia.pl/bakterie-kultury" />
       </Helmet>
       <FAQSchema faqs={faqData} />

@@ -73,10 +73,10 @@ const SerowarstwoStaropolskie = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Serowarstwo Staropolskie — historyczne polskie piśmiennictwo serowarskie</title>
+        <title>Serowarstwo Staropolskie — polskie piśmiennictwo (XIX–XX w.)</title>
         <meta
           name="description"
-          content="Polskie serowarstwo akademickie sprzed 125 lat: Klecki (UJ 1900), Licznerski (1922) i inne źródła w domenie publicznej. Wiedza, która wyprzedziła blogi o serowarstwie domowym o całe dekady."
+          content="Polskie serowarstwo akademickie: Klecki (UJ 1900), Licznerski (1922) i inne źródła w domenie publicznej. Wiedza sprzed ponad 100 lat, aktualna do dziś."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/serowarstwo-staropolskie" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

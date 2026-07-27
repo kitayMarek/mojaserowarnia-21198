@@ -146,10 +146,10 @@ const OrganizacjaSerowarni = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Organizacja małej serowarni — układ, sprzęt i obieg pracy | Moja Serowarnia</title>
+        <title>Organizacja małej serowarni — układ i sprzęt | Moja Serowarnia</title>
         <meta
           name="description"
-          content="Jak zorganizować małą, rzemieślniczą serowarnię: układ pomieszczeń, strefy czyste i brudne, dobór sprzętu, obieg pracy od mleka do sera oraz wymogi lokalowe pod RHD i MOL."
+          content="Jak zorganizować małą serowarnię: układ pomieszczeń, strefy czyste i brudne, dobór sprzętu, obieg pracy od mleka do sera. Wymogi lokalowe RHD i MOL."
         />
         <link rel="canonical" href="https://mojaserowarnia.pl/organizacja-serowarni" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
