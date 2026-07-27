@@ -24,6 +24,7 @@ const GdzieKupicPodpuszczke = lazy(() => import("./pages/GdzieKupicPodpuszczke")
 const Prawo = lazy(() => import("./pages/Prawo"));
 const Narzedzia = lazy(() => import("./pages/Narzedzia"));
 const EtykietaRhd = lazy(() => import("./pages/EtykietaRhd"));
+const FakturaVatRr = lazy(() => import("./pages/FakturaVatRr"));
 const KalkulatorBeaugel = lazy(() => import("./pages/KalkulatorBeaugel"));
 const KalkulatorKosztuSera = lazy(() => import("./pages/KalkulatorKosztuSera"));
 const KalkulatorMiar = lazy(() => import("./pages/KalkulatorMiar"));
@@ -130,6 +131,7 @@ const App = () => (
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
             <Route path="/etykieta-rhd" element={<EtykietaRhd />} />
+            <Route path="/faktura-vat-rr" element={<FakturaVatRr />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />
             <Route path="/kalkulator-kosztu-sera" element={<KalkulatorKosztuSera />} />
             <Route path="/kalkulator-miar" element={<KalkulatorMiar />} />

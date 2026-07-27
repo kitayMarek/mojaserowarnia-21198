@@ -436,6 +436,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mojaserowarnia.pl/faktura-vat-rr</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/jak-wystawic-fakture-vat-rr.html</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mojaserowarnia.pl/kalkulator-beaugel</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>monthly</changefreq>

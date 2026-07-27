@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { Calculator, ClipboardList, ExternalLink, Tag, Droplets } from "lucide-react";
+import { Calculator, ClipboardList, ExternalLink, Tag, Droplets, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import narzedziaHeaderImage from "@/assets/narzedzia-header.webp";
@@ -501,6 +501,42 @@ const Narzedzia = () => {
                     >
                       <a href="/etykieta-rhd" className="flex items-center justify-center gap-2">
                         Otwórz Edytor
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Faktura VAT RR */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton contentType="tool" contentId="faktura-vat-rr" variant="compact" />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                      <FileText className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Faktura VAT RR
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Sprzedajesz ser do sklepu lub restauracji? Należy Ci się +7% zryczałtowanego zwrotu. Zasady, podstawa prawna i generator projektu faktury do druku.
+                      </p>
+                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Automatyczne doliczenie 7% + kwota słownie</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Oświadczenie z art. 116 ust. 3 na dokumencie</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Wydruk A4: Oryginał + Kopia</span></li>
+                      <li className="flex items-start gap-2"><span className="text-primary mt-1">•</span><span>Dane gospodarstwa zapisywane lokalnie</span></li>
+                    </ul>
+                    <Button
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-warm"
+                    >
+                      <a href="/faktura-vat-rr" className="flex items-center justify-center gap-2">
+                        Otwórz Generator
                       </a>
                     </Button>
                   </div>

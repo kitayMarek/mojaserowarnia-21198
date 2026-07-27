@@ -729,23 +729,32 @@ const RHD = () => {
                     <p><strong>Jak działa generator:</strong></p>
                     <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                       <li>Wpisujesz dane nabywcy, produkty, ilości i ceny netto</li>
-                      <li>Kwota zryczałtowanego zwrotu (+7%) liczy się automatycznie</li>
+                      <li>Kwota zryczałtowanego zwrotu (+7%) liczy się automatycznie, wraz z kwotą słownie</li>
                       <li>Na dokumencie pojawia się oświadczenie rolnika (art. 116 ust. 3) — gotowe do podpisu</li>
                       <li>Wydruk A4 w dwóch egzemplarzach (oryginał + kopia)</li>
-                      <li>Tryb demo — możesz wypróbować bez rejestracji; po zalogowaniu projekty faktur są zapisywane</li>
                     </ul>
                   </div>
                   <a
-                    href="https://www.fermly.pl/vat-rr/nowa"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/faktura-vat-rr"
                     className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
                   >
-                    Przygotuj projekt faktury VAT RR
-                    <ExternalLink className="h-4 w-4" />
+                    Otwórz generator faktury VAT RR
                   </a>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Generator w aplikacji Fermly.pl — numer dokumentu nadaje nabywca (to jego faktura).
+                    Darmowy, bez rejestracji — dane zostają w Twojej przeglądarce. Numer dokumentu nadaje nabywca (to jego faktura).
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-purple-200 dark:border-purple-800">
+                    Wystawiasz takie faktury regularnie?{" "}
+                    <a
+                      href="https://www.fermly.pl/vat-rr/nowa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-700 dark:text-purple-300 font-medium hover:underline inline-flex items-center gap-1"
+                    >
+                      Pełny moduł w Fermly
+                      <ExternalLink className="h-3 w-3" />
+                    </a>{" "}
+                    prowadzi roczną numerację, historię faktur i księguje przychód w kasie.
                   </p>
                 </div>
               </CardContent>

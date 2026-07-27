@@ -72,6 +72,7 @@ Dostępne kalkulatory:
 - /kalkulator-pasz-bydlo - Kalkulator pasz (dawki) dla bydła
 - /porownanie-wartosci-odzywczych - Porównywarka wartości odżywczych serów
 - /etykieta-rhd - Wymagania prawne etykiety do sprzedaży w RHD (rozp. 1169/2011) + darmowy edytor etykiety do druku. Treść statyczna: /etykieta-do-sprzedazy-rhd.html
+- /faktura-vat-rr - Faktura VAT RR przy sprzedaży produktów rolnych do firm: wystawia ją NABYWCA (czynny podatnik VAT), do ceny netto dolicza się 7% zryczałtowanego zwrotu podatku (art. 116 ustawy o VAT). Przetworzony ser się kwalifikuje (art. 2 pkt 20 VAT → art. 20 ust. 1c PIT). Warunek odliczenia u nabywcy: zapłata przelewem z numerem i datą faktury w tytule. Darmowy generator projektu faktury do druku. Treść statyczna: /jak-wystawic-fakture-vat-rr.html
 
 ### Słownik Terminów
 URL: /slownik
