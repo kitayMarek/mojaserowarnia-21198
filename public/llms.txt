@@ -48,7 +48,7 @@ Podstrony:
 - /licznerski - Biografia Jana Licznerskiego (ok. 1870–ok. 1950), autora "Praktycznego serowarstwa" (1922, 435 stron) — najobszerniejszego historycznego polskiego podręcznika produkcji sera. Oś czasu: narodziny → 20 lat przy kadziach → opus magnum 1922 → poprawki w okupacji → II wydanie 1951 → drugie życie w internecie. 4 osiągnięcia (435 stron, 8 typów serów, dokumentacja fałszowania bryndzy, praktyk nie teoretyk). 3 cytaty z komentarzem. 5 ciekawostek. Tabela porównawcza: Klecki (naukowiec UJ, 100 s.) vs Licznerski (praktyk, 435 s., 8 typów serów). FAQ (5): kim był, gdzie czytać, aktualność, fałszowanie bryndzy, ile wydań. Źródła: FBC (fbc.pionier.net.pl/details/nn94rkt) + PDF Szkoła Domowego Masarstwa. Treść statyczna: /licznerski.html
 - /wedzenie-sera - Kompletny przewodnik po wędzeniu sera: które sery się nadają (twarde/półtwarde łatwe, miękkie w siatkach), solanka 8–10% + osuszanie (kluczowe!), dobór drewna (olcha/buk/owocowe/dąb, wyłącznie liściaste bez kory), wędzenie NA ZIMNO 20–30 °C (powyżej ser się topi), czas 3–8 h przy rzadkim dymie, obowiązkowe leżakowanie 3–7 dni w lodówce, najczęstsze błędy. Ser wędzony = produkt przetworzony (sprzedaż w ramach RHD). Treść statyczna: /wedzenie-sera.html
 - /bakterie-kultury - Szczegółowy przewodnik o kulturach bakteryjnych i pleśniach
-- /sila-podpuszczki - Obliczanie siły podpuszczki, metoda flokulacji
+- /sila-podpuszczki - Siła podpuszczki: IMCU (ISO 11815) — jednostka mocy enzymu; wzór: IMCU × 0,01 = L mleka na 1 ml; przykłady: 200 IMCU/10 L = 5 ml, 280 IMCU/10 L = 3,57 ml. Metoda flokulacji: miseczka na powierzchni mleka „przykleja się" w punkcie koagulacji; czas cięcia = czas flokulacji × mnożnik (Parmezan 2,0–2,5; Cheddar 2,5–3,0; Jack 3,5; Feta/Blue 4,0; Camembert/Brie 5,0–6,0). Treść statyczna: /sila-podpuszczki.html
 - /gdzie-kupic-podpuszczke - Porównanie dostępnych podpuszczek na rynku
 
 ### Prawo i Regulacje
@@ -64,7 +64,7 @@ Podstrony:
 ### Narzędzia / Kalkulatory
 URL: /narzedzia
 Dostępne kalkulatory:
-- /kalkulator-beaugel - Kalkulator metody flokulacji Beaugel
+- /kalkulator-beaugel - Kalkulator dawki podpuszczek Beaugel (Coquard): Beaugel 5 (1:3000, ≥180 mg/L chymozyny) → 0,333 ml/L mleka; Beaugel 50 (1:1000, ~14 IMCU/ml) → 1,000 ml/L; Beaugel 500 (1:10000, ≥140 IMCU/ml) → 0,100 ml/L. Wzór: ilość mleka (ml) ÷ stosunek = ml podpuszczki. Zawiera też kalkulator IMCU dla wszystkich podpuszczek oraz wskazówki dot. rozcieńczania i obserwacji czasu flokulacji. Treść statyczna: /kalkulator-beaugel.html
 - /kalkulator-kosztu-sera - Kalkulacja kosztów produkcji
 - /kalkulator-miar - Przelicznik jednostek serowarskich
 - /kalkulator-solanki - Kalkulator solanki (ile soli na solankę 18–22%) oraz dawki chlorku wapnia (CaCl₂ 0,2–0,3 g/L mleka). Wzory, gotowe przeliczenia, temperatura solanki, wskazówki. Treść statyczna: /kalkulator-solanki.html
@@ -131,6 +131,8 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Kultury jogurtowe](https://mojaserowarnia.pl/kultury/jogurtowe.html): domowy jogurt, fermentacja 42–45°C, szczepy (Yo-Mix, LAMBDA, Beaugel Yog), jogurt z mleka koziego/owczego.
 - [Sery i nabiał wege](https://mojaserowarnia.pl/wege/): dlaczego klasyczny ser bywa niewegetariański (podpuszczka zwierzęca), podpuszczka mikrobiologiczna i roślinna, sery z natury wege (ricotta, mascarpone), ser wegański z mleka roślinnego + kultury wegańskie (ARTiVEG, Beaugel Soja).
 - [Kultury do twarogu](https://mojaserowarnia.pl/kultury/do-twarogu.html): kultury mezofilne (TW 31, ALPHA 10/12, Flora Danica), twaróg bez kultur, dawkowanie, temperatura 25–32°C.
+- [Siła podpuszczki — IMCU, dawkowanie i metoda flokulacji](https://mojaserowarnia.pl/sila-podpuszczki.html): definicja IMCU (ISO 11815), wzór obliczeniowy (IMCU × 0,01 = L mleka na 1 ml podpuszczki), gotowe przykłady (200 IMCU/10 L = 5 ml; 280 IMCU/10 L = 3,57 ml), tabela mocy (single ≈200, double ≈240–280, triple ≈320+), 6-krokowa procedura flokulacji, tabela mnożników dla 5 typów serów (Parmezan 2,0–2,5 do Camembert/Brie 5,0–6,0), czynniki wpływające na krzepnięcie (pH, CaCl₂, pasteryzacja, typ sera).
+- [Kalkulator dawki podpuszczki Beaugel — Beaugel 5, 50, 500](https://mojaserowarnia.pl/kalkulator-beaugel.html): parametry wszystkich wariantów Coquard (stosunek, chymozyna min., IMCU), gotowe przeliczenia dla 5, 10, 20, 50, 100 L mleka, wzór: ml podpuszczki = mleko (ml) ÷ stosunek, instrukcja rozcieńczania w niechlorowanej wodzie, skutki za małej / za dużej dawki (miękki skrzep vs gorzki ser), kalkulator IMCU dla wszystkich podpuszczek, wskazówki o czasie flokulacji (cel: 10–20 min / 30–32°C).
 - [Kultury bakteryjne i pleśnie — przewodnik praktyczny](https://mojaserowarnia.pl/bakterie-kultury.html): charakterystyka gatunków (Lactococcus lactis lactis/cremoris, Streptococcus thermophilus, Lactobacillus helveticus/bulgaricus, NSLAB, Propionibacterium, Penicillium camemberti/roqueforti, Geotrichum, Brevibacterium linens, Debaryomyces), dawki na 10 L mleka, temperatury, cele pH, gotowe mieszanki do popularnych serów i typowe błędy.
 
 
