@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig, Layers, Thermometer, Droplets } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 
@@ -59,6 +59,27 @@ const PoradnikiHub = () => {
       href: "/gdzie-kupic-podpuszczke",
       color: "from-accent to-primary",
     },
+    {
+      icon: <Layers className="w-12 h-12" />,
+      title: "Woskowanie sera",
+      description: "Jak i czym woskować ser: wosk serowarski vs parafina, temperatura aplikacji 82–93°C w kąpieli wodnej, przygotowanie (2–7 dni osuszania), technika zanurzeniowa, 2–3 warstwy. Które sery woskować, a których absolutnie nie.",
+      href: "/woskowanie-sera",
+      color: "from-amber-500 to-orange-500",
+    },
+    {
+      icon: <Thermometer className="w-12 h-12" />,
+      title: "Dojrzewalnia do sera",
+      description: "Dlaczego zwykła lodówka nie działa (2–4°C i 20% RH zamiast 10–14°C i 80–95%) oraz jak zrobić tanią dojrze walnię: stara lodówka + Inkbird ITC-308 za 100–200 zł lub używana piwniczka do wina. Wilgotność, obracanie i wentylacja.",
+      href: "/dojrzewalnia-z-lodowki",
+      color: "from-sky-500 to-blue-600",
+    },
+    {
+      icon: <Droplets className="w-12 h-12" />,
+      title: "Solenie sera",
+      description: "Solanka (18–22%, Gouda 1 kg = 10–12 h) vs solenie suche (2–3% masy). Czasy dla 9 serów, stężenia, rola CaCl₂ w zapobieganiu mięknięciu skórki, sól niejodowana i zasady ponownego użycia solanki.",
+      href: "/solenie-sera",
+      color: "from-teal-500 to-emerald-600",
+    },
   ];
 
   return (
@@ -101,7 +122,10 @@ const PoradnikiHub = () => {
                 "/wedzenie-sera": "wedzenie-sera",
                 "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",
-                "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke"
+                "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke",
+                "/woskowanie-sera": "woskowanie-sera",
+                "/dojrzewalnia-z-lodowki": "dojrzewalnia-z-lodowki",
+                "/solenie-sera": "solenie-sera"
               };
               const guideId = guideIdMap[guide.href] || guide.href;
               
