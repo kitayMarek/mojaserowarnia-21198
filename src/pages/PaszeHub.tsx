@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Wheat, Calculator, Recycle, LifeBuoy, Droplet, Shell, Sparkles, Mountain, AlertTriangle } from "lucide-react";
+import { Wheat, Calculator, Recycle, LifeBuoy, Droplet, Shell, Sparkles, Mountain, AlertTriangle, Milk, GitBranch } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
@@ -94,6 +94,23 @@ const PaszeHub = () => {
       description: "Dawka dla krów mlecznych i opasów — bilans energetyczno-białkowy z uwzględnieniem pasz objętościowych.",
       href: "/kalkulator-pasz-bydlo",
       color: "from-emerald-500 to-teal-600",
+    },
+  ];
+
+  const krowy = [
+    {
+      icon: <Milk className="w-10 h-10" />,
+      title: "Mleko do sera",
+      description: "Co w mleku decyduje o serze: kazeina i tłuszcz, wydajność serowarska (ile sera z 10 L), wzór Van Slyke'a, różnice ras i wpływ żywienia na skład mleka.",
+      href: "/mleko-do-sera",
+      color: "from-sky-500 to-blue-600",
+    },
+    {
+      icon: <GitBranch className="w-10 h-10" />,
+      title: "Wady mleka a wady sera",
+      description: "Cztery łańcuchy od obory do dojrzewalni: kiszonka i Clostridium a wzdęcia późne, antybiotyki a martwe kultury, komórki somatyczne, późna laktacja.",
+      href: "/wady-mleka-a-wady-sera",
+      color: "from-rose-500 to-red-600",
     },
   ];
 
@@ -267,6 +284,31 @@ const PaszeHub = () => {
                     <p className="text-sm leading-relaxed text-muted-foreground">{d.why}</p>
                   </CardContent>
                 </Card>
+              ))}
+            </div>
+
+            {/* KROWY */}
+            <h2 className="text-2xl font-bold mt-12 mb-2">Krowy mleczne — od dawki do skrzepu</h2>
+            <p className="text-muted-foreground mb-4">
+              Jakość sera rozstrzyga się w oborze, nie w kotle. To, czym karmisz krowy, wraca do
+              Ciebie jako wydajność z litra — albo jako wada, która ujawni się po miesiącach
+              dojrzewania.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              {krowy.map((k) => (
+                <Link key={k.href} to={k.href} className="group block h-full">
+                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                    <CardHeader>
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${k.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                        {k.icon}
+                      </div>
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">{k.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base leading-relaxed">{k.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
 

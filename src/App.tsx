@@ -78,6 +78,8 @@ const SolenieSera = lazy(() => import("./pages/SolenieSera"));
 const PaszeHub = lazy(() => import("./pages/PaszeHub"));
 const SerwatkaDlaZwierzat = lazy(() => import("./pages/SerwatkaDlaZwierzat"));
 const NieudanySer = lazy(() => import("./pages/NieudanySer"));
+const MlekoDoSera = lazy(() => import("./pages/MlekoDoSera"));
+const WadyMlekaWadySera = lazy(() => import("./pages/WadyMlekaWadySera"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -129,6 +131,8 @@ const App = () => (
           <Route path="/pasze" element={<PaszeHub />} />
           <Route path="/serwatka-dla-zwierzat" element={<SerwatkaDlaZwierzat />} />
           <Route path="/nieudany-ser" element={<NieudanySer />} />
+          <Route path="/mleko-do-sera" element={<MlekoDoSera />} />
+          <Route path="/wady-mleka-a-wady-sera" element={<WadyMlekaWadySera />} />
           <Route path="/klasyka-serowarstwa" element={<KlasykaPolskiegoSerowarstwa />} />
           <Route path="/serowarstwo-staropolskie" element={<SerowarstwoStaropolskie />} />
           <Route path="/klecki-jakosc-mleka" element={<KleckiJakoscMleka />} />

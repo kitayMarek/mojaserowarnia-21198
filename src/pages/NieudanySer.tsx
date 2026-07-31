@@ -93,7 +93,8 @@ const NieudanySer = () => {
     { objaw: "Gorzki", przyczyna: "nadmiar podpuszczki, proteoliza", ratunek: "4–8 tyg. w 10°C, potem topiony", jadalny: true },
     { objaw: "Pleśń na serze twardym", przyczyna: "wilgoć w dojrzewalni, brak obracania", ratunek: "odkroić 2–3 cm zapasu", jadalny: true },
     { objaw: "Pleśń na serze miękkim", przyczyna: "grzybnia przerasta całą masę", ratunek: "brak — wyrzucić w całości", jadalny: false },
-    { objaw: "Wzdęty, rozdyma się", przyczyna: "bakterie coli lub Clostridium", ratunek: "brak — wyrzucić", jadalny: false },
+    { objaw: "Wzdęty w pierwszych dniach", przyczyna: "bakterie coli — zła higiena udoju", ratunek: "brak — wyrzucić", jadalny: false },
+    { objaw: "Wzdęty po tygodniach, zapach masła", przyczyna: "Clostridium z kiszonki (wzdęcia późne)", ratunek: "brak — wyrzucić; usuń przyczynę w oborze", jadalny: false },
     { objaw: "Różowe lub czerwone plamy", przyczyna: "zanieczyszczenie bakteryjne", ratunek: "brak — wyrzucić", jadalny: false },
     { objaw: "Zapach zgniły, siarkowy, amoniakalny", przyczyna: "rozkład gnilny", ratunek: "brak — wyrzucić", jadalny: false },
   ];
@@ -164,6 +165,16 @@ const NieudanySer = () => {
                   <p className="pt-1">
                     Zasada nadrzędna: <strong>jeśli masz wątpliwości, nie kombinuj</strong> — ani dla
                     siebie, ani dla zwierząt. Ser wart jest mniej niż leczenie stada.
+                  </p>
+                  <p className="pt-1">
+                    <strong>Ser wzdęty po tygodniach dojrzewania, cuchnący zjełczałym masłem</strong>{" "}
+                    to osobny przypadek — <em>wzdęcia późne</em> od przetrwalników{" "}
+                    <em>Clostridium</em> pochodzących z kiszonki. Przyczyna leży w oborze, nie w
+                    kotle, a pasteryzacja przed tym nie chroni. Cały łańcuch i sposoby zapobiegania:{" "}
+                    <Link to="/wady-mleka-a-wady-sera" className="text-primary hover:underline font-medium">
+                      wady mleka a wady sera
+                    </Link>
+                    .
                   </p>
                 </CardContent>
               </Card>

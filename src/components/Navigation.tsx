@@ -98,6 +98,8 @@ const navItems: NavItem[] = [
     label: "Pasze i zwierzęta", icon: Wheat, color: "lime",
     children: [
       { label: "Przegląd działu", href: "/pasze" },
+      { label: "Mleko do sera", href: "/mleko-do-sera" },
+      { label: "Wady mleka a wady sera", href: "/wady-mleka-a-wady-sera" },
       { label: "Kalkulator pasz (drób)", href: "/kalkulator-pasz" },
       { label: "Kalkulator pasz (bydło)", href: "/kalkulator-pasz-bydlo" },
       { label: "Serwatka dla zwierząt", href: "/serwatka-dla-zwierzat" },
