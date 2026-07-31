@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
 
 const NieudanySer = () => {
@@ -235,8 +236,12 @@ const NieudanySer = () => {
                   <p>
                     Ser to skoncentrowane białko i tłuszcz, więc kusi, żeby nieudaną partię oddać
                     zwierzętom. Jest jednak haczyk, o którym łatwo zapomnieć:{" "}
-                    <strong>ser jest solony</strong> — zwykle 1,5–2% NaCl.
+                    <strong>ser jest solony</strong> — zwykle 1,5–2% NaCl, czyli{" "}
+                    <strong>pięć do siedmiu razy więcej</strong>, niż wynosi prawidłowa zawartość
+                    soli w paszy dla drobiu.
                   </p>
+
+                  <OstrzezenieSol kontekst="ser" />
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse">
                       <thead>

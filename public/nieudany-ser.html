@@ -65,7 +65,12 @@
       {
         "@type": "Question",
         "name": "Czy nieudany ser można dać kurom?",
-        "acceptedAnswer": { "@type": "Answer", "text": "W małych ilościach tak — ser to skoncentrowane białko i tłuszcz, a drób chętnie go zjada. Problemem jest jednak sól: ser zawiera zwykle 1,5–2% NaCl, a drób jest na sól bardzo wrażliwy. Traktuj ser jako przysmak, nie jako składnik dawki — orientacyjnie do kilkunastu gramów na kurę dziennie, pokruszony i podany osobno. Nigdy nie podawaj sera spleśniałego, zjełczałego ani mocno solonego. Znacznie lepszym odbiorcą większych ilości są świnie." }
+        "acceptedAnswer": { "@type": "Answer", "text": "W małych ilościach tak — ser to skoncentrowane białko i tłuszcz, a drób chętnie go zjada. Problemem jest jednak sól: ser zawiera zwykle 1,5–2% NaCl, czyli pięć do siedmiu razy więcej niż prawidłowa pasza dla drobiu, która ma około 0,3% soli. Drób należy do najwrażliwszych na sól zwierząt gospodarskich — orientacyjnie 3–4 g NaCl na kilogram masy ciała bywa dawką śmiertelną. Traktuj ser jako przysmak, nie jako składnik dawki: orientacyjnie do kilkunastu gramów na kurę dziennie, pokruszony i podany osobno, przy stałym dostępie do czystej wody. Nigdy nie podawaj sera spleśniałego, zjełczałego ani mocno solonego, a solanki po soleniu sera nie skarmiaj w ogóle. Znacznie lepszym odbiorcą większych ilości są świnie." }
+      },
+      {
+        "@type": "Question",
+        "name": "Ile soli potrzebuje drób i od jakiej dawki sól jest groźna?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sód jest niezbędny — odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt, a jego niedobór powoduje gorsze przyrosty, spadek nieśności oraz kanibalizm i wydziobywanie piór. Prawidłowy poziom to około 0,3% NaCl w mieszance, czyli 3 g na kilogram paszy. Jednocześnie drób jest wyjątkowo wrażliwy na przesolenie: orientacyjnie 3–4 g NaCl na kilogram masy ciała bywa dawką śmiertelną, a pisklęta są wielokrotnie wrażliwsze od ptaków dorosłych. W gospodarstwie z serowarnią ryzyko jest realne, bo solanka o stężeniu 20% zawiera 200 g soli w litrze — tyle, co około 66 kg prawidłowej paszy; dla kury o masie 2 kg śmiertelne bywa już 30–40 ml. Stały dostęp do czystej wody drastycznie zmniejsza ryzyko." }
       },
       {
         "@type": "Question",
@@ -122,6 +127,19 @@
     footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
     nav.crumbs { font-size: .85rem; color: var(--muted); margin-bottom: 1.2rem; }
     nav.crumbs a { color: var(--muted); }
+
+    /* Ramka ostrzegawcza o soli */
+    .danger { border: 2px solid #dc2626; border-radius: .8rem; overflow: hidden; margin: 1.8rem 0; }
+    .danger-head { background: #dc2626; color: #fff; padding: .7rem 1rem; font-weight: 700; font-size: 1.05rem; }
+    .danger-body { background: #fef2f2; padding: 1rem; font-size: .95rem; }
+    .danger-body p { margin: 0 0 .8rem; }
+    .danger-body .two { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: .8rem 0; }
+    .danger-body .box { background: #fff; border: 1px solid #fecaca; border-radius: .5rem; padding: .7rem .85rem; }
+    .danger-body .calc { background: #dc2626; color: #fff; border-radius: .5rem; padding: .85rem 1rem; margin: .9rem 0; }
+    .danger-body .calc ul { margin: .4rem 0 0; padding-left: 1.1rem; }
+    .danger-body .calc li { color: #fff; margin-bottom: .3rem; }
+    .danger-body .rule { font-weight: 700; color: #991b1b; background: #fff; border: 1px solid #fecaca; border-radius: .5rem; padding: .7rem .85rem; margin-bottom: 0; }
+    @media (max-width: 560px) { .danger-body .two { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -180,7 +198,39 @@
   </ul>
 
   <h2>Skarmianie zwierzętami — ostatnia deska ratunku</h2>
-  <p>Ser to skoncentrowane białko i tłuszcz, więc kusi, żeby nieudaną partię oddać zwierzętom. Jest jednak haczyk, o którym łatwo zapomnieć: <strong>ser jest solony</strong> — zwykle 1,5–2% NaCl.</p>
+  <p>Ser to skoncentrowane białko i tłuszcz, więc kusi, żeby nieudaną partię oddać zwierzętom. Jest jednak haczyk, o którym łatwo zapomnieć: <strong>ser jest solony</strong> — zwykle 1,5–2% NaCl, czyli <strong>pięć do siedmiu razy więcej</strong>, niż wynosi prawidłowa zawartość soli w paszy dla drobiu.</p>
+
+  <div class="danger">
+    <div class="danger-head">⚠️ Sól — dla drobiu konieczna i zabójcza jednocześnie</div>
+    <div class="danger-body">
+      <p>Ser zawiera zwykle 1,5–2% soli. Przy jednorazowym przysmaku to nic, ale <strong>przy regularnym dokarmianiu resztkami sól się sumuje</strong>.</p>
+
+      <div class="two">
+        <div class="box">
+          <strong>Potrzebna:</strong> około <strong>0,3% NaCl</strong> w mieszance, czyli <strong>3 g na 1 kg paszy</strong>. Sód odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt. Niedobór: gorsze przyrosty, spadek nieśności oraz — podobnie jak przy braku metioniny — <strong>kanibalizm i wydziobywanie piór</strong>.
+        </div>
+        <div class="box">
+          <strong>Zabójcza:</strong> drób należy do <strong>najwrażliwszych na sól</strong> zwierząt gospodarskich. Orientacyjnie już <strong>3–4 g NaCl na kilogram masy ciała</strong> może być dawką śmiertelną. <strong>Pisklęta są wielokrotnie wrażliwsze</strong> od ptaków dorosłych.
+        </div>
+      </div>
+
+      <div class="calc">
+        <strong>Przeliczenie, które to unaocznia:</strong>
+        <ul>
+          <li>Solanka serowarska 20% zawiera <strong>200 g soli w 1 litrze</strong>.</li>
+          <li>Prawidłowo zbilansowana pasza zawiera <strong>3 g soli w 1 kg</strong>.</li>
+          <li>→ <strong>1 litr solanki niesie tyle soli, co około 66 kg paszy.</strong></li>
+          <li>→ Dla kury o masie 2 kg dawka potencjalnie śmiertelna to ok. 6–8 g NaCl, czyli <strong>zaledwie 30–40 ml solanki</strong> — kilka łyżek.</li>
+        </ul>
+      </div>
+
+      <p><strong>Objawy zatrucia solą:</strong> wzmożone pragnienie → wodniste odchody i mokra ściółka → niezborność ruchów, osłabienie nóg → drgawki → śmierć. Pierwszy sygnał bywa mylony ze zwykłą biegunką.</p>
+
+      <p><strong>Stały dostęp do czystej wody drastycznie zmniejsza ryzyko</strong> — zatrucie solą jest najgroźniejsze przy ograniczonym pojeniu.</p>
+
+      <p class="rule">Zasada dla serowara: wszystko, co miało kontakt z soleniem — solanka, serwatka z serów solonych w masie, obcinki solonej skórki — idzie do utylizacji, nie do kurnika.</p>
+    </div>
+  </div>
   <table>
     <thead><tr><th>Zwierzę</th><th>Dawka</th><th>Uwagi</th></tr></thead>
     <tbody>

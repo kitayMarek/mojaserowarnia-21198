@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
 
 const SerwatkaDlaZwierzat = () => {
@@ -25,7 +26,12 @@ const SerwatkaDlaZwierzat = () => {
     {
       question: "Czy serwatka po soleniu sera nadaje się dla zwierząt?",
       answer:
-        "Nie. Serwatka słona, czyli solanka po soleniu sera lub serwatka z serów solonych w masie, zawiera bardzo dużo chlorku sodu i grozi zatruciem solą. Drób jest na sól szczególnie wrażliwy. Solankę utylizuj osobno — nie wlewaj jej do serwatki przeznaczonej na paszę i nie wylewaj na pole ani do zbiornika wodnego. Do skarmiania nadaje się wyłącznie serwatka niesolona, prosto po odciągnięciu skrzepu.",
+        "Nie, i jest to najgroźniejszy błąd, jaki może popełnić serowar z kurnikiem. Solanka serowarska o stężeniu 20% zawiera 200 g soli w litrze, podczas gdy prawidłowo zbilansowana pasza ma 3 g soli na kilogram — jeden litr solanki niesie więc tyle soli, co około 66 kg paszy. Drób należy do najwrażliwszych na sól zwierząt gospodarskich: orientacyjnie 3–4 g NaCl na kilogram masy ciała może być dawką śmiertelną, czyli dla kury o masie 2 kg wystarczy około 30–40 ml solanki. Solankę i serwatkę z serów solonych w masie utylizuj osobno — nie mieszaj ich z serwatką paszową.",
+    },
+    {
+      question: "Ile soli potrzebuje drób i od jakiej dawki sól jest groźna?",
+      answer:
+        "Sód jest niezbędny — odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt, a jego niedobór powoduje gorsze przyrosty, spadek nieśności oraz kanibalizm i wydziobywanie piór. Prawidłowy poziom to około 0,3% NaCl w mieszance, czyli 3 g na kilogram paszy. Jednocześnie drób jest wyjątkowo wrażliwy na przesolenie: orientacyjnie 3–4 g NaCl na kilogram masy ciała bywa dawką śmiertelną, a pisklęta są wielokrotnie wrażliwsze od ptaków dorosłych. Objawy narastają w kolejności: wzmożone pragnienie, wodniste odchody i mokra ściółka, niezborność ruchów, drgawki, śmierć. Stały dostęp do czystej wody drastycznie zmniejsza ryzyko — zatrucie solą jest najgroźniejsze przy ograniczonym pojeniu.",
     },
     {
       question: "Czym różni się serwatka słodka od kwasowej?",
@@ -143,29 +149,28 @@ const SerwatkaDlaZwierzat = () => {
                 Najlepszy odbiorca to <strong>świnie</strong> (tuczniki 10–20 L/dzień). Drobiowi podawaj{" "}
                 <strong>wyłącznie serwatkę ukwaszoną</strong> i tylko jako 10–20% pojenia — ptaki nie
                 trawią laktozy i dostają mokrej ściółki.{" "}
-                <strong>Serwatki solonej nie skarmiaj nigdy</strong> — grozi zatruciem solą.
+                <strong>Serwatki solonej nie skarmiaj nigdy</strong> — 1 litr solanki 20% niesie
+                tyle soli, co 66 kg paszy, a dla kury 2 kg śmiertelne bywa już 30–40 ml.
               </p>
             </TLDRSection>
+
+            <OstrzezenieSol kontekst="serwatka" />
 
             <div className="space-y-6">
               <Card className="border-destructive/40 bg-destructive/5">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-destructive">
                     <AlertTriangle className="h-5 w-5" />
-                    Zanim zaczniesz — trzy rzeczy, które szkodzą
+                    Dwie pozostałe rzeczy, które szkodzą
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <p>
-                    <strong>1. Serwatka solona (solanka) — nigdy.</strong> Zatrucie solą, drób jest
-                    szczególnie wrażliwy. Utylizuj osobno, nie mieszaj z serwatką paszową.
-                  </p>
-                  <p>
-                    <strong>2. Serwatka zepsuta — nie myl z ukwaszoną.</strong> Ukwaszona jest kwaśna
+                    <strong>Serwatka zepsuta — nie myl z ukwaszoną.</strong> Ukwaszona jest kwaśna
                     i czysta w zapachu. Zgniły lub siarkowy zapach oznacza rozkład — do utylizacji.
                   </p>
                   <p>
-                    <strong>3. Serwatka wylana do rowu lub stawu.</strong> Ma bardzo wysokie BZT —
+                    <strong>Serwatka wylana do rowu lub stawu.</strong> Ma bardzo wysokie BZT —
                     zabiera wodzie tlen i powoduje śnięcie ryb. Zawsze rozcieńczaj i rozprowadzaj po polu.
                   </p>
                 </CardContent>

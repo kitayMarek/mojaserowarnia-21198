@@ -3,11 +3,12 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Wheat, Calculator, Recycle, LifeBuoy, Droplet, Shell, Sparkles, Mountain } from "lucide-react";
+import { Wheat, Calculator, Recycle, LifeBuoy, Droplet, Shell, Sparkles, Mountain, AlertTriangle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
 
 const PaszeHub = () => {
@@ -36,6 +37,11 @@ const PaszeHub = () => {
       question: "Ile białka potrzebują kury na poszczególnych etapach?",
       answer:
         "Pisklęta od 0 do 8 tygodnia potrzebują 18–20% białka ogólnego przy około 1,0% wapnia. Młodzież od 9 do 17 tygodnia — 14–15% białka i 1,0–1,2% wapnia; celowo mniej, żeby ptaki się nie otłuściły przed rozpoczęciem nośności. Kury nioski w szczycie nośności — 16–18% białka, ale przede wszystkim aż 3,8–4,2% wapnia, czyli około czterokrotnie więcej niż młodzież, ze względu na produkcję skorup.",
+    },
+    {
+      question: "Ile soli potrzebuje drób i od jakiej dawki sól jest groźna?",
+      answer:
+        "Sód jest niezbędny — odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt, a jego niedobór powoduje gorsze przyrosty, spadek nieśności oraz kanibalizm i wydziobywanie piór. Prawidłowy poziom to około 0,3% NaCl w mieszance, czyli 3 g na kilogram paszy. Jednocześnie drób należy do najwrażliwszych na sól zwierząt gospodarskich: orientacyjnie 3–4 g NaCl na kilogram masy ciała bywa dawką śmiertelną, a pisklęta są wielokrotnie wrażliwsze od ptaków dorosłych. W gospodarstwie z serowarnią ryzyko jest realne, bo solanka o stężeniu 20% zawiera 200 g soli w litrze — tyle, co około 66 kg prawidłowej paszy. Dla kury o masie 2 kg śmiertelne bywa już 30–40 ml solanki. Objawy narastają w kolejności: wzmożone pragnienie, wodniste odchody, niezborność ruchów, drgawki, śmierć. Stały dostęp do czystej wody drastycznie zmniejsza ryzyko.",
     },
     {
       question: "Czy serwatkę po serze można wykorzystać jako paszę?",
@@ -129,6 +135,11 @@ const PaszeHub = () => {
       title: "Grit (nierozpuszczalny żwirek)",
       why: "Kury nie mają zębów — pokarm rozciera żołądek mięśniowy, ale potrzebuje do tego twardych kamyczków. Bez gritu ziarno wychodzi w połowie niestrawione, czyli pasza dosłownie się marnuje. Grit to nie to samo co kreda.",
     },
+    {
+      icon: <AlertTriangle className="w-6 h-6" />,
+      title: "Sól — 0,3%, ani więcej, ani mniej",
+      why: "Sód jest niezbędny (przewodnictwo nerwowe, gospodarka wodna, apetyt), a jego niedobór — podobnie jak brak metioniny — wywołuje kanibalizm. Ale drób jest wyjątkowo wrażliwy na przesolenie: już 3–4 g NaCl na kg masy ciała bywa dawką śmiertelną. W gospodarstwie z serowarnią to realne ryzyko — patrz ramka wyżej.",
+    },
   ];
 
   const normy = [
@@ -176,6 +187,8 @@ const PaszeHub = () => {
                 <strong>metioniny</strong> i <strong>grit</strong>.
               </p>
             </TLDRSection>
+
+            <OstrzezenieSol kontekst="ogolny" />
 
             {/* NARZĘDZIA */}
             <h2 className="text-2xl font-bold mt-10 mb-4">Kalkulatory</h2>

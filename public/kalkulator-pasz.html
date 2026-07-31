@@ -47,6 +47,14 @@
       },
       {
         "@type": "Question",
+        "name": "Ile soli potrzebuje drób i od jakiej dawki sól jest groźna?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sód jest niezbędny — odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt, a jego niedobór powoduje gorsze przyrosty, spadek nieśności oraz kanibalizm i wydziobywanie piór. Prawidłowy poziom to około 0,3% NaCl w mieszance, czyli 3 g na kilogram paszy. Jednocześnie drób należy do najwrażliwszych na sól zwierząt gospodarskich: orientacyjnie 3–4 g NaCl na kilogram masy ciała bywa dawką śmiertelną, a pisklęta są wielokrotnie wrażliwsze od ptaków dorosłych. Szczególnie uważaj w gospodarstwie z serowarnią — solanka o stężeniu 20% zawiera 200 g soli w litrze, czyli tyle, co około 66 kg prawidłowej paszy; dla kury o masie 2 kg śmiertelne bywa już 30–40 ml. Objawy: wzmożone pragnienie, wodniste odchody, niezborność ruchów, drgawki. Stały dostęp do czystej wody drastycznie zmniejsza ryzyko."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Dlaczego do paszy dla kur dodaje się olej?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -134,7 +142,18 @@
     footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
     nav.crumbs { font-size: .85rem; color: var(--muted); margin-bottom: 1.2rem; }
     nav.crumbs a { color: var(--muted); }
-    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } table { font-size: .82rem; } }
+    /* Ramka ostrzegawcza o soli */
+    .danger { border: 2px solid #dc2626; border-radius: .8rem; overflow: hidden; margin: 1.8rem 0; }
+    .danger-head { background: #dc2626; color: #fff; padding: .7rem 1rem; font-weight: 700; font-size: 1.05rem; }
+    .danger-body { background: #fef2f2; padding: 1rem; font-size: .95rem; }
+    .danger-body p { margin: 0 0 .8rem; }
+    .danger-body .two { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: 0 0 .8rem; }
+    .danger-body .box { background: #fff; border: 1px solid #fecaca; border-radius: .5rem; padding: .7rem .85rem; }
+    .danger-body .calc { background: #dc2626; color: #fff; border-radius: .5rem; padding: .85rem 1rem; margin: .9rem 0; }
+    .danger-body .calc ul { margin: .4rem 0 0; padding-left: 1.1rem; }
+    .danger-body .calc li { color: #fff; margin-bottom: .3rem; }
+    .danger-body .rule { font-weight: 700; color: #991b1b; background: #fff; border: 1px solid #fecaca; border-radius: .5rem; padding: .7rem .85rem; margin-bottom: 0; }
+    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } table { font-size: .82rem; } .danger-body .two { grid-template-columns: 1fr; } }
   </style>
   <script type="application/ld+json">
 {
@@ -426,6 +445,36 @@
     <li><strong>Sprawdź sumę = 100%</strong> i policz średnie ważone parametrów; koryguj udziały aż trafisz w normy. Ten krok wykonuje automatycznie <a href="https://mojaserowarnia.pl/kalkulator-pasz">interaktywny kalkulator</a>.</li>
   </ol>
 
+  <div class="danger">
+    <div class="danger-head">⚠️ Sól — dla drobiu konieczna i zabójcza jednocześnie</div>
+    <div class="danger-body">
+      <div class="two">
+        <div class="box">
+          <strong>Potrzebna:</strong> około <strong>0,3% NaCl</strong> w mieszance, czyli <strong>3 g na 1 kg paszy</strong>. Sód odpowiada za przewodnictwo nerwowe, gospodarkę wodną i apetyt. Niedobór: gorsze przyrosty, spadek nieśności oraz — podobnie jak przy braku metioniny — <strong>kanibalizm i wydziobywanie piór</strong>.
+        </div>
+        <div class="box">
+          <strong>Zabójcza:</strong> drób należy do <strong>najwrażliwszych na sól</strong> zwierząt gospodarskich. Orientacyjnie już <strong>3–4 g NaCl na kilogram masy ciała</strong> może być dawką śmiertelną. <strong>Pisklęta są wielokrotnie wrażliwsze</strong> od ptaków dorosłych.
+        </div>
+      </div>
+
+      <div class="calc">
+        <strong>Jeśli masz też serowarnię — przeczytaj koniecznie:</strong>
+        <ul>
+          <li>Solanka serowarska 20% zawiera <strong>200 g soli w 1 litrze</strong>.</li>
+          <li>Prawidłowo zbilansowana pasza zawiera <strong>3 g soli w 1 kg</strong>.</li>
+          <li>→ <strong>1 litr solanki niesie tyle soli, co około 66 kg paszy.</strong></li>
+          <li>→ Dla kury o masie 2 kg dawka potencjalnie śmiertelna to ok. 6–8 g NaCl, czyli <strong>zaledwie 30–40 ml solanki</strong> — kilka łyżek.</li>
+        </ul>
+      </div>
+
+      <p><strong>Objawy zatrucia solą:</strong> wzmożone pragnienie → wodniste odchody i mokra ściółka → niezborność ruchów, osłabienie nóg → drgawki → śmierć. Pierwszy sygnał bywa mylony ze zwykłą biegunką.</p>
+
+      <p><strong>Stały dostęp do czystej wody drastycznie zmniejsza ryzyko</strong> — zatrucie solą jest najgroźniejsze przy ograniczonym pojeniu.</p>
+
+      <p class="rule">Zasada dla serowara: wszystko, co miało kontakt z soleniem — solanka, serwatka z serów solonych w masie, obcinki solonej skórki — idzie do utylizacji, nie do kurnika. Szczegóły: <a href="https://mojaserowarnia.pl/serwatka-dla-zwierzat.html" style="color:#991b1b">serwatka w żywieniu zwierząt</a>.</p>
+    </div>
+  </div>
+
   <h2>Typowe błędy i jak je poprawić</h2>
   <ul>
     <li><strong>Za niskie białko</strong> → dodaj śrutę sojową (najwydajniejsze źródło) lub słonecznikową; strączkowe tylko do limitu.</li>
@@ -440,6 +489,8 @@
   <h2>Najczęstsze pytania (FAQ)</h2>
   <h3>Ile białka powinna mieć pasza dla kur niosek?</h3>
   <p>W szczycie nieśności orientacyjnie <strong>16–18% białka</strong> ogólnego oraz <strong>3,8–4,2% wapnia</strong> (na początku nieśności wystarcza ok. 3,5%), przy energii 2700–2750 kcal/kg. Pisklęta 0–8 tygodni potrzebują więcej białka (<strong>18–20%</strong>) i tylko ok. 1,0% wapnia, a młodzież 9–17 tygodni celowo mniej białka (<strong>14–15%</strong>) i 1,0–1,2% wapnia, żeby nie otłuściła się przed nieśnością.</p>
+  <h3>Ile soli potrzebuje drób i od jakiej dawki sól jest groźna?</h3>
+  <p>Sód jest <strong>niezbędny</strong> — prawidłowy poziom to ok. <strong>0,3% NaCl</strong> w mieszance (3 g na kg paszy); jego niedobór, podobnie jak brak metioniny, wywołuje <strong>kanibalizm i wydziobywanie piór</strong>. Jednocześnie drób należy do <strong>najwrażliwszych na sól</strong> zwierząt gospodarskich — orientacyjnie <strong>3–4 g NaCl na kg masy ciała</strong> bywa dawką śmiertelną, a pisklęta są wielokrotnie wrażliwsze. <strong>Uwaga przy serowarni:</strong> solanka 20% zawiera 200 g soli w litrze, czyli tyle, co ok. <strong>66 kg paszy</strong> — dla kury 2 kg śmiertelne bywa już <strong>30–40 ml</strong>. Stały dostęp do czystej wody drastycznie zmniejsza ryzyko. Szczegóły: <a href="https://mojaserowarnia.pl/pasze.html">dział Pasze i zwierzęta</a>.</p>
   <h3>Dlaczego do paszy dodaje się olej?</h3>
   <p>Witaminy A, D3, E i K rozpuszczają się <strong>wyłącznie w tłuszczach</strong> — bez oleju kura wydali je niewchłonięte, a brak D3 to słabe skorupki mimo dużej podaży wapnia. Olej wiąże też pył paszowy, podnosi energię dawki, a kwas linolowy zwiększa masę jaj. Dodatek 1,5–2%.</p>
   <h3>Dlaczego kury wydziobują pióra i zjadają jaja?</h3>
