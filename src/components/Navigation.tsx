@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Menu, X, Search, User, LogOut, ChevronDown,
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ const COLORS = {
   cyan: { sq: "bg-cyan-100 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400", hover: "hover:bg-cyan-50 dark:hover:bg-cyan-500/10" },
   teal: { sq: "bg-teal-100 text-teal-600 dark:bg-teal-500/20 dark:text-teal-400", hover: "hover:bg-teal-50 dark:hover:bg-teal-500/10" },
   slate: { sq: "bg-slate-200 text-slate-600 dark:bg-slate-500/20 dark:text-slate-300", hover: "hover:bg-slate-100 dark:hover:bg-slate-500/10" },
+  lime: { sq: "bg-lime-100 text-lime-700 dark:bg-lime-500/20 dark:text-lime-400", hover: "hover:bg-lime-50 dark:hover:bg-lime-500/10" },
 } as const;
 
 type NavLeaf = { label: string; href: string };
@@ -88,11 +89,19 @@ const navItems: NavItem[] = [
       { label: "Kalkulator Beaugel", href: "/kalkulator-beaugel" },
       { label: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera" },
       { label: "Kalkulator miar", href: "/kalkulator-miar" },
-      { label: "Kalkulator pasz", href: "/kalkulator-pasz" },
-      { label: "Kalkulator pasz (bydło)", href: "/kalkulator-pasz-bydlo" },
       { label: "Wartości odżywcze serów", href: "/porownanie-wartosci-odzywczych" },
       { label: "Etykieta RHD", href: "/etykieta-rhd" },
       { label: "Wszystkie narzędzia", href: "/narzedzia" },
+    ],
+  },
+  {
+    label: "Pasze i zwierzęta", icon: Wheat, color: "lime",
+    children: [
+      { label: "Przegląd działu", href: "/pasze" },
+      { label: "Kalkulator pasz (drób)", href: "/kalkulator-pasz" },
+      { label: "Kalkulator pasz (bydło)", href: "/kalkulator-pasz-bydlo" },
+      { label: "Serwatka dla zwierząt", href: "/serwatka-dla-zwierzat" },
+      { label: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser" },
     ],
   },
   {
