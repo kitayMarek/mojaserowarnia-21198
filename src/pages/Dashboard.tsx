@@ -3,10 +3,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertTriangle, TrendingUp, ExternalLink, ArrowRight } from "lucide-react";
+import { Loader2, AlertTriangle, TrendingUp, ExternalLink, ArrowRight, Plus, Receipt, FileText, Tag } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalRevenue: 0,
     recentSales: [] as any[],
@@ -125,6 +128,32 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Szybkie akcje — nasze narzędzia, bez wychodzenia z serwisu */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Szybkie akcje</CardTitle>
+          <CardDescription>Narzędzia przydatne przy prowadzeniu ewidencji</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          <Button onClick={() => navigate("/dashboard/ewidencja")} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Dodaj wpis do ewidencji
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/dashboard/rachunki/nowy")}>
+            <Receipt className="h-4 w-4 mr-2" />
+            Nowy rachunek
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/faktura-vat-rr")}>
+            <FileText className="h-4 w-4 mr-2" />
+            Faktura VAT RR (+7%)
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/etykieta-rhd")}>
+            <Tag className="h-4 w-4 mr-2" />
+            Etykieta RHD
+          </Button>
+        </CardContent>
+      </Card>
 
       <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30 border border-purple-200 dark:border-purple-800 rounded-lg p-5">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
