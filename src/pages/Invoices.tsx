@@ -78,7 +78,7 @@ export default function Invoices() {
           <p className="text-muted-foreground">Wszystkie wystawione rachunki</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => navigate("/faktura-vat-rr")}>
+          <Button variant="outline" onClick={() => navigate("/dashboard/faktura-vat-rr")}>
             <FileText className="h-4 w-4 mr-2" />
             Faktura VAT RR
           </Button>
@@ -101,12 +101,12 @@ export default function Invoices() {
         </CardHeader>
         <CardContent className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 bg-background/70 rounded-lg p-3 border">
-            <p className="text-sm font-medium mb-1">Nasz generator — jeden dokument</p>
+            <p className="text-sm font-medium mb-1">Wystaw tutaj — z zapisem do ewidencji</p>
             <p className="text-xs text-muted-foreground mb-3">
-              Darmowy, bez logowania. Liczy +7% i kwotę słownie, dodaje oświadczenie rolnika
-              (art. 116 ust. 3) i drukuje A4 „Oryginał + Kopia".
+              Formularz jak przy rachunku, z Twoimi danymi z profilu. Liczy +7% i kwotę słownie,
+              drukuje A4 „Oryginał + Kopia", a sprzedaż może od razu trafić do ewidencji RHD.
             </p>
-            <Button size="sm" onClick={() => navigate("/faktura-vat-rr")}>
+            <Button size="sm" onClick={() => navigate("/dashboard/faktura-vat-rr")}>
               <FileText className="h-4 w-4 mr-2" />
               Wystaw fakturę VAT RR
             </Button>

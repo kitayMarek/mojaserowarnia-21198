@@ -51,6 +51,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Ewidencja = lazy(() => import("./pages/Ewidencja"));
 const NewInvoice = lazy(() => import("./pages/NewInvoice"));
+const DashboardVatRr = lazy(() => import("./pages/DashboardVatRr"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -178,6 +179,7 @@ const App = () => (
               <Route path="ewidencja" element={<Ewidencja />} />
               <Route path="rachunki/nowy" element={<NewInvoice />} />
               <Route path="rachunki" element={<Invoices />} />
+              <Route path="faktura-vat-rr" element={<DashboardVatRr />} />
               <Route path="ustawienia" element={<Settings />} />
             </Route>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

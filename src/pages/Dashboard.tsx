@@ -144,7 +144,7 @@ export default function Dashboard() {
             <Receipt className="h-4 w-4 mr-2" />
             Nowy rachunek
           </Button>
-          <Button variant="outline" size="sm" onClick={() => navigate("/faktura-vat-rr")}>
+          <Button variant="outline" size="sm" onClick={() => navigate("/dashboard/faktura-vat-rr")}>
             <FileText className="h-4 w-4 mr-2" />
             Faktura VAT RR (+7%)
           </Button>
