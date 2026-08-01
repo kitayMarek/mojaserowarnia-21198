@@ -1,14 +1,27 @@
 /**
  * useUserLists — zarządzanie prywatnymi listami kultur użytkownika
  *
- * Tabele w Supabase (już istnieją po migracji):
+ * Tabele w Supabase:
  *   user_culture_lists        — listy użytkownika
  *   user_culture_list_items   — kultury w liście (z notatkami)
+ *
+ * ⚠️ WYDAJNOŚĆ — powód przepisania (2026-08-01):
+ * AddToListButton renderuje się w KAŻDYM wierszu tabeli kultur (188 pozycji).
+ * Poprzednia wersja przy każdym montowaniu wołała supabase.auth.getUser()
+ * (osobny request sieciowy!) oraz osobne zapytanie o listy — czyli ~380
+ * requestów przy jednym wejściu na /baza-kultur. Przeglądarka zestawia ~6
+ * połączeń na host, reszta czekała w kolejce, a klikniecie "dodaj" lądowało
+ * na jej końcu (objaw: mieli i nic się nie dzieje).
+ *
+ * Teraz: użytkownik z kontekstu useAuth (zero sieci), a dane przez react-query
+ * ze wspólnym kluczem — wszystkie instancje współdzielą JEDNO zapytanie.
  */
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 // ─── Typy ────────────────────────────────────────────────────────────────────
 
@@ -17,7 +30,7 @@ export interface UserList {
   name: string;
   description: string | null;
   created_at: string;
-  items_count?: number; // wypełniane przez hook
+  items_count?: number;
 }
 
 export interface UserListItem {
@@ -26,7 +39,6 @@ export interface UserListItem {
   culture_id: string;
   notes: string | null;
   added_at: string;
-  // Joined culture data
   culture?: {
     id: string;
     name: string;
@@ -42,255 +54,268 @@ export interface UserListItem {
 // ─── Hook główny ──────────────────────────────────────────────────────────────
 
 export function useUserLists() {
-  const [lists, setLists] = useState<UserList[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
   const { toast } = useToast();
+  const qc = useQueryClient();
 
-  // Pobierz wszystkie listy użytkownika z liczbą pozycji
-  const fetchLists = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const userId = user?.id ?? null;
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setLoading(false); return; }
-
-    try {
-      // @ts-ignore
-      const { data, error: sbError } = await supabase
+  // Wspólne dla wszystkich instancji — react-query deduplikuje po kluczu
+  const listsQuery = useQuery({
+    queryKey: ["userLists", userId],
+    enabled: !!userId,
+    staleTime: 60_000,
+    queryFn: async (): Promise<UserList[]> => {
+      const { data, error } = await (supabase as any)
         .from("user_culture_lists")
-        .select(`
-          id,
-          name,
-          description,
-          created_at,
-          user_culture_list_items(count)
-        `)
-        .eq("user_id", user.id)
+        .select("id, name, description, created_at, user_culture_list_items(count)")
+        .eq("user_id", userId)
         .order("created_at", { ascending: false });
 
-      if (sbError) throw sbError;
+      if (error) throw error;
 
-      const mapped: UserList[] = (data ?? []).map((l: any) => ({
+      return (data ?? []).map((l: any) => ({
         id: l.id,
         name: l.name,
         description: l.description,
         created_at: l.created_at,
         items_count: l.user_culture_list_items?.[0]?.count ?? 0,
       }));
+    },
+  });
 
-      setLists(mapped);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Jedno zapytanie o CAŁE członkostwo kultur w listach użytkownika.
+  // Dzięki temu 188 przycisków nie odpytuje serwera osobno przy otwarciu.
+  const membershipQuery = useQuery({
+    queryKey: ["userListMembership", userId],
+    enabled: !!userId,
+    staleTime: 60_000,
+    queryFn: async (): Promise<Record<string, string[]>> => {
+      const { data, error } = await (supabase as any)
+        .from("user_culture_list_items")
+        .select("list_id, culture_id, user_culture_lists!inner(user_id)")
+        .eq("user_culture_lists.user_id", userId);
 
-  useEffect(() => { fetchLists(); }, [fetchLists]);
+      if (error) throw error;
 
-  // Utwórz nową listę
-  const createList = useCallback(async (name: string, description?: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      toast({ title: "Musisz być zalogowany", variant: "destructive" });
-      return null;
-    }
-
-    // @ts-ignore
-    const { data, error: sbError } = await supabase
-      .from("user_culture_lists")
-      .insert({ user_id: user.id, name: name.trim(), description: description ?? null })
-      .select()
-      .single();
-
-    if (sbError) {
-      toast({ title: "Błąd", description: sbError.message, variant: "destructive" });
-      return null;
-    }
-
-    toast({ title: `Lista "${name}" utworzona` });
-    await fetchLists();
-    return data;
-  }, [fetchLists, toast]);
-
-  // Usuń listę
-  const deleteList = useCallback(async (listId: string, listName: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_lists")
-      .delete()
-      .eq("id", listId);
-
-    if (sbError) {
-      toast({ title: "Błąd usuwania", description: sbError.message, variant: "destructive" });
-      return false;
-    }
-
-    toast({ title: `Lista "${listName}" usunięta` });
-    await fetchLists();
-    return true;
-  }, [fetchLists, toast]);
-
-  // Zmień nazwę listy
-  const renameList = useCallback(async (listId: string, newName: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_lists")
-      .update({ name: newName.trim() })
-      .eq("id", listId);
-
-    if (sbError) {
-      toast({ title: "Błąd", description: sbError.message, variant: "destructive" });
-      return false;
-    }
-
-    toast({ title: "Nazwa zmieniona" });
-    await fetchLists();
-    return true;
-  }, [fetchLists, toast]);
-
-  // Dodaj kulturę do listy
-  const addToList = useCallback(async (listId: string, cultureId: string, notes?: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_list_items")
-      .upsert(
-        { list_id: listId, culture_id: cultureId, notes: notes ?? null },
-        { onConflict: "list_id,culture_id" }
-      );
-
-    if (sbError) {
-      if (sbError.code === "23505") {
-        toast({ title: "Kultura już jest na tej liście" });
-      } else {
-        toast({ title: "Błąd", description: sbError.message, variant: "destructive" });
+      const mapa: Record<string, string[]> = {};
+      for (const row of data ?? []) {
+        (mapa[row.culture_id] ??= []).push(row.list_id);
       }
-      return false;
-    }
+      return mapa;
+    },
+  });
 
-    toast({ title: "Dodano do listy ✓" });
-    await fetchLists(); // odśwież licznik
-    return true;
-  }, [fetchLists, toast]);
+  const odswiez = useCallback(async () => {
+    await Promise.all([
+      qc.invalidateQueries({ queryKey: ["userLists", userId] }),
+      qc.invalidateQueries({ queryKey: ["userListMembership", userId] }),
+    ]);
+  }, [qc, userId]);
 
-  // Usuń kulturę z listy
-  const removeFromList = useCallback(async (itemId: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_list_items")
-      .delete()
-      .eq("id", itemId);
+  const createList = useCallback(
+    async (name: string, description?: string) => {
+      if (!userId) {
+        toast({ title: "Musisz być zalogowany", variant: "destructive" });
+        return null;
+      }
 
-    if (sbError) {
-      toast({ title: "Błąd", description: sbError.message, variant: "destructive" });
-      return false;
-    }
+      const { data, error } = await (supabase as any)
+        .from("user_culture_lists")
+        .insert({ user_id: userId, name: name.trim(), description: description ?? null })
+        .select()
+        .single();
 
-    return true;
-  }, [toast]);
+      if (error) {
+        toast({ title: "Błąd", description: error.message, variant: "destructive" });
+        return null;
+      }
 
-  // Sprawdź w których listach jest dana kultura (dla podświetlenia przycisku)
-  const getListsForCulture = useCallback(async (cultureId: string): Promise<string[]> => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return [];
+      toast({ title: `Lista "${name}" utworzona` });
+      await odswiez();
+      return data;
+    },
+    [userId, odswiez, toast]
+  );
 
-    // @ts-ignore
-    const { data } = await supabase
-      .from("user_culture_list_items")
-      .select("list_id, user_culture_lists!inner(user_id)")
-      .eq("culture_id", cultureId)
-      .eq("user_culture_lists.user_id", user.id);
+  const deleteList = useCallback(
+    async (listId: string, listName: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_lists")
+        .delete()
+        .eq("id", listId);
 
-    return (data ?? []).map((item: any) => item.list_id);
-  }, []);
+      if (error) {
+        toast({ title: "Błąd usuwania", description: error.message, variant: "destructive" });
+        return false;
+      }
+
+      toast({ title: `Lista "${listName}" usunięta` });
+      await odswiez();
+      return true;
+    },
+    [odswiez, toast]
+  );
+
+  const renameList = useCallback(
+    async (listId: string, newName: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_lists")
+        .update({ name: newName.trim() })
+        .eq("id", listId);
+
+      if (error) {
+        toast({ title: "Błąd", description: error.message, variant: "destructive" });
+        return false;
+      }
+
+      toast({ title: "Nazwa zmieniona" });
+      await odswiez();
+      return true;
+    },
+    [odswiez, toast]
+  );
+
+  const addToList = useCallback(
+    async (listId: string, cultureId: string, notes?: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_list_items")
+        .upsert(
+          { list_id: listId, culture_id: cultureId, notes: notes ?? null },
+          { onConflict: "list_id,culture_id" }
+        );
+
+      if (error) {
+        if (error.code === "23505") {
+          toast({ title: "Kultura już jest na tej liście" });
+        } else {
+          toast({ title: "Błąd", description: error.message, variant: "destructive" });
+        }
+        return false;
+      }
+
+      toast({ title: "Dodano do listy ✓" });
+      await odswiez();
+      return true;
+    },
+    [odswiez, toast]
+  );
+
+  const removeFromList = useCallback(
+    async (itemId: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_list_items")
+        .delete()
+        .eq("id", itemId);
+
+      if (error) {
+        toast({ title: "Błąd", description: error.message, variant: "destructive" });
+        return false;
+      }
+      await odswiez();
+      return true;
+    },
+    [odswiez, toast]
+  );
+
+  /**
+   * Zwraca id list, w których jest dana kultura.
+   * Czyta ze WSPÓLNEGO cache — bez odpytywania serwera per przycisk.
+   */
+  const getListsForCulture = useCallback(
+    async (cultureId: string): Promise<string[]> => {
+      return membershipQuery.data?.[cultureId] ?? [];
+    },
+    [membershipQuery.data]
+  );
 
   return {
-    lists,
-    loading,
-    error,
-    refresh: fetchLists,
+    lists: listsQuery.data ?? [],
+    loading: listsQuery.isLoading,
+    error: listsQuery.error ? (listsQuery.error as Error).message : null,
+    refresh: odswiez,
     createList,
     deleteList,
     renameList,
     addToList,
     removeFromList,
     getListsForCulture,
+    /** Mapa culture_id → [list_id]; przydatna, gdy chcesz uniknąć async. */
+    membership: membershipQuery.data ?? {},
   };
 }
 
 // ─── Hook dla szczegółów listy (kultury wewnątrz) ─────────────────────────────
 
 export function useListItems(listId: string | null) {
-  const [items, setItems] = useState<UserListItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const qc = useQueryClient();
 
-  const fetchItems = useCallback(async () => {
-    if (!listId) return;
-    setLoading(true);
-
-    try {
-      // @ts-ignore
-      const { data, error: sbError } = await supabase
+  const itemsQuery = useQuery({
+    queryKey: ["userListItems", listId],
+    enabled: !!listId,
+    staleTime: 30_000,
+    queryFn: async (): Promise<UserListItem[]> => {
+      const { data, error } = await (supabase as any)
         .from("user_culture_list_items")
-        .select(`
-          id,
-          list_id,
-          culture_id,
-          notes,
-          added_at,
-          cultures(id, name, type, shop, price_label, application, temperature, product_url)
-        `)
+        .select(
+          "id, list_id, culture_id, notes, added_at, cultures(id, name, type, shop, price_label, application, temperature, product_url)"
+        )
         .eq("list_id", listId)
         .order("added_at", { ascending: false });
 
-      if (sbError) throw sbError;
+      if (error) throw error;
 
-      setItems((data ?? []).map((item: any) => ({
+      return (data ?? []).map((item: any) => ({
         id: item.id,
         list_id: item.list_id,
         culture_id: item.culture_id,
         notes: item.notes,
         added_at: item.added_at,
         culture: item.cultures ?? undefined,
-      })));
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [listId]);
+      }));
+    },
+  });
 
-  useEffect(() => { fetchItems(); }, [fetchItems]);
+  const refresh = useCallback(async () => {
+    await qc.invalidateQueries({ queryKey: ["userListItems", listId] });
+  }, [qc, listId]);
 
-  // Aktualizuj notatkę
-  const updateNote = useCallback(async (itemId: string, notes: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_list_items")
-      .update({ notes: notes.trim() || null })
-      .eq("id", itemId);
+  const updateNote = useCallback(
+    async (itemId: string, notes: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_list_items")
+        .update({ notes: notes.trim() || null })
+        .eq("id", itemId);
 
-    if (!sbError) await fetchItems();
-    return !sbError;
-  }, [fetchItems]);
+      if (!error) await refresh();
+      return !error;
+    },
+    [refresh]
+  );
 
-  // Usuń pozycję
-  const removeItem = useCallback(async (itemId: string) => {
-    // @ts-ignore
-    const { error: sbError } = await supabase
-      .from("user_culture_list_items")
-      .delete()
-      .eq("id", itemId);
+  const removeItem = useCallback(
+    async (itemId: string) => {
+      const { error } = await (supabase as any)
+        .from("user_culture_list_items")
+        .delete()
+        .eq("id", itemId);
 
-    if (!sbError) {
-      setItems(prev => prev.filter(i => i.id !== itemId));
-      toast({ title: "Usunięto z listy" });
-    }
-    return !sbError;
-  }, [toast]);
+      if (!error) {
+        await refresh();
+        toast({ title: "Usunięto z listy" });
+      }
+      return !error;
+    },
+    [refresh, toast]
+  );
 
-  return { items, loading, error, refresh: fetchItems, updateNote, removeItem };
+  return {
+    items: itemsQuery.data ?? [],
+    loading: itemsQuery.isLoading,
+    error: itemsQuery.error ? (itemsQuery.error as Error).message : null,
+    refresh,
+    updateNote,
+    removeItem,
+  };
 }

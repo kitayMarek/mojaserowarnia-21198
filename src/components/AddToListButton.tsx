@@ -7,7 +7,7 @@
  * Wymaga: użytkownik zalogowany — inaczej nie renderuje nic
  */
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Bookmark, Plus, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,22 +31,22 @@ export default function AddToListButton({
   variant = "icon",
 }: AddToListButtonProps) {
   const { user } = useAuth();
-  const { lists, createList, addToList, getListsForCulture } = useUserLists();
+  const { lists, createList, addToList, membership } = useUserLists();
 
   const [open, setOpen] = useState(false);
-  const [addedToLists, setAddedToLists] = useState<Set<string>>(new Set());
   const [newListName, setNewListName] = useState("");
   const [creatingList, setCreatingList] = useState(false);
   const [showNewListInput, setShowNewListInput] = useState(false);
   const [loadingListId, setLoadingListId] = useState<string | null>(null);
+  // Optymistyczne dodania — zanim wspólny cache się odświeży
+  const [swiezoDodane, setSwiezoDodane] = useState<Set<string>>(new Set());
 
-  // Pobierz w których listach już jest ta kultura
-  useEffect(() => {
-    if (!open || !user) return;
-    getListsForCulture(cultureId).then(ids => {
-      setAddedToLists(new Set(ids));
-    });
-  }, [open, cultureId, user]);
+  // Członkostwo czytane ze WSPÓLNEGO cache (jedno zapytanie na całą stronę),
+  // scalone z tym, co użytkownik przed chwilą kliknął.
+  const addedToLists = useMemo(
+    () => new Set([...(membership[cultureId] ?? []), ...swiezoDodane]),
+    [membership, cultureId, swiezoDodane]
+  );
 
   if (!user) return null;
 
@@ -54,7 +54,7 @@ export default function AddToListButton({
     if (addedToLists.has(listId)) return;
     setLoadingListId(listId);
     const ok = await addToList(listId, cultureId);
-    if (ok) setAddedToLists(prev => new Set([...prev, listId]));
+    if (ok) setSwiezoDodane(prev => new Set([...prev, listId]));
     setLoadingListId(null);
   };
 
@@ -64,7 +64,7 @@ export default function AddToListButton({
     const newList = await createList(newListName.trim());
     if (newList) {
       await addToList(newList.id, cultureId);
-      setAddedToLists(prev => new Set([...prev, newList.id]));
+      setSwiezoDodane(prev => new Set([...prev, newList.id]));
     }
     setNewListName("");
     setShowNewListInput(false);
