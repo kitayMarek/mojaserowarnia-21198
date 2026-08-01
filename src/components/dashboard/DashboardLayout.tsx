@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Outlet, NavLink, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Loader2, Home, FileText, Receipt, Settings, LogOut } from "lucide-react";
+import { Loader2, Home, FileText, Receipt, Settings, LogOut, FileSpreadsheet, Tag } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -21,10 +21,12 @@ const menuItems = [
   { title: "Ewidencja sprzedaży", url: "/dashboard/ewidencja", icon: FileText },
   { title: "Wystaw rachunek", url: "/dashboard/rachunki/nowy", icon: Receipt },
   { title: "Archiwum rachunków", url: "/dashboard/rachunki", icon: Receipt },
+  { title: "Faktura VAT RR", url: "/dashboard/faktura-vat-rr", icon: FileSpreadsheet },
   { title: "Ustawienia", url: "/dashboard/ustawienia", icon: Settings },
 ];
 
 const navigationItems = [
+  { title: "Etykieta RHD", url: "/etykieta-rhd", icon: Tag },
   { title: "Strona główna", url: "/", icon: Home },
 ];
 
