@@ -26,9 +26,27 @@ const WOJEWODZTWA = [
   "świętokrzyskie","warmińsko-mazurskie","wielkopolskie","zachodniopomorskie",
 ];
 const MLEKO = ["krowie", "kozie", "owcze", "bawole", "mieszane"];
-const SPRZEDAZ = [
+
+// Nie każdy, kto robi ser, go sprzedaje — agroturystyka wytwarza dla gości.
+const TYPY: { wartosc: string; label: string; opis: string }[] = [
+  { wartosc: "serowarnia",   label: "Serowarnia — sprzedaję ser",
+    opis: "Produkcja z myślą o sprzedaży, zwykle w ramach RHD lub MOL." },
+  { wartosc: "agroturystyka", label: "Agroturystyka — ser dla gości",
+    opis: "Ser wytwarzany na potrzeby gospodarstwa i osób odwiedzających, bez sprzedaży." },
+  { wartosc: "sezonowa",     label: "Produkcja sezonowa lub okazjonalna",
+    opis: "Ser powstaje w sezonie albo nieregularnie, w niewielkich ilościach." },
+  { wartosc: "w-organizacji", label: "Serowarnia w organizacji",
+    opis: "Dopiero uruchamiasz produkcję — wizytówka pomoże Cię znaleźć od startu." },
+];
+
+// Sposoby zetknięcia się z serem — zależne od charakteru działalności
+const DOSTEP_SPRZEDAZ = [
   "sprzedaż w gospodarstwie", "targ / bazar", "sklep stacjonarny",
   "wysyłka kurierem", "odbiór osobisty", "do restauracji i sklepów",
+];
+const DOSTEP_GOSCIE = [
+  "degustacja dla gości", "posiłki w ramach pobytu", "warsztaty serowarskie",
+  "sprzedaż na miejscu dla gości", "zwiedzanie serowarni",
 ];
 
 const STATUSY: Record<string, { label: string; opis: string; wariant: any }> = {
@@ -59,6 +77,7 @@ export default function MojaSerowarnia() {
   const [produkty, setProdukty] = useState("");
   const [rodzajMleka, setRodzajMleka] = useState<string[]>([]);
   const [formaSprzedazy, setFormaSprzedazy] = useState<string[]>([]);
+  const [typDzialalnosci, setTypDzialalnosci] = useState("");
   const [nrWeterynaryjny, setNrWeterynaryjny] = useState("");
   const [oswiadczenieProducent, setOswiadczenieProducent] = useState(false);
   const [zgoda, setZgoda] = useState(false);
@@ -79,6 +98,7 @@ export default function MojaSerowarnia() {
         setProdukty((data.produkty ?? []).join(", "));
         setRodzajMleka(data.rodzaj_mleka ?? []);
         setFormaSprzedazy(data.forma_sprzedazy ?? []);
+        setTypDzialalnosci(data.typ_dzialalnosci ?? "");
         setNrWeterynaryjny(data.nr_weterynaryjny ?? "");
         setOswiadczenieProducent(data.oswiadczenie_producent ?? false);
         setZgoda(data.zgoda_publikacja ?? false);
@@ -101,6 +121,14 @@ export default function MojaSerowarnia() {
   const zapisz = async (zglosDoSprawdzenia: boolean) => {
     if (!nazwa.trim()) {
       toast({ title: "Podaj nazwę serowarni", variant: "destructive" });
+      return;
+    }
+    if (zglosDoSprawdzenia && !typDzialalnosci) {
+      toast({
+        title: "Wskaż charakter działalności",
+        description: "Bez tego nie wiemy, jak opisać Cię w katalogu.",
+        variant: "destructive",
+      });
       return;
     }
     if (zglosDoSprawdzenia && !oswiadczenieProducent) {
@@ -145,6 +173,7 @@ export default function MojaSerowarnia() {
         produkty: produkty.split(",").map((s) => s.trim()).filter(Boolean),
         rodzaj_mleka: rodzajMleka,
         forma_sprzedazy: formaSprzedazy,
+        typ_dzialalnosci: typDzialalnosci || null,
         nr_weterynaryjny: nrWeterynaryjny.trim() || null,
         oswiadczenie_producent: oswiadczenieProducent,
         zgoda_publikacja: zgoda,
@@ -204,8 +233,13 @@ export default function MojaSerowarnia() {
             wiedzy — ta sekcja nie jest dla Ciebie i możesz ją pominąć. Nic nie tracisz.
           </p>
           <p className="text-muted-foreground">
-            Wizytówki przeglądamy przed publikacją. Zgłoszenia bez opisu, bez lokalizacji albo
-            od osób niewytwarzających sera odrzucamy.
+            <strong>Nie musisz mieć zgłoszonego RHD ani niczego sprzedawać.</strong> Gospodarstwo
+            agroturystyczne robiące ser dla swoich gości jest tu równie na miejscu jak serowarnia
+            handlowa. Liczy się to, że sam wytwarzasz ser.
+          </p>
+          <p className="text-muted-foreground">
+            Wizytówki przeglądamy przed publikacją — odrzucamy zgłoszenia bez opisu, bez
+            lokalizacji lub od osób, które sera nie robią.
           </p>
         </CardContent>
       </Card>
@@ -229,6 +263,39 @@ export default function MojaSerowarnia() {
           <CardContent className="text-sm">{powodOdrzucenia}</CardContent>
         </Card>
       )}
+
+      {/* Charakter działalności — nie każdy, kto robi ser, go sprzedaje */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Charakter działalności</CardTitle>
+          <CardDescription>
+            Nie musisz mieć zgłoszonego RHD, żeby być w katalogu. Ser robiony wyłącznie
+            dla gości gospodarstwa też się liczy.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          {TYPY.map((t) => (
+            <label
+              key={t.wartosc}
+              className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                typDzialalnosci === t.wartosc ? "border-primary bg-primary/5" : "hover:bg-accent"
+              }`}
+            >
+              <input
+                type="radio"
+                name="typ"
+                className="mt-1"
+                checked={typDzialalnosci === t.wartosc}
+                onChange={() => setTypDzialalnosci(t.wartosc)}
+              />
+              <span className="text-sm">
+                <span className="font-medium block">{t.label}</span>
+                <span className="text-muted-foreground">{t.opis}</span>
+              </span>
+            </label>
+          ))}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader className="pb-3">
@@ -286,15 +353,28 @@ export default function MojaSerowarnia() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Jak można kupić</Label>
+            <Label>
+              {typDzialalnosci === "agroturystyka"
+                ? "Jak goście mogą spróbować Twojego sera"
+                : "Jak można spróbować lub kupić"}
+            </Label>
             <div className="flex flex-wrap gap-3">
-              {SPRZEDAZ.map((s) => (
+              {(typDzialalnosci === "agroturystyka"
+                ? DOSTEP_GOSCIE
+                : [...DOSTEP_SPRZEDAZ, ...DOSTEP_GOSCIE]
+              ).map((s) => (
                 <label key={s} className="flex items-center gap-2 text-sm cursor-pointer">
                   <Checkbox checked={formaSprzedazy.includes(s)} onCheckedChange={() => przelacz(formaSprzedazy, setFormaSprzedazy, s)} />
                   {s}
                 </label>
               ))}
             </div>
+            {typDzialalnosci === "agroturystyka" && (
+              <p className="text-xs text-muted-foreground">
+                Nie musisz nic sprzedawać — degustacja albo posiłek w ramach pobytu w zupełności
+                wystarczy.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -322,18 +402,19 @@ export default function MojaSerowarnia() {
             <Checkbox id="osw-prod" checked={oswiadczenieProducent}
               onCheckedChange={(v) => setOswiadczenieProducent(v === true)} />
             <Label htmlFor="osw-prod" className="text-sm font-normal cursor-pointer leading-relaxed">
-              Oświadczam, że <strong>wytwarzam ser</strong> i wizytówka dotyczy mojej realnej
-              działalności serowarskiej.
+              Oświadczam, że <strong>sam wytwarzam ser</strong> i wizytówka dotyczy mojej realnej
+              działalności — niezależnie od tego, czy ten ser sprzedaję.
             </Label>
           </div>
           <div className="space-y-1">
-            <Label>Weterynaryjny numer identyfikacyjny (WNI)</Label>
+            <Label>Weterynaryjny numer identyfikacyjny (WNI) — jeśli masz</Label>
             <Input value={nrWeterynaryjny} onChange={(e) => setNrWeterynaryjny(e.target.value)}
-              placeholder="np. 28123456789 — jeśli masz" />
+              placeholder="np. 28123456789" />
             <p className="text-xs text-muted-foreground">
-              Opcjonalny, ale bardzo pomaga przy weryfikacji. Nadaje go powiatowy lekarz
-              weterynarii przy rejestracji RHD lub MOL. Nie publikujemy go w katalogu — służy
-              wyłącznie nam do sprawdzenia zgłoszenia.
+              <strong>Całkowicie opcjonalny — jego brak nie jest przeszkodą.</strong> Mają go
+              osoby, które zgłosiły sprzedaż w RHD lub MOL; przy produkcji wyłącznie na potrzeby
+              gospodarstwa nie jest wymagany. Jeśli go podasz, przyspieszy weryfikację.
+              Nie publikujemy go w katalogu.
             </p>
           </div>
         </CardContent>

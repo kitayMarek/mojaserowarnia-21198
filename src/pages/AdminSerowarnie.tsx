@@ -23,9 +23,17 @@ interface Wpis {
   telefon: string | null; email_kontakt: string | null;
   www: string | null; facebook: string | null;
   nr_weterynaryjny: string | null; status: string;
+  typ_dzialalnosci: string | null;
   email_konta: string | null; ma_ewidencje: boolean;
   zarejestrowany: string | null; zgloszony: string | null;
 }
+
+const TYP_ETYKIETY: Record<string, string> = {
+  serowarnia: "Serowarnia — sprzedaje",
+  agroturystyka: "Agroturystyka — ser dla gości",
+  sezonowa: "Produkcja sezonowa",
+  "w-organizacji": "W organizacji",
+};
 
 export default function AdminSerowarnie() {
   const [powod, setPowod] = useState<Record<string, string>>({});
@@ -89,17 +97,24 @@ export default function AdminSerowarnie() {
         </CardHeader>
 
         <CardContent className="space-y-4 text-sm">
-          {/* Sygnały wiarygodności — czy to na pewno producent sera */}
+          {/* Kontekst dla moderatora. UWAGA: brak WNI i brak ewidencji NIE są
+              powodem do odrzucenia — agroturystyka nie musi mieć RHD, a ewidencję
+              prowadzi u nas niewielu. To informacje pomocnicze, nie wyrok. */}
           <div className="flex flex-wrap gap-2">
-            <Badge variant={w.nr_weterynaryjny ? "default" : "outline"} className="gap-1">
-              <ShieldCheck className="h-3 w-3" />
-              {w.nr_weterynaryjny ? `WNI: ${w.nr_weterynaryjny}` : "brak WNI"}
+            <Badge variant="default">
+              {TYP_ETYKIETY[w.typ_dzialalnosci ?? ""] ?? "typ nieokreślony"}
             </Badge>
-            <Badge variant={w.ma_ewidencje ? "default" : "outline"} className="gap-1">
-              <ClipboardList className="h-3 w-3" />
-              {w.ma_ewidencje ? "prowadzi ewidencję RHD" : "brak wpisów w ewidencji"}
-            </Badge>
-            <Badge variant={dlugoscOpisu >= 250 ? "default" : "outline"}>
+            {w.nr_weterynaryjny && (
+              <Badge variant="secondary" className="gap-1">
+                <ShieldCheck className="h-3 w-3" /> WNI: {w.nr_weterynaryjny}
+              </Badge>
+            )}
+            {w.ma_ewidencje && (
+              <Badge variant="secondary" className="gap-1">
+                <ClipboardList className="h-3 w-3" /> prowadzi ewidencję RHD
+              </Badge>
+            )}
+            <Badge variant={dlugoscOpisu >= 250 ? "secondary" : "outline"}>
               opis: {dlugoscOpisu} zn.
             </Badge>
             {w.email_konta && <Badge variant="outline">{w.email_konta}</Badge>}
@@ -164,11 +179,16 @@ export default function AdminSerowarnie() {
         <CardContent className="pt-6 text-sm space-y-1">
           <p className="font-medium">Na co patrzeć przy weryfikacji:</p>
           <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
-            <li><strong>WNI</strong> — najmocniejszy sygnał; ma go każdy, kto zarejestrował sprzedaż sera</li>
-            <li><strong>Ewidencja RHD</strong> — jeśli prowadzi ją u nas, prawie na pewno jest producentem</li>
-            <li><strong>Opis</strong> — konkretny i o serze, nie ogólnik o gospodarstwie</li>
+            <li><strong>Opis</strong> — czy mówi o robieniu sera, czy to ogólnik o gospodarstwie</li>
             <li><strong>Sery</strong> — realne nazwy, nie „różne produkty"</li>
+            <li><strong>WWW / Facebook</strong> — jeśli podane, kliknij; najszybsza weryfikacja</li>
           </ul>
+          <p className="text-muted-foreground pt-1">
+            ⚠️ <strong>Brak WNI ani brak ewidencji nie są powodem do odrzucenia.</strong>{" "}
+            Gospodarstwo agroturystyczne robiące ser dla gości nie musi mieć zgłoszonego RHD,
+            a ewidencję prowadzi u nas niewielu użytkowników. Te odznaki pojawiają się tylko
+            wtedy, gdy są — jako dodatkowe potwierdzenie, nie jako warunek.
+          </p>
         </CardContent>
       </Card>
 

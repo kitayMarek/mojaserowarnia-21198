@@ -25,7 +25,15 @@ interface Wpis {
   miejscowosc: string | null;
   produkty: string[];
   rodzaj_mleka: string[];
+  typ_dzialalnosci: string | null;
 }
+
+const TYP_ETYKIETY: Record<string, string> = {
+  serowarnia: "sprzedaje ser",
+  agroturystyka: "ser dla gości",
+  sezonowa: "produkcja sezonowa",
+  "w-organizacji": "w organizacji",
+};
 
 export default function Serowarnie() {
   const [wpisy, setWpisy] = useState<Wpis[]>([]);
@@ -37,7 +45,7 @@ export default function Serowarnie() {
     (async () => {
       const { data } = await (supabase as any)
         .from("serowarnie")
-        .select("slug, nazwa, opis, wojewodztwo, miejscowosc, produkty, rodzaj_mleka")
+        .select("slug, nazwa, opis, wojewodztwo, miejscowosc, produkty, rodzaj_mleka, typ_dzialalnosci")
         .eq("status", "opublikowany")
         .order("nazwa");
       setWpisy(data ?? []);
@@ -162,6 +170,9 @@ export default function Serowarnie() {
                             <p className="text-sm text-muted-foreground line-clamp-3">{w.opis}</p>
                           )}
                           <div className="flex flex-wrap gap-1">
+                            {w.typ_dzialalnosci && TYP_ETYKIETY[w.typ_dzialalnosci] && (
+                              <Badge className="text-xs">{TYP_ETYKIETY[w.typ_dzialalnosci]}</Badge>
+                            )}
                             {w.rodzaj_mleka.map((m) => (
                               <Badge key={m} variant="secondary" className="text-xs">mleko {m}</Badge>
                             ))}

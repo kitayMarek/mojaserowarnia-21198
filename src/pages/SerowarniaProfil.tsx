@@ -21,7 +21,15 @@ interface Wpis {
   telefon: string | null; email_kontakt: string | null;
   www: string | null; facebook: string | null;
   produkty: string[]; rodzaj_mleka: string[]; forma_sprzedazy: string[];
+  typ_dzialalnosci: string | null;
 }
+
+const TYP_PODTYTUL: Record<string, string> = {
+  serowarnia: "Serowarnia zagrodowa",
+  agroturystyka: "Gospodarstwo agroturystyczne z własnym serem",
+  sezonowa: "Serowarnia — produkcja sezonowa",
+  "w-organizacji": "Serowarnia w organizacji",
+};
 
 export default function SerowarniaProfil() {
   const { slug } = useParams<{ slug: string }>();
@@ -125,7 +133,10 @@ export default function SerowarniaProfil() {
               icon={Store}
               color="emerald"
               title={wpis.nazwa}
-              subtitle={lokalizacja ? `Serowarnia zagrodowa — ${lokalizacja}` : "Serowarnia zagrodowa"}
+              subtitle={(() => {
+                const typ = TYP_PODTYTUL[wpis.typ_dzialalnosci ?? ""] ?? "Serowarnia zagrodowa";
+                return lokalizacja ? `${typ} — ${lokalizacja}` : typ;
+              })()}
             />
 
             <div className="space-y-6 mt-6">
@@ -162,7 +173,11 @@ export default function SerowarniaProfil() {
 
               {wpis.forma_sprzedazy.length > 0 && (
                 <Card>
-                  <CardHeader className="pb-2"><CardTitle className="text-base">Jak kupić</CardTitle></CardHeader>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">
+                      {wpis.typ_dzialalnosci === "agroturystyka" ? "Jak spróbować" : "Jak kupić lub spróbować"}
+                    </CardTitle>
+                  </CardHeader>
                   <CardContent>
                     <ul className="list-disc list-inside space-y-1 text-sm">
                       {wpis.forma_sprzedazy.map((f) => <li key={f}>{f}</li>)}
