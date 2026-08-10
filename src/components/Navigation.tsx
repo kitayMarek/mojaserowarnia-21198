@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Menu, X, Search, User, LogOut, ChevronDown,
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -118,6 +118,7 @@ const navItems: NavItem[] = [
       { label: "Wszystko o prawie", href: "/prawo" },
     ],
   },
+  { label: "Serowarnie w Polsce", href: "/serowarnie", icon: Store, color: "emerald" },
   { label: "Wiadomości", href: "/wiadomosci", icon: Newspaper, color: "cyan" },
   { label: "Ewidencja RHD", href: "/system-ewidencji", icon: ClipboardList, color: "teal" },
   { label: "Kontakt", href: "/kontakt", icon: Mail, color: "slate" },

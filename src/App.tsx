@@ -52,6 +52,9 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Ewidencja = lazy(() => import("./pages/Ewidencja"));
 const NewInvoice = lazy(() => import("./pages/NewInvoice"));
 const DashboardVatRr = lazy(() => import("./pages/DashboardVatRr"));
+const MojaSerowarnia = lazy(() => import("./pages/MojaSerowarnia"));
+const Serowarnie = lazy(() => import("./pages/Serowarnie"));
+const SerowarniaProfil = lazy(() => import("./pages/SerowarniaProfil"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -147,6 +150,8 @@ const App = () => (
           <Route path="/porownanie-wartosci-odzywczych" element={<PorownanieWartosciOdzywczych />} />
             <Route path="/prawo" element={<Prawo />} />
             <Route path="/narzedzia" element={<Narzedzia />} />
+            <Route path="/serowarnie" element={<Serowarnie />} />
+            <Route path="/serowarnie/:slug" element={<SerowarniaProfil />} />
             <Route path="/etykieta-rhd" element={<EtykietaRhd />} />
             <Route path="/faktura-vat-rr" element={<FakturaVatRr />} />
             <Route path="/kalkulator-beaugel" element={<KalkulatorBeaugel />} />
@@ -180,6 +185,7 @@ const App = () => (
               <Route path="rachunki/nowy" element={<NewInvoice />} />
               <Route path="rachunki" element={<Invoices />} />
               <Route path="faktura-vat-rr" element={<DashboardVatRr />} />
+              <Route path="moja-serowarnia" element={<MojaSerowarnia />} />
               <Route path="ustawienia" element={<Settings />} />
             </Route>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
