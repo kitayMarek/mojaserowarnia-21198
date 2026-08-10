@@ -15,14 +15,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Store, MapPin, Phone, Mail, Globe, Loader2, ShoppingBasket } from "lucide-react";
 
-interface Wpis {
+interface Wizytowka {
+  id: string;
   slug: string; nazwa: string; opis: string | null;
   wojewodztwo: string | null; miejscowosc: string | null;
   telefon: string | null; email_kontakt: string | null;
   www: string | null; facebook: string | null;
   produkty: string[]; rodzaj_mleka: string[]; forma_sprzedazy: string[];
   typ_dzialalnosci: string | null;
+  zdjecie_glowne: string | null;
+  galeria: { url: string; opis: string }[];
 }
+
+interface Wpis {
+  id: string;
+  tresc: string;
+  zdjecie_url: string | null;
+  utworzono: string;
+  wygasa: string | null;
+}
+
+const DNI_DO_ZESTARZENIA = 60;
+
+// Pełna data zamiast "3 dni temu" — lepiej się indeksuje i nie myli przy starszych wpisach
+const dataPl = (iso: string) =>
+  new Date(iso).toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });
 
 const TYP_PODTYTUL: Record<string, string> = {
   serowarnia: "Serowarnia zagrodowa",
@@ -33,7 +50,9 @@ const TYP_PODTYTUL: Record<string, string> = {
 
 export default function SerowarniaProfil() {
   const { slug } = useParams<{ slug: string }>();
-  const [wpis, setWpis] = useState<Wpis | null>(null);
+  const [wpis, setWpis] = useState<Wizytowka | null>(null);
+  const [aktualnosci, setAktualnosci] = useState<Wpis[]>([]);
+  const [wszystkie, setWszystkie] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,6 +60,15 @@ export default function SerowarniaProfil() {
       const { data } = await (supabase as any)
         .from("serowarnie").select("*").eq("slug", slug).eq("status", "opublikowany").maybeSingle();
       setWpis(data ?? null);
+
+      if (data) {
+        const { data: w } = await (supabase as any)
+          .from("serowarnia_wpisy")
+          .select("id, tresc, zdjecie_url, utworzono, wygasa")
+          .eq("serowarnia_id", data.id)
+          .order("utworzono", { ascending: false });
+        setAktualnosci(w ?? []);
+      }
       setLoading(false);
     })();
   }, [slug]);
@@ -89,6 +117,13 @@ export default function SerowarniaProfil() {
     description: wpis.opis ?? undefined,
     url: `https://mojaserowarnia.pl/serowarnie/${wpis.slug}`,
     inLanguage: "pl",
+    // Zdjęcie główne + galeria — Google używa ich w wynikach lokalnych
+    ...(wpis.zdjecie_glowne || wpis.galeria?.length
+      ? { image: [wpis.zdjecie_glowne, ...(wpis.galeria ?? []).map((z) => z.url)].filter(Boolean) }
+      : {}),
+    // Sygnał świeżości: data ostatniego wpisu. Nowe aktualności = odnowiona treść,
+    // a to jest dokładnie to, co premiują wyszukiwarki i modele.
+    ...(aktualnosci.length > 0 ? { dateModified: aktualnosci[0].utworzono } : {}),
     ...(wpis.telefon ? { telephone: wpis.telefon } : {}),
     ...(wpis.email_kontakt ? { email: wpis.email_kontakt } : {}),
     ...(wpis.miejscowosc || wpis.wojewodztwo
@@ -140,6 +175,17 @@ export default function SerowarniaProfil() {
             />
 
             <div className="space-y-6 mt-6">
+              {/* Zdjęcie główne — jedyne nad zgięciem, więc bez lazy */}
+              {wpis.zdjecie_glowne && (
+                <img
+                  src={wpis.zdjecie_glowne}
+                  alt={`${wpis.nazwa}${lokalizacja ? ` — ${lokalizacja}` : ""}`}
+                  width={1200} height={800} decoding="async"
+                  className="w-full rounded-xl border object-cover"
+                  style={{ aspectRatio: "3 / 2" }}
+                />
+              )}
+
               {wpis.opis && (
                 <Card>
                   <CardHeader className="pb-2"><CardTitle className="text-base">O nas</CardTitle></CardHeader>
@@ -182,6 +228,67 @@ export default function SerowarniaProfil() {
                     <ul className="list-disc list-inside space-y-1 text-sm">
                       {wpis.forma_sprzedazy.map((f) => <li key={f}>{f}</li>)}
                     </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* AKTUALNOŚCI — sekcja znika całkowicie, gdy brak wpisów */}
+              {aktualnosci.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">Aktualności</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {(wszystkie ? aktualnosci : aktualnosci.slice(0, 3)).map((a) => {
+                      const wiek = (Date.now() - new Date(a.utworzono).getTime()) / 86400000;
+                      const stary = wiek > DNI_DO_ZESTARZENIA;
+                      return (
+                        <article key={a.id} className={`flex gap-3 ${stary ? "opacity-70" : ""}`}>
+                          {a.zdjecie_url && (
+                            <img src={a.zdjecie_url} alt={a.tresc.slice(0, 100)}
+                              width={120} height={90} loading="lazy" decoding="async"
+                              className="rounded object-cover shrink-0"
+                              style={{ width: 120, height: 90 }} />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm whitespace-pre-line">{a.tresc}</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              <time dateTime={a.utworzono}>{dataPl(a.utworzono)}</time>
+                              {stary && " · starszy wpis"}
+                              {a.wygasa && ` · aktualne do ${dataPl(a.wygasa)}`}
+                            </p>
+                          </div>
+                        </article>
+                      );
+                    })}
+                    {aktualnosci.length > 3 && !wszystkie && (
+                      <button onClick={() => setWszystkie(true)}
+                        className="text-sm text-primary hover:underline">
+                        Pokaż wszystkie ({aktualnosci.length})
+                      </button>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* GALERIA */}
+              {wpis.galeria?.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-2"><CardTitle className="text-base">Galeria</CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {wpis.galeria.map((z, i) => (
+                        <figure key={z.url} className="space-y-1">
+                          <img src={z.url} alt={z.opis || `${wpis.nazwa} — zdjęcie ${i + 1}`}
+                            width={400} height={300} loading="lazy" decoding="async"
+                            className="w-full rounded-lg border object-cover"
+                            style={{ aspectRatio: "4 / 3" }} />
+                          {z.opis && (
+                            <figcaption className="text-xs text-muted-foreground">{z.opis}</figcaption>
+                          )}
+                        </figure>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
               )}

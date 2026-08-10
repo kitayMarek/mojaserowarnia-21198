@@ -26,7 +26,12 @@ interface Wpis {
   produkty: string[];
   rodzaj_mleka: string[];
   typ_dzialalnosci: string | null;
+  zdjecie_glowne: string | null;
 }
+
+/** Inicjały jako placeholder — brak zdjęcia ma wyglądać na wybór, nie na usterkę. */
+const inicjaly = (nazwa: string) =>
+  nazwa.split(/\s+/).filter(Boolean).slice(0, 2).map((s) => s[0]?.toUpperCase()).join("");
 
 const TYP_ETYKIETY: Record<string, string> = {
   serowarnia: "sprzedaje ser",
@@ -45,7 +50,7 @@ export default function Serowarnie() {
     (async () => {
       const { data } = await (supabase as any)
         .from("serowarnie")
-        .select("slug, nazwa, opis, wojewodztwo, miejscowosc, produkty, rodzaj_mleka, typ_dzialalnosci")
+        .select("slug, nazwa, opis, wojewodztwo, miejscowosc, produkty, rodzaj_mleka, typ_dzialalnosci, zdjecie_glowne")
         .eq("status", "opublikowany")
         .order("nazwa");
       setWpisy(data ?? []);
@@ -153,7 +158,23 @@ export default function Serowarnie() {
                 <div className="grid md:grid-cols-2 gap-4">
                   {widoczne.map((w) => (
                     <Link key={w.slug} to={`/serowarnie/${w.slug}`} className="group block h-full">
-                      <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-0.5 border-2 hover:border-primary">
+                      <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-0.5 border-2 hover:border-primary overflow-hidden">
+                        {w.zdjecie_glowne ? (
+                          <img
+                            src={w.zdjecie_glowne}
+                            alt={`${w.nazwa}${w.miejscowosc ? ` — ${w.miejscowosc}` : ""}`}
+                            width={600} height={400} loading="lazy" decoding="async"
+                            className="w-full object-cover"
+                            style={{ aspectRatio: "3 / 2" }}
+                          />
+                        ) : (
+                          <div
+                            className="w-full bg-primary/10 flex items-center justify-center"
+                            style={{ aspectRatio: "3 / 2" }}
+                          >
+                            <span className="text-3xl font-bold text-primary/50">{inicjaly(w.nazwa)}</span>
+                          </div>
+                        )}
                         <CardHeader className="pb-2">
                           <CardTitle className="text-lg group-hover:text-primary transition-colors">
                             {w.nazwa}

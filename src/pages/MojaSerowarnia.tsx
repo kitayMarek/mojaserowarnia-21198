@@ -18,7 +18,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, Store, Send, ExternalLink } from "lucide-react";
+import { Loader2, Store, Send, ExternalLink, ImagePlus, Trash2, ArrowLeft, ArrowRight } from "lucide-react";
+import { useUploadZdjecia } from "@/hooks/useUploadZdjecia";
+import AktualnosciEdytor from "@/components/serowarnia/AktualnosciEdytor";
+
+interface ZdjecieGalerii { url: string; opis: string }
 
 const WOJEWODZTWA = [
   "dolnośląskie","kujawsko-pomorskie","lubelskie","lubuskie","łódzkie","małopolskie",
@@ -81,6 +85,9 @@ export default function MojaSerowarnia() {
   const [nrWeterynaryjny, setNrWeterynaryjny] = useState("");
   const [oswiadczenieProducent, setOswiadczenieProducent] = useState(false);
   const [zgoda, setZgoda] = useState(false);
+  const [zdjecieGlowne, setZdjecieGlowne] = useState<string | null>(null);
+  const [galeria, setGaleria] = useState<ZdjecieGalerii[]>([]);
+  const { wyslij, usun, wysylanie, postep } = useUploadZdjecia();
 
   useEffect(() => {
     if (!user) return;
@@ -102,6 +109,8 @@ export default function MojaSerowarnia() {
         setNrWeterynaryjny(data.nr_weterynaryjny ?? "");
         setOswiadczenieProducent(data.oswiadczenie_producent ?? false);
         setZgoda(data.zgoda_publikacja ?? false);
+        setZdjecieGlowne(data.zdjecie_glowne ?? null);
+        setGaleria(Array.isArray(data.galeria) ? data.galeria : []);
       } else {
         // podpowiedz nazwę i WNI z profilu
         const { data: p } = await supabase
@@ -114,6 +123,54 @@ export default function MojaSerowarnia() {
       setLoading(false);
     })();
   }, [user]);
+
+  // Upload nie może gubić wpisanego tekstu — dlatego tylko podmienia URL w stanie,
+  // a zapis do bazy dzieje się dopiero przy „Zapisz".
+  const wgrajGlowne = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    e.target.value = "";
+    if (!f) return;
+    try {
+      const stary = zdjecieGlowne;
+      const url = await wyslij(f, "glowne");
+      setZdjecieGlowne(url);
+      if (stary) await usun(stary);
+      toast({ title: "Zdjęcie główne dodane", description: "Pamiętaj o zapisaniu wizytówki." });
+    } catch (err: any) {
+      toast({ title: "Nie udało się", description: err.message, variant: "destructive" });
+    }
+  };
+
+  const wgrajDoGalerii = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    e.target.value = "";
+    if (!f) return;
+    if (galeria.length >= 6) {
+      toast({ title: "Galeria pełna", description: "Maksymalnie 6 zdjęć.", variant: "destructive" });
+      return;
+    }
+    try {
+      const url = await wyslij(f, "galeria");
+      setGaleria([...galeria, { url, opis: "" }]);
+      toast({ title: "Zdjęcie dodane", description: "Pamiętaj o zapisaniu wizytówki." });
+    } catch (err: any) {
+      toast({ title: "Nie udało się", description: err.message, variant: "destructive" });
+    }
+  };
+
+  const usunZGalerii = async (i: number) => {
+    const z = galeria[i];
+    setGaleria(galeria.filter((_, idx) => idx !== i));
+    if (z?.url) await usun(z.url);
+  };
+
+  const przesun = (i: number, kierunek: -1 | 1) => {
+    const j = i + kierunek;
+    if (j < 0 || j >= galeria.length) return;
+    const kopia = [...galeria];
+    [kopia[i], kopia[j]] = [kopia[j], kopia[i]];
+    setGaleria(kopia);
+  };
 
   const przelacz = (lista: string[], set: (v: string[]) => void, wartosc: string) =>
     set(lista.includes(wartosc) ? lista.filter((x) => x !== wartosc) : [...lista, wartosc]);
@@ -177,6 +234,8 @@ export default function MojaSerowarnia() {
         nr_weterynaryjny: nrWeterynaryjny.trim() || null,
         oswiadczenie_producent: oswiadczenieProducent,
         zgoda_publikacja: zgoda,
+        zdjecie_glowne: zdjecieGlowne,
+        galeria: galeria,
         status: nowyStatus,
       };
 
@@ -332,6 +391,93 @@ export default function MojaSerowarnia() {
         </CardContent>
       </Card>
 
+      {/* ZDJĘCIA */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Zdjęcia</CardTitle>
+          <CardDescription>
+            Zdjęcia zmniejszamy przed wysłaniem i <strong>usuwamy z nich dane lokalizacji GPS</strong>,
+            które telefon zapisuje w pliku. Twój adres nie trafi do internetu razem ze zdjęciem.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label>Zdjęcie główne</Label>
+            <p className="text-xs text-muted-foreground">
+              Pokazuje się na liście serowarni i u góry wizytówki. Najlepiej kadr poziomy.
+            </p>
+            {zdjecieGlowne ? (
+              <div className="relative inline-block">
+                <img src={zdjecieGlowne} alt={`Zdjęcie główne — ${nazwa || "serowarnia"}`}
+                  width={320} height={213} loading="lazy" decoding="async"
+                  className="rounded-lg border object-cover" style={{ width: 320, height: 213 }} />
+                <Button size="icon" variant="destructive" className="absolute top-2 right-2 h-8 w-8"
+                  onClick={async () => { const s = zdjecieGlowne; setZdjecieGlowne(null); if (s) await usun(s); }}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-full max-w-sm h-40 rounded-lg border-2 border-dashed text-muted-foreground text-sm">
+                Brak zdjęcia głównego
+              </div>
+            )}
+            <div>
+              <label className="inline-flex items-center gap-2 text-sm cursor-pointer text-primary hover:underline">
+                <ImagePlus className="h-4 w-4" />
+                {zdjecieGlowne ? "Zmień zdjęcie główne" : "Dodaj zdjęcie główne"}
+                <input type="file" accept="image/*" className="hidden" onChange={wgrajGlowne} disabled={wysylanie} />
+              </label>
+            </div>
+          </div>
+
+          <div className="space-y-2 border-t pt-4">
+            <Label>Galeria (do 6 zdjęć)</Label>
+            {galeria.length === 0 && (
+              <p className="text-sm text-muted-foreground">Brak zdjęć w galerii.</p>
+            )}
+            <div className="space-y-3">
+              {galeria.map((z, i) => (
+                <div key={z.url} className="flex gap-3 items-start border rounded-lg p-2">
+                  <img src={z.url} alt={z.opis || `Zdjęcie ${i + 1}`} width={112} height={84}
+                    loading="lazy" decoding="async"
+                    className="rounded object-cover shrink-0" style={{ width: 112, height: 84 }} />
+                  <div className="flex-1 space-y-2">
+                    <Input value={z.opis} placeholder="Opis zdjęcia — co widać?"
+                      onChange={(e) => setGaleria(galeria.map((g, idx) => idx === i ? { ...g, opis: e.target.value } : g))} />
+                    <p className="text-xs text-muted-foreground">
+                      Opis czytają wyszukiwarki i osoby korzystające z czytników ekranu.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => przesun(i, -1)} disabled={i === 0}>
+                      <ArrowLeft className="h-3.5 w-3.5 rotate-90" />
+                    </Button>
+                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => przesun(i, 1)} disabled={i === galeria.length - 1}>
+                      <ArrowRight className="h-3.5 w-3.5 rotate-90" />
+                    </Button>
+                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => usunZGalerii(i)}>
+                      <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {galeria.length < 6 && (
+              <label className="inline-flex items-center gap-2 text-sm cursor-pointer text-primary hover:underline">
+                <ImagePlus className="h-4 w-4" /> Dodaj zdjęcie ({galeria.length}/6)
+                <input type="file" accept="image/*" className="hidden" onChange={wgrajDoGalerii} disabled={wysylanie} />
+              </label>
+            )}
+          </div>
+
+          {postep && (
+            <p className="text-sm text-muted-foreground flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" /> {postep}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader className="pb-3"><CardTitle className="text-base">Oferta</CardTitle></CardHeader>
         <CardContent className="space-y-4">
@@ -449,6 +595,19 @@ export default function MojaSerowarnia() {
           Zapisz szkic
         </Button>
       </div>
+
+      {/* Aktualności — dopiero gdy wizytówka istnieje, bo wpis musi mieć do czego się przypiąć */}
+      {id ? (
+        <AktualnosciEdytor serowarniaId={id} />
+      ) : (
+        <Card>
+          <CardHeader className="pb-3"><CardTitle className="text-base">Aktualności</CardTitle></CardHeader>
+          <CardContent className="text-sm text-muted-foreground">
+            Zapisz najpierw wizytówkę — wtedy będziesz mógł dodawać krótkie wpisy o tym,
+            co u Ciebie słychać: nowa partia sera, obecność na targu, wolne terminy.
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
