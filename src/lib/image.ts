@@ -20,6 +20,14 @@ export function rozmiarPliku(bajty: number): string {
   return `${(bajty / (1024 * 1024)).toFixed(1).replace(".", ",")} MB`;
 }
 
+export interface WynikPrzygotowania {
+  blob: Blob;
+  bajtyWejscia: number;
+  bajtyWyjscia: number;
+  wymiaryWejscia: string;
+  wymiaryWyjscia: string;
+}
+
 /**
  * Skaluje, przekodowuje i tym samym pozbawia zdjęcie metadanych EXIF.
  * @param maxPx  najdłuższy bok po skalowaniu
@@ -30,6 +38,24 @@ export async function przygotujZdjecie(
   maxPx = 1600,
   jakosc = 0.82
 ): Promise<Blob> {
+  return (await przygotujZdjecieZInfo(file, maxPx, jakosc)).blob;
+}
+
+/**
+ * Wariant zwracający też liczby — po to, żeby UI mógł je pokazać.
+ *
+ * Powód: 2026-08-10 na produkcję trafił plik BAJT W BAJT identyczny
+ * z oryginałem, mimo że kod, wdrożony bundle i sam mechanizm działały
+ * poprawnie. Przyczyny nie ustalono. Skoro cicha awaria tej ścieżki
+ * oznacza opublikowanie współrzędnych GPS gospodarstwa, nie może ona
+ * przechodzić niezauważona — dlatego rozmiar przed i po jest teraz
+ * pokazywany użytkownikowi, a brak redukcji zgłaszany jako błąd.
+ */
+export async function przygotujZdjecieZInfo(
+  file: File,
+  maxPx = 1600,
+  jakosc = 0.82
+): Promise<WynikPrzygotowania> {
   if (!file.type.startsWith("image/")) {
     throw new Error("To nie jest plik graficzny. Wybierz zdjęcie JPG, PNG lub WebP.");
   }
@@ -48,9 +74,11 @@ export async function przygotujZdjecie(
     throw new Error("Nie udało się odczytać zdjęcia. Spróbuj innego pliku.");
   }
 
-  const skala = Math.min(1, maxPx / Math.max(bitmap.width, bitmap.height));
-  const w = Math.max(1, Math.round(bitmap.width * skala));
-  const h = Math.max(1, Math.round(bitmap.height * skala));
+  const wIn = bitmap.width;
+  const hIn = bitmap.height;
+  const skala = Math.min(1, maxPx / Math.max(wIn, hIn));
+  const w = Math.max(1, Math.round(wIn * skala));
+  const h = Math.max(1, Math.round(hIn * skala));
 
   const canvas = document.createElement("canvas");
   canvas.width = w;
@@ -63,13 +91,32 @@ export async function przygotujZdjecie(
   ctx.drawImage(bitmap, 0, 0, w, h);
   bitmap.close();
 
-  return new Promise((resolve, reject) =>
+  const blob = await new Promise<Blob>((resolve, reject) =>
     canvas.toBlob(
       (b) => (b ? resolve(b) : reject(new Error("Nie udało się przetworzyć zdjęcia."))),
       "image/jpeg",
       jakosc
     )
   );
+
+  // Blob wyprodukowany przez canvas NIGDY nie jest bajtowo identyczny z wejściem —
+  // koduje surowe piksele, więc nawet przy tej samej rozdzielczości powstaje inny
+  // strumień. Identyczny rozmiar oznacza, że przetwarzanie się nie odbyło,
+  // a to znaczy, że wysłalibyśmy EXIF z lokalizacją gospodarstwa.
+  if (blob.size === file.size) {
+    throw new Error(
+      "Przetwarzanie zdjęcia nie powiodło się — plik wyszedł niezmieniony. " +
+        "Nie wysyłamy go, bo mógłby zawierać dane lokalizacji GPS. Odśwież stronę (Ctrl+F5) i spróbuj ponownie."
+    );
+  }
+
+  return {
+    blob,
+    bajtyWejscia: file.size,
+    bajtyWyjscia: blob.size,
+    wymiaryWejscia: `${wIn}×${hIn}`,
+    wymiaryWyjscia: `${w}×${h}`,
+  };
 }
 
 /** Nazwa pliku w Storage. Katalog = user_id, bo RLS pilnuje pierwszego segmentu. */

@@ -9,7 +9,7 @@
 import { useCallback, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { przygotujZdjecie, sciezkaZdjecia, rozmiarPliku } from "@/lib/image";
+import { przygotujZdjecieZInfo, sciezkaZdjecia, rozmiarPliku } from "@/lib/image";
 
 const BUCKET = "wizytowki";
 
@@ -17,6 +17,8 @@ export function useUploadZdjecia() {
   const { user } = useAuth();
   const [wysylanie, setWysylanie] = useState(false);
   const [postep, setPostep] = useState<string | null>(null);
+  /** Podsumowanie ostatniego przetworzenia — pokazywane w UI jako dowód, że zadziałało. */
+  const [ostatniWynik, setOstatniWynik] = useState<string | null>(null);
 
   /** Zwraca publiczny URL albo rzuca błędem z komunikatem po polsku. */
   const wyslij = useCallback(
@@ -26,7 +28,14 @@ export function useUploadZdjecia() {
       setWysylanie(true);
       setPostep("Przygotowuję zdjęcie…");
       try {
-        const blob = await przygotujZdjecie(file);
+        const info = await przygotujZdjecieZInfo(file);
+        const { blob } = info;
+
+        // Widoczny ślad, że przetwarzanie faktycznie się odbyło
+        setOstatniWynik(
+          `${rozmiarPliku(info.bajtyWejscia)} → ${rozmiarPliku(info.bajtyWyjscia)}` +
+            ` (${info.wymiaryWyjscia}), metadane GPS usunięte`
+        );
         setPostep(`Wysyłam (${rozmiarPliku(blob.size)})…`);
 
         const sciezka = sciezkaZdjecia(user.id, typ);
@@ -65,5 +74,5 @@ export function useUploadZdjecia() {
     await supabase.storage.from(BUCKET).remove([decodeURIComponent(sciezka)]);
   }, []);
 
-  return { wyslij, usun, wysylanie, postep };
+  return { wyslij, usun, wysylanie, postep, ostatniWynik };
 }

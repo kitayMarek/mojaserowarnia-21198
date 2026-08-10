@@ -87,7 +87,7 @@ export default function MojaSerowarnia() {
   const [zgoda, setZgoda] = useState(false);
   const [zdjecieGlowne, setZdjecieGlowne] = useState<string | null>(null);
   const [galeria, setGaleria] = useState<ZdjecieGalerii[]>([]);
-  const { wyslij, usun, wysylanie, postep } = useUploadZdjecia();
+  const { wyslij, usun, wysylanie, postep, ostatniWynik } = useUploadZdjecia();
 
   useEffect(() => {
     if (!user) return;
@@ -473,6 +473,11 @@ export default function MojaSerowarnia() {
           {postep && (
             <p className="text-sm text-muted-foreground flex items-center gap-2">
               <Loader2 className="h-4 w-4 animate-spin" /> {postep}
+            </p>
+          )}
+          {!postep && ostatniWynik && (
+            <p className="text-sm text-emerald-700 dark:text-emerald-400 border-t pt-3">
+              ✓ {ostatniWynik}
             </p>
           )}
         </CardContent>
