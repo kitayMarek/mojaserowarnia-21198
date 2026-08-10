@@ -59,6 +59,8 @@ export default function MojaSerowarnia() {
   const [produkty, setProdukty] = useState("");
   const [rodzajMleka, setRodzajMleka] = useState<string[]>([]);
   const [formaSprzedazy, setFormaSprzedazy] = useState<string[]>([]);
+  const [nrWeterynaryjny, setNrWeterynaryjny] = useState("");
+  const [oswiadczenieProducent, setOswiadczenieProducent] = useState(false);
   const [zgoda, setZgoda] = useState(false);
 
   useEffect(() => {
@@ -77,12 +79,17 @@ export default function MojaSerowarnia() {
         setProdukty((data.produkty ?? []).join(", "));
         setRodzajMleka(data.rodzaj_mleka ?? []);
         setFormaSprzedazy(data.forma_sprzedazy ?? []);
+        setNrWeterynaryjny(data.nr_weterynaryjny ?? "");
+        setOswiadczenieProducent(data.oswiadczenie_producent ?? false);
         setZgoda(data.zgoda_publikacja ?? false);
       } else {
-        // podpowiedz nazwę z profilu
+        // podpowiedz nazwę i WNI z profilu
         const { data: p } = await supabase
-          .from("profiles").select("firma_nazwa").eq("id", user.id).maybeSingle();
-        if (p) setNazwa((p as any).firma_nazwa ?? "");
+          .from("profiles").select("firma_nazwa, nr_weterynaryjny").eq("id", user.id).maybeSingle();
+        if (p) {
+          setNazwa((p as any).firma_nazwa ?? "");
+          setNrWeterynaryjny((p as any).nr_weterynaryjny ?? "");
+        }
       }
       setLoading(false);
     })();
@@ -96,10 +103,26 @@ export default function MojaSerowarnia() {
       toast({ title: "Podaj nazwę serowarni", variant: "destructive" });
       return;
     }
+    if (zglosDoSprawdzenia && !oswiadczenieProducent) {
+      toast({
+        title: "Katalog jest dla producentów sera",
+        description: "Zaznacz oświadczenie, jeśli wytwarzasz ser.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (zglosDoSprawdzenia && !zgoda) {
       toast({
         title: "Potrzebna zgoda na publikację",
         description: "Bez niej nie możemy pokazać wizytówki w katalogu.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (zglosDoSprawdzenia && opis.trim().length < 120) {
+      toast({
+        title: "Opis jest za krótki",
+        description: `Potrzeba co najmniej 120 znaków (masz ${opis.trim().length}).`,
         variant: "destructive",
       });
       return;
@@ -122,6 +145,8 @@ export default function MojaSerowarnia() {
         produkty: produkty.split(",").map((s) => s.trim()).filter(Boolean),
         rodzaj_mleka: rodzajMleka,
         forma_sprzedazy: formaSprzedazy,
+        nr_weterynaryjny: nrWeterynaryjny.trim() || null,
+        oswiadczenie_producent: oswiadczenieProducent,
         zgoda_publikacja: zgoda,
         status: nowyStatus,
       };
@@ -169,6 +194,21 @@ export default function MojaSerowarnia() {
           Darmowa wizytówka w katalogu producentów — żeby klienci mogli Cię znaleźć
         </p>
       </div>
+
+      {/* Kto jest adresatem — z konta korzystają też osoby od kalkulatora pasz */}
+      <Card className="border-amber-300 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-800">
+        <CardContent className="pt-6 text-sm space-y-2">
+          <p className="font-medium">Ten katalog jest wyłącznie dla producentów sera.</p>
+          <p className="text-muted-foreground">
+            Jeśli korzystasz z konta tylko dla kalkulatora pasz, ewidencji drobiu albo z samej
+            wiedzy — ta sekcja nie jest dla Ciebie i możesz ją pominąć. Nic nie tracisz.
+          </p>
+          <p className="text-muted-foreground">
+            Wizytówki przeglądamy przed publikacją. Zgłoszenia bez opisu, bez lokalizacji albo
+            od osób niewytwarzających sera odrzucamy.
+          </p>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent className="pt-6 flex flex-wrap items-center gap-3">
@@ -272,6 +312,33 @@ export default function MojaSerowarnia() {
         </CardContent>
       </Card>
 
+      {/* OŚWIADCZENIE PRODUCENTA — sito na wejściu do katalogu */}
+      <Card className="border-primary/40">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Potwierdzenie, że produkujesz ser</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-start gap-3">
+            <Checkbox id="osw-prod" checked={oswiadczenieProducent}
+              onCheckedChange={(v) => setOswiadczenieProducent(v === true)} />
+            <Label htmlFor="osw-prod" className="text-sm font-normal cursor-pointer leading-relaxed">
+              Oświadczam, że <strong>wytwarzam ser</strong> i wizytówka dotyczy mojej realnej
+              działalności serowarskiej.
+            </Label>
+          </div>
+          <div className="space-y-1">
+            <Label>Weterynaryjny numer identyfikacyjny (WNI)</Label>
+            <Input value={nrWeterynaryjny} onChange={(e) => setNrWeterynaryjny(e.target.value)}
+              placeholder="np. 28123456789 — jeśli masz" />
+            <p className="text-xs text-muted-foreground">
+              Opcjonalny, ale bardzo pomaga przy weryfikacji. Nadaje go powiatowy lekarz
+              weterynarii przy rejestracji RHD lub MOL. Nie publikujemy go w katalogu — służy
+              wyłącznie nam do sprawdzenia zgłoszenia.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* ZGODA — odrębna od marketingowej, odwracalna */}
       <Card className="border-primary/40">
         <CardHeader className="pb-3"><CardTitle className="text-base">Zgoda na publikację</CardTitle></CardHeader>
@@ -293,7 +360,7 @@ export default function MojaSerowarnia() {
       </Card>
 
       <div className="flex flex-wrap gap-2">
-        <Button onClick={() => zapisz(true)} disabled={saving || !zgoda}>
+        <Button onClick={() => zapisz(true)} disabled={saving || !zgoda || !oswiadczenieProducent}>
           {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
           {status === "opublikowany" ? "Zapisz i zgłoś zmiany" : "Zgłoś do publikacji"}
         </Button>

@@ -53,6 +53,7 @@ const Ewidencja = lazy(() => import("./pages/Ewidencja"));
 const NewInvoice = lazy(() => import("./pages/NewInvoice"));
 const DashboardVatRr = lazy(() => import("./pages/DashboardVatRr"));
 const MojaSerowarnia = lazy(() => import("./pages/MojaSerowarnia"));
+const AdminSerowarnie = lazy(() => import("./pages/AdminSerowarnie"));
 const Serowarnie = lazy(() => import("./pages/Serowarnie"));
 const SerowarniaProfil = lazy(() => import("./pages/SerowarniaProfil"));
 const Invoices = lazy(() => import("./pages/Invoices"));
@@ -179,6 +180,7 @@ const App = () => (
             <Route path="/admin/statystyki-llm" element={<AdminRoute><AdminLlmStats /></AdminRoute>} />
             <Route path="/admin/klikniecia" element={<AdminRoute><AdminCultureClicks /></AdminRoute>} />
             <Route path="/admin/skladniki" element={<AdminRoute><AdminFeedIngredients /></AdminRoute>} />
+            <Route path="/admin/serowarnie" element={<AdminRoute><AdminSerowarnie /></AdminRoute>} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="ewidencja" element={<Ewidencja />} />

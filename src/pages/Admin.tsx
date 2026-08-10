@@ -226,6 +226,10 @@ export default function Admin() {
             Kliknięcia sklepów
           </Button>
 
+          <Button onClick={() => window.location.href = '/admin/serowarnie'} variant="outline">
+            <Users className="h-4 w-4 mr-2" />
+            Katalog serowarni
+          </Button>
           <Button onClick={() => window.location.href = '/admin/skladniki'} variant="outline">
             <Wheat className="mr-2 h-4 w-4" />
             Moderacja składników
