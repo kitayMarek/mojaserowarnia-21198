@@ -99,7 +99,14 @@ $$;
 -- WNI i ewidencja zostają, ale jako informacja pomocnicza. Ich brak nie
 -- oznacza, że zgłaszający nie robi sera — agroturystyka nie ma obowiazku
 -- rejestracji RHD, a ewidencje prowadzi u nas mala czesc uzytkownikow.
-CREATE OR REPLACE FUNCTION public.serowarnie_do_moderacji()
+--
+-- ⚠️ DROP przed CREATE jest KONIECZNY: dokładamy kolumnę typ_dzialalnosci
+-- do RETURNS TABLE, a CREATE OR REPLACE nie potrafi zmienić typu zwracanego
+-- ("cannot change return type of existing function"). DROP kasuje też
+-- uprawnienia, dlatego GRANT niżej nadajemy ponownie.
+DROP FUNCTION IF EXISTS public.serowarnie_do_moderacji();
+
+CREATE FUNCTION public.serowarnie_do_moderacji()
 RETURNS TABLE (
   id UUID, slug TEXT, nazwa TEXT, opis TEXT,
   wojewodztwo TEXT, miejscowosc TEXT,
