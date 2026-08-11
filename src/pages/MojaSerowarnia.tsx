@@ -58,6 +58,7 @@ const STATUSY: Record<string, { label: string; opis: string; wariant: any }> = {
   oczekuje:     { label: "Czeka na sprawdzenie", opis: "Wpis trafił do moderacji. Damy znać po weryfikacji.", wariant: "default" },
   opublikowany: { label: "Opublikowany", opis: "Wizytówka jest widoczna publicznie w katalogu.", wariant: "default" },
   odrzucony:    { label: "Odrzucony",    opis: "Popraw wpis według uwag i zgłoś ponownie.", wariant: "destructive" },
+  zawieszony:   { label: "Zawieszona",   opis: "Wizytówka jest tymczasowo niewidoczna. Popraw według uwag i zgłoś ponownie.", wariant: "destructive" },
 };
 
 export default function MojaSerowarnia() {
@@ -215,7 +216,14 @@ export default function MojaSerowarnia() {
 
     setSaving(true);
     try {
-      const nowyStatus = zglosDoSprawdzenia ? "oczekuje" : (status === "opublikowany" ? "opublikowany" : "szkic");
+      // Wizytówka raz zaakceptowana zostaje opublikowana — kolejne zmiany
+      // idą od razu, bez wracania do kolejki moderacji.
+      const nowyStatus =
+        status === "opublikowany"
+          ? "opublikowany"
+          : zglosDoSprawdzenia
+            ? "oczekuje"
+            : "szkic";
 
       const dane: any = {
         user_id: user!.id,
@@ -255,10 +263,13 @@ export default function MojaSerowarnia() {
 
       setStatus(nowyStatus);
       toast({
-        title: zglosDoSprawdzenia ? "Zgłoszono do sprawdzenia" : "Zapisano",
-        description: zglosDoSprawdzenia
-          ? "Damy znać, gdy wizytówka zostanie zatwierdzona."
-          : "Zmiany zapisane. Wizytówka nie jest jeszcze zgłoszona.",
+        title: nowyStatus === "opublikowany" ? "Zapisano" : zglosDoSprawdzenia ? "Zgłoszono do sprawdzenia" : "Zapisano",
+        description:
+          nowyStatus === "opublikowany"
+            ? "Zmiany są już widoczne w katalogu."
+            : zglosDoSprawdzenia
+              ? "Damy znać, gdy wizytówka zostanie zatwierdzona."
+              : "Zmiany zapisane. Wizytówka nie jest jeszcze zgłoszona.",
       });
     } catch (e: any) {
       // Pelna diagnostyka do konsoli — komunikat w tosciku bywa przyciety,
@@ -324,7 +335,7 @@ export default function MojaSerowarnia() {
         </CardContent>
       </Card>
 
-      {status === "odrzucony" && powodOdrzucenia && (
+      {(status === "odrzucony" || status === "zawieszony") && powodOdrzucenia && (
         <Card className="border-destructive/50 bg-destructive/5">
           <CardHeader className="pb-2"><CardTitle className="text-base text-destructive">Uwagi moderatora</CardTitle></CardHeader>
           <CardContent className="text-sm">{powodOdrzucenia}</CardContent>
@@ -599,14 +610,24 @@ export default function MojaSerowarnia() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-2">
-        <Button onClick={() => zapisz(true)} disabled={saving || !zgoda || !oswiadczenieProducent}>
-          {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
-          {status === "opublikowany" ? "Zapisz i zgłoś zmiany" : "Zgłoś do publikacji"}
-        </Button>
-        <Button variant="outline" onClick={() => zapisz(false)} disabled={saving}>
-          Zapisz szkic
-        </Button>
+      <div className="space-y-2">
+        <div className="flex flex-wrap gap-2">
+          <Button onClick={() => zapisz(true)} disabled={saving || !zgoda || !oswiadczenieProducent}>
+            {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
+            {status === "opublikowany" ? "Zapisz zmiany" : "Zgłoś do publikacji"}
+          </Button>
+          {status !== "opublikowany" && (
+            <Button variant="outline" onClick={() => zapisz(false)} disabled={saving}>
+              Zapisz szkic
+            </Button>
+          )}
+        </div>
+        {status === "opublikowany" && (
+          <p className="text-xs text-muted-foreground">
+            Wizytówka jest już zatwierdzona — zmiany pojawiają się od razu, bez czekania
+            na moderację.
+          </p>
+        )}
       </div>
 
       {/* Aktualności — dopiero gdy wizytówka istnieje, bo wpis musi mieć do czego się przypiąć */}

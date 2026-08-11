@@ -175,15 +175,18 @@ export default function SerowarniaProfil() {
             />
 
             <div className="space-y-6 mt-6">
-              {/* Zdjęcie główne — jedyne nad zgięciem, więc bez lazy */}
+              {/* Zdjęcie główne — jedyne nad zgięciem, więc bez lazy.
+                  object-contain zamiast cover: zdjęcia pionowe z telefonu były
+                  obcinane do wąskiego paska. Lepiej pokazać całość na tle. */}
               {wpis.zdjecie_glowne && (
-                <img
-                  src={wpis.zdjecie_glowne}
-                  alt={`${wpis.nazwa}${lokalizacja ? ` — ${lokalizacja}` : ""}`}
-                  width={1200} height={800} decoding="async"
-                  className="w-full rounded-xl border object-cover"
-                  style={{ aspectRatio: "3 / 2" }}
-                />
+                <div className="rounded-xl border bg-secondary/40 overflow-hidden flex justify-center">
+                  <img
+                    src={wpis.zdjecie_glowne}
+                    alt={`${wpis.nazwa}${lokalizacja ? ` — ${lokalizacja}` : ""}`}
+                    decoding="async"
+                    className="max-h-[70vh] w-auto max-w-full object-contain"
+                  />
+                </div>
               )}
 
               {wpis.opis && (

@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, Check, X, ExternalLink, ShieldCheck, ClipboardList } from "lucide-react";
+import { Loader2, Check, X, ExternalLink, ShieldCheck, ClipboardList, Ban } from "lucide-react";
 
 interface Wpis {
   id: string; slug: string; nazwa: string; opis: string | null;
@@ -24,6 +24,9 @@ interface Wpis {
   www: string | null; facebook: string | null;
   nr_weterynaryjny: string | null; status: string;
   typ_dzialalnosci: string | null;
+  zdjecie_glowne: string | null;
+  galeria: { url: string; opis: string }[] | null;
+  powod_odrzucenia: string | null;
   email_konta: string | null; ma_ewidencje: boolean;
   zarejestrowany: string | null; zgloszony: string | null;
 }
@@ -48,9 +51,13 @@ export default function AdminSerowarnie() {
     },
   });
 
-  const zmienStatus = async (w: Wpis, nowy: "opublikowany" | "odrzucony") => {
-    if (nowy === "odrzucony" && !(powod[w.id] ?? "").trim()) {
-      toast({ title: "Podaj powód odrzucenia", description: "Producent zobaczy go w swoim panelu.", variant: "destructive" });
+  const zmienStatus = async (w: Wpis, nowy: "opublikowany" | "odrzucony" | "zawieszony") => {
+    if ((nowy === "odrzucony" || nowy === "zawieszony") && !(powod[w.id] ?? "").trim()) {
+      toast({
+        title: nowy === "zawieszony" ? "Podaj powód zawieszenia" : "Podaj powód odrzucenia",
+        description: "Producent zobaczy go w swoim panelu i będzie wiedział, co poprawić.",
+        variant: "destructive",
+      });
       return;
     }
     setPracuje(w.id);
@@ -59,12 +66,15 @@ export default function AdminSerowarnie() {
         .from("serowarnie")
         .update({
           status: nowy,
-          powod_odrzucenia: nowy === "odrzucony" ? powod[w.id].trim() : null,
+          powod_odrzucenia: nowy === "opublikowany" ? null : powod[w.id].trim(),
         })
         .eq("id", w.id);
       if (error) throw error;
 
-      toast({ title: nowy === "opublikowany" ? "Opublikowano" : "Odrzucono", description: w.nazwa });
+      toast({
+        title: nowy === "opublikowany" ? "Opublikowano" : nowy === "zawieszony" ? "Zawieszono" : "Odrzucono",
+        description: w.nazwa,
+      });
       await refetch();
     } catch (e: any) {
       toast({ title: "Nie udało się", description: e?.message, variant: "destructive" });
@@ -120,6 +130,34 @@ export default function AdminSerowarnie() {
             {w.email_konta && <Badge variant="outline">{w.email_konta}</Badge>}
           </div>
 
+          {/* Zdjęcia — bez nich moderator nie wie, co zatwierdza */}
+          {(w.zdjecie_glowne || (w.galeria?.length ?? 0) > 0) && (
+            <div className="flex flex-wrap gap-2">
+              {w.zdjecie_glowne && (
+                <a href={w.zdjecie_glowne} target="_blank" rel="noopener noreferrer" title="Zdjęcie główne">
+                  <img src={w.zdjecie_glowne} alt={`${w.nazwa} — zdjęcie główne`}
+                    width={160} height={120} loading="lazy" decoding="async"
+                    className="rounded border object-cover ring-2 ring-primary"
+                    style={{ width: 160, height: 120 }} />
+                </a>
+              )}
+              {(w.galeria ?? []).map((z, i) => (
+                <a key={z.url} href={z.url} target="_blank" rel="noopener noreferrer" title={z.opis || `Galeria ${i + 1}`}>
+                  <img src={z.url} alt={z.opis || `${w.nazwa} — zdjęcie ${i + 1}`}
+                    width={110} height={82} loading="lazy" decoding="async"
+                    className="rounded border object-cover"
+                    style={{ width: 110, height: 82 }} />
+                </a>
+              ))}
+            </div>
+          )}
+
+          {w.powod_odrzucenia && (
+            <p className="text-sm bg-destructive/10 border-l-4 border-destructive p-2 rounded">
+              <strong>Poprzednia uwaga:</strong> {w.powod_odrzucenia}
+            </p>
+          )}
+
           {w.opis && <p className="whitespace-pre-line bg-secondary/40 p-3 rounded">{w.opis}</p>}
 
           <div className="grid sm:grid-cols-2 gap-3 text-muted-foreground">
@@ -150,14 +188,23 @@ export default function AdminSerowarnie() {
               value={powod[w.id] ?? ""}
               onChange={(e) => setPowod({ ...powod, [w.id]: e.target.value })}
             />
-            <div className="flex gap-2">
-              <Button size="sm" onClick={() => zmienStatus(w, "opublikowany")} disabled={pracuje === w.id}>
-                {pracuje === w.id ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Check className="h-4 w-4 mr-1" />}
-                Opublikuj
-              </Button>
-              <Button size="sm" variant="destructive" onClick={() => zmienStatus(w, "odrzucony")} disabled={pracuje === w.id}>
-                <X className="h-4 w-4 mr-1" /> Odrzuć
-              </Button>
+            <div className="flex flex-wrap gap-2">
+              {w.status !== "opublikowany" && (
+                <Button size="sm" onClick={() => zmienStatus(w, "opublikowany")} disabled={pracuje === w.id}>
+                  {pracuje === w.id ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Check className="h-4 w-4 mr-1" />}
+                  {w.status === "zawieszony" ? "Przywróć" : "Opublikuj"}
+                </Button>
+              )}
+              {w.status === "opublikowany" && (
+                <Button size="sm" variant="destructive" onClick={() => zmienStatus(w, "zawieszony")} disabled={pracuje === w.id}>
+                  <Ban className="h-4 w-4 mr-1" /> Zawieś
+                </Button>
+              )}
+              {w.status !== "opublikowany" && (
+                <Button size="sm" variant="destructive" onClick={() => zmienStatus(w, "odrzucony")} disabled={pracuje === w.id}>
+                  <X className="h-4 w-4 mr-1" /> Odrzuć
+                </Button>
+              )}
             </div>
           </div>
         </CardContent>
