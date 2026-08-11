@@ -4,11 +4,11 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const OWNER_EMAIL = Deno.env.get("RESEND_OWNER_EMAIL") || "kitaymw@gmail.com";
-// Adres nadawcy. Domyślnie współdzielony nadawca Resend — działa BEZ weryfikacji
-// domeny, ale dostarcza wyłącznie na adres właściciela konta, więc potwierdzenie
-// dla piszącego nie dojdzie. Po zweryfikowaniu mojaserowarnia.pl w Resend
-// ustaw sekret RESEND_FROM = noreply@mojaserowarnia.pl — wtedy działa wszystko.
-const FROM_ADDRESS = Deno.env.get("RESEND_FROM") || "onboarding@resend.dev";
+// Adres nadawcy w zweryfikowanej domenie (Resend: mojaserowarnia.pl, Verified).
+// Wcześniej było tu onboarding@resend.dev — współdzielony nadawca Resend, który
+// dostarcza WYŁĄCZNIE na adres właściciela konta, więc potwierdzenie dla piszącego
+// nie miało prawa dojść. RESEND_FROM pozwala nadpisać adres bez zmiany kodu.
+const FROM_ADDRESS = Deno.env.get("RESEND_FROM") || "noreply@mojaserowarnia.pl";
 
 // Initialize Supabase client with service role for rate limiting
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
