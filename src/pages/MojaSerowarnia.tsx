@@ -261,8 +261,16 @@ export default function MojaSerowarnia() {
           : "Zmiany zapisane. Wizytówka nie jest jeszcze zgłoszona.",
       });
     } catch (e: any) {
-      console.error("Zapis wizytówki nieudany:", e);
-      toast({ title: "Nie udało się zapisać", description: e?.message ?? "Spróbuj ponownie.", variant: "destructive" });
+      // Pelna diagnostyka do konsoli — komunikat w tosciku bywa przyciety,
+      // a kod bledu Postgresa mowi wiecej niz sam tekst.
+      console.error("Zapis wizytówki nieudany:", {
+        kod: e?.code, komunikat: e?.message, szczegoly: e?.details, wskazowka: e?.hint, calosc: e,
+      });
+      toast({
+        title: "Nie udało się zapisać",
+        description: `${e?.message ?? "Spróbuj ponownie."}${e?.code ? ` (kod ${e.code})` : ""}`,
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
