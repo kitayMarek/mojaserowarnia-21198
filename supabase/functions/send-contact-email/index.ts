@@ -169,7 +169,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to Moja Serowarnia (using sanitized and escaped inputs)
     const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
-      from: "Kontakt Moja Serowarnia <onboarding@resend.dev>",
+      from: "Kontakt Moja Serowarnia <noreply@mojaserowarnia.pl>",
       to: [OWNER_EMAIL],
       replyTo: sanitizedEmail,
       subject: `Nowa wiadomość kontaktowa: ${escapeHtml(sanitizedSubject)}`,
@@ -202,7 +202,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation to sender (using sanitized and escaped inputs)
     const { data: confirmationData, error: confirmationError } = await resend.emails.send({
-      from: "Moja Serowarnia <onboarding@resend.dev>",
+      from: "Moja Serowarnia <noreply@mojaserowarnia.pl>",
       to: [sanitizedEmail],
       subject: "Potwierdzenie otrzymania wiadomości - Moja Serowarnia",
       html: `

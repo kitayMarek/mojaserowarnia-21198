@@ -140,8 +140,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      content: "marek@fermly.pl",
-      href: "mailto:marek@fermly.pl",
+      content: "admin@mojaserowarnia.pl",
+      href: "mailto:admin@mojaserowarnia.pl",
     },
     {
       icon: MapPin,
@@ -316,8 +316,8 @@ const Contact = () => {
                     <div className="bg-muted/50 border rounded-lg p-4 mt-2">
                       <p className="text-sm text-muted-foreground">
                         Formularz może czasowo nie działać. W takim przypadku napisz bezpośrednio na{" "}
-                        <a href="mailto:marek@fermly.pl" className="text-primary hover:underline font-medium">
-                          marek@fermly.pl
+                        <a href="mailto:admin@mojaserowarnia.pl" className="text-primary hover:underline font-medium">
+                          admin@mojaserowarnia.pl
                         </a>
                       </p>
                     </div>
