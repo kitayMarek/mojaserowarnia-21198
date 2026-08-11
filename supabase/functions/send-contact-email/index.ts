@@ -4,6 +4,11 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const OWNER_EMAIL = Deno.env.get("RESEND_OWNER_EMAIL") || "kitaymw@gmail.com";
+// Adres nadawcy. Domyślnie współdzielony nadawca Resend — działa BEZ weryfikacji
+// domeny, ale dostarcza wyłącznie na adres właściciela konta, więc potwierdzenie
+// dla piszącego nie dojdzie. Po zweryfikowaniu mojaserowarnia.pl w Resend
+// ustaw sekret RESEND_FROM = noreply@mojaserowarnia.pl — wtedy działa wszystko.
+const FROM_ADDRESS = Deno.env.get("RESEND_FROM") || "onboarding@resend.dev";
 
 // Initialize Supabase client with service role for rate limiting
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -169,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to Moja Serowarnia (using sanitized and escaped inputs)
     const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
-      from: "Kontakt Moja Serowarnia <noreply@mojaserowarnia.pl>",
+      from: `Kontakt Moja Serowarnia <${FROM_ADDRESS}>`,
       to: [OWNER_EMAIL],
       replyTo: sanitizedEmail,
       subject: `Nowa wiadomość kontaktowa: ${escapeHtml(sanitizedSubject)}`,
@@ -202,7 +207,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation to sender (using sanitized and escaped inputs)
     const { data: confirmationData, error: confirmationError } = await resend.emails.send({
-      from: "Moja Serowarnia <noreply@mojaserowarnia.pl>",
+      from: `Moja Serowarnia <${FROM_ADDRESS}>`,
       to: [sanitizedEmail],
       subject: "Potwierdzenie otrzymania wiadomości - Moja Serowarnia",
       html: `

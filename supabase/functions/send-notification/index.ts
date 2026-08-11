@@ -2,6 +2,10 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+// Wysyłka do wielu odbiorców WYMAGA zweryfikowanej domeny w Resend — współdzielony
+// nadawca onboarding@resend.dev dostarcza tylko na adres właściciela konta.
+// Dopóki mojaserowarnia.pl nie jest zweryfikowana, ta funkcja zwróci 403.
+const FROM_ADDRESS = Deno.env.get("RESEND_FROM") || "noreply@mojaserowarnia.pl";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,7 +48,7 @@ const handler = async (req: Request): Promise<Response> => {
     for (const batch of batches) {
       const promises = batch.map((email) =>
         resend.emails.send({
-          from: "Moja Serowarnia <noreply@mojaserowarnia.pl>",
+          from: `Moja Serowarnia <${FROM_ADDRESS}>`,
           to: [email],
           subject: subject,
           html: `
