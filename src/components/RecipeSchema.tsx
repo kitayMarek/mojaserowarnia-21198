@@ -5,20 +5,20 @@ interface RecipeSchemaProps {
 }
 
 const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
-  // Convert time string to ISO 8601 duration format
+  // Zamienia opis czasu dojrzewania ("3-5 tygodni", "2-12 miesiecy") na ISO 8601.
+  // Szukamy liczby STOJACEJ PRZY jednostce, nie pierwszej liczby w tekscie — inaczej
+  // "Swiezy: 1-2 dni - lezakowany: 2-6 tygodni" trafialoby na zla jednostke.
+  // Z zakresu bierzemy wartosc dolna: to minimum, po ktorym ser nadaje sie do jedzenia,
+  // i jedyna liczba, ktorej mozemy byc pewni.
   const convertToISO8601 = (timeStr: string): string => {
-    // Extract numbers from strings like "30–40 dni" or "3–9 miesięcy"
-    const match = timeStr.match(/(\d+)/);
-    if (!match) return "P30D"; // Default 30 days
-    
-    const value = parseInt(match[1]);
-    
-    if (timeStr.includes("dzień") || timeStr.includes("dni")) {
-      return `P${value}D`;
-    } else if (timeStr.includes("miesiąc") || timeStr.includes("miesięcy") || timeStr.includes("mies")) {
-      return `P${value}M`;
-    }
-    return `P${value}D`; // Default to days
+    const m = timeStr.match(/(\d+)\s*(?:[-–]\s*\d+\s*)?(dni|dzień|tygod\w*|miesi\w*)/i);
+    if (!m) return "P30D";
+    const value = parseInt(m[1]);
+    const unit = m[2].toLowerCase();
+    // ISO 8601 nie pozwala laczyc tygodni z innymi jednostkami, wiec liczymy je na dni.
+    if (unit.startsWith("tygod")) return `P${value * 7}D`;
+    if (unit.startsWith("miesi")) return `P${value}M`;
+    return `P${value}D`;
   };
 
   const schemaData = {
@@ -55,7 +55,6 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
       "url": "https://mojaserowarnia.pl"
     },
     "datePublished": "2025-01-15",
-    "prepTime": convertToISO8601(recipe.ageTime),
     ...(recipe.nutrition && {
       "nutrition": {
         "@type": "NutritionInformation",
