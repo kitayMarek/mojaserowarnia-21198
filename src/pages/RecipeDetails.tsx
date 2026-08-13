@@ -11,6 +11,7 @@ import ReactionButton from "@/components/ReactionButton";
 import RecipeSchema from "@/components/RecipeSchema";
 import HowToSchema from "@/components/HowToSchema";
 import SeeAlso from "@/components/SeeAlso";
+import VideoPrzepisu from "@/components/VideoPrzepisu";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 const RecipeDetails = () => {
@@ -247,6 +248,19 @@ const RecipeDetails = () => {
               ))}
             </div>
           </section>
+
+          {/* Film instruktażowy — pokazuje się tylko, gdy przepis ma przypisany film */}
+          {recipe.video && (
+            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-6">🎬 Film instruktażowy</h2>
+              <VideoPrzepisu
+                youtubeId={recipe.video.youtubeId}
+                title={recipe.video.title}
+                channel={recipe.video.channel}
+                poster={recipe.image}
+              />
+            </section>
+          )}
 
           {/* Profil smakowy */}
           {recipe.flavor && (

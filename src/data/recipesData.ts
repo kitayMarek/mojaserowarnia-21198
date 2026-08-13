@@ -97,6 +97,15 @@ export interface Recipe {
   
   // Wartości odżywcze
   nutrition?: NutritionInfo;
+
+  // Film instruktażowy (opcjonalny). Filmy cudze — stąd channel, żeby autor był
+  // zawsze widoczny. NIE dodajemy do nich VideoObject w JSON-LD: ta schema
+  // deklaruje, że film jest treścią naszej strony, a on nie jest nasz.
+  video?: {
+    youtubeId: string;
+    title: string;
+    channel: string;
+  };
 }
 
 export const recipesData: Recipe[] = [
