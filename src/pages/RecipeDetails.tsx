@@ -257,7 +257,7 @@ const RecipeDetails = () => {
                 youtubeId={recipe.video.youtubeId}
                 title={recipe.video.title}
                 channel={recipe.video.channel}
-                poster={recipe.image}
+                poster={recipe.video.poster ?? recipe.image}
               />
             </section>
           )}

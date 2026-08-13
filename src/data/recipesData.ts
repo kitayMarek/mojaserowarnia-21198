@@ -4,6 +4,7 @@ import fetaBulgarskaImage from "@/assets/feta-bulgarska.jpg";
 import yorkshireImage from "@/assets/yorkshire.jpg";
 import caciottaImage from "@/assets/caciotta.jpg";
 import goudaImage from "@/assets/gouda.jpg";
+import goudaMiniaturaImage from "@/assets/gouda-miniatura.webp";
 import cheddarImage from "@/assets/cheddar.jpg";
 import mozzarellaImage from "@/assets/mozzarella.jpg";
 import camembertImage from "@/assets/camembert.jpg";
@@ -105,6 +106,8 @@ export interface Recipe {
     youtubeId: string;
     title: string;
     channel: string;
+    /** Wlasna miniatura pod przycisk odtwarzania. Bez niej tlem jest zdjecie sera. */
+    poster?: string;
   };
 }
 
@@ -1049,6 +1052,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gouda",
+    video: { youtubeId: "TpNEK8d7yAM", title: "Jak zrobić ser gouda w domu/ gouda cheese", channel: "Domowy ser", poster: goudaMiniaturaImage },
     name: "Gouda",
     difficulty: "Średni",
     description: "Gouda to holenderski ser o łagodnym, kremowym smaku i charakterystycznej słodkiej nucie. Jest jednym z najpopularniejszych serów na świecie, ceniony za swoją wszechstronność - od młodych, miękkich wersji po dojrzałe, krystaliczne odmiany.",
