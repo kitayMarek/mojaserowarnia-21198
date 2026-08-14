@@ -3,11 +3,13 @@ import dunlopImage from "@/assets/dunlop.jpg";
 import fetaBulgarskaImage from "@/assets/feta-bulgarska.jpg";
 import yorkshireImage from "@/assets/yorkshire.jpg";
 import caciottaImage from "@/assets/caciotta.jpg";
+import caciottaMiniaturaImage from "@/assets/caciotta-miniatura.webp";
 import goudaImage from "@/assets/gouda.jpg";
 import goudaMiniaturaImage from "@/assets/gouda-miniatura.webp";
 import cheddarImage from "@/assets/cheddar.jpg";
 import mozzarellaImage from "@/assets/mozzarella.jpg";
 import camembertImage from "@/assets/camembert.jpg";
+import camembertMiniaturaImage from "@/assets/camembert-miniatura.webp";
 import halloumiImage from "@/assets/halloumi.jpg";
 import brieImage from "@/assets/brie.jpg";
 import parmezanImage from "@/assets/parmezan.jpg";
@@ -19,7 +21,9 @@ import roquefortImage from "@/assets/roquefort.jpg";
 import stiltonImage from "@/assets/stilton.jpg";
 import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
+import emmentalerMiniaturaImage from "@/assets/emmentaler-miniatura.webp";
 import korycinskiImage from "@/assets/korycinski.jpg";
+import korycinMiniaturaImage from "@/assets/korycin-miniatura.webp";
 import quartiroloImage from "@/assets/quartirolo.jpg";
 import limburskiImage from "@/assets/limburski.jpg";
 import topionyImage from "@/assets/topiony.jpg";
@@ -114,6 +118,7 @@ export interface Recipe {
 export const recipesData: Recipe[] = [
   {
     id: "korycinski",
+    video: { youtubeId: "xxT1Okh3sp0", title: "Ser koryciński w domu/ homemade cheese", channel: "Domowy ser", poster: korycinMiniaturaImage },
     name: "Ser Koryciński Swojski",
     difficulty: "Łatwy",
     description: "Ser Koryciński Swojski to polski ser podpuszczkowy z Podlasia (gminy Korycin, Suchowola, Janów) z Chronionym Oznaczeniem Geograficznym (ChOG od 2012 r., tradycja od 2005 r.). Formowany w koszykach krąg o karbowanej powierzchni i drobnych oczkach, z mleka krowiego, często z czarnuszką lub ziołami. Smak łagodny i śmietankowy, z czasem bardziej wyrazisty i lekko pikantny; barwa kremowożółta, konsystencja elastyczna i gąbczasta. Jedzony świeży lub leżakowany.",
@@ -429,6 +434,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "caciotta",
+    video: { youtubeId: "9pzOUi32QeY", title: "Jak zrobić kozią Caciottę w domu. Domowy ser Caciotta capretto", channel: "Domowy ser", poster: caciottaMiniaturaImage },
     name: "Caciotta",
     difficulty: "Średni",
     description: "Caciotta to kremowy, półmiękki ser z środkowych Włoch, tradycyjnie wytwarzany z mleka owczego, krowiego, koziego lub bawolego. Charakteryzuje się niezwykłym procesem \"stufatura\" (gotowanie parą), który nadaje serowi unikalną teksturę. Ten ser dla początkujących znajdzie się na każdym włoskim stole - od regionu Pienza/Siena w południowej Toskanii po całe Włochy.",
@@ -1384,6 +1390,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "camembert",
+    video: { youtubeId: "wt0bf199RTw", title: "Jak zrobić ser camembert/ camembert cheese", channel: "Domowy ser", poster: camembertMiniaturaImage },
     name: "Camembert",
     difficulty: "Zaawansowany",
     description: "Camembert to francuski ser pleśniowy o kremowej, rozpływającej się konsystencji i intensywnym aromacie. Charakterystyczna biała pleśń Penicillium candidum tworzy jadalną skórkę, pod którą kryje się aksamitne wnętrze.",
@@ -2680,6 +2687,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "emmental",
+    video: { youtubeId: "tMqZZHbp0-A", title: "Domowy ser w stylu Emmentaler", channel: "Domowy ser", poster: emmentalerMiniaturaImage },
     name: "Emmental",
     difficulty: "Zaawansowany",
     description: "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. Jest jednym z największych serów świata - koła mogą ważyć do 130 kg.",
