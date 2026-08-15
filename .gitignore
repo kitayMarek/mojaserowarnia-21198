@@ -25,3 +25,10 @@ dist-ssr
 
 # Wewnętrzne materiały robocze (zlecenia, zapisy źródeł) — nie część produktu
 ProjektyLLm/
+
+# Zmienne srodowiskowe. Repo jest PUBLICZNE, a GitHub jest przeczesywany przez
+# boty pod katem kluczy API w ciagu minut od commita — plik nie moze tu trafic.
+# Sam .env zostaje na dysku i lokalny build dziala normalnie.
+.env
+.env.local
+.env.*.local
