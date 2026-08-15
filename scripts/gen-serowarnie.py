@@ -130,11 +130,14 @@ def wizytowka_html(w, wpisy):
     sameas = [x for x in [w.get("www"), w.get("facebook")] if x]
     if sameas:
         ld["sameAs"] = sameas
-    if w.get("produkty"):
-        ld["makesOffer"] = [
-            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": p, "category": "Ser"}}
-            for p in w["produkty"]
-        ]
+    # UWAGA: nie opisujemy produktow jako schema.org Product.
+    # Google waliduje kazdy wezel Product i wymaga "offers", "review" albo
+    # "aggregateRating" - a my nie mamy cen ani ocen i nie bedziemy ich zmyslac.
+    # Bez tego GSC zglasza blad "Nalezy okreslic wlasciwosc offers/review/
+    # aggregateRating" i strona traci prawo do wynikow rozszerzonych.
+    # Lista produktow i tak jest w widocznej tresci pod naglowkiem
+    # "Co produkujemy", wiec boty LLM (dla ktorych ten mirror powstal)
+    # niczego nie traca.
     # Swiezosc: data ostatniej aktualnosci
     if wpisy:
         ld["dateModified"] = wpisy[0]["utworzono"]

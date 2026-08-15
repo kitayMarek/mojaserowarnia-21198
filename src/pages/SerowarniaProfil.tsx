@@ -139,14 +139,10 @@ export default function SerowarniaProfil() {
     ...(wpis.www || wpis.facebook
       ? { sameAs: [wpis.www, wpis.facebook].filter(Boolean) }
       : {}),
-    ...(wpis.produkty.length
-      ? {
-          makesOffer: wpis.produkty.map((p) => ({
-            "@type": "Offer",
-            itemOffered: { "@type": "Product", name: p, category: "Ser" },
-          })),
-        }
-      : {}),
+    // Produktow NIE opisujemy jako schema.org Product. Google waliduje kazdy
+    // wezel Product i wymaga "offers", "review" albo "aggregateRating" —
+    // nie mamy cen ani ocen i nie bedziemy ich zmyslac. GSC zglaszalo z tego
+    // powodu blad na wizytowce. Lista produktow jest w widocznej tresci strony.
   };
 
   return (
