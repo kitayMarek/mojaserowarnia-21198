@@ -20,12 +20,17 @@
   opacity: 0;
   transform: scale(1.02);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  /* Slajdy leza jeden na drugim rozpiete na calym banerze. Bez tego niewidoczne
+     (opacity: 0) nadal lapaly kliknięcia i kazdy baner otwieral ten sam artykul
+     — ten, ktory akurat byl na wierzchu w kolejnosci DOM. */
+  pointer-events: none;
 }
 
 .active {
   opacity: 1;
   transform: scale(1);
   position: relative;
+  pointer-events: auto;
 }
 
 .overlay {

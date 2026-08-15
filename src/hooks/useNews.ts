@@ -81,7 +81,10 @@ export function useNews(): UseNewsResult {
                   title: row.title,
                   subtitle: row.subtitle,
                   imageUrl: row.image_url,
-                  linkUrl: row.link_url,
+                  // Przycinamy biale znaki — jeden z banerow ma w bazie link
+                  // zapisany jako " /faktura-vat-rr". Przegladarka to wybacza,
+                  // ale odsiewanie duplikatow porownuje napisy doslownie.
+                  linkUrl: String(row.link_url ?? '').trim(),
                   date: row.date,
                   type: row.type,
                 }))

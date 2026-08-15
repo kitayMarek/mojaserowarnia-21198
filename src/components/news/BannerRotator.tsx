@@ -80,6 +80,11 @@ export const BannerRotator: React.FC<BannerRotatorProps> = ({
         <a
           key={banner.id}
           href={banner.linkUrl}
+          // Slajdy poza aktywnym sa niewidoczne, wiec nie moga byc osiagalne
+          // Tabem ani czytane przez czytnik ekranu. Klikniecia blokuje CSS
+          // (pointer-events), to zamyka te sama dziure dla klawiatury.
+          aria-hidden={idx !== activeIndex}
+          tabIndex={idx === activeIndex ? 0 : -1}
           className={`${styles.slide} ${
             idx === activeIndex ? styles.active : ''
           }`}
