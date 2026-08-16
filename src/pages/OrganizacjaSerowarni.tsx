@@ -107,22 +107,10 @@ const OrganizacjaSerowarni = () => {
         image: "https://mojaserowarnia.pl/film-organizacja-malej-serowarni.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
-      {
-        "@type": "VideoObject",
-        name: "Jak zorganizować serowarnię?",
-        description:
-          "Film instruktażowy o organizacji małej, rzemieślniczej serowarni: układ pomieszczeń, dobór sprzętu i obieg pracy.",
-        thumbnailUrl: ["https://mojaserowarnia.pl/film-organizacja-malej-serowarni.jpg"],
-        uploadDate: "2015-01-02T00:34:08-08:00",
-        duration: "PT15M2S",
-        contentUrl: "https://www.youtube.com/watch?v=J7gCa66a-kI",
-        embedUrl: "https://www.youtube-nocookie.com/embed/J7gCa66a-kI",
-        author: {
-          "@type": "Organization",
-          name: "Baza produktów lokalnych z Podlaskiego",
-          url: "https://www.youtube.com/@bazaproduktowlokalnychzpod8841",
-        },
-      },
+      // Bez VideoObject: film nalezy do kanalu "Baza produktow lokalnych
+      // z Podlaskiego", a ta schema oznajmia, ze film jest trescia NASZEJ
+      // strony. GSC zglaszalo z tego powodu "Film nie znajduje sie na
+      // stronie odtwarzania". Film zostaje osadzony dla czytelnikow.
       {
         "@type": "FAQPage",
         mainEntity: faqData.map((f) => ({
