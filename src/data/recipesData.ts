@@ -3224,12 +3224,13 @@ export const recipesData: Recipe[] = [
         "Cytrynian sodu można łatwo zrobić w domu: kwas cytrynowy + soda oczyszczona (reagują i tworzą cytrynian sodu + CO₂ + woda)."
       ],
       warnings: [
-        "Bez soli emulgujących ser się nie stopi równomiernie — rozdzieli się na tłuszcz i białko.",
+        "Bez soli emulgujących ser DOJRZAŁY się nie stopi równomiernie — rozdzieli się na tłuszcz i białko. Twaróg to osobny przypadek: tam wystarczy soda oczyszczona.",
         "Ciągłe mieszanie jest kluczowe — ser topiony łatwo się przypala na dnie garnka.",
         "Nie dodawaj zbyt dużo wody — ser topiony powinien być gęsty, nie płynny. Zacznij od 80 ml i dodawaj w razie potrzeby.",
-        "Ser świeży (młody) nie nadaje się — potrzebujesz sera min. 4–6 tygodni dojrzewania, żeby sole emulgujące miały z czym pracować (dojrzała kazeina)."
+        "Do metody z solami emulgującymi potrzebujesz sera min. 4–6 tygodni dojrzewania — w młodym serze nie ma dość wapnia związanego z kazeiną, żeby sole miały co wiązać. Nie dotyczy to twarogu, który topi się inną drogą (patrz warianty)."
       ],
       variants: [
+        "Z TWAROGU I SODY — najpopularniejsza metoda domowa w Polsce, zupełnie inna technologia. 500 g twarogu rozdrobnić, wymieszać z 5 g sody oczyszczonej (płaska łyżeczka) i ODSTAWIĆ NA 30–60 MIN. Potem podgrzewać, mieszając, aż masa się zciągnie (5–10 min), dodać 50–80 g masła i sól. Dlaczego działa bez soli emulgujących: twaróg jest kwaśny (pH ok. 4,6 — punkt izoelektryczny kazeiny), soda podnosi pH do 5,6–6,0 i białko znów staje się rozpuszczalne. Wapnia nie ma już co wiązać, bo odszedł z serwatką. Pominięcie odstania = masa zostaje ziarnista.",
         "Kremowy (spreadable) — więcej wody (120 ml) i masła (50 g), miększy ser bazowy.",
         "Krojalny (blokowy) — mniej wody (60–80 ml), twardszy ser bazowy, dłuższe chłodzenie.",
         "Ze szczypiorkiem — klasyka polska; dodaj 2–3 łyżki posiekanego szczypiorku po zdjęciu z ognia.",
