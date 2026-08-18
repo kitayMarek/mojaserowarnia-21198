@@ -5,7 +5,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { recipesData } from "@/data/recipesData";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Clock, ChefHat } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, ChefHat, Lightbulb, AlertTriangle, Shuffle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ReactionButton from "@/components/ReactionButton";
 import RecipeSchema from "@/components/RecipeSchema";
@@ -259,6 +259,63 @@ const RecipeDetails = () => {
                 channel={recipe.video.channel}
                 poster={recipe.video.poster ?? recipe.image}
               />
+            </section>
+          )}
+
+          {/* Porady, ostrzezenia i warianty — dane byly w recipesData od poczatku,
+              ale zaden komponent ich nie renderowal. 24 przepisy, 173 pozycje
+              widoczne wylacznie w mirrorach statycznych, nie dla czytelnikow. */}
+          {recipe.notes && (
+            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-6">📝 Porady i warianty</h2>
+
+              {recipe.notes.tips?.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                    <Lightbulb className="h-5 w-5" aria-hidden="true" /> Wskazówki
+                  </h3>
+                  <ul className="space-y-2">
+                    {recipe.notes.tips.map((t, i) => (
+                      <li key={i} className="flex gap-2 text-sm">
+                        <span className="text-primary shrink-0" aria-hidden="true">•</span>
+                        <span>{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {recipe.notes.warnings?.length > 0 && (
+                <div className="mb-6 rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+                  <h3 className="font-semibold text-destructive mb-3 flex items-center gap-2">
+                    <AlertTriangle className="h-5 w-5" aria-hidden="true" /> Na co uważać
+                  </h3>
+                  <ul className="space-y-2">
+                    {recipe.notes.warnings.map((w, i) => (
+                      <li key={i} className="flex gap-2 text-sm">
+                        <span className="text-destructive shrink-0" aria-hidden="true">•</span>
+                        <span>{w}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {recipe.notes.variants?.length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                    <Shuffle className="h-5 w-5" aria-hidden="true" /> Warianty
+                  </h3>
+                  <ul className="space-y-2">
+                    {recipe.notes.variants.map((v, i) => (
+                      <li key={i} className="flex gap-2 text-sm">
+                        <span className="text-primary shrink-0" aria-hidden="true">•</span>
+                        <span>{v}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </section>
           )}
 
