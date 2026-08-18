@@ -21,6 +21,27 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
     return `P${value}D`;
   };
 
+  // Google odrzuca zbyt dlugie recipeIngredient (limit ok. 100 znakow). Wczesniej
+  // wstawialismy tu cale akapity z milkBase/starter/coagulant/salting — a to sa
+  // opisy z uzasadnieniem ("Bez nich ser nie stopnieje rownomiernie, lecz..."),
+  // nie skladniki. GSC zglaszalo z tego powodu "Nieprawidlowa dlugosc ciagu znakow".
+  //
+  // dosageTable ma dokladnie wlasciwa forme: skladnik + ilosc, 15-31 znakow.
+  // Baze (mleko albo ser wyjsciowy) dokladamy z milkBase przycietego do pierwszego
+  // czlonu, bo w 19 z 24 przepisow nie ma jej w tabeli dawkowania. Wiersze tabeli
+  // powtarzajace baze odsiewamy, zeby skladnik nie pojawil sie dwa razy.
+  const skrocBaze = (t: string) =>
+    t.split(/\s*[(—–]/)[0].trim().replace(/[.,;]+$/, "");
+
+  const wzorzecBazy = /mlek|ser bazowy|baza|twar|serwatk|śmietank/i;
+
+  const skladniki: string[] = [
+    ...(recipe.milkBase ? [skrocBaze(recipe.milkBase)] : []),
+    ...(recipe.dosageTable ?? [])
+      .filter((d) => !wzorzecBazy.test(d.ingredient))
+      .map((d) => `${d.ingredient} — ${d.amount}`),
+  ].filter((x) => x && x.length > 0);
+
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Recipe",
@@ -34,12 +55,7 @@ const RecipeSchema = ({ recipe }: RecipeSchemaProps) => {
     "recipeCategory": "Ser",
     "recipeCuisine": "Polska",
     "keywords": `ser, ${recipe.name.toLowerCase()}, przepis na ser, serowarstwo, ${recipe.difficulty.toLowerCase()}`,
-    "recipeIngredient": [
-      recipe.milkBase,
-      recipe.starter,
-      recipe.coagulant,
-      recipe.salting
-    ].filter(Boolean),
+    "recipeIngredient": skladniki,
     "recipeInstructions": recipe.steps.map((step, index) => ({
       "@type": "HowToStep",
       "position": index + 1,
