@@ -12,12 +12,14 @@ import RecipeSchema from "@/components/RecipeSchema";
 import HowToSchema from "@/components/HowToSchema";
 import SeeAlso from "@/components/SeeAlso";
 import VideoPrzepisu from "@/components/VideoPrzepisu";
+import { daniaZSera } from "@/lib/powiazaniaPrzepisow";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 const RecipeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const recipe = recipesData.find(r => r.id === id);
+  const dania = recipe ? daniaZSera(recipe.id) : [];
 
   useEffect(() => {
     if (recipe) {
@@ -376,6 +378,47 @@ const RecipeDetails = () => {
               <p className="text-sm text-muted-foreground mt-4">
                 * Wartości orientacyjne dla sera domowego. Faktyczne wartości mogą się różnić w zależności od użytego mleka i procesu produkcji.
               </p>
+            </section>
+          )}
+
+          {/* Most do dzialu kulinarnego. Dotad zaden z 24 przepisow na ser nie
+              prowadzil do kuchni, wiec czytelnik konczyl na gotowym serze i nie
+              dostawal zadnej podpowiedzi, co dalej. */}
+          {dania.length > 0 && (
+            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-2">🍽️ Co ugotować z tego sera</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Ser gotowy? Tu są dania, które na nim stoją — z przepisem krok po kroku.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {dania.map((danie) => (
+                  <Link
+                    key={danie.id}
+                    to={`/przepisy-kulinarne/${danie.id}`}
+                    className="group flex gap-4 rounded-lg border border-border p-4 transition-colors hover:border-primary hover:bg-primary/5"
+                  >
+                    <img
+                      src={danie.image}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="h-20 w-20 shrink-0 rounded-md object-cover"
+                    />
+                    <span className="min-w-0">
+                      <span className="block font-semibold text-primary group-hover:underline">
+                        {danie.name}
+                      </span>
+                      <span className="block text-sm text-muted-foreground">
+                        {danie.subtitle}
+                      </span>
+                      <span className="mt-1 block text-xs text-muted-foreground">
+                        {danie.prepTime} + {danie.cookTime} · {danie.servings} porcje · {danie.difficulty}
+                      </span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </section>
           )}
 

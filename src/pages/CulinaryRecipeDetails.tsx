@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import CulinaryRecipeSchema from "@/components/CulinaryRecipeSchema";
 import SeeAlso from "@/components/SeeAlso";
+import { serDlaDaniaKulinarnego } from "@/lib/powiazaniaPrzepisow";
 import { culinaryRecipesData } from "@/data/culinaryRecipesData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { 
   ArrowLeft, 
+  ArrowRight,
   Clock, 
   Users, 
   ChefHat, 
@@ -38,6 +40,7 @@ import {
 const CulinaryRecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
   const recipe = culinaryRecipesData.find(r => r.id === id);
+  const przepisNaSer = recipe ? serDlaDaniaKulinarnego(recipe) : undefined;
 
   useEffect(() => {
     if (recipe) {
@@ -441,6 +444,31 @@ const CulinaryRecipeDetails = () => {
             </div>
           </div>
         </div>
+
+        {/* Most do dzialu serow: to danie stoi na konkretnym serze, ktory
+            mamy u siebie w przepisach. Dotad zaden przepis kulinarny o tym
+            nie mowil. */}
+        {przepisNaSer && (
+          <div className="container mx-auto px-4 mt-8">
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="flex-1">
+                <h2 className="text-lg font-display font-bold text-primary mb-1">
+                  Chcesz zrobić ten ser samodzielnie?
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  To danie opiera się na serze <strong className="text-foreground">{recipe.mainCheese}</strong>.
+                  Mamy pełny przepis krok po kroku — od mleka po dojrzewalnię.
+                </p>
+              </div>
+              <Button asChild className="shrink-0">
+                <Link to={`/przepisy/${przepisNaSer.id}`}>
+                  Przepis na {przepisNaSer.name}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* See Also Section */}
         <div className="container mx-auto px-4 mt-8">
