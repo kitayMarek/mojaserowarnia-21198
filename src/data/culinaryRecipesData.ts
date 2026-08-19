@@ -2,6 +2,9 @@ import involtiniGoudaImage from "@/assets/involtini-gouda.jpg";
 import zapiekankaBrieImage from "@/assets/zapiekanka-brie.jpg";
 import risottoGorgonzolaImage from "@/assets/risotto-gorgonzola.jpg";
 import tartaCamembertImage from "@/assets/tarta-camembert.jpg";
+// TYMCZASOWO: brak zdjecia sernika, uzywamy zdjecia twarogu (glowny skladnik).
+// Do podmiany, gdy bedzie zdjecie gotowego ciasta.
+import twarogImage from "@/assets/twarog.jpg";
 
 export interface CulinaryIngredient {
   name: string;
@@ -46,6 +49,105 @@ export interface CulinaryRecipe {
 }
 
 export const culinaryRecipesData: CulinaryRecipe[] = [
+  {
+    id: "warminski-sernik-bakaliowy",
+    name: "Warmiński Sernik Bakaliowy",
+    subtitle: "Ciężki od bakalii, na własnym twarogu i miodzie",
+    difficulty: "średni",
+    prepTime: "40 min",
+    cookTime: "75 min",
+    servings: 12,
+    description: "Sernik w duchu warmińskiego wypieku świątecznego — ciężki, wilgotny i gęsto naładowany bakaliami. Rodzynki, morele, suszone śliwki, orzechy laskowe i kandyzowana skórka pomarańczowa, wszystko namoczone dzień wcześniej, plus łyżka miodu, który zamiast części cukru daje głębię i zatrzymuje wilgoć. To nasza kompozycja w tej tradycji, a nie odtworzenie konkretnego historycznego przepisu — ale każdy element ma tu swoje uzasadnienie: na Warmii ciasto świąteczne mierzyło się ilością bakalii, a te docierały na północ przez bałtyckie porty na długo przed tym, zanim stały się codziennością.",
+    strategy: "Sernik jest bezlitosny dla złego twarogu — nie ma się w czym schować. Cała reszta przepisu to tylko oprawa dla jednego kilograma sera, więc od niego zależy wszystko: czy masa będzie kremowa czy ziarnista, czy sernik opadnie, czy pęknie. Dlatego zaczynamy nie od piekarnika, tylko od twarogu. Najlepszy jest własny, odciśnięty dłużej niż do jedzenia na świeżo — z 8 litrów mleka wychodzi około kilograma, czyli dokładnie tyle, ile potrzeba na tę blachę. Miód zastępuje część cukru: jest higroskopijny, więc sernik dłużej zostaje wilgotny, a bakalie namoczone dzień wcześniej nie wyciągają wody z masy podczas pieczenia. To ostatnie jest najczęstszą przyczyną suchego sernika z bakaliami.",
+    image: twarogImage,
+    mainCheese: "Twaróg",
+
+    ingredients: [
+      { name: "Mąka pszenna", amount: "250 g", category: "base" },
+      { name: "Masło zimne", amount: "125 g", category: "base" },
+      { name: "Cukier puder", amount: "80 g", category: "base" },
+      { name: "Żółtka", amount: "2 szt.", category: "base" },
+      { name: "Śmietana 18%", amount: "1 łyżka", category: "base" },
+      { name: "Proszek do pieczenia", amount: "1/2 łyżeczki", category: "base" },
+      { name: "Sól", amount: "szczypta", category: "base" },
+
+      { name: "Twaróg tłusty, dobrze odciśnięty", amount: "1 kg", category: "filling" },
+      { name: "Masło (miękkie)", amount: "150 g", category: "filling" },
+      { name: "Cukier", amount: "180 g", category: "filling" },
+      { name: "Miód (najlepiej lipowy lub gryczany)", amount: "2 łyżki", category: "filling" },
+      { name: "Jajka", amount: "5 szt.", category: "filling" },
+      { name: "Budyń waniliowy w proszku", amount: "40 g (1 opak.)", category: "filling" },
+      { name: "Śmietana 30%", amount: "100 ml", category: "filling" },
+      { name: "Skórka otarta z cytryny", amount: "1 szt.", category: "filling" },
+      { name: "Cukier waniliowy", amount: "1 opak.", category: "filling" },
+
+      { name: "Rodzynki", amount: "100 g", category: "garnish" },
+      { name: "Morele suszone", amount: "80 g", category: "garnish" },
+      { name: "Śliwki suszone (bez pestek)", amount: "80 g", category: "garnish" },
+      { name: "Orzechy laskowe", amount: "80 g", category: "garnish" },
+      { name: "Skórka pomarańczowa kandyzowana", amount: "50 g", category: "garnish" },
+      { name: "Płatki migdałowe", amount: "30 g", category: "garnish" },
+      { name: "Mocna herbata lub rum do namoczenia", amount: "150 ml", category: "garnish" },
+      { name: "Cukier puder do posypania", amount: "do smaku", category: "garnish" }
+    ],
+
+    steps: [
+      {
+        title: "1) Bakalie — dzień wcześniej",
+        content: "Morele i śliwki pokrój w kostkę wielkości rodzynki. Wsyp wszystkie suszone owoce i skórkę pomarańczową do słoika, zalej gorącą mocną herbatą (albo rumem, albo pół na pół) i zostaw na noc. Rano odcedź i osusz na ręczniku papierowym. Orzechy laskowe upraż na suchej patelni, przetrzyj w ściereczce ze skórek i posiekaj grubo.",
+        tip: "Herbata daje głębszy, mniej słodki efekt niż sam wrzątek i dobrze współgra z miodem. Rum robi z tego ciasto wyraźnie świąteczne.",
+        warning: "Nie pomijaj namaczania. Suche bakalie wsypane wprost do masy zachowują się jak gąbki — wyciągają wodę z sera podczas pieczenia i to jest najczęstsza przyczyna suchego, kruszącego się sernika."
+      },
+      {
+        title: "2) Twaróg — na tym stoi cały sernik",
+        content: "Potrzebujesz kilograma twarogu TŁUSTEGO lub co najmniej półtłustego, dobrze odciśniętego i możliwie świeżego. Zmiel go dwukrotnie przez maszynkę o drobnych oczkach — dwa razy, nie raz. Jeśli używasz własnego twarogu, odciskaj go dłużej niż do jedzenia na świeżo: 4–6 godzin zamiast dwóch, aż masa przestanie kapać, ale zanim zrobi się krucha i sypka.",
+        tip: "Czego szukać w kupnym: twaróg klinkowy albo krajanka, skład wyłącznie mleko i kultury bakterii, zwięzła konsystencja. Twaróg wiaderkowy bywa za wodnisty i częściej zawiera dodatki — na sernik nadaje się gorzej.",
+        warning: "Twaróg chudy da sernik suchy i skłonny do pękania — tłuszcz jest tu potrzebny nie dla smaku, tylko dla struktury. Twaróg przekwaszony (kilkudniowy, ostry w smaku) może zwarzyć masę po dodaniu jajek. Nie miksuj blenderem: wysokie obroty rozbijają białko i masa robi się kleista zamiast puszystej."
+      },
+      {
+        title: "3) Kruchy spód",
+        content: "Zimne masło posiekaj z mąką, cukrem pudrem, proszkiem i solą na drobną kruszonkę. Dodaj żółtka i łyżkę śmietany, szybko zagnieć — im krócej, tym lepiej. Zawiń w folię i schłodź 30 minut. Rozwałkuj i wyłóż dno blachy 24×34 cm, nakłuj widelcem i podpiecz 15 minut w 180°C, aż lekko się zarumieni.",
+        tip: "Podpieczenie spodu to różnica między chrupiącym dnem a rozmiękłym plackiem pod mokrą masą serową."
+      },
+      {
+        title: "4) Masa serowa",
+        content: "Miękkie masło utrzyj z cukrem, cukrem waniliowym i miodem na jasną, puszystą masę. Dodawaj po jednym żółtku, cały czas ucierając. Wmieszaj zmielony twaróg, budyń w proszku, śmietanę i skórkę cytrynową — mieszaj już wolno, tylko do połączenia. Na końcu wmieszaj delikatnie ubitą na sztywno pianę z 5 białek, w dwóch albo trzech partiach.",
+        tip: "Miód wmieszaj razem z cukrem do masła, a nie na końcu — rozprowadzi się równomiernie i nie osiądzie na dnie.",
+        warning: "Pianę wmieszaj łyżką albo szpatułką, ruchem od dołu do góry. Zmiksowanie jej z masą wybija powietrze i sernik wyjdzie zbity."
+      },
+      {
+        title: "5) Bakalie i pieczenie",
+        content: "Osuszone bakalie i orzechy obtocz w łyżce mąki i wmieszaj do masy — mąka zapobiega opadaniu na dno. Wyłóż masę na podpieczony spód, wyrównaj, posyp płatkami migdałowymi. Piecz 75 minut w 160°C (grzanie góra-dół, bez termoobiegu). Sernik jest gotowy, gdy brzegi są ścięte, a środek przy potrząśnięciu blachą lekko faluje.",
+        tip: "Postaw na dnie piekarnika naczynie z wodą. Wilgotne powietrze znacznie zmniejsza ryzyko pęknięcia wierzchu.",
+        warning: "Nie otwieraj piekarnika przez pierwsze 50 minut. Gwałtowna zmiana temperatury to druga, po zbyt wysokim grzaniu, przyczyna zapadniętego środka."
+      },
+      {
+        title: "6) Studzenie i dojrzewanie",
+        content: "Wyłącz piekarnik, uchyl drzwiczki i zostaw sernik w środku na godzinę. Potem wyjmij i studź do temperatury pokojowej, a następnie wstaw na noc do lodówki. Podawaj oprószony cukrem pudrem.",
+        tip: "Sernik bakaliowy smakuje najlepiej drugiego dnia — bakalie oddają aromat masie, a struktura się ustala. Świeżo upieczony jest jeszcze luźny i mniej wyrazisty."
+      }
+    ],
+
+    presentation: [
+      "Podawaj w grubych kawałkach, w temperaturze pokojowej — z lodówki bakalie są twarde, a tłuszcz zbity.",
+      "Oprósz cukrem pudrem tuż przed podaniem, nie wcześniej — na wilgotnym wierzchu rozpuści się w kilka minut.",
+      "Do świątecznego stołu: kleks bitej śmietany i kilka orzechów laskowych obok kawałka.",
+      "Kawałek podgrzany 15 sekund w mikrofali odzyskuje aromat miodu i bakalii."
+    ],
+
+    wineRecommendation: "Herbata z cytryną albo kawa po turecku — tak się go na Warmii jadało. Z alkoholi: nalewka z aronii lub kieliszek słodkiego wina deserowego, na przykład tokaju.",
+
+    tags: ["sernik", "twaróg", "warmia", "bakalie", "ciasto", "święta", "miód", "wypieki"],
+
+    nutrition: {
+      calories: 512,
+      protein: 16,
+      carbs: 49,
+      fat: 28,
+      fiber: 3,
+      sodium: 180
+    }
+  },
   {
     id: "aksamitne-involtini-gouda",
     name: "Aksamitne Involtini z Płynnym Sercem Goudy",
