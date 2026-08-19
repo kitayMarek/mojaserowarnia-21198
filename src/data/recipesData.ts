@@ -27,6 +27,7 @@ import korycinMiniaturaImage from "@/assets/korycin-miniatura.webp";
 import quartiroloImage from "@/assets/quartirolo.jpg";
 import limburskiImage from "@/assets/limburski.jpg";
 import topionyImage from "@/assets/topiony.jpg";
+import twarogImage from "@/assets/twarog.jpg";
 
 export interface CultureSubstitute {
   name: string;
@@ -3130,7 +3131,7 @@ export const recipesData: Recipe[] = [
     description: "Twaróg to najczęściej wytwarzany ser w Polsce i jednocześnie najprostszy — powstaje bez podpuszczki, wyłącznie przez ukwaszenie mleka. Bakterie fermentacji mlekowej obniżają pH do około 4,6, czyli do punktu izoelektrycznego kazeiny, w którym białko traci ładunek, przestaje wiązać wodę i wytrąca się ze skrzepem. Delikatne podgrzanie oddziela go od serwatki. Zależnie od zawartości tłuszczu mówimy o twarogu chudym, półtłustym lub tłustym, a zależnie od formy — o klinku, krajance albo twarogu wiaderkowym. To baza sernika, pierogów ruskich, leniwych, naleśników i domowego sera topionego.",
     yield: "≈ 1–1,2 kg z 8 L mleka pełnego (chudy z odtłuszczonego: ok. 0,9 kg)",
     ageTime: "Gotowy po 1–2 dni od zaszczepienia (12–24 h ukwaszania + 2–6 h odciekania). Bez dojrzewania; najlepszy w pierwszych dniach",
-    image: ricottaImage,
+    image: twarogImage,
 
     milkBase: "≈ 8 L mleka pełnego lub odtłuszczonego (świeże albo pasteryzowane — NIE UHT: wysoka temperatura trwale wiąże białka serwatkowe z kazeiną i skrzep się nie wytworzy).",
     starter: "Kultura mezofilna (typ LD lub LL) albo naturalny zakwas: 200 ml świeżej maślanki lub kefiru na 8 L mleka. Przy mleku surowym wystarczy własna mikroflora, ale wynik jest mniej powtarzalny.",
