@@ -7,14 +7,14 @@ Domyślnie generuje 14 serów, które nie mają jeszcze statycznej strony (6 poz
 napisano ręcznie i ich NIE rusza). UŻYCIE:  python scripts/gen-przepisy.py
 Po wygenerowaniu wgraj pliki na serwer (FTP) — bez przebudowy.
 """
-import re, html, json, os
+import re, html, json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src", "data", "recipesData.ts")
 OUTDIR = os.path.join(ROOT, "public", "przepisy")
 
 # Sery do wygenerowania (te bez ręcznej statycznej strony)
-TARGET_IDS = ["asiago", "brie", "camembert", "cheddar", "dunlop", "feta_bulgarische",
+TARGET_IDS = ["twarog", "asiago", "brie", "camembert", "cheddar", "dunlop", "feta_bulgarische",
               "feta-grecka", "gorgonzola", "halloumi", "korycinski", "mascarpone", "parmezan",
               "roquefort", "stilton", "yorkshire"]
 
@@ -90,7 +90,10 @@ CSS = '''  <style>
 def gen_page(r, siblings):
     e = html.escape
     n = e(r["name"])
-    url = f"https://mojaserowarnia.pl/przepisy/{r['id']}.html"
+    # Canonical wskazuje na trase Reacta, NIE na sam mirror. Mirror i strona
+    # aplikacji to ta sama tresc pod dwoma adresami; canonical mowi Google,
+    # ktora wersja sie liczy. Wszystkie pozostale 24 mirrory maja tak samo.
+    url = f"https://mojaserowarnia.pl/przepisy/{r['id']}"
     cult_names = [c[0] for c in r["cultures"] if c[0]]
     faq_cult = ("Do " + n + " stosuje się: " + ", ".join(cult_names[:5]) + ".") if cult_names else (r["starter"] or f"Patrz sekcja o kulturach dla {n}.")
     faq = [
@@ -192,15 +195,29 @@ def main():
     os.makedirs(OUTDIR, exist_ok=True)
     done = []
     targets = [i for i in TARGET_IDS if i in recipes]
+    # UWAGA: mirrory sa po wygenerowaniu DOPISYWANE przez inne skrypty
+    # (add-mleko-link.py, patch-breadcrumbs.py, add-fermly-cta.py). Ponowne
+    # wygenerowanie kasuje te wstrzykniecia bez ostrzezenia — zdarzylo sie to
+    # 2026-08-19 na 15 plikach. Dlatego domyslnie pomijamy istniejace pliki.
+    nadpisz = "--nadpisz" in sys.argv
+    pominiete = []
     for rid in targets:
+        sciezka = os.path.join(OUTDIR, f"{rid}.html")
+        if os.path.exists(sciezka) and not nadpisz:
+            pominiete.append(rid)
+            continue
         r = recipes[rid]
         sibs = [(s, recipes[s]["name"]) for s in targets if s != rid]
-        open(os.path.join(OUTDIR, f"{rid}.html"), "w", encoding="utf-8").write(gen_page(r, sibs))
+        open(sciezka, "w", encoding="utf-8").write(gen_page(r, sibs))
         done.append((rid, len(r["steps"]), len(r["cultures"])))
     miss = [i for i in TARGET_IDS if i not in recipes]
     print(f"Wygenerowano {len(done)} przepisów:")
     for rid, ns, nc in done:
         print(f"  {rid}.html — kroków:{ns} kultur:{nc}")
+    if pominiete:
+        print(f"Pominieto {len(pominiete)} istniejacych (uzyj --nadpisz, zeby nadpisac):")
+        print("  " + ", ".join(pominiete))
+        print("  UWAGA: nadpisanie kasuje wstrzykniecia z add-mleko-link.py i patch-breadcrumbs.py")
     if miss:
         print("NIE ZNALEZIONO w danych:", miss)
 

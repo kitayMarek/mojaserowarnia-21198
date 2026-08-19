@@ -3124,6 +3124,142 @@ export const recipesData: Recipe[] = [
     }
   },
   {
+    id: "twarog",
+    name: "Twaróg (ser biały)",
+    difficulty: "Łatwy",
+    description: "Twaróg to najczęściej wytwarzany ser w Polsce i jednocześnie najprostszy — powstaje bez podpuszczki, wyłącznie przez ukwaszenie mleka. Bakterie fermentacji mlekowej obniżają pH do około 4,6, czyli do punktu izoelektrycznego kazeiny, w którym białko traci ładunek, przestaje wiązać wodę i wytrąca się ze skrzepem. Delikatne podgrzanie oddziela go od serwatki. Zależnie od zawartości tłuszczu mówimy o twarogu chudym, półtłustym lub tłustym, a zależnie od formy — o klinku, krajance albo twarogu wiaderkowym. To baza sernika, pierogów ruskich, leniwych, naleśników i domowego sera topionego.",
+    yield: "≈ 1–1,2 kg z 8 L mleka pełnego (chudy z odtłuszczonego: ok. 0,9 kg)",
+    ageTime: "Gotowy po 1–2 dni od zaszczepienia (12–24 h ukwaszania + 2–6 h odciekania). Bez dojrzewania; najlepszy w pierwszych dniach",
+    image: ricottaImage,
+
+    milkBase: "≈ 8 L mleka pełnego lub odtłuszczonego (świeże albo pasteryzowane — NIE UHT: wysoka temperatura trwale wiąże białka serwatkowe z kazeiną i skrzep się nie wytworzy).",
+    starter: "Kultura mezofilna (typ LD lub LL) albo naturalny zakwas: 200 ml świeżej maślanki lub kefiru na 8 L mleka. Przy mleku surowym wystarczy własna mikroflora, ale wynik jest mniej powtarzalny.",
+    coagulant: "Kwas mlekowy wytwarzany przez bakterie — koagulacja kwasowa, bez podpuszczki. Opcjonalnie 2–3 krople podpuszczki na 8 L dla mocniejszego, lepiej trzymającego się skrzepu (twaróg kwasowo-podpuszczkowy).",
+    salting: "Klasyczny twaróg jest niesolony. Jeśli chcesz — 5–8 g soli na 1 kg gotowego twarogu, wmieszane po odcieknięciu.",
+    aging: "Nie dojrzewa. Gotowy do jedzenia od razu po odcieknięciu. W lodówce 3–5 dni; im dłużej, tym bardziej kwaśny.",
+
+    cultureSubstitutes: [
+      {
+        name: "Flora Danica",
+        type: "Mezofilna LD (z produkcją CO₂ i aromatu)",
+        shop: "Serowarnia, sklepy serowarskie",
+        dosage: "1/8 łyżeczki na 8 L mleka",
+        notes: "Daje twaróg o pełniejszym, lekko maślanym aromacie. Najpopularniejszy wybór do twarogu.",
+        searchQuery: "Flora Danica"
+      },
+      {
+        name: "CHN-19",
+        type: "Mezofilna LD",
+        shop: "Sklepy serowarskie",
+        dosage: "1/8 łyżeczki na 8 L mleka",
+        notes: "Zamiennik Flory Danica o zbliżonym profilu.",
+        searchQuery: "CHN-19"
+      },
+      {
+        name: "MM 100 / MM 101",
+        type: "Mezofilna LL (bez gazu)",
+        shop: "Sklepy serowarskie",
+        dosage: "1/8 łyżeczki na 8 L mleka",
+        notes: "Czysty, mleczny smak bez nut maślanych. Dobra do twarogu na sernik.",
+        searchQuery: "MM 100"
+      },
+      {
+        name: "Maślanka lub kefir naturalny",
+        type: "Zakwas domowy",
+        shop: "Każdy sklep spożywczy",
+        dosage: "200 ml na 8 L mleka",
+        notes: "Najtańszy start. Musi być świeża i z żywymi kulturami — sprawdź datę i skład. Wynik mniej powtarzalny niż z kultury liofilizowanej.",
+        searchQuery: "maślanka kultura"
+      }
+    ],
+
+    dosageReference: "Dawki podane na 8 L mleka — przelicz proporcjonalnie do swojej ilości.",
+    dosageTable: [
+      { ingredient: "Mleko (pełne lub odtłuszczone)", amount: "≈ 8 L", notes: "Nie UHT. Przy pasteryzowanym dodaj chlorek wapnia." },
+      { ingredient: "Kultura mezofilna", amount: "1/8 łyżeczki", notes: "Albo 200 ml maślanki/kefiru jako zakwas." },
+      { ingredient: "Chlorek wapnia (CaCl₂)", amount: "0,8 ml/L", notes: "Tylko przy mleku pasteryzowanym — odbudowuje zdolność krzepnięcia." },
+      { ingredient: "Podpuszczka", amount: "2–3 krople", notes: "Opcjonalnie. Daje zwięźlejszy skrzep i mniejsze straty w serwatce." },
+      { ingredient: "Sól", amount: "5–8 g/kg", notes: "Opcjonalnie, po odcieknięciu." }
+    ],
+
+    steps: [
+      {
+        title: "1) Ukwaszanie — 12–24 h w 20–24°C",
+        content: "Podgrzej mleko do 22–24°C. Wmieszaj kulturę mezofilną (albo maślankę) i przy mleku pasteryzowanym chlorek wapnia. Przykryj i zostaw w temperaturze pokojowej. Skrzep powstaje zwykle po 12–18 h latem i do 24 h zimą.",
+        tip: "Nie mieszaj po zaszczepieniu. Skrzep tworzy się w spoczynku — poruszanie go rozbija i zwiększa straty w serwatce.",
+        warning: "Mleko UHT nie zetnie się w twaróg, choćbyś czekał dobę. Jeśli zsiada się na rzadką, kluchowatą masę zamiast zwartego skrzepu — to prawie na pewno UHT albo mleko mikrofiltrowane."
+      },
+      {
+        title: "2) Sprawdzenie skrzepu",
+        content: "Gotowy skrzep jest zwarty jak galaretka, odchodzi od ścianek garnka, a nad nim zbiera się warstwa klarownej, zielonkawożółtej serwatki. Nacięty nożem zostawia czystą, ostrą krawędź.",
+        tip: "Jeśli krawędź jest rozmyta i mleczna — daj jeszcze 2–4 godziny. Zbyt wczesne podgrzewanie to najczęstsza przyczyna małej wydajności."
+      },
+      {
+        title: "3) Powolne podgrzewanie do 38–40°C — etap kluczowy",
+        content: "Wstaw garnek do kąpieli wodnej i podgrzewaj BARDZO powoli, około 1°C na 2–3 minuty, do 38–40°C. Skrzep zacznie się kurczyć i oddzielać od serwatki. Mieszaj minimalnie — tylko tyle, żeby nie przypalić dna.",
+        tip: "To jest ten moment, który decyduje o teksturze. Wolne grzanie daje twaróg wilgotny i delikatny.",
+        warning: "Nie przekraczaj 40°C. Powyżej tej temperatury kazeina kurczy się gwałtownie, wyciska wodę i twaróg wychodzi suchy, gumowaty i piaszczysty. Tego się już nie odwróci."
+      },
+      {
+        title: "4) Odstanie — 20–30 min",
+        content: "Zdejmij z ognia i zostaw pod przykryciem. Ziarno opadnie na dno, a serwatka wyklaruje się nad nim. Twaróg dojdzie do właściwej zwięzłości bez dalszego grzania.",
+        tip: "Serwatki nie wylewaj. Nadaje się do chleba, naleśników i do pojenia zwierząt — ma laktozę, białka serwatkowe i sporo potasu."
+      },
+      {
+        title: "5) Odciekanie w chuście — 2–6 h",
+        content: "Przelej zawartość garnka do durszlaka wyłożonego gęstą chustą serowarską lub pieluchą tetrową. Zawiąż rogi i powieś nad naczyniem. Po 2 godzinach twaróg jest wilgotny i kremowy, po 6 — zwięzły i krajalny.",
+        tip: "Do sernika odciskaj krócej (2–3 h) i przepuść przez maszynkę. Do pierogów i klinka — dłużej, aż masa przestanie kapać."
+      },
+      {
+        title: "6) Formowanie i chłodzenie",
+        content: "Przełóż do formy albo uformuj klinek, owiń chustą i wstaw do lodówki na 2–4 h. Możesz obciążyć niewielkim ciężarkiem (0,5–1 kg), jeśli chcesz twaróg zwięzły i dobrze krojący się.",
+        tip: "Twaróg smakuje najlepiej pierwszego i drugiego dnia. Z każdą dobą staje się kwaśniejszy — po 4–5 dniach lepiej przeznaczyć go na ser topiony albo na sernik."
+      }
+    ],
+
+    notes: {
+      tips: [
+        "Twaróg ma zaskakująco MAŁO wapnia jak na ser — około 90–100 mg/100 g, podczas gdy gouda ma ponad 700 mg. Powód: kwas rozpuszcza koloidalny fosforan wapnia, który w serach podpuszczkowych spina kazeinę, i wapń odchodzi razem z serwatką.",
+        "To ta sama przyczyna, dla której do domowego sera topionego z twarogu wystarczy soda oczyszczona, a nie sole emulgujące — w twarogu nie ma już wapnia, który trzeba by związać.",
+        "Im chudsze mleko, tym twardszy i bardziej ziarnisty twaróg. Tłuste mleko daje masę kremową, ale mniej zwięzłą.",
+        "Dodatek 2–3 kropli podpuszczki na 8 L to najprostszy sposób na zwiększenie wydajności — skrzep jest mocniejszy i mniej białka ucieka do serwatki.",
+        "Z 8 L mleka zostaje około 6,5–7 L serwatki. Zobacz, co można z nią zrobić, zamiast wylewać."
+      ],
+      warnings: [
+        "Mleko UHT nie nadaje się — nie chodzi o świeżość, tylko o trwałą zmianę białek w wysokiej temperaturze. Mikrofiltrowane bywa równie problematyczne.",
+        "Przekroczenie 40°C przy podgrzewaniu daje twaróg suchy i gumowaty. To błąd nieodwracalny.",
+        "Gorzki smak zwykle oznacza przekwaszenie albo zbyt długie ukwaszanie w za wysokiej temperaturze. Skróć czas albo obniż temperaturę ukwaszania do 20–21°C.",
+        "Twaróg z mleka surowego przeznaczony do sprzedaży podlega osobnym wymogom sanitarnym — sprawdź zasady RHD i MOL przed wprowadzeniem do obrotu."
+      ],
+      variants: [
+        "Twaróg chudy — z mleka odtłuszczonego. Zwięzły, ziarnisty, do pierogów i naleśników.",
+        "Twaróg tłusty (wiejski) — z mleka pełnego, czasem z dodatkiem 0,5 L śmietanki. Kremowy, do smarowania.",
+        "Kwasowo-podpuszczkowy — z 2–3 kroplami podpuszczki. Wyższa wydajność, zwięźlejsza konsystencja, łagodniejszy smak.",
+        "Klinek — odciśnięty pod obciążeniem i uformowany w trójkąt. Klasyczna forma targowa.",
+        "Twaróg na sernik — krócej odciskany, dwukrotnie przepuszczony przez maszynkę, bez soli.",
+        "Serek ziarnisty (typu cottage) — ziarno płukane zimną wodą po odcieknięciu i zalane śmietanką."
+      ]
+    },
+
+    flavor: {
+      taste: "Łagodnie kwaśny, mleczny, bez goryczy. Kwasowość rośnie z każdym dniem przechowywania.",
+      texture: "Od kremowej i wilgotnej po zwięzłą i ziarnistą — zależnie od czasu odciekania i tłustości mleka.",
+      color: "Biała, matowa; przy mleku od krów pastwiskowych lekko kremowa.",
+      aroma: "Świeży, mleczno-kwaśny, z nutą maślanki przy kulturach typu LD."
+    },
+
+    nutrition: {
+      servingSize: "100 g",
+      calories: 133,
+      fatContent: 4.7,
+      saturatedFatContent: 3.0,
+      proteinContent: 18.7,
+      carbohydrateContent: 3.5,
+      sodiumContent: 40,
+      calciumContent: 96
+    }
+  },
+  {
     id: "ser-topiony",
     name: "Ser Topiony (Parowany)",
     difficulty: "Łatwy",

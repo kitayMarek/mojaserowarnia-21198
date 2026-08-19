@@ -124,6 +124,9 @@
   # /serowarnie — katalog wizytówek; public/serowarnie/ to fizyczny katalog
   # z mirrorami, więc bez tej reguły Apache podałby go zamiast aplikacji.
   RewriteRule ^serowarnie/?$ /index.html [L]
+  # /przepisy-kulinarne — to samo zabezpieczenie; katalog z mirrorami dan
+  # powstal 2026-08-19, wczesniej tej kolizji nie bylo.
+  RewriteRule ^przepisy-kulinarne/?$ /index.html [L]
 
   # Nie przepisuj istniejących plików i katalogów
   RewriteCond %{REQUEST_FILENAME} !-f
