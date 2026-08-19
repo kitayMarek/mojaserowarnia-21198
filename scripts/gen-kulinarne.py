@@ -27,6 +27,28 @@ def e(t):
     return html.escape(t or "", quote=True)
 
 
+ZNACZNIK = re.compile(r"\[\[(.+?)\]\]")
+
+
+def bez_znacznikow(t):
+    """Usuwa [[...]] zostawiajac sam tekst — do JSON-LD."""
+    return ZNACZNIK.sub(r"\1", t or "")
+
+
+def z_odnosnikiem(t, sciezka):
+    """Zamienia [[tekst]] na odnosnik do przepisu na ser. Escape'uje reszte."""
+    t = t or ""
+    if not sciezka:
+        return e(bez_znacznikow(t))
+    wynik, ostatni = [], 0
+    for m in ZNACZNIK.finditer(t):
+        wynik.append(e(t[ostatni:m.start()]))
+        wynik.append('<a href="%s">%s</a>' % (sciezka, e(m.group(1))))
+        ostatni = m.end()
+    wynik.append(e(t[ostatni:]))
+    return "".join(wynik)
+
+
 def unesc(s):
     return s.replace('\\"', '"').replace("\\n", " ").replace("\\t", " ").strip()
 
@@ -138,6 +160,7 @@ CSS = """  <style>
 
 
 def strona(r, ser, rodzenstwo):
+    sciezka_sera = f"https://mojaserowarnia.pl/przepisy/{ser[0]}" if ser else None
     url = f"https://mojaserowarnia.pl/przepisy-kulinarne/{r['id']}"
     opis = r["description"][:140] + "…" if len(r["description"]) > 141 else r["description"]
 
@@ -145,7 +168,7 @@ def strona(r, ser, rodzenstwo):
         "@context": "https://schema.org",
         "@type": "Recipe",
         "name": r["name"],
-        "description": r["description"],
+        "description": bez_znacznikow(r["description"]),
         "url": url,
         "recipeCategory": "Danie z serem",
         "recipeCuisine": "Polska",
@@ -155,7 +178,7 @@ def strona(r, ser, rodzenstwo):
         "recipeYield": f"{r['servings']} porcje" if r["servings"] else None,
         "recipeIngredient": [f"{n} — {a}" if a else n for n, a in r["skladniki"]],
         "recipeInstructions": [
-            {"@type": "HowToStep", "position": i + 1, "name": t, "text": c, "url": f"{url}#krok-{i+1}"}
+            {"@type": "HowToStep", "position": i + 1, "name": t, "text": bez_znacznikow(c), "url": f"{url}#krok-{i+1}"}
             for i, (t, c, _tip, _w) in enumerate(r["kroki"])
         ],
         "author": {"@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl/"},
@@ -189,9 +212,9 @@ def strona(r, ser, rodzenstwo):
     o.append(f"  <p class=\"meta\">Trudność: {e(r['difficulty'])} · Przygotowanie: {e(r['prepTime'])} · Gotowanie: {e(r['cookTime'])} · Porcje: {r['servings']}</p>")
 
     o.append("  <h2>O tym daniu</h2>")
-    o.append(f"  <p>{e(r['description'])}</p>")
+    o.append(f"  <p>{e(bez_znacznikow(r['description']))}</p>")
     if r["strategy"]:
-        o.append(f"  <p>{e(r['strategy'])}</p>")
+        o.append("  <p>" + z_odnosnikiem(r["strategy"], sciezka_sera) + "</p>")
 
     # Most do przepisu na ser — takze dla botow, nie tylko w aplikacji.
     if ser:
@@ -212,7 +235,7 @@ def strona(r, ser, rodzenstwo):
         o.append("  <h2>Przygotowanie krok po kroku</h2>")
         for i, (t, c, tip, warn) in enumerate(r["kroki"], 1):
             o.append(f'  <h3 id="krok-{i}">{e(t)}</h3>')
-            o.append(f"  <p>{e(c)}</p>")
+            o.append("  <p>" + z_odnosnikiem(c, sciezka_sera) + "</p>")
             if tip:
                 o.append(f'  <p class="tip">Wskazówka: {e(tip)}</p>')
             if warn:

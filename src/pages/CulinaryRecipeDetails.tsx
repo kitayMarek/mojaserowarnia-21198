@@ -7,6 +7,7 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import CulinaryRecipeSchema from "@/components/CulinaryRecipeSchema";
 import SeeAlso from "@/components/SeeAlso";
 import { serDlaDaniaKulinarnego } from "@/lib/powiazaniaPrzepisow";
+import TekstZOdnosnikiem, { bezZnacznikow } from "@/components/TekstZOdnosnikiem";
 import { culinaryRecipesData } from "@/data/culinaryRecipesData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -41,6 +42,7 @@ const CulinaryRecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
   const recipe = culinaryRecipesData.find(r => r.id === id);
   const przepisNaSer = recipe ? serDlaDaniaKulinarnego(recipe) : undefined;
+  const sciezkaSera = przepisNaSer ? `/przepisy/${przepisNaSer.id}` : undefined;
 
   useEffect(() => {
     if (recipe) {
@@ -98,7 +100,8 @@ const CulinaryRecipeDetails = () => {
   // Prepare HowTo steps for schema
   const howToSteps = recipe.steps.map(step => ({
     name: step.title,
-    text: step.content + (step.tip ? ` Wskazówka: ${step.tip}` : '') + (step.warning ? ` Uwaga: ${step.warning}` : '')
+    // bezZnacznikow: do JSON-LD idzie czysty tekst, bez [[...]]
+    text: bezZnacznikow(step.content) + (step.tip ? ` Wskazówka: ${step.tip}` : '') + (step.warning ? ` Uwaga: ${step.warning}` : '')
   }));
 
   // Prepare supplies (ingredients) for schema
@@ -251,7 +254,7 @@ const CulinaryRecipeDetails = () => {
                     Strategia kulinarna
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    {recipe.strategy}
+                    <TekstZOdnosnikiem tekst={recipe.strategy} href={sciezkaSera} />
                   </p>
                 </CardContent>
               </Card>
@@ -272,7 +275,7 @@ const CulinaryRecipeDetails = () => {
                         <div>
                           <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
                           <p className="text-muted-foreground leading-relaxed mb-3">
-                            {step.content}
+                            <TekstZOdnosnikiem tekst={step.content} href={sciezkaSera} />
                           </p>
                           {step.tip && (
                             <div className="flex items-start gap-2 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
