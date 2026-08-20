@@ -145,7 +145,7 @@ const RHD = () => {
             {/* Sekcja 1: Czym jest RHD */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
                   Czym jest RHD
                 </CardTitle>
@@ -173,7 +173,7 @@ const RHD = () => {
             {/* Sekcja: RHD a sprzedaż bezpośrednia */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Scale className="h-5 w-5 text-primary" />
                   RHD a sprzedaż bezpośrednia — czym się różnią
                 </CardTitle>
@@ -244,7 +244,7 @@ const RHD = () => {
             {/* Sekcja 2: Podstawy prawne */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Scale className="h-5 w-5 text-primary" />
                   Podstawy prawne RHD
                 </CardTitle>
@@ -316,7 +316,7 @@ const RHD = () => {
             {/* Sekcja 3: Kto może prowadzić RHD */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" />
                   Kto może prowadzić RHD i jakie warunki muszą być spełnione
                 </CardTitle>
@@ -353,7 +353,7 @@ const RHD = () => {
             {/* Sekcja 4: Proces rejestracji */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <ClipboardCheck className="h-5 w-5 text-primary" />
                   Proces rejestracji i prowadzenia RHD – krok po kroku
                 </CardTitle>
@@ -419,7 +419,7 @@ const RHD = () => {
             {/* Sekcja: Numer RHD (WNI) */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
                   Numer RHD — czym jest, jak wygląda i gdzie go podawać
                 </CardTitle>
@@ -465,7 +465,7 @@ const RHD = () => {
             {/* Sekcja 5: Zakres produkcji */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <ShoppingBag className="h-5 w-5 text-primary" />
                   Zakres produkcji i sprzedaży – co można sprzedawać w ramach RHD
                 </CardTitle>
@@ -497,7 +497,7 @@ const RHD = () => {
             {/* Sekcja 6: Preferencje podatkowe */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Euro className="h-5 w-5 text-primary" />
                   Preferencje podatkowe, limity sprzedaży i inne korzyści
                 </CardTitle>
@@ -531,7 +531,7 @@ const RHD = () => {
             {/* Sekcja: Zgłoszenie do US i opodatkowanie */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Euro className="h-5 w-5 text-primary" />
                   Zgłoszenie do urzędu skarbowego i opodatkowanie RHD
                 </CardTitle>
@@ -601,7 +601,7 @@ const RHD = () => {
             {/* Sekcja: Faktura, kasa fiskalna, ewidencja */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
                   Faktura, paragon, kasa fiskalna i ewidencja w RHD
                 </CardTitle>
@@ -659,7 +659,7 @@ const RHD = () => {
             {/* Sekcja: Faktura VAT RR */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <Euro className="h-5 w-5 text-primary" />
                   Faktura VAT RR — dodatkowe 7% przy sprzedaży do firm
                 </CardTitle>
@@ -763,7 +763,7 @@ const RHD = () => {
             {/* Sekcja 7: Wymogi bezpieczeństwa */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <AlertCircle className="h-5 w-5 text-primary" />
                   Wymogi związane z bezpieczeństwem żywności, higieną i jakością
                 </CardTitle>
@@ -797,7 +797,7 @@ const RHD = () => {
             {/* Sekcja 8: Praktyczne wskazówki */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle as="h2" className="flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-primary" />
                   Praktyczne wskazówki dla serowarów i rolników
                 </CardTitle>
@@ -851,7 +851,7 @@ const RHD = () => {
             {/* Sekcja 9: Podsumowanie */}
             <Card className="bg-primary/5 border-primary/20">
               <CardHeader>
-                <CardTitle>Podsumowanie kluczowych punktów</CardTitle>
+                <CardTitle as="h2">Podsumowanie kluczowych punktów</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
