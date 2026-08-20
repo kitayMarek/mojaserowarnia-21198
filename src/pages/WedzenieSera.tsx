@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 import { Link } from "react-router-dom";
 
 const WedzenieSera = () => {
@@ -303,6 +304,9 @@ const WedzenieSera = () => {
                 </CardContent>
               </Card>
             </div>
+
+            <SekcjaFAQ slug="wedzenie-sera" />
+
 
             <SeeAlso links={seeAlsoLinks} title="Zobacz również" />
           </div>

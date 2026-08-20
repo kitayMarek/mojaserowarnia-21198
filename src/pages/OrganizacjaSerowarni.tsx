@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 
 const OrganizacjaSerowarni = () => {
   const zones = [
@@ -329,6 +330,9 @@ const OrganizacjaSerowarni = () => {
                 ))}
               </div>
             </section>
+
+            <SekcjaFAQ slug="organizacja-serowarni" />
+
 
             <SeeAlso links={seeAlsoLinks} title="Zobacz również" />
           </div>

@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 
 const DojrzewalniaZLodowki = () => {
   const faqData = [
@@ -255,6 +256,8 @@ const DojrzewalniaZLodowki = () => {
             </div>
 
             <div className="mt-10">
+              <SekcjaFAQ slug="dojrzewalnia-z-lodowki" />
+
               <SeeAlso links={seeAlsoLinks} />
             </div>
           </div>

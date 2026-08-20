@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 import { Link } from "react-router-dom";
 
 const WadyMlekaWadySera = () => {
@@ -370,6 +371,9 @@ const WadyMlekaWadySera = () => {
           </div>
         </div>
       </main>
+
+      <SekcjaFAQ slug="wady-mleka-a-wady-sera" />
+
 
       <SeeAlso links={seeAlsoLinks} />
       <Footer />

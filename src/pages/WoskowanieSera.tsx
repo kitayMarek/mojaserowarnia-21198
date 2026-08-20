@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 
 const WoskowanieSera = () => {
   const faqData = [
@@ -278,6 +279,8 @@ const WoskowanieSera = () => {
             </div>
 
             <div className="mt-10">
+              <SekcjaFAQ slug="woskowanie-sera" />
+
               <SeeAlso links={seeAlsoLinks} />
             </div>
           </div>

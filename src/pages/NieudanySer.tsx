@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import SekcjaFAQ from "@/components/SekcjaFAQ";
 import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
 
@@ -330,6 +331,9 @@ const NieudanySer = () => {
           </div>
         </div>
       </main>
+
+      <SekcjaFAQ slug="nieudany-ser" />
+
 
       <SeeAlso links={seeAlsoLinks} />
       <Footer />
