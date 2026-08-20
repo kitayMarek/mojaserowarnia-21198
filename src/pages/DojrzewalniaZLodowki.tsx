@@ -7,6 +7,7 @@ import { Thermometer } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 
@@ -117,6 +118,66 @@ const DojrzewalniaZLodowki = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="dojrzewalnia-z-lodowki" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Zwykła lodówka jest dla sera za zimna i za sucha — ale to jedyne dwie rzeczy, które trzeba w niej zmienić."}
+
+              podsumowanie={"Ser potrzebuje 10–14°C i 80–95% wilgotności, a lodówka daje 2–4°C i jakieś 25%. Ten poradnik pokazuje, jak przestawić zwykłą lodówkę zamiast kupować dojrzewalnię, i czego pilnować, żeby ser nie wysechł ani nie zapleśniał tam, gdzie nie powinien."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Ser wysycha albo pęka",
+
+                  propozycja: "— skórki można nie mieć wcale:",
+
+                  href: "/woskowanie-sera",
+
+                  etykieta: "woskowanie sera",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz dodać aromat",
+
+                  propozycja: "— tylko na zimno, inaczej tłuszcz się wytapia:",
+
+                  href: "/wedzenie-sera",
+
+                  etykieta: "wędzenie sera",
+
+                },
+
+                {
+
+                  sytuacja: "Coś poszło nie tak w dojrzewaniu",
+
+                  propozycja: "— od objawu do przyczyny:",
+
+                  href: "/nieudany-ser",
+
+                  etykieta: "nieudany ser",
+
+                },
+
+                {
+
+                  sytuacja: "Szukasz sera na start",
+
+                  propozycja: "— dojrzewa krótko i wybacza:",
+
+                  href: "/przepisy/gouda",
+
+                  etykieta: "gouda",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

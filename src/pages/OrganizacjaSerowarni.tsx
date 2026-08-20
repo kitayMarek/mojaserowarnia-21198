@@ -7,6 +7,7 @@ import { Factory, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 
@@ -165,6 +166,66 @@ const OrganizacjaSerowarni = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="organizacja-serowarni" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Serowarnia nie musi być duża, ale musi mieć jeden kierunek: od mleka do gotowego sera, bez zawracania."}
+
+              podsumowanie={"Ten poradnik pokazuje, jak rozplanować pomieszczenie tak, żeby droga surowca nie krzyżowała się z drogą produktu, jaki sprzęt jest naprawdę potrzebny na starcie, a bez jakiego można się obejść. Polskie przepisy nie narzucają minimalnej powierzchni — liczy się układ i możliwość utrzymania czystości."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Planujesz sprzedawać",
+
+                  propozycja: "— tryb zależy od tego, komu:",
+
+                  href: "/prawo/rhd",
+
+                  etykieta: "rolniczy handel detaliczny",
+
+                },
+
+                {
+
+                  sytuacja: "Nie wiesz, gdzie dojrzewać ser",
+
+                  propozycja: "— nie trzeba osobnej piwnicy:",
+
+                  href: "/dojrzewalnia-z-lodowki",
+
+                  etykieta: "dojrzewalnia z lodówki",
+
+                },
+
+                {
+
+                  sytuacja: "Liczysz, czy to się spina",
+
+                  propozycja: "— koszt kilograma i marża:",
+
+                  href: "/kalkulator-kosztu-sera",
+
+                  etykieta: "kalkulator kosztu sera",
+
+                },
+
+                {
+
+                  sytuacja: "Zaczynasz od zera",
+
+                  propozycja: "— cała droga od mleka do sera:",
+
+                  href: "/poradnik",
+
+                  etykieta: "poradnik dla serowarów",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

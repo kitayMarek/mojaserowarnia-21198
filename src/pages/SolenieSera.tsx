@@ -7,6 +7,7 @@ import { Droplets } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 
@@ -125,6 +126,66 @@ const SolenieSera = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="solenie-sera" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Sól w serze nie jest przyprawą. Reguluje wodę, hamuje niechciane bakterie i decyduje o tym, czy skórka w ogóle powstanie."}
+
+              podsumowanie={"Za mało soli i ser rozwija obce bakterie, za dużo i dojrzewanie staje w miejscu. Ten poradnik podaje stężenia i czasy dla konkretnych serów, tłumaczy różnicę między solanką a soleniem na sucho i pokazuje, jak przygotować solankę, która posłuży wiele razy."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Nie chcesz liczyć w pamięci",
+
+                  propozycja: "— stężenie i dawka CaCl₂ z kalkulatora:",
+
+                  href: "/kalkulator-solanki",
+
+                  etykieta: "kalkulator solanki",
+
+                },
+
+                {
+
+                  sytuacja: "Ser idzie potem do dojrzewalni",
+
+                  propozycja: "— warunki decydują nie mniej niż solenie:",
+
+                  href: "/dojrzewalnia-z-lodowki",
+
+                  etykieta: "dojrzewalnia z lodówki",
+
+                },
+
+                {
+
+                  sytuacja: "Trzymasz drób albo bydło",
+
+                  propozycja: "— solanka po serze bywa dla nich śmiertelna:",
+
+                  href: "/serwatka-dla-zwierzat",
+
+                  etykieta: "sól a zwierzęta",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz zobaczyć to w przepisie",
+
+                  propozycja: "— solanka nasycona, trzy godziny na kilogram:",
+
+                  href: "/przepisy/gouda",
+
+                  etykieta: "gouda",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

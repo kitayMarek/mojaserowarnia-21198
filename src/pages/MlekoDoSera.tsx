@@ -7,6 +7,7 @@ import { Milk } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 import { Link } from "react-router-dom";
@@ -142,6 +143,66 @@ const MlekoDoSera = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="mleko-do-sera" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Z tego samego litra jeden serowar wyciągnie sto gramów sera, drugi sto trzydzieści — i nie zawsze decydują o tym umiejętności."}
+
+              podsumowanie={"O wydajności decyduje skład mleka, a nie jego ilość. Ten poradnik tłumaczy, które składniki naprawdę przechodzą do sera, dlaczego rasa krowy zmienia wynik i po czym poznać mleko, z którego ser się nie uda, zanim wlejesz je do garnka."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Coś poszło nie tak",
+
+                  propozycja: "— wady mleka mają swoje odbicie w serze:",
+
+                  href: "/wady-mleka-a-wady-sera",
+
+                  etykieta: "wady mleka a wady sera",
+
+                },
+
+                {
+
+                  sytuacja: "Liczysz opłacalność",
+
+                  propozycja: "— wydajność przekłada się wprost na koszt kilograma:",
+
+                  href: "/kalkulator-kosztu-sera",
+
+                  etykieta: "kalkulator kosztu sera",
+
+                },
+
+                {
+
+                  sytuacja: "Masz własne krowy",
+
+                  propozycja: "— to, czym je karmisz, wraca w mleku:",
+
+                  href: "/pasze",
+
+                  etykieta: "pasze i żywienie",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz zacząć od czegoś prostego",
+
+                  propozycja: "— ser, który wybacza najwięcej:",
+
+                  href: "/przepisy/twarog",
+
+                  etykieta: "twaróg",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
 import PageHeader from "@/components/PageHeader";
@@ -141,6 +142,36 @@ const Poradnik = () => {
 
           <div className="container mx-auto px-4 py-8">
             {/* TL;DR Section */}
+            <WprowadzenieDzialu
+              lead={"Przepis mówi, co zrobić. Ten poradnik tłumaczy dlaczego — żeby dało się warzyć bez trzymania kartki przed oczami."}
+              podsumowanie={"Cała droga od mleka do gotowego sera: zaszczepienie kulturą, koagulacja, krojenie skrzepu, dogrzewanie, prasowanie, solenie i dojrzewanie. Przy każdym etapie to, co się w serze dzieje, oraz błędy, które najczęściej się na nim popełnia."}
+              tropy={[
+                {
+                  sytuacja: "Nie wiesz, jaką kulturę wybrać",
+                  propozycja: "— 188 pozycji z dawkowaniem:",
+                  href: "/baza-kultur",
+                  etykieta: "baza kultur",
+                },
+                {
+                  sytuacja: "Chcesz od razu spróbować",
+                  propozycja: "— gotowy tego samego wieczora:",
+                  href: "/przepisy/ricotta",
+                  etykieta: "ricotta",
+                },
+                {
+                  sytuacja: "Ser się nie udał",
+                  propozycja: "— od objawu do przyczyny:",
+                  href: "/nieudany-ser",
+                  etykieta: "nieudany ser",
+                },
+                {
+                  sytuacja: "Zastanawiasz się nad mlekiem",
+                  propozycja: "— skład decyduje o wydajności:",
+                  href: "/mleko-do-sera",
+                  etykieta: "mleko do sera",
+                },
+              ]}
+            />
             <TLDRSection title="W skrócie (TL;DR)">
               <p>
                 <strong>Produkcja sera domowego</strong> wymaga: świeżego mleka o niskim obciążeniu bakteryjnym, 

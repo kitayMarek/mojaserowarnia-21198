@@ -7,6 +7,7 @@ import { Flame } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 import { Link } from "react-router-dom";
@@ -110,6 +111,66 @@ const WedzenieSera = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="wedzenie-sera" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Ser wędzi się wyłącznie na zimno. Powyżej trzydziestu stopni tłuszcz zaczyna się wytapiać i zamiast wędzonego sera zostaje tłusta bryła."}
+
+              podsumowanie={"Ten poradnik podaje zakres temperatur, czasy dla różnych serów i rodzaje drewna, które nadają się do wędzenia nabiału. Tłumaczy też, dlaczego ser trzeba przed wędzeniem osuszyć i co zrobić, gdy dym osiadł nierówno."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Ser jeszcze nie ma skórki",
+
+                  propozycja: "— wędzenie wymaga suchej powierzchni:",
+
+                  href: "/dojrzewalnia-z-lodowki",
+
+                  etykieta: "dojrzewalnia z lodówki",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz zabezpieczyć ser po wędzeniu",
+
+                  propozycja: "— wosk zamyka aromat w środku:",
+
+                  href: "/woskowanie-sera",
+
+                  etykieta: "woskowanie sera",
+
+                },
+
+                {
+
+                  sytuacja: "Dym wyszedł gorzki",
+
+                  propozycja: "— najczęściej wina kory albo zbyt wysokiej temperatury:",
+
+                  href: "/nieudany-ser",
+
+                  etykieta: "nieudany ser",
+
+                },
+
+                {
+
+                  sytuacja: "Szukasz sera, który dobrze się wędzi",
+
+                  propozycja: "— zwięzły i niezbyt wilgotny:",
+
+                  href: "/przepisy/gouda",
+
+                  etykieta: "gouda",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

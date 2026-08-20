@@ -7,6 +7,7 @@ import { GitBranch, AlertTriangle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 import { Link } from "react-router-dom";
@@ -128,6 +129,66 @@ const WadyMlekaWadySera = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="wady-mleka-a-wady-sera" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Większość wad sera powstaje na długo przed tym, zanim mleko trafi do garnka."}
+
+              podsumowanie={"Kiszonka w paszy, zapalenie wymienia, antybiotyki, późna laktacja — każde z nich zostawia w serze inny, rozpoznawalny ślad. Ten poradnik prowadzi w drugą stronę niż zwykle: od wady w gotowym serze wstecz, do przyczyny w oborze."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Ser już się nie udał",
+
+                  propozycja: "— co da się jeszcze zrobić:",
+
+                  href: "/nieudany-ser",
+
+                  etykieta: "nieudany ser",
+
+                },
+
+                {
+
+                  sytuacja: "Wybierasz mleko albo krowę",
+
+                  propozycja: "— na co patrzeć przy zakupie:",
+
+                  href: "/mleko-do-sera",
+
+                  etykieta: "mleko do sera",
+
+                },
+
+                {
+
+                  sytuacja: "Karmisz własne zwierzęta",
+
+                  propozycja: "— kiszonka to najczęstsze źródło kłopotu:",
+
+                  href: "/pasze",
+
+                  etykieta: "pasze i żywienie",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz zrozumieć oczka i wzdęcia",
+
+                  propozycja: "— ten sam gaz, dwie różne przyczyny:",
+
+                  href: "/przepisy/emmental",
+
+                  etykieta: "ementaler",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

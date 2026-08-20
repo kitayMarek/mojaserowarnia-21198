@@ -7,6 +7,7 @@ import { Layers } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 
@@ -108,6 +109,66 @@ const WoskowanieSera = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="woskowanie-sera" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Wosk nie jest ozdobą. Zastępuje skórkę, której domowy ser często nie zdąży wykształcić."}
+
+              podsumowanie={"Ser bez skórki i bez wosku traci wodę szybciej, niż dojrzewa — wysycha, pęka i przestaje pracować w środku. Ten poradnik mówi, jakiego wosku użyć (nie parafiny), w jakiej temperaturze go nakładać i dlaczego ser musi być wcześniej całkowicie suchy."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Nie masz gdzie dojrzewać",
+
+                  propozycja: "— warunki są ważniejsze niż sam wosk:",
+
+                  href: "/dojrzewalnia-z-lodowki",
+
+                  etykieta: "dojrzewalnia z lodówki",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz najpierw uwędzić",
+
+                  propozycja: "— kolejność ma znaczenie:",
+
+                  href: "/wedzenie-sera",
+
+                  etykieta: "wędzenie sera",
+
+                },
+
+                {
+
+                  sytuacja: "Pod woskiem pojawiła się pleśń",
+
+                  propozycja: "— zwykle ser nie był suchy:",
+
+                  href: "/nieudany-ser",
+
+                  etykieta: "nieudany ser",
+
+                },
+
+                {
+
+                  sytuacja: "Szukasz sera na długie dojrzewanie",
+
+                  propozycja: "— dwanaście miesięcy i więcej:",
+
+                  href: "/przepisy/parmezan",
+
+                  etykieta: "parmezan",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

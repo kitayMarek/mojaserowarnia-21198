@@ -7,6 +7,7 @@ import { LifeBuoy, AlertTriangle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
 import OstrzezenieSol from "@/components/OstrzezenieSol";
@@ -133,6 +134,66 @@ const NieudanySer = () => {
             <div className="mt-4 mb-8">
               <ReactionButton contentType="guide" contentId="nieudany-ser" variant="default" />
             </div>
+
+            <WprowadzenieDzialu
+
+              lead={"Ser się nie udał. Pierwsze pytanie nie brzmi jednak „jak go uratować”, tylko „czy to jeszcze wolno zjeść”."}
+
+              podsumowanie={"Nie każdy nieudany ser nadaje się do odzysku, ale też nie każdy trzeba wyrzucać. Ten poradnik prowadzi od objawu — wzdęcia, goryczy, gumowatej struktury, pleśni, której się nie spodziewałeś — do przyczyny, i mówi wprost, kiedy przestać kombinować."}
+
+              tropy={[
+
+                {
+
+                  sytuacja: "Zanim wyrzucisz",
+
+                  propozycja: "— część nieudanych serów da się przetopić:",
+
+                  href: "/przepisy/ser-topiony",
+
+                  etykieta: "ser topiony",
+
+                },
+
+                {
+
+                  sytuacja: "Chcesz wiedzieć, skąd to się wzięło",
+
+                  propozycja: "— większość wad powstaje przed garnkiem:",
+
+                  href: "/wady-mleka-a-wady-sera",
+
+                  etykieta: "wady mleka a wady sera",
+
+                },
+
+                {
+
+                  sytuacja: "Ser wysechł albo spękał w dojrzewaniu",
+
+                  propozycja: "— zwykle to wina warunków, nie przepisu:",
+
+                  href: "/dojrzewalnia-z-lodowki",
+
+                  etykieta: "dojrzewalnia z lodówki",
+
+                },
+
+                {
+
+                  sytuacja: "Serwatki też nie wylewaj",
+
+                  propozycja: "— ma laktozę, białka i potas:",
+
+                  href: "/serwatka-dla-zwierzat",
+
+                  etykieta: "serwatka dla zwierząt",
+
+                },
+
+              ]}
+
+            />
 
             <TLDRSection>
               <p>

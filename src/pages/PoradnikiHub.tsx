@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig, Layers, Thermometer, Droplets } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 
 const PoradnikiHub = () => {
 
@@ -110,6 +111,64 @@ const PoradnikiHub = () => {
             </p>
           </div>
         </header>
+
+        <section className="container mx-auto px-4 pt-12">
+          <div className="max-w-5xl mx-auto">
+            <WprowadzenieDzialu
+              lead="Przepis powie ci, co zrobić. Poradnik tłumaczy, dlaczego to działa — i co zrobić, kiedy przestanie."
+              bloki={[
+                {
+                  tytul: "Zanim uwarzysz",
+                  tekst:
+                    "Jakie mleko się nadaje i dlaczego UHT nigdy nie zetnie się w ser. Czym różnią się kultury mezofilne od termofilnych. Jak przeliczyć siłę podpuszczki podaną w IMCU na krople. Gdzie to wszystko kupić.",
+                },
+                {
+                  tytul: "Gdy ser już jest",
+                  tekst:
+                    "Solenie w solance albo na sucho, woskowanie, wędzenie i dojrzewalnia zrobiona ze zwykłej lodówki. To etapy, na których najczęściej psuje się ser, który do tej pory wychodził dobrze.",
+                },
+                {
+                  tytul: "Gdy coś poszło nie tak",
+                  tekst:
+                    "Ser gorzki, gumowaty, spuchnięty albo pokryty pleśnią, której się nie spodziewałeś. Osobny poradnik prowadzi od objawu do przyczyny, a drugi pokazuje, jak wady mleka zamieniają się w wady sera.",
+                },
+              ]}
+              podsumowanie="Poradniki są napisane pod domową skalę: kilkanaście litrów mleka, kuchnia zamiast hali i lodówka zamiast dojrzewalni. Tam, gdzie coś zależy od liczby — temperatury, pH, stężenia solanki — ta liczba jest podana, a nie zastąpiona słowem „odpowiednio”."
+              tropy={[
+                {
+                  sytuacja: "Ser się nie udał",
+                  propozycja: "— od objawu do przyczyny, z ratunkiem tam, gdzie jeszcze jest możliwy:",
+                  href: "/nieudany-ser",
+                  etykieta: "nieudany ser",
+                },
+                {
+                  sytuacja: "Kupujesz mleko albo krowę",
+                  propozycja: "— co decyduje o wydajności i czy z tego mleka w ogóle wyjdzie ser:",
+                  href: "/mleko-do-sera",
+                  etykieta: "mleko do sera",
+                },
+                {
+                  sytuacja: "Nie masz gdzie dojrzewać",
+                  propozycja: "— zwykła lodówka wystarczy, trzeba ją tylko przestawić:",
+                  href: "/dojrzewalnia-z-lodowki",
+                  etykieta: "dojrzewalnia z lodówki",
+                },
+                {
+                  sytuacja: "Pierwszy raz solisz",
+                  propozycja: "— stężenie, czas i różnica między solanką a soleniem na sucho:",
+                  href: "/solenie-sera",
+                  etykieta: "solenie sera",
+                },
+                {
+                  sytuacja: "Szukasz podstaw",
+                  propozycja: "— cała droga od mleka do gotowego sera:",
+                  href: "/poradnik",
+                  etykieta: "poradnik dla serowarów",
+                },
+              ]}
+            />
+          </div>
+        </section>
 
         {/* Guides Grid */}
         <section className="container mx-auto px-4 py-16">
