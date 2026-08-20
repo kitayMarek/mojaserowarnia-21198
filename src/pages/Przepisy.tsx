@@ -237,66 +237,58 @@ const Przepisy = () => {
         <section className="py-8 bg-background">
           <div className="container mx-auto px-4 max-w-5xl">
             <WprowadzenieDzialu
+              lead="Sery robi się w domu z trzech powodów — i każdy prowadzi tu inną drogą."
+              bloki={[
+                {
+                  tytul: "Bo chcesz zacząć",
+                  tekst:
+                    "Najkrótsza droga to ser, który powstaje tego samego wieczora i nie wymaga dojrzewalni ani prasy: ricotta z serwatki, twaróg z ukwaszonego mleka, mozzarella rozciągana w gorącej wodzie. Potrzebny jest garnek, termometr i mleko, które nie jest UHT.",
+                },
+                {
+                  tytul: "Bo już warzysz i szukasz konkretu",
+                  tekst:
+                    "Pełne dawki kultur, temperatury i czasy dojrzewania. Przy każdym przepisie zamienniki kultur i to, co zwykle idzie nie tak — bo przepis mówiący tylko „dodaj kulturę mezofilną\" nie pomaga, gdy akurat masz inną.",
+                },
+                {
+                  tytul: "Bo chcesz zjeść coś, czego nie kupisz",
+                  tekst:
+                    "Halloumi, które grilluje się bez panierki. Gruyère do fondue. Koryciński z czarnuszką. Camembert z prawdziwą białą pleśnią. Część z nich jest w Polsce trudno dostępna albo kosztuje tyle, że prościej zrobić samemu.",
+                },
+              ]}
+              podsumowanie="Przepisy są podzielone według trudności, a filtry pozwalają wybierać po czasie dojrzewania i rodzaju mleka. Każdy zawiera listę składników, instrukcję krok po kroku, wartości odżywcze i wskazówki, co zrobić, gdy coś pójdzie nie tak."
               tropy={[
                 {
                   sytuacja: "Pierwszy raz",
-                  propozycja: "zacznij od sera, który powstaje w godzinę i nie wymaga dojrzewalni —",
+                  propozycja: "— ser gotowy w godzinę, bez dojrzewalni:",
                   href: "/przepisy/ricotta",
                   etykieta: "ricotta z serwatki",
                 },
                 {
                   sytuacja: "Masz mleko prosto od krowy",
-                  propozycja: "najprostszy sposób, żeby nic się nie zmarnowało, to",
+                  propozycja: "— najprostszy sposób, żeby nic się nie zmarnowało:",
                   href: "/przepisy/twarog",
                   etykieta: "twaróg",
                 },
                 {
                   sytuacja: "Chcesz ser, którego nie kupisz",
-                  propozycja: "grillowane halloumi nie topi się na ruszcie, a w sklepach bywa rzadkością —",
+                  propozycja: "— nie topi się na ruszcie, a w sklepach bywa rzadkością:",
                   href: "/przepisy/halloumi",
-                  etykieta: "przepis na halloumi",
+                  etykieta: "halloumi",
                 },
                 {
                   sytuacja: "Nie wiesz, jakiej kultury użyć",
-                  propozycja: "przy każdym przepisie jest tabela zamienników, a pełna lista jest w",
+                  propozycja: "— tabela zamienników jest przy każdym przepisie, pełna lista w",
                   href: "/baza-kultur",
                   etykieta: "bazie kultur",
                 },
                 {
                   sytuacja: "Ser już gotowy",
-                  propozycja: "przy każdym przepisie znajdziesz, do czego się nadaje w kuchni, a dania z serami są w",
+                  propozycja: "— co z nim ugotować, znajdziesz w",
                   href: "/przepisy-kulinarne",
                   etykieta: "przepisach kulinarnych",
                 },
               ]}
-            >
-              <p>
-                Sery robi się w domu z trzech powodów i każdy prowadzi tu inną drogą.
-              </p>
-              <p>
-                <strong>Bo chcesz zacząć.</strong> Wtedy najkrótsza droga to ser, który powstaje tego
-                samego wieczora i nie wymaga dojrzewalni ani prasy: ricotta z serwatki, twaróg
-                z ukwaszonego mleka, mozzarella, którą rozciągniesz w gorącej wodzie. Potrzebny jest
-                garnek, termometr i mleko, które nie jest UHT.
-              </p>
-              <p>
-                <strong>Bo już warzysz i szukasz konkretu.</strong> Tu jest {recipesData.length} przepisów
-                z pełnymi dawkami kultur, temperaturami i czasami dojrzewania. Przy każdym są zamienniki
-                kultur, typowe błędy i to, co zwykle idzie nie tak — bo przepis, który mówi tylko
-                „dodaj kulturę mezofilną", nie pomaga, gdy akurat masz inną.
-              </p>
-              <p>
-                <strong>Bo chcesz zjeść coś, czego nie kupisz.</strong> Halloumi, które grilluje się
-                bez panierki. Gruyère do fondue. Koryciński z czarnuszką. Prawdziwy camembert
-                z białą pleśnią. Część z nich jest w Polsce trudno dostępna albo kosztuje tyle, że
-                prościej zrobić samemu — zwłaszcza gdy masz dostęp do dobrego mleka.
-              </p>
-              <p>
-                Przepisy są podzielone według trudności, a filtry pozwalają wybrać po czasie
-                dojrzewania i rodzaju mleka. Każdy zawiera listę składników, instrukcję krok po kroku,
-                wartości odżywcze i wskazówki, co zrobić, gdy coś pójdzie nie tak.
-              </p>
-            </WprowadzenieDzialu>
+            />
           </div>
         </section>
 
