@@ -12,6 +12,7 @@ import przepisyHeaderImage from "@/assets/przepisy-header.webp";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import DatasetSchema from "@/components/DatasetSchema";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 
 // See Also links for Przepisy page
@@ -235,13 +236,67 @@ const Przepisy = () => {
         {/* TL;DR Section */}
         <section className="py-8 bg-background">
           <div className="container mx-auto px-4 max-w-5xl">
-            <TLDRSection>
+            <WprowadzenieDzialu
+              tropy={[
+                {
+                  sytuacja: "Pierwszy raz",
+                  propozycja: "zacznij od sera, który powstaje w godzinę i nie wymaga dojrzewalni —",
+                  href: "/przepisy/ricotta",
+                  etykieta: "ricotta z serwatki",
+                },
+                {
+                  sytuacja: "Masz mleko prosto od krowy",
+                  propozycja: "najprostszy sposób, żeby nic się nie zmarnowało, to",
+                  href: "/przepisy/twarog",
+                  etykieta: "twaróg",
+                },
+                {
+                  sytuacja: "Chcesz ser, którego nie kupisz",
+                  propozycja: "grillowane halloumi nie topi się na ruszcie, a w sklepach bywa rzadkością —",
+                  href: "/przepisy/halloumi",
+                  etykieta: "przepis na halloumi",
+                },
+                {
+                  sytuacja: "Nie wiesz, jakiej kultury użyć",
+                  propozycja: "przy każdym przepisie jest tabela zamienników, a pełna lista jest w",
+                  href: "/baza-kultur",
+                  etykieta: "bazie kultur",
+                },
+                {
+                  sytuacja: "Ser już gotowy",
+                  propozycja: "przy każdym przepisie znajdziesz, do czego się nadaje w kuchni, a dania z serami są w",
+                  href: "/przepisy-kulinarne",
+                  etykieta: "przepisach kulinarnych",
+                },
+              ]}
+            >
               <p>
-                <strong>{recipesData.length} sprawdzonych przepisów</strong> na domowe sery (ang. homemade cheese recipes) 
-                od łatwych po zaawansowane. Od świeżej ricotty (ang. fresh cheese) po dojrzewające twarde sery typu Parmezan. 
-                Każdy przepis zawiera pełne instrukcje, listę składników, czas dojrzewania (ang. aging time) i wartości odżywcze.
+                Sery robi się w domu z trzech powodów i każdy prowadzi tu inną drogą.
               </p>
-            </TLDRSection>
+              <p>
+                <strong>Bo chcesz zacząć.</strong> Wtedy najkrótsza droga to ser, który powstaje tego
+                samego wieczora i nie wymaga dojrzewalni ani prasy: ricotta z serwatki, twaróg
+                z ukwaszonego mleka, mozzarella, którą rozciągniesz w gorącej wodzie. Potrzebny jest
+                garnek, termometr i mleko, które nie jest UHT.
+              </p>
+              <p>
+                <strong>Bo już warzysz i szukasz konkretu.</strong> Tu jest {recipesData.length} przepisów
+                z pełnymi dawkami kultur, temperaturami i czasami dojrzewania. Przy każdym są zamienniki
+                kultur, typowe błędy i to, co zwykle idzie nie tak — bo przepis, który mówi tylko
+                „dodaj kulturę mezofilną", nie pomaga, gdy akurat masz inną.
+              </p>
+              <p>
+                <strong>Bo chcesz zjeść coś, czego nie kupisz.</strong> Halloumi, które grilluje się
+                bez panierki. Gruyère do fondue. Koryciński z czarnuszką. Prawdziwy camembert
+                z białą pleśnią. Część z nich jest w Polsce trudno dostępna albo kosztuje tyle, że
+                prościej zrobić samemu — zwłaszcza gdy masz dostęp do dobrego mleka.
+              </p>
+              <p>
+                Przepisy są podzielone według trudności, a filtry pozwalają wybrać po czasie
+                dojrzewania i rodzaju mleka. Każdy zawiera listę składników, instrukcję krok po kroku,
+                wartości odżywcze i wskazówki, co zrobić, gdy coś pójdzie nie tak.
+              </p>
+            </WprowadzenieDzialu>
           </div>
         </section>
 
