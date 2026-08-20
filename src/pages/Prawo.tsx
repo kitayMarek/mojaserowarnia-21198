@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Scale } from "lucide-react";
@@ -78,14 +79,53 @@ const Prawo = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* TL;DR Section */}
-            <TLDRSection>
-              <ul className="space-y-1">
-                <li>• <strong>RHD</strong> (Rolniczy Handel Detaliczny) – sprzedaż bezpośrednia do 100 tys. zł/rok bez rejestracji działalności</li>
-                <li>• <strong>MOL</strong> (Marginal, Local, Limited) – sprzedaż do sklepów i restauracji w promieniu 100 km</li>
-                <li>• <strong>Akty prawne UE</strong> – rozporządzenia 852, 853, 854/2004 o higienie produkcji żywności</li>
-                <li>• <strong>Rzeźnia rolnicza</strong> – ubój drobiu przy gospodarstwie (do 200 szt./dzień)</li>
-              </ul>
-            </TLDRSection>
+            <WprowadzenieDzialu
+              lead="Ser z własnego gospodarstwa można legalnie sprzedawać — pytanie brzmi tylko, w którym trybie."
+              bloki={[
+                {
+                  tytul: "RHD — sprzedaż konsumentowi",
+                  tekst:
+                    "Do 100 000 zł rocznie bez zakładania działalności gospodarczej, z ryczałtem 2% powyżej limitu. Sprzedajesz osobie, która zjada — na targu, z gospodarstwa, na jarmarku. Zgłoszenie do powiatowego lekarza weterynarii przed startem.",
+                },
+                {
+                  tytul: "MOL — sprzedaż do sklepów",
+                  tekst:
+                    "Gdy odbiorcą ma być sklep albo restauracja, RHD nie wystarczy. MOL dopuszcza sprzedaż do zakładów detalicznych w ograniczonym promieniu i przy tygodniowych limitach ilościowych.",
+                },
+                {
+                  tytul: "Dokumenty i oznakowanie",
+                  tekst:
+                    "Ewidencja sprzedaży, wzory zgłoszeń, wymagane dane na etykiecie i faktura VAT RR, której nabywca często nie umie wystawić. Wszystko z odesłaniem do konkretnych przepisów, nie do ogólników.",
+                },
+              ]}
+              podsumowanie="Przepisy zmieniają się częściej, niż by się chciało, dlatego przy każdej liczbie podajemy podstawę prawną — żeby dało się sprawdzić, czy nadal obowiązuje. To nie zastępuje rozmowy z powiatowym lekarzem weterynarii, ale pozwala pójść tam przygotowanym."
+              tropy={[
+                {
+                  sytuacja: "Chcesz zacząć sprzedawać",
+                  propozycja: "— limity, rejestracja, podatki:",
+                  href: "/prawo/rhd",
+                  etykieta: "rolniczy handel detaliczny",
+                },
+                {
+                  sytuacja: "Chcesz sprzedawać do sklepów",
+                  propozycja: "— inne zasady i inne limity:",
+                  href: "/prawo/mol",
+                  etykieta: "MOL",
+                },
+                {
+                  sytuacja: "Potrzebujesz wzorów",
+                  propozycja: "— zgłoszenia i ewidencja do pobrania:",
+                  href: "/prawo/rhd/dokumenty",
+                  etykieta: "dokumenty RHD",
+                },
+                {
+                  sytuacja: "Nie wiesz, co na etykiecie",
+                  propozycja: "— wygeneruj gotową:",
+                  href: "/etykieta-rhd",
+                  etykieta: "etykieta do sprzedaży",
+                },
+              ]}
+            />
 
             <div className="space-y-4">
             {legalTopics.map((topic) => {

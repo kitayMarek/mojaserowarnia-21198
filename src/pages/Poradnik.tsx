@@ -143,9 +143,9 @@ const Poradnik = () => {
             {/* TL;DR Section */}
             <TLDRSection title="W skrócie (TL;DR)">
               <p>
-                <strong>Produkcja sera domowego</strong> (ang. <em>artisan cheesemaking</em>) wymaga: świeżego mleka o niskim obciążeniu bakteryjnym, 
-                kultur starterowych (ang. <em>starter cultures</em>), podpuszczki (ang. <em>rennet</em>), kontroli temperatury i pH oraz 
-                cierpliwości w dojrzewaniu. Kluczowe etapy: zaszczepienie mleka → tworzenie skrzepu (ang. <em>curd</em>) → 
+                <strong>Produkcja sera domowego</strong> wymaga: świeżego mleka o niskim obciążeniu bakteryjnym, 
+                kultur starterowych, podpuszczki, kontroli temperatury i pH oraz 
+                cierpliwości w dojrzewaniu. Kluczowe etapy: zaszczepienie mleka → tworzenie skrzepu → 
                 cięcie i dogrzewanie → formowanie → solenie → dojrzewanie. Zacznij od prostych serów (camembert, gouda), 
                 prowadź dokładne zapisy i stopniowo rozwijaj umiejętności.
               </p>

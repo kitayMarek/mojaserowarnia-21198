@@ -8,6 +8,7 @@ import CulinaryRecipeCard from "@/components/CulinaryRecipeCard";
 import { Badge } from "@/components/ui/badge";
 import { ChefHat, UtensilsCrossed, Clock, Users } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 
 const PrzepisyKulinarne = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
@@ -79,6 +80,58 @@ const PrzepisyKulinarne = () => {
                 <span className="text-foreground font-medium">Dla każdego poziomu</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <WprowadzenieDzialu
+              lead="Ser, który zrobiłeś sam, zasługuje na coś więcej niż kanapkę."
+              bloki={[
+                {
+                  tytul: "Danie zbudowane wokół sera",
+                  tekst:
+                    "Ser nie jest tu dodatkiem posypanym na wierzch, tylko powodem, dla którego danie w ogóle istnieje. Involtini z płynnym sercem goudy, tarta z camembertem, risotto na gorgonzoli, sernik na własnym twarogu.",
+                },
+                {
+                  tytul: "Z drogą powrotną do sera",
+                  tekst:
+                    "Przy każdym daniu jest odnośnik do przepisu na ser, na którym ono stoi. Jeśli akurat nie masz go pod ręką, możesz go zrobić — a jeśli masz nadmiar po warzeniu, wiesz już, co z nim zrobić.",
+                },
+                {
+                  tytul: "Z wyjaśnieniem, dlaczego działa",
+                  tekst:
+                    "Czemu twaróg na sernik ma być tłusty, czemu bakalie trzeba namoczyć dzień wcześniej, czemu gruyère topi się gładko, a inny ser rozpada się na tłuszcz i nitki. Przepis, który mówi tylko „wymieszaj”, nie ratuje, gdy coś pójdzie nie tak.",
+                },
+              ]}
+              podsumowanie="Dział jest młody i rośnie powoli — wolimy kilka dopracowanych przepisów niż setkę przepisanych z internetu. Każdy z nich ktoś tu zrobił, zanim trafił na stronę."
+              tropy={[
+                {
+                  sytuacja: "Masz twaróg",
+                  propozycja: "— ciężki od bakalii, na miodzie i własnym serze:",
+                  href: "/przepisy-kulinarne/warminski-sernik-bakaliowy",
+                  etykieta: "warmiński sernik",
+                },
+                {
+                  sytuacja: "Chcesz zrobić wrażenie",
+                  propozycja: "— roladki z ciągnącym się serem w środku:",
+                  href: "/przepisy-kulinarne/aksamitne-involtini-gouda",
+                  etykieta: "involtini z goudy",
+                },
+                {
+                  sytuacja: "Masz ser pleśniowy",
+                  propozycja: "— kremowe, gotowe w pół godziny:",
+                  href: "/przepisy-kulinarne/kremowe-risotto-gorgonzola",
+                  etykieta: "risotto z gorgonzolą",
+                },
+                {
+                  sytuacja: "Nie masz jeszcze sera",
+                  propozycja: "— zacznij od źródła:",
+                  href: "/przepisy",
+                  etykieta: "przepisy na sery",
+                },
+              ]}
+            />
           </div>
         </section>
 

@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import { Calculator, ClipboardList, ExternalLink, Tag, Droplets, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -566,16 +567,53 @@ const Narzedzia = () => {
         {/* TL;DR Section */}
         <section className="py-8">
           <div className="container mx-auto px-4 max-w-4xl">
-            <TLDRSection>
-              <ul className="space-y-1">
-                <li>• <strong>Kalkulator Miar</strong> – przelicznik jednostek (imperial ↔ metryczny)</li>
-                <li>• <strong>Kalkulator Podpuszczki</strong> – dawkowanie Beaugel i IMCU (rennet dosage calculator)</li>
-                <li>• <strong>Kalkulator Kosztu Sera</strong> – koszt produkcji, marża i cena sprzedaży (cheese cost calculator)</li>
-                <li>• <strong>Kalkulatory Pasz</strong> – bilansowanie dawek dla drobiu i bydła</li>
-                <li>• <strong>Menadżer Fermy Drobiu</strong> – zarządzanie stadami, dziennik, pasze, finanse (PWA)</li>
-                <li>• <strong>Etykieta RHD</strong> – wymagania prawne + darmowy edytor etykiety sera do druku (RHD label generator)</li>
-              </ul>
-            </TLDRSection>
+            <WprowadzenieDzialu
+              lead="Serowarstwo to w dużej części arytmetyka: ile podpuszczki, ile soli, ile to właściwie kosztowało."
+              bloki={[
+                {
+                  tytul: "Zanim zaczniesz warzyć",
+                  tekst:
+                    "Dawka podpuszczki przeliczona z siły podanej na opakowaniu, stężenie solanki, dawka chlorku wapnia do mleka pasteryzowanego i przelicznik miar, gdy przepis jest w galonach i stopniach Fahrenheita.",
+                },
+                {
+                  tytul: "Gdy zaczynasz sprzedawać",
+                  tekst:
+                    "Koszt wyprodukowania kilograma sera z uwzględnieniem mleka, energii i czasu, a do tego generator etykiety zgodnej z wymogami RHD i faktura VAT RR, której nabywca często nie umie wystawić.",
+                },
+                {
+                  tytul: "Dla zwierząt w gospodarstwie",
+                  tekst:
+                    "Kalkulatory dawek pokarmowych dla drobiu i bydła mlecznego. Przydają się bardziej, niż się wydaje: to żywienie krowy decyduje o tym, czy z jej mleka da się zrobić ser dojrzewający.",
+                },
+              ]}
+              podsumowanie="Wszystkie narzędzia działają w przeglądarce, bez zakładania konta i bez wysyłania czegokolwiek na serwer. Wyniki możesz zapisać albo wydrukować."
+              tropy={[
+                {
+                  sytuacja: "Ile podpuszczki na litr mleka",
+                  propozycja: "— przeliczenie z IMCU i skali Beaugel:",
+                  href: "/kalkulator-beaugel",
+                  etykieta: "kalkulator podpuszczki",
+                },
+                {
+                  sytuacja: "Ile soli do solanki",
+                  propozycja: "— stężenie i czas zanurzenia:",
+                  href: "/kalkulator-solanki",
+                  etykieta: "kalkulator solanki",
+                },
+                {
+                  sytuacja: "Czy to się opłaca",
+                  propozycja: "— koszt kilograma i marża:",
+                  href: "/kalkulator-kosztu-sera",
+                  etykieta: "kalkulator kosztu sera",
+                },
+                {
+                  sytuacja: "Sprzedajesz w ramach RHD",
+                  propozycja: "— etykieta z wymaganymi danymi:",
+                  href: "/etykieta-rhd",
+                  etykieta: "generator etykiety",
+                },
+              ]}
+            />
           </div>
         </section>
 

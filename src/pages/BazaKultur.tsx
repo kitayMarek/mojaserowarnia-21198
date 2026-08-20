@@ -7,6 +7,7 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import DatasetSchema from "@/components/DatasetSchema";
 import FAQSchema from "@/components/FAQSchema";
 import TLDRSection from "@/components/TLDRSection";
+import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import { Search, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -28,11 +29,11 @@ type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 const faqData = [
   {
     question: "Jakie kultury bakteryjne wybrać do produkcji sera?",
-    answer: "Wybór kultury zależy od typu sera: kultury mezofilne (ang. mesophilic starter cultures) pracujące w 25-35°C do serów typu Gouda, Cheddar; kultury termofilne (ang. thermophilic starter cultures) w 40-50°C do Parmezanu, Mozzarelli; kultury pleśniowe do Camemberta i Roqueforta."
+    answer: "Wybór kultury zależy od typu sera: kultury mezofilne pracujące w 25-35°C do serów typu Gouda, Cheddar; kultury termofilne (ang. thermophilic starter cultures) w 40-50°C do Parmezanu, Mozzarelli; kultury pleśniowe do Camemberta i Roqueforta."
   },
   {
     question: "Jaka jest różnica między kulturami mezofilnymi a termofilnymi?",
-    answer: "Kultury mezofilne (ang. mesophilic) działają optymalnie w temperaturze 25-35°C i są stosowane do większości serów półtwardych. Kultury termofilne (ang. thermophilic) pracują w wyższych temperaturach 40-50°C i są niezbędne do produkcji serów twardych typu włoskiego czy szwajcarskiego."
+    answer: "Kultury mezofilne działają optymalnie w temperaturze 25-35°C i są stosowane do większości serów półtwardych. Kultury termofilne (ang. thermophilic) pracują w wyższych temperaturach 40-50°C i są niezbędne do produkcji serów twardych typu włoskiego czy szwajcarskiego."
   },
   {
     question: "Gdzie kupić kultury bakteryjne do sera w Polsce?",
@@ -197,13 +198,53 @@ const BazaKultur = () => {
         {/* TL;DR Section */}
         <section className="py-8 bg-background">
           <div className="container mx-auto px-4 max-w-5xl">
-            <TLDRSection>
-              <p>
-                <strong>Baza {culturesData.length} kultur bakteryjnych</strong> (ang. starter cultures) do produkcji domowych serów. 
-                Kultury mezofilne (ang. mesophilic, 25-35°C) dla Goudy i Cheddara, termofilne (ang. thermophilic, 40-50°C) 
-                dla Parmezanu i Mozzarelli. Ceny od 4,80 do 95,00 zł z polskich sklepów specjalistycznych.
-              </p>
-            </TLDRSection>
+            <WprowadzenieDzialu
+              lead="Kultura bakterii decyduje o tym, czy z tego samego mleka wyjdzie gouda, jogurt czy nic."
+              bloki={[
+                {
+                  tytul: "188 kultur w jednym miejscu",
+                  tekst:
+                    "Każda z dawkowaniem, zakresem temperatur i listą serów, do których się nadaje. Można filtrować po typie i porównywać dwie obok siebie, zanim wydasz pieniądze na saszetkę.",
+                },
+                {
+                  tytul: "Mezofilne czy termofilne",
+                  tekst:
+                    "Mezofilne pracują w 25–35°C: gouda, cheddar, twaróg, camembert. Termofilne w 40–50°C: parmezan, mozzarella, ementaler. Podanie termofilnej w 30°C to najczęstsza przyczyna zdania „kultura nie zadziałała”.",
+                },
+                {
+                  tytul: "Czym zastąpić, gdy nie ma",
+                  tekst:
+                    "Większość kultur ma odpowiedniki u innych producentów — inna nazwa, ten sam skład szczepowy. Przy przepisach są tabele zamienników, żeby brak jednej saszetki nie blokował warzenia.",
+                },
+              ]}
+              podsumowanie="Kultury to żywe bakterie: przechowywane w zamrażarce zachowują aktywność latami, w szufladzie kuchennej tracą ją w kilka miesięcy. Przy każdej znajdziesz warunki przechowywania i realny termin przydatności."
+              tropy={[
+                {
+                  sytuacja: "Dopiero zaczynasz",
+                  propozycja: "— czym w ogóle są kultury i jak działają:",
+                  href: "/bakterie-kultury",
+                  etykieta: "przewodnik po kulturach",
+                },
+                {
+                  sytuacja: "Wahasz się między dwiema",
+                  propozycja: "— zestaw je obok siebie w",
+                  href: "/porownywarka-kultur",
+                  etykieta: "porównywarce",
+                },
+                {
+                  sytuacja: "Nie wiesz, ile podpuszczki dodać",
+                  propozycja: "— siła bywa podana w różnych jednostkach:",
+                  href: "/sila-podpuszczki",
+                  etykieta: "przelicznik siły podpuszczki",
+                },
+                {
+                  sytuacja: "Nie wiesz, gdzie kupić",
+                  propozycja: "— lista sprawdzonych źródeł:",
+                  href: "/gdzie-kupic-podpuszczke",
+                  etykieta: "gdzie kupić podpuszczkę",
+                },
+              ]}
+            />
 
             {/* Callout: lejek do przewodnika po kulturach + rozdzielenie ról */}
             <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border border-primary/20 bg-primary/5">
