@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
-import { BannerSection } from "@/components/news/BannerSection";
+import ListaWiadomosci from "@/components/news/ListaWiadomosci";
 import { Newspaper } from "lucide-react";
 import { Helmet } from "react-helmet";
 
@@ -43,10 +43,11 @@ const Wiadomosci = () => {
           </div>
         </section>
 
-        {/* Banner Rotator Section */}
+        {/* Lista wiadomosci. Rotator przeniesiony na strone glowna — tam
+            dociera do wszystkich, a tu potrzebna byla lista do przegladania. */}
         <section className="py-12">
-          <div className="container mx-auto px-4">
-            <BannerSection />
+          <div className="container mx-auto px-4 max-w-4xl">
+            <ListaWiadomosci />
           </div>
         </section>
 
