@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 
 interface DatasetSchemaProps {
   name: string;
@@ -59,9 +58,13 @@ const DatasetSchema = ({
   };
 
   return (
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
+  // <script> BEZPOSREDNIO, nie przez react-helmet: helmet 6.1.0 pod Reactem 18
+  // nie emituje nic, wiec ta schema nie trafiala na strone wcale.
+  // RecipeSchema dziala od poczatku wlasnie dlatego, ze robi to tak samo.
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
   );
 };
 
