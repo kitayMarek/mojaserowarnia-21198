@@ -104,6 +104,14 @@ export interface Recipe {
   // Wartości odżywcze
   nutrition?: NutritionInfo;
 
+  // Do czego uzywac tego sera w kuchni.
+  // Powod: Google klasyfikuje "[jedzenie] przepis" jako intencje KULINARNA, bo
+  // tak wyglada wiekszosc zapytan w sieci. Dla "ser ricotta przepis" pokazuje
+  // dania Z ricotta, a nie sposob jej zrobienia — stad pozycja 17 mimo dobrej
+  // tresci. Zamiast walczyc z ta klasyfikacja, odpowiadamy na obie intencje na
+  // jednej stronie: jak zrobic ORAZ co z tym zrobic.
+  zastosowanie?: string;
+
   // Sekcja encyklopedyczna: pary pytanie-odpowiedz pokazywane NAD przepisem.
   // Powod: ludzie wpisujacy "ser gruyere" szukaja informacji O SERZE, a strona
   // odpowiadala wylacznie "jak go zrobic" — stad wysokie wyswietlenia przy
@@ -128,6 +136,7 @@ export interface Recipe {
 export const recipesData: Recipe[] = [
   {
     id: "korycinski",
+    zastosowanie: "Ser stołowy — na kanapki i na deskę, najlepiej z pieczywem na zakwasie i miodem. Wersja z czarnuszką lub ziołami dobrze wypada zapiekana na grzankach. Leżakowany kilka tygodni nabiera wyrazistości i można go trzeć na pierogi lub zapiekanki.",
     video: { youtubeId: "xxT1Okh3sp0", title: "Ser koryciński w domu/ homemade cheese", channel: "Domowy ser", poster: korycinMiniaturaImage },
     name: "Ser Koryciński Swojski",
     difficulty: "Łatwy",
@@ -266,6 +275,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "asiago",
+    zastosowanie: "Młode Asiago dolce jest łagodne i topi się gładko — do kanapek, zapiekanek i na pizzę. Dojrzałe Asiago d'allevo trze się jak parmezan na makaron, risotto i zupy. W północnych Włoszech dodaje się je do polenty i do farszu z ziemniakami.",
     name: "Asiago",
     difficulty: "Średni",
     description: "Asiago to tradycyjny ser alpejski z regionu Veneto we Włoszech. Młody Asiago dolce (świeży) ma delikatny, słodkawy smak z aromatem przypominającym jogurt i masło. Tekstura jest miękka i elastyczna, a jasna barwa odzwierciedla krótki okres dojrzewania. Smak jest słodki, z jasną, młodzieńczą jakością.",
@@ -444,6 +454,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "caciotta",
+    zastosowanie: "Miękki ser stołowy do kanapek i na deskę serów, z oliwą i pieczywem. Młoda caciotta dobrze się topi, więc nadaje się do zapiekanek i na pizzę. Włosi jedzą ją też z miodem i orzechami jako prosty deser.",
     video: { youtubeId: "9pzOUi32QeY", title: "Jak zrobić kozią Caciottę w domu. Domowy ser Caciotta capretto", channel: "Domowy ser", poster: caciottaMiniaturaImage },
     name: "Caciotta",
     difficulty: "Średni",
@@ -603,6 +614,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "dunlop",
+    zastosowanie: "Szkocki ser stołowy, łagodniejszy i wilgotniejszy od cheddara. Na kanapki, do zapiekanek, do tostów i do sosu serowego. Dobrze wypada z owsianym pieczywem i marmoladą, tradycyjnie podawany też do zup warzywnych.",
     name: "Dunlop",
     difficulty: "Średni",
     description: "Dunlop to tradycyjny ser półtwardy z Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
@@ -763,6 +775,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "feta_bulgarische",
+    zastosowanie: "Łagodniejsza i bardziej kremowa od greckiej, dobrze wypada w sałatkach szopskich, na kanapkach z pomidorem i w farszach do papryki. Kruszy się mniej, więc łatwiej ją kroić w kostkę. Sprawdza się też jako baza past do smarowania, zmiksowana z jogurtem i czosnkiem.",
     name: "Feta Bułgarska (Sirene)",
     difficulty: "Średni",
     description: "Bułgarska Feta (Sirene) to tradycyjny biały ser solankowy o gładkiej, kremowej i elastycznej teksturze. W przeciwieństwie do greckiej Fety, która się kruszy, bułgarska wersja zachowuje więcej wilgoci dzięki łagodniejszemu odsączaniu i niższej kwasowości. Można ją kroić w kostki lub plastry, a po kilku tygodniach dojrzewania staje się smarowna jak młody Camembert.",
@@ -922,6 +935,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "yorkshire",
+    zastosowanie: "Wensleydale to brytyjska klasyka podawana z ciastem z jabłkami — kwaskowaty, kruchy ser świetnie równoważy słodycz. Poza tym na kanapki, do sałatek i pokruszony na pieczone warzywa. Wersje z żurawiną są słodsze i idą raczej na deskę serów niż do gotowania.",
     name: "Yorkshire (Wensleydale)",
     difficulty: "Zaawansowany",
     description: "Wensleydale to historyczny ser z północnej Anglii, kojarzony m.in. z Wallace'em i Gromitem. Wywodzi się ze średniowiecznych tradycji klasztornych Yorkshire Dales. Wersja domowa daje delikatny, lekko maślany smak z subtelną kwaśną nutą, teksturę kruchą do sprężystej i kremowy odczucie w ustach.",
@@ -1068,6 +1082,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gouda",
+    zastosowanie: "Klasyk kanapkowy, ale w kuchni najlepiej wypada tam, gdzie ma się stopić: zapiekanki, tosty, roladki mięsne, sos serowy. Młoda gouda ciągnie się i jest łagodna, stara (12 miesięcy i więcej) kruszy się i lepiej nadaje się do tarcia na makaron albo na deskę serów z gruszką i orzechami.",
     video: { youtubeId: "TpNEK8d7yAM", title: "Jak zrobić ser gouda w domu/ gouda cheese", channel: "Domowy ser", poster: goudaMiniaturaImage },
     name: "Gouda",
     difficulty: "Średni",
@@ -1180,6 +1195,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "cheddar",
+    zastosowanie: "Do burgerów, zapiekanek, mac and cheese i nachos — topi się intensywnie i ma wyrazisty, kwaskowaty smak, który nie ginie pod innymi składnikami. Starszy cheddar dobrze wypada na desce serów z chutneyem i jabłkiem. Do sosu serowego dodawaj go stopniowo, bo przy zbyt wysokiej temperaturze lubi się rozdzielić.",
     name: "Cheddar",
     difficulty: "Zaawansowany",
     description: "Cheddar to kultowy brytyjski ser o ostrym, wyrazistym smaku. Charakteryzuje się unikalnym procesem 'cheddaringu' - układania i obracania bloków twarogu, który nadaje serowi charakterystyczną teksturę i smak.",
@@ -1292,6 +1308,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "mozzarella",
+    zastosowanie: "Świeża mozzarella to caprese z pomidorem i bazylią, sałatki i przekąski na zimno. Mozzarella bardziej odciśnięta idzie na pizzę i do zapiekanek — ta świeża, mocno wodnista, zalałaby ciasto. Sprawdza się też grillowana w plastrach oraz jako nadzienie do arancini i roladek.",
     name: "Mozzarella",
     difficulty: "Łatwy",
     description: "Mozzarella to włoski ser typu pasta filata, znany z elastycznej, ciągnącej się tekstury. Świeża mozzarella jest idealna do pizzy, sałatek caprese i zapiekanek. To jeden z najszybszych serów do przygotowania w domu.",
@@ -1400,6 +1417,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "camembert",
+    zastosowanie: "Zapiekany w całości z miodem, żurawiną i orzechami to gotowa przystawka. Panierowany i smażony podaje się z konfiturą. Na zimno — na desce serów z winogronami i bagietką, koniecznie wyjęty z lodówki pół godziny wcześniej, bo zimny nie oddaje aromatu. Świetnie wypada też w tarcie z karmelizowaną cebulą.",
     video: { youtubeId: "wt0bf199RTw", title: "Jak zrobić ser camembert/ camembert cheese", channel: "Domowy ser", poster: camembertMiniaturaImage },
     name: "Camembert",
     difficulty: "Zaawansowany",
@@ -1516,6 +1534,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "halloumi",
+    zastosowanie: "Jedyny ser, który grilluje się i smaży bez panierki, bo nie topi się przy wysokiej temperaturze. Do sałatek z arbuzem i miętą, na grilla w plastrach, do burgerów wegetariańskich i do szaszłyków. Jest słony — przed smażeniem można go moczyć kwadrans w wodzie.",
     name: "Halloumi",
     difficulty: "Łatwy",
     description: "Halloumi to cypryjski ser o unikalnej właściwości - nie topi się podczas smażenia czy grillowania. Dzięki temu jest idealny na grilla, patelnię czy do sałatek. Charakteryzuje się słono-mlecznym smakiem i sprężystą teksturą.",
@@ -1629,6 +1648,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "brie",
+    zastosowanie: "Zapiekany w cieście francuskim z miodem i orzechami, w tartach, na kanapkach z gruszką i rukolą. Topi się gładko, więc nadaje się do sosów i do zapiekania w całości. Skórkę można jeść — jest częścią sera i to ona odpowiada za grzybowy aromat.",
     name: "Brie",
     difficulty: "Zaawansowany",
     description: "Brie to królowa serów miękkich z Francji, pokryta białą pleśnią Penicillium candidum. Ser o kremowej, rozpływającej się konsystencji i intensywnym, grzybowym aromacie. Pochodzi z regionu Brie w północnej Francji i jest jednym z najstarszych serów na świecie.",
@@ -1764,6 +1784,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "parmezan",
+    zastosowanie: "Tarty na makaron, risotto i sałatkę cezar; płatkami na carpaccio i rukolę. Skórki nie wyrzucaj — wrzucona do zupy lub sosu oddaje smak umami i jest tradycyjnym dodatkiem do minestrone. Kupuj w kawałku i trzyj na bieżąco, bo tarty gotowiec szybko traci aromat.",
     name: "Parmezan (Parmigiano-Reggiano)",
     difficulty: "Zaawansowany",
     description: "Parmigiano-Reggiano to król serów włoskich, dojrzewający minimum 12 miesięcy. Charakteryzuje się krystaliczną strukturą, intensywnym smakiem umami i orzechowymi nutami. Ten ser wymaga cierpliwości, ale efekt jest niezrównany.",
@@ -1896,6 +1917,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "ricotta",
+    zastosowanie: "W kuchni włoskiej ricotta jest przede wszystkim nadzieniem: do ravioli, cannelloni, muszli makaronowych i lasagne, zwykle wymieszana ze szpinakiem i gałką muszkatołową. Na słodko robi się z niej sernik, placki ricottowe i nadzienie do cannoli. Dodana do sosu pomidorowego zmienia go w kremowy bez użycia śmietany. Do wypieków odciśnij ją wcześniej przez sitko, bo bywa wodnista.",
     name: "Ricotta",
     difficulty: "Łatwy",
     description: "Ricotta to tradycyjny włoski ser serwatkowy, wytwarzany z serwatki pozostałej po produkcji innych serów. Nazwa pochodzi od włoskiego 'ricotta' - 'ponownie gotowana'. Ser ma delikatny, słodkawy smak i kremową teksturę, idealny do deserów i dań makaronowych.",
@@ -1993,6 +2015,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "mascarpone",
+    zastosowanie: "Baza tiramisu i serników na zimno, ale sprawdza się też wytrawnie: łyżka mascarpone w risotto zamiast masła daje kremowość bez ciężkości, a wmieszana w sos do makaronu łagodzi kwasowość pomidorów. Dobrze komponuje się z wędzonym łososiem i z owocami leśnymi.",
     name: "Mascarpone",
     difficulty: "Łatwy",
     description: "Mascarpone to luksusowy włoski ser kremowy z regionu Lombardii. Charakteryzuje się aksamitną teksturą i delikatnym, słodkawym smakiem. Jest niezbędnym składnikiem tiramisu i wielu włoskich deserów. Produkcja jest bardzo prosta - to idealny ser dla początkujących.",
@@ -2088,6 +2111,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "feta-grecka",
+    zastosowanie: "Sałatka grecka, spanakopita, zapiekana w folii z pomidorami i oliwą, kruszona na pieczone warzywa. Modny wariant: zapiec ją w całości z pomidorkami koktajlowymi i wymieszać widelcem z makaronem. Solankę z opakowania warto zachować — przechowywana w niej feta nie wysycha.",
     name: "Feta Grecka",
     difficulty: "Średni",
     description: "Feta to tradycyjny grecki ser solankowy z mleka owczego lub mieszanki owczo-koziej. Charakteryzuje się białą barwą, kruchą teksturą i słono-kwaśnym smakiem. To jeden z najstarszych serów świata, wspomniany już w Odysei Homera.",
@@ -2215,6 +2239,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gorgonzola",
+    zastosowanie: "Do sosów — kremowe risotto, sos do makaronu, polewa do gnocchi. Wystarczy jej niewiele, bo smak jest intensywny. Gorgonzola dolce jest łagodniejsza i lepiej się rozpuszcza, piccante mocniejsza i bardziej krucha. Klasyczne połączenia: gruszka, orzech włoski, miód, karmelizowana cebula.",
     name: "Gorgonzola",
     difficulty: "Zaawansowany",
     description: "Gorgonzola to włoski ser z niebieską pleśnią z regionu Lombardii i Piemontu. Znany od IX wieku, jest jednym z najstarszych serów pleśniowych świata. Dostępny w dwóch odmianach: Dolce (kremowy, łagodny) i Piccante (twardy, ostry).",
@@ -2333,6 +2358,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "roquefort",
+    zastosowanie: "Do sosów do steków i sałatek (klasyk: roquefort, orzech włoski, sałata, gruszka). W kuchni francuskiej dodaje się go do zapiekanek ziemniaczanych i masła ziołowego. Bardzo słony i intensywny, więc dozuj ostrożnie i nie sól potrawy, zanim go nie dodasz.",
     name: "Roquefort",
     difficulty: "Zaawansowany",
     description: "Roquefort to król francuskich serów pleśniowych, wytwarzany wyłącznie z mleka owiec rasy Lacaune w regionie Roquefort-sur-Soulzon. Dojrzewa w naturalnych jaskiniach przez minimum 3 miesiące. Ma status AOC od 1925 roku.",
@@ -2451,6 +2477,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "stilton",
+    zastosowanie: "Brytyjska klasyka to zupa krem z selera z serem stilton oraz stilton z portem na deskę serów. Dobrze wypada w sosie do steków, w tartach z gruszką i jako dodatek do burgerów. Kruszy się łatwiej niż gorgonzola, więc lepiej go rozdrabniać widelcem niż kroić.",
     name: "Stilton",
     difficulty: "Zaawansowany",
     description: "Stilton to angielski ser z niebieską pleśnią, często nazywany 'Królem Serów'. Może być produkowany tylko w trzech hrabstwach: Derbyshire, Leicestershire i Nottinghamshire. Znany od XVIII wieku, ma status PDO.",
@@ -2569,6 +2596,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gruyere",
+    zastosowanie: "Fondue moitié-moitié, francuska zupa cebulowa zapiekana pod serem, croque-monsieur, quiche lorraine, sos Mornay i gratin dauphinois. Topi się gładko i nie rozdziela, dlatego jest pierwszym wyborem tam, gdzie ser ma tworzyć aksamitną warstwę, a nie ciągnące się nitki.",
     encyklopedia: [
       {
         pytanie: "Co to jest ser gruyère?",
@@ -2723,6 +2751,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "emmental",
+    zastosowanie: "Fondue (klasycznie razem z gruyère'em), zapiekanki, tosty, pizza, sos czterech serów, sałatki i kanapki. Jeden z najbardziej uniwersalnych serów do topienia — łagodny, więc nie zdominuje innych składników. Na desce serów podawaj go z winogronami i orzechami.",
     encyklopedia: [
       {
         pytanie: "Co to jest ementaler?",
@@ -2885,6 +2914,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "quartirolo",
+    zastosowanie: "Młody quartirolo jest kwaskowaty i kremowy — do kanapek, na deskę serów, z oliwą i pieprzem. Dojrzalszy, bardziej maślany, dobrze wypada zapieczony na grzance albo pokruszony na sałatkę z gruszką. W Lombardii podaje się go z polentą.",
     name: "Quartirolo Lombardo",
     difficulty: "Średni",
     description: 'Quartirolo Lombardo to miękki ser z Lombardii o delikatnej, kremowej konsystencji i subtelnym, lekko kwaskowatym smaku. Nazwa pochodzi od "quartirola" — czwartego pokosu trawy, którym karmiono krowy wracające z alpejskich pastwisk jesienią. Ser należy do rodziny stracchino (od "stracca" — zmęczona krowa po zejściu z gór). Jan Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako ser włoski o unikalnym procesie stufatury — gotowania parą, który nadaje mu kremową teksturę bez potrzeby prasowania. Quartirolo ma PDO od 1996 roku.',
@@ -3032,6 +3062,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "limburski",
+    zastosowanie: "Ser o bardzo intensywnym zapachu, w Niemczech i Belgii jadany klasycznie na ciemnym chlebie z cebulą i musztardą, popijany piwem. W kuchni używa się go oszczędnie — kawałek dodany do sosu lub zapiekanki daje głęboki, mięsny aromat. Trzymaj go w szczelnym pojemniku.",
     name: "Ser Limburski",
     difficulty: "Zaawansowany",
     description: 'Ser limburski (limburger) to miękki ser z mytą skórką, znany z intensywnego, przenikliwego zapachu i kremowej, rozlewnej konsystencji. Pochodzi z regionu Limburgii (pogranicze Belgii, Holandii i Niemiec). Charakterystyczną pomarańczowo-różową skórkę tworzą bakterie Brevibacterium linens, rozwijające się dzięki regularnemu myciu powierzchni roztworem solankowym. Jan Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako ser "który pachnie tak, że nie każdy wytrzyma" — ale podał jeden z najdokładniejszych opisów jego produkcji w polskim piśmiennictwie.',
@@ -3187,6 +3218,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "twarog",
+    zastosowanie: "Najbardziej uniwersalny ser w polskiej kuchni. Na słodko: sernik, leniwe, naleśniki z serem, knedle. Na wytrawnie: pierogi ruskie, paszteciki, farsz do krokietów, twarożek ze szczypiorkiem i rzodkiewką. Do sernika bierz twaróg tłusty i krócej odciskany, do pierogów — chudszy i zwięźlejszy. Kilkudniowy, już wyraźnie kwaśny, nadaje się jeszcze na domowy ser topiony z sodą.",
     name: "Twaróg (ser biały)",
     difficulty: "Łatwy",
     description: "Twaróg to najczęściej wytwarzany ser w Polsce i jednocześnie najprostszy — powstaje bez podpuszczki, wyłącznie przez ukwaszenie mleka. Bakterie fermentacji mlekowej obniżają pH do około 4,6, czyli do punktu izoelektrycznego kazeiny, w którym białko traci ładunek, przestaje wiązać wodę i wytrąca się ze skrzepem. Delikatne podgrzanie oddziela go od serwatki. Zależnie od zawartości tłuszczu mówimy o twarogu chudym, półtłustym lub tłustym, a zależnie od formy — o klinku, krajance albo twarogu wiaderkowym. To baza sernika, pierogów ruskich, leniwych, naleśników i domowego sera topionego.",
@@ -3323,6 +3355,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "ser-topiony",
+    zastosowanie: "Do smarowania pieczywa, na tosty i zapiekanki, jako baza sosu serowego do makaronu lub warzyw. Rozrzedzony mlekiem staje się polewą do kalafiora i brokułów. Sprawdza się też jako nadzienie do naleśników i roladek mięsnych, bo topi się gładko i nie wycieka tak łatwo jak ser żółty.",
     name: "Ser Topiony (Parowany)",
     difficulty: "Łatwy",
     description: 'Ser topiony (schmelzkäse) to produkt powstający z przetopienia dojrzałego sera z dodatkiem soli emulgujących i wody. Licznerski opisał go w "Praktycznym serowarstwie" (1922) jako sposób na "uratowanie" serów z wadami — zbyt kwaśnych, za twardych, z dziurami w niewłaściwych miejscach. Zamiast je wyrzucać, topiono je z masłem i solami emulgującymi, uzyskując produkt jednolity, trwały i łatwy do krojenia. Z recyklingu wad wyrósł globalny rynek wart miliardy — Licznerski opisał narodziny kategorii.',

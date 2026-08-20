@@ -410,15 +410,17 @@ const RecipeDetails = () => {
           {/* Most do dzialu kulinarnego. Dotad zaden z 24 przepisow na ser nie
               prowadzil do kuchni, wiec czytelnik konczyl na gotowym serze i nie
               dostawal zadnej podpowiedzi, co dalej. */}
-          {dania.length > 0 && (
+          {(recipe.zastosowanie || dania.length > 0) && (
             <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
-              <h2 className="text-2xl font-display font-bold text-primary mb-2">🍽️ Co ugotować z tego sera</h2>
-              <p className="text-sm text-muted-foreground mb-6">
-                Ser gotowy? Tu są dania, które na nim stoją — z przepisem krok po kroku.
-              </p>
+              <h2 className="text-2xl font-display font-bold text-primary mb-4">🍽️ Do czego używać tego sera</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {dania.map((danie) => (
+              {recipe.zastosowanie && (
+                <p className="text-muted-foreground leading-relaxed mb-6">{recipe.zastosowanie}</p>
+              )}
+
+              {dania.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {dania.map((danie) => (
                   <Link
                     key={danie.id}
                     to={`/przepisy-kulinarne/${danie.id}`}
@@ -444,7 +446,18 @@ const RecipeDetails = () => {
                     </span>
                   </Link>
                 ))}
-              </div>
+                </div>
+              )}
+
+              {/* Odnosnik do dzialu kulinarnego jest ZAWSZE, takze gdy nie mamy
+                  jeszcze dania z tym serem. Google klasyfikuje zapytania
+                  "[ser] przepis" jako kulinarne, wiec strona musi jasno mowic,
+                  ze dzial z daniami istnieje. */}
+              <p className="mt-6 text-sm">
+                <Link to="/przepisy-kulinarne" className="text-primary underline underline-offset-2 hover:no-underline font-medium">
+                  Zobacz wszystkie przepisy kulinarne z serami
+                </Link>
+              </p>
             </section>
           )}
 
