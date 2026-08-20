@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AlertCircle, CheckCircle2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
+import SklepySerowarskie from "@/components/SklepySerowarskie";
 
 const GdzieKupicPodpuszczke = () => {
   useEffect(() => {
@@ -53,6 +54,8 @@ const GdzieKupicPodpuszczke = () => {
 
         {/* Content */}
         <section className="container mx-auto px-4 py-12 max-w-6xl">
+          <SklepySerowarskie />
+
           <p className="text-muted-foreground mb-8 text-lg">
             Zestawienie obejmuje: Beaugel 5/50/500 (Coquard), GAP Natural Rennet, Carlina 1000 (Danisco/Chr. Hansen), 
             Podpuszczkę naturalną w płynie (Serowar.pl) oraz Artiser – Podpuszczkę naturalną cielęcą.
