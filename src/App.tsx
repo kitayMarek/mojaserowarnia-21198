@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import Kanoniczny from "@/components/Kanoniczny";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
@@ -109,6 +110,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <Kanoniczny />
           <AuthProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
