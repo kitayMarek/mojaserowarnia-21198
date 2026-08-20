@@ -104,6 +104,15 @@ export interface Recipe {
   // Wartości odżywcze
   nutrition?: NutritionInfo;
 
+  // Sekcja encyklopedyczna: pary pytanie-odpowiedz pokazywane NAD przepisem.
+  // Powod: ludzie wpisujacy "ser gruyere" szukaja informacji O SERZE, a strona
+  // odpowiadala wylacznie "jak go zrobic" — stad wysokie wyswietlenia przy
+  // pozycjach 16-20. Te same pary zasilaja schema FAQPage.
+  encyklopedia?: {
+    pytanie: string;
+    odpowiedz: string;
+  }[];
+
   // Film instruktażowy (opcjonalny). Filmy cudze — stąd channel, żeby autor był
   // zawsze widoczny. NIE dodajemy do nich VideoObject w JSON-LD: ta schema
   // deklaruje, że film jest treścią naszej strony, a on nie jest nasz.
@@ -2560,6 +2569,32 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gruyere",
+    encyklopedia: [
+      {
+        pytanie: "Co to jest ser gruyère?",
+        odpowiedz: "Gruyère to szwajcarski ser twardy z surowego mleka krowiego, produkowany głównie w kantonie Fryburg. Ma zwartą, praktycznie bezoczkową strukturę — w przeciwieństwie do ementalera nie ma dużych dziur, najwyżej pojedyncze drobne oczka. Smak jest orzechowo-słodkawy i staje się wyraźnie pikantniejszy z wiekiem. Zawiera około 49% tłuszczu w suchej masie. Oryginał nosi nazwę Le Gruyère AOP i może powstawać wyłącznie w Szwajcarii; sery „typu gruyère\" z innych krajów to osobna kategoria."
+      },
+      {
+        pytanie: "Skąd pochodzi gruyère i co oznacza AOP?",
+        odpowiedz: "Ser wywodzi się z regionu La Gruyère w kantonie Fryburg i bierze nazwę od miasteczka Gruyères. Skrót AOP to Appellation d'Origine Protégée — szwajcarski odpowiednik unijnej Chronionej Nazwy Pochodzenia; Le Gruyère nosi to oznaczenie od 2001 roku. Oznacza ono trzy twarde warunki: mleko musi być surowe i pochodzić z wyznaczonego obszaru, krowy nie mogą być karmione kiszonkami, a produkcja i dojrzewanie muszą odbywać się w regionie. Zakaz kiszonek nie jest folklorem — chroni przed przetrwalnikami Clostridium, które w długo dojrzewającym serze powodują późne wzdęcie."
+      },
+      {
+        pytanie: "Jak smakuje gruyère i jak zmienia się z wiekiem?",
+        odpowiedz: "Gruyère sprzedaje się w kilku stopniach dojrzałości i różnice są duże. Doux (około 5 miesięcy) jest łagodny, mleczno-orzechowy i gładko się topi. Mi-salé (7–8 miesięcy) i salé (9–10 miesięcy) stopniowo nabierają ostrości. Réserve dojrzewa 12 miesięcy i dłużej: smak robi się korzenny i pikantny, a w miąższu pojawiają się chrupiące kryształki tyrozyny — aminokwasu uwalnianego przy rozkładzie białka, oznaka długiego dojrzewania, a nie wada. Im starszy ser, tym bardziej kruszy się zamiast giąć."
+      },
+      {
+        pytanie: "Do czego używać gruyère'a?",
+        odpowiedz: "To ser stworzony do topienia — dojrzała kazeina i odpowiednie pH sprawiają, że rozpływa się gładko, zamiast rozdzielać na tłuszcz i nitki białka. Klasyka to fondue moitié-moitié (pół gruyère, pół vacherin fribourgeois), francuska zupa cebulowa zapiekana pod serem, croque-monsieur, quiche lorraine, sos Mornay i gratin dauphinois. Na desce serów najlepiej wypada wersja réserve, podana w temperaturze pokojowej."
+      },
+      {
+        pytanie: "Jaki jest polski odpowiednik gruyère'a?",
+        odpowiedz: "Najbliżej stoi Cezar z mleczarni w Rykach — długo dojrzewający ser twardy o lekko pikantnym smaku. Rzemieślniczą alternatywą jest Ser Marszowicki, robiony w typie gruyère. Jako zamienniki kulinarne najlepiej sprawdzają się francuskie sery alpejskie z tej samej rodziny: Comté i Beaufort mają najbardziej zbliżony profil. Ementaler zastąpi gruyère'a w daniach zapiekanych, choć jest wyraźnie łagodniejszy, a tam gdzie potrzeba mocnego aromatu — grana padano. Żaden z nich nie jest jednak gruyère'em w sensie prawnym."
+      },
+      {
+        pytanie: "Ile kalorii ma gruyère i czy zawiera laktozę?",
+        odpowiedz: "W 100 gramach jest około 413 kcal, 30 g pełnowartościowego białka i 32 g tłuszczu. To jeden z najbogatszych w wapń serów — blisko 1000 mg na 100 g, czyli tyle, ile w szklance mleka razy trzy. Laktozy praktycznie nie zawiera: przy dojrzewaniu trwającym pół roku i dłużej bakterie zużywają ją niemal w całości, więc bywa dobrze tolerowany przez osoby z nietolerancją laktozy. Ta sama zasada dotyczy wszystkich długo dojrzewających serów twardych."
+      }
+    ],
     name: "Gruyère",
     difficulty: "Zaawansowany",
     description: "Gruyère to szwajcarski ser alpejski z kantonu Fribourg, znany od XII wieku. Charakteryzuje się kremową teksturą z małymi oczkami i kompleksowym, orzechowym smakiem. Ma status AOC i jest podstawą fondue oraz quiche.",
@@ -2688,6 +2723,32 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "emmental",
+    encyklopedia: [
+      {
+        pytanie: "Co to jest ementaler?",
+        odpowiedz: "Ementaler to szwajcarski ser podpuszczkowy z doliny rzeki Emme w kantonie Berno, wytwarzany tam od XIII wieku. Jest twardy, ma jasnożółtą barwę, elastyczny miąższ i charakterystyczne duże, owalne oczka. Smak ma łagodny, lekko słodki i orzechowy — to jeden z najłatwiejszych w odbiorze serów dojrzewających. Zawiera około 45% tłuszczu w suchej masie. Oryginał to Emmentaler AOP ze Szwajcarii, ale sama nazwa „ementaler\" nie jest zastrzeżona, więc ser tego typu produkują też Francja i Polska."
+      },
+      {
+        pytanie: "Skąd się biorą dziury w ementalerze?",
+        odpowiedz: "Z fermentacji propionowej — trzeciej fermentacji, która zachodzi już po ukwaszeniu i po prasowaniu. Bakterie Propionibacterium freudenreichii zjadają kwas mlekowy wytworzony wcześniej przez kultury startowe i przerabiają go na kwas propionowy, kwas octowy i dwutlenek węgla. CO₂ nie ma jak uciec z zamkniętego, szczelnego bochna, więc zbiera się w pęcherzykach i rozpycha elastyczną masę od środka. Dzieje się to w tak zwanej piwnicy ciepłej, w temperaturze około 20–24°C, przez 3 do 8 tygodni. Najciekawsze jest to, że dziury i smak mają jedno źródło: kwas propionowy odpowiada również za słodko-orzechowy profil sera. Nie da się mieć jednego bez drugiego."
+      },
+      {
+        pytanie: "Czy dziury w serze zawsze są pożądane?",
+        odpowiedz: "Nie — i to ta sama mechanika, tylko z innym sprawcą. W ementalerze gaz produkują bakterie propionowe w kontrolowanych warunkach i efektem są gładkie, regularne, okrągłe oczka. Gdy gaz wytwarzają przetrwalniki Clostridium tyrobutyricum, pochodzące najczęściej z kiszonek w paszy, mówimy o późnym wzdęciu: ser pęka nieregularnymi szczelinami, rozdyma się i nabiera masłowo-zjełczałego posmaku. Odróżnisz je po kształcie i po zapachu — oczka propionowe są równe i lśniące, wzdęcie daje poszarpane pustki. Dlatego serowarnie robiące sery długo dojrzewające tak pilnują, żeby mleko nie pochodziło od krów karmionych kiszonką."
+      },
+      {
+        pytanie: "Jak smakuje ementaler i do czego się nadaje?",
+        odpowiedz: "Młody jest łagodny, lekko słodkawy, z wyraźną nutą orzecha. Wersje dojrzewające ponad 12 miesięcy stają się intensywniejsze, pikantne i bardziej kruche. Dzięki doskonałej topliwości ementaler jest jednym z najbardziej uniwersalnych serów w kuchni: sprawdza się w fondue (klasycznie razem z gruyère'em), zapiekankach, tostach, na pizzy, w sosie czterech serów i w sałatkach. Na zimno dobrze wypada w kanapkach oraz na desce serów z winogronami i orzechami."
+      },
+      {
+        pytanie: "Czy w Polsce produkuje się ementaler?",
+        odpowiedz: "Tak. Sery typu szwajcarskiego z oczkami mają w ofercie między innymi Mlekovita, Mlekpol i OSM Ryki — najczęściej w blokach i plastrach. Różnice wobec szwajcarskiego oryginału są dwie: polskie wersje powstają zwykle z mleka pasteryzowanego, a nie surowego, i dojrzewają krócej, przez co smak jest łagodniejszy i mniej złożony. Ponieważ nazwa „ementaler\" nie jest chroniona — w przeciwieństwie do Emmentaler AOP — używanie jej jest w pełni legalne."
+      },
+      {
+        pytanie: "Ile kalorii ma ementaler i czy zawiera laktozę?",
+        odpowiedz: "W 100 gramach jest około 383 kcal, 28,2 g białka i 29,7 g tłuszczu. To ser bardzo bogaty w wapń — blisko 1000 mg na 100 g — oraz w fosfor i witaminę B12. Laktozy praktycznie nie zawiera: podczas kilkumiesięcznego dojrzewania bakterie zużywają ją całkowicie, najpierw kultury startowe na kwas mlekowy, a potem bakterie propionowe na kwas propionowy i CO₂. Dlatego bywa dobrze tolerowany przez osoby z nietolerancją laktozy."
+      }
+    ],
     video: { youtubeId: "tMqZZHbp0-A", title: "Domowy ser w stylu Emmentaler", channel: "Domowy ser", poster: emmentalerMiniaturaImage },
     name: "Emmental",
     difficulty: "Zaawansowany",

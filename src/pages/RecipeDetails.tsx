@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight, Clock, ChefHat, Lightbulb, AlertTriangle, Shuffl
 import { Badge } from "@/components/ui/badge";
 import ReactionButton from "@/components/ReactionButton";
 import RecipeSchema from "@/components/RecipeSchema";
+import FAQSchema from "@/components/FAQSchema";
 import HowToSchema from "@/components/HowToSchema";
 import SeeAlso from "@/components/SeeAlso";
 import VideoPrzepisu from "@/components/VideoPrzepisu";
@@ -87,6 +88,11 @@ const RecipeDetails = () => {
         <link rel="canonical" href={`https://mojaserowarnia.pl/przepisy/${id}`} />
       </Helmet>
       <RecipeSchema recipe={recipe} />
+      {recipe.encyklopedia && recipe.encyklopedia.length > 0 && (
+        <FAQSchema
+          faqs={recipe.encyklopedia.map((e) => ({ question: e.pytanie, answer: e.odpowiedz }))}
+        />
+      )}
       <HowToSchema
         name={`Jak zrobić ${recipe.name} - przepis krok po kroku`}
         description={recipe.description}
@@ -174,6 +180,26 @@ const RecipeDetails = () => {
               </a>
             </Button>
           </div>
+
+          {/* Sekcja encyklopedyczna — NAD przepisem.
+              Fraza "ser gruyere" (8 100/mies) to intencja informacyjna: ludzie
+              pytaja CO TO ZA SER, a strona odpowiadala wylacznie "jak go zrobic".
+              Przepis zostaje nizej jako wyroznik — nikt inny w polskim internecie
+              nie konczy artykulu o gruyere zdaniem "a teraz zrob go sam". */}
+          {recipe.encyklopedia && recipe.encyklopedia.length > 0 && (
+            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+              <div className="space-y-6">
+                {recipe.encyklopedia.map((wpis, i) => (
+                  <div key={i}>
+                    <h2 className="text-xl font-display font-bold text-primary mb-2">
+                      {wpis.pytanie}
+                    </h2>
+                    <p className="text-muted-foreground leading-relaxed">{wpis.odpowiedz}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Przepis bazowy */}
           <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
