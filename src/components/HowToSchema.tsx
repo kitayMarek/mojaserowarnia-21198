@@ -10,6 +10,9 @@ interface HowToSchemaProps {
   description: string;
   image?: string;
   totalTime?: string; // ISO 8601 duration format, e.g., "PT2H30M"
+  /** Sygnal swiezosci dla botow LLM - podawaj na stronach tresciowych. */
+  datePublished?: string;
+  dateModified?: string;
   estimatedCost?: {
     currency: string;
     value: string;
@@ -24,6 +27,8 @@ const HowToSchema = ({
   description,
   image,
   totalTime,
+  datePublished,
+  dateModified,
   estimatedCost,
   supply,
   tool,
@@ -36,6 +41,8 @@ const HowToSchema = ({
     description,
     ...(image && { image }),
     ...(totalTime && { totalTime }),
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified }),
     ...(estimatedCost && {
       estimatedCost: {
         "@type": "MonetaryAmount",

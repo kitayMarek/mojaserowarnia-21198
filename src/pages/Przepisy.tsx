@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import RecipeCard from "@/components/RecipeCard";
@@ -430,6 +431,46 @@ const Przepisy = () => {
                 {filteredRecipes.map((recipe) => (
                   <RecipeCard key={recipe.id} recipe={recipe} />
                 ))}
+              </div>
+
+              {/* Nabial fermentowany - osobne trasy, nie sa w recipesData (to nie sery podpuszczkowe) */}
+              <div className="mt-10 rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50/60 dark:bg-amber-950/20 p-6">
+                <h2 className="text-xl font-display font-bold text-foreground mb-2">
+                  Nabiał fermentowany — od czego zacząć bez podpuszczki
+                </h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Jogurt, kefir i sery kwasowe nie wymagają podpuszczki ani dojrzewalni. To najprostsze wejście
+                  w domowe mleczarstwo — i dobry punkt startu przed pierwszym serem podpuszczkowym.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Link
+                    to="/przepisy/jogurt-domowy"
+                    className="block rounded-lg border border-border bg-card p-4 hover:border-amber-400 transition-colors"
+                  >
+                    <span className="block font-semibold text-foreground">Domowy jogurt</span>
+                    <span className="block text-xs text-muted-foreground mt-1">
+                      42–45°C, 4–8 h · także bez jogurtownicy · jogurt grecki
+                    </span>
+                  </Link>
+                  <Link
+                    to="/przepisy/kefir-domowy"
+                    className="block rounded-lg border border-border bg-card p-4 hover:border-amber-400 transition-colors"
+                  >
+                    <span className="block font-semibold text-foreground">Domowy kefir</span>
+                    <span className="block text-xs text-muted-foreground mt-1">
+                      grzybki tybetańskie · 20–25°C · także z kefiru sklepowego
+                    </span>
+                  </Link>
+                  <Link
+                    to="/przepisy/ser-z-jogurtu"
+                    className="block rounded-lg border border-border bg-card p-4 hover:border-amber-400 transition-colors"
+                  >
+                    <span className="block font-semibold text-foreground">Ser i twaróg z jogurtu</span>
+                    <span className="block text-xs text-muted-foreground mt-1">
+                      labneh · twaróg z kefiru · masło z fermentowanej śmietany
+                    </span>
+                  </Link>
+                </div>
               </div>
 
               {filteredRecipes.length === 0 && (

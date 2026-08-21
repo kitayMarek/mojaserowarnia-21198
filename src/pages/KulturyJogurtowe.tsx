@@ -30,6 +30,8 @@ const KulturyJogurtowe = () => (
       { label: "Kultury mezofilne do sera", href: "/kultury/mezofilne" },
       { label: "Kultury termofilne do sera", href: "/kultury/termofilne" },
       { label: "Sery i nabiał wege — jak to możliwe", href: "/sery-wege" },
+      { label: "Domowy jogurt — przepis krok po kroku", href: "/przepisy/jogurt-domowy" },
+      { label: "Domowy kefir — przepis krok po kroku", href: "/przepisy/kefir-domowy" },
       { label: "Pełna baza kultur", href: "/baza-kultur" },
     ]}
   >
@@ -126,21 +128,21 @@ const KulturyJogurtowe = () => (
       </p>
       <ul className="mb-0">
         <li>
-          <a href="/przepisy/jogurt-domowy.html" className="font-semibold">
+          <Link to="/przepisy/jogurt-domowy" className="font-semibold">
             Jak zrobić domowy jogurt — krok po kroku
-          </a>{" "}
+          </Link>{" "}
           (42–45°C, 4–8 h, jogurt grecki, zakwas na kolejne partie)
         </li>
         <li>
-          <a href="/przepisy/kefir-domowy.html" className="font-semibold">
+          <Link to="/przepisy/kefir-domowy" className="font-semibold">
             Jak zrobić domowy kefir
-          </a>{" "}
+          </Link>{" "}
           (grzybki tybetańskie, 20–25°C, także bez ziaren)
         </li>
         <li>
-          <a href="/przepisy/ser-z-jogurtu.html" className="font-semibold">
+          <Link to="/przepisy/ser-z-jogurtu" className="font-semibold">
             Ser i twaróg z jogurtu lub kefiru
-          </a>{" "}
+          </Link>{" "}
           (labneh, twaróg, masło)
         </li>
       </ul>

@@ -15,6 +15,9 @@ const Index = lazy(() => import("./pages/Index"));
 const BazaKultur = lazy(() => import("./pages/BazaKultur"));
 const Przepisy = lazy(() => import("./pages/Przepisy"));
 const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
+const JogurtDomowy = lazy(() => import("./pages/JogurtDomowy"));
+const KefirDomowy = lazy(() => import("./pages/KefirDomowy"));
+const SerZJogurtu = lazy(() => import("./pages/SerZJogurtu"));
 const PrzepisyKulinarne = lazy(() => import("./pages/PrzepisyKulinarne"));
 const CulinaryRecipeDetails = lazy(() => import("./pages/CulinaryRecipeDetails"));
 const PoradnikiHub = lazy(() => import("./pages/PoradnikiHub"));
@@ -125,6 +128,10 @@ const App = () => (
             <Route path="/kultury/jogurtowe" element={<KulturyJogurtowe />} />
             <Route path="/sery-wege" element={<SeryWege />} />
             <Route path="/przepisy" element={<Przepisy />} />
+            {/* Nabial fermentowany - trasy statyczne MUSZA byc przed /przepisy/:id */}
+            <Route path="/przepisy/jogurt-domowy" element={<JogurtDomowy />} />
+            <Route path="/przepisy/kefir-domowy" element={<KefirDomowy />} />
+            <Route path="/przepisy/ser-z-jogurtu" element={<SerZJogurtu />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/przepisy-kulinarne" element={<PrzepisyKulinarne />} />
             <Route path="/przepisy-kulinarne/:id" element={<CulinaryRecipeDetails />} />
