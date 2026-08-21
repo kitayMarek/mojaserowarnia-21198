@@ -22,7 +22,11 @@ from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = os.path.join(ROOT, "public")
-DATE_MODIFIED = "2026-07-05"  # spójne z Fermly i bieżącą datą
+# Data modyfikacji liczona przy uruchomieniu, nie wpisana na sztywno.
+# Wczesniej byla stala "2026-07-05" z komentarzem "spojne z biezaca data" —
+# 21.08.2026 zdezaktualizowala sie o poltora miesiaca i nowe strony dostawalyby
+# dateModified z przeszlosci, czyli odwrotnie do celu (sygnal swiezosci).
+DATE_MODIFIED = date.today().isoformat()
 
 # wstaw po linii @type głównego typu treści (z zachowaniem wcięcia)
 TYPE_RE = re.compile(r'^([ \t]*)("@type":\s*"(?:Article|Recipe|Dataset)",)', re.M)
