@@ -31,7 +31,7 @@
   <!-- PRZEPISY -->
   <url>
     <loc>https://mojaserowarnia.pl/przepisy</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -231,6 +231,36 @@
   </url>
 
   <!-- STATYCZNE STRONY SEO/GEO (bez JS, treść dla botów i AI) -->
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/przewodnik</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/mezofilne</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/termofilne</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/kultury/jogurtowe</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/sery-wege</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://mojaserowarnia.pl/kultury/</loc>
     <lastmod>2026-06-16</lastmod>
