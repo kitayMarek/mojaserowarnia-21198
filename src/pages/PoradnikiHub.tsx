@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig, Layers, Thermometer, Droplets } from "lucide-react";
+import { BookOpen, Beaker, ShoppingCart, Scale, Factory, Flame, LibraryBig, Layers, Thermometer, Droplets, FlaskConical } from "lucide-react";
 import poradnikiHeaderImage from "@/assets/poradniki-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
@@ -52,6 +52,13 @@ const PoradnikiHub = () => {
       description: "Szczegółowe wyjaśnienie jednostek IMCU, obliczanie odpowiedniej ilości podpuszczki oraz zaawansowana metoda flokulacji pozwalająca precyzyjnie określić najlepszy moment cięcia skrzepu dla różnych typów serów.",
       href: "/sila-podpuszczki",
       color: "from-primary to-accent",
+    },
+    {
+      icon: <FlaskConical className="w-12 h-12" />,
+      title: "Chlorek wapnia do mleka",
+      description: "Ile chlorku wapnia na litr mleka w trzech postaciach (bezwodny, dwuwodny, roztwór 33%), w którym momencie go dodać względem kultury i podpuszczki, po co w ogóle jest potrzebny przy mleku pasteryzowanym i co się dzieje przy przedawkowaniu.",
+      href: "/chlorek-wapnia-do-mleka",
+      color: "from-accent to-primary",
     },
     {
       icon: <ShoppingCart className="w-12 h-12" />,
@@ -181,6 +188,7 @@ const PoradnikiHub = () => {
                 "/wedzenie-sera": "wedzenie-sera",
                 "/bakterie-kultury": "bakterie-kultury",
                 "/sila-podpuszczki": "sila-podpuszczki",
+                "/chlorek-wapnia-do-mleka": "chlorek-wapnia-do-mleka",
                 "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke",
                 "/woskowanie-sera": "woskowanie-sera",
                 "/dojrzewalnia-z-lodowki": "dojrzewalnia-z-lodowki",

@@ -24,6 +24,7 @@ const PoradnikiHub = lazy(() => import("./pages/PoradnikiHub"));
 const Poradnik = lazy(() => import("./pages/Poradnik"));
 const BakterieKultury = lazy(() => import("./pages/BakterieKultury"));
 const SilaPodpuszczki = lazy(() => import("./pages/SilaPodpuszczki"));
+const ChlorekWapnia = lazy(() => import("./pages/ChlorekWapnia"));
 const GdzieKupicPodpuszczke = lazy(() => import("./pages/GdzieKupicPodpuszczke"));
 const Prawo = lazy(() => import("./pages/Prawo"));
 const Narzedzia = lazy(() => import("./pages/Narzedzia"));
@@ -156,6 +157,7 @@ const App = () => (
           <Route path="/licznerski-sery" element={<LicznerskiSery />} />
           <Route path="/bakterie-kultury" element={<BakterieKultury />} />
           <Route path="/sila-podpuszczki" element={<SilaPodpuszczki />} />
+          <Route path="/chlorek-wapnia-do-mleka" element={<ChlorekWapnia />} />
           <Route path="/gdzie-kupic-podpuszczke" element={<GdzieKupicPodpuszczke />} />
           <Route path="/porownanie-wartosci-odzywczych" element={<PorownanieWartosciOdzywczych />} />
             <Route path="/prawo" element={<Prawo />} />
