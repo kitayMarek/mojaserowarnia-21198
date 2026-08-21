@@ -128,6 +128,18 @@
   # powstal 2026-08-19, wczesniej tej kolizji nie bylo.
   RewriteRule ^przepisy-kulinarne/?$ /index.html [L]
 
+  # --- Brakujące pliki z rozszerzeniem → PRAWDZIWE 404 ---
+  # Dotąd KAZDY nieistniejący adres dostawał index.html z kodem 200 — także
+  # /cokolwiek.png i /assets/stary-chunk.js. Dla Google to soft 404, czyli sygnał
+  # niskiej jakości serwisu; sekcja SPA FALLBACK CACHE FIX niżej łatała skutek
+  # (HTML serwowany pod adresem .js) zamiast przyczyny.
+  # Warunki muszą się powtórzyć, bo RewriteCond dotyczy tylko następnej reguły.
+  # KOLEJNOSC: ta reguła stoi PO sprawdzeniu istnienia pliku, więc statyki i
+  # assety serwują się normalnie — 404 dostają wyłącznie adresy bez pliku.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule \.(html|css|js|mjs|json|txt|xml|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|pdf|zip)$ - [R=404,L]
+
   # Nie przepisuj istniejących plików i katalogów
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -171,6 +183,8 @@
 
 # ===== OPTYMALIZACJA ETags =====
 FileETag MTime Size
+
+ErrorDocument 404 /404.html
 
 # ===== WYŁĄCZENIE SERVER SIGNATURE =====
 ServerSignature Off
