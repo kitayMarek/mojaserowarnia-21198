@@ -102,7 +102,7 @@ const SklepySerowarskie = () => {
                     <a
                       href={s.url}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener"
                       className="inline-flex items-center gap-1 font-medium text-accent underline underline-offset-2 hover:no-underline"
                     >
                       {s.nazwa}

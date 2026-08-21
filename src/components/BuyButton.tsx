@@ -20,7 +20,7 @@ const BuyButton = ({ productUrl, shopUrl, shopName, cultureName }: BuyButtonProp
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener"
       onClick={handleClick}
       className="inline-block border border-border text-sm text-muted-foreground hover:text-foreground hover:border-foreground transition-colors px-3 py-1 rounded-md"
     >

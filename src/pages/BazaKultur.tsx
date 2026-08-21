@@ -372,7 +372,7 @@ const BazaKultur = () => {
                         <a
                           href={culture.productUrl || culture.shopUrl}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="noopener"
                           onClick={() => trackShopClick(culture.name, culture.shop)}
                           className="hover:underline"
                         >
@@ -422,7 +422,7 @@ const BazaKultur = () => {
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold text-primary min-w-[70px]">Sklep:</span>
-                        <a href={culture.shopUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackShopClick(culture.name, culture.shop)} className="text-accent hover:underline font-medium">
+                        <a href={culture.shopUrl} target="_blank" rel="noopener" onClick={() => trackShopClick(culture.name, culture.shop)} className="text-accent hover:underline font-medium">
                           {culture.shop}
                         </a>
                       </div>
@@ -441,7 +441,7 @@ const BazaKultur = () => {
                       <a
                         href={culture.productUrl || culture.shopUrl}
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="noopener"
                         onClick={() => trackShopClick(culture.name, culture.shop)}
                         className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors"
                       >
@@ -523,7 +523,7 @@ const BazaKultur = () => {
                             </TableCell>
                             <TableCell className="font-semibold text-primary">
                               <div>
-                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackShopClick(culture.name, culture.shop)} className="hover:underline hover:text-accent transition-colors">
+                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener" onClick={() => trackShopClick(culture.name, culture.shop)} className="hover:underline hover:text-accent transition-colors">
                                     {culture.name}
                                   </a> : culture.name}
                                 {culture.lastChanged && (
