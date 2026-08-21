@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 const faqData = [
   { question: "Jakie kultury do jogurtu?", answer: "Yo-Mix, LAMBDA, Beaugel Yog, Natural Yogurt — lub łyżka dobrego jogurtu naturalnego jako starter." },
-  { question: "W jakiej temperaturze robić jogurt?", answer: "Około 42–45°C przez 4–8 godzin, aż mleko zgęstnieje." },
-  { question: "Czy zrobię jogurt z mleka koziego?", answer: "Tak — najlepiej kulturą zalecaną do mleka koziego (np. LAMBDA 10)." },
+  { question: "W jakiej temperaturze pracują kultury jogurtowe?", answer: "42–45°C. Poniżej 40°C fermentacja praktycznie staje, powyżej 46°C bakterie zaczynają ginąć." },
+  { question: "Czy kultura jogurtowa nadaje się do sera?", answer: "Do serów podpuszczkowych zwykle nie. Kultura jogurtowa zakwasza szybko i mocno w wysokiej temperaturze, a ser potrzebuje wolniejszego zakwaszania i innego profilu smaku. Do serów włoskich używa się kultur termofilnych serowarskich (TA-61, MST, LH-100)." },
+  { question: "Czy zrobię jogurt z mleka koziego?", answer: "Tak — najlepiej kulturą zalecaną do mleka koziego (np. LAMBDA 10). Jogurt kozi wychodzi rzadszy, bo kazeina koziego mleka tworzy słabszy żel." },
+  { question: "Ile razy można przekładać własny jogurt jako zakwas?", answer: "Zwykle 4–5 razy. Z każdym pasażem proporcja obu szczepów się przesuwa i jogurt robi się coraz kwaśniejszy oraz rzadszy." },
 ];
 
 const Glo = ({ term, children }: { term: string; children: string }) => (
@@ -16,16 +18,17 @@ const Glo = ({ term, children }: { term: string; children: string }) => (
 
 const KulturyJogurtowe = () => (
   <KulturaGuideLayout
-    title="Kultury jogurtowe — jak zrobić domowy jogurt"
-    subtitle="Kultury jogurtowe to termofilne bakterie, które zamieniają mleko w gęsty, kwaskowy jogurt. Poniżej: jakie szczepy wybrać, w jakiej temperaturze fermentować i jak zrobić jogurt z różnych rodzajów mleka."
-    metaTitle="Kultury jogurtowe — jak zrobić domowy jogurt | Moja Serowarnia"
-    metaDescription="Kultury jogurtowe: szczepy (Yo-Mix, LAMBDA, Beaugel Yog), temperatura fermentacji 42–45°C, jogurt krok po kroku oraz z mleka krowiego, owczego i koziego."
+    title="Kultury jogurtowe — które wybrać i ile dodać"
+    subtitle="Kultury jogurtowe to termofilne bakterie pracujące w 42–45°C. Poniżej: jakie szczepy wybrać, do jakich produktów się nadają, czym różnią się od kultur serowarskich i ile dodać na litr mleka."
+    metaTitle="Kultury jogurtowe — które wybrać i ile dodać | Moja Serowarnia"
+    metaDescription="Kultury jogurtowe: szczepy (Yo-Mix, LAMBDA, Beaugel Yog), temperatura pracy 42–45°C, dawkowanie na 1–25 L, porównanie z kulturami mezofilnymi i termofilnymi serowarskimi."
     breadcrumb={[{ label: "Kultury serowarskie", href: "/kultury/przewodnik" }, { label: "Jogurtowe" }]}
     bazaType="jogurtowe"
     bazaCtaLabel="Przeglądaj kultury jogurtowe w bazie"
     related={[
       { label: "Kultury bakteryjne do serów — przewodnik", href: "/kultury/przewodnik" },
       { label: "Kultury mezofilne do sera", href: "/kultury/mezofilne" },
+      { label: "Kultury termofilne do sera", href: "/kultury/termofilne" },
       { label: "Sery i nabiał wege — jak to możliwe", href: "/sery-wege" },
       { label: "Pełna baza kultur", href: "/baza-kultur" },
     ]}
@@ -35,9 +38,24 @@ const KulturyJogurtowe = () => (
     <h2>Co to są kultury jogurtowe?</h2>
     <p>
       To zestaw bakterii — przede wszystkim <em>Streptococcus thermophilus</em> i{" "}
-      <em>Lactobacillus delbrueckii</em> subsp. <em>bulgaricus</em> — które fermentują mleko w temperaturze ok.
-      42–45°C, nadając mu charakterystyczny kwaskowy smak i gęstą teksturę. Część kultur zawiera też szczepy
-      probiotyczne.
+      <em>Lactobacillus delbrueckii</em> subsp. <em>bulgaricus</em> — które fermentują mleko w temperaturze
+      42–45°C, nadając mu kwaskowy smak i gęstą teksturę. Oba szczepy pracują w symbiozie: paciorkowiec startuje
+      szybciej i zużywa tlen, pałeczka rozkłada białko na aminokwasy, których potrzebuje paciorkowiec. Razem
+      zakwaszają mleko szybciej niż każdy z osobna. Część kultur zawiera też szczepy probiotyczne.
+    </p>
+
+    <h2>Do jakich produktów kultury jogurtowe?</h2>
+    <ul>
+      <li>Jogurt naturalny i owocowy</li>
+      <li>Jogurt grecki (ten sam jogurt, tylko odcedzony z <Glo term="serwatka">serwatki</Glo>)</li>
+      <li>Labneh — serek do smarowania z długo odcedzanego jogurtu</li>
+      <li>Maślanka i napoje fermentowane</li>
+      <li>Mleko owcze i kozie — jogurty regionalne</li>
+    </ul>
+    <p>
+      Do serów podpuszczkowych kultury jogurtowe zwykle się nie nadają — zakwaszają za szybko i za mocno.
+      Wyjątkiem bywa dodatek startowy przy mozzarelli, ale i tam pewniejsze są{" "}
+      <Link to="/kultury/termofilne">kultury termofilne serowarskie</Link>.
     </p>
 
     <h2>Polecane kultury jogurtowe</h2>
@@ -58,31 +76,90 @@ const KulturyJogurtowe = () => (
       <Link to="/baza-kultur?type=jogurtowe">bazie kultur jogurtowych</Link>.
     </p>
 
-    <h2>Jak zrobić jogurt — krok po kroku</h2>
-    <ol>
-      <li>
-        <strong>Podgrzej mleko</strong> do ok. 85°C i schłodź do 42–45°C (<Glo term="pasteryzacja">pasteryzacja</Glo>{" "}
-        domowa daje gęstszy jogurt).
-      </li>
-      <li><strong>Dodaj kulturę</strong> jogurtową (lub łyżkę jogurtu naturalnego) i wymieszaj.</li>
-      <li><strong>Utrzymaj 42–45°C</strong> przez 4–8 godzin (jogurtownica, piekarnik z lampką, termos), aż mleko zgęstnieje.</li>
-      <li><strong>Schłódź</strong> w lodówce — jogurt jeszcze stężeje. Gotowy do 1–2 tygodni.</li>
-    </ol>
-
-    <h2>Jogurt z mleka krowiego, owczego i koziego</h2>
+    <h2>Kultury jogurtowe a mezofilne i termofilne serowarskie</h2>
     <p>
-      Z mleka krowiego wychodzi klasyczny jogurt; z owczego — gęstszy i bogatszy; z koziego — delikatniejszy
-      (warto wtedy wybrać kulturę zalecaną do koziego, np. LAMBDA 10). Po odcedzeniu na gazie uzyskasz jogurt typu
-      greckiego.
+      Kultury jogurtowe są technicznie termofilne, ale to nie to samo co{" "}
+      <Link to="/kultury/termofilne">termofilne kultury serowarskie</Link>. Różni je tempo zakwaszania i profil
+      smaku, a nie sama temperatura pracy.
     </p>
+    <table>
+      <thead>
+        <tr><th>Typ</th><th>Temperatura</th><th>Do czego</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Jogurtowe</strong></td><td>42–45°C</td><td>jogurt, jogurt grecki, labneh — szybkie i mocne zakwaszanie</td></tr>
+        <tr><td><Link to="/kultury/termofilne">Termofilne serowarskie</Link></td><td>37–55°C</td><td>caciotta, mozzarella, parmezan — zakwaszanie wolniejsze, inny profil smaku</td></tr>
+        <tr><td><Link to="/kultury/mezofilne">Mezofilne</Link></td><td>25–35°C</td><td>gouda, twaróg, cheddar, sery świeże i półtwarde</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Dawkowanie kultur jogurtowych — ile na ile litrów</h2>
+    <p>
+      Dawkę zawsze dobieraj według opakowania — producenci różnią się aktywnością{" "}
+      <Glo term="liofilizat">liofilizatu</Glo>. Orientacyjnie:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Ilość mleka</th><th>Kultura LYO (orientacyjnie)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1–2 L</td><td>szczypta, ok. 1/16–1/8 łyżeczki</td></tr>
+        <tr><td>5 L</td><td>ok. 1/4 łyżeczki</td></tr>
+        <tr><td>10 L</td><td>ok. 1/2 łyżeczki</td></tr>
+        <tr><td>25 L</td><td>ok. 1 łyżeczka</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Zamiast kultury można użyć <strong>2–3 łyżek świeżego jogurtu naturalnego na litr mleka</strong>. Taki zakwas
+      działa zwykle przez 4–5 pasaży — potem proporcja obu szczepów się rozjeżdża i jogurt robi się coraz kwaśniejszy
+      oraz rzadszy.
+    </p>
+    <p>
+      Rozsyp kulturę na powierzchni mleka o temperaturze 42–45°C, odczekaj minutę na rehydrację i delikatnie wmieszaj.
+    </p>
+
+    <div className="my-8 rounded-xl border border-accent/30 bg-accent/5 p-5">
+      <h2 className="mt-0 text-accent">Chcesz przepis, a nie kultury?</h2>
+      <p className="mb-3">
+        Ta strona dotyczy samych kultur. Pełny przepis — z temperaturami, czasem, metodą bez jogurtownicy i
+        rozwiązaniem typowych problemów — jest osobno:
+      </p>
+      <ul className="mb-0">
+        <li>
+          <a href="/przepisy/jogurt-domowy.html" className="font-semibold">
+            Jak zrobić domowy jogurt — krok po kroku
+          </a>{" "}
+          (42–45°C, 4–8 h, jogurt grecki, zakwas na kolejne partie)
+        </li>
+        <li>
+          <a href="/przepisy/kefir-domowy.html" className="font-semibold">
+            Jak zrobić domowy kefir
+          </a>{" "}
+          (grzybki tybetańskie, 20–25°C, także bez ziaren)
+        </li>
+        <li>
+          <a href="/przepisy/ser-z-jogurtu.html" className="font-semibold">
+            Ser i twaróg z jogurtu lub kefiru
+          </a>{" "}
+          (labneh, twaróg, masło)
+        </li>
+      </ul>
+    </div>
 
     <h2>Najczęstsze pytania (FAQ)</h2>
     <h3>Jakie kultury do jogurtu?</h3>
     <p>Yo-Mix, LAMBDA, Beaugel Yog, Natural Yogurt — lub łyżka dobrego jogurtu naturalnego.</p>
-    <h3>W jakiej temperaturze?</h3>
-    <p>Ok. 42–45°C przez 4–8 godzin.</p>
+    <h3>W jakiej temperaturze pracują kultury jogurtowe?</h3>
+    <p>42–45°C. Poniżej 40°C fermentacja praktycznie staje, powyżej 46°C bakterie zaczynają ginąć.</p>
+    <h3>Czy kultura jogurtowa nadaje się do sera?</h3>
+    <p>
+      Do serów podpuszczkowych zwykle nie — zakwasza za szybko i za mocno. Do serów włoskich używa się kultur
+      termofilnych serowarskich (TA-61, MST, LH-100).
+    </p>
     <h3>Z mleka koziego?</h3>
-    <p>Tak — najlepiej kulturą zalecaną do koziego (np. LAMBDA 10).</p>
+    <p>Tak — najlepiej kulturą zalecaną do koziego (np. LAMBDA 10). Jogurt wychodzi rzadszy niż z krowiego.</p>
+    <h3>Ile razy można przekładać własny jogurt jako zakwas?</h3>
+    <p>Zwykle 4–5 razy, potem trzeba wrócić do świeżej kultury.</p>
   </KulturaGuideLayout>
 );
 
