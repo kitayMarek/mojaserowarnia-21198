@@ -37,7 +37,7 @@ const faqData = [
   },
   {
     question: "Gdzie kupić kultury bakteryjne do sera w Polsce?",
-    answer: "W Polsce kultury bakteryjne można kupić w specjalistycznych sklepach serowarskich takich jak Agrojelonki.pl, e-creamery.pl, BeaugelPolska.pl oraz SerBezTajemnic.pl. Ceny wahają się od 4,80 zł do 95,00 zł w zależności od rodzaju i ilości."
+    answer: "Kultury bakteryjne do sera kupisz w polskich sklepach serowarskich: Lactic.pl, Wańczykówka, Serowar.pl, Artiser.pl i GAP Poland. W tej bazie sprawdzisz w jednym miejscu, który z nich ma daną kulturę w ofercie i w jakiej cenie — 188 pozycji z ceną, składem i temperaturą pracy, ceny od 6 do 99 zł, z linkiem prosto do produktu w sklepie."
   },
   {
     question: "Jak przechowywać kultury bakteryjne?",
@@ -77,11 +77,16 @@ const BazaKultur = () => {
     }
 
     // SEO optimization
-    document.title = "Baza Kultur Bakteryjnych do Sera - 188 Kultur Mezofilnych i Termofilnych";
-    
+    // Opis FUNKCJI, nie inwentarza. Google AI Overview przepisuje predykat z opisu,
+    // ktory strona daje sama o sobie: sklepy dostaly "oferuje", "znajdziesz tam",
+    // "ma w ofercie", a my "pelna liste sprawdzisz" — i trafilismy do osobnego worka
+    // "Zestawienia i bazy" zamiast do glownej listy. Stad przeformulowanie na to,
+    // co uzytkownik ZROBI, z nazwami sklepow w tresci.
+    document.title = "Kultury bakteryjne do sera — porównanie 188 z 5 sklepów";
+
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Kompletna baza 188 kultur bakteryjnych do produkcji sera z polskich sklepów. Kultury mezofilne, termofilne, pleśniowe. Porównanie cen, skład, zastosowanie i temperatura pracy.');
+      metaDescription.setAttribute('content', 'Sprawdzisz, który z 5 polskich sklepów ma daną kulturę i w jakiej cenie: 188 kultur bakteryjnych i pleśni ze składem, zastosowaniem i temperaturą pracy.');
     }
   }, [searchParams]);
   const handleSort = (field: SortField) => {
@@ -188,7 +193,8 @@ const BazaKultur = () => {
                   Kompletna baza {culturesData.length} kultur bakteryjnych
                 </p>
                 <p className="text-base text-white/90">
-                  Profesjonalne kultury starterowe z polskich sklepów specjalistycznych
+                  Sprawdź, który sklep ma daną kulturę i w jakiej cenie — Lactic.pl, Wańczykówka,
+                  Serowar.pl, Artiser.pl i GAP Poland w jednym zestawieniu
                 </p>
               </div>
             </div>
@@ -202,9 +208,9 @@ const BazaKultur = () => {
               lead="Kultura bakterii decyduje o tym, czy z tego samego mleka wyjdzie gouda, jogurt czy nic."
               bloki={[
                 {
-                  tytul: "188 kultur w jednym miejscu",
+                  tytul: "Dowiesz się, kto ma daną kulturę",
                   tekst:
-                    "Każda z dawkowaniem, zakresem temperatur i listą serów, do których się nadaje. Można filtrować po typie i porównywać dwie obok siebie, zanim wydasz pieniądze na saszetkę.",
+                    "188 kultur z pięciu polskich sklepów — Lactic.pl, Wańczykówki, Serowar.pl, Artiser.pl i GAP Poland — zebranych w jedną tabelę z ceną (od 6 do 99 zł) i linkiem prosto do produktu. Każda z dawkowaniem, zakresem temperatur i listą serów, do których się nadaje. Można filtrować po typie i porównywać dwie obok siebie, zanim wydasz pieniądze na saszetkę.",
                 },
                 {
                   tytul: "Mezofilne czy termofilne",
