@@ -1,0 +1,188 @@
+# nazwa | sklep | proporcje | producent | zrodlo
+ARTiVEG ME-30 | Artiser.pl |  | Artiser | json-ld
+ARTiVEG TH-33 | Artiser.pl |  | Artiser | json-ld
+ARTiVEG YO PRO-12 | Artiser.pl |  | Artiser | json-ld
+ARTiVEG YO-9 | Artiser.pl |  | Artiser | json-ld
+BTH | Artiser.pl |  | Artiser | json-ld
+BTMH | Artiser.pl |  | Artiser | json-ld
+Brevibacterium Linens | Artiser.pl |  | Artiser | json-ld
+CLC | Artiser.pl |  | Artiser | json-ld
+CLCH | Artiser.pl |  | Artiser | json-ld
+F-YO | Artiser.pl |  | Artiser | json-ld
+Geotrichum Candidum | Artiser.pl |  | Artiser | json-ld
+KFF | Artiser.pl |  | Artiser | json-ld
+ML | Artiser.pl |  | Artiser | json-ld
+ML-O | Artiser.pl |  | Artiser | json-ld
+MLE | Artiser.pl |  | Artiser | json-ld
+MLL | Artiser.pl |  | Artiser | json-ld
+P-YO | Artiser.pl |  | Artiser | json-ld
+Penicillium Candidum | Artiser.pl |  | Artiser | json-ld
+Penicillium Roqueforti | Artiser.pl |  | Artiser | json-ld
+Propionibacterium | Artiser.pl |  | Artiser | json-ld
+Brevibacterium linens | GAP Poland |  | GAP food aditives | microdata
+EF LYO | GAP Poland |  | GAP food aditives | microdata
+HL 06 LYO | GAP Poland |  | GAP food aditives | microdata
+Kefir 41 LYO | GAP Poland |  | GAP food aditives | microdata
+MP 62 LYO | GAP Poland |  | GAP food aditives | microdata
+PB LYO | GAP Poland |  | GAP food aditives | microdata
+PBat 91 LYO | GAP Poland |  | GAP food aditives | microdata
+Penicillium candidum | GAP Poland |  | GAP food aditives | microdata
+Penicillium roqueforti | GAP Poland |  | GAP food aditives | microdata
+Protective LYO | GAP Poland |  | GAP food aditives | microdata
+SH LYO | GAP Poland |  | GAP food aditives | microdata
+SM 02 LYO | GAP Poland |  | GAP food aditives | microdata
+SR 62 LYO | GAP Poland |  | GAP food aditives | microdata
+TW 31 LYO | GAP Poland |  | GAP food aditives | microdata
+VEGE C LYO | GAP Poland |  |  | 
+Y 92 LYO | GAP Poland |  | GAP food aditives | microdata
+YO 56 LYO | GAP Poland |  | GAP food aditives | microdata
+YO-B1 LYO | GAP Poland |  | GAP food aditives | microdata
+YPB LYO | GAP Poland |  | GAP food aditives | microdata
+ALPHA 12 | Lactic.pl |  | Coquard | microdata
+ALPHA 3 | Lactic.pl |  | Coquard | microdata
+ALPHA 6 | Lactic.pl |  | Coquard | microdata
+ALPHA BLEU | Lactic.pl |  | Coquard | microdata
+BETA 1 | Lactic.pl |  | Coquard | microdata
+BETA 8 | Lactic.pl |  | Coquard | microdata
+Beaugel 10 25l | Lactic.pl |  | Coquard | microdata
+Beaugel 11 25l | Lactic.pl |  | Coquard | microdata
+Beaugel 12 | Lactic.pl |  | Coquard | microdata
+Beaugel Acid 1 | Lactic.pl |  | Coquard | microdata
+Beaugel Bifi 1 | Lactic.pl |  | Coquard | microdata
+Beaugel Elben | Lactic.pl |  | Coquard | microdata
+Beaugel Kefir 2 | Lactic.pl |  | Coquard | microdata
+Beaugel Kefir 3 | Lactic.pl |  | Coquard | microdata
+Beaugel Raieb 1 | Lactic.pl |  | Coquard | microdata
+Beaugel Soja 1 | Lactic.pl |  | Coquard | microdata
+Beaugel Yog 1 | Lactic.pl |  | Coquard | microdata
+Beaugel Yog 2 | Lactic.pl |  | Coquard | microdata
+Beaugel Yog 3 | Lactic.pl |  | Coquard | microdata
+Beaugel Yog 4 | Lactic.pl |  | Coquard | microdata
+DELTA 1 | Lactic.pl |  | Coquard | microdata
+DELTA 2 | Lactic.pl |  | Coquard | microdata
+GAMMA 1 | Lactic.pl |  | Coquard | microdata
+GAMMA 3 | Lactic.pl |  |  | 
+IOTA 1 | Lactic.pl |  | Coquard | microdata
+IOTA 2 | Lactic.pl |  | Coquard | microdata
+IOTA 4 | Lactic.pl |  | Coquard | microdata
+IOTA CL1 | Lactic.pl |  | Coquard | microdata
+IOTA CL2 | Lactic.pl |  | Coquard | microdata
+IOTA Ca/1 | Lactic.pl |  | Coquard | microdata
+IOTA Ca/2 | Lactic.pl |  | Coquard | microdata
+IOTA FETA | Lactic.pl |  | Coquard | microdata
+IOTA FF1 | Lactic.pl |  | Coquard | microdata
+IOTA FF2 | Lactic.pl |  | Coquard | microdata
+IOTA KEFIR 2 | Lactic.pl |  | Coquard | microdata
+IOTA KEFIR 3 | Lactic.pl |  | Coquard | microdata
+IOTA M | Lactic.pl |  | Coquard | microdata
+IOTA PETIT BLEU | Lactic.pl |  | Coquard | microdata
+IOTA PROBI 1 | Lactic.pl |  | Coquard | microdata
+IOTA RACLETTE | Lactic.pl |  | Coquard | microdata
+IOTA ST NECTAIRE 1 | Lactic.pl |  | Coquard | microdata
+IOTA V | Lactic.pl |  | Coquard | microdata
+KAPPA 1 | Lactic.pl |  | Coquard | microdata
+KAPPA 2 | Lactic.pl |  | Coquard | microdata
+KAPPA 3 | Lactic.pl |  | Coquard | microdata
+KAPPA 4 | Lactic.pl |  | Coquard | microdata
+LAMBDA 10 | Lactic.pl |  | Coquard | microdata
+LAMBDA 12 | Lactic.pl |  | Coquard | microdata
+LAMBDA 3 | Lactic.pl | 50:50 | Coquard | microdata
+LAMBDA 6 | Lactic.pl | 80:20 | Coquard | microdata
+LAMBDA 7 | Lactic.pl | 80:20 | Coquard | microdata
+LAMBDA 8 | Lactic.pl | 80:20 | Coquard | microdata
+LAMBDA 9 | Lactic.pl | 80:20 | Coquard | microdata
+OMEGA 1 | Lactic.pl |  | Coquard | microdata
+OMEGA 2 | Lactic.pl |  | Coquard | microdata
+OMEGA 3 | Lactic.pl |  | Coquard | microdata
+OMEGA 4 | Lactic.pl |  | Coquard | microdata
+SIGMA 15 | Lactic.pl |  | Coquard | microdata
+SIGMA 17 | Lactic.pl |  | Coquard | microdata
+SIGMA 22 (Debaryomyces Hansenii) | Lactic.pl |  | Coquard | microdata
+SIGMA 30 | Lactic.pl |  | Coquard | microdata
+SIGMA 41 | Lactic.pl |  | Coquard | microdata
+SIGMA 43 | Lactic.pl |  | Coquard | microdata
+SIGMA 54 | Lactic.pl |  | Coquard | microdata
+SIGMA 55 | Lactic.pl |  | Coquard | microdata
+SIGMA 63 | Lactic.pl |  | Coquard | microdata
+SIGMA 75 | Lactic.pl |  | Coquard | microdata
+SIGMA 96 SP | Lactic.pl |  | Coquard | microdata
+SIGMA 97 | Lactic.pl |  | Coquard | microdata
+ABY | Serowar.pl |  | Biochem s.r.l. | microdata
+AT | Serowar.pl |  | Biochem s.r.l. | microdata
+Brevibacterium Linens | Serowar.pl |  | Micromilk | microdata
+CL | Serowar.pl |  | Micromilk | microdata
+EM | Serowar.pl |  | Biochem s.r.l. | microdata
+GEO | Serowar.pl |  | Micromilk | microdata
+Grzybek kefirowy tybetański | Serowar.pl |  | SEROWAR | microdata
+KFA1 | Serowar.pl |  | Micromilk | microdata
+KFB1/2 | Serowar.pl |  | Micromilk | microdata
+Kefir 31 | Serowar.pl |  | Biochem s.r.l. | microdata
+Kefir 51 | Serowar.pl |  | Biochem s.r.l. | microdata
+LCR | Serowar.pl |  | Biochem s.r.l. | microdata
+LHT | Serowar.pl |  | Micromilk | microdata
+LHTB | Serowar.pl |  | Micromilk | microdata
+LHTBME | Serowar.pl |  | Micromilk | microdata
+LP | Serowar.pl |  | Biochem s.r.l. | microdata
+M | Serowar.pl |  | Biochem s.r.l. | microdata
+MA | Serowar.pl |  | Micromilk | microdata
+ME | Serowar.pl |  | Micromilk | microdata
+MFC | Serowar.pl |  | Biochem s.r.l. | microdata
+MO | Serowar.pl |  | Micromilk | microdata
+MSE | Serowar.pl |  | Biochem s.r.l. | microdata
+MSE-910 | Serowar.pl |  | Biochem s.r.l. | microdata
+MSO | Serowar.pl |  | Biochem s.r.l. | microdata
+MSO-11 | Serowar.pl |  | Biochem s.r.l. | microdata
+MST | Serowar.pl |  | Biochem s.r.l. | microdata
+MSY | Serowar.pl |  | Biochem s.r.l. | microdata
+MYE | Serowar.pl |  | Biochem s.r.l. | microdata
+PC | Serowar.pl |  | Biochem s.r.l. | microdata
+PG | Serowar.pl |  | Biochem s.r.l. | microdata
+PP | Serowar.pl |  | Biochem s.r.l. | microdata
+RQ | Serowar.pl |  | Biochem s.r.l. | microdata
+SLBH | Serowar.pl |  | Biochem s.r.l. | microdata
+TB | Serowar.pl |  | Micromilk | microdata
+TME | Serowar.pl |  | Micromilk | microdata
+YO 122 | Serowar.pl |  | Biochem s.r.l. | microdata
+Camembert Mix | Wańczykówka |  | DANISCO | json-ld
+Choozit ARN | Wańczykówka |  | DANISCO | json-ld
+Choozit Alp | Wańczykówka |  | DANISCO | json-ld
+Choozit DH 2D | Wańczykówka |  | DANISCO | json-ld
+Choozit FR 13 | Wańczykówka |  | DANISCO | json-ld
+Choozit FT 001 | Wańczykówka |  | DANISCO | json-ld
+Choozit GEO 13 | Wańczykówka |  | DANISCO | json-ld
+Choozit GEO 17 | Wańczykówka |  | DANISCO | json-ld
+Choozit KAZU | Wańczykówka |  | DANISCO | json-ld
+Choozit KL 71 | Wańczykówka |  | DANISCO | json-ld
+Choozit LH 100 | Wańczykówka |  | DANISCO | json-ld
+Choozit LM 57 | Wańczykówka |  | DANISCO | json-ld
+Choozit MA 14 | Wańczykówka |  | DANISCO | json-ld
+Choozit MA 4001 | Wańczykówka |  | DANISCO | json-ld
+Choozit SR3 | Wańczykówka |  | DANISCO | json-ld
+Choozit TA 61 | Wańczykówka |  | DANISCO | json-ld
+Flav 54 | Wańczykówka |  | Sklep dla serowarów Wańczykówka | json-ld
+HOLDBAC LC | Wańczykówka |  | DANISCO | json-ld
+Kefir DA | Wańczykówka |  | DANISCO | json-ld
+LHT | Wańczykówka |  | Sklep dla serowarów Wańczykówka | json-ld
+Penicillium Candidum PC 22 | Wańczykówka |  | DANISCO | json-ld
+Penicillium Candidum PC Neige | Wańczykówka |  | DANISCO | json-ld
+Penicillium roqueforti PA | Wańczykówka |  | DANISCO | json-ld
+Penicillium roqueforti PV | Wańczykówka |  | DANISCO | json-ld
+Probat 222 | Wańczykówka |  | DANISCO | json-ld
+Propionibakterium PX | Wańczykówka |  | DANISCO | json-ld
+Yo-Mix 215 | Wańczykówka |  | DANISCO | json-ld
+Yo-Mix 401 | Wańczykówka |  | DANISCO | json-ld
+Yo-Mix 495 | Wańczykówka |  | DANISCO | json-ld
+Yo-Mix 601 | Wańczykówka |  | DANISCO | json-ld
+Yo-Mix 883 | Wańczykówka |  | DANISCO | json-ld
+microMilk Kefir KFB1 | Wańczykówka |  | microMilk | json-ld
+microMilk LHTB | Wańczykówka |  | microMilk | json-ld
+microMilk LHTBM | Wańczykówka |  | microMilk | json-ld
+microMilk ME | Wańczykówka |  | microMilk | json-ld
+microMilk MO (Feta) | Wańczykówka |  | microMilk | json-ld
+microMilk T (Mozzarella) | Wańczykówka |  | microMilk | json-ld
+microMilk TB (Taleggio) | Wańczykówka |  | microMilk | json-ld
+microMilk TB/B (Caciotta) | Wańczykówka |  | DANISCO | json-ld
+microMilk TME | Wańczykówka |  | microMilk | json-ld
+microMilk Y | Wańczykówka |  | microMilk | json-ld
+microMilk Y-Probiotyczny | Wańczykówka |  | microMilk | json-ld
+microMilk YG (Jogurt Grecki) | Wańczykówka |  | microMilk | json-ld

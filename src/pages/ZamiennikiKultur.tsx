@@ -70,6 +70,13 @@ const ZamiennikiKultur = () => {
         <strong>sprawdź przeznaczenie i zakres temperatur</strong>.
       </div>
 
+      <div className="not-prose my-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/30 p-4 text-foreground">
+        <strong>Twardy dowód, że to nie ostrożność na wyrost:</strong> jeden ze sklepów podaje przy linii LAMBDA
+        proporcje szczepów. <strong>LAMBDA 3 ma 50:50, a LAMBDA 6, 7, 8 i 9 mają 80:20</strong> — przy identycznym
+        składzie gatunkowym w naszej bazie. W tabeli poniżej trafiają do jednej grupy, ale zachowają się inaczej.
+        Więcej o tym w tekście o <Link to="/kto-produkuje-kultury">producentach kultur</Link>.
+      </div>
+
       <h2>Co znaczy „kultura starterowa"?</h2>
       <p>
         Że <strong>startuje zakwaszanie mleka</strong> — a nie że jest dla początkujących. To najczęstsze
