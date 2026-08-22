@@ -1798,7 +1798,7 @@ export const culturesData: Culture[] = [
     price: "20,00 zł",
     price_numeric: 20.0,
     packLiters: 100,
-    manufacturer: "DANISCO (IFF)",
+    manufacturer: "microMilk",
     lastChecked: "2026-08-22",
   },
   {

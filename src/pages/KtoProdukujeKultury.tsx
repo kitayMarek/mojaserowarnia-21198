@@ -9,7 +9,7 @@ const faqData = [
   {
     question: "Czyje kultury kupuje się w polskich sklepach serowarskich?",
     answer:
-      "Po odczytaniu producenta ze stron wszystkich 188 pozycji wychodzą cztery firmy: Coquard z Villefranche-sur-Saône we Francji (68 pozycji), Danisco należące dziś do koncernu IFF (30), włoski microMilk z Cremosano koło Cremony (24) i włoski Biochem s.r.l. z Montelibretti pod Rzymem (22). Pozostałe 41 pozycji to marki własne sklepów, przy których jako producent figuruje sam sprzedawca. Charakterystyczne jest to, że każdy producent występuje praktycznie w jednym sklepie — zmiana sklepu jest więc jednocześnie zmianą producenta.",
+      "Po odczytaniu producenta ze stron wszystkich 188 pozycji wychodzą cztery firmy: Coquard z Villefranche-sur-Saône we Francji (68 pozycji), Danisco należące dziś do koncernu IFF (29), włoski microMilk z Cremosano koło Cremony (25) i włoski Biochem s.r.l. z Montelibretti pod Rzymem (22). Pozostałe 41 pozycji to marki własne sklepów, przy których jako producent figuruje sam sprzedawca. Charakterystyczne jest to, że każdy producent występuje praktycznie w jednym sklepie — zmiana sklepu jest więc jednocześnie zmianą producenta.",
   },
   {
     question: "Czy w Polsce produkuje się kultury bakteryjne do sera?",
@@ -136,15 +136,15 @@ const KtoProdukujeKultury = () => (
         <tr>
           <td><strong>DANISCO (IFF)</strong></td>
           <td>korzenie duńskie, dziś koncern IFF</td>
-          <td>30</td>
+          <td>29</td>
           <td>Wańczykówka</td>
           <td>100–5000 L</td>
-          <td>0,12</td>
+          <td>0,11</td>
         </tr>
         <tr>
           <td><strong>microMilk</strong></td>
           <td>Cremosano k. Cremony, Włochy</td>
-          <td>24</td>
+          <td>25</td>
           <td>Serowar.pl, Wańczykówka</td>
           <td>100–500 L</td>
           <td>0,32</td>
@@ -275,8 +275,8 @@ const KtoProdukujeKultury = () => (
       </thead>
       <tbody>
         <tr><td><strong>Coquard</strong></td><td>68</td><td>francuski producent, linie ALPHA, LAMBDA, IOTA, SIGMA, Beaugel</td></tr>
-        <tr><td><strong>DANISCO (IFF)</strong></td><td>30</td><td>linia Choozit</td></tr>
-        <tr><td><strong>microMilk</strong></td><td>24</td><td>włoski; zapisywany przez sklepy dwojako</td></tr>
+        <tr><td><strong>DANISCO (IFF)</strong></td><td>29</td><td>linia Choozit</td></tr>
+        <tr><td><strong>microMilk</strong></td><td>25</td><td>włoski; zapisywany przez sklepy dwojako</td></tr>
         <tr><td><strong>Biochem s.r.l.</strong></td><td>22</td><td>włoski</td></tr>
         <tr><td><strong>Marki własne sklepów</strong></td><td><strong>41</strong></td><td>jako producent figuruje sam sprzedawca</td></tr>
       </tbody>
