@@ -166,7 +166,11 @@ def zbuduj_html(grupy, wszystkie):
   <meta property="og:url" content="https://mojaserowarnia.pl/zamienniki-kultur.html" />
   <meta property="og:site_name" content="Moja Serowarnia" />
   <meta property="og:locale" content="pl_PL" />
-  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />
+  <meta property="og:image" content="https://mojaserowarnia.pl/og/zamienniki.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/zamienniki.png" />
 """ % (w_grupach, len(wszystkie), len(grupy), len(grupy)))
 
     czesci.append("""  <script type="application/ld+json">

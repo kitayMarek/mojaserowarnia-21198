@@ -271,10 +271,55 @@ def grafika_porownanie(rek):
     return img
 
 
+def grafika_chlorek(rek):
+    """Korekta bledu, ktory powtarza sie w calej polskiej sieci.
+
+    Zapytanie "dozowanie chlorku wapnia do sera" ma stala liczbe wyszukiwan,
+    a jest zle postawione: CaCl2 idzie do MLEKA. Plansza prostuje to jednym
+    zdaniem i podaje dawki, ktorych sklepy nie rozpisuja per postac.
+    """
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    d.rectangle([(0, 0), (SZER, 10)], fill=AKCENT)
+
+    d.text((48, 48), "CHLOREK WAPNIA", font=czcionka("segoeuib.ttf", 54), fill=CIEMNY)
+    d.text((48, 112), "dodaje się do MLEKA, nie do sera",
+           font=czcionka("segoeuib.ttf", 34), fill=AKCENT)
+    d.text((48, 160), "i to nie jest czepianie się o słowa — decyduje o tym, kiedy go dodać",
+           font=czcionka("segoeui.ttf", 24), fill=SZARY)
+
+    wiersze = [
+        ("CaCl₂ bezwodny", "0,1–0,2 g", "na 1 litr mleka"),
+        ("proszek dwuwodny", "0,15–0,25 g", "ma ~75% czystego CaCl₂"),
+        ("roztwór 33%", "0,3–0,6 ml", "najczęstsza postać w sklepach"),
+    ]
+    y = 224
+    fe = czcionka("segoeuib.ttf", 26)
+    fd = czcionka("segoeuib.ttf", 30)
+    fu = czcionka("segoeui.ttf", 22)
+    for etyk, dawka, uwaga in wiersze:
+        d.rounded_rectangle([(44, y), (SZER - 44, y + 62)], radius=8,
+                            fill=(255, 255, 255), outline=LINIA, width=2)
+        d.text((62, y + 17), etyk, font=fe, fill=TEKST)
+        d.text((400, y + 13), dawka, font=fd, fill=CIEMNY)
+        d.text((640, y + 19), uwaga, font=fu, fill=SZARY)
+        y += 74
+
+    d.rounded_rectangle([(44, y + 6), (SZER - 44, y + 76)], radius=8, fill=(254, 226, 226))
+    d.text((62, y + 16), "Kiedy:", font=fe, fill=(153, 27, 27))
+    d.text((160, y + 18),
+           "razem z kulturą, min. 20 minut przed podpuszczką — nigdy oba naraz",
+           font=czcionka("segoeui.ttf", 24), fill=(127, 29, 29))
+
+    stopka(d, "/chlorek-wapnia-do-mleka")
+    return img
+
+
 GRAFIKI = {
     "zamienniki": grafika_zamienniki,
     "pojemnosci": grafika_pojemnosci,
     "porownanie": grafika_porownanie,
+    "chlorek": grafika_chlorek,
 }
 
 
