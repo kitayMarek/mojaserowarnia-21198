@@ -47,6 +47,7 @@ const faqData = [
 
 // See Also links
 const seeAlsoLinks = [
+  { title: "Zamienniki kultur — te same szczepy, inne nazwy", href: "/zamienniki-kultur", description: "53% kultur ma skład wspólny z inną pozycją" },
   { title: "Porównywarka kultur bakteryjnych", href: "/porownywarka-kultur", description: "Porównaj składy i ceny różnych kultur" },
   { title: "Przepisy na domowe sery", href: "/przepisy", description: "Praktyczne przepisy krok po kroku" },
   { title: "Poradnik dla serowarów", href: "/poradnik", description: "Kompleksowa wiedza o serowarstwie" },

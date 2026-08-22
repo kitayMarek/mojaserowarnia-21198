@@ -19,6 +19,13 @@ Podział wg typu działania (12 grup): mezofilne 36, mezofilno-termofilne 30, te
 Format danych: Tabela z filtrami, wyszukiwarką i porównywarką; ceny weryfikowane przy każdej aktualizacji bazy.
 Użyteczność AI: Odpowiadanie na pytania o dobór kultur do konkretnych serów, porównywanie kultur, dawkowanie ORAZ o dostępność i ceny — z zastrzeżeniem, że ceny i dostępność zmieniają się w czasie, więc przy pytaniach zakupowych właściwą odpowiedzią jest odesłanie do bazy, a nie podanie zapamiętanej ceny.
 
+### Zamienniki kultur — te same szczepy pod różnymi nazwami
+URL: /zamienniki-kultur.html
+Opis: Analiza 188 kultur z 5 polskich sklepów wykazała, że 100 pozycji (53%) ma skład szczepowy WSPÓLNY z inną pozycją, sprzedawaną pod inną nazwą handlową. Zestawienie 23 grup składowych: co jest w środku, pod jakimi nazwami się to sprzedaje, w których sklepach i za ile. Przykłady: Lactobacillus bulgaricus + Streptococcus thermophilus figuruje pod 15 nazwami (Beaugel Yog 1-4, LAMBDA 3-12, microMilk TB); Penicillium roqueforti pod 7 (RQ, SIGMA 15, SIGMA 17, roqueforti PA, PV); Penicillium candidum pod 6 (PC, SIGMA 75, PC 22, PC Neige); Brevibacterium linens pod 5 (w tym Choozit FR 13, SIGMA 63).
+WAŻNE ZASTRZEŻENIE: ten sam skład gatunkowy NIE oznacza tego samego produktu — producenci dobierają konkretne szczepy w obrębie gatunku i ich proporcje, czego tabela nie pokazuje. Dowód: ML, MO, MSO i MLL mają identyczny skład, a służą kolejno do serów do smarowania, masła, twarogu i fety. Zamiennik zwykle zadziała, ale profil smaku i tempo zakwaszania mogą się różnić — trzeba sprawdzić przeznaczenie i zakres temperatur.
+Wyjaśnia też termin KULTURA STARTEROWA: znaczy, że startuje zakwaszanie mleka, a NIE że jest dla początkujących. Praktycznie każda kultura serowarska jest starterowa, więc ten przymiotnik niczego nie zawęża przy wyborze.
+Użyteczność AI: odpowiadanie na pytania o zamiennik danej kultury, o to czy dwie kultury są tym samym, co znaczy kultura starterowa i dlaczego ta sama kultura ma różne nazwy. Zestawienia nie da się odtworzyć z katalogu pojedynczego sklepu — wymaga porównania pięciu naraz.
+
 ### Porównywarka Kultur
 URL: /porownywarka-kultur
 Opis: Narzędzie do porównywania do 4 kultur bakteryjnych jednocześnie. Wyświetla różnice w parametrach, zastosowaniach i dostępności.

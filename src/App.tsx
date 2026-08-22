@@ -13,6 +13,7 @@ import CookieConsent from "react-cookie-consent";
 // Lazy load all pages for better performance
 const Index = lazy(() => import("./pages/Index"));
 const BazaKultur = lazy(() => import("./pages/BazaKultur"));
+const ZamiennikiKultur = lazy(() => import("./pages/ZamiennikiKultur"));
 const Przepisy = lazy(() => import("./pages/Przepisy"));
 const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
 const JogurtDomowy = lazy(() => import("./pages/JogurtDomowy"));
@@ -121,6 +122,7 @@ const App = () => (
             <Route element={<SidebarShell />}>
             <Route path="/" element={<Index />} />
             <Route path="/baza-kultur" element={<BazaKultur />} />
+            <Route path="/zamienniki-kultur" element={<ZamiennikiKultur />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
             <Route path="/moje-listy" element={<MojeListy />} />
             <Route path="/kultury/przewodnik" element={<KulturyPrzewodnik />} />
