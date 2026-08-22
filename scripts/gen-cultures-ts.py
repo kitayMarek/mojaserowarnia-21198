@@ -34,6 +34,14 @@ def main():
         out.append(f"  {f}: string;")
     out.append("  productUrl?: string;")
     out.append("  price: string;")
+    out.append("  /** Cena liczbowo (brutto) — do sortowania i przeliczen. */")
+    out.append("  price_numeric?: number;")
+    out.append("  /** Poprzednia cena brutto — pokazujemy \"teraz X (bylo Y)\". */")
+    out.append("  pricePrevious?: number;")
+    out.append("  /** Na ile litrow mleka starcza opakowanie (wariant domowy). */")
+    out.append("  packLiters?: number;")
+    out.append("  /** Dawkowanie podane przez sklep, np. \"2 g / 100 L\". */")
+    out.append("  doseLabel?: string;")
     out.append("  lastChanged?: string;")
     out.append("  lastChecked?: string;")
     out.append("}")
@@ -51,6 +59,14 @@ def main():
         if r.get("product_url"):
             out.append(f"    productUrl: {s(r.get('product_url'))},")
         out.append(f"    price: {s(r.get('price_label'))},")
+        if r.get("price_numeric") is not None:
+            out.append(f"    price_numeric: {float(r['price_numeric'])},")
+        if r.get("price_previous") is not None:
+            out.append(f"    pricePrevious: {float(r['price_previous'])},")
+        if r.get("pack_liters") is not None:
+            out.append(f"    packLiters: {int(r['pack_liters'])},")
+        if r.get("dose_label"):
+            out.append(f"    doseLabel: {s(r.get('dose_label'))},")
         if r.get("last_changed"):
             out.append(f"    lastChanged: {s(r.get('last_changed'))},")
         if r.get("last_checked"):

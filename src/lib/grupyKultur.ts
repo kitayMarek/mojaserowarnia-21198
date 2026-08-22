@@ -29,6 +29,12 @@ export interface KulturaWejscie {
   // reszte w snake_case. Latwo sie pomylic — sprawdzone w src/hooks/useCultures.ts.
   productUrl?: string | null;
   shopUrl?: string | null;
+  /** Poprzednia cena — do pokazania „teraz X (było Y)". */
+  pricePrevious?: number | null;
+  /** Na ile litrów starcza opakowanie. */
+  packLiters?: number | null;
+  /** Dawkowanie podane przez sklep. */
+  doseLabel?: string | null;
 }
 
 export interface GrupaSkladu {

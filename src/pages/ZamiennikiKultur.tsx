@@ -4,6 +4,7 @@ import { GitBranch } from "lucide-react";
 import KulturaGuideLayout from "@/components/KulturaGuideLayout";
 import FAQSchema from "@/components/FAQSchema";
 import BuyButton from "@/components/BuyButton";
+import CenaKultury from "@/components/CenaKultury";
 import { useCultures } from "@/hooks/useCultures";
 import { grupujPoSkladzie, ladnyGatunek, type KulturaWejscie } from "@/lib/grupyKultur";
 
@@ -149,7 +150,15 @@ const ZamiennikiKultur = () => {
                       <tr key={`${g.id}-${k.name}-${i}`}>
                         <td className="border border-border p-2 font-semibold">{k.name}</td>
                         <td className="border border-border p-2">{k.shop}</td>
-                        <td className="border border-border p-2 whitespace-nowrap">{k.price || "—"}</td>
+                        <td className="border border-border p-2">
+                          <CenaKultury
+                            cena={k.price}
+                            cenaLiczbowo={k.price_numeric}
+                            cenaPoprzednia={k.pricePrevious}
+                            litry={k.packLiters}
+                            waski
+                          />
+                        </td>
                         <td className="border border-border p-2 whitespace-nowrap">{k.temperature || "—"}</td>
                         <td className="border border-border p-2">{k.application || "—"}</td>
                         <td className="border border-border p-2">

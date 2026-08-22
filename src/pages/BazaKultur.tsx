@@ -20,6 +20,7 @@ import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 import AddToListButton from "@/components/AddToListButton";
 import BuyButton from "@/components/BuyButton";
+import CenaKultury from "@/components/CenaKultury";
 import { trackShopClick } from "@/utils/trackShopClick";
 import { AskLLMSelect } from "@/components/AskLLMSelect";
 
@@ -435,7 +436,12 @@ const BazaKultur = () => {
                       </div>
                       <div className="flex gap-2 items-center pt-1">
                         <span className="font-bold text-primary min-w-[70px]">Cena:</span>
-                        <span className="font-bold text-lg text-foreground">{culture.price}</span>
+                        <CenaKultury
+                          cena={culture.price}
+                          cenaLiczbowo={culture.price_numeric}
+                          cenaPoprzednia={culture.pricePrevious}
+                          litry={culture.packLiters}
+                        />
                       </div>
                       <div className="pt-1">
                         <BuyButton
@@ -561,7 +567,13 @@ const BazaKultur = () => {
                             </TableCell>
                             <TableCell className="font-semibold whitespace-nowrap">
                               <div className="flex flex-col gap-1">
-                                <span>{culture.price}</span>
+                                <CenaKultury
+                                  cena={culture.price}
+                                  cenaLiczbowo={culture.price_numeric}
+                                  cenaPoprzednia={culture.pricePrevious}
+                                  litry={culture.packLiters}
+                                  waski
+                                />
                                 <BuyButton
                                   productUrl={culture.productUrl}
                                   shopUrl={culture.shopUrl}

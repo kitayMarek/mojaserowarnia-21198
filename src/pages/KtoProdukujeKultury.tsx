@@ -27,7 +27,7 @@ const faqData = [
   {
     question: "Ile litrów mleka starcza opakowanie kultury?",
     answer:
-      "Zależnie od produktu od 5 do 5000 litrów. Z przeglądu 188 kultur z pięciu polskich sklepów: 107 pozycji to opakowania na 100 L (faktyczny standard rynku), 16 na 5 L, 13 na 500 L, 8 na 1000 L i więcej. 27 pozycji nie deklaruje pojemności nigdzie na stronie produktu. Po przeliczeniu na cenę za litr rozpiętość sięga 188-krotności (0,014 do 2,60 zł/L), ale mediany wszystkich pięciu sklepów mieszczą się w pasie 0,15–0,21 zł/L — różnica bierze się z formatu opakowania, nie z marży sklepu.",
+      "Zależnie od produktu od 5 do 5000 litrów. Z przeglądu 188 kultur z pięciu polskich sklepów: 107 pozycji to opakowania na 100 L (faktyczny standard rynku), 16 na 5 L, 13 na 500 L, 8 na 1000 L i więcej. 27 pozycji nie deklaruje pojemności nigdzie na stronie produktu. Po przeliczeniu na cenę za litr rozpiętość sięga 217-krotności (0,014 do 3,00 zł/L), ale mediany wszystkich pięciu sklepów mieszczą się w wąskim pasie 0,179–0,210 zł/L — różnica bierze się z formatu opakowania, nie z marży sklepu.",
   },
   {
     question: "Dlaczego ta sama kultura raz działa, a raz nie?",
@@ -162,13 +162,19 @@ const KtoProdukujeKultury = () => (
     <h3>Cena za litr — pierwsza liczba, którą da się porównać</h3>
     <p>
       Dopiero pojemność pozwala przeliczyć cenę na coś sensownego. Po przeliczeniu rozpiętość wynosi{" "}
-      <strong>od 0,014 do 2,60 zł za litr mleka — czyli 188-krotną</strong>.
+      <strong>od 0,014 do 3,00 zł za litr mleka — czyli 217-krotną</strong>.
     </p>
     <div className="not-prose my-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/30 p-4 text-foreground">
       <strong>Ale to nie znaczy, że któryś sklep jest drogi.</strong> Mediany wszystkich pięciu mieszczą się w wąskim
-      pasie <strong>0,15–0,21 zł za litr</strong>. Różnica bierze się z <strong>formatu opakowania</strong>, a nie
+      pasie <strong>0,18–0,21 zł za litr</strong>. Różnica bierze się z <strong>formatu opakowania</strong>, a nie
       z marży — duże opakowania są tanie w przeliczeniu, małe drogie, i tak jest wszędzie.
     </div>
+    <p className="text-muted-foreground text-sm">
+      Uwaga metodyczna: ceny zostały przed przeliczeniem ujednolicone do <strong>brutto</strong>. Jeden z pięciu
+      sklepów podawał w naszej bazie kwoty netto, przez co jego oferta wyglądała na 23% tańszą, niż jest w
+      rzeczywistości. Po korekcie różnice między sklepami są jeszcze mniejsze.
+    </p>
+
     <p>
       I tu jest pułapka, przez którą sama cena za litr wprowadza w błąd:{" "}
       <strong>najtańsze przeliczeniowo są opakowania, których w domu nie zużyjesz</strong>. Kultura po 0,014 zł/L

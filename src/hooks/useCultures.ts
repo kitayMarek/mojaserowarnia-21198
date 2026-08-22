@@ -26,6 +26,12 @@ export interface Culture {
   productUrl?: string;
   price: string;           // price_label z bazy — kompatybilność wsteczna
   price_numeric?: number;
+  /** Poprzednia cena brutto — pokazujemy „teraz X (było Y)". NULL = bez zmiany. */
+  pricePrevious?: number;
+  /** Na ile litrów mleka starcza opakowanie (wariant domowy = najmniejszy). */
+  packLiters?: number;
+  /** Dawkowanie podane przez sklep, np. „2 g / 100 L". Podaje je 1 sklep z 5. */
+  doseLabel?: string;
   image_url?: string;      // miniatura produktu ze sklepu (hotlink)
   lastChanged?: string;
   lastChecked?: string;
@@ -48,6 +54,9 @@ function mapDbRow(row: Record<string, unknown>): Culture {
     productUrl:   row.product_url as string ?? undefined,
     price:        row.price_label as string ?? "",      // kompatybilność wsteczna
     price_numeric: row.price_numeric as number ?? undefined,
+    pricePrevious: row.price_previous as number ?? undefined,
+    packLiters:   row.pack_liters as number ?? undefined,
+    doseLabel:    row.dose_label as string ?? undefined,
     image_url:    row.image_url as string ?? undefined,
     lastChanged:  row.last_changed as string ?? undefined,
     lastChecked:  row.last_checked as string ?? undefined,
