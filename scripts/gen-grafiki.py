@@ -363,12 +363,140 @@ def grafika_baza(rek):
     return img
 
 
+def naglowek(d, tytul, podtytul, rozmiar=52):
+    d.rectangle([(0, 0), (SZER, 10)], fill=AKCENT)
+    d.text((48, 48), tytul, font=czcionka("segoeuib.ttf", rozmiar), fill=CIEMNY)
+    if podtytul:
+        d.text((48, 48 + rozmiar + 14), podtytul, font=czcionka("segoeui.ttf", 26), fill=SZARY)
+
+
+def grafika_prawo(rek):
+    """Liczby, po ktore ludzie przychodza na strone o RHD i MOL."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "SPRZEDAŻ DOMOWEGO SERA", "co wolno w RHD, a co w MOL — najważniejsze liczby", 50)
+
+    kafle = [
+        ("RHD", "100 000 zł", "przychodu rocznie bez podatku dochodowego",
+         "na podatnika, nie na gospodarstwo"),
+        ("MOL", "500 kg", "produktów mlecznych miesięcznie",
+         "limit dla serowarów"),
+    ]
+    y = 176
+    for etyk, duza, opis, uwaga in kafle:
+        d.rounded_rectangle([(48, y), (SZER - 48, y + 150)], radius=12,
+                            fill=(255, 255, 255), outline=LINIA, width=2)
+        d.rounded_rectangle([(48, y), (196, y + 150)], radius=12, fill=AKCENT)
+        d.text((78, y + 52), etyk, font=czcionka("segoeuib.ttf", 40), fill=(255, 251, 235))
+        d.text((228, y + 26), duza, font=czcionka("segoeuib.ttf", 54), fill=CIEMNY)
+        d.text((228, y + 88), opis, font=czcionka("segoeui.ttf", 25), fill=TEKST)
+        d.text((228, y + 116), uwaga, font=czcionka("segoeui.ttf", 21), fill=SZARY)
+        y += 172
+
+    d.text((48, 522), "Bez kasy fiskalnej niezależnie od obrotu · nadwyżka ponad limit RHD — ryczałt 2%",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/prawo")
+    return img
+
+
+def grafika_przepisy(rek):
+    """Ile przepisow i jak rozlozonych — wizytowka dzialu."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "25 SERÓW KROK PO KROKU", "od ricotty na wieczór po parmezan dojrzewający latami", 52)
+
+    poziomy = [("Łatwe", 8, "ricotta, mozzarella, twaróg"),
+               ("Średnie", 7, "gouda, caciotta, feta"),
+               ("Zaawansowane", 11, "parmezan, gruyère, pleśniowe")]
+    y = 186
+    maks = max(n for _, n, _ in poziomy)
+    for etyk, ile, przyklady in poziomy:
+        d.text((48, y + 8), etyk, font=czcionka("segoeuib.ttf", 28), fill=TEKST)
+        x0 = 300
+        szer = int(420 * (ile / maks))
+        d.rounded_rectangle([(x0, y), (x0 + szer, y + 46)], radius=8, fill=AKCENT)
+        d.text((x0 + 16, y + 6), str(ile), font=czcionka("segoeuib.ttf", 32), fill=(255, 251, 235))
+        d.text((x0 + szer + 20, y + 10), przyklady, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        y += 76
+
+    d.rounded_rectangle([(48, 432), (SZER - 48, 528)], radius=10, fill=(254, 243, 199))
+    d.text((72, 448), "Przy każdym: dawki kultur, temperatury, czasy i typowe błędy",
+           font=czcionka("segoeuib.ttf", 26), fill=CIEMNY)
+    d.text((72, 484), "plus co zrobić z serem, gdy już go zrobisz — przepisy kulinarne",
+           font=czcionka("segoeui.ttf", 24), fill=TEKST)
+    stopka(d, "/przepisy")
+    return img
+
+
+def grafika_kultury(rek):
+    """Rozklad typow kultur — liczony z danych, wiec sam sie aktualizuje."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "KTÓRA KULTURA DO KTÓREGO SERA", "12 typów, %d kultur, 5 sklepów" % len(rek), 46)
+
+    # Piec slupkow, nie szesc: przy szesciu wiersz podsumowania nachodzil
+    # na dolna linie (176 + 6*56 = 512, a dolny tekst siedzi na 516).
+    licznik = Counter(r.get("type") for r in rek if r.get("type"))
+    top = licznik.most_common(5)
+    maks = top[0][1] if top else 1
+    y = 176
+    fe = czcionka("segoeuib.ttf", 25)
+    fl = czcionka("segoeui.ttf", 24)
+    for typ, ile in top:
+        d.text((48, y + 6), typ.capitalize(), font=fe, fill=TEKST)
+        x0 = 330
+        szer = int(560 * (ile / maks))
+        d.rounded_rectangle([(x0, y), (x0 + max(szer, 30), y + 40)], radius=7, fill=AKCENT)
+        d.text((x0 + max(szer, 30) + 16, y + 6), str(ile), font=fl, fill=SZARY)
+        y += 56
+
+    pozostale = [(k, v) for k, v in licznik.items() if k not in dict(top)]
+    d.text((48, y + 10), "…i %d kultur w %d pozostałych typach"
+           % (sum(v for _, v in pozostale), len(pozostale)),
+           font=czcionka("segoeui.ttf", 23), fill=SZARY)
+
+    d.text((48, 516), "Mezofilne 25–35°C · termofilne 37–55°C · podanie złej to najczęstszy błąd",
+           font=czcionka("segoeuib.ttf", 24), fill=AKCENT)
+    stopka(d, "/kultury/przewodnik")
+    return img
+
+
+def grafika_wege(rek):
+    """Odpowiedz na pytanie, ktore zaskakuje wiekszosc ludzi."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "CZY SER JEST WEGETARIAŃSKI?", "zależy od podpuszczki — i częściej niż myślisz nie jest", 48)
+
+    wiersze = [
+        ("Zwierzęca", "żołądek cielęcia", "NIE", (185, 28, 28), (254, 226, 226)),
+        ("Mikrobiologiczna", "grzyby, np. Rhizomucor miehei", "TAK", (21, 128, 61), (220, 252, 231)),
+        ("Roślinna", "oset, karczoch, figowiec", "TAK", (21, 128, 61), (220, 252, 231)),
+        ("FPC (chymozyna)", "z mikroorganizmów, fermentacja", "TAK", (21, 128, 61), (220, 252, 231)),
+    ]
+    y = 172
+    for nazwa, pochodzenie, odp, kolor, tlo in wiersze:
+        d.rounded_rectangle([(48, y), (SZER - 48, y + 68)], radius=9, fill=tlo)
+        d.text((74, y + 10), nazwa, font=czcionka("segoeuib.ttf", 26), fill=TEKST)
+        d.text((74, y + 40), pochodzenie, font=czcionka("segoeui.ttf", 21), fill=SZARY)
+        d.text((SZER - 160, y + 16), odp, font=czcionka("segoeuib.ttf", 38), fill=kolor)
+        y += 80
+
+    d.text((48, 512), "Klasyczny ser podpuszczkowy nie jest wegetariański — mimo że to tylko mleko i sól.",
+           font=czcionka("segoeuib.ttf", 24), fill=AKCENT)
+    stopka(d, "/sery-wege")
+    return img
+
+
 GRAFIKI = {
     "zamienniki": grafika_zamienniki,
     "pojemnosci": grafika_pojemnosci,
     "porownanie": grafika_porownanie,
     "chlorek": grafika_chlorek,
     "baza": grafika_baza,
+    "prawo": grafika_prawo,
+    "przepisy": grafika_przepisy,
+    "kultury": grafika_kultury,
+    "wege": grafika_wege,
 }
 
 
