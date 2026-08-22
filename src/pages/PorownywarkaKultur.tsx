@@ -249,7 +249,7 @@ const PorownywarkaKultur = () => {
                               <a
                                 href={item.productUrl}
                                 target="_blank"
-                                rel="noopener"
+                                rel="noopener nofollow"
                                 onClick={() => trackShopClick(item.name, item.shop)}
                                 className="text-primary underline hover:text-primary/80"
                               >
