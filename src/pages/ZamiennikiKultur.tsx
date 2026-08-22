@@ -133,6 +133,12 @@ const ZamiennikiKultur = () => {
                   </>
                 )}
               </p>
+              {g.rozneProporcje && (
+                <p className="text-sm mb-2 font-semibold text-red-700 dark:text-red-400">
+                  To NIE są zamienniki: pozycje w tej grupie mają różne proporcje szczepów mimo
+                  identycznego składu gatunkowego.
+                </p>
+              )}
               {g.rozneZastosowania && (
                 <p className="text-sm mb-2">
                   <span className="font-semibold text-red-700 dark:text-red-400">Uwaga:</span> pozycje w tej grupie
@@ -147,6 +153,7 @@ const ZamiennikiKultur = () => {
                       <th className="border border-border p-2 text-left">Nazwa handlowa</th>
                       <th className="border border-border p-2 text-left">Sklep</th>
                       <th className="border border-border p-2 text-left">Cena</th>
+                      <th className="border border-border p-2 text-left">Proporcje</th>
                       <th className="border border-border p-2 text-left">Temperatura</th>
                       <th className="border border-border p-2 text-left">Do czego</th>
                       <th className="border border-border p-2 text-left">&nbsp;</th>
@@ -155,7 +162,12 @@ const ZamiennikiKultur = () => {
                   <tbody>
                     {g.kultury.map((k, i) => (
                       <tr key={`${g.id}-${k.name}-${i}`}>
-                        <td className="border border-border p-2 font-semibold">{k.name}</td>
+                        <td className="border border-border p-2">
+                          <span className="font-semibold">{k.name}</span>
+                          {k.manufacturer && (
+                            <span className="block text-xs text-muted-foreground">{k.manufacturer}</span>
+                          )}
+                        </td>
                         <td className="border border-border p-2">{k.shop}</td>
                         <td className="border border-border p-2">
                           <CenaKultury
@@ -165,6 +177,16 @@ const ZamiennikiKultur = () => {
                             litry={k.packLiters}
                             waski
                           />
+                        </td>
+                        <td className="border border-border p-2 whitespace-nowrap font-semibold">
+                          {k.strainRatio || (
+                            <span
+                              className="font-normal text-muted-foreground"
+                              title="Sklep nie podaje proporcji szczepów"
+                            >
+                              ?
+                            </span>
+                          )}
                         </td>
                         <td className="border border-border p-2 whitespace-nowrap">{k.temperature || "—"}</td>
                         <td className="border border-border p-2">{k.application || "—"}</td>

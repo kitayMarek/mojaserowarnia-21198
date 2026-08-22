@@ -42,6 +42,10 @@ def main():
     out.append("  packLiters?: number;")
     out.append("  /** Dawkowanie podane przez sklep, np. \"2 g / 100 L\". */")
     out.append("  doseLabel?: string;")
+    out.append("  /** Producent deklarowany w danych strukturalnych strony produktu. */")
+    out.append("  manufacturer?: string;")
+    out.append("  /** Proporcja szczepow podana przez sklep, np. \"80:20\". Podaje ja 1 sklep z 5. */")
+    out.append("  strainRatio?: string;")
     out.append("  lastChanged?: string;")
     out.append("  lastChecked?: string;")
     out.append("}")
@@ -67,6 +71,10 @@ def main():
             out.append(f"    packLiters: {int(r['pack_liters'])},")
         if r.get("dose_label"):
             out.append(f"    doseLabel: {s(r.get('dose_label'))},")
+        if r.get("manufacturer"):
+            out.append(f"    manufacturer: {s(r.get('manufacturer'))},")
+        if r.get("strain_ratio"):
+            out.append(f"    strainRatio: {s(r.get('strain_ratio'))},")
         if r.get("last_changed"):
             out.append(f"    lastChanged: {s(r.get('last_changed'))},")
         if r.get("last_checked"):

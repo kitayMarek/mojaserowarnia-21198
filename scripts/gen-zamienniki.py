@@ -115,6 +115,7 @@ def grupuj(rek):
             continue
         ceny = [k["cena"] for k in lista if k.get("cena")]
         zast = {(k.get("application") or "").strip().lower() for k in lista if k.get("application")}
+        proporcje = {k.get("strainRatio") for k in lista if k.get("strainRatio")}
         grupy.append({
             "id": re.sub(r"[^a-z0-9]+", "-", klucz).strip("-")[:80],
             "szczepy": klucz.split("|"),
@@ -123,6 +124,7 @@ def grupuj(rek):
             "cena_min": min(ceny) if ceny else None,
             "cena_max": max(ceny) if ceny else None,
             "rozne_zastosowania": len(zast) > 1,
+            "rozne_proporcje": len(proporcje) > 1,
         })
     return sorted(grupy, key=lambda g: -len(g["kultury"]))
 
@@ -229,6 +231,8 @@ def zbuduj_html(grupy, wszystkie):
 
   <div class="warn"><strong>Zanim podmienisz:</strong> ten sam skład gatunkowy <strong>nie znaczy „ten sam produkt"</strong>. Producenci dobierają konkretne szczepy w obrębie gatunku i ich proporcje — tego nie widać w żadnej tabeli. Najlepiej pokazuje to grupa <em>Lactococcus lactis + cremoris</em>: ML, MO, MSO i MLL mają identyczny skład, a służą kolejno do serów do smarowania, masła, twarogu i fety. Zamiennik zwykle zadziała, ale <strong>sprawdź przeznaczenie i zakres temperatur</strong>.</div>
 
+  <div class="warn"><strong>Twardy dowód, że to nie ostrożność na wyrost:</strong> jeden ze sklepów podaje przy linii LAMBDA proporcje szczepów. <strong>LAMBDA 3 ma 50:50, a LAMBDA 6, 7, 8 i 9 mają 80:20</strong> — przy identycznym składzie gatunkowym. W zestawieniu poniżej trafiają do jednej grupy, ale zachowają się inaczej. Grupy o różnych proporcjach są niżej oznaczone. Więcej w tekście o <a href="https://mojaserowarnia.pl/kto-produkuje-kultury.html">producentach kultur</a>.</div>
+
   <h2>Co znaczy „kultura starterowa"?</h2>
   <p>Że <strong>startuje zakwaszanie mleka</strong> — a nie że jest dla początkujących. To najczęstsze nieporozumienie przy pierwszych zakupach, bo po polsku „starter" brzmi jak „na start".</p>
   <p>Kultura starterowa to szczepy bakterii kwasu mlekowego, które przerabiają laktozę na kwas mlekowy: obniżają pH, uruchamiają działanie <a href="https://mojaserowarnia.pl/slownik.html#podpuszczka">podpuszczki</a> i kształtują smak. <strong>Praktycznie każda kultura serowarska jest starterowa</strong>, więc sam ten przymiotnik niczego nie zawęża przy wyborze — trzeba patrzeć na skład, temperaturę i przeznaczenie.</p>
@@ -253,10 +257,20 @@ def zbuduj_html(grupy, wszystkie):
         czesci.append('  <p class="meta">%s</p>\n' % esc(opis))
         if g["rozne_zastosowania"]:
             czesci.append('  <p class="meta"><span class="uwaga">Uwaga:</span> pozycje w tej grupie mają <strong>różne przeznaczenie</strong> mimo identycznego składu — porównaj kolumnę „Do czego" przed zamianą.</p>\n')
-        czesci.append("  <table>\n    <thead><tr><th>Nazwa handlowa</th><th>Sklep</th><th>Cena</th><th>Temperatura</th><th>Do czego</th></tr></thead>\n    <tbody>\n")
+        # Rozne proporcje szczepow to mocniejszy sygnal niz rozne przeznaczenie:
+        # przy identycznym skladzie gatunkowym rozstrzygaja o tym, czy kultury
+        # naprawde sa zamiennikami (LAMBDA 3 = 50:50 wobec LAMBDA 6 = 80:20).
+        if g.get("rozne_proporcje"):
+            czesci.append('  <p class="meta"><span class="uwaga">To NIE są zamienniki:</span> '
+                          'pozycje w tej grupie mają <strong>różne proporcje szczepów</strong> '
+                          'mimo identycznego składu gatunkowego.</p>\n')
+        czesci.append("  <table>\n    <thead><tr><th>Nazwa handlowa</th><th>Producent</th><th>Sklep</th>"
+                      "<th>Cena</th><th>Proporcje</th><th>Temperatura</th><th>Do czego</th></tr></thead>\n    <tbody>\n")
         for k in g["kultury"]:
-            czesci.append("      <tr><td><strong>%s</strong></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (
-                esc(k.get("name")), esc(k.get("shop")), esc(k.get("price") or "—"),
+            czesci.append("      <tr><td><strong>%s</strong></td><td>%s</td><td>%s</td><td>%s</td>"
+                          "<td>%s</td><td>%s</td><td>%s</td></tr>\n" % (
+                esc(k.get("name")), esc(k.get("manufacturer") or "?"), esc(k.get("shop")),
+                esc(k.get("price") or "—"), esc(k.get("strainRatio") or "?"),
                 esc(k.get("temperature") or "—"), esc(k.get("application") or "—")))
         czesci.append("    </tbody>\n  </table>\n")
 

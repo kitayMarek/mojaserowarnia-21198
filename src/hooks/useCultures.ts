@@ -32,6 +32,10 @@ export interface Culture {
   packLiters?: number;
   /** Dawkowanie podane przez sklep, np. „2 g / 100 L". Podaje je 1 sklep z 5. */
   doseLabel?: string;
+  /** Producent deklarowany w danych strukturalnych strony produktu (185 z 188). */
+  manufacturer?: string;
+  /** Proporcja szczepów, np. „80:20". Rzadka, ale rozstrzyga o zamienności. */
+  strainRatio?: string;
   image_url?: string;      // miniatura produktu ze sklepu (hotlink)
   lastChanged?: string;
   lastChecked?: string;
@@ -57,6 +61,8 @@ function mapDbRow(row: Record<string, unknown>): Culture {
     pricePrevious: row.price_previous as number ?? undefined,
     packLiters:   row.pack_liters as number ?? undefined,
     doseLabel:    row.dose_label as string ?? undefined,
+    manufacturer: row.manufacturer as string ?? undefined,
+    strainRatio:  row.strain_ratio as string ?? undefined,
     image_url:    row.image_url as string ?? undefined,
     lastChanged:  row.last_changed as string ?? undefined,
     lastChecked:  row.last_checked as string ?? undefined,

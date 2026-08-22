@@ -35,6 +35,10 @@ export interface KulturaWejscie {
   packLiters?: number | null;
   /** Dawkowanie podane przez sklep. */
   doseLabel?: string | null;
+  /** Producent deklarowany przez sklep. */
+  manufacturer?: string | null;
+  /** Proporcja szczepów — gdy jest, rozstrzyga o zamienności w obrębie grupy. */
+  strainRatio?: string | null;
 }
 
 export interface GrupaSkladu {
@@ -51,6 +55,14 @@ export interface GrupaSkladu {
   cenaMax: number | null;
   /** true, gdy przeznaczenia w grupie się różnią — wtedy zamiana wymaga uwagi. */
   rozneZastosowania: boolean;
+  /**
+   * true, gdy pozycje w grupie mają RÓŻNE proporcje szczepów.
+   * To najmocniejszy sygnał, że mimo identycznego składu gatunkowego nie są
+   * zamiennikami: LAMBDA 3 ma 50:50, a LAMBDA 6/7/8/9 mają 80:20.
+   */
+  rozneProporcje: boolean;
+  /** Producenci obecni w grupie — gdy jest ich kilku, warto to pokazać. */
+  producenci: string[];
 }
 
 /**
@@ -139,6 +151,11 @@ export function grupujPoSkladzie(kultury: KulturaWejscie[]): GrupaSkladu[] {
       cenaMin: ceny.length ? Math.min(...ceny) : null,
       cenaMax: ceny.length ? Math.max(...ceny) : null,
       rozneZastosowania: zastosowania.size > 1,
+      rozneProporcje:
+        new Set(lista.map((k) => k.strainRatio).filter(Boolean)).size > 1,
+      producenci: Array.from(
+        new Set(lista.map((k) => k.manufacturer).filter((m): m is string => Boolean(m)))
+      ).sort(),
     });
   }
 
