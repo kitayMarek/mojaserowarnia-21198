@@ -110,6 +110,20 @@
   # który ma własny og:title/description/image. Googlebot NIE jest tu ujęty (indeksuje
   # wersję kanoniczną). Ludzie (zwykłe przeglądarki) dostają normalnie aplikację React.
   # $1 z RewriteRule jest dostępne w poprzedzającym RewriteCond (kolejność mod_rewrite).
+  # Najpierw trasy, ktorych mirror lezy pod INNA nazwa niz trasa — regula ogolna
+  # nizej ich nie zlapie, bo szuka pliku o nazwie zgodnej ze sciezka. Bez tego
+  # /baza-kultur (mirror w kultury/baza.html) dostawal generyczna grafike.
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteRule ^baza-kultur/?$ /kultury/baza.html [L]
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteRule ^sery-wege/?$ /wege/index.html [L]
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteRule ^kultury/przewodnik/?$ /kultury/index.html [L]
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteRule ^prawo/?$ /prawo/przewodnik.html [L]
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
+  RewriteRule ^przepisy/?$ /przepisy/przewodnik.html [L]
+
   RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly) [NC]
   RewriteCond %{DOCUMENT_ROOT}/$1.html -f
   RewriteRule ^([^.]+?)/?$ /$1.html [L]

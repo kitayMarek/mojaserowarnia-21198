@@ -315,11 +315,60 @@ def grafika_chlorek(rek):
     return img
 
 
+def grafika_baza(rek):
+    """Wizytowka bazy — mowi, co uzytkownik ZROBI, nie co mamy na stanie."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    d.rectangle([(0, 0), (SZER, 10)], fill=AKCENT)
+
+    d.text((48, 52), "KTÓRY SKLEP MA DANĄ KULTURĘ", font=czcionka("segoeuib.ttf", 50), fill=CIEMNY)
+    d.text((48, 112), "i w jakiej cenie za litr mleka", font=czcionka("segoeuib.ttf", 34), fill=AKCENT)
+
+    z_cena = [r for r in rek if r.get("price_numeric") and r.get("packLiters")]
+    perl = sorted(r["price_numeric"] / r["packLiters"] for r in z_cena)
+    sklepy = len({r.get("shop") for r in rek if r.get("shop")})
+
+    kafle = [
+        ("%d" % len(rek), "kultur bakteryjnych"),
+        ("%d" % sklepy, "polskich sklepów"),
+        ("%d" % len(z_cena), "z ceną za litr"),
+    ]
+    x = 48
+    for duza, opis in kafle:
+        d.rounded_rectangle([(x, 176), (x + 352, 292)], radius=10,
+                            fill=(255, 255, 255), outline=LINIA, width=2)
+        d.text((x + 26, 194), duza, font=czcionka("segoeuib.ttf", 62), fill=CIEMNY)
+        d.text((x + 26, 258), opis, font=czcionka("segoeui.ttf", 24), fill=SZARY)
+        x += 368
+
+    d.text((48, 322), "Cena za litr — bo sama kwota nic nie mówi przy opakowaniach od 5 do 5000 litrów:",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+
+    if perl:
+        d.rounded_rectangle([(48, 366), (SZER - 48, 452)], radius=10, fill=(254, 243, 199))
+        pary = [("najtaniej", perl[0]), ("mediana", perl[len(perl) // 2]), ("najdrożej", perl[-1])]
+        x = 78
+        for etyk, v in pary:
+            txt = ("%.3f" % v).replace(".", ",") if v < 0.1 else ("%.2f" % v).replace(".", ",")
+            d.text((x, 380), etyk, font=czcionka("segoeui.ttf", 22), fill=SZARY)
+            d.text((x, 404), txt + " zł/L", font=czcionka("segoeuib.ttf", 36), fill=CIEMNY)
+            x += 372
+
+    d.text((48, 480), "Skład, proporcje szczepów, producent, pojemność opakowania i historia ceny.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((48, 516), "Wszystko w jednej tabeli — czego nie pokaże żaden pojedynczy sklep.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+
+    stopka(d, "/baza-kultur")
+    return img
+
+
 GRAFIKI = {
     "zamienniki": grafika_zamienniki,
     "pojemnosci": grafika_pojemnosci,
     "porownanie": grafika_porownanie,
     "chlorek": grafika_chlorek,
+    "baza": grafika_baza,
 }
 
 
