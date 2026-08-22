@@ -1,0 +1,189 @@
+# nazwa | sklep | cena w bazie | cena teraz | zrodlo | status
+ARTiVEG ME-30 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
+ARTiVEG TH-33 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
+ARTiVEG YO PRO-12 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
+ARTiVEG YO-9 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
+BTH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+BTMH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Brevibacterium Linens | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+CLC | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+CLCH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+F-YO | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Geotrichum Candidum | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+KFF | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+ML | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+ML-O | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+MLE | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+MLL | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+P-YO | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Penicillium Candidum | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Penicillium Roqueforti | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Propionibacterium | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+Brevibacterium linens | GAP Poland | 20.0 | 20.0 | etykieta | bez zmian
+EF LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+HL 06 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+Kefir 41 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+MP 62 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+PB LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+PBat 91 LYO | GAP Poland | 95.0 | 95.0 | etykieta | bez zmian
+Penicillium candidum | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+Penicillium roqueforti | GAP Poland | 23.0 | 23.0 | etykieta | bez zmian
+Protective LYO | GAP Poland | 52.7 | 52.7 | etykieta | bez zmian
+SH LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+SM 02 LYO | GAP Poland | 6.0 | 6.0 | etykieta | bez zmian
+SR 62 LYO | GAP Poland | 85.9 | 85.9 | etykieta | bez zmian
+TW 31 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+VEGE C LYO | GAP Poland | 30.0 | 30.0 | etykieta | bez zmian
+Y 92 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+YO 56 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+YO-B1 LYO | GAP Poland | 14.85 | 14.85 | etykieta | bez zmian
+YPB LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
+ALPHA 10 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+ALPHA 12 | Lactic.pl | 42.0 | 42.0 | etykieta | bez zmian
+ALPHA 3 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+ALPHA 6 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+ALPHA BLEU | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+BETA 1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+BETA 8 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+Beaugel 10 25l | Lactic.pl | 33.0 | 33.0 | etykieta | bez zmian
+Beaugel 11 25l | Lactic.pl | 30.0 | 30.0 | etykieta | bez zmian
+Beaugel 12 | Lactic.pl | 13.0 | 13.0 | etykieta | bez zmian
+Beaugel Acid 1 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Bifi 1 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Elben | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Kefir 2 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Kefir 3 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Raieb 1 | Lactic.pl | 12.0 | 12.0 | etykieta | bez zmian
+Beaugel Soja 1 | Lactic.pl | 12.0 | 12.0 | etykieta | bez zmian
+Beaugel Yog 1 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Yog 2 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Yog 3 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+Beaugel Yog 4 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
+DELTA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+DELTA 2 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+GAMMA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+GAMMA 3 | Lactic.pl | 39.0 |  |  | BRAK CENY
+IOTA 1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+IOTA 2 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+IOTA 4 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+IOTA CL1 | Lactic.pl | 18.0 | 19.0 | etykieta | ZMIANA +1.00
+IOTA CL2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+IOTA Ca/1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+IOTA Ca/2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+IOTA FETA | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+IOTA FF1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+IOTA FF2 | Lactic.pl | 38.5 | 38.5 | etykieta | bez zmian
+IOTA KEFIR 2 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+IOTA KEFIR 3 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+IOTA M | Lactic.pl | 22.0 | 22.0 | etykieta | bez zmian
+IOTA PETIT BLEU | Lactic.pl | 21.0 | 21.0 | etykieta | bez zmian
+IOTA PROBI 1 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+IOTA RACLETTE | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+IOTA ST NECTAIRE 1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+IOTA V | Lactic.pl | 22.0 | 22.0 | etykieta | bez zmian
+KAPPA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+KAPPA 2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+KAPPA 3 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+KAPPA 4 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+LAMBDA 10 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+LAMBDA 12 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+LAMBDA 3 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+LAMBDA 6 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+LAMBDA 7 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+LAMBDA 8 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+LAMBDA 9 | Lactic.pl | 42.0 | 42.0 | etykieta | bez zmian
+OMEGA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+OMEGA 2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+OMEGA 3 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+OMEGA 4 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
+SIGMA 15 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 17 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 22 (Debaryomyces Hansenii) | Lactic.pl | 25.0 | 25.0 | etykieta | bez zmian
+SIGMA 30 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 41 | Lactic.pl | 25.0 | 25.0 | etykieta | bez zmian
+SIGMA 43 | Lactic.pl | 23.0 | 23.0 | etykieta | bez zmian
+SIGMA 54 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 55 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 63 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 75 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+SIGMA 96 SP | Lactic.pl | 28.0 | 28.0 | etykieta | bez zmian
+SIGMA 97 | Lactic.pl | 32.0 | 32.0 | etykieta | bez zmian
+ABY | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+AT | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+Brevibacterium Linens | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+CL | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+EM | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+GEO | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+Grzybek kefirowy tybetański | Serowar.pl | 49.9 | 49.9 | etykieta | bez zmian
+KFA1 | Serowar.pl | 55.0 | 55.0 | etykieta | bez zmian
+KFB1/2 | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+Kefir 31 | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+Kefir 51 | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+LCR | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+LHT | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+LHTB | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+LHTBME | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+LP | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+M | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MA | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+ME | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+MFC | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MO | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+MSE | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MSE-910 | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MSO | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MSO-11 | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MST | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MSY | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+MYE | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+PC | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+PG | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+PP | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+RQ | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+SLBH | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+TB | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+TME | Serowar.pl | 50.0 | 50.0 | etykieta | bez zmian
+YO 122 | Serowar.pl | 20.0 | 20.0 | etykieta | bez zmian
+Camembert Mix | Wańczykówka | 24.0 | 24.0 | json-ld | bez zmian
+Choozit ARN | Wańczykówka | 69.0 | 69.0 | json-ld | bez zmian
+Choozit Alp | Wańczykówka | 59.0 | 59.0 | json-ld | bez zmian
+Choozit DH 2D | Wańczykówka | 31.0 | 31.0 | json-ld | bez zmian
+Choozit FR 13 | Wańczykówka | 69.0 | 69.0 | json-ld | bez zmian
+Choozit FT 001 | Wańczykówka | 36.0 | 36.0 | json-ld | bez zmian
+Choozit GEO 13 | Wańczykówka | 39.0 | 39.0 | json-ld | bez zmian
+Choozit GEO 17 | Wańczykówka | 36.0 | 36.0 | json-ld | bez zmian
+Choozit KAZU | Wańczykówka | 36.0 | 36.0 | json-ld | bez zmian
+Choozit KL 71 | Wańczykówka | 31.0 | 31.0 | json-ld | bez zmian
+Choozit LH 100 | Wańczykówka | 38.0 | 38.0 | json-ld | bez zmian
+Choozit LM 57 | Wańczykówka | 99.0 | 99.0 | json-ld | bez zmian
+Choozit MA 14 | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+Choozit MA 4001 | Wańczykówka | 24.0 | 24.0 | json-ld | bez zmian
+Choozit SR3 | Wańczykówka | 36.0 | 36.0 | json-ld | bez zmian
+Choozit TA 61 | Wańczykówka | 62.0 | 62.0 | json-ld | bez zmian
+Flav 54 | Wańczykówka | 36.0 | 36.0 | json-ld | bez zmian
+HOLDBAC LC | Wańczykówka | 78.0 | 78.0 | json-ld | bez zmian
+Kefir DA | Wańczykówka | 24.9 | 24.9 | json-ld | bez zmian
+LHT | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+Penicillium Candidum PC 22 | Wańczykówka | 18.4 | 18.4 | json-ld | bez zmian
+Penicillium Candidum PC Neige | Wańczykówka | 38.0 | 38.0 | json-ld | bez zmian
+Penicillium roqueforti PA | Wańczykówka | 25.45 | 25.45 | json-ld | bez zmian
+Penicillium roqueforti PV | Wańczykówka | 25.45 | 25.45 | json-ld | bez zmian
+Probat 222 | Wańczykówka | 23.0 | 23.0 | json-ld | bez zmian
+Propionibakterium PX | Wańczykówka | 43.9 | 43.9 | json-ld | bez zmian
+Yo-Mix 215 | Wańczykówka | 19.9 | 19.9 | json-ld | bez zmian
+Yo-Mix 401 | Wańczykówka | 17.9 | 17.9 | json-ld | bez zmian
+Yo-Mix 495 | Wańczykówka | 17.9 | 17.9 | json-ld | bez zmian
+Yo-Mix 601 | Wańczykówka | 15.9 | 15.9 | json-ld | bez zmian
+Yo-Mix 883 | Wańczykówka | 17.9 | 17.9 | json-ld | bez zmian
+microMilk Kefir KFB1 | Wańczykówka | 39.0 | 39.0 | json-ld | bez zmian
+microMilk LHTB | Wańczykówka | 32.0 | 32.0 | json-ld | bez zmian
+microMilk LHTBM | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk ME | Wańczykówka | 32.0 | 32.0 | json-ld | bez zmian
+microMilk MO (Feta) | Wańczykówka | 32.0 | 32.0 | json-ld | bez zmian
+microMilk T (Mozzarella) | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk TB (Taleggio) | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk TB/B (Caciotta) | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk TME | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk Y | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
+microMilk Y-Probiotyczny | Wańczykówka | 22.0 | 22.0 | json-ld | bez zmian
+microMilk YG (Jogurt Grecki) | Wańczykówka | 20.0 | 20.0 | json-ld | bez zmian
