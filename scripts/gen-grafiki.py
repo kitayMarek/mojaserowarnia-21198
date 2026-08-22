@@ -487,6 +487,72 @@ def grafika_wege(rek):
     return img
 
 
+def grafika_jogurt(rek):
+    """Najmocniejszy konkret tej strony: UHT nadaje sie na jogurt, choc nie na ser.
+
+    Ten sam mechanizm z dwoch stron — zdenaturowana beta-laktoglobulina blokuje
+    podpuszczke, ale przy koagulacji kwasowej wiaze wode i daje gestszy zel.
+    Zlecenie Marka zakladalo odwrotnie; korekta jest nasza przewaga nad kazdym
+    innym polskim przepisem na jogurt.
+    """
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "MLEKO UHT NA JOGURT?", "TAK — choć na ser podpuszczkowy się nie nadaje", 52)
+
+    d.rounded_rectangle([(48, 172), (SZER - 48, 314)], radius=12, fill=(255, 255, 255),
+                        outline=LINIA, width=2)
+    d.text((74, 192), "Ten sam mechanizm działa w dwie strony:", font=czcionka("segoeuib.ttf", 26), fill=TEKST)
+    d.text((74, 232), "SER  — zdenaturowane białko blokuje podpuszczkę, skrzep nie powstanie",
+           font=czcionka("segoeui.ttf", 24), fill=(185, 28, 28))
+    d.text((74, 268), "JOGURT — to samo białko wiąże wodę i daje gęstszy żel",
+           font=czcionka("segoeui.ttf", 24), fill=(21, 128, 61))
+
+    kafle = [("42–45°C", "temperatura"), ("4–8 h", "fermentacja"), ("2–3 łyżki", "zakwasu na litr")]
+    x = 48
+    for duza, opis in kafle:
+        d.rounded_rectangle([(x, 344), (x + 352, 452)], radius=10, fill=(254, 243, 199))
+        d.text((x + 26, 358), duza, font=czcionka("segoeuib.ttf", 46), fill=CIEMNY)
+        d.text((x + 26, 412), opis, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        x += 368
+
+    d.text((48, 480), "Bez jogurtownicy: termos, piekarnik z lampką albo garnek w kocu.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((48, 516), "Jogurt grecki to ten sam jogurt, tylko odcedzony.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/przepisy/jogurt-domowy")
+    return img
+
+
+def grafika_kefir(rek):
+    """Kefir to nie wariant jogurtu — trzy roznice, kazda z konsekwencja."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "KEFIR TO NIE JOGURT", "inna fermentacja, inna temperatura, inne mleko", 52)
+
+    wiersze = [
+        ("Co fermentuje", "para bakterii", "bakterie I DROŻDŻE"),
+        ("Temperatura", "42–45°C", "20–25°C, pokojowa"),
+        ("Czas", "4–8 godzin", "12–24 godziny"),
+        ("Mleko przed", "podgrzane do 85°C", "NIE podgrzewane"),
+    ]
+    y = 176
+    d.text((360, 150), "JOGURT", font=czcionka("segoeuib.ttf", 24), fill=SZARY)
+    d.text((720, 150), "KEFIR", font=czcionka("segoeuib.ttf", 24), fill=AKCENT)
+    for etyk, a, b in wiersze:
+        d.rounded_rectangle([(48, y), (SZER - 48, y + 58)], radius=8,
+                            fill=(255, 255, 255), outline=LINIA, width=2)
+        d.text((74, y + 16), etyk, font=czcionka("segoeuib.ttf", 24), fill=TEKST)
+        d.text((360, y + 16), a, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        d.text((720, y + 14), b, font=czcionka("segoeuib.ttf", 24), fill=CIEMNY)
+        y += 70
+
+    d.rounded_rectangle([(48, y + 6), (SZER - 48, y + 70)], radius=10, fill=(254, 243, 199))
+    d.text((74, y + 22), "Drożdże dają bąbelki i ślad alkoholu — zwykle 0,2–0,8%.",
+           font=czcionka("segoeuib.ttf", 25), fill=CIEMNY)
+    stopka(d, "/przepisy/kefir-domowy")
+    return img
+
+
 GRAFIKI = {
     "zamienniki": grafika_zamienniki,
     "pojemnosci": grafika_pojemnosci,
@@ -497,6 +563,8 @@ GRAFIKI = {
     "przepisy": grafika_przepisy,
     "kultury": grafika_kultury,
     "wege": grafika_wege,
+    "jogurt": grafika_jogurt,
+    "kefir": grafika_kefir,
 }
 
 

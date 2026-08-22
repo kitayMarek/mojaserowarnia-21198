@@ -21,6 +21,8 @@ import ReactionButton from "@/components/ReactionButton";
 import AddToListButton from "@/components/AddToListButton";
 import BuyButton from "@/components/BuyButton";
 import CenaKultury from "@/components/CenaKultury";
+import WykresSvg from "@/components/WykresSvg";
+import { pojemnosci, typy } from "@/generated/wykresySvg";
 import { trackShopClick } from "@/utils/trackShopClick";
 import { AskLLMSelect } from "@/components/AskLLMSelect";
 
@@ -253,6 +255,20 @@ const BazaKultur = () => {
                 },
               ]}
             />
+
+            {/* Wykresy inline SVG — widoczne dla czlowieka i CZYTELNE dla bota,
+                inaczej niz PNG. Dane te same co w tabeli nizej, tylko w formie,
+                ktora da sie ogarnac wzrokiem. */}
+            <div className="grid md:grid-cols-2 gap-6 mt-8">
+              <WykresSvg
+                svg={pojemnosci}
+                podpis="Bez pojemności cena nie znaczy nic — te same pieniądze kupują 5 albo 5000 litrów."
+              />
+              <WykresSvg
+                svg={typy}
+                podpis="Typ decyduje o temperaturze pracy. Podanie termofilnej w 30°C to najczęstszy błąd."
+              />
+            </div>
 
             {/* Callout: lejek do przewodnika po kulturach + rozdzielenie ról */}
             <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border border-primary/20 bg-primary/5">

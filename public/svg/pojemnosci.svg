@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 304" width="100%" role="img" aria-label="Na ile litrów mleka starcza opakowanie. Rozkład pojemności opakowań kultur bakteryjnych w pięciu polskich sklepach. 5 L: 16 pozycji, 20–50 L: 12 pozycji, 100 L: 107 pozycji, 150–300 L: 5 pozycji, 500 L: 13 pozycji, 1000 L i więcej: 8 pozycji. Razem 161 pozycji z zadeklarowaną pojemnością." style="max-width:720px;height:auto">
+  <title>Na ile litrów mleka starcza opakowanie</title>
+  <desc>Rozkład pojemności opakowań kultur bakteryjnych w pięciu polskich sklepach. 5 L: 16 pozycji, 20–50 L: 12 pozycji, 100 L: 107 pozycji, 150–300 L: 5 pozycji, 500 L: 13 pozycji, 1000 L i więcej: 8 pozycji. Razem 161 pozycji z zadeklarowaną pojemnością.</desc>
+  <style>.etyk{font:600 15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;fill:var(--ink,#1f2937)}.wart{font:14px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;fill:var(--muted,#6b7280)}.slup{fill:var(--brand,#b45309)}</style>
+  <text x="0" y="30" class="etyk">5 L</text>
+  <rect x="210" y="8" width="65" height="34" rx="4" class="slup"/>
+  <text x="285" y="30" class="wart">16 poz.</text>
+  <text x="0" y="78" class="etyk">20–50 L</text>
+  <rect x="210" y="56" width="49" height="34" rx="4" class="slup"/>
+  <text x="269" y="78" class="wart">12 poz.</text>
+  <text x="0" y="126" class="etyk">100 L</text>
+  <rect x="210" y="104" width="440" height="34" rx="4" class="slup"/>
+  <text x="660" y="126" class="wart">107 poz.</text>
+  <text x="0" y="174" class="etyk">150–300 L</text>
+  <rect x="210" y="152" width="20" height="34" rx="4" class="slup"/>
+  <text x="240" y="174" class="wart">5 poz.</text>
+  <text x="0" y="222" class="etyk">500 L</text>
+  <rect x="210" y="200" width="53" height="34" rx="4" class="slup"/>
+  <text x="273" y="222" class="wart">13 poz.</text>
+  <text x="0" y="270" class="etyk">1000 L i więcej</text>
+  <rect x="210" y="248" width="32" height="34" rx="4" class="slup"/>
+  <text x="252" y="270" class="wart">8 poz.</text>
+</svg>
