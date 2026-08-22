@@ -25,6 +25,11 @@ const faqData = [
       "Technicznie tak, ale są trzy realne pułapki. Niektóre szczepy Lactococcus lactis wytwarzają bakteriocyny (na przykład nizynę), które hamują inne bakterie mlekowe — własna mieszanka może więc zabić własny starter. Producenci projektują też zestawy rotacyjne odporne na bakteriofagi, a łączenie preparatów z różnych źródeł tę ochronę psuje. Trzecia sprawa to proporcje: gotowa mieszanka ma dobrany stosunek szczepów, a mieszając dwie z nich, tracisz nad nim kontrolę.",
   },
   {
+    question: "Ile litrów mleka starcza opakowanie kultury?",
+    answer:
+      "Zależnie od produktu od 5 do 5000 litrów. Z przeglądu 188 kultur z pięciu polskich sklepów: 107 pozycji to opakowania na 100 L (faktyczny standard rynku), 16 na 5 L, 13 na 500 L, 8 na 1000 L i więcej. 27 pozycji nie deklaruje pojemności nigdzie na stronie produktu. Po przeliczeniu na cenę za litr rozpiętość sięga 188-krotności (0,014 do 2,60 zł/L), ale mediany wszystkich pięciu sklepów mieszczą się w pasie 0,15–0,21 zł/L — różnica bierze się z formatu opakowania, nie z marży sklepu.",
+  },
+  {
     question: "Dlaczego ta sama kultura raz działa, a raz nie?",
     answer:
       "Powodów jest kilka: inna partia produkcyjna, przechowywanie w za wysokiej temperaturze, wilgoć w opakowaniu po przepakowaniu, bakteriofagi w kadzi albo antybiotyki w mleku. Przy kulturze bez podanego producenta i numeru partii nie da się tego rozstrzygnąć — i to jest główny praktyczny argument za tym, żeby oba te dane były na etykiecie.",
@@ -127,6 +132,56 @@ const KtoProdukujeKultury = () => (
       Nie znaczy to, że przepakowanie jest złe. Porcje pochodzące z <strong>jednej oryginalnej partii</strong> są
       nawet bardziej powtarzalne niż kupowanie co miesiąc innej partii. Ryzyko leży gdzie indziej: w{" "}
       <strong>nieznanym procesie i braku deklaracji, z czego porcja pochodzi</strong>.
+    </p>
+
+    <h2>Ile litrów naprawdę kupujesz — dane z całego rynku</h2>
+    <p>
+      Sprawdziliśmy strony produktów wszystkich <strong>188 kultur z pięciu polskich sklepów</strong>. Pojemność
+      opakowania udało się odczytać dla <strong>161 pozycji</strong>; pozostałe 27 nie deklaruje jej nigdzie na
+      stronie. Rozrzut okazał się większy, niż zakładaliśmy:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Opakowanie starcza na</th><th>Ile takich pozycji</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>5 L</td><td>16</td></tr>
+        <tr><td>20–50 L</td><td>12</td></tr>
+        <tr><td><strong>100 L</strong></td><td><strong>107</strong> — faktyczny standard rynku</td></tr>
+        <tr><td>150–300 L</td><td>5</td></tr>
+        <tr><td>500 L</td><td>13</td></tr>
+        <tr><td>1000 L i więcej</td><td>8 (w tym jedno na <strong>5000 litrów</strong>)</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Czyli w jednej ofercie, obok siebie i bez żadnego wyróżnienia, stoją opakowania różniące się{" "}
+      <strong>tysiąckrotnie</strong>. Saszetka na 5000 litrów jest przeznaczona dla mleczarni, a leży w sklepie dla
+      domowych serowarów.
+    </p>
+
+    <h3>Cena za litr — pierwsza liczba, którą da się porównać</h3>
+    <p>
+      Dopiero pojemność pozwala przeliczyć cenę na coś sensownego. Po przeliczeniu rozpiętość wynosi{" "}
+      <strong>od 0,014 do 2,60 zł za litr mleka — czyli 188-krotną</strong>.
+    </p>
+    <div className="not-prose my-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/30 p-4 text-foreground">
+      <strong>Ale to nie znaczy, że któryś sklep jest drogi.</strong> Mediany wszystkich pięciu mieszczą się w wąskim
+      pasie <strong>0,15–0,21 zł za litr</strong>. Różnica bierze się z <strong>formatu opakowania</strong>, a nie
+      z marży — duże opakowania są tanie w przeliczeniu, małe drogie, i tak jest wszędzie.
+    </div>
+    <p>
+      I tu jest pułapka, przez którą sama cena za litr wprowadza w błąd:{" "}
+      <strong>najtańsze przeliczeniowo są opakowania, których w domu nie zużyjesz</strong>. Kultura po 0,014 zł/L
+      wygląda na okazję, dopóki nie policzysz, że przy 20 litrach na wsad wykorzystasz mniej niż pół procenta
+      saszetki, a reszta straci aktywność w zamrażarce.
+    </p>
+    <p>
+      Liczy się <strong>koszt litra, który faktycznie przerobisz</strong>. Przy tej mierze małe opakowanie zwykle
+      wygrywa mimo wyższej ceny jednostkowej — chyba że zrobisz z dużej saszetki kulturę matczyną.
+    </p>
+    <p className="text-muted-foreground">
+      Osobna obserwacja z tego samego przeglądu: <strong>dawkowanie podaje na stronie produktu tylko jeden sklep
+      z pięciu</strong> (16 pozycji). Cztery pozostałe nie podają go ani razu — trzeba szukać na opakowaniu po zakupie.
     </p>
 
     <h2>Mały czy duży — gdzie leży próg</h2>
