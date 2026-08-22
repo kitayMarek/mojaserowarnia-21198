@@ -40,6 +40,8 @@ const navItems: NavItem[] = [
     children: [
       { label: "Baza kultur", href: "/baza-kultur" },
       { label: "Porównywarka kultur", href: "/porownywarka-kultur" },
+      { label: "Zamienniki kultur", href: "/zamienniki-kultur" },
+      { label: "Producenci kultur", href: "/kto-produkuje-kultury" },
       { label: "Przewodnik o kulturach", href: "/kultury/przewodnik" },
       { label: "Kultury mezofilne", href: "/kultury/mezofilne" },
       { label: "Kultury termofilne", href: "/kultury/termofilne" },
