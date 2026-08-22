@@ -84,10 +84,30 @@ def wczytaj_kultury():
     return rek
 
 
-def tekst_strony(url):
-    zadanie = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "pl,en"})
-    with urllib.request.urlopen(zadanie, timeout=25) as odp:
-        surowe = odp.read()
+def tekst_strony(url, prob=3):
+    """Pobiera strone z ponowieniami.
+
+    Pierwszy pelny przebieg dal 40 bledow na 188 stron — same SSL: UNEXPECTED_EOF
+    i resety polaczenia, czyli przyciecie po stronie sklepu, a nie brak strony
+    (te same adresy dzialaly w probce). Stad ponowienia z narastajacym odstepem.
+    """
+    ostatni = None
+    for n in range(prob):
+        try:
+            zadanie = urllib.request.Request(
+                url, headers={"User-Agent": UA, "Accept-Language": "pl,en", "Connection": "close"}
+            )
+            with urllib.request.urlopen(zadanie, timeout=30) as odp:
+                surowe = odp.read()
+            break
+        except urllib.error.HTTPError:
+            raise  # 404 i spolka nie maja sensu do ponawiania
+        except Exception as e:
+            ostatni = e
+            if n < prob - 1:
+                time.sleep(2.5 * (n + 1))
+    else:
+        raise ostatni
     try:
         html = surowe.decode("utf-8")
     except UnicodeDecodeError:
@@ -191,6 +211,18 @@ def main():
         probka = int(sys.argv[i + 1]) if len(sys.argv) > i + 1 else 15
 
     rek = wczytaj_kultury()
+
+    # --uzupelnij: dobiera tylko te pozycje, ktorych nie ma jeszcze w wyniku
+    # (po pierwszym przebiegu zostaje 40 pozycji uciętych przez limity sklepow).
+    juz = {}
+    if "--uzupelnij" in sys.argv and os.path.exists(WYJSCIE):
+        for linia in io.open(WYJSCIE, encoding="utf-8"):
+            czesci = [c.strip() for c in linia.strip().split("|")]
+            if len(czesci) >= 2 and not linia.startswith("#"):
+                juz[(czesci[0], czesci[1])] = czesci
+        rek = [d for d in rek if (d["name"], d.get("shop", "")) not in juz]
+        print("UZUPELNIANIE: %d pozycji do dobrania (%d juz mamy)\n" % (len(rek), len(juz)))
+
     if probka:
         wg_sklepu = {}
         for d in rek:
@@ -234,11 +266,14 @@ def main():
     print("  bledy pobrania     : %d" % bledy)
 
     if not probka:
+        # Przy uzupelnianiu dokladamy do juz zebranych, nie nadpisujemy calosci.
+        wszystkie = list(juz.values()) + [list(w) for w in wyniki]
         os.makedirs(os.path.dirname(WYJSCIE), exist_ok=True)
         with io.open(WYJSCIE, "w", encoding="utf-8", newline="") as f:
             f.write("# nazwa | sklep | litry | dawkowanie | rodzaj dopasowania | url\n")
-            for w in wyniki:
+            for w in sorted(wszystkie, key=lambda x: (str(x[1]), str(x[0]))):
                 f.write(" | ".join(str(x).replace("|", "/") for x in w) + "\n")
+        print("  w pliku lacznie    : %d" % len(wszystkie))
         print("\nZAPISANO %s" % os.path.relpath(WYJSCIE, ROOT))
     return 0
 

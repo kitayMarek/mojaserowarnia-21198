@@ -1,0 +1,189 @@
+# nazwa | sklep | litry | dawkowanie | rodzaj dopasowania | url
+ARTiVEG ME-30 | Artiser.pl | 5 |  | opakowanie | https://artiser.pl/pl/p/Weganskie-kultury-bakterii-ARTiVEG-ME-30-na-5l-/123
+ARTiVEG TH-33 | Artiser.pl | 5 |  | opakowanie | https://artiser.pl/pl/p/Weganskie-kultury-bakterii-ARTiVEG-TH-33-na-5l-/124
+ARTiVEG YO PRO-12 | Artiser.pl | 5 |  | opakowanie | https://artiser.pl/pl/p/Weganskie-kultury-jogurtowe-ARTiVEG-YO-PRO-12-na-5l-/122
+ARTiVEG YO-9 | Artiser.pl | 5 |  | opakowanie | https://artiser.pl/pl/p/Weganskie-kultury-do-jogurtu-ARTiVEG-YO-9-na-5l-/125
+BTH | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-BTH-/120
+BTMH | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-BTMH-/121
+Brevibacterium Linens | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Bakterie-maziowe-Brevibacterium-Linens/118
+CLC | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-CLC/126
+CLCH | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-CLCH-/127
+F-YO | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-do-jogurtu-F-YO/128
+Geotrichum Candidum | Artiser.pl | 100 | 3 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Geotrichum-Candidum/145
+KFF | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-do-kefiru-KFF/129
+ML | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-ML/130
+ML-O | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-ML-O-do-twarogu-i-nie-tylko/131
+MLE | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-MLE/132
+MLL | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Kultury-bakterii-MLL/119
+P-YO | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/P-YO-kultury-bakterii-do-jogurtu-z-probiotykami-/222
+Penicillium Candidum | Artiser.pl | 100 | 3 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Penicillium-Candidum/133
+Penicillium Roqueforti | Artiser.pl | 100 | 3 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Penicillium-Roqueforti/134
+Propionibacterium | Artiser.pl | 100 | 2 g / 100 L | opakowanie (2 wariantów, brany najmniejszy) | https://artiser.pl/pl/p/Propionibacterium/141
+Brevibacterium linens | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Brevibacterium-linens-/22901952
+EF LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/EF-LYO-/22901956
+HL 06 LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/HL-06-LYO-/22901954
+Kefir 41 LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Kefir-41-LYO-/22901896
+MP 62 LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/MP-62-LYO-/22901958
+PB LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/PB-LYO-/22901957
+PBat 91 LYO | GAP Poland | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.gappoland.com/pl/p/PBat-91-LYO-/22901953
+Penicillium candidum | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Penicillium-candidum-/22901950
+Penicillium roqueforti | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Penicilium-roqueforti-/22901951
+Protective LYO | GAP Poland | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.gappoland.com/pl/p/Protective-LYO-/22901943
+SH LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/SH-LYO-/22901955
+SM 02 LYO | GAP Poland |  |  | tylko konteksty obce | https://sklep.gappoland.com/pl/p/SM-02-LYO/22902158
+SR 62 LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/SR-62-LYO-/22902182
+TW 31 LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/TW-31-LYO-/22901901
+VEGE C LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/VEGE-C-LYO/22902224
+Y 92 LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Y-92-LYO-/22901945
+YO 56 LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/YO-56-LYO-/22901897
+YO-B1 LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/YO-B1-LYO-/22902117
+YPB LYO | GAP Poland |  |  | brak deklaracji | https://sklep.gappoland.com/pl/p/YPB-LYO-/22901949
+ALPHA 10 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/ALPHA-10/616
+ALPHA 12 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/ALPHA-12/1357
+ALPHA 3 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/ALPHA-3/1108
+ALPHA 6 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/ALPHA-6/615
+ALPHA BLEU | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/ALPHA-BLEU-/1361
+BETA 1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/BETA-1/1141
+BETA 8 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/BETA-8/1111
+Beaugel 10 25l | Lactic.pl | 25 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-10-25l/1192
+Beaugel 11 25l | Lactic.pl | 25 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-11-25l/1193
+Beaugel 12 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-12/608
+Beaugel Acid 1 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Acid-1/459
+Beaugel Bifi 1 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Bifi-1/426
+Beaugel Elben | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Elben/417
+Beaugel Kefir 2 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Kefir-2/647
+Beaugel Kefir 3 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Kefir-3/1270
+Beaugel Raieb 1 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Raieb-1/418
+Beaugel Soja 1 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Soja-1/424
+Beaugel Yog 1 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Yog-1/450
+Beaugel Yog 2 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Yog-2/467
+Beaugel Yog 3 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Yog-3/464
+Beaugel Yog 4 | Lactic.pl | 5 |  | opakowanie | https://lactic.pl/pl/p/Beaugel-Yog-4/651
+DELTA 1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/DELTA-1/1124
+DELTA 2 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/DELTA-2/1254
+GAMMA 1 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/GAMMA-1/1120
+GAMMA 3 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/GAMMA-3/1346
+IOTA 1 | Lactic.pl | 500 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-1/1135
+IOTA 2 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/IOTA-2/1125
+IOTA 4 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/IOTA-4/1333
+IOTA CL1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-CL1/1127
+IOTA CL2 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-CL2/1128
+IOTA Ca/1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-Ca1/1119
+IOTA Ca/2 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-Ca2/1268
+IOTA FETA | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-FETA/1362
+IOTA FF1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-FF1/1170
+IOTA FF2 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-FF2/1253
+IOTA KEFIR 2 | Lactic.pl | 150 |  | opakowanie | https://lactic.pl/pl/p/IOTA-KEFIR-2/1278
+IOTA KEFIR 3 | Lactic.pl | 150 |  | opakowanie | https://lactic.pl/pl/p/IOTA-KEFIR-3/1277
+IOTA M | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-M/1129
+IOTA PETIT BLEU | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-PETIT-BLEU/1363
+IOTA PROBI 1 | Lactic.pl | 150 |  | opakowanie | https://lactic.pl/pl/p/IOTA-PROBI-1/1292
+IOTA RACLETTE | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-RACLETTE/1364
+IOTA ST NECTAIRE 1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/IOTA-ST-NECTAIRE-1-/1122
+IOTA V | Lactic.pl |  |  | tylko konteksty obce | https://lactic.pl/pl/p/IOTA-V/1252
+KAPPA 1 | Lactic.pl | 50 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/KAPPA-1/588
+KAPPA 2 | Lactic.pl | 50 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/KAPPA-2/591
+KAPPA 3 | Lactic.pl | 50 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/KAPPA-3/590
+KAPPA 4 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/KAPPA-4/595
+LAMBDA 10 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-10/1359
+LAMBDA 12 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-12/1204
+LAMBDA 3 | Lactic.pl | 20 |  | opakowanie (3 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/LAMBDA-3/589
+LAMBDA 6 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-6/592
+LAMBDA 7 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-7/586
+LAMBDA 8 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-8/596
+LAMBDA 9 | Lactic.pl | 20 |  | opakowanie | https://lactic.pl/pl/p/LAMBDA-9/597
+OMEGA 1 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/OMEGA-1/579
+OMEGA 2 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/OMEGA-2/583
+OMEGA 3 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/OMEGA-3/580
+OMEGA 4 | Lactic.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://lactic.pl/pl/p/OMEGA-4/582
+SIGMA 15 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-15/1139
+SIGMA 17 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-17/1140
+SIGMA 22 (Debaryomyces Hansenii) | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-22-Debaryomyces-Hansenii/1356
+SIGMA 30 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-30/1136
+SIGMA 41 | Lactic.pl | 500 |  | opakowanie | https://lactic.pl/pl/p/SIGMA-41/1331
+SIGMA 43 | Lactic.pl | 500 |  | opakowanie | https://lactic.pl/pl/p/SIGMA-43/1332
+SIGMA 54 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-54/1355
+SIGMA 55 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-55/1118
+SIGMA 63 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-63/1132
+SIGMA 75 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-75/1123
+SIGMA 96 SP | Lactic.pl | 500 |  | opakowanie | https://lactic.pl/pl/p/SIGMA-96-SP/1352
+SIGMA 97 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-97/1133
+ABY | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/ABY-bakterie-startowe-do-jogurtu-probiotyk/757
+AT | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/AT-kultura-starterowa-bakterie/28
+Brevibacterium Linens | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Brevibacterium-Linens-bakterie-czerwonej-mazi/341
+CL | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/CL-kultura-startowa-uzupelniajaca-do-sera-na-1000-l-mleka/2259
+EM | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/EM-kultura-starterowa-bakterie/23
+GEO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/GEO-plesn-Geotrichum-candidum/806
+Grzybek kefirowy tybetański | Serowar.pl |  |  | brak deklaracji | https://serowar.pl/pl/p/Grzybek-kefirowy-tybetanski-ziarna-zrob-wlasny-kefir/90
+KFA1 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/KFA1-kultura-startowa-do-kefiru-na-1000-l-mleka/1741
+KFB1/2 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/KFB12-kultura-startowa-do-kefiru-na-1000-l-mleka/1742
+Kefir 31 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Kefir-31-bakterie-startowe-do-kefiru/138
+Kefir 51 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Kefir-51-bakterie-startowe-do-kefiru/1632
+LCR | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LCR-bakteryjna-kultura-starterowa-probiotyczna/139
+LHT | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHT-kultura-startowa-do-sera-na-1000-l-mleka-/1746
+LHTB | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHTB-kultura-startowa-do-sera-na-1000-l-mleka/1747
+LHTBME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHTBME-kultura-startowa-do-sera-na-1000-l-mleka/1748
+LP | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LP-Lactobacillus-plantarum-bakteryjna-kultura-starterowa-probiotyczna/475
+M | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/M-kultura-starterowa-bakterie/114
+MA | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MA-kultura-startowa-do-masla-i-sera-na-1000-l-mleka/1750
+ME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/ME-kultura-startowa-do-sera-na-1000-l-mleka/1751
+MFC | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MFC-kultura-starterowa-bakterie/22
+MO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MO-kultura-startowa-do-masla%2C-sera-na-1000-l-mleka/1752
+MSE | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSE-kultura-starterowa-bakterie/20
+MSE-910 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSE-910-kultura-starterowa-bakterie/1921
+MSO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSO-kultura-starterowa-bakterie/18
+MSO-11 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSO-11-kultura-starterowa-bakterie/21
+MST | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MST-kultura-starterowa-bakterie/24
+MSY | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSY-kultura-starterowa-bakterie/25
+MYE | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MYE-kultura-starterowa-bakterie/355
+PC | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/PC-plesn-Penicillium-candidum/120
+PG | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/PG-kultura-starterowa-bakterie/118
+PP | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/PP-kultura-starterowa-bakterie/169
+RQ | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/RQ-plesn-Penicillium-roqueforti/121
+SLBH | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/SLBH-kultura-starterowa-bakterie/1097
+TB | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/TB-kultura-startowa-do-sera-na-1000-l-mleka/1753
+TME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/TME-kultura-startowa-do-sera-na-1000-l-mleka/1749
+YO 122 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/YO-122-bakterie-startowe-do-jogurtu/137
+Camembert Mix | Wańczykówka | 100 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/4-1-camembert-mix.html
+Choozit ARN | Wańczykówka | 5000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/22-564--arn.html
+Choozit Alp | Wańczykówka | 500 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/6-4-choozit-alp.html
+Choozit DH 2D | Wańczykówka | 2000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/364-787-kultury-bakterii-choozit-dh-2d.html
+Choozit FR 13 | Wańczykówka | 1000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/371-kultury-bakterii-choozit-fr-13-lyo-10-d.html
+Choozit FT 001 | Wańczykówka | 100 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/7-6-choozit-ft-001.html
+Choozit GEO 13 | Wańczykówka | 1000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/24-33-choozit-geo-13.html
+Choozit GEO 17 | Wańczykówka | 1000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/25-34--choozit-geo-17.html
+Choozit KAZU | Wańczykówka | 300 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/42-52-choozit-kazu-300.html
+Choozit KL 71 | Wańczykówka |  |  | brak deklaracji | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/372-kultury-bakterii-choozit-kl-71-lyo-2-d.html
+Choozit LH 100 | Wańczykówka |  |  | brak deklaracji | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/369-797-kultury-bakterii-choozit-lh-100-lyo-10-dcu.html
+Choozit LM 57 | Wańczykówka | 1000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/370-kultury-bakterii-choozit-lm-57-lyo-20-dcu.html
+Choozit MA 14 | Wańczykówka |  |  | tylko konteksty obce | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/235-367-kultury-bakterii-choozit-ma-14.html
+Choozit MA 4001 | Wańczykówka | 100 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/9-563--choozit-ma-4001.html
+Choozit SR3 | Wańczykówka | 1000 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/27-38-choozit-sr3.html
+Choozit TA 61 | Wańczykówka | 500 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/88-137-choozit-ta60.html
+Flav 54 | Wańczykówka | 500 |  | opakowanie (3 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-i-plesni/321-625-flav-54.html
+HOLDBAC LC | Wańczykówka | 1000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-ochronne/349-686-bakterie-ochronne-holdbac-lc-lyo-100-dcu.html
+Kefir DA | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/29-41-kefir.html
+LHT | Wańczykówka | 100 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-i-plesni/109-150-kultury-bakterii-lht-.html
+Penicillium Candidum PC 22 | Wańczykówka | 250 |  | opakowanie | https://sklep.wanczykowka.com/kultury-plesniowe/43-53-pc-22-penicillium-candidum.html
+Penicillium Candidum PC Neige | Wańczykówka | 500 |  | opakowanie | https://sklep.wanczykowka.com/kultury-plesniowe/45-681-penicillium-candidum-pc-neige.html
+Penicillium roqueforti PA | Wańczykówka | 500 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-plesniowe/46-55--penicillium-roqueforti-pa.html
+Penicillium roqueforti PV | Wańczykówka | 500 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-plesniowe/47-56--penicillium-roqueforti-pv.html
+Probat 222 | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/15-15-probat-222.html
+Propionibakterium PX | Wańczykówka | 500 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/26-35-propionibakterium-px.html
+Yo-Mix 215 | Wańczykówka | 100 |  | opakowanie (3 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/36-47-yo-mix-215.html
+Yo-Mix 401 | Wańczykówka | 100 |  | opakowanie (3 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/37-48-yo-mix-401.html
+Yo-Mix 495 | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/40-360--yo-mix-495.html
+Yo-Mix 601 | Wańczykówka | 100 |  | opakowanie (3 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/38-49--yo-mix-601.html
+Yo-Mix 883 | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/39-50--yo-mix-883.html
+microMilk Kefir KFB1 | Wańczykówka | 500 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/108-149-kultury-bakterii-micromilk-kfb1-kefir.html
+microMilk LHTB | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/10-9-micromilk-lhtb.html
+microMilk LHTBM | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/11-27-micromilk-lhtbm.html
+microMilk ME | Wańczykówka | 500 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/12-19-micromilk-me.html
+microMilk MO (Feta) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/13-20--micromilk-mo-feta.html
+microMilk T (Mozzarella) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/19-24-wanczykowka-t-mozzarella.html
+microMilk TB (Taleggio) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/20-25-wanczykowka-tb-taleggo.html
+microMilk TB/B (Caciotta) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/21-26-wanczykowka-tbb-caciotta.html
+microMilk TME | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/14-10--micromilk-tme.html
+microMilk Y | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/31-43--micromilk-y.html
+microMilk Y-Probiotyczny | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/32-45--micromilk-y-probiotyczny.html
+microMilk YG (Jogurt Grecki) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/365-789--micromilk-y.html
