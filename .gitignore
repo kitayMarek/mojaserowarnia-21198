@@ -32,6 +32,9 @@ ProjektyLLm/
 .env
 .env.local
 .env.*.local
+# Dane FTP do wgrywania na home.pl. REPO JEST PUBLICZNE - ten plik nigdy
+# nie moze trafic do commita. Claude czyta go przy deployu.
+.env.deploy
 
 # Cache Pythona ze skryptow generujacych
 __pycache__/
