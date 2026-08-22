@@ -51,6 +51,7 @@ const ZamiennikiKultur = () => {
       metaDescription="Czym zastąpić kulturę, której nie ma w sklepie: ponad połowa kultur ma skład wspólny z inną pozycją. Grupy składowe z nazwami handlowymi, sklepami i cenami."
       breadcrumb={[{ label: "Baza kultur", href: "/baza-kultur" }, { label: "Zamienniki" }]}
       related={[
+        { label: "Kto produkuje kultury — marki własne i małe opakowania", href: "/kto-produkuje-kultury" },
         { label: "Baza kultur — wszystkie pozycje z cenami", href: "/baza-kultur" },
         { label: "Porównywarka kultur — zestaw dwie obok siebie", href: "/porownywarka-kultur" },
         { label: "Kultury mezofilne", href: "/kultury/mezofilne" },
