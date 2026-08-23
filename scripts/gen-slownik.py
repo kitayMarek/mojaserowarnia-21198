@@ -16,6 +16,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src", "pages", "Slownik.tsx")
 OUT = os.path.join(ROOT, "public", "slownik.html")
 BASE = "https://mojaserowarnia.pl/slownik.html"
+# Canonical wskazuje TRASE Reacta, nie mirror - patrz komentarz w gen-przepisy.py.
+KANONICZNY = "https://mojaserowarnia.pl/slownik"
 
 CAT_ORDER = ["Podstawy", "Proces", "Typy", "Kultury", "Parametry", "Sprzęt", "Prawo"]
 _DIAC = {"ą": "a", "ć": "c", "ę": "e", "ł": "l", "ń": "n", "ó": "o", "ś": "s", "ź": "z", "ż": "z"}
@@ -72,7 +74,7 @@ def main():
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     o.append(f"  <title>Słownik serowarski — {total} terminów PL/EN z definicjami</title>")
     o.append(f'  <meta name="description" content="Słownik serowarski: {total} terminów po polsku i angielsku z definicjami — podstawy, proces produkcji, typy serów, kultury, parametry, sprzęt i prawo." />')
-    o.append(f'  <link rel="canonical" href="{BASE}" />\n  <meta name="robots" content="index, follow" />')
+    o.append(f'  <link rel="canonical" href="{KANONICZNY}" />\n  <meta name="robots" content="index, follow" />')
     o.append('  <meta property="og:title" content="Słownik serowarski — terminy PL/EN" />\n  <meta property="og:description" content="Dwujęzyczny słownik terminów serowarskich z definicjami." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="' + BASE + '" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('''  <style>

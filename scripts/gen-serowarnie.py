@@ -98,6 +98,9 @@ def data_pl(iso):
 def wizytowka_html(w, wpisy):
     slug = w["slug"]
     url = f"https://mojaserowarnia.pl/serowarnie/{slug}.html"
+    # Canonical wskazuje TRASE Reacta, nie mirror (regula opisana w gen-przepisy.py).
+    # og:url zostaje na mirrorze - to on serwuje sie botom spolecznosciowym przez .htaccess.
+    kanoniczny = f"https://mojaserowarnia.pl/serowarnie/{slug}"
     lokal = ", ".join(x for x in [w.get("miejscowosc"), w.get("wojewodztwo")] if x)
     typ = TYP_OPIS.get(w.get("typ_dzialalnosci") or "", "Serowarnia zagrodowa")
     podtytul = f"{typ}{' — ' + lokal if lokal else ''}"
@@ -149,7 +152,7 @@ def wizytowka_html(w, wpisy):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{esc(w['nazwa'])}{' — ' + esc(lokal) if lokal else ''} | Serowarnie</title>
   <meta name="description" content="{esc(opis_meta)}" />
-  <link rel="canonical" href="{url}" />
+  <link rel="canonical" href="{kanoniczny}" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="{esc(w['nazwa'])}" />
   <meta property="og:description" content="{esc(opis_meta)}" />
@@ -277,7 +280,7 @@ def katalog_html(wizytowki):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Serowarnie zagrodowe w Polsce — katalog producentów</title>
   <meta name="description" content="Katalog małych serowarni zagrodowych w Polsce. Znajdź producenta w swoim województwie i kup ser prosto od gospodarza." />
-  <link rel="canonical" href="https://mojaserowarnia.pl/serowarnie.html" />
+  <link rel="canonical" href="https://mojaserowarnia.pl/serowarnie" />
   <meta name="robots" content="index, follow" />
   <script type="application/ld+json">
 {json.dumps(ld, ensure_ascii=False, indent=2)}

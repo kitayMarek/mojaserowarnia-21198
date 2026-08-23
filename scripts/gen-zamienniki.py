@@ -158,7 +158,7 @@ def zbuduj_html(grupy, wszystkie):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zamienniki kultur bakteryjnych — te same szczepy, inne nazwy</title>
   <meta name="description" content="Czym zastąpić kulturę, której nie ma w sklepie: %d z %d kultur ma skład wspólny z inną pozycją. %d grup składowych z nazwami handlowymi, sklepami i cenami." />
-  <link rel="canonical" href="https://mojaserowarnia.pl/zamienniki-kultur.html" />
+  <link rel="canonical" href="https://mojaserowarnia.pl/zamienniki-kultur" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Zamienniki kultur bakteryjnych — te same szczepy, inne nazwy" />
   <meta property="og:description" content="%d grup kultur o identycznym składzie szczepowym, sprzedawanych pod różnymi nazwami w 5 polskich sklepach." />
