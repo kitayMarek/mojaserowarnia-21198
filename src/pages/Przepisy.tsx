@@ -442,7 +442,16 @@ const Przepisy = () => {
                   Jogurt, kefir i sery kwasowe nie wymagają podpuszczki ani dojrzewalni. To najprostsze wejście
                   w domowe mleczarstwo — i dobry punkt startu przed pierwszym serem podpuszczkowym.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Link
+                    to="/przepisy/serek-homogenizowany"
+                    className="block rounded-lg border border-border bg-card p-4 hover:border-amber-400 transition-colors"
+                  >
+                    <span className="block font-semibold text-foreground">Serek homogenizowany</span>
+                    <span className="block text-xs text-muted-foreground mt-1">
+                      typu Danio · z własnego twarogu · 2× więcej białka
+                    </span>
+                  </Link>
                   <Link
                     to="/przepisy/jogurt-domowy"
                     className="block rounded-lg border border-border bg-card p-4 hover:border-amber-400 transition-colors"

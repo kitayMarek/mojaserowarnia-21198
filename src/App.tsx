@@ -20,6 +20,7 @@ const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
 const JogurtDomowy = lazy(() => import("./pages/JogurtDomowy"));
 const KefirDomowy = lazy(() => import("./pages/KefirDomowy"));
 const SerZJogurtu = lazy(() => import("./pages/SerZJogurtu"));
+const SerekHomogenizowany = lazy(() => import("./pages/SerekHomogenizowany"));
 const PrzepisyKulinarne = lazy(() => import("./pages/PrzepisyKulinarne"));
 const CulinaryRecipeDetails = lazy(() => import("./pages/CulinaryRecipeDetails"));
 const PoradnikiHub = lazy(() => import("./pages/PoradnikiHub"));
@@ -134,6 +135,7 @@ const App = () => (
             <Route path="/sery-wege" element={<SeryWege />} />
             <Route path="/przepisy" element={<Przepisy />} />
             {/* Nabial fermentowany - trasy statyczne MUSZA byc przed /przepisy/:id */}
+            <Route path="/przepisy/serek-homogenizowany" element={<SerekHomogenizowany />} />
             <Route path="/przepisy/jogurt-domowy" element={<JogurtDomowy />} />
             <Route path="/przepisy/kefir-domowy" element={<KefirDomowy />} />
             <Route path="/przepisy/ser-z-jogurtu" element={<SerZJogurtu />} />
