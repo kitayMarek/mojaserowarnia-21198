@@ -24,7 +24,7 @@ const CulinaryRecipeCard = ({ recipe }: CulinaryRecipeCardProps) => {
 
   return (
     <Link to={`/przepisy-kulinarne/${recipe.id}`}>
-      <Card className="group h-full overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-border/50">
+      <Card className="group h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 border-border/50">
         {/* Image */}
         <div className="relative aspect-video overflow-hidden">
           <img

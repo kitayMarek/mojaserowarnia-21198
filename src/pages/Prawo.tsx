@@ -132,7 +132,7 @@ const Prawo = () => {
               const Icon = topic.icon;
               return (
                 <Link key={topic.id} to={topic.href}>
-                  <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <Card className=" transition-shadow cursor-pointer">
                     <CardHeader>
                       <div className="flex items-start gap-4">
                         <div className="p-3 bg-primary/10 rounded-lg">

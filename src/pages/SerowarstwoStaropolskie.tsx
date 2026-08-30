@@ -116,7 +116,7 @@ const SerowarstwoStaropolskie = () => {
           <div className="grid md:grid-cols-2 gap-6 mb-10">
             {guides.map((g) => (
               <a key={g.href} href={g.href} className="group block h-full">
-                <Card className={`h-full transition-all hover:shadow-lg hover:-translate-y-0.5 ${g.featured ? "border-2 border-amber-400 dark:border-amber-600" : "hover:border-amber-300"}`}>
+                <Card className={`h-full transition-all hover:-translate-y-0.5 ${g.featured ? "border-2 border-amber-400 dark:border-amber-600" : "hover:border-amber-300"}`}>
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">

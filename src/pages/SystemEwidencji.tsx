@@ -120,7 +120,7 @@ const SystemEwidencji = () => {
               <Button 
                 onClick={handleCTAClick}
                 size="lg" 
-                className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm text-lg px-8 py-6 h-auto"
+                className="bg-primary hover:bg-primary-hover text-primary-foreground text-lg px-8 py-6 h-auto"
               >
                 {user ? "Przejdź do Ewidencji" : "Zacznij korzystać"}
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -145,9 +145,9 @@ const SystemEwidencji = () => {
               {features.map((feature) => {
                 const Icon = feature.icon;
                 return (
-                  <Card key={feature.title} className="border-border hover:border-primary transition-all duration-300 hover:shadow-card">
+                  <Card key={feature.title} className="border-border hover:border-primary transition-all duration-300">
                     <CardHeader>
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-warm mb-4`}>
+                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
                         <Icon className="h-7 w-7 text-white" />
                       </div>
                       <CardTitle className="text-2xl font-display">{feature.title}</CardTitle>
@@ -241,7 +241,7 @@ const SystemEwidencji = () => {
               <Button 
                 onClick={handleCTAClick}
                 size="lg" 
-                className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm text-lg px-8 py-6 h-auto"
+                className="bg-primary hover:bg-primary-hover text-primary-foreground text-lg px-8 py-6 h-auto"
               >
                 {user ? "Otwórz Panel Ewidencji" : "Załóż konto"}
                 <ArrowRight className="ml-2 h-5 w-5" />

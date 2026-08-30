@@ -70,11 +70,11 @@ const SeryWege = () => (
       wysoka temperatura. Są wegetariańskie z definicji:
     </p>
     <div className="not-prose grid sm:grid-cols-2 gap-3 my-4">
-      <Link to="/przepisy/ricotta" className="rounded-xl border border-border bg-card hover:border-amber-300 hover:shadow-card transition-all p-4">
+      <Link to="/przepisy/ricotta" className="rounded-xl border border-border bg-card hover:border-amber-300 transition-all p-4">
         <span className="block font-semibold text-foreground">Ricotta</span>
         <span className="block text-sm text-muted-foreground mt-0.5">ser serwatkowy ścinany kwasem — bez podpuszczki</span>
       </Link>
-      <Link to="/przepisy" className="rounded-xl border border-border bg-card hover:border-amber-300 hover:shadow-card transition-all p-4">
+      <Link to="/przepisy" className="rounded-xl border border-border bg-card hover:border-amber-300 transition-all p-4">
         <span className="block font-semibold text-foreground">Mascarpone i twaróg</span>
         <span className="block text-sm text-muted-foreground mt-0.5">sery kwasowe — naturalnie wegetariańskie</span>
       </Link>

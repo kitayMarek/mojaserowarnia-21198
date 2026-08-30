@@ -180,7 +180,7 @@ const Navigation = () => {
             </DropdownMenu>
           ) : (
             <Button
-              className="w-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-warm"
+              className="w-full bg-primary hover:bg-primary-hover text-primary-foreground"
               onClick={() => {
                 navigate("/auth");
                 closeMobile();

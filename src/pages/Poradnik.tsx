@@ -190,7 +190,7 @@ const Poradnik = () => {
                 i doboru sprzętu po obieg pracy. Dobry punkt wyjścia, zanim przejdziesz do szczegółów w kolejnych sekcjach.
               </p>
               <div
-                className="relative w-full max-w-3xl rounded-2xl overflow-hidden border border-border shadow-card"
+                className="relative w-full max-w-3xl rounded-none overflow-hidden border border-border"
                 style={{ aspectRatio: "16 / 9" }}
               >
                 <iframe

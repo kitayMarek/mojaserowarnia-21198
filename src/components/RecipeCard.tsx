@@ -18,7 +18,7 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
   return (
     <Link to={`/przepisy/${recipe.id}`} className="group">
-      <Card className="h-full border-border hover:border-primary transition-all duration-300 hover:shadow-card group-hover:scale-[1.02] bg-card overflow-hidden">
+      <Card className="h-full border-border hover:border-primary transition-all duration-300 group-hover:scale-[1.02] bg-card overflow-hidden">
         <div className="aspect-video overflow-hidden">
           <img 
             src={recipe.image} 

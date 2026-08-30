@@ -78,11 +78,14 @@ def main():
     o.append('  <meta property="og:title" content="Słownik serowarski — terminy PL/EN" />\n  <meta property="og:description" content="Dwujęzyczny słownik terminów serowarskich z definicjami." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="' + BASE + '" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('''  <style>
-    :root { --brand:#b45309; --brand-dark:#92400e; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg-soft:#fffbeb; }
+    :root { --brand:#8a5a16; --brand-dark:#5f3d0f; --ink:#241a12; --muted:#5c4a34; --line:#c9b893; --bg-soft:#ece2cc; }
+    body{background:#f4eee0}
+    h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif;font-weight:600}
+
     * { box-sizing:border-box; }
     body { max-width:860px; margin:0 auto; padding:2rem 1.25rem 4rem; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
     h1 { font-size:1.85rem; color:var(--brand-dark); margin:0 0 .5rem; }
-    h2 { font-size:1.2rem; margin-top:2.2rem; color:var(--brand-dark); border-bottom:2px solid var(--bg-soft); padding-bottom:.3rem; scroll-margin-top:1rem; }
+    h2 { font-size:1.2rem; margin-top:2.2rem; color:var(--brand-dark); border-bottom:2px solid var(--line); padding-bottom:.3rem; scroll-margin-top:1rem; }
     .lead { font-size:1.03rem; color:var(--muted); }
     .toc { background:var(--bg-soft); border:1px solid #fde68a; border-radius:.6rem; padding:.7rem 1rem; font-size:.95rem; }
     .toc a { margin-right:.6rem; white-space:nowrap; }

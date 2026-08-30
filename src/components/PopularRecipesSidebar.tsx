@@ -99,7 +99,7 @@ const PopularRecipesSidebar = () => {
       <div className="space-y-4">
         {popularRecipes.map((recipe, index) => (
           <Link key={recipe.id} to={`/przepisy/${recipe.id}`} className="group block">
-            <Card className="relative border-border hover:border-primary transition-all duration-300 hover:shadow-lg group-hover:scale-[1.02] bg-card overflow-hidden">
+            <Card className="relative border-border hover:border-primary transition-all duration-300 group-hover:scale-[1.02] bg-card overflow-hidden">
               {getRankBadge(index)}
               
               <div className="flex gap-3 p-3">

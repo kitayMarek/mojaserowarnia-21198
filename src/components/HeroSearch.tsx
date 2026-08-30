@@ -141,7 +141,7 @@ const HeroSearch = () => {
       {showPopular && !isOpen && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-border/50 overflow-hidden z-50 animate-fade-in"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-none shadow-2xl border border-border/50 overflow-hidden z-50 animate-fade-in"
         >
           <div className="px-4 py-3 border-b border-border/30">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
@@ -166,7 +166,7 @@ const HeroSearch = () => {
       {isOpen && results.length > 0 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-border/50 overflow-hidden z-50 animate-fade-in"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-none shadow-2xl border border-border/50 overflow-hidden z-50 animate-fade-in"
         >
           <div className="py-2 max-h-[400px] overflow-y-auto">
             {results.map((item, index) => {

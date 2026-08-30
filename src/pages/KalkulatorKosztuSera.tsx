@@ -311,7 +311,7 @@ const KalkulatorKosztuSera = () => {
                 </Button>
               </div>
               
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>1) Ustawienia partii</CardTitle>
                 </CardHeader>
@@ -365,7 +365,7 @@ const KalkulatorKosztuSera = () => {
               </Card>
 
               {/* Mleko */}
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>2) Mleko</CardTitle>
                   <CardDescription>Cena za litr × ilość. Litry napędzają wydajność (wagę sera).</CardDescription>
@@ -399,7 +399,7 @@ const KalkulatorKosztuSera = () => {
               </Card>
 
               {/* Dodatki */}
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>3) Dodatki (podpuszczka, kultury, wapń…)</CardTitle>
@@ -552,7 +552,7 @@ const KalkulatorKosztuSera = () => {
               </Card>
 
               {/* Results */}
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>4) Wyniki</CardTitle>
                 </CardHeader>

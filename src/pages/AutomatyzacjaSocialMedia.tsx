@@ -98,12 +98,12 @@ const AutomatyzacjaSocialMedia = () => {
           <div className="container mx-auto px-4 max-w-5xl">
             {/* Header */}
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-3 mb-4 px-4 py-2 bg-gradient-warm rounded-full">
+              <div className="inline-flex items-center gap-3 mb-4 px-4 py-2 bg-secondary rounded-full">
                 <Rss className="h-5 w-5 text-primary" />
                 <Facebook className="h-5 w-5 text-primary" />
                 <Zap className="h-5 w-5 text-primary" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-warm bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-secondary bg-clip-text text-transparent">
                 Automatyzacja Social Media
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

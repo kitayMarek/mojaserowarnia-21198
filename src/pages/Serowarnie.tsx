@@ -158,7 +158,7 @@ export default function Serowarnie() {
                 <div className="grid md:grid-cols-2 gap-4">
                   {widoczne.map((w) => (
                     <Link key={w.slug} to={`/serowarnie/${w.slug}`} className="group block h-full">
-                      <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-0.5 border-2 hover:border-primary overflow-hidden">
+                      <Card className="h-full transition-all hover:-translate-y-0.5 border-2 hover:border-primary overflow-hidden">
                         {w.zdjecie_glowne ? (
                           <img
                             src={w.zdjecie_glowne}

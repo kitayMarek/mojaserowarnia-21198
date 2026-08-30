@@ -180,7 +180,7 @@ const Contact = () => {
               {contactInfo.map((info) => {
                 const Icon = info.icon;
                 return (
-                  <Card key={info.title} className="bg-card hover:shadow-lg transition-shadow">
+                  <Card key={info.title} className="bg-card transition-shadow">
                     <CardContent className="pt-6">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">

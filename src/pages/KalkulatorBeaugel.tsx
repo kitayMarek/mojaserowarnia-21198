@@ -120,7 +120,7 @@ const KalkulatorBeaugel = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto space-y-8">
               
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle className="text-2xl">Kalkulator Beaugel (Coquard)</CardTitle>
                   <CardDescription>
@@ -242,7 +242,7 @@ const KalkulatorBeaugel = () => {
               </Card>
 
               {/* Technical Info */}
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>Parametry wariantów</CardTitle>
                 </CardHeader>
@@ -294,7 +294,7 @@ const KalkulatorBeaugel = () => {
               </Card>
 
               {/* Tips */}
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>Wskazówki technologiczne</CardTitle>
                 </CardHeader>
@@ -323,7 +323,7 @@ const KalkulatorBeaugel = () => {
         <section className="py-12 md:py-16 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle className="text-2xl">Uniwersalny kalkulator IMCU</CardTitle>
                   <CardDescription>
@@ -407,7 +407,7 @@ const KalkulatorBeaugel = () => {
         <section className="py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
-              <Card className="border-border shadow-card">
+              <Card className="border-border">
                 <CardHeader>
                   <CardTitle>Źródła</CardTitle>
                 </CardHeader>

@@ -108,7 +108,7 @@ const KulturyPrzewodnik = () => (
           <Link
             key={c.to}
             to={c.to}
-            className="flex items-start gap-3 rounded-xl border border-border bg-card hover:border-amber-300 hover:shadow-card transition-all p-4"
+            className="flex items-start gap-3 rounded-xl border border-border bg-card hover:border-amber-300 transition-all p-4"
           >
             <span className="w-10 h-10 shrink-0 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 flex items-center justify-center">
               <Icon className="h-5 w-5" />

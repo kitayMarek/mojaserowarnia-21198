@@ -246,7 +246,7 @@ const OrganizacjaSerowarni = () => {
                 od układu pomieszczeń i doboru sprzętu po obieg pracy (kanał: Baza produktów lokalnych z Podlaskiego).
               </p>
               <div
-                className="relative w-full max-w-3xl rounded-2xl overflow-hidden border border-border shadow-card"
+                className="relative w-full max-w-3xl rounded-none overflow-hidden border border-border"
                 style={{ aspectRatio: "16 / 9" }}
               >
                 <iframe

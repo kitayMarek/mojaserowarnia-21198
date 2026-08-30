@@ -312,7 +312,7 @@ const EtykietaRhd = () => {
                 width={500}
                 height={350}
                 loading="lazy"
-                className="rounded-md border border-border shadow-card max-w-full h-auto"
+                className="rounded-md border border-border max-w-full h-auto"
               />
             </div>
           </div>

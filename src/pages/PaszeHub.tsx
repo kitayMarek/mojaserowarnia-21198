@@ -212,9 +212,9 @@ const PaszeHub = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {narzedzia.map((n) => (
                 <Link key={n.href} to={n.href} className="group block h-full">
-                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                  <Card className="h-full transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary">
                     <CardHeader>
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${n.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-16 h-16 rounded-none bg-gradient-to-br ${n.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
                         {n.icon}
                       </div>
                       <CardTitle className="text-xl group-hover:text-primary transition-colors">{n.title}</CardTitle>
@@ -297,9 +297,9 @@ const PaszeHub = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {krowy.map((k) => (
                 <Link key={k.href} to={k.href} className="group block h-full">
-                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                  <Card className="h-full transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary">
                     <CardHeader>
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${k.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-16 h-16 rounded-none bg-gradient-to-br ${k.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
                         {k.icon}
                       </div>
                       <CardTitle className="text-xl group-hover:text-primary transition-colors">{k.title}</CardTitle>
@@ -321,9 +321,9 @@ const PaszeHub = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {obieg.map((o) => (
                 <Link key={o.href} to={o.href} className="group block h-full">
-                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                  <Card className="h-full transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary">
                     <CardHeader>
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${o.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-16 h-16 rounded-none bg-gradient-to-br ${o.color} flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
                         {o.icon}
                       </div>
                       <CardTitle className="text-xl group-hover:text-primary transition-colors">{o.title}</CardTitle>

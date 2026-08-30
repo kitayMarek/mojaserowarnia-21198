@@ -228,7 +228,7 @@ const KalkulatorMiar = () => {
         <header className="bg-gradient-to-br from-primary/90 to-accent/90 text-primary-foreground border-b border-border">
           <div className="container mx-auto px-4 py-12 md:py-16">
             <div className="flex items-start gap-4 mb-4">
-              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+              <div className="w-16 h-16 rounded-none bg-white/20 flex items-center justify-center flex-shrink-0">
                 <Calculator className="h-8 w-8" />
               </div>
               <div className="flex-1">

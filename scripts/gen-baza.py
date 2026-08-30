@@ -82,11 +82,14 @@ def gen_html(items):
     o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/kultury/baza.html" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('''  <style>
-    :root { --brand:#b45309; --brand-dark:#92400e; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg-soft:#fffbeb; }
+    :root { --brand:#8a5a16; --brand-dark:#5f3d0f; --ink:#241a12; --muted:#5c4a34; --line:#c9b893; --bg-soft:#ece2cc; }
+    body{background:#f4eee0}
+    h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif;font-weight:600}
+
     * { box-sizing:border-box; }
     body { max-width:1000px; margin:0 auto; padding:2rem 1.25rem 4rem; font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
     h1 { font-size:1.85rem; color:var(--brand-dark); margin:0 0 .5rem; }
-    h2 { font-size:1.2rem; margin-top:2.2rem; color:var(--brand-dark); border-bottom:2px solid var(--bg-soft); padding-bottom:.3rem; }
+    h2 { font-size:1.2rem; margin-top:2.2rem; color:var(--brand-dark); border-bottom:2px solid var(--line); padding-bottom:.3rem; }
     .lead { font-size:1.03rem; color:var(--muted); }
     table { border-collapse:collapse; width:100%; margin:.8rem 0 1.5rem; font-size:.9rem; }
     th,td { border:1px solid var(--line); padding:.45rem .55rem; text-align:left; vertical-align:top; }

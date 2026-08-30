@@ -51,7 +51,7 @@ const Narzedzia = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               
               {/* Kalkulator Miar */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -62,7 +62,7 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center group- transition-shadow">
                       <Calculator className="h-10 w-10 text-white" />
                     </div>
 
@@ -99,7 +99,7 @@ const Narzedzia = () => {
                     {/* Button */}
                     <Button 
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
                     >
                       <a 
                         href="/kalkulator-miar"
@@ -113,7 +113,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Kalkulator Solanki */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -124,7 +124,7 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center group- transition-shadow">
                       <Droplets className="h-10 w-10 text-white" />
                     </div>
 
@@ -157,7 +157,7 @@ const Narzedzia = () => {
                     {/* Button */}
                     <Button
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white"
                     >
                       <a
                         href="/kalkulator-solanki"
@@ -171,7 +171,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Kalkulator Beaugel */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -182,7 +182,7 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center group- transition-shadow">
                       <Calculator className="h-10 w-10 text-white" />
                     </div>
 
@@ -219,7 +219,7 @@ const Narzedzia = () => {
                     {/* Button */}
                     <Button 
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white"
                     >
                       <a 
                         href="/kalkulator-beaugel"
@@ -233,7 +233,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Kalkulator Kosztu Sera */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -244,7 +244,7 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center group- transition-shadow">
                       <Calculator className="h-10 w-10 text-white" />
                     </div>
 
@@ -281,7 +281,7 @@ const Narzedzia = () => {
                     {/* Button */}
                     <Button 
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
                     >
                       <a 
                         href="/kalkulator-kosztu-sera"
@@ -295,7 +295,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Kalkulator Pasz */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -306,7 +306,7 @@ const Narzedzia = () => {
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
                     {/* Icon */}
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center group- transition-shadow">
                       <Calculator className="h-10 w-10 text-white" />
                     </div>
 
@@ -343,7 +343,7 @@ const Narzedzia = () => {
                     {/* Button */}
                     <Button 
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white"
                     >
                       <a 
                         href="/kalkulator-pasz"
@@ -357,7 +357,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Kalkulator Pasz Bydło */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -367,7 +367,7 @@ const Narzedzia = () => {
                     />
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center group- transition-shadow">
                       <Calculator className="h-10 w-10 text-white" />
                     </div>
                     <div className="space-y-3">
@@ -398,7 +398,7 @@ const Narzedzia = () => {
                     </ul>
                     <Button 
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white"
                     >
                       <a href="/kalkulator-pasz-bydlo" className="flex items-center justify-center gap-2">
                         Otwórz Kalkulator
@@ -409,7 +409,7 @@ const Narzedzia = () => {
               </Card>
 
               {/* Menadżer Fermy Drobiu */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton
@@ -419,7 +419,7 @@ const Narzedzia = () => {
                     />
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center group- transition-shadow">
                       <ClipboardList className="h-10 w-10 text-white" />
                     </div>
                     <div className="space-y-3">
@@ -452,7 +452,7 @@ const Narzedzia = () => {
                     <div className="w-full space-y-2 mt-4">
                       <Button
                         asChild
-                        className="w-full bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white shadow-warm"
+                        className="w-full bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white"
                       >
                         <a href="https://fermly.pl" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                           Otwórz Fermly <ExternalLink className="h-4 w-4" />
@@ -473,13 +473,13 @@ const Narzedzia = () => {
               </Card>
 
               {/* Etykieta RHD */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton contentType="tool" contentId="etykieta-rhd" variant="compact" />
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center group- transition-shadow">
                       <Tag className="h-10 w-10 text-white" />
                     </div>
                     <div className="space-y-3">
@@ -498,7 +498,7 @@ const Narzedzia = () => {
                     </ul>
                     <Button
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white"
                     >
                       <a href="/etykieta-rhd" className="flex items-center justify-center gap-2">
                         Otwórz Edytor
@@ -509,13 +509,13 @@ const Narzedzia = () => {
               </Card>
 
               {/* Faktura VAT RR */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 hover:shadow-card bg-card">
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
                   <div className="flex justify-end mb-2">
                     <ReactionButton contentType="tool" contentId="faktura-vat-rr" variant="compact" />
                   </div>
                   <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-warm group-hover:shadow-lg transition-shadow">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center group- transition-shadow">
                       <FileText className="h-10 w-10 text-white" />
                     </div>
                     <div className="space-y-3">
@@ -534,7 +534,7 @@ const Narzedzia = () => {
                     </ul>
                     <Button
                       asChild
-                      className="w-full mt-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-warm"
+                      className="w-full mt-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white"
                     >
                       <a href="/faktura-vat-rr" className="flex items-center justify-center gap-2">
                         Otwórz Generator
@@ -546,7 +546,7 @@ const Narzedzia = () => {
 
               <Card className="border-border border-dashed bg-card/50">
                 <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full space-y-4">
-                  <div className="w-20 h-20 rounded-2xl bg-muted/30 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-none bg-muted/30 flex items-center justify-center">
                     <span className="text-4xl text-muted-foreground/50">?</span>
                   </div>
                   <div>

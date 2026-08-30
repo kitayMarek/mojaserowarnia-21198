@@ -59,7 +59,7 @@ const KulturaGuideLayout = ({
             <div className="mt-6">
               <Button
                 asChild
-                className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold shadow-warm"
+                className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold"
               >
                 <Link to={`/baza-kultur?type=${bazaType}`}>
                   <Database className="h-4 w-4 mr-2" />

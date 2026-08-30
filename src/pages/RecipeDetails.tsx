@@ -120,7 +120,7 @@ const RecipeDetails = () => {
           </Button>
 
           {/* Header with image */}
-          <div className="bg-card rounded-xl shadow-card border border-border overflow-hidden mb-8">
+          <div className="bg-card rounded-xl border border-border overflow-hidden mb-8">
             <div className="aspect-video overflow-hidden">
               <img 
                 src={recipe.image} 
@@ -156,7 +156,7 @@ const RecipeDetails = () => {
           </div>
 
           {/* CTA: Uwarz w Fermly — wyróżniony przycisk, deep-link per ser (BRIEF #8) */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl shadow-card p-5 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-5 mb-8">
             <div className="text-4xl shrink-0">🧀</div>
             <div className="flex-1">
               <h2 className="text-lg font-display font-bold text-foreground mb-1">
@@ -169,7 +169,7 @@ const RecipeDetails = () => {
             <Button
               asChild
               size="lg"
-              className="w-full sm:w-auto shrink-0 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold shadow-warm"
+              className="w-full sm:w-auto shrink-0 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold"
             >
               <a
                 href={`https://fermly.pl/mleko/warzenie?ser=${recipe.id}`}
@@ -187,7 +187,7 @@ const RecipeDetails = () => {
               Przepis zostaje nizej jako wyroznik — nikt inny w polskim internecie
               nie konczy artykulu o gruyere zdaniem "a teraz zrob go sam". */}
           {recipe.encyklopedia && recipe.encyklopedia.length > 0 && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
               <div className="space-y-6">
                 {recipe.encyklopedia.map((wpis, i) => (
                   <div key={i}>
@@ -202,7 +202,7 @@ const RecipeDetails = () => {
           )}
 
           {/* Przepis bazowy */}
-          <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+          <section className="bg-card rounded-xl border border-border p-8 mb-8">
             <h2 className="text-2xl font-display font-bold text-primary mb-6">📋 Przepis</h2>
             
             <div className="space-y-4">
@@ -215,7 +215,7 @@ const RecipeDetails = () => {
           </section>
 
           {/* Kultury i zamienniki */}
-          <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+          <section className="bg-card rounded-xl border border-border p-8 mb-8">
             <h2 className="text-2xl font-display font-bold text-primary mb-6">🧪 Kultury i zamienniki</h2>
             
             <div className="overflow-x-auto">
@@ -252,7 +252,7 @@ const RecipeDetails = () => {
           </section>
 
           {/* Kroki */}
-          <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+          <section className="bg-card rounded-xl border border-border p-8 mb-8">
             <h2 className="text-2xl font-display font-bold text-primary mb-6">📖 Kroki przygotowania</h2>
             
             <div className="space-y-6">
@@ -279,7 +279,7 @@ const RecipeDetails = () => {
 
           {/* Film instruktażowy — pokazuje się tylko, gdy przepis ma przypisany film */}
           {recipe.video && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-6">🎬 Film instruktażowy</h2>
               <VideoPrzepisu
                 youtubeId={recipe.video.youtubeId}
@@ -294,7 +294,7 @@ const RecipeDetails = () => {
               ale zaden komponent ich nie renderowal. 24 przepisy, 173 pozycje
               widoczne wylacznie w mirrorach statycznych, nie dla czytelnikow. */}
           {recipe.notes && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-6">📝 Porady i warianty</h2>
 
               {recipe.notes.tips?.length > 0 && (
@@ -349,7 +349,7 @@ const RecipeDetails = () => {
 
           {/* Profil smakowy */}
           {recipe.flavor && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-6">🎯 Profil smakowy</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -363,7 +363,7 @@ const RecipeDetails = () => {
 
           {/* Wartości odżywcze */}
           {recipe.nutrition && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8">
+            <section className="bg-card rounded-xl border border-border p-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-6">🥗 Wartości odżywcze (na {recipe.nutrition.servingSize})</h2>
               
               <div className="overflow-x-auto">
@@ -411,7 +411,7 @@ const RecipeDetails = () => {
               prowadzil do kuchni, wiec czytelnik konczyl na gotowym serze i nie
               dostawal zadnej podpowiedzi, co dalej. */}
           {(recipe.zastosowanie || dania.length > 0) && (
-            <section className="bg-card rounded-xl shadow-card border border-border p-8 mb-8">
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
               <h2 className="text-2xl font-display font-bold text-primary mb-4">🍽️ Do czego używać tego sera</h2>
 
               {recipe.zastosowanie && (

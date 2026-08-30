@@ -271,7 +271,7 @@ const BazaKultur = () => {
             </div>
 
             {/* Callout: lejek do przewodnika po kulturach + rozdzielenie ról */}
-            <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border border-primary/20 bg-primary/5">
+            <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 p-5 border border-primary/30 bg-primary/5">
               <div className="flex-1">
                 <p className="font-semibold text-foreground mb-1">Nie wiesz, którą kulturę wybrać?</p>
                 <p className="text-sm text-muted-foreground">
@@ -292,7 +292,7 @@ const BazaKultur = () => {
               <ReactionButton contentType="guide" contentId="baza-kultur" variant="default" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <div className="bg-card p-6 rounded-xl shadow-card border border-border">
+              <div className="bg-card p-6 border-[hsl(var(--rule))] border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
                   🦠 Czym są kultury bakteryjne do sera?
                 </h3>
@@ -301,7 +301,7 @@ const BazaKultur = () => {
                   Przekształcają laktozę w kwas mlekowy, nadając charakterystyczny smak i teksturę.
                 </p>
               </div>
-              <div className="bg-card p-6 rounded-xl shadow-card border border-border">
+              <div className="bg-card p-6 border-[hsl(var(--rule))] border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
                   🌡️ Jakie są typy kultur bakteryjnych?
                 </h3>
@@ -312,7 +312,7 @@ const BazaKultur = () => {
                   <li><strong>Propionibacterium</strong> - Sery szwajcarskie</li>
                 </ul>
               </div>
-              <div className="bg-card p-6 rounded-xl shadow-card border border-border">
+              <div className="bg-card p-6 border-[hsl(var(--rule))] border border-border">
                 <h3 className="text-xl font-display font-bold text-primary mb-3">
                   💰 Ile kosztują kultury bakteryjne?
                 </h3>
@@ -390,7 +390,7 @@ const BazaKultur = () => {
                 </div>
               ) : (
                 filteredData.map((culture, index) => (
-                  <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card rounded-lg shadow-card border border-border overflow-hidden">
+                  <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card border border-[hsl(var(--rule))] overflow-hidden">
                     <div className="bg-primary px-3 py-2">
                       <h3 className="font-bold text-primary-foreground text-sm">
                         <a
@@ -485,7 +485,7 @@ const BazaKultur = () => {
               )}
             </div>
             
-            <div className="mt-6 text-center bg-card p-4 rounded-lg shadow-card border border-border">
+            <div className="mt-6 text-center bg-card p-4 border border-[hsl(var(--rule))]">
               <p className="text-muted-foreground text-sm">
                 Wyświetlane: <span className="font-bold text-primary">{filteredData.length}</span> z{" "}
                 <span className="font-bold text-primary">{culturesData.length}</span> kultur
@@ -498,39 +498,39 @@ const BazaKultur = () => {
         <section className="py-8 hidden md:block">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
-              <div className="bg-card rounded-xl shadow-card border border-border overflow-hidden">
+              <div className="bg-card border border-[hsl(var(--rule))] overflow-hidden">
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-primary hover:bg-primary">
-                        <TableHead className="text-white w-16">Zdjęcie</TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('name')}>
+                      <TableRow className="bg-secondary hover:bg-secondary border-b-2 border-foreground">
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground w-16">Zdjęcie</TableHead>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground cursor-pointer hover:bg-secondary/70" onClick={() => handleSort('name')}>
                           <div className="flex items-center gap-2">
                             Nazwa Handlowa
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead className="text-white">Skład (Gatunki Bakterii)</TableHead>
-                        <TableHead className="text-white">Przeznaczenie</TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('temperature')}>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground">Skład (Gatunki Bakterii)</TableHead>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground">Przeznaczenie</TableHead>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground cursor-pointer hover:bg-secondary/70" onClick={() => handleSort('temperature')}>
                           <div className="flex items-center gap-2">
                             Temperatura
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('type')}>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground cursor-pointer hover:bg-secondary/70" onClick={() => handleSort('type')}>
                           <div className="flex items-center gap-2">
                             Typ
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead className="text-white cursor-pointer hover:bg-primary-hover" onClick={() => handleSort('shop')}>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground cursor-pointer hover:bg-secondary/70" onClick={() => handleSort('shop')}>
                           <div className="flex items-center gap-2">
                             Cena
                             <ArrowUpDown className="h-4 w-4" />
                           </div>
                         </TableHead>
-                        <TableHead className="text-white w-12"></TableHead>
+                        <TableHead className="text-[11px] uppercase tracking-[0.16em] text-foreground w-12"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -607,7 +607,7 @@ const BazaKultur = () => {
                 </div>
               </div>
 
-              <div className="mt-6 text-center bg-card p-4 rounded-lg shadow-card border border-border">
+              <div className="mt-6 text-center bg-card p-4 border border-[hsl(var(--rule))]">
                 <p className="text-muted-foreground">
                   Wyświetlane: <span className="font-bold text-primary">{filteredData.length}</span> z{" "}
                   <span className="font-bold text-primary">{culturesData.length}</span> kultur bakteryjnych

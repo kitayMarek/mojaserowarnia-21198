@@ -202,11 +202,11 @@ const PoradnikiHub = () => {
                   href={guide.href}
                   className="group block h-full"
                 >
-                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-primary">
+                  <Card className="h-full transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${guide.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                          <div className={`w-20 h-20 rounded-none bg-gradient-to-br ${guide.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
                             {guide.icon}
                           </div>
                           <CardTitle className="text-2xl group-hover:text-primary transition-colors">
