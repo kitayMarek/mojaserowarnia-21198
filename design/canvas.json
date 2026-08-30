@@ -1,0 +1,49 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Hybryda + menu" },
+    { "id": "page-2", "name": "Kierunki B i C" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Hybryda — strona główna", "page": "page-1", "x": 0, "y": 0, "w": 1280, "h": 1780 },
+    { "file": "MainMobile.dc.html", "title": "Hybryda — telefon", "page": "page-1", "x": 1400, "y": 0, "w": 390, "h": 1620 },
+    { "file": "Menu.dc.html", "title": "Menu otwarte — 1280 px", "page": "page-1", "x": 1910, "y": 0, "w": 1280, "h": 980 },
+    { "file": "MenuMobile.dc.html", "title": "Menu na telefonie", "page": "page-1", "x": 3310, "y": 0, "w": 390, "h": 1180 },
+    { "file": "Emalia.dc.html", "title": "B — Emalia", "page": "page-2", "x": 0, "y": 0, "w": 1280, "h": 1700 },
+    { "file": "Warsztat.dc.html", "title": "C — Warsztat", "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 1700 }
+  ],
+  "annotations": [
+    {
+      "id": "hybryda",
+      "page": "page-1",
+      "x": 0,
+      "y": -330,
+      "w": 440,
+      "text": "HYBRYDA — A z wtrętami z C\n\nSkóra zostaje almanachowa: papier, podwójne linie, winieta, Libre Caslon, kapitaliki, cena za litr jako liczba szeryfowa.\n\nZ C wchodzą trzy rzeczy, i tylko tam, gdzie A traciło funkcję:\n1. Przyklejony pasek u góry ze STALE widoczną szukajką — w czystym A szukajka była tylko w winiecie, więc znikała po przewinięciu.\n2. Dane w jasnym panelu — przy 188 wierszach sama linia na papierze przestaje wystarczać do skanowania wzrokiem.\n3. Wyraźne wejście w kartach i pod tabelą („Otwórz →\") — bloki almanachowe wyglądają elegancko, ale nie wyglądają na klikalne."
+    },
+    {
+      "id": "menu-jak",
+      "page": "page-1",
+      "x": 1910,
+      "y": -330,
+      "w": 440,
+      "text": "MENU — 50 pozycji w 7 działach\n\nTo jest miejsce, gdzie almanach WYGRYWA, a nie przegrywa: 50 pozycji w rozwijanym menu to problem, ale 50 pozycji w SPISIE TREŚCI to normalna forma. Dlatego zamiast siedmiu osobnych rozwijanych list jest jeden panel na całą szerokość, otwierany przyciskiem „Spis treści\".\n\nW pasku zostaje pięć najczęściej używanych działów jako skróty — kto wie, dokąd idzie, nie otwiera spisu w ogóle.\n\nNa telefonie ten sam spis staje się pełnoekranową listą: szukajka na górze, działy zwinięte z licznikiem, jeden rozwinięty. Wszystkie pozycje mają co najmniej 44 px wysokości dotyku."
+    },
+    {
+      "id": "kierunek-b",
+      "page": "page-2",
+      "x": 0,
+      "y": -300,
+      "w": 420,
+      "text": "B — EMALIA\nVintage jako szyld: emaliowana tablica, plakietka, grube ramki, taśma z liczbami. Krój wąski, wersaliki, mocne bloki koloru.\n\nZA: zapada w pamięć i świetnie wygląda w miniaturach oraz na zdjęciach do udostępniania.\nPRZECIW: silny charakter walczy z encyklopedyczną treścią — przy 188 wierszach bazy i długich poradnikach może męczyć."
+    },
+    {
+      "id": "kierunek-c",
+      "page": "page-2",
+      "x": 1400,
+      "y": -300,
+      "w": 420,
+      "text": "C — WARSZTAT\nNowoczesność prowadzi, vintage jest detalem: szeryfowe nagłówki, pieczątka działu staropolskiego, ciepła biel. Dane od razu na wierzchu.\n\nZostaje tu jako materiał źródłowy — to z tej planszy wzięte są trzy elementy hybrydy: przyklejony pasek z szukajką, jasny panel na dane i wyraźne wejście w kartach."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

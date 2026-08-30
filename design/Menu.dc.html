@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Lato:wght@300;400;700;900&display=swap">
+  <style>
+    body { margin: 0; font-family: Lato, "Segoe UI", sans-serif; }
+    a { color: #8a5a16; text-decoration: none; }
+    a:hover { color: #241a12; text-decoration: underline; }
+    .kicker { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #8a7a5c; }
+    .dzial { font-family: 'Libre Caslon Display', Georgia, serif; font-size: 17px; color: #241a12; border-bottom: 1.5px solid #241a12; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: baseline; }
+    .poz { font-size: 14px; line-height: 1.45; color: #4a3826; padding: 5px 0; border-bottom: 1px solid #e6dcc4; }
+  </style>
+</helmet>
+
+<div style="background: #ded3ba; min-height: 100%;">
+
+  <!-- Pasek górny (przyklejony) — element wzięty z kierunku C -->
+  <div style="background: #f4eee0; border-bottom: 1px solid #c9b893; padding: 0 48px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="26" height="16" viewBox="0 0 46 26" fill="none" stroke="#8a5a16" stroke-width="1.6"><path d="M4 20 L23 6 L42 20 Z" stroke-linejoin="round"/><circle cx="27" cy="14" r="2.4"/></svg>
+      <span style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; color: #241a12;">Moja Serowarnia</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; color: #4a3826;">
+      <span>Baza kultur</span><span>Przepisy</span><span>Narzędzia</span><span>Prawo i RHD</span><span>Staropolskie</span>
+      <div style="display: flex; align-items: center; gap: 9px; border: 1px solid #c9b893; background: #fdfaf2; padding: 9px 14px; min-width: 170px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        <span style="font-size: 13.5px; color: #8a7a5c;">Szukaj…</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px; background: #241a12; color: #f4eee0; padding: 10px 16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f4eee0" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <span class="kicker" style="color: #f4eee0;">Spis treści</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rozwinięty spis treści -->
+  <div style="background: #f4eee0; border-bottom: 3px double #7a6547; padding: 30px 48px 34px;">
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 3px double #7a6547; padding-bottom: 12px; margin-bottom: 24px;">
+      <h2 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 30px; margin: 0;">Spis treści</h2>
+      <span class="kicker">50 stron w siedmiu działach</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px;">
+
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <div>
+          <div class="dzial"><span>Kultury serowarskie</span><span class="kicker" style="font-size: 10px;">10</span></div>
+          <div class="poz">Baza kultur</div>
+          <div class="poz">Porównywarka kultur</div>
+          <div class="poz">Zamienniki kultur</div>
+          <div class="poz">Producenci kultur</div>
+          <div class="poz">Przewodnik o kulturach</div>
+          <div class="poz">Kultury mezofilne</div>
+          <div class="poz">Kultury termofilne</div>
+          <div class="poz">Kultury jogurtowe</div>
+          <div class="poz">Sery wege</div>
+          <div class="poz" style="border-bottom: 0;">Moje listy</div>
+        </div>
+        <div>
+          <div class="dzial"><span>Przepisy na sery</span><span class="kicker" style="font-size: 10px;">3</span></div>
+          <div class="poz">Przepisy na sery</div>
+          <div class="poz">Przepisy kulinarne</div>
+          <div class="poz" style="border-bottom: 0;">Słownik serowarski</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <div>
+          <div class="dzial"><span>Poradniki</span><span class="kicker" style="font-size: 10px;">10</span></div>
+          <div class="poz">Poradnik główny</div>
+          <div class="poz">Organizacja serowarni</div>
+          <div class="poz">Wędzenie sera</div>
+          <div class="poz">Woskowanie sera</div>
+          <div class="poz">Dojrzewalnia do sera</div>
+          <div class="poz">Solenie sera</div>
+          <div class="poz">Bakterie i kultury</div>
+          <div class="poz">Siła podpuszczki</div>
+          <div class="poz">Gdzie kupić podpuszczkę</div>
+          <div class="poz" style="border-bottom: 0;">Wszystkie poradniki</div>
+        </div>
+        <div>
+          <div class="dzial"><span>Narzędzia</span><span class="kicker" style="font-size: 10px;">6</span></div>
+          <div class="poz">Kalkulator Beaugel</div>
+          <div class="poz">Kalkulator kosztu sera</div>
+          <div class="poz">Kalkulator miar</div>
+          <div class="poz">Wartości odżywcze serów</div>
+          <div class="poz">Etykieta RHD</div>
+          <div class="poz" style="border-bottom: 0;">Wszystkie narzędzia</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <div>
+          <div class="dzial"><span>Prawo i RHD</span><span class="kicker" style="font-size: 10px;">7</span></div>
+          <div class="poz">RHD — Rolniczy Handel Detaliczny</div>
+          <div class="poz">Dokumenty RHD</div>
+          <div class="poz">MOL — działalność MOL</div>
+          <div class="poz">Dokumenty MOL</div>
+          <div class="poz">Akty prawne UE</div>
+          <div class="poz">Rzeźnia rolnicza</div>
+          <div class="poz" style="border-bottom: 0;">Wszystko o prawie</div>
+        </div>
+        <div>
+          <div class="dzial"><span>Pasze i zwierzęta</span><span class="kicker" style="font-size: 10px;">7</span></div>
+          <div class="poz">Przegląd działu</div>
+          <div class="poz">Mleko do sera</div>
+          <div class="poz">Wady mleka a wady sera</div>
+          <div class="poz">Kalkulator pasz (drób)</div>
+          <div class="poz">Kalkulator pasz (bydło)</div>
+          <div class="poz">Serwatka dla zwierząt</div>
+          <div class="poz" style="border-bottom: 0;">Nieudany ser — co z nim zrobić</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <div>
+          <div class="dzial"><span>Serowarstwo Staropolskie</span><span class="kicker" style="font-size: 10px;">7</span></div>
+          <div class="poz">O dziale</div>
+          <div class="poz">Klasyka serowarstwa</div>
+          <div class="poz">9 warunków Kleckiego</div>
+          <div class="poz">Encyklopedia rolnicza</div>
+          <div class="poz">Jan Licznerski</div>
+          <div class="poz">Mleko wg Licznerskiego</div>
+          <div class="poz" style="border-bottom: 0;">Rodzaje serów wg Licznerskiego</div>
+        </div>
+
+        <!-- Skrót do najczęściej otwieranych — utylitarny wtręt z kierunku C -->
+        <div style="background: #fdfaf2; border: 1px solid #c9b893; padding: 16px;">
+          <div class="kicker" style="margin-bottom: 10px;">Najczęściej otwierane</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #241a12;">
+            <div style="display: flex; justify-content: space-between;"><span>Kalkulator solanki</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+            <div style="display: flex; justify-content: space-between;"><span>Baza kultur</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+            <div style="display: flex; justify-content: space-between;"><span>Kalkulator pasz</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ślad strony pod spodem, żeby było widać, że to panel nad treścią -->
+  <div style="padding: 26px 48px; opacity: .45;">
+    <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 26px; color: #241a12;">Z bazy kultur</div>
+    <div style="height: 1px; background: #c9b893; margin-top: 12px;"></div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

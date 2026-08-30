@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Lato:wght@300;400;700&display=swap">
+  <style>
+    body { margin: 0; font-family: Lato, "Segoe UI", sans-serif; }
+    a { color: #b45309; text-decoration: none; }
+    a:hover { color: #7c3a06; text-decoration: underline; }
+    .nadpis { font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #8a8178; }
+    .serif { font-family: Newsreader, Georgia, serif; font-weight: 400; }
+  </style>
+</helmet>
+
+<div style="background: #fbfaf7; color: #1b1714; min-height: 100%; padding: 0 0 60px;">
+
+  <!-- Nawigacja -->
+  <div style="padding: 20px 64px; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid #eae5dc;">
+    <div style="display: flex; align-items: center; gap: 11px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.6">
+        <path d="M2.5 18 L12 6.5 L21.5 18 Z" stroke-linejoin="round"/><circle cx="9.5" cy="15" r="1.4"/><circle cx="14.5" cy="13.5" r="1.8"/>
+      </svg>
+      <span class="serif" style="font-size: 19px;">Moja Serowarnia</span>
+    </div>
+    <div style="display: flex; gap: 26px; font-size: 14px; color: #55504a; align-items: center;">
+      <span>Baza kultur</span><span>Przepisy</span><span>Poradniki</span><span>Prawo i RHD</span><span>Staropolskie</span>
+      <span style="border: 1px solid #ddd6ca; border-radius: 999px; padding: 7px 15px; display: flex; align-items: center; gap: 8px; color: #8a8178;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a8178" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg> Szukaj
+      </span>
+    </div>
+  </div>
+
+  <!-- Nagłówek: asymetryczny, dane po prawej -->
+  <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 56px; padding: 64px 64px 0; align-items: start;">
+
+    <div style="grid-column: span 3;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+        <span style="border: 1px solid #b45309; color: #b45309; border-radius: 999px; padding: 5px 13px; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase;">Warmia</span>
+        <span class="nadpis">Portal wiedzy o serowarstwie domowym</span>
+      </div>
+
+      <h1 class="serif" style="font-size: 66px; line-height: 1.06; margin: 0 0 22px; letter-spacing: -0.015em;">Największa polska baza wiedzy o produkcji sera</h1>
+      <p style="font-size: 18px; line-height: 1.65; color: #55504a; margin: 0 0 32px; max-width: 560px;">188 kultur bakteryjnych z pięciu sklepów, 25 przepisów krok po kroku, poradniki RHD i MOL oraz przepisy prawne — w jednym miejscu.</p>
+
+      <div style="display: flex; gap: 12px; align-items: center; max-width: 560px;">
+        <div style="display: flex; align-items: center; gap: 11px; padding: 15px 18px; flex-grow: 1; background: #ffffff; border: 1px solid #ddd6ca; border-radius: 10px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8a8178" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+          <span style="font-size: 15px; color: #8a8178;">Szukaj kultury, sera albo przepisu…</span>
+        </div>
+        <div style="background: #b45309; color: #fff; padding: 15px 26px; border-radius: 10px; font-size: 15px; font-weight: 700;">Szukaj</div>
+      </div>
+    </div>
+
+    <!-- Panel danych -->
+    <div style="grid-column: span 2; background: #ffffff; border: 1px solid #eae5dc; border-radius: 14px; padding: 26px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px;">
+        <span class="nadpis">Cena za litr mleka</span>
+        <span class="nadpis" style="color: #b45309;">z bazy</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0ece4;">
+          <div>
+            <div style="font-size: 15.5px; font-weight: 700;">ALPHA 3</div>
+            <div style="font-size: 13px; color: #8a8178; margin-top: 2px;">18,00 zł · 100 L</div>
+          </div>
+          <div class="serif" style="font-size: 22px;">0,18 zł</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0ece4;">
+          <div>
+            <div style="font-size: 15.5px; font-weight: 700;">microMilk TB</div>
+            <div style="font-size: 13px; color: #8a8178; margin-top: 2px;">20,00 zł · 100 L</div>
+          </div>
+          <div class="serif" style="font-size: 22px;">0,20 zł</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0;">
+          <div>
+            <div style="font-size: 15.5px; font-weight: 700;">Beaugel Yog 1</div>
+            <div style="font-size: 13px; color: #8a8178; margin-top: 2px;">11,50 zł · 5 L</div>
+          </div>
+          <div class="serif" style="font-size: 22px; color: #b45309;">2,30 zł</div>
+        </div>
+      </div>
+
+      <div style="background: #fdf6ec; border-radius: 10px; padding: 14px 16px; margin-top: 18px;">
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #6b5c48;">Tańsze opakowanie bywa <strong>11× droższe</strong> w przeliczeniu na litr. Dlatego liczymy litry, nie saszetki.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liczby -->
+  <div style="display: flex; gap: 56px; padding: 52px 64px 0; align-items: center;">
+    <div><span class="serif" style="font-size: 42px;">188</span> <span class="nadpis" style="margin-left: 6px;">kultur bakteryjnych</span></div>
+    <div style="width: 1px; height: 34px; background: #eae5dc;"></div>
+    <div><span class="serif" style="font-size: 42px;">25</span> <span class="nadpis" style="margin-left: 6px;">przepisów na ser</span></div>
+    <div style="width: 1px; height: 34px; background: #eae5dc;"></div>
+    <div><span class="serif" style="font-size: 42px;">5</span> <span class="nadpis" style="margin-left: 6px;">porównanych sklepów</span></div>
+  </div>
+
+  <!-- Działy -->
+  <div style="padding: 52px 64px 0;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px;">
+      <h2 class="serif" style="font-size: 30px; margin: 0;">Zacznij tutaj</h2>
+      <span class="nadpis">Najczęściej otwierane</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px;">
+
+      <div style="background: #ffffff; border: 1px solid #eae5dc; border-radius: 14px; padding: 26px;">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: #fdf6ec; display: flex; align-items: center; justify-content: center;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M7 9h10M7 13h10M7 17h5"/></svg>
+        </div>
+        <h3 class="serif" style="font-size: 21px; margin: 16px 0 8px;">Generator etykiet RHD</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #55504a;">Wszystkie wymagane pola i gotowy wydruk dla sera ze sprzedaży bezpośredniej.</p>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #eae5dc; border-radius: 14px; padding: 26px;">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: #fdf6ec; display: flex; align-items: center; justify-content: center;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.7"><path d="M12 3c1.5 3-1.5 4 0 7 1.2 2.4 3 2.2 3 4.5A5 5 0 0 1 7 15c0-2.5 2-3 2-6"/><path d="M5 21h14"/></svg>
+        </div>
+        <h3 class="serif" style="font-size: 21px; margin: 16px 0 8px;">Wędzenie sera</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #55504a;">Dobór drewna, temperatura, czas i najczęstsze błędy przy wędzeniu na zimno.</p>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #eae5dc; border-radius: 14px; padding: 26px;">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: #fdf6ec; display: flex; align-items: center; justify-content: center;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.7"><path d="M3 21V9l6-4v4l6-4v16"/><path d="M15 21V11l6-2v12"/><path d="M3 21h18"/></svg>
+        </div>
+        <h3 class="serif" style="font-size: 21px; margin: 16px 0 8px;">Kto produkuje kultury</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #55504a;">Cztery firmy za polską półką, ich fabryki i zasady zamiany między producentami.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pasek staropolski: jedyny mocno vintage'owy akcent -->
+  <div style="margin: 52px 64px 0; background: #f3efe6; border-radius: 14px; padding: 30px 34px; display: flex; align-items: center; gap: 34px;">
+    <div style="flex-shrink: 0; width: 78px; height: 78px; border: 1.5px solid #b45309; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #b45309;">
+      <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase;">dział</span>
+      <span class="serif" style="font-size: 15px; line-height: 1.1;">staro-<br>polski</span>
+    </div>
+    <div style="flex-grow: 1;">
+      <h3 class="serif" style="font-size: 24px; margin: 0 0 8px;">Serowarstwo sprzed stu lat</h3>
+      <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #55504a; max-width: 640px;">Jan Licznerski o mleku, dziewięć warunków Kleckiego i encyklopedia rolnicza — źródła, z których korzystali serowarzy przed erą liofilizatu.</p>
+    </div>
+    <div style="flex-shrink: 0; border: 1px solid #d8cfc0; border-radius: 999px; padding: 11px 22px; font-size: 14px; color: #6b5c48;">Otwórz dział</div>
+  </div>
+
+  <!-- Stopka -->
+  <div style="margin: 52px 64px 0; padding-top: 22px; border-top: 1px solid #eae5dc; display: flex; justify-content: space-between;">
+    <span class="nadpis">Moja Serowarnia · Warmia</span>
+    <span class="nadpis">Baza · Przepisy · Prawo · Słownik</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

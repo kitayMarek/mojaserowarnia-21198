@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Lato:wght@300;400;700;900&display=swap">
+  <style>
+    body { margin: 0; font-family: Lato, "Segoe UI", sans-serif; }
+    a { color: #e0a32e; text-decoration: none; }
+    a:hover { color: #f1e7d2; text-decoration: underline; }
+    .szyld { font-family: Oswald, "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .04em; }
+    .etykieta { font-family: Oswald, "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .16em; font-size: 11px; }
+  </style>
+</helmet>
+
+<div style="background: #f1e7d2; color: #14342a; min-height: 100%; padding: 0 0 56px;">
+
+  <!-- Górny pasek szyldu -->
+  <div style="background: #14342a; color: #f1e7d2; padding: 12px 48px; display: flex; justify-content: space-between; align-items: center; gap: 24px;">
+    <span class="etykieta" style="color: #e0a32e;">Portal wiedzy o serowarstwie domowym</span>
+    <div class="szyld" style="display: flex; gap: 24px; font-size: 13px;">
+      <span>Baza kultur</span><span>Przepisy</span><span>Poradniki</span><span>Prawo i RHD</span><span>Staropolskie</span><span>Słownik</span>
+    </div>
+  </div>
+
+  <!-- Tablica emaliowana -->
+  <div style="background: #14342a; border-bottom: 8px solid #e0a32e; padding: 52px 48px 46px; color: #f1e7d2;">
+    <div style="display: flex; gap: 44px; align-items: center;">
+
+      <!-- Plakietka -->
+      <div style="flex-shrink: 0; width: 208px; height: 208px; border: 4px solid #e0a32e; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; background: #0f2820;">
+        <svg width="54" height="34" viewBox="0 0 54 34" fill="none" stroke="#e0a32e" stroke-width="2">
+          <path d="M5 26 L27 7 L49 26 Z" stroke-linejoin="round"/>
+          <circle cx="20" cy="21" r="2.4"/><circle cx="31" cy="18" r="3"/><circle cx="38" cy="23" r="2"/>
+        </svg>
+        <div class="szyld" style="font-size: 24px; line-height: 1.05; margin-top: 12px; color: #f1e7d2;">Moja<br>Serowarnia</div>
+      </div>
+
+      <div style="flex-grow: 1;">
+        <div class="etykieta" style="color: #e0a32e; margin-bottom: 14px;">Baza · Przepisy · Prawo</div>
+        <h1 class="szyld" style="font-size: 60px; line-height: 1.02; margin: 0 0 18px; font-weight: 600;">Największa polska baza wiedzy o produkcji sera</h1>
+        <p style="font-size: 17px; line-height: 1.6; margin: 0 0 26px; max-width: 620px; color: #d8ceb6;">188 kultur bakteryjnych z pięciu sklepów, 25 przepisów krok po kroku, poradniki RHD i MOL oraz przepisy prawne — w jednym miejscu.</p>
+
+        <div style="display: flex; gap: 0; max-width: 600px; border: 3px solid #e0a32e; background: #f1e7d2;">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 13px 16px; flex-grow: 1;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d6b5a" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+            <span style="font-size: 15px; color: #5d6b5a;">Szukaj kultury, sera albo przepisu…</span>
+          </div>
+          <div class="szyld" style="background: #e0a32e; color: #14342a; padding: 13px 26px; font-size: 14px; display: flex; align-items: center;">Szukaj</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trzy liczby na taśmie -->
+  <div style="background: #e0a32e; color: #14342a; display: flex; justify-content: center; gap: 0;">
+    <div style="flex-grow: 1; text-align: center; padding: 16px 8px; border-right: 2px solid #14342a;">
+      <span class="szyld" style="font-size: 30px;">188</span> <span class="etykieta">kultur bakteryjnych</span>
+    </div>
+    <div style="flex-grow: 1; text-align: center; padding: 16px 8px; border-right: 2px solid #14342a;">
+      <span class="szyld" style="font-size: 30px;">25</span> <span class="etykieta">przepisów na ser</span>
+    </div>
+    <div style="flex-grow: 1; text-align: center; padding: 16px 8px;">
+      <span class="szyld" style="font-size: 30px;">5</span> <span class="etykieta">porównanych sklepów</span>
+    </div>
+  </div>
+
+  <!-- Baza jako bilety -->
+  <div style="padding: 44px 48px 0;">
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 22px;">
+      <h2 class="szyld" style="font-size: 30px; margin: 0;">Z bazy kultur</h2>
+      <div style="flex-grow: 1; height: 3px; background: #14342a;"></div>
+      <span class="etykieta" style="color: #5d6b5a;">cena za litr mleka</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+
+      <div style="background: #fdfaf2; border: 3px solid #14342a; padding: 20px;">
+        <div class="etykieta" style="color: #5d6b5a;">mezofilna</div>
+        <div class="szyld" style="font-size: 26px; margin: 6px 0 14px;">ALPHA 3</div>
+        <div style="border-top: 2px dashed #c3b79a; padding-top: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+          <span style="font-size: 14px; color: #5d6b5a;">18,00 zł / 100 L</span>
+          <span class="szyld" style="font-size: 22px; color: #14342a;">0,18 zł/L</span>
+        </div>
+      </div>
+
+      <div style="background: #fdfaf2; border: 3px solid #14342a; padding: 20px;">
+        <div class="etykieta" style="color: #5d6b5a;">termofilna</div>
+        <div class="szyld" style="font-size: 26px; margin: 6px 0 14px;">microMilk TB</div>
+        <div style="border-top: 2px dashed #c3b79a; padding-top: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+          <span style="font-size: 14px; color: #5d6b5a;">20,00 zł / 100 L</span>
+          <span class="szyld" style="font-size: 22px; color: #14342a;">0,20 zł/L</span>
+        </div>
+      </div>
+
+      <div style="background: #fdfaf2; border: 3px solid #a2432b; padding: 20px;">
+        <div class="etykieta" style="color: #a2432b;">jogurtowa · małe opakowanie</div>
+        <div class="szyld" style="font-size: 26px; margin: 6px 0 14px;">Beaugel Yog 1</div>
+        <div style="border-top: 2px dashed #d8bfb4; padding-top: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+          <span style="font-size: 14px; color: #5d6b5a;">11,50 zł / 5 L</span>
+          <span class="szyld" style="font-size: 22px; color: #a2432b;">2,30 zł/L</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #14342a; color: #f1e7d2; padding: 16px 20px; margin-top: 24px; display: flex; gap: 14px; align-items: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a32e" stroke-width="2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55;">Tańsze opakowanie bywa <strong style="color: #e0a32e;">jedenaście razy droższe</strong> w przeliczeniu na litr mleka. Dlatego liczymy cenę za litr, a nie za saszetkę.</p>
+    </div>
+  </div>
+
+  <!-- Działy -->
+  <div style="padding: 42px 48px 0;">
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+
+      <div style="border: 3px solid #14342a; background: #fdfaf2;">
+        <div style="background: #14342a; padding: 12px 18px; display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a32e" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M7 9h10M7 13h10M7 17h5"/></svg>
+          <span class="szyld" style="color: #f1e7d2; font-size: 17px;">Etykiety RHD</span>
+        </div>
+        <p style="margin: 0; padding: 18px; font-size: 14.5px; line-height: 1.6; color: #3c4a3f;">Wszystkie wymagane pola i gotowy wydruk dla sera ze sprzedaży bezpośredniej.</p>
+      </div>
+
+      <div style="border: 3px solid #14342a; background: #fdfaf2;">
+        <div style="background: #14342a; padding: 12px 18px; display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a32e" stroke-width="1.8"><path d="M12 3c1.5 3-1.5 4 0 7 1.2 2.4 3 2.2 3 4.5A5 5 0 0 1 7 15c0-2.5 2-3 2-6"/><path d="M5 21h14"/></svg>
+          <span class="szyld" style="color: #f1e7d2; font-size: 17px;">Wędzenie sera</span>
+        </div>
+        <p style="margin: 0; padding: 18px; font-size: 14.5px; line-height: 1.6; color: #3c4a3f;">Dobór drewna, temperatura, czas i najczęstsze błędy przy wędzeniu na zimno.</p>
+      </div>
+
+      <div style="border: 3px solid #14342a; background: #fdfaf2;">
+        <div style="background: #14342a; padding: 12px 18px; display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a32e" stroke-width="1.8"><path d="M3 21V9l6-4v4l6-4v16"/><path d="M15 21V11l6-2v12"/><path d="M3 21h18"/></svg>
+          <span class="szyld" style="color: #f1e7d2; font-size: 17px;">Producenci kultur</span>
+        </div>
+        <p style="margin: 0; padding: 18px; font-size: 14.5px; line-height: 1.6; color: #3c4a3f;">Cztery firmy za polską półką, ich fabryki i zasady zamiany między producentami.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stopka -->
+  <div style="margin-top: 44px; background: #14342a; color: #d8ceb6; padding: 20px 48px; display: flex; justify-content: space-between; align-items: center;">
+    <span class="etykieta" style="color: #e0a32e;">Moja Serowarnia · Warmia</span>
+    <span class="etykieta">Baza · Przepisy · Prawo · Słownik</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

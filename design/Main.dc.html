@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Lato:wght@300;400;700;900&display=swap">
+  <style>
+    body { margin: 0; font-family: Lato, "Segoe UI", sans-serif; }
+    a { color: #8a5a16; text-decoration: none; }
+    a:hover { color: #241a12; text-decoration: underline; }
+    .kicker { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #8a7a5c; }
+    .rule { border: 0; border-top: 1px solid #c9b893; margin: 0; }
+    .rule-thick { border: 0; border-top: 3px double #7a6547; margin: 0; }
+  </style>
+</helmet>
+
+<div style="background: #f4eee0; color: #241a12; min-height: 100%; padding: 0 0 56px;">
+
+  <!-- HYBRYDA: pasek przyklejony z kierunku C — stale widoczna szukajka i wejście
+       w spis treści; skóra i typografia zostają almanachowe. -->
+  <div style="border-bottom: 1px solid #c9b893; padding: 0 56px; height: 62px; display: flex; justify-content: space-between; align-items: center; gap: 24px; background: #f4eee0;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="26" height="16" viewBox="0 0 46 26" fill="none" stroke="#8a5a16" stroke-width="1.6"><path d="M4 20 L23 6 L42 20 Z" stroke-linejoin="round"/><circle cx="27" cy="14" r="2.4"/></svg>
+      <span style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; color: #241a12;">Moja Serowarnia</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; color: #4a3826;">
+      <span>Baza kultur</span><span>Przepisy</span><span>Narzędzia</span><span>Prawo i RHD</span><span>Staropolskie</span>
+      <div style="display: flex; align-items: center; gap: 9px; border: 1px solid #c9b893; background: #fdfaf2; padding: 9px 14px; min-width: 170px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        <span style="font-size: 13.5px; color: #8a7a5c;">Szukaj…</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px; background: #241a12; color: #f4eee0; padding: 10px 16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f4eee0" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <span class="kicker" style="color: #f4eee0;">Spis treści</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Winieta -->
+  <div style="padding: 44px 56px 0; text-align: center;">
+    <hr class="rule-thick">
+    <h1 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 76px; line-height: 1; margin: 22px 0 14px; letter-spacing: -0.01em;">Moja Serowarnia</h1>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+      <hr class="rule" style="flex-grow: 1;">
+      <svg width="46" height="26" viewBox="0 0 46 26" fill="none" stroke="#8a5a16" stroke-width="1.3">
+        <path d="M4 20 L23 6 L42 20 Z" stroke-linejoin="round"/>
+        <circle cx="17" cy="16" r="2"/><circle cx="27" cy="14" r="2.6"/><circle cx="33" cy="18" r="1.6"/>
+        <path d="M4 20 h38"/>
+      </svg>
+      <hr class="rule" style="flex-grow: 1;">
+    </div>
+    <p style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 27px; line-height: 1.35; margin: 0 auto 12px; max-width: 720px;">Największa polska baza wiedzy o produkcji sera</p>
+    <p style="font-size: 16px; line-height: 1.65; color: #5c4a34; margin: 0 auto 26px; max-width: 620px;">188 kultur bakteryjnych z pięciu sklepów, 25 przepisów krok po kroku, poradniki RHD i MOL oraz przepisy prawne — w jednym miejscu.</p>
+
+    <!-- Szukajka -->
+    <div style="display: flex; gap: 0; max-width: 620px; margin: 0 auto 30px; border: 1px solid #7a6547; background: #fdfaf2;">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; flex-grow: 1;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8a7a5c" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        <span style="font-size: 15px; color: #8a7a5c;">Szukaj kultury, sera albo przepisu…</span>
+      </div>
+      <div style="background: #241a12; color: #f4eee0; padding: 14px 26px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; align-self: stretch; display: flex; align-items: center;">Szukaj</div>
+    </div>
+
+    <!-- Liczby -->
+    <div style="display: flex; justify-content: center; gap: 0; border-top: 1px solid #c9b893; border-bottom: 1px solid #c9b893;">
+      <div style="flex-grow: 1; padding: 18px 8px; border-right: 1px solid #c9b893;">
+        <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 40px; line-height: 1;">188</div>
+        <div class="kicker" style="margin-top: 6px;">kultur bakteryjnych</div>
+      </div>
+      <div style="flex-grow: 1; padding: 18px 8px; border-right: 1px solid #c9b893;">
+        <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 40px; line-height: 1;">25</div>
+        <div class="kicker" style="margin-top: 6px;">przepisów na ser</div>
+      </div>
+      <div style="flex-grow: 1; padding: 18px 8px;">
+        <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 40px; line-height: 1;">5</div>
+        <div class="kicker" style="margin-top: 6px;">porównanych sklepów</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dwie szpalty: baza + staropolskie -->
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding: 44px 56px 0;">
+
+    <div style="grid-column: span 2;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid #241a12; padding-bottom: 8px; margin-bottom: 6px;">
+        <h2 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 26px; margin: 0;">Z bazy kultur</h2>
+        <span class="kicker">cena za litr mleka</span>
+      </div>
+
+      <!-- HYBRYDA: dane siedzą w jasnym panelu z kierunku C — przy 188 wierszach
+           sama linia na papierze przestaje wystarczać do skanowania wzrokiem. -->
+      <div style="background: #fdfaf2; border: 1px solid #c9b893; padding: 6px 20px 14px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+        <tr style="border-bottom: 1px solid #dccfb4;">
+          <td style="padding: 13px 0; font-weight: 700;">ALPHA 3</td>
+          <td style="padding: 13px 0; color: #5c4a34;">mezofilna</td>
+          <td style="padding: 13px 0; text-align: right; color: #5c4a34;">18,00 zł / 100 L</td>
+          <td style="padding: 13px 0; text-align: right; font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; width: 108px;">0,18 zł/L</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #dccfb4;">
+          <td style="padding: 13px 0; font-weight: 700;">microMilk TB</td>
+          <td style="padding: 13px 0; color: #5c4a34;">termofilna</td>
+          <td style="padding: 13px 0; text-align: right; color: #5c4a34;">20,00 zł / 100 L</td>
+          <td style="padding: 13px 0; text-align: right; font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px;">0,20 zł/L</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #dccfb4;">
+          <td style="padding: 13px 0; font-weight: 700;">Beaugel Yog 1</td>
+          <td style="padding: 13px 0; color: #5c4a34;">jogurtowa</td>
+          <td style="padding: 13px 0; text-align: right; color: #5c4a34;">11,50 zł / 5 L</td>
+          <td style="padding: 13px 0; text-align: right; font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; color: #8a2e1d;">2,30 zł/L</td>
+        </tr>
+      </table>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #dccfb4;">
+          <span class="kicker">188 pozycji z pięciu sklepów</span>
+          <span style="display: flex; align-items: center; gap: 7px; font-size: 14px; color: #8a5a16;">Otwórz bazę
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 14px; align-items: flex-start; background: #ece2cc; border-left: 3px solid #8a5a16; padding: 14px 18px; margin-top: 18px;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="1.7" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #4a3826;">Tańsze opakowanie bywa <strong>jedenaście razy droższe</strong> w przeliczeniu na litr mleka. Dlatego w bazie liczymy cenę za litr, a nie za saszetkę.</p>
+      </div>
+    </div>
+
+    <div>
+      <div style="border-bottom: 2px solid #241a12; padding-bottom: 8px; margin-bottom: 16px;">
+        <h2 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 26px; margin: 0;">Ze staropolskiej półki</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="border-bottom: 1px solid #dccfb4; padding-bottom: 14px;">
+          <div class="kicker" style="margin-bottom: 5px;">Serowarstwo staropolskie</div>
+          <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; line-height: 1.3;">Jan Licznerski o mleku</div>
+        </div>
+        <div style="border-bottom: 1px solid #dccfb4; padding-bottom: 14px;">
+          <div class="kicker" style="margin-bottom: 5px;">Jakość surowca</div>
+          <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; line-height: 1.3;">Dziewięć warunków Kleckiego</div>
+        </div>
+        <div>
+          <div class="kicker" style="margin-bottom: 5px;">Encyklopedia rolnicza</div>
+          <div style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 19px; line-height: 1.3;">Serowarstwo sprzed stu lat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trzy karty -->
+  <div style="padding: 44px 56px 0;">
+    <hr class="rule-thick" style="margin-bottom: 26px;">
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px;">
+
+      <div style="border: 1px solid #c9b893; background: #fdfaf2; padding: 24px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M7 9h10M7 13h10M7 17h5"/></svg>
+        <h3 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 21px; margin: 14px 0 8px;">Generator etykiet RHD</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #5c4a34;">Wszystkie wymagane pola i gotowy wydruk dla sera ze sprzedaży bezpośredniej.</p>
+        <div style="display: flex; align-items: center; gap: 7px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e6dcc4; font-size: 13.5px; color: #8a5a16;">Otwórz<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+      </div>
+
+      <div style="border: 1px solid #c9b893; background: #fdfaf2; padding: 24px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="1.5"><path d="M12 3c1.5 3-1.5 4 0 7 1.2 2.4 3 2.2 3 4.5A5 5 0 0 1 7 15c0-2.5 2-3 2-6"/><path d="M5 21h14"/></svg>
+        <h3 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 21px; margin: 14px 0 8px;">Wędzenie sera</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #5c4a34;">Dobór drewna, temperatura, czas i najczęstsze błędy przy wędzeniu na zimno.</p>
+        <div style="display: flex; align-items: center; gap: 7px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e6dcc4; font-size: 13.5px; color: #8a5a16;">Otwórz<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+      </div>
+
+      <div style="border: 1px solid #c9b893; background: #fdfaf2; padding: 24px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="1.5"><path d="M3 21V9l6-4v4l6-4v16"/><path d="M15 21V11l6-2v12"/><path d="M3 21h18"/></svg>
+        <h3 style="font-family: 'Libre Caslon Display', Georgia, serif; font-size: 21px; margin: 14px 0 8px;">Kto produkuje kultury</h3>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #5c4a34;">Cztery firmy za polską półką, ich fabryki i zasady zamiany między producentami.</p>
+        <div style="display: flex; align-items: center; gap: 7px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e6dcc4; font-size: 13.5px; color: #8a5a16;">Otwórz<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a5a16" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 40px 56px 0;">
+    <hr class="rule">
+    <div style="display: flex; justify-content: space-between; padding-top: 14px;">
+      <span class="kicker">Moja Serowarnia · Warmia</span>
+      <span class="kicker">Baza · Przepisy · Prawo · Słownik</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
