@@ -6,8 +6,18 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { culturesData } from "@/data/culturesDataComplete";
 import { recipesData } from "@/data/recipesData";
-import heroImage from "@/assets/hero-cheese-clean.webp";
 import HeroSearch from "./HeroSearch";
+
+/**
+ * Winieta — nagłówek strony głównej w kierunku „almanach".
+ *
+ * DLACZEGO BEZ ZDJĘCIA: poprzedni hero był fotografią z białym tekstem na
+ * przyciemnieniu. Almanach buduje charakter typografią i linijkami, a nie
+ * obrazem — zdjęcie pod tekstem walczyłoby z cienkimi liniami i kapitalikami.
+ * Fotografie wracają niżej, przy przepisach, gdzie niosą informację.
+ *
+ * Liczby są liczone z danych (nie wpisane), więc nie rozjadą się z bazą.
+ */
 const Hero = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -19,7 +29,7 @@ const Hero = () => {
       const { count } = await supabase
         .from("profiles")
         .select("*", { count: "exact", head: true });
-      
+
       if (count && count > 0) {
         setUsersCount(count);
       }
@@ -29,109 +39,81 @@ const Hero = () => {
 
   const stats = [
     { icon: Database, value: culturesData.length, label: "kultur bakteryjnych" },
-    { icon: BookOpen, value: recipesData.length, label: "przepisów" },
+    { icon: BookOpen, value: recipesData.length, label: "przepisów na ser" },
     { icon: Users, value: usersCount, label: "serowarów" },
   ];
 
   return (
-    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden" aria-label="Strona główna">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Serowar przy produkcji sera rzemieślniczego - Moja Serowarnia baza kultur bakteryjnych"
-          className="w-full h-full object-cover object-[center_25%]"
-          loading="eager"
-          fetchPriority="high"
-        />
-        {/* Scrim gradientowy — daje nagłówkowi czyste tło niezależnie od zdjęcia (nie „wyrasta z sylwetki") */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/45" />
-      </div>
+    <section className="bg-background" aria-label="Strona główna">
+      <div className="container mx-auto px-4 sm:px-6 pt-8 pb-10 md:pt-12 md:pb-14 max-w-5xl text-center">
+        {/* Podwójna linijka — znak rozpoznawczy almanachu */}
+        <hr className="border-0 border-t-[3px] border-double border-[hsl(var(--rule-strong))]" />
 
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 text-center py-20 md:py-32">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-lg text-balance">
-            Moja Serowarnia
-          </h1>
-          <p className="text-xl md:text-2xl text-white/95 mb-4 font-light drop-shadow">
-            Największa polska baza wiedzy o produkcji sera
-          </p>
-          <p className="text-base md:text-lg text-white/90 mb-6 max-w-2xl mx-auto drop-shadow">
-            180+ kultur bakteryjnych, sprawdzone przepisy, kompletne poradniki RHD/MOL 
-            i regulacje prawne – wszystko czego potrzebuje polski serowar
-          </p>
+        <h1 className="font-display text-[clamp(2.4rem,7vw,4.75rem)] leading-[1.05] text-foreground mt-5 mb-4">
+          Moja Serowarnia
+        </h1>
 
-          {/* Search */}
-          <div className="mb-8">
-            <HeroSearch />
-          </div>
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-10">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/20"
-                >
-                  <Icon className="h-6 w-6 text-primary" />
-                  <div className="text-left">
-                    <div className="text-2xl md:text-3xl font-bold text-white">
-                      {stat.value > 0 ? stat.value : "..."}
-                    </div>
-                    <div className="text-xs md:text-sm text-white/80">{stat.label}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {user ? (
-              <Button 
-                size="lg" 
-                onClick={() => navigate("/dashboard")}
-                className="bg-white text-accent hover:bg-white/90 shadow-xl group min-w-[200px]"
-              >
-                📊 Moja Ewidencja RHD
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            ) : (
-              <Button 
-                size="lg" 
-                onClick={() => navigate("/auth")}
-                className="bg-white text-accent hover:bg-white/90 shadow-xl group min-w-[200px]"
-              >
-                Zaloguj się
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            )}
-            <Button 
-              size="lg" 
-              onClick={() => navigate("/baza-kultur")}
-              variant="outline"
-              className="border-2 border-white text-white bg-white/10 hover:bg-white/20 hover:border-white backdrop-blur-sm min-w-[200px] shadow-lg"
-            >
-              Przeglądaj Bazy
-            </Button>
-            <Button 
-              size="lg" 
-              onClick={() => navigate("/porownywarka-kultur")}
-              variant="outline"
-              className="border-2 border-white text-white bg-primary/25 hover:bg-primary/35 hover:border-white backdrop-blur-sm min-w-[200px] shadow-lg"
-            >
-              🧀 Porównaj Kultury
-            </Button>
-          </div>
+        {/* Ornament: linijka — winieta — linijka */}
+        <div className="flex items-center justify-center gap-4 mb-5" aria-hidden="true">
+          <hr className="flex-grow border-0 border-t border-[hsl(var(--rule))]" />
+          <svg width="46" height="26" viewBox="0 0 46 26" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.3" className="shrink-0">
+            <path d="M4 20 L23 6 L42 20 Z" strokeLinejoin="round" />
+            <circle cx="17" cy="16" r="2" />
+            <circle cx="27" cy="14" r="2.6" />
+            <circle cx="33" cy="18" r="1.6" />
+            <path d="M4 20 h38" />
+          </svg>
+          <hr className="flex-grow border-0 border-t border-[hsl(var(--rule))]" />
         </div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/60 rounded-full flex items-start justify-center p-2">
-          <div className="w-1.5 h-3 bg-white/60 rounded-full" />
+        <p className="font-display text-xl md:text-[1.7rem] leading-snug text-foreground max-w-3xl mx-auto mb-3">
+          Największa polska baza wiedzy o produkcji sera
+        </p>
+        <p className="text-base leading-relaxed text-muted-foreground max-w-2xl mx-auto mb-7">
+          {culturesData.length} kultur bakteryjnych z pięciu sklepów, {recipesData.length} przepisów krok po kroku,
+          poradniki RHD i MOL oraz przepisy prawne — w jednym miejscu.
+        </p>
+
+        <div className="mb-8">
+          <HeroSearch />
+        </div>
+
+        {/* Liczby w ramce z linijek */}
+        <div className="grid grid-cols-3 border-y border-[hsl(var(--rule))] mb-8">
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`py-4 px-2 ${i < stats.length - 1 ? "border-r border-[hsl(var(--rule))]" : ""}`}
+            >
+              <div className="font-display text-2xl md:text-4xl leading-none text-foreground">{stat.value}</div>
+              <div className="mt-1.5 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[hsl(var(--kicker))]">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <Button size="lg" onClick={() => navigate("/baza-kultur")} className="min-w-[200px] group">
+            Przeglądaj bazę kultur
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => navigate("/porownywarka-kultur")}
+            className="min-w-[200px] border-[hsl(var(--rule-strong))]"
+          >
+            Porównaj kultury
+          </Button>
+          <Button
+            size="lg"
+            variant="ghost"
+            onClick={() => navigate(user ? "/dashboard" : "/auth")}
+            className="min-w-[200px] text-muted-foreground"
+          >
+            {user ? "Moja ewidencja RHD" : "Zaloguj się"}
+          </Button>
         </div>
       </div>
     </section>

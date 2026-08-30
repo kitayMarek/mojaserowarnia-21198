@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
+        display: ['Libre Caslon Display', 'Georgia', 'serif'],
         body: ['Lato', 'sans-serif'],
       },
       colors: {

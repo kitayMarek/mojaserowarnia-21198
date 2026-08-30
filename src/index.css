@@ -21,40 +21,51 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Warm, rustic color palette inspired by cheese and Warmian craftsmanship */
-    --background: 40 40% 96%;
-    --foreground: 28 45% 15%;
+    /* Almanach: papier i atrament. Wartosci wziete wprost z makiety
+       (papier #f4eee0, atrament #241a12) - nie zaokraglane. */
+    --background: 42 43% 92%;
+    --foreground: 28 33% 11%;
 
-    --card: 38 50% 98%;
-    --card-foreground: 28 45% 15%;
+    --card: 43 63% 97%;
+    --card-foreground: 28 33% 11%;
 
-    --popover: 38 50% 98%;
-    --popover-foreground: 28 45% 15%;
+    --popover: 43 63% 97%;
+    --popover-foreground: 28 33% 11%;
 
     /* Warm amber/honey primary color */
-    --primary: 42 78% 60%;
-    --primary-foreground: 40 40% 98%;
-    --primary-hover: 42 78% 52%;
+    /* Miod ciemniejszy niz dotad: w almanachu jest kolorem LINKU i wypelnienia
+       przycisku, wiec musi trzymac kontrast z kremowym tekstem. */
+    --primary: 35 73% 32%;
+    --primary-foreground: 42 47% 95%;
+    --primary-hover: 35 73% 26%;
 
     /* Creamy secondary */
-    --secondary: 40 35% 88%;
-    --secondary-foreground: 28 45% 25%;
+    --secondary: 41 39% 86%;
+    --secondary-foreground: 28 33% 16%;
 
     /* Muted cream tones */
-    --muted: 40 30% 92%;
-    --muted-foreground: 28 25% 45%;
+    --muted: 41 39% 88%;
+    --muted-foreground: 31 22% 34%;
 
     /* Rich accent brown */
-    --accent: 28 45% 25%;
-    --accent-foreground: 40 40% 98%;
+    --accent: 28 33% 14%;
+    --accent-foreground: 42 47% 95%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 40 40% 98%;
 
-    --border: 40 25% 85%;
-    --input: 40 25% 85%;
-    --ring: 42 78% 60%;
+    /* Linijka almanachu - ciemniejsza niz typowa ramka, bo to ona niesie styl. */
+    --border: 39 34% 68%;
+    --input: 39 34% 68%;
+    --ring: 35 73% 32%;
 
-    --radius: 0.75rem;
+    /* Almanach jest drukarski: naroza prawie proste. */
+    --radius: 0.25rem;
+
+    /* Tokeny wlasne kierunku: linijka cienka i gruba oraz kolor kapitalikow. */
+    --rule: 39 34% 68%;
+    --rule-strong: 33 18% 38%;
+    --kicker: 41 20% 45%;
     
     /* Custom design tokens */
     --gradient-warm: linear-gradient(135deg, hsl(42 78% 60%), hsl(40 60% 75%));
@@ -81,18 +92,18 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 28 30% 12%;
-    --foreground: 40 40% 95%;
+    --background: 28 25% 10%;
+    --foreground: 42 43% 93%;
 
-    --card: 28 25% 16%;
-    --card-foreground: 40 40% 95%;
+    --card: 28 22% 14%;
+    --card-foreground: 42 43% 93%;
 
     --popover: 28 25% 16%;
     --popover-foreground: 40 40% 95%;
 
-    --primary: 42 78% 55%;
-    --primary-foreground: 28 30% 12%;
-    --primary-hover: 42 78% 48%;
+    --primary: 40 70% 58%;
+    --primary-foreground: 28 25% 10%;
+    --primary-hover: 40 70% 50%;
 
     --secondary: 28 20% 22%;
     --secondary-foreground: 40 40% 95%;
@@ -106,8 +117,11 @@ All colors MUST be HSL.
     --destructive: 0 65% 45%;
     --destructive-foreground: 40 40% 95%;
 
-    --border: 28 20% 25%;
-    --input: 28 20% 25%;
+    --border: 33 18% 27%;
+    --input: 33 18% 27%;
+    --rule: 33 18% 27%;
+    --rule-strong: 39 24% 45%;
+    --kicker: 41 18% 58%;
     --ring: 42 78% 55%;
     
     --gradient-warm: linear-gradient(135deg, hsl(42 78% 50%), hsl(40 50% 40%));
