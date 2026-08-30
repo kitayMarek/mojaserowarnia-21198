@@ -65,7 +65,7 @@ All colors MUST be HSL.
     /* Tokeny wlasne kierunku: linijka cienka i gruba oraz kolor kapitalikow. */
     --rule: 39 34% 68%;
     --rule-strong: 33 18% 38%;
-    --kicker: 41 20% 45%;
+    --kicker: 38 24% 36%;
     
     /* Custom design tokens */
     --gradient-warm: linear-gradient(135deg, hsl(42 78% 60%), hsl(40 60% 75%));

@@ -51,18 +51,23 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-accent text-accent-foreground pt-16 pb-8" role="contentinfo">
+    <footer className="bg-accent text-accent-foreground pt-12 pb-8" role="contentinfo">
       <div className="container mx-auto px-4">
+        <hr className="border-0 border-t-[3px] border-double border-accent-foreground/25 mb-10" />
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-warm flex items-center justify-center shadow-warm">
-                <span className="text-2xl">🧀</span>
-              </div>
+              <svg viewBox="0 0 46 26" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-10 h-7 shrink-0 text-primary" aria-hidden="true">
+                <path d="M4 20 L23 6 L42 20 Z" strokeLinejoin="round" />
+                <circle cx="17" cy="16" r="2" />
+                <circle cx="27" cy="14" r="2.6" />
+                <circle cx="33" cy="18" r="1.6" />
+                <path d="M4 20 h38" />
+              </svg>
               <div>
-                <h3 className="text-xl font-display font-bold">Moja Serowarnia</h3>
+                <h3 className="text-xl font-display">Moja Serowarnia</h3>
               </div>
             </div>
             <p className="text-sm text-accent-foreground/80 mb-6 leading-relaxed">
@@ -78,7 +83,7 @@ const Footer = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-10 h-10 rounded-full bg-accent-foreground/10 hover:bg-primary flex items-center justify-center transition-colors group"
+                    className="w-10 h-10 border border-accent-foreground/20 hover:bg-primary hover:border-primary flex items-center justify-center transition-colors group"
                   >
                     <Icon className="h-5 w-5 text-accent-foreground group-hover:text-primary-foreground transition-colors" />
                   </a>
@@ -90,7 +95,7 @@ const Footer = () => {
           {/* Links Sections */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h4 className="font-display font-bold text-lg mb-4">{section.title}</h4>
+              <h4 className="text-[11px] uppercase tracking-[0.2em] text-accent-foreground/60 border-b border-accent-foreground/20 pb-2 mb-3">{section.title}</h4>
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.label}>

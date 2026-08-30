@@ -124,10 +124,13 @@ const QuickAccess = () => {
   return (
     <div ref={sectionRef} aria-labelledby="quick-access-heading">
       <div className={`mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <h2 id="quick-access-heading" className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
-          Szybki dostęp
-        </h2>
-        <p className="text-lg text-muted-foreground">
+        <div className="flex items-baseline justify-between gap-4 border-b-2 border-foreground pb-2 mb-3">
+          <h2 id="quick-access-heading" className="font-display text-2xl md:text-[1.7rem] text-foreground">
+            Szybki dostęp
+          </h2>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[hsl(var(--kicker))]">działy portalu</span>
+        </div>
+        <p className="text-muted-foreground leading-relaxed">
           Znajdź wszystko, czego potrzebujesz do produkcji doskonałych serów
         </p>
       </div>
@@ -147,15 +150,15 @@ const QuickAccess = () => {
                 }`}
                 style={{ transitionDelay: isVisible ? `${index * 80}ms` : '0ms' }}
               >
-                <Card className="h-full border-border hover:border-primary transition-all duration-300 hover:shadow-card group-hover:scale-[1.02] bg-card">
+                <Card className="h-full rounded-none border-[hsl(var(--rule))] bg-card transition-colors duration-200 hover:border-primary">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
-                      <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center shadow-warm group-hover:shadow-lg transition-all duration-300`}>
-                        <Icon className="h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" />
+                      <div className="flex-shrink-0 w-10 h-10 border border-[hsl(var(--rule))] flex items-center justify-center">
+                        <Icon className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="text-lg font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                          <h3 className="text-lg font-display text-foreground group-hover:text-primary transition-colors">
                             {section.title}
                           </h3>
                           {section.isNew && (

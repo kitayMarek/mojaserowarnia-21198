@@ -1,7 +1,13 @@
-import { Calendar, TrendingUp, Award } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { TrendingUp, Award, ChevronRight } from "lucide-react";
 
+/**
+ * Sekcja „Aktualności / Wyróżnione" w kierunku „almanach".
+ *
+ * Zmiana wobec poprzedniej wersji: zamiast kafli z cieniem — szpalty
+ * rozdzielone linijkami, nagłówki pod grubą kreską i kapitaliki zamiast
+ * kolorowych plakietek. Kolejność i treść bez zmian; to jest przebudowa
+ * układu, nie redakcja.
+ */
 const FeaturedSection = () => {
   const news = [
     {
@@ -45,78 +51,97 @@ const FeaturedSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-secondary/30" aria-labelledby="featured-heading">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* News Section */}
+    <section className="py-12 md:py-16" aria-labelledby="featured-heading">
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+        <hr className="border-0 border-t-[3px] border-double border-[hsl(var(--rule-strong))] mb-10" />
+
+        <div className="grid lg:grid-cols-3 gap-10 lg:gap-12">
+          {/* Aktualności — szpalta główna */}
           <article className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-8">
-              <Calendar className="h-6 w-6 text-primary" aria-hidden="true" />
-              <h2 id="featured-heading" className="text-3xl font-display font-bold text-foreground">Aktualności</h2>
+            <div className="flex items-baseline justify-between gap-4 border-b-2 border-foreground pb-2 mb-1">
+              <h2 id="featured-heading" className="font-display text-2xl md:text-[1.7rem] text-foreground">
+                Aktualności
+              </h2>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[hsl(var(--kicker))]">
+                ostatnio dodane
+              </span>
             </div>
 
-            <div className="space-y-4">
-              {news.map((item, index) => (
-                <a key={index} href={item.href} className="block">
-                  <Card className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-3">
-                            <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
-                              {item.badge}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground">{item.date}</span>
-                          </div>
-                          <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                            {item.title}
-                          </h3>
-                          <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+            <div>
+              {news.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="group block border-b border-[hsl(var(--rule))] py-5"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[11px] uppercase tracking-[0.18em] text-primary">{item.badge}</span>
+                    <span className="h-px flex-grow bg-[hsl(var(--rule))]" aria-hidden="true" />
+                    <span className="text-[11px] uppercase tracking-[0.18em] text-[hsl(var(--kicker))]">
+                      {item.date}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl md:text-[1.4rem] leading-snug text-foreground group-hover:text-primary transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed mt-1.5">{item.description}</p>
+                  <span className="inline-flex items-center gap-1.5 mt-3 text-sm text-primary">
+                    Otwórz
+                    <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </a>
               ))}
             </div>
           </article>
 
-          {/* Highlights Section */}
+          {/* Wyróżnione — szpalta boczna */}
           <aside aria-labelledby="highlights-heading">
-            <h3 id="highlights-heading" className="text-2xl font-display font-bold text-foreground mb-6">Wyróżnione</h3>
+            <div className="border-b-2 border-foreground pb-2 mb-1">
+              <h3 id="highlights-heading" className="font-display text-2xl text-foreground">
+                Wyróżnione
+              </h3>
+            </div>
 
-            <div className="space-y-4">
-              {highlights.map((item, index) => {
+            <div>
+              {highlights.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <a key={index} href={item.href}>
-                    <Card className="border-border hover:border-primary transition-all hover:shadow-card cursor-pointer group bg-card">
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center gap-2 text-primary mb-2">
-                          <Icon className="h-4 w-4" />
-                          <span className="text-xs font-semibold uppercase tracking-wide">{item.label}</span>
-                        </div>
-                        <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                          {item.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-sm text-muted-foreground">{item.subtitle}</p>
-                      </CardContent>
-                    </Card>
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="group flex items-start gap-3 border-b border-[hsl(var(--rule))] py-4"
+                  >
+                    <Icon className="h-[18px] w-[18px] shrink-0 mt-1 text-primary" aria-hidden="true" />
+                    <span className="flex-grow">
+                      <span className="block text-[10px] uppercase tracking-[0.18em] text-[hsl(var(--kicker))] mb-1">
+                        {item.label}
+                      </span>
+                      <span className="block font-display text-lg leading-snug text-foreground group-hover:text-primary transition-colors">
+                        {item.title}
+                      </span>
+                      <span className="block text-sm text-muted-foreground mt-0.5">{item.subtitle}</span>
+                    </span>
+                    <ChevronRight className="h-4 w-4 shrink-0 mt-1 text-[hsl(var(--kicker))] transition-transform group-hover:translate-x-0.5" />
                   </a>
                 );
               })}
 
-              <Card className="bg-gradient-warm border-0 text-white shadow-warm">
-                <CardContent className="p-6">
-                  <h4 className="font-display font-bold text-lg mb-2">Dołącz do społeczności</h4>
-                  <p className="text-sm text-white/90 mb-4">Ponad 2000 serowarów już korzysta z naszego portalu</p>
-                  <button className="w-full bg-white text-accent hover:bg-white/90 py-2 px-4 rounded-lg font-medium transition-colors">
-                    Załóż konto
-                  </button>
-                </CardContent>
-              </Card>
+              {/* Zaproszenie do konta — bez liczby, bo poprzednia („ponad 2000
+                  serowarów") nie miała pokrycia w danych; licznik z bazy jest
+                  w winiecie na górze strony. */}
+              <div className="mt-6 border border-[hsl(var(--rule))] bg-card p-5">
+                <h4 className="font-display text-lg text-foreground mb-1.5">Załóż konto</h4>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Własne listy kultur i ewidencja RHD zostają przypisane do konta — nie znikną przy zmianie
+                  urządzenia.
+                </p>
+                <a
+                  href="/auth"
+                  className="inline-flex items-center justify-center w-full bg-primary text-primary-foreground hover:bg-primary-hover transition-colors h-11 px-4 text-sm font-medium"
+                >
+                  Załóż konto
+                </a>
+              </div>
             </div>
           </aside>
         </div>
