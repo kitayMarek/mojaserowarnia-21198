@@ -26,13 +26,6 @@ const Znak = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-const SKROTY = [
-  { label: "Baza kultur", href: "/baza-kultur" },
-  { label: "Przepisy", href: "/przepisy" },
-  { label: "Narzędzia", href: "/narzedzia" },
-  { label: "Prawo i RHD", href: "/prawo" },
-  { label: "Staropolskie", href: "/serowarstwo-staropolskie" },
-];
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,21 +92,10 @@ const Navigation = () => {
           </Button>
         </div>
 
-        {/* Skróty i spis treści — pięć najczęstszych kierunków pod ręką, a całe
-            50 pozycji za jednym kliknięciem. Reszta sidebara zostaje bez zmian. */}
+        {/* Wejście w pełny spis treści. Skrótów do działów tu NIE MA celowo:
+            sidebar ma je niżej w całości, więc rządek nad nim tylko dublował
+            nawigację (uwaga Marka po zobaczeniu pierwszej wersji). */}
         <div className="shrink-0 border-b border-border px-2.5 py-3 space-y-2">
-          <div className="flex flex-wrap gap-x-3 gap-y-1.5">
-            {SKROTY.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                onClick={closeMobile}
-                className="text-[13px] text-foreground/80 hover:text-primary transition-colors"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
           <Button
             variant="outline"
             className="w-full justify-start gap-2 border-[hsl(var(--rule-strong))] font-normal"
