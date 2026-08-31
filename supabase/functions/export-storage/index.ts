@@ -101,7 +101,7 @@ serve(async (req) => {
             }
 
             const bytes = await fileData.arrayBuffer();
-            const base64 = btoa(String.fromCharCode(...new Uint8Array(bytes)));
+            const base64 = encodeBase64(new Uint8Array(bytes));
 
             files.push({
               name: fullName,
