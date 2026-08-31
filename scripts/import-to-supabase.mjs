@@ -214,6 +214,7 @@ async function main() {
     'sales_records',
     'culture_audit_log',
     'culture_clicks',
+    'feed_recipes',
   ];
   const phase3 = ['user_culture_list_items', 'serowarnia_wpisy'];
 
