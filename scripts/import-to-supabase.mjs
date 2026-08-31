@@ -156,23 +156,30 @@ async function main() {
   // Przepisuje odwolania do uzytkownika w wierszach przed wgraniem.
   // `poleId` = true dla tabeli profiles, gdzie identyfikatorem jest samo `id`.
   let osieroconeWiersze = 0;
+  // Kolumny, ktore wskazuja na uzytkownika. Pierwsza wersja pilnowala tylko
+  // `user_id` i przez to feed_ingredients odbilo sie od klucza obcego na
+  // `submitted_by`. Zamiast zgadywac nazwy, podmieniamy KAZDA wartosc, ktora
+  // jest starym identyfikatorem uzytkownika - profiles.id lapie sie sam.
+  const KOLUMNY_UZYTKOWNIKA = ['user_id', 'submitted_by', 'created_by', 'changed_by', 'owner_id'];
+
   function przemapuj(wiersze, { poleId = false } = {}) {
     const wynik = [];
     for (const w of wiersze) {
       const kopia = { ...w };
-      let ok = true;
-      if (poleId && kopia.id) {
-        const nowy = staryNaNowy.get(kopia.id);
-        if (nowy) kopia.id = nowy;
-        else ok = false;
+      for (const [klucz, wartosc] of Object.entries(kopia)) {
+        if (typeof wartosc === 'string' && staryNaNowy.has(wartosc)) {
+          kopia[klucz] = staryNaNowy.get(wartosc);
+        }
       }
-      if (kopia.user_id) {
-        const nowy = staryNaNowy.get(kopia.user_id);
-        if (nowy) kopia.user_id = nowy;
-        else ok = false;
-      }
-      if (ok) wynik.push(kopia);
-      else osieroconeWiersze++;
+      // Wiersz odpada tylko wtedy, gdy kolumna wskazujaca na uzytkownika trzyma
+      // identyfikator, ktorego nie ma w mapie - taki wiersz i tak zlamalby klucz
+      // obcy, a wpuszczony po cichu bylby danymi bez wlasciciela.
+      const doSprawdzenia = poleId ? ['id', ...KOLUMNY_UZYTKOWNIKA] : KOLUMNY_UZYTKOWNIKA;
+      const osierocony = doSprawdzenia.some(
+        (k) => typeof w[k] === 'string' && !staryNaNowy.has(w[k])
+      );
+      if (osierocony) osieroconeWiersze++;
+      else wynik.push(kopia);
     }
     return wynik;
   }
