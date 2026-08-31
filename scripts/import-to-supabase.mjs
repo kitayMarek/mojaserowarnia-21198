@@ -192,8 +192,16 @@ async function main() {
   // --- Role ---
   logStep('Import ról użytkowników...');
   if (usersExport.data.user_roles.length > 0) {
-    const roleDoWgrania = przemapuj(usersExport.data.user_roles);
-    const { error } = await supabase.from('user_roles').upsert(roleDoWgrania, { onConflict: 'id' });
+    // UWAGA NA TRIGGER: on_auth_user_created_role wstawia kazdemu nowo utworzonemu
+    // uzytkownikowi wiersz (user_id, 'user'). Tabela ma UNIQUE (user_id, role), wiec
+    // wgrywanie eksportu po kluczu 'id' rozbijaloby sie o ten sam duplikat - a bledny
+    // upsert leci na CALEJ paczce, wiec przepadlby takze jedyny wiersz 'admin'.
+    // Efekt: import konczy sie "sukcesem", a wlasciciel serwisu traci panel administracyjny.
+    // Dlatego godzimy wiersze po (user_id, role) i nie narzucamy wlasnego id.
+    const roleDoWgrania = przemapuj(usersExport.data.user_roles).map(({ id, ...reszta }) => reszta);
+    const { error } = await supabase
+      .from('user_roles')
+      .upsert(roleDoWgrania, { onConflict: 'user_id,role' });
     if (error) {
       logError(`Błąd importu ról: ${error.message}`);
     } else {
