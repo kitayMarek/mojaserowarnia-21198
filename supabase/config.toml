@@ -3,6 +3,11 @@ project_id = "isypstatsbyacnnfpukx"
 [functions.send-contact-email]
 verify_jwt = false
 
+# Powiadomienia dla moderatora (uzywane w panelu admina). Brakowalo tego wpisu,
+# wiec przy przenosinach funkcja jako jedyna sie nie wdrozyla - 404 na nowym projekcie.
+[functions.send-notification]
+verify_jwt = false
+
 [functions.fetch-rss-news]
 verify_jwt = false
 
