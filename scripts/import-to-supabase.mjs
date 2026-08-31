@@ -115,10 +115,73 @@ async function main() {
     logWarn(`${failedUsers.length} użytkowników nie udało się utworzyć`);
   }
 
+  // --- Mapowanie STARY id -> NOWY id -------------------------------------
+  // Supabase Auth nadaje nowo tworzonym uzytkownikom WLASNE identyfikatory i nie
+  // pozwala narzucic starych. Tymczasem cala reszta bazy odwoluje sie do starych:
+  // profiles.id ma REFERENCES auth.users(id), a dziesiec tabel trzyma user_id
+  // (m.in. sales_records, invoices, user_culture_lists).
+  //
+  // Bez przemapowania import konczy sie najgorszym mozliwym wynikiem: profile
+  // odpadaja na bledzie klucza obcego, a pozostale wiersze wchodza z martwymi
+  // odwolaniami. Dane sa w bazie, ale zaden uzytkownik ich nie widzi, bo polityki
+  // RLS porownuja auth.uid() z user_id. Awaria cicha - import raportuje sukces.
+  //
+  // Kluczem laczacym stary i nowy swiat jest ADRES E-MAIL.
+  logStep('Budowanie mapy identyfikatorów użytkowników...');
+  const emailNaNowyId = new Map();
+  for (let strona = 1; ; strona++) {
+    const { data, error } = await supabase.auth.admin.listUsers({ page: strona, perPage: 1000 });
+    if (error) {
+      logError(`Nie udało się pobrać listy użytkowników: ${error.message}`);
+      process.exit(1);
+    }
+    for (const u of data.users) {
+      if (u.email) emailNaNowyId.set(u.email.toLowerCase(), u.id);
+    }
+    if (data.users.length < 1000) break;
+  }
+
+  const staryNaNowy = new Map();
+  const bezOdpowiednika = [];
+  for (const user of usersExport.data.users) {
+    const nowy = user.email ? emailNaNowyId.get(user.email.toLowerCase()) : null;
+    if (nowy) staryNaNowy.set(user.id, nowy);
+    else bezOdpowiednika.push(user.email || user.id);
+  }
+  logOk(`Zmapowano ${staryNaNowy.size} z ${usersExport.data.users.length} użytkowników`);
+  if (bezOdpowiednika.length > 0) {
+    logWarn(`BEZ ODPOWIEDNIKA (ich dane zostana pominiete): ${bezOdpowiednika.join(', ')}`);
+  }
+
+  // Przepisuje odwolania do uzytkownika w wierszach przed wgraniem.
+  // `poleId` = true dla tabeli profiles, gdzie identyfikatorem jest samo `id`.
+  let osieroconeWiersze = 0;
+  function przemapuj(wiersze, { poleId = false } = {}) {
+    const wynik = [];
+    for (const w of wiersze) {
+      const kopia = { ...w };
+      let ok = true;
+      if (poleId && kopia.id) {
+        const nowy = staryNaNowy.get(kopia.id);
+        if (nowy) kopia.id = nowy;
+        else ok = false;
+      }
+      if (kopia.user_id) {
+        const nowy = staryNaNowy.get(kopia.user_id);
+        if (nowy) kopia.user_id = nowy;
+        else ok = false;
+      }
+      if (ok) wynik.push(kopia);
+      else osieroconeWiersze++;
+    }
+    return wynik;
+  }
+
   // --- Profile ---
   logStep('Import profili...');
   if (usersExport.data.profiles.length > 0) {
-    const { error } = await supabase.from('profiles').upsert(usersExport.data.profiles, { onConflict: 'id' });
+    const profileDoWgrania = przemapuj(usersExport.data.profiles, { poleId: true });
+    const { error } = await supabase.from('profiles').upsert(profileDoWgrania, { onConflict: 'id' });
     if (error) {
       logError(`Błąd importu profili: ${error.message}`);
     } else {
@@ -129,7 +192,8 @@ async function main() {
   // --- Role ---
   logStep('Import ról użytkowników...');
   if (usersExport.data.user_roles.length > 0) {
-    const { error } = await supabase.from('user_roles').upsert(usersExport.data.user_roles, { onConflict: 'id' });
+    const roleDoWgrania = przemapuj(usersExport.data.user_roles);
+    const { error } = await supabase.from('user_roles').upsert(roleDoWgrania, { onConflict: 'id' });
     if (error) {
       logError(`Błąd importu ról: ${error.message}`);
     } else {
@@ -160,7 +224,8 @@ async function main() {
       logOk('pusta tabela');
       continue;
     }
-    const { error } = await supabase.from(table).upsert(rows, { onConflict: 'id' });
+    const doWgrania = przemapuj(rows);
+    const { error } = await supabase.from(table).upsert(doWgrania, { onConflict: 'id' });
     if (error) {
       logError(`Błąd importu ${table}: ${error.message}`);
     } else {
@@ -175,7 +240,8 @@ async function main() {
       logOk('pusta tabela');
       continue;
     }
-    const { error } = await supabase.from(table).upsert(rows, { onConflict: 'id' });
+    const doWgrania = przemapuj(rows);
+    const { error } = await supabase.from(table).upsert(doWgrania, { onConflict: 'id' });
     if (error) {
       logError(`Błąd importu ${table}: ${error.message}`);
     } else {
@@ -190,7 +256,8 @@ async function main() {
       logOk('pusta tabela');
       continue;
     }
-    const { error } = await supabase.from(table).upsert(rows, { onConflict: 'id' });
+    const doWgrania = przemapuj(rows);
+    const { error } = await supabase.from(table).upsert(doWgrania, { onConflict: 'id' });
     if (error) {
       logError(`Błąd importu ${table}: ${error.message}`);
     } else {
@@ -232,16 +299,19 @@ async function main() {
 
   // --- Linki resetujące hasła ---
   if (SEND_PASSWORD_RESET) {
-    logStep('Wysyłanie linków resetujących hasła...');
+    // UWAGA: admin.generateLink() TWORZY link odzyskiwania, ale go NIE WYSYLA -
+    // jest przeznaczony dla wlasnego dostawcy poczty i zwraca link w odpowiedzi.
+    // Poprzednia wersja logowala "wyslano", choc do nikogo nic nie szlo.
+    logStep('Generowanie linkow odzyskiwania (skrypt ich NIE wysyla)...');
     for (const user of createdUsers.filter((u) => !u.existing)) {
       const { error } = await supabase.auth.admin.generateLink({
         type: 'recovery',
         email: user.email,
       });
       if (error) {
-        logWarn(`Nie udało się wysłać linku do ${user.email}: ${error.message}`);
+        logWarn(`Nie udalo sie wygenerowac linku dla ${user.email}: ${error.message}`);
       } else {
-        logOk(`Link resetujący dla ${user.email}`);
+        logOk(`Wygenerowano link dla ${user.email} (NIEWYSLANY)`);
       }
     }
   } else {
@@ -262,12 +332,22 @@ async function main() {
     console.log(`  - ${bucketName}: ${files.length}`);
   }
 
-  if (!SEND_PASSWORD_RESET) {
-    console.log('\n⚠️  WAŻNE: Użytkownicy zostali utworzeni z losowymi hasłami.');
-    console.log('    Aby mogli się zalogować, wyślij im linki resetujące hasło:');
-    console.log('    SEND_PASSWORD_RESET=true node scripts/import-to-supabase.mjs');
-    console.log('    Lub ustaw hasła ręcznie w panelu Authentication nowego Supabase.');
+  console.log(`Zmapowani uzytkownicy: ${staryNaNowy.size} / ${usersExport.data.users.length}`);
+  if (osieroconeWiersze > 0) {
+    console.log('');
+    console.log(`POMINIETO ${osieroconeWiersze} wierszy bez odpowiednika uzytkownika.`);
+    console.log('    To dane, ktorych nie dalo sie przypisac do zadnego konta w nowym projekcie.');
+    console.log('    Sprawdz liste "BEZ ODPOWIEDNIKA" wyzej, ZANIM wylaczysz stary projekt.');
+  } else {
+    console.log('Wszystkie wiersze przypisane do istniejacych kont.');
   }
+
+  console.log('');
+  console.log('HASLA: kont nie da sie przeniesc z haslami - kazdy uzytkownik ma losowe.');
+  console.log('    NIE polegaj na SEND_PASSWORD_RESET: admin.generateLink() tworzy link,');
+  console.log('    ale go NIE WYSYLA, a domyslna poczta Supabase ma ostry limit na godzine.');
+  console.log('    Zalecane: powiadom uzytkownikow z wlasnej skrzynki i popros, zeby sami');
+  console.log('    uzyli "nie pamietam hasla" - wtedy kazdy wywoluje wysylke u siebie.');
 }
 
 main().catch((err) => {
