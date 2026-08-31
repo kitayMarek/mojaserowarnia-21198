@@ -30,6 +30,7 @@ export default function Auth() {
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [resetWyslany, setResetWyslany] = useState(false);
 
   // Register state
   const [registerEmail, setRegisterEmail] = useState("");
@@ -45,6 +46,38 @@ export default function Auth() {
     navigate("/dashboard");
     return null;
   }
+
+  // Odzyskiwanie hasla. Do przenosin z Lovable aplikacja nie miala tego wcale -
+  // hasla zmienialo sie tylko z poziomu ustawien, czyli PO zalogowaniu. Po migracji
+  // bazy konta maja nowe, losowe hasla, wiec bez tej sciezki nikt nie wszedlby
+  // do serwisu.
+  //
+  // Link z maila loguje uzytkownika sesja odzyskiwania i odsyla do ustawien,
+  // gdzie stoi gotowy formularz zmiany hasla.
+  const handleReset = async () => {
+    if (!loginEmail) {
+      toast({
+        title: "Podaj adres e-mail",
+        description: "Wpisz go w polu wyżej, wtedy wyślemy link do ustawienia hasła.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(loginEmail, {
+      redirectTo: `${window.location.origin}/dashboard/ustawienia`,
+    });
+    setLoading(false);
+    if (error) {
+      toast({ title: "Nie udało się wysłać", description: error.message, variant: "destructive" });
+    } else {
+      setResetWyslany(true);
+      toast({
+        title: "Sprawdź skrzynkę",
+        description: "Wysłaliśmy link do ustawienia nowego hasła. Bywa, że trafia do spamu.",
+      });
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,6 +208,14 @@ export default function Auth() {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Logowanie..." : "Zaloguj się"}
                 </Button>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  disabled={loading}
+                  className="w-full text-sm text-muted-foreground hover:text-primary transition-colors underline-offset-4 hover:underline"
+                >
+                  {resetWyslany ? "Wysłaliśmy link — sprawdź skrzynkę" : "Nie pamiętam hasła"}
+                </button>
               </form>
             </TabsContent>
 
