@@ -1,6 +1,6 @@
--- Dwa wiersze zablokowane przez wyzwalacze regul biznesowych.
+-- Wiersze zablokowane przez wyzwalacze regul biznesowych.
 -- session_replication_role = replica wylacza wyzwalacze na czas TEJ sesji;
--- ostatnia linia przywraca normalne zachowanie. Uruchom w calosci.
+-- przedostatnia linia przywraca normalne zachowanie. Uruchom w calosci.
 
 set session_replication_role = replica;
 
@@ -35,7 +35,7 @@ ul. Łąkowa 2, okolice Gietrzwałdu, woj. warmińsko-mazurskie
 tel. 504-208-630 · agrojelonki@gmail.com
 https://www.facebook.com/AgroturystykaAgrojelonki
 
-Najlepiej zadzwonić lub napisać przed przyjazdem — potwierdzimy, co akurat jest dostępne w sprzedaży i czy są wolne terminy.', 'warmińsko-mazurskie', 'Gietrzwałd', '504208630', 'warzywa@xl.wp.pl', 'https://agrojelonki.pl', 'https://www.facebook.com/AgroturystykaAgrojelonki', '[''Sery dojrzewające czyste i z przyprawami'', ''twarogi'']', '[''krowie'']', '[''posiłki w ramach pobytu'', ''sprzedaż na miejscu dla gości'', ''degustacja dla gości'']', 'opublikowany', null, true, '2026-08-10T13:56:28.40947+00:00', '2026-08-10T13:56:28.40947+00:00', '2026-08-11T07:05:30.297493+00:00', null, true, 'agroturystyka', 'https://hsgxmbhunclhgzumafrk.supabase.co/storage/v1/object/public/wizytowki/07192cfa-ed9e-4722-bbbe-30ec3b9c7849/glowne-1786430813244-qvwtan.jpg', '[]')
+Najlepiej zadzwonić lub napisać przed przyjazdem — potwierdzimy, co akurat jest dostępne w sprzedaży i czy są wolne terminy.', 'warmińsko-mazurskie', 'Gietrzwałd', '504208630', 'warzywa@xl.wp.pl', 'https://agrojelonki.pl', 'https://www.facebook.com/AgroturystykaAgrojelonki', ARRAY['Sery dojrzewające czyste i z przyprawami', 'twarogi']::text[], ARRAY['krowie']::text[], ARRAY['posiłki w ramach pobytu', 'sprzedaż na miejscu dla gości', 'degustacja dla gości']::text[], 'opublikowany', null, true, '2026-08-10T13:56:28.40947+00:00', '2026-08-10T13:56:28.40947+00:00', '2026-08-11T07:05:30.297493+00:00', null, true, 'agroturystyka', 'https://hsgxmbhunclhgzumafrk.supabase.co/storage/v1/object/public/wizytowki/07192cfa-ed9e-4722-bbbe-30ec3b9c7849/glowne-1786430813244-qvwtan.jpg', '[]'::jsonb)
 on conflict (id) do nothing;
 
 insert into public.serowarnia_wpisy (id, serowarnia_id, user_id, tresc, zdjecie_url, utworzono, wygasa, opublikowany)
@@ -44,6 +44,6 @@ on conflict (id) do nothing;
 
 set session_replication_role = origin;
 
--- kontrola:
+-- kontrola (ma wyjsc 1 i 1):
 select 'serowarnie' as tabela, count(*) from public.serowarnie
 union all select 'serowarnia_wpisy', count(*) from public.serowarnia_wpisy;
