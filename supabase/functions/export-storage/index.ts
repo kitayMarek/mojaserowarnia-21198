@@ -20,20 +20,41 @@ serve(async (req) => {
       );
     }
 
-    const authHeader = req.headers.get('authorization') || '';
-    const providedSecret = authHeader.replace(/^Bearer\s+/i, '').trim();
-    if (providedSecret !== exportSecret) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
+
+    const authHeader = req.headers.get('authorization') || '';
+    const providedToken = authHeader.replace(/^Bearer\s+/i, '').trim();
+
+    // Allow either EXPORT_SECRET or an admin JWT
+    let isAdmin = false;
+    if (providedToken === exportSecret) {
+      isAdmin = true;
+    } else if (providedToken) {
+      const anonClient = createClient(supabaseUrl, Deno.env.get('SUPABASE_ANON_KEY')!, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      const { data: userData, error: userError } = await anonClient.auth.getUser(providedToken);
+      if (!userError && userData.user) {
+        const { data: roleData } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', userData.user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+        if (roleData) isAdmin = true;
+      }
+    }
+
+    if (!isAdmin) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // List all buckets
     const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
