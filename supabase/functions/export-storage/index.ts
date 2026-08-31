@@ -81,6 +81,8 @@ serve(async (req) => {
         recursive: true,
       });
 
+      console.log(`List result for ${bucketName}:`, JSON.stringify({ count: objects?.length, sample: objects?.slice(0, 5) }));
+
       if (listError) {
         console.error(`Error listing objects in ${bucketName}:`, listError);
         return new Response(
