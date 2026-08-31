@@ -30,6 +30,7 @@ interface Skladnik {
 
 interface PrzykladowySkladnik {
   nazwa: string;
+  kategoria?: string;
   em: number;
   bialko: number;
   ca: number;
@@ -857,10 +858,12 @@ const KalkulatorPasz = () => {
   const dodajNowySkladnik = () => {
     const nowySkladnik = {
       nazwa: 'Nowy składnik',
+      kategoria: 'Inne',
       em: 0,
       bialko: 0,
       ca: 0,
       p: 0,
+      wlokno: 0,
       na: 0,
       k: 0,
       mg: 0,

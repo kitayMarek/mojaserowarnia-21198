@@ -11,3 +11,12 @@ verify_jwt = false
 
 [functions.generate-rss]
 verify_jwt = false
+
+[functions.export-data]
+verify_jwt = false
+
+[functions.export-users]
+verify_jwt = false
+
+[functions.export-storage]
+verify_jwt = false
