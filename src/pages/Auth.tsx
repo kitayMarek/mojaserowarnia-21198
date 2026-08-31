@@ -182,6 +182,24 @@ export default function Auth() {
               <TabsTrigger value="register">Rejestracja</TabsTrigger>
             </TabsList>
 
+            {/* Komunikat po przeniesieniu bazy na wlasny projekt Supabase (31.08.2026).
+                Zamiast rozsylac maile do 24 osob, informacja stoi tam, gdzie problem
+                sie objawia - przy probie zalogowania. Do usuniecia, gdy wszyscy
+                ustawia nowe haslo (orientacyjnie: pazdziernik 2026). */}
+            <div className="mb-5 border-l-4 border-primary bg-secondary p-4 text-sm leading-relaxed text-foreground">
+              <p className="font-semibold mb-1.5">Stare hasło nie zadziała — trzeba ustawić nowe</p>
+              <p className="mb-2 text-muted-foreground">
+                Przenieśliśmy serwis na własną bazę danych. Wszystkie dane są na miejscu:
+                ewidencja RHD, faktury, listy kultur i konta. Ze względów bezpieczeństwa
+                haseł nie da się przenieść — trzeba je ustawić raz na nowo.
+              </p>
+              <p className="text-muted-foreground">
+                Wpisz swój adres e-mail w polu poniżej i kliknij{" "}
+                <strong className="text-foreground">„Nie pamiętam hasła"</strong>. Wyślemy link
+                do ustawienia nowego. Jeśli wiadomość nie dotrze w kilka minut, sprawdź folder ze spamem.
+              </p>
+            </div>
+
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
