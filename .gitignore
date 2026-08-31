@@ -36,6 +36,11 @@ ProjektyLLm/
 # nie moze trafic do commita. Claude czyta go przy deployu.
 .env.deploy
 
+# Pliki eksportu z Lovable: konta, ewidencja RHD, faktury i pliki uzytkownikow.
+# REPO JEST PUBLICZNE - te dane nie moga trafic do commita pod zadnym pozorem.
+export/
+*.export.json
+
 # Cache Pythona ze skryptow generujacych
 __pycache__/
 *.pyc
