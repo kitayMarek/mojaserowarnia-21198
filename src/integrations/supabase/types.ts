@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -106,16 +106,22 @@ export type Database = {
           application: string | null
           composition: string | null
           created_at: string
+          dose_label: string | null
           id: string
+          image_url: string | null
           is_active: boolean
           last_changed: string | null
           last_checked: string | null
+          manufacturer: string | null
           name: string
+          pack_liters: number | null
           price_label: string | null
           price_numeric: number | null
+          price_previous: number | null
           product_url: string | null
           shop: string | null
           shop_url: string | null
+          strain_ratio: string | null
           temperature: string | null
           type: string | null
           updated_at: string
@@ -124,16 +130,22 @@ export type Database = {
           application?: string | null
           composition?: string | null
           created_at?: string
+          dose_label?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           last_changed?: string | null
           last_checked?: string | null
+          manufacturer?: string | null
           name: string
+          pack_liters?: number | null
           price_label?: string | null
           price_numeric?: number | null
+          price_previous?: number | null
           product_url?: string | null
           shop?: string | null
           shop_url?: string | null
+          strain_ratio?: string | null
           temperature?: string | null
           type?: string | null
           updated_at?: string
@@ -142,19 +154,97 @@ export type Database = {
           application?: string | null
           composition?: string | null
           created_at?: string
+          dose_label?: string | null
           id?: string
+          image_url?: string | null
           is_active?: boolean
           last_changed?: string | null
           last_checked?: string | null
+          manufacturer?: string | null
           name?: string
+          pack_liters?: number | null
           price_label?: string | null
           price_numeric?: number | null
+          price_previous?: number | null
           product_url?: string | null
           shop?: string | null
           shop_url?: string | null
+          strain_ratio?: string | null
           temperature?: string | null
           type?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      feed_ingredients: {
+        Row: {
+          bialko: number | null
+          ca: number | null
+          created_at: string
+          em: number | null
+          fe: number | null
+          i: number | null
+          id: string
+          k: number | null
+          kategoria: string | null
+          mg: number | null
+          mn: number | null
+          na: number | null
+          nazwa: string
+          p: number | null
+          se: number | null
+          source: string
+          status: string
+          submitted_by: string | null
+          wlokno: number | null
+          zn: number | null
+          zrodlo: string | null
+        }
+        Insert: {
+          bialko?: number | null
+          ca?: number | null
+          created_at?: string
+          em?: number | null
+          fe?: number | null
+          i?: number | null
+          id?: string
+          k?: number | null
+          kategoria?: string | null
+          mg?: number | null
+          mn?: number | null
+          na?: number | null
+          nazwa: string
+          p?: number | null
+          se?: number | null
+          source?: string
+          status?: string
+          submitted_by?: string | null
+          wlokno?: number | null
+          zn?: number | null
+          zrodlo?: string | null
+        }
+        Update: {
+          bialko?: number | null
+          ca?: number | null
+          created_at?: string
+          em?: number | null
+          fe?: number | null
+          i?: number | null
+          id?: string
+          k?: number | null
+          kategoria?: string | null
+          mg?: number | null
+          mn?: number | null
+          na?: number | null
+          nazwa?: string
+          p?: number | null
+          se?: number | null
+          source?: string
+          status?: string
+          submitted_by?: string | null
+          wlokno?: number | null
+          zn?: number | null
+          zrodlo?: string | null
         }
         Relationships: []
       }
@@ -487,6 +577,131 @@ export type Database = {
         }
         Relationships: []
       }
+      serowarnia_wpisy: {
+        Row: {
+          id: string
+          opublikowany: boolean
+          serowarnia_id: string
+          tresc: string
+          user_id: string
+          utworzono: string
+          wygasa: string | null
+          zdjecie_url: string | null
+        }
+        Insert: {
+          id?: string
+          opublikowany?: boolean
+          serowarnia_id: string
+          tresc: string
+          user_id: string
+          utworzono?: string
+          wygasa?: string | null
+          zdjecie_url?: string | null
+        }
+        Update: {
+          id?: string
+          opublikowany?: boolean
+          serowarnia_id?: string
+          tresc?: string
+          user_id?: string
+          utworzono?: string
+          wygasa?: string | null
+          zdjecie_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "serowarnia_wpisy_serowarnia_id_fkey"
+            columns: ["serowarnia_id"]
+            isOneToOne: false
+            referencedRelation: "serowarnie"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      serowarnie: {
+        Row: {
+          created_at: string
+          email_kontakt: string | null
+          facebook: string | null
+          forma_sprzedazy: string[]
+          galeria: Json
+          id: string
+          miejscowosc: string | null
+          nazwa: string
+          nr_weterynaryjny: string | null
+          opis: string | null
+          oswiadczenie_producent: boolean
+          powod_odrzucenia: string | null
+          produkty: string[]
+          rodzaj_mleka: string[]
+          slug: string
+          status: string
+          telefon: string | null
+          typ_dzialalnosci: string | null
+          updated_at: string
+          user_id: string
+          wojewodztwo: string | null
+          www: string | null
+          zdjecie_glowne: string | null
+          zgoda_data: string | null
+          zgoda_publikacja: boolean
+        }
+        Insert: {
+          created_at?: string
+          email_kontakt?: string | null
+          facebook?: string | null
+          forma_sprzedazy?: string[]
+          galeria?: Json
+          id?: string
+          miejscowosc?: string | null
+          nazwa: string
+          nr_weterynaryjny?: string | null
+          opis?: string | null
+          oswiadczenie_producent?: boolean
+          powod_odrzucenia?: string | null
+          produkty?: string[]
+          rodzaj_mleka?: string[]
+          slug: string
+          status?: string
+          telefon?: string | null
+          typ_dzialalnosci?: string | null
+          updated_at?: string
+          user_id: string
+          wojewodztwo?: string | null
+          www?: string | null
+          zdjecie_glowne?: string | null
+          zgoda_data?: string | null
+          zgoda_publikacja?: boolean
+        }
+        Update: {
+          created_at?: string
+          email_kontakt?: string | null
+          facebook?: string | null
+          forma_sprzedazy?: string[]
+          galeria?: Json
+          id?: string
+          miejscowosc?: string | null
+          nazwa?: string
+          nr_weterynaryjny?: string | null
+          opis?: string | null
+          oswiadczenie_producent?: boolean
+          powod_odrzucenia?: string | null
+          produkty?: string[]
+          rodzaj_mleka?: string[]
+          slug?: string
+          status?: string
+          telefon?: string | null
+          typ_dzialalnosci?: string | null
+          updated_at?: string
+          user_id?: string
+          wojewodztwo?: string | null
+          www?: string | null
+          zdjecie_glowne?: string | null
+          zgoda_data?: string | null
+          zgoda_publikacja?: boolean
+        }
+        Relationships: []
+      }
       user_culture_list_items: {
         Row: {
           added_at: string
@@ -585,7 +800,10 @@ export type Database = {
       }
     }
     Functions: {
+      cleanup_analytics_retention: { Args: never; Returns: undefined }
       cleanup_old_contact_attempts: { Args: never; Returns: undefined }
+      delete_own_account: { Args: never; Returns: undefined }
+      export_own_data: { Args: never; Returns: Json }
       generate_invoice_number: { Args: { user_uuid: string }; Returns: string }
       get_users_with_roles: {
         Args: never
@@ -609,6 +827,35 @@ export type Database = {
         }
         Returns: boolean
       }
+      serowarnie_do_moderacji: {
+        Args: never
+        Returns: {
+          email_konta: string
+          email_kontakt: string
+          facebook: string
+          forma_sprzedazy: string[]
+          galeria: Json
+          id: string
+          ma_ewidencje: boolean
+          miejscowosc: string
+          nazwa: string
+          nr_weterynaryjny: string
+          opis: string
+          powod_odrzucenia: string
+          produkty: string[]
+          rodzaj_mleka: string[]
+          slug: string
+          status: string
+          telefon: string
+          typ_dzialalnosci: string
+          wojewodztwo: string
+          www: string
+          zarejestrowany: string
+          zdjecie_glowne: string
+          zgloszony: string
+        }[]
+      }
+      serowarnie_slug: { Args: { nazwa_in: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "user"
