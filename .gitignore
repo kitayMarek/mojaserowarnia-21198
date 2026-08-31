@@ -36,6 +36,7 @@ ProjektyLLm/
 # nie moze trafic do commita. Claude czyta go przy deployu.
 .env.deploy
 .env.import
+.env.stary-projekt.bak
 
 # Pliki eksportu z Lovable: konta, ewidencja RHD, faktury i pliki uzytkownikow.
 # REPO JEST PUBLICZNE - te dane nie moga trafic do commita pod zadnym pozorem.

@@ -17,7 +17,7 @@ const AutomatyzacjaSocialMedia = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   
-  const rssUrl = "https://isypstatsbyacnnfpukx.supabase.co/functions/v1/generate-rss";
+  const rssUrl = "https://hsgxmbhunclhgzumafrk.supabase.co/functions/v1/generate-rss";
 
   const handleCopyRss = () => {
     navigator.clipboard.writeText(rssUrl);
