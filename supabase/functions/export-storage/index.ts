@@ -74,53 +74,45 @@ serve(async (req) => {
 
       const files: any[] = [];
 
-      // Recursively list all objects, including those inside sub-folders
-      const listPrefix = async (prefix: string) => {
-        const { data: objects, error: listError } = await supabase.storage.from(bucketName).list(prefix, {
-          limit: 1000,
-          offset: 0,
-        });
+      // List all objects recursively (handles nested folders)
+      const { data: objects, error: listError } = await supabase.storage.from(bucketName).list('', {
+        limit: 1000,
+        offset: 0,
+        recursive: true,
+      });
 
-        if (listError) {
-          throw new Error(`Failed to list objects in ${bucketName}/${prefix}: ${listError.message}`);
-        }
-
-        for (const obj of objects || []) {
-          const fullName = prefix ? `${prefix}${obj.name}` : obj.name;
-          if (!obj.id) {
-            // Folder placeholder: recurse into it
-            await listPrefix(`${fullName}/`);
-          } else {
-            const { data: fileData, error: downloadError } = await supabase.storage
-              .from(bucketName)
-              .download(fullName);
-
-            if (downloadError) {
-              throw new Error(`Failed to download ${bucketName}/${fullName}: ${downloadError.message}`);
-            }
-
-            const bytes = await fileData.arrayBuffer();
-            const base64 = btoa(String.fromCharCode(...new Uint8Array(bytes)));
-
-            files.push({
-              name: fullName,
-              content_type: fileData.type || obj.metadata?.mimetype || 'application/octet-stream',
-              size: obj.metadata?.size || bytes.byteLength,
-              base64,
-            });
-          }
-        }
-      };
-
-      try {
-        await listPrefix('');
-      } catch (error) {
-        console.error(error);
-        const message = error instanceof Error ? error.message : 'Unknown error';
+      if (listError) {
+        console.error(`Error listing objects in ${bucketName}:`, listError);
         return new Response(
-          JSON.stringify({ error: message }),
+          JSON.stringify({ error: `Failed to list objects in ${bucketName}: ${listError.message}` }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
+      }
+
+      for (const obj of objects || []) {
+        if (!obj.id) continue; // skip folder placeholders
+
+        const { data: fileData, error: downloadError } = await supabase.storage
+          .from(bucketName)
+          .download(obj.name);
+
+        if (downloadError) {
+          console.error(`Error downloading ${bucketName}/${obj.name}:`, downloadError);
+          return new Response(
+            JSON.stringify({ error: `Failed to download ${bucketName}/${obj.name}: ${downloadError.message}` }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const bytes = await fileData.arrayBuffer();
+        const base64 = btoa(String.fromCharCode(...new Uint8Array(bytes)));
+
+        files.push({
+          name: obj.name,
+          content_type: fileData.type || obj.metadata?.mimetype || 'application/octet-stream',
+          size: obj.metadata?.size || bytes.byteLength,
+          base64,
+        });
       }
 
       result[bucketName] = files;
