@@ -30,6 +30,7 @@ interface Skladnik {
 
 interface PrzykladowySkladnik {
   nazwa: string;
+  kategoria?: string;
   em: number;
   bialko: number;
   ca: number;
