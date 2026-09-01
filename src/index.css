@@ -221,3 +221,31 @@ All colors MUST be HSL.
     width: 100% !important;
   }
 }
+
+/* ===== Kotwice panelu pytań =====
+   Link typu A przewija do sekcji i ją podświetla. Czysty CSS (:target), bez
+   JavaScriptu — ta sama technika działa w statycznym mirrorze, więc obie warstwy
+   zachowują się identycznie.
+
+   Świadomie NIE ustawiamy `scroll-behavior: smooth` na html: ScrollToTop.tsx woła
+   `window.scrollTo(0, 0)` przy każdej zmianie trasy, więc płynne przewijanie
+   zamieniłoby natychmiastowy powrót na górę w animację na całej aplikacji.
+
+   `scroll-margin-top` bierze się z paska nawigacji przyklejonego na komórkach
+   (h-16 = 4rem); bez tego kotwica chowałaby się pod nim. */
+[id^="rhd-"] {
+  scroll-margin-top: 5rem;
+}
+
+[id^="rhd-"]:target {
+  animation: podswietl-kotwice 2.4s ease-out;
+}
+
+@keyframes podswietl-kotwice {
+  0%, 40% { background-color: hsl(var(--primary) / 0.12); }
+  100%    { background-color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [id^="rhd-"]:target { animation: none; background-color: hsl(var(--primary) / 0.1); }
+}

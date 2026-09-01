@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, FileText, Scale, Users, ShoppingBag, ClipboardCheck, Euro, MapPin, AlertCircle, CheckCircle, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageHeader from "@/components/PageHeader";
+import PanelPytan from "@/components/PanelPytan";
+import { panelPytanPrawoRhd } from "@/data/panelPytanPrawoRhd";
 import ReactionButton from "@/components/ReactionButton";
 import FAQSchema from "@/components/FAQSchema";
 import TLDRSection from "@/components/TLDRSection";
@@ -122,6 +124,9 @@ const RHD = () => {
 
           <FAQSchema faqs={faqData} />
 
+          {/* Panel pytan - tresc z data/pytania/prawo-rhd.json, ten sam plik zasila mirror. */}
+          <PanelPytan dane={panelPytanPrawoRhd} />
+
           {/* Menu szybkiego dostępu */}
           <Card className="mb-6 bg-primary/5 border-primary/20">
             <CardContent className="p-6">
@@ -171,7 +176,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja: RHD a sprzedaż bezpośrednia */}
-            <Card>
+            <Card id="rhd-a-sprzedaz-bezposrednia">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <Scale className="h-5 w-5 text-primary" />
@@ -314,7 +319,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja 3: Kto może prowadzić RHD */}
-            <Card>
+            <Card id="rhd-kto-moze">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" />
@@ -351,7 +356,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja 4: Proces rejestracji */}
-            <Card>
+            <Card id="rhd-rejestracja">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <ClipboardCheck className="h-5 w-5 text-primary" />
@@ -417,7 +422,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja: Numer RHD (WNI) */}
-            <Card>
+            <Card id="rhd-numer">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
@@ -495,7 +500,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja 6: Preferencje podatkowe */}
-            <Card>
+            <Card id="rhd-limity-podatki">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <Euro className="h-5 w-5 text-primary" />
@@ -599,7 +604,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja: Faktura, kasa fiskalna, ewidencja */}
-            <Card>
+            <Card id="rhd-faktura-paragon-kasa">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
@@ -657,7 +662,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja: Faktura VAT RR */}
-            <Card>
+            <Card id="rhd-faktura-vat-rr">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <Euro className="h-5 w-5 text-primary" />
