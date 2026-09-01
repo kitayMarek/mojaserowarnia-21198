@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { metaStron } from "@/data/metaStron";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -45,13 +46,13 @@ const seeAlsoLinks = [
 
 const MOL = () => {
   useEffect(() => {
-    document.title = "MOL (marginalna, lokalna, ograniczona) — limity i rejestracja";
+    // Tytul i opis pochodza z src/data/metaStron.ts — te same wartosci dosyla
+    // do mirrora scripts/sync-seo-mirrory.py, zeby warstwy nie mogly sie rozjechac.
+    const meta = metaStron["/prawo/mol"];
+    document.title = meta.title;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Działalność MOL: limity produkcji (mleczne 0,5 t/tydzień), rejestracja u powiatowego lekarza weterynarii (30 dni), obszar sprzedaży i różnica MOL a RHD."
-      );
+      metaDescription.setAttribute("content", meta.description);
     }
   }, []);
 

@@ -1323,6 +1323,13 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "mozzarella",
+    // Najlepiej ustawiona strona tresciowa: 5017 wyswietlen, pozycje 4,8-6,2, CTR 2,27%.
+    // Wszystkie 14 czolowych zapytan to "jak zrobic / przepis / domowa" — odbiorca chce
+    // ZROBIC ten ser w domu (hipoteza o pizzeriach zamknieta: sygnaly profesjonalne to
+    // ponizej 1% wyswietlen). Osobno widac obawe o mleko: "jak zrobic ser mozzarella
+    // z mleka krowiego" 140 wyswietlen — stad mleko krowie wprost w tytule.
+    seoTitle: "Mozzarella domowa z mleka krowiego — przepis krok po kroku",
+    seoDescription: "Mozzarella z mleka krowiego w godzinę: 4 l mleka, kwas cytrynowy lub kultura, podpuszczka i rozciąganie. Krok po kroku, bez specjalnego sprzętu.",
     zastosowanie: "Świeża mozzarella to caprese z pomidorem i bazylią, sałatki i przekąski na zimno. Mozzarella bardziej odciśnięta idzie na pizzę i do zapiekanek — ta świeża, mocno wodnista, zalałaby ciasto. Sprawdza się też grillowana w plastrach oraz jako nadzienie do arancini i roladek.",
     name: "Mozzarella",
     difficulty: "Łatwy",

@@ -11,6 +11,17 @@
       ],
       "co": "Nowy tytul i opis w OBU warstwach, ze wspolnego zrodla (seoTitle/seoDescription w recipesData).",
       "nastepnyPomiar": "2026-09-29 (4 tygodnie)"
+    },
+    {
+      "data": "2026-09-01",
+      "strony": [
+        "/prawo/rhd",
+        "/prawo/mol",
+        "/przepisy/mozzarella"
+      ],
+      "co": "Nowe tytuly i opisy w obu warstwach. Zrodlo: src/data/metaStron.ts (strony) i seoTitle/seoDescription w recipesData (przepisy).",
+      "uwaga": "Marek swiadomie zrezygnowal z czekania do 29.09. Skutek: na /prawo/rhd i /prawo/mol nie da sie potem rozdzielic efektu panelu pytan od efektu opisu — obie zmiany ruszyly tego samego dnia. Stan wyjsciowy obu jest zapisany, wiec porownanie 'przed/po' zostaje mozliwe.",
+      "nastepnyPomiar": "2026-09-29 (4 tygodnie)"
     }
   ],
   "strony": [
@@ -44,8 +55,12 @@
         "dlugoscDescription": 148,
         "canonical": "https://mojaserowarnia.pl/przepisy/mozzarella"
       },
-      "poZmianie": null,
-      "dataZmiany": null,
+      "poZmianie": {
+        "title": "Mozzarella domowa z mleka krowiego — przepis krok po kroku",
+        "description": "Mozzarella z mleka krowiego w godzinę: 4 l mleka, kwas cytrynowy lub kultura, podpuszczka i rozciąganie. Krok po kroku, bez specjalnego sprzętu.",
+        "uzasadnienie": "Wszystkie 14 czolowych zapytan to 'jak zrobic / przepis / domowa'; sygnaly profesjonalne ponizej 1% — hipoteza o pizzeriach zamknieta. 'z mleka krowiego' wprost w tytule, bo to widoczna obawa (140 wyswietlen)."
+      },
+      "dataZmiany": "2026-09-01",
       "przedZmianaRender": null
     },
     {
@@ -61,8 +76,12 @@
         "dlugoscDescription": 152,
         "canonical": null
       },
-      "poZmianie": null,
-      "dataZmiany": null,
+      "poZmianie": {
+        "title": "Rolniczy handel detaliczny (RHD) — sprzedaż bez działalności",
+        "description": "Sprzedawaj własne sery i przetwory bez zakładania firmy. Limit 100 000 zł bez PIT, rejestracja w 14 lub 30 dni, ewidencja i kasa fiskalna.",
+        "uzasadnienie": "Profil odbiorcy: male gospodarstwo szukajace dodatkowego dochodu BEZ dzialalnosci gospodarczej; nie widzi, co zyskuje — widzi papiery. Dlatego opis zaczyna sie od korzysci. Eksport per strona: 2650 wyswietlen, CTR 0,34%, ale 1211 z nich to samo dwuznaczne 'rhd' (poz. 9,2)."
+      },
+      "dataZmiany": "2026-09-01",
       "przedZmianaRender": {
         "title": "Rolniczy handel detaliczny (RHD) — zasady, limity, rejestracja",
         "description": "RHD: kto może prowadzić, co można sprzedawać, limit 100 000 zł bez podatku PIT, rejestracja w Sanepidzie (14 dni) lub u powiatowego lekarza weterynarii (30 dni).",
@@ -162,8 +181,12 @@
         "dlugoscDescription": 152,
         "canonical": null
       },
-      "poZmianie": null,
-      "dataZmiany": null,
+      "poZmianie": {
+        "title": "MOL — działalność marginalna, lokalna i ograniczona: limity",
+        "description": "MOL to sprzedaż produktów zwierzęcych na większą skalę niż RHD: 0,5 tony sera tygodniowo, obszar województwa, a surowiec nie musi być własny.",
+        "uzasadnienie": "Ten sam odbiorca co RHD, wieksza skala. W opisie rzecz, ktora realnie decyduje o wyborze MOL: surowiec nie musi pochodzic z wlasnego gospodarstwa. Eksport: 179 wyswietlen, 1 klikniecie — za malo, by cokolwiek zmierzyc."
+      },
+      "dataZmiany": "2026-09-01",
       "przedZmianaRender": null
     }
   ],

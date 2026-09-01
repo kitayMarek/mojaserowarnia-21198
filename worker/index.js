@@ -21,6 +21,26 @@
 const BOTY_PODGLADU =
   /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly/i;
 
+/**
+ * Crawlery modeli językowych — dostają mirror z tego samego powodu co boty
+ * podglądu: nie uruchamiają JavaScriptu.
+ *
+ * SKALA PROBLEMU (zmierzone 2026-09-01 na /prawo/rhd): bot bez renderowania
+ * dostawał na trasie React 4 134 znaki tekstu — i to NIE była treść o RHD, tylko
+ * ogólny opis serwisu z bloku zapasowego. Ten sam bot na mirrorze dostaje 16 244
+ * znaki właściwego poradnika. Czyli gdy ktoś wkleja asystentowi link do trasy
+ * i pyta o limity, model dostaje wizytówkę portalu zamiast odpowiedzi.
+ *
+ * To NIE jest podawanie botom innej treści niż ludziom: mirror zawiera tę samą
+ * treść co trasa, jest publicznie dostępny i sam wskazuje trasę jako kanoniczną.
+ * Dokładnie ten sam mechanizm działa tu od lat dla podglądów linków.
+ *
+ * Wyszukiwarek TU NIE MA — ani Googlebota, ani Bingbota, ani Google-Extended.
+ * Wyszukiwarki renderują JavaScript i mają widzieć dokładnie to, co człowiek.
+ */
+const BOTY_MODELI =
+  /GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|CCBot|cohere-ai|MistralAI-User|DuckAssistBot|meta-externalagent|Amazonbot|Bytespider|YouBot|Diffbot/i;
+
 // Trasy, których mirror leży pod INNĄ nazwą niż sama trasa. Reguła ogólna
 // (ścieżka + ".html") ich nie złapie, więc bez tej mapy /baza-kultur dostawało
 // generyczną grafikę zamiast własnego og:image.
@@ -94,9 +114,11 @@ Disallow: /
       return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
     }
 
-    // 2) Bot podglądu linków → mirror z własnym og:title/description/image.
+    // 2) Bot podglądu linków albo crawler modelu → mirror. Jeden i drugi nie
+    //    uruchamia JavaScriptu, więc na trasie React zobaczyłby pustą skorupę.
     //    Człowiek tego nie zobaczy: warunek dotyczy wyłącznie User-Agenta.
-    if (BOTY_PODGLADU.test(request.headers.get('user-agent') || '')) {
+    const ua = request.headers.get('user-agent') || '';
+    if (BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua)) {
       const mirror = MIRROR_POD_INNA_NAZWA[bezUkosnika]
         || (bezUkosnika === '/' || ROZSZERZENIE_PLIKU.test(bezUkosnika) ? null : bezUkosnika + '.html');
       if (mirror) {

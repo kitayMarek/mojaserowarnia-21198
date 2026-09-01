@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { metaStron } from "@/data/metaStron";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -72,13 +73,13 @@ const seeAlsoLinks = [
 
 const RHD = () => {
   useEffect(() => {
-    document.title = "Rolniczy handel detaliczny (RHD) — zasady, limity, rejestracja";
+    // Tytul i opis pochodza z src/data/metaStron.ts — te same wartosci dosyla
+    // do mirrora scripts/sync-seo-mirrory.py, zeby warstwy nie mogly sie rozjechac.
+    const meta = metaStron["/prawo/rhd"];
+    document.title = meta.title;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "RHD: kto może prowadzić, co można sprzedawać, limit 100 000 zł bez podatku PIT, rejestracja w Sanepidzie (14 dni) lub u powiatowego lekarza weterynarii (30 dni)."
-      );
+      metaDescription.setAttribute("content", meta.description);
     }
   }, []);
 
