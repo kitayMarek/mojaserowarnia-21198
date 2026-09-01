@@ -1,0 +1,76 @@
+STRONY O KULTURACH — 3 miesiace
+
+ADRES                       WYSWIETL    KLIK     CTR  POZYCJA ZAPYTAN
+/baza-kultur                    2859      61   2.13%     11.2      51
+/porownywarka-kultur               5       1  20.00%      8.4       0
+/kultury/baza.html               101       0   0.00%      6.9       2
+/prawo/przewodnik.html           804      25   3.11%      5.4      17
+/kultury/przewodnik               55       2   3.64%     11.6       9
+/kultury/mezofilne.html           24       2   8.33%      5.7       1
+/bakterie-kultury                493       1   0.20%     11.4      20
+/kultury/termofilne               98       0   0.00%     11.7       9
+
+ZAPYTANIA, O KTORE BIJA SIE CO NAJMNIEJ DWIE STRONY
+
+bakterie do serów                         wysw  116  klik 0
+      /baza-kultur               wysw   87  poz  17.8  klik 0
+      /bakterie-kultury          wysw   25  poz  32.4  klik 0
+      /kultury/przewodnik        wysw    4  poz  39.8  klik 0
+kultury bakterii do serów                 wysw  114  klik 0
+      /baza-kultur               wysw   81  poz  19.7  klik 0
+      /bakterie-kultury          wysw   29  poz  39.7  klik 0
+      /kultury/przewodnik        wysw    4  poz  42.2  klik 0
+kultury bakterii do twarogu               wysw  107  klik 0
+      /baza-kultur               wysw   86  poz  25.1  klik 0
+      /bakterie-kultury          wysw   21  poz  43.6  klik 0
+bioprotekcja sera                         wysw   88  klik 0
+      /baza-kultur               wysw   84  poz  16.8  klik 0
+      /bakterie-kultury          wysw    4  poz  17.2  klik 0
+kultury starterowe do serów               wysw   88  klik 0
+      /baza-kultur               wysw   83  poz  17.1  klik 0
+      /kultury/przewodnik        wysw    5  poz  32.0  klik 0
+szczepionki do sera                       wysw   86  klik 0
+      /baza-kultur               wysw   74  poz  19.1  klik 0
+      /bakterie-kultury          wysw    4  poz  34.2  klik 0
+      /kultury/termofilne        wysw    8  poz  48.2  klik 0
+bakterie termofilne                       wysw   85  klik 0
+      /kultury/termofilne        wysw   17  poz   8.2  klik 0
+      /baza-kultur               wysw   61  poz   9.5  klik 0
+      /bakterie-kultury          wysw    6  poz  35.7  klik 0
+      /kultury/przewodnik        wysw    1  poz  75.0  klik 0
+kultury bakterii do mleka                 wysw   69  klik 0
+      /baza-kultur               wysw   66  poz  20.6  klik 0
+      /bakterie-kultury          wysw    3  poz  38.3  klik 0
+bakterie mezofilne                        wysw   48  klik 0
+      /kultury/mezofilne.html    wysw    1  poz   6.0  klik 0
+      /baza-kultur               wysw   33  poz  16.2  klik 0
+      /bakterie-kultury          wysw    8  poz  20.2  klik 0
+      /kultury/termofilne        wysw    5  poz  45.2  klik 0
+      /kultury/przewodnik        wysw    1  poz  59.0  klik 0
+bakterie mezofilne do sera                wysw   31  klik 1
+      /baza-kultur               wysw   24  poz   5.3  klik 1
+      /bakterie-kultury          wysw    6  poz   5.5  klik 0
+      /kultury/termofilne        wysw    1  poz  21.0  klik 0
+mikrobiologia sera                        wysw   31  klik 0
+      /baza-kultur               wysw   30  poz  14.1  klik 0
+      /kultury/przewodnik        wysw    1  poz  97.0  klik 0
+podpuszczki, kultury bakterii             wysw   29  klik 0
+      /baza-kultur               wysw   27  poz  15.2  klik 0
+      /bakterie-kultury          wysw    2  poz  22.0  klik 0
+kultury bakterii do sera                  wysw   23  klik 0
+      /baza-kultur               wysw   19  poz  22.8  klik 0
+      /bakterie-kultury          wysw    2  poz  35.5  klik 0
+      /kultury/przewodnik        wysw    2  poz  39.5  klik 0
+termofilne bakterie                       wysw   18  klik 0
+      /baza-kultur               wysw   14  poz   9.2  klik 0
+      /kultury/termofilne        wysw    4  poz   9.5  klik 0
+mezofilne                                 wysw   15  klik 0
+      /bakterie-kultury          wysw    1  poz  11.0  klik 0
+      /baza-kultur               wysw   13  poz  13.2  klik 0
+      /kultury/termofilne        wysw    1  poz  21.0  klik 0
+mezofilne bakterie                        wysw   15  klik 0
+      /kultury/termofilne        wysw    1  poz  10.0  klik 0
+      /baza-kultur               wysw    8  poz  10.2  klik 0
+      /bakterie-kultury          wysw    6  poz  12.2  klik 0
+
+Zapytan spornych: 19 z 78 unikalnych
