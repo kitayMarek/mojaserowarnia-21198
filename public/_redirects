@@ -23,3 +23,9 @@
   /wege /wege/ 301
 # /przepis/<id> (liczba pojedyncza) → /przepisy/<id>
   /przepis/* /przepisy/:splat 301
+# Przewodnik o kulturach scalony z /bakterie-kultury (2026-09-01). Powod: obie
+# strony byly przewodnikami o tym samym i bily sie o te same frazy.
+  /kultury/przewodnik /bakterie-kultury 301
+  /kultury/index.html /bakterie-kultury 301
+  /kultury /bakterie-kultury 301
+  /kultury/ /bakterie-kultury 301

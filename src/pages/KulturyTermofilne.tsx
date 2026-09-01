@@ -20,11 +20,11 @@ const KulturyTermofilne = () => (
     subtitle="Kultury (bakterie) termofilne pracują w wyższych temperaturach (37–55°C) i są niezbędne do serów włoskich oraz twardych, mocno dogrzewanych."
     metaTitle="Kultury termofilne do sera — które wybrać | Moja Serowarnia"
     metaDescription="Kultury termofilne do sera: temperatura 37–55°C, do jakich serów (caciotta, mozzarella, parmezan, gruyère), polecane szczepy (TA-61, LH-100) i dawkowanie."
-    breadcrumb={[{ label: "Kultury serowarskie", href: "/kultury/przewodnik" }, { label: "Termofilne" }]}
+    breadcrumb={[{ label: "Kultury serowarskie", href: "/bakterie-kultury" }, { label: "Termofilne" }]}
     bazaType="termofilne"
     bazaCtaLabel="Przeglądaj kultury termofilne w bazie"
     related={[
-      { label: "Kultury bakteryjne do serów — przewodnik", href: "/kultury/przewodnik" },
+      { label: "Bakterie i kultury w serowarstwie — przewodnik", href: "/bakterie-kultury" },
       { label: "Kultury mezofilne do sera", href: "/kultury/mezofilne" },
       { label: "Bakterie i kultury — poradnik", href: "/bakterie-kultury" },
       { label: "Pełna baza kultur", href: "/baza-kultur" },

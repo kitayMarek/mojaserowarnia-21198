@@ -30,6 +30,11 @@ export const mleczneProdukty: MlecznyProdukt[] = [
     opis: "typu Danio · z własnego twarogu · 2× więcej białka",
   },
   {
+    slug: "zsiadle-mleko",
+    label: "Zsiadłe mleko",
+    opis: "ze sklepowego mleka · 20–24°C, 12–24 h · podgrzej i masz twaróg",
+  },
+  {
     slug: "jogurt-domowy",
     label: "Domowy jogurt",
     opis: "42–45°C, 4–8 h · także bez jogurtownicy · jogurt grecki",

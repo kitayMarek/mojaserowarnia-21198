@@ -198,15 +198,6 @@
     "mirror": "/kultury/mezofilne.html"
   },
   {
-    "sciezka": "/kultury/przewodnik",
-    "komponent": "KulturyPrzewodnik",
-    "maMirror": true,
-    "maTytul": true,
-    "martwyHelmet": false,
-    "ldWHelmecie": false,
-    "mirror": "/kultury/index.html"
-  },
-  {
     "sciezka": "/kultury/termofilne",
     "komponent": "KulturyTermofilne",
     "maMirror": true,
@@ -448,6 +439,15 @@
     "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": "/przepisy/serek-homogenizowany.html"
+  },
+  {
+    "sciezka": "/przepisy/zsiadle-mleko",
+    "komponent": "ZsiadleMleko",
+    "maMirror": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
+    "mirror": "/przepisy/zsiadle-mleko.html"
   },
   {
     "sciezka": "/serowarnie",

@@ -523,6 +523,42 @@ def grafika_jogurt(rek):
     return img
 
 
+def grafika_zsiadle(rek):
+    """Najmocniejszy konkret: sklepowe mleko nie jest gorsze, tylko PUSTE.
+
+    Gospodyni ma racje obserwacyjnie (ze sklepowego zsiadle nie wychodzi) i myli
+    sie co do przyczyny. Plansza ma obalic wniosek, nie obserwacje — dlatego
+    zestawia dwa wiersze: co robia bakterie mlekowe, a co robi ich brak.
+    """
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "SKLEPOWE MLEKO SIĘ NIE ZSIĄDZIE?", "zsiądzie — brakuje mu tylko bakterii", 48)
+
+    d.rounded_rectangle([(48, 172), (SZER - 48, 314)], radius=12, fill=(255, 255, 255),
+                        outline=LINIA, width=2)
+    d.text((74, 192), "Pasteryzacja zabiła bakterie mlekowe. Zostało mleko bez obrony:",
+           font=czcionka("segoeuib.ttf", 26), fill=TEKST)
+    d.text((74, 232), "BEZ ZAKWASU — bakterie gnilne rozkładają białko, mleko gorzknieje",
+           font=czcionka("segoeui.ttf", 24), fill=(185, 28, 28))
+    d.text((74, 268), "Z KULTURĄ  — kwas mlekowy obniża pH i blokuje resztę. Zsiadłe mleko",
+           font=czcionka("segoeui.ttf", 24), fill=(21, 128, 61))
+
+    kafle = [("20–24°C", "temperatura"), ("12–24 h", "ukwaszanie"), ("2 łyżki", "maślanki na litr")]
+    x = 48
+    for duza, opis in kafle:
+        d.rounded_rectangle([(x, 344), (x + 352, 452)], radius=10, fill=(254, 243, 199))
+        d.text((x + 26, 358), duza, font=czcionka("segoeuib.ttf", 46), fill=CIEMNY)
+        d.text((x + 26, 412), opis, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        x += 368
+
+    d.text((48, 480), "Nie mieszaj po zaszczepieniu — skrzep tworzy się w bezruchu.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((48, 516), "Podgrzej gotowe do 38–40°C i masz twaróg. To ta sama droga.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/przepisy/zsiadle-mleko")
+    return img
+
+
 def grafika_kefir(rek):
     """Kefir to nie wariant jogurtu — trzy roznice, kazda z konsekwencja."""
     img = Image.new("RGB", (SZER, WYS), TLO)
@@ -565,6 +601,7 @@ GRAFIKI = {
     "wege": grafika_wege,
     "jogurt": grafika_jogurt,
     "kefir": grafika_kefir,
+    "zsiadle": grafika_zsiadle,
 }
 
 

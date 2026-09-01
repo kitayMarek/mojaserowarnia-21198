@@ -23,14 +23,14 @@ const SeryWege = () => (
     subtitle="Wielu osób zaskakuje, że klasyczny ser bywa niewegetariański — a jednocześnie ser może być w pełni wege. Cały sekret tkwi w podpuszczce. Poniżej wyjaśniamy, jak to działa i jak zrobić ser wegetariański oraz wegański w domu."
     metaTitle="Ser wegetariański i wegański — jak to możliwe? | Moja Serowarnia"
     metaDescription="Ser wegetariański i wegański: dlaczego klasyczny ser bywa niewege, rodzaje podpuszczki (mikrobiologiczna, roślinna), które sery są wege, ser wegański z nerkowców krok po kroku."
-    breadcrumb={[{ label: "Kultury serowarskie", href: "/kultury/przewodnik" }, { label: "Sery wege" }]}
+    breadcrumb={[{ label: "Kultury serowarskie", href: "/bakterie-kultury" }, { label: "Sery wege" }]}
     icon={Leaf}
     bazaType="wege"
     bazaCtaLabel="Przeglądaj kultury wegańskie w bazie"
     related={[
       { label: "Ricotta — ser wegetariański bez podpuszczki", href: "/przepisy/ricotta" },
       { label: "Gdzie kupić podpuszczkę (w tym mikrobiologiczną)", href: "/gdzie-kupic-podpuszczke" },
-      { label: "Kultury bakteryjne do serów — przewodnik", href: "/kultury/przewodnik" },
+      { label: "Bakterie i kultury w serowarstwie — przewodnik", href: "/bakterie-kultury" },
       { label: "Baza kultur (w tym wegańskie)", href: "/baza-kultur" },
     ]}
   >

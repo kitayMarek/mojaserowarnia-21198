@@ -19,6 +19,7 @@ const KtoProdukujeKultury = lazy(() => import("./pages/KtoProdukujeKultury"));
 const Przepisy = lazy(() => import("./pages/Przepisy"));
 const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
 const JogurtDomowy = lazy(() => import("./pages/JogurtDomowy"));
+const ZsiadleMleko = lazy(() => import("./pages/ZsiadleMleko"));
 const KefirDomowy = lazy(() => import("./pages/KefirDomowy"));
 const SerZJogurtu = lazy(() => import("./pages/SerZJogurtu"));
 const SerekHomogenizowany = lazy(() => import("./pages/SerekHomogenizowany"));
@@ -81,7 +82,6 @@ const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
 const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialMedia"));
 const Slownik = lazy(() => import("./pages/Slownik"));
 const MojeListy = lazy(() => import("./pages/MojeListy"));
-const KulturyPrzewodnik = lazy(() => import("./pages/KulturyPrzewodnik"));
 const KulturyMezofilne = lazy(() => import("./pages/KulturyMezofilne"));
 const KulturyTermofilne = lazy(() => import("./pages/KulturyTermofilne"));
 const KulturyJogurtowe = lazy(() => import("./pages/KulturyJogurtowe"));
@@ -130,7 +130,6 @@ const App = () => (
             <Route path="/kto-produkuje-kultury" element={<KtoProdukujeKultury />} />
             <Route path="/porownywarka-kultur" element={<PorownywarkaKultur />} />
             <Route path="/moje-listy" element={<MojeListy />} />
-            <Route path="/kultury/przewodnik" element={<KulturyPrzewodnik />} />
             <Route path="/kultury/mezofilne" element={<KulturyMezofilne />} />
             <Route path="/kultury/termofilne" element={<KulturyTermofilne />} />
             <Route path="/kultury/jogurtowe" element={<KulturyJogurtowe />} />
@@ -139,6 +138,7 @@ const App = () => (
             {/* Nabial fermentowany - trasy statyczne MUSZA byc przed /przepisy/:id */}
             <Route path="/przepisy/serek-homogenizowany" element={<SerekHomogenizowany />} />
             <Route path="/przepisy/jogurt-domowy" element={<JogurtDomowy />} />
+            <Route path="/przepisy/zsiadle-mleko" element={<ZsiadleMleko />} />
             <Route path="/przepisy/kefir-domowy" element={<KefirDomowy />} />
             <Route path="/przepisy/ser-z-jogurtu" element={<SerZJogurtu />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />

@@ -22,11 +22,11 @@ const KulturyJogurtowe = () => (
     subtitle="Kultury jogurtowe to termofilne bakterie pracujące w 42–45°C. Poniżej: jakie szczepy wybrać, do jakich produktów się nadają, czym różnią się od kultur serowarskich i ile dodać na litr mleka."
     metaTitle="Kultury jogurtowe — które wybrać i ile dodać | Moja Serowarnia"
     metaDescription="Kultury jogurtowe: szczepy (Yo-Mix, LAMBDA, Beaugel Yog), temperatura pracy 42–45°C, dawkowanie na 1–25 L, porównanie z kulturami mezofilnymi i termofilnymi serowarskimi."
-    breadcrumb={[{ label: "Kultury serowarskie", href: "/kultury/przewodnik" }, { label: "Jogurtowe" }]}
+    breadcrumb={[{ label: "Kultury serowarskie", href: "/bakterie-kultury" }, { label: "Jogurtowe" }]}
     bazaType="jogurtowe"
     bazaCtaLabel="Przeglądaj kultury jogurtowe w bazie"
     related={[
-      { label: "Kultury bakteryjne do serów — przewodnik", href: "/kultury/przewodnik" },
+      { label: "Bakterie i kultury w serowarstwie — przewodnik", href: "/bakterie-kultury" },
       { label: "Kultury mezofilne do sera", href: "/kultury/mezofilne" },
       { label: "Kultury termofilne do sera", href: "/kultury/termofilne" },
       { label: "Sery i nabiał wege — jak to możliwe", href: "/sery-wege" },

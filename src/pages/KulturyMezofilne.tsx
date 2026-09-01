@@ -21,11 +21,11 @@ const KulturyMezofilne = () => (
     subtitle="Kultury (bakterie) mezofilne to podstawa większości serów świeżych i półtwardych. Pracują w niższych temperaturach (25–35°C) i nadają serom łagodny, maślany profil."
     metaTitle="Kultury mezofilne do sera — które wybrać | Moja Serowarnia"
     metaDescription="Kultury mezofilne do sera: temperatura 25–35°C, do jakich serów (gouda, cheddar, twaróg, feta), polecane szczepy (Flora Danica, MA 4001) i dawkowanie."
-    breadcrumb={[{ label: "Kultury serowarskie", href: "/kultury/przewodnik" }, { label: "Mezofilne" }]}
+    breadcrumb={[{ label: "Kultury serowarskie", href: "/bakterie-kultury" }, { label: "Mezofilne" }]}
     bazaType="mezofilne"
     bazaCtaLabel="Przeglądaj kultury mezofilne w bazie"
     related={[
-      { label: "Kultury bakteryjne do serów — przewodnik", href: "/kultury/przewodnik" },
+      { label: "Bakterie i kultury w serowarstwie — przewodnik", href: "/bakterie-kultury" },
       { label: "Kultury termofilne do sera", href: "/kultury/termofilne" },
       { label: "Bakterie i kultury — poradnik", href: "/bakterie-kultury" },
       { label: "Pełna baza kultur", href: "/baza-kultur" },
