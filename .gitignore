@@ -46,3 +46,6 @@ export/
 # Cache Pythona ze skryptow generujacych
 __pycache__/
 *.pyc
+
+# Lokalny stan wranglera (cache builda i podgladu) - nie do repo
+.wrangler
