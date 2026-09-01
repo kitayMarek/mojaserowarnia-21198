@@ -88,12 +88,20 @@ export const BannerRotator: React.FC<BannerRotatorProps> = ({
           className={`${styles.slide} ${
             idx === activeIndex ? styles.active : ''
           }`}
-          style={{
-            backgroundImage: banner.imageUrl
-              ? `url(${banner.imageUrl})`
-              : 'none',
-          }}
         >
+          {banner.imageUrl && (
+            <img
+              src={banner.imageUrl}
+              alt=""
+              className={styles.tlo}
+              // Aktywny slajd jest kandydatem na LCP calej strony glownej — ma ruszyc
+              // pierwszy. Pozostale leza pod spodem i nikt ich jeszcze nie oglada,
+              // wiec schodza na koniec kolejki zamiast konkurowac o pasmo.
+              fetchPriority={idx === activeIndex ? 'high' : 'low'}
+              loading={idx === activeIndex ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          )}
           <div className={styles.overlay}>
             <div className={styles.content}>
               <h2 className={styles.title}>{banner.title}</h2>

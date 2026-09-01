@@ -9,7 +9,7 @@ import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import ewidencjaHeader from "@/assets/ewidencja-header.png";
+import ewidencjaHeader from "@/assets/ewidencja-header.webp";
 
 const faqs = [
   {

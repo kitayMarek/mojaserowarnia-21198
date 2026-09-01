@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
 import { AlertCircle, CheckCircle, Info } from 'lucide-react';
-import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.jpg";
+import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
@@ -175,6 +175,22 @@ const KalkulatorPasz = () => {
   // baza z pliku (124) + zatwierdzone zgłoszenia userów z Supabase
   const { ingredients: feedMerged, categories: pickerKategorie } = useFeedIngredients();
   useEffect(() => { setPrzykladoweSkladniki(feedMerged); }, [feedMerged]);
+
+  // Lista skladnikow do wyboru jest IDENTYCZNA w kazdym wierszu tabeli, wiec liczymy
+  // ja raz. Wczesniej powstawala od nowa dla kazdego wiersza przy KAZDYM nacisnieciu
+  // klawisza w dowolnym z szesnastu pol liczbowych: przy kilku wierszach to kilkaset
+  // przebiegow `filter` i kilka tysiecy elementow <option> na jedno wcisniecie.
+  // Cloudflare Web Analytics pokazywal wlasnie tu najgorszy INP w calym serwisie.
+  const opcjeSkladnikow = useMemo(
+    () => pickerKategorie.map(kat => (
+      <optgroup key={kat} label={kat}>
+        {przykladoweSkladniki.filter(p => p.kategoria === kat).map(p => (
+          <option key={p.nazwa} value={p.nazwa}>{p.nazwa}</option>
+        ))}
+      </optgroup>
+    )),
+    [pickerKategorie, przykladoweSkladniki],
+  );
   const [zaproponujOpen, setZaproponujOpen] = useState(false);
   const [panelAdmin, setPanelAdmin] = useState(false);
   const [zalogowanyAdmin, setZalogowanyAdmin] = useState(false);
@@ -1167,13 +1183,7 @@ const KalkulatorPasz = () => {
                             className="w-full min-w-[190px] p-2 border border-input bg-background text-foreground rounded"
                           >
                             <option value="">— wybierz składnik —</option>
-                            {pickerKategorie.map(kat => (
-                              <optgroup key={kat} label={kat}>
-                                {przykladoweSkladniki.filter(p => p.kategoria === kat).map(p => (
-                                  <option key={p.nazwa} value={p.nazwa}>{p.nazwa}</option>
-                                ))}
-                              </optgroup>
-                            ))}
+                            {opcjeSkladnikow}
                           </select>
                         </td>
                         <td className="p-2">

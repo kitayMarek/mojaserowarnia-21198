@@ -4,7 +4,7 @@ import risottoGorgonzolaImage from "@/assets/risotto-gorgonzola.jpg";
 import tartaCamembertImage from "@/assets/tarta-camembert.jpg";
 // TYMCZASOWO: brak zdjecia sernika, uzywamy zdjecia twarogu (glowny skladnik).
 // Do podmiany, gdy bedzie zdjecie gotowego ciasta.
-import twarogImage from "@/assets/twarog.jpg";
+import twarogImage from "@/assets/twarog.webp";
 
 export interface CulinaryIngredient {
   name: string;

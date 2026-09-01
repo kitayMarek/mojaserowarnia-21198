@@ -1,16 +1,16 @@
 import asiagoImage from "@/assets/asiago.jpg";
 import dunlopImage from "@/assets/dunlop.jpg";
 import fetaBulgarskaImage from "@/assets/feta-bulgarska.jpg";
-import yorkshireImage from "@/assets/yorkshire.jpg";
-import caciottaImage from "@/assets/caciotta.jpg";
+import yorkshireImage from "@/assets/yorkshire.webp";
+import caciottaImage from "@/assets/caciotta-miniatura.webp";
 import caciottaMiniaturaImage from "@/assets/caciotta-miniatura.webp";
-import goudaImage from "@/assets/gouda.jpg";
+import goudaImage from "@/assets/gouda-miniatura.webp";
 import goudaMiniaturaImage from "@/assets/gouda-miniatura.webp";
 import cheddarImage from "@/assets/cheddar.jpg";
 import mozzarellaImage from "@/assets/mozzarella.jpg";
-import camembertImage from "@/assets/camembert.jpg";
+import camembertImage from "@/assets/camembert-miniatura.webp";
 import camembertMiniaturaImage from "@/assets/camembert-miniatura.webp";
-import halloumiImage from "@/assets/halloumi.jpg";
+import halloumiImage from "@/assets/halloumi.webp";
 import brieImage from "@/assets/brie.jpg";
 import parmezanImage from "@/assets/parmezan.jpg";
 import ricottaImage from "@/assets/ricotta.webp";
@@ -22,12 +22,12 @@ import stiltonImage from "@/assets/stilton.jpg";
 import gruyereImage from "@/assets/gruyere.jpg";
 import emmentalImage from "@/assets/emmental.jpg";
 import emmentalerMiniaturaImage from "@/assets/emmentaler-miniatura.webp";
-import korycinskiImage from "@/assets/korycinski.jpg";
+import korycinskiImage from "@/assets/korycinski.webp";
 import korycinMiniaturaImage from "@/assets/korycin-miniatura.webp";
 import quartiroloImage from "@/assets/quartirolo.jpg";
 import limburskiImage from "@/assets/limburski.jpg";
 import topionyImage from "@/assets/topiony.jpg";
-import twarogImage from "@/assets/twarog.jpg";
+import twarogImage from "@/assets/twarog.webp";
 
 export interface CultureSubstitute {
   name: string;
