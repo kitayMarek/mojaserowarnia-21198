@@ -29,3 +29,28 @@
   /kultury/index.html /bakterie-kultury 301
   /kultury /bakterie-kultury 301
   /kultury/ /bakterie-kultury 301
+
+# Trasy BEZ mirrora .html. Model jezykowy buduje adres z WZORCA serwisu, a nie
+# z linku — a wiekszosc stron ma tu .html. Cloudflare pokazal to wprost w Demand
+# signals: "/kalkulator-pasz-bydlo.html -> nieudane", choc strona istnieje pod
+# adresem bez rozszerzenia. To nie brak tresci, tylko utracone cytowanie.
+# Lista z scripts/audyt-adresow.py --redirects; grupy Z MIRROREM tu NIE MA i byc
+# nie moze — tam .html to osobny, kanoniczny dokument.
+  /automatyzacja-social-media.html /automatyzacja-social-media 301
+  /faktura-vat-rr.html /faktura-vat-rr 301
+  /gdzie-kupic-podpuszczke.html /gdzie-kupic-podpuszczke 301
+  /kalkulator-kosztu-sera.html /kalkulator-kosztu-sera 301
+  /kalkulator-miar.html /kalkulator-miar 301
+  /kalkulator-pasz-bydlo.html /kalkulator-pasz-bydlo 301
+  /kontakt.html /kontakt 301
+  /narzedzia.html /narzedzia 301
+  /nota-prawna.html /nota-prawna 301
+  /poradniki.html /poradniki 301
+  /porownanie-wartosci-odzywczych.html /porownanie-wartosci-odzywczych 301
+  /prawo/akty-prawne-ue.html /prawo/akty-prawne-ue 301
+  /prawo/mol/dokumenty.html /prawo/mol/dokumenty 301
+  /prawo/rhd/dokumenty.html /prawo/rhd/dokumenty 301
+  /prawo/rzeznia-rolnicza.html /prawo/rzeznia-rolnicza 301
+  /przepisy-kulinarne.html /przepisy-kulinarne 301
+  /system-ewidencji.html /system-ewidencji 301
+  /wiadomosci.html /wiadomosci 301

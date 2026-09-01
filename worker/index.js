@@ -47,7 +47,6 @@ const BOTY_MODELI =
 const MIRROR_POD_INNA_NAZWA = {
   '/baza-kultur': '/kultury/baza.html',
   '/sery-wege': '/wege/index.html',
-  '/kultury/przewodnik': '/kultury/index.html',
   '/prawo': '/prawo/przewodnik.html',
   '/przepisy': '/przepisy/przewodnik.html',
 };
@@ -134,6 +133,18 @@ Disallow: /
     if (!ROZSZERZENIE_PLIKU.test(url.pathname) && !ZAWSZE_APLIKACJA.has(bezUkosnika)) {
       const odpowiedz = await zasob(env, url.origin, (bezUkosnika === '/' ? '' : bezUkosnika) + '/index.html');
       if (odpowiedz.status === 200) return odpowiedz;
+    }
+
+    // 3b) Brakujący plik w /assets/ → 410 Gone, nie 404.
+    //     Vite daje przy każdym buildzie nowe hashe w nazwach, więc Bing wraca po
+    //     pliki z poprzedniego wdrożenia — w ciągu doby 83 odpowiedzi 4xx wobec 36
+    //     poprawnych. Strony działały, marnował się budżet indeksowania. 410 znaczy
+    //     „usunięte na stałe" i crawlery przestają pytać szybciej niż po 404, które
+    //     zachęca do ponawiania tygodniami.
+    //     WYŁĄCZNIE /assets/: reszta serwisu ma dalej dostawać 404, bo tam brak pliku
+    //     bywa literówką w adresie, a nie plikiem skasowanym na zawsze.
+    if (url.pathname.startsWith('/assets/')) {
+      return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 410, adresTestowy);
     }
 
     // 4) Brakujący plik z rozszerzeniem → prawdziwe 404 (nie index.html z 200).

@@ -1,0 +1,110 @@
+# ===========================================
+# Moja Serowarnia - robots.txt
+# Portal wiedzy o serowarstwie domowym
+# https://mojaserowarnia.pl
+# ===========================================
+#
+# ZASADA, O KTORA LATWO SIE POTKNAC: bot stosuje TYLKO te jedna grupe, ktora
+# pasuje do jego nazwy. Reguly z grupy "*" NIE sumuja sie z jego wlasnymi.
+# Dlatego kazda grupa musi miec komplet zakazow. Wczesniej Googlebot i Bingbot
+# mialy samo "Allow: /" i mogly wchodzic na /dashboard/, /auth i /admin.
+#
+# Crawl delay (dyrektywa opoznienia) celowo NIE MA: Googlebot go ignoruje (Search Console zglaszal to
+# jako ostrzezenie), a reszty botow nie ma po co dlawic na statycznych plikach.
+# Gdyby kiedys bylo trzeba - Bing Webmaster Tools ma wlasne sterowanie tempem.
+
+# === GLOWNE WYSZUKIWARKI ===
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Bingbot
+User-agent: Yandex
+User-agent: Baiduspider
+User-agent: Seznam-Bot
+User-agent: Naverbot
+Allow: /
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+
+# === BOTY SPOLECZNOSCIOWE (podglady linkow) ===
+# Te boty dostaja statyczne mirrory przez .htaccess, wiec czytaja og:image.
+User-agent: Twitterbot
+User-agent: facebookexternalhit
+User-agent: LinkedInBot
+User-agent: Pinterest
+User-agent: Slackbot
+User-agent: WhatsApp
+User-agent: Discordbot
+User-agent: TelegramBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+
+# === BOTY AI / LLM ===
+# Swiadomie wpuszczamy: cytowanie w odpowiedziach LLM jest dla tego serwisu
+# glownym kanalem widocznosci. Osobno wymienione sa crawlery trenujace
+# (GPTBot, ClaudeBot, CCBot) i te, ktore pobieraja strone w trakcie
+# odpowiadania uzytkownikowi (OAI-SearchBot, ChatGPT-User, Perplexity-User).
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Google-Extended
+User-agent: anthropic-ai
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: cohere-ai
+User-agent: Meta-ExternalAgent
+User-agent: FacebookBot
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Amazonbot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: CCBot
+User-agent: Diffbot
+User-agent: YouBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+
+# === POZOSTALE BOTY ===
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+
+# === SITEMAP ===
+Sitemap: https://mojaserowarnia.pl/sitemap.xml
+
+# === LLMS.TXT ===
+# Plik z metadanymi dla modeli jezykowych
+# https://mojaserowarnia.pl/llms.txt
+
+# === INFORMACJE O TRESCI ===
+# Ten portal zawiera:
+# - Baze 188 kultur bakteryjnych z polskich sklepow (sklad, producent,
+#   pojemnosc opakowania, cena za litr mleka)
+# - Przepisy na sery domowe
+# - Poradniki RHD (Rolniczy Handel Detaliczny) i MOL
+# - Kalkulatory serowarskie
+# - Slownik terminow serowarskich
+# - Aktualne przepisy prawne UE i PL
+#
+# Tresc jest w jezyku polskim.
+# Strona jest przyjazna dla AI i zacheca do indeksowania
+# publicznych sekcji edukacyjnych.

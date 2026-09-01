@@ -1,0 +1,256 @@
+{
+  "data": "2026-09-01",
+  "opis": "Podzial tras publicznych wg tego, czy istnieje dla nich mirror .html. Grupa bezMirrora dostaje 301 z <sciezka>.html, zeby model budujacy adres z wzorca trafial na strone zamiast na 404. Grupa zMirrorem zostaje nietknieta — tam .html to osobny, kanoniczny dokument.",
+  "zMirrorem": [
+    {
+      "sciezka": "/bakterie-kultury",
+      "mirror": "/bakterie-kultury.html"
+    },
+    {
+      "sciezka": "/baza-kultur",
+      "mirror": "/kultury/baza.html"
+    },
+    {
+      "sciezka": "/chlorek-wapnia-do-mleka",
+      "mirror": "/chlorek-wapnia-do-mleka.html"
+    },
+    {
+      "sciezka": "/dojrzewalnia-z-lodowki",
+      "mirror": "/dojrzewalnia-z-lodowki.html"
+    },
+    {
+      "sciezka": "/encyklopedia-serowarstwo",
+      "mirror": "/encyklopedia-serowarstwo.html"
+    },
+    {
+      "sciezka": "/etykieta-rhd",
+      "mirror": "/etykieta-do-sprzedazy-rhd.html"
+    },
+    {
+      "sciezka": "/kalkulator-beaugel",
+      "mirror": "/kalkulator-beaugel.html"
+    },
+    {
+      "sciezka": "/kalkulator-pasz",
+      "mirror": "/kalkulator-pasz.html"
+    },
+    {
+      "sciezka": "/kalkulator-solanki",
+      "mirror": "/kalkulator-solanki.html"
+    },
+    {
+      "sciezka": "/klasyka-serowarstwa",
+      "mirror": "/klasyka-serowarstwa.html"
+    },
+    {
+      "sciezka": "/klecki-jakosc-mleka",
+      "mirror": "/klecki-jakosc-mleka.html"
+    },
+    {
+      "sciezka": "/kto-produkuje-kultury",
+      "mirror": "/kto-produkuje-kultury.html"
+    },
+    {
+      "sciezka": "/kultury/jogurtowe",
+      "mirror": "/kultury/jogurtowe.html"
+    },
+    {
+      "sciezka": "/kultury/mezofilne",
+      "mirror": "/kultury/mezofilne.html"
+    },
+    {
+      "sciezka": "/kultury/termofilne",
+      "mirror": "/kultury/termofilne.html"
+    },
+    {
+      "sciezka": "/licznerski",
+      "mirror": "/licznerski.html"
+    },
+    {
+      "sciezka": "/licznerski-mleko",
+      "mirror": "/licznerski-mleko.html"
+    },
+    {
+      "sciezka": "/licznerski-sery",
+      "mirror": "/licznerski-sery.html"
+    },
+    {
+      "sciezka": "/mleko-do-sera",
+      "mirror": "/mleko-do-sera.html"
+    },
+    {
+      "sciezka": "/nieudany-ser",
+      "mirror": "/nieudany-ser.html"
+    },
+    {
+      "sciezka": "/organizacja-serowarni",
+      "mirror": "/organizacja-serowarni.html"
+    },
+    {
+      "sciezka": "/pasze",
+      "mirror": "/pasze.html"
+    },
+    {
+      "sciezka": "/poradnik",
+      "mirror": "/poradnik.html"
+    },
+    {
+      "sciezka": "/porownywarka-kultur",
+      "mirror": "/porownywarka-kultur.html"
+    },
+    {
+      "sciezka": "/prawo",
+      "mirror": "/prawo/przewodnik.html"
+    },
+    {
+      "sciezka": "/prawo/mol",
+      "mirror": "/prawo/mol.html"
+    },
+    {
+      "sciezka": "/prawo/rhd",
+      "mirror": "/prawo/rhd.html"
+    },
+    {
+      "sciezka": "/przepisy",
+      "mirror": "/przepisy/przewodnik.html"
+    },
+    {
+      "sciezka": "/przepisy/jogurt-domowy",
+      "mirror": "/przepisy/jogurt-domowy.html"
+    },
+    {
+      "sciezka": "/przepisy/kefir-domowy",
+      "mirror": "/przepisy/kefir-domowy.html"
+    },
+    {
+      "sciezka": "/przepisy/ser-z-jogurtu",
+      "mirror": "/przepisy/ser-z-jogurtu.html"
+    },
+    {
+      "sciezka": "/przepisy/serek-homogenizowany",
+      "mirror": "/przepisy/serek-homogenizowany.html"
+    },
+    {
+      "sciezka": "/przepisy/zsiadle-mleko",
+      "mirror": "/przepisy/zsiadle-mleko.html"
+    },
+    {
+      "sciezka": "/serowarnie",
+      "mirror": "/serowarnie.html"
+    },
+    {
+      "sciezka": "/serowarstwo-staropolskie",
+      "mirror": "/serowarstwo-staropolskie.html"
+    },
+    {
+      "sciezka": "/serwatka-dla-zwierzat",
+      "mirror": "/serwatka-dla-zwierzat.html"
+    },
+    {
+      "sciezka": "/sery-wege",
+      "mirror": "/wege/index.html"
+    },
+    {
+      "sciezka": "/sila-podpuszczki",
+      "mirror": "/sila-podpuszczki.html"
+    },
+    {
+      "sciezka": "/slownik",
+      "mirror": "/slownik.html"
+    },
+    {
+      "sciezka": "/solenie-sera",
+      "mirror": "/solenie-sera.html"
+    },
+    {
+      "sciezka": "/wady-mleka-a-wady-sera",
+      "mirror": "/wady-mleka-a-wady-sera.html"
+    },
+    {
+      "sciezka": "/wedzenie-sera",
+      "mirror": "/wedzenie-sera.html"
+    },
+    {
+      "sciezka": "/woskowanie-sera",
+      "mirror": "/woskowanie-sera.html"
+    },
+    {
+      "sciezka": "/zamienniki-kultur",
+      "mirror": "/zamienniki-kultur.html"
+    }
+  ],
+  "bezMirrora": [
+    {
+      "sciezka": "/automatyzacja-social-media",
+      "mirror": null
+    },
+    {
+      "sciezka": "/faktura-vat-rr",
+      "mirror": null
+    },
+    {
+      "sciezka": "/gdzie-kupic-podpuszczke",
+      "mirror": null
+    },
+    {
+      "sciezka": "/kalkulator-kosztu-sera",
+      "mirror": null
+    },
+    {
+      "sciezka": "/kalkulator-miar",
+      "mirror": null
+    },
+    {
+      "sciezka": "/kalkulator-pasz-bydlo",
+      "mirror": null
+    },
+    {
+      "sciezka": "/kontakt",
+      "mirror": null
+    },
+    {
+      "sciezka": "/narzedzia",
+      "mirror": null
+    },
+    {
+      "sciezka": "/nota-prawna",
+      "mirror": null
+    },
+    {
+      "sciezka": "/poradniki",
+      "mirror": null
+    },
+    {
+      "sciezka": "/porownanie-wartosci-odzywczych",
+      "mirror": null
+    },
+    {
+      "sciezka": "/prawo/akty-prawne-ue",
+      "mirror": null
+    },
+    {
+      "sciezka": "/prawo/mol/dokumenty",
+      "mirror": null
+    },
+    {
+      "sciezka": "/prawo/rhd/dokumenty",
+      "mirror": null
+    },
+    {
+      "sciezka": "/prawo/rzeznia-rolnicza",
+      "mirror": null
+    },
+    {
+      "sciezka": "/przepisy-kulinarne",
+      "mirror": null
+    },
+    {
+      "sciezka": "/system-ewidencji",
+      "mirror": null
+    },
+    {
+      "sciezka": "/wiadomosci",
+      "mirror": null
+    }
+  ]
+}
