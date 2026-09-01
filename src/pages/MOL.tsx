@@ -9,6 +9,8 @@ import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
 import FAQSchema from "@/components/FAQSchema";
+import PanelPytan from "@/components/PanelPytan";
+import { panelPytanPrawoMol } from "@/data/panelPytanPrawoMol";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 
@@ -91,6 +93,10 @@ const MOL = () => {
 
           <FAQSchema faqs={faqData} />
 
+          {/* Panel pytan - tresc z data/pytania/prawo-mol.json,
+              ten sam plik zasila mirror. */}
+          <PanelPytan dane={panelPytanPrawoMol} />
+
           {/* Menu nawigacyjne */}
           <Card className="mb-6">
             <CardHeader>
@@ -116,7 +122,7 @@ const MOL = () => {
 
           <div className="space-y-6">
             {/* Sekcja 1: Czym jest MOL */}
-            <Card>
+            <Card id="mol-czym-jest">
               <CardHeader>
                 <CardTitle>1. Czym jest MOL</CardTitle>
               </CardHeader>
@@ -149,7 +155,7 @@ const MOL = () => {
             </Card>
 
             {/* Sekcja 2: Podstawy prawne */}
-            <Card>
+            <Card id="mol-podstawy-prawne">
               <CardHeader>
                 <CardTitle>2. Podstawy prawne MOL</CardTitle>
               </CardHeader>
@@ -244,7 +250,7 @@ const MOL = () => {
             </Card>
 
             {/* Sekcja 4: Proces rejestracji */}
-            <Card>
+            <Card id="mol-rejestracja">
               <CardHeader>
                 <CardTitle>4. Proces rejestracji i prowadzenia MOL – krok po kroku</CardTitle>
               </CardHeader>
@@ -288,7 +294,7 @@ const MOL = () => {
             </Card>
 
             {/* Sekcja 5: Zakres produkcji */}
-            <Card>
+            <Card id="mol-co-produkowac">
               <CardHeader>
                 <CardTitle>5. Zakres produkcji i sprzedaży w ramach MOL – co można sprzedawać</CardTitle>
               </CardHeader>
@@ -326,7 +332,7 @@ const MOL = () => {
             </Card>
 
             {/* Sekcja 6: Limity i korzyści */}
-            <Card>
+            <Card id="mol-limity-korzysci">
               <CardHeader>
                 <CardTitle>6. Limity, korzyści i ograniczenia</CardTitle>
               </CardHeader>

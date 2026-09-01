@@ -29,5 +29,7 @@ export interface PunktPanelu {
 export interface DanePanelu {
   slug: string;
   trasaReact: string;
+  /** Zdanie pod nagłówkiem panelu — inne na każdej stronie, więc pochodzi z danych. */
+  wstep: string;
   punkty: PunktPanelu[];
 }

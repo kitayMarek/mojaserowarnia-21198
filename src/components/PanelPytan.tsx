@@ -34,7 +34,7 @@ export default function PanelPytan({ dane }: { dane: DanePanelu }) {
         Szybkie odpowiedzi
       </h2>
       <p className="mb-4 text-sm text-muted-foreground">
-        Najczęstsze pytania o RHD. Rozwiń to, z którym przyszedłeś — pełne omówienie znajdziesz niżej na stronie.
+        {dane.wstep}
       </p>
 
       <ul className="space-y-2">

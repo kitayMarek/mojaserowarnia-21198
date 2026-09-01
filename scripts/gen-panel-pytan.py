@@ -25,18 +25,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 START = "<!-- PANEL-PYTAN:START (generowane przez scripts/gen-panel-pytan.py - nie edytuj recznie) -->"
 KONIEC = "<!-- PANEL-PYTAN:KONIEC -->"
 
-# Poczatek tekstu naglowka h2 w mirrorze -> identyfikator kotwicy. Dopasowanie po
-# POCZATKU, bo naglowki bywaja dlugie i zawieraja mysliniki oraz liczby.
-KOTWICE_MIRRORA = {
-    "RHD a sprzedaz": "rhd-a-sprzedaz-bezposrednia",
-    "Kto moze prowadzic RHD": "rhd-kto-moze",
-    "Rejestracja krok po kroku": "rhd-rejestracja",
-    "Numer RHD": "rhd-numer",
-    "Podatki:": "rhd-limity-podatki",
-    "Faktura, paragon, kasa fiskalna": "rhd-faktura-paragon-kasa",
-    "Ewidencja sprzedazy RHD": "rhd-ewidencja",
-    "Faktura VAT RR": "rhd-faktura-vat-rr",
-}
+# Mapa "poczatek tekstu naglowka h2 w mirrorze -> identyfikator kotwicy" siedzi
+# w pliku danych strony, w polu `kotwiceMirrora`. Wczesniej byla tutaj na sztywno,
+# co dzialalo dopoki panel mial jedna strone. Dopasowanie idzie po POCZATKU tekstu,
+# bo naglowki bywaja dlugie i zawieraja mysliniki oraz liczby.
 
 # Polskie znaki bywaja w naglowkach, a klucze wyzej sa bez ogonkow - zeby dopasowanie
 # nie zalezalo od tego, jak dokladnie zapisano tytul sekcji.
@@ -79,7 +71,7 @@ def punkty_z_pliku(dane):
     return wybrane
 
 
-def zbuduj_html(punkty):
+def zbuduj_html(punkty, wstep):
     c = [START, STYL_PANELU]
     c.append('\n  <section class="panel-pytan" aria-labelledby="panel-pytan-tytul">')
     c.append('\n    <h2 id="panel-pytan-tytul">Szybkie odpowiedzi</h2>')
@@ -104,7 +96,7 @@ def zbuduj_html(punkty):
     return "".join(c)
 
 
-def dodaj_kotwice(html):
+def dodaj_kotwice(html, mapa):
     """Nadaje naglowkom h2 identyfikatory. Nie rusza tych, ktore juz je maja."""
     licznik = [0]
 
@@ -113,7 +105,7 @@ def dodaj_kotwice(html):
         if "id=" in caly.split(">")[0]:
             return caly
         plaski = re.sub(r"<[^>]+>", "", tekst).strip().translate(OGONKI)
-        for poczatek, kotwica in KOTWICE_MIRRORA.items():
+        for poczatek, kotwica in mapa.items():
             if plaski.startswith(poczatek):
                 licznik[0] += 1
                 return '<h2 id="' + kotwica + '">' + tekst + '</h2>'
@@ -130,7 +122,8 @@ def zapisz_ts(dane, punkty, slug):
         "kotwica": p.get("kotwicaReact") or p["kotwica"],
         "kotwicaEtykieta": p["kotwicaEtykieta"], "narzedzia": p["narzedzia"],
     } for p in punkty]
-    ladunek = {"slug": dane["slug"], "trasaReact": dane["trasaReact"], "punkty": punkty_ts}
+    ladunek = {"slug": dane["slug"], "trasaReact": dane["trasaReact"],
+               "wstep": dane["wstep"], "punkty": punkty_ts}
     tresc = (
         "// PLIK GENEROWANY przez scripts/gen-panel-pytan.py - NIE EDYTUJ RECZNIE.\n"
         "// Zrodlo: data/pytania/" + slug + ".json (tam sie edytuje). Ten sam plik zasila\n"
@@ -167,12 +160,12 @@ def main():
             print("%-14s panel USUNIETY z mirrora%s" % (slug, "" if bylo else " (nie bylo go)"))
             continue
 
-        html, dodane = dodaj_kotwice(html)
+        html, dodane = dodaj_kotwice(html, dane.get("kotwiceMirrora", {}))
 
         m = re.search(r"\n\s*<h2", html)
         if not m:
             raise SystemExit("W " + dane["mirror"] + " nie ma zadnego <h2> - nie wiem, gdzie wstawic panel.")
-        html = html[:m.start()] + "\n\n  " + zbuduj_html(punkty) + html[m.start():]
+        html = html[:m.start()] + "\n\n  " + zbuduj_html(punkty, dane["wstep"]) + html[m.start():]
         io.open(sciezka_mirrora, "w", encoding="utf-8", newline="\n").write(html)
 
         # Kotwice musza ISTNIEC w obu warstwach. Martwy link typu A nie rzuca bledu

@@ -2,12 +2,24 @@
   "slug": "prawo-rhd",
   "trasaReact": "/prawo/rhd",
   "mirror": "public/prawo/rhd.html",
+  "komponentReact": "src/pages/RHD.tsx",
+  "wstep": "Najczęstsze pytania o RHD. Rozwiń to, z którym przyszedłeś — pełne omówienie znajdziesz niżej na stronie.",
   "zrodloDanych": {
     "stan": "Z DANYCH",
     "opis": "Osiem pytan wybranych z klastrow intencji zbudowanych z trzech eksportow (Google Search Console, Bing Webmaster Tools, Senuto) z 01.09.2026. Eksporty leza w data/pytania/zrodla/, analize odtwarza 'python scripts/gen-kandydaci-pytan.py' -> data/pytania/kandydaci-prawo-rhd.md. Sortowanie po wolumenie Senuto (popyt), nie po wyswietleniach GSC (te pokazuja tylko nasza obecna widocznosc).",
     "zaktualizowano": "2026-09-01",
     "uwagaOEksporcie": "Eksport zapytan z GSC obejmuje CALA domene - GSC nie daje przekroju zapytanie x strona. Przypisanie do /prawo/rhd zrobiono po temacie, wzorcami w scripts/gen-kandydaci-pytan.py.",
     "odfiltrowane": "Z analizy wyciete zapytania o 'rhd' spoza branzy - RHD to takze 'right-hand drive'. Samo 'rhd plus' to 210 wyszukiwan miesiecznie."
+  },
+  "kotwiceMirrora": {
+    "RHD a sprzedaz": "rhd-a-sprzedaz-bezposrednia",
+    "Kto moze prowadzic RHD": "rhd-kto-moze",
+    "Rejestracja krok po kroku": "rhd-rejestracja",
+    "Numer RHD": "rhd-numer",
+    "Podatki:": "rhd-limity-podatki",
+    "Faktura, paragon, kasa fiskalna": "rhd-faktura-paragon-kasa",
+    "Ewidencja sprzedazy RHD": "rhd-ewidencja",
+    "Faktura VAT RR": "rhd-faktura-vat-rr"
   },
   "pytania": [
     {
@@ -278,6 +290,5 @@
       },
       "dlaczegoPozaPanelem": "Realny popyt, ale poza tematem serowarskim - odpowiadanie na to sciagaloby ruch, ktoremu nie mamy co zaproponowac dalej."
     }
-  ],
-  "komponentReact": "src/pages/RHD.tsx"
+  ]
 }

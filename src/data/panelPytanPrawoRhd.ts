@@ -6,6 +6,7 @@ import type { DanePanelu } from "./panelPytanTypy";
 export const panelPytanPrawoRhd: DanePanelu = {
   "slug": "prawo-rhd",
   "trasaReact": "/prawo/rhd",
+  "wstep": "Najczęstsze pytania o RHD. Rozwiń to, z którym przyszedłeś — pełne omówienie znajdziesz niżej na stronie.",
   "punkty": [
     {
       "id": "rejestracja",
