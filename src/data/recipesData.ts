@@ -61,6 +61,21 @@ export interface Recipe {
   name: string;
   difficulty: "Łatwy" | "Średni" | "Zaawansowany";
   description: string;
+  /**
+   * Tytuł i opis do wyników wyszukiwania. Pola OPCJONALNE — bez nich obie warstwy
+   * używają dotychczasowych szablonów, więc dopisanie ich do jednego przepisu
+   * niczego nie rusza w pozostałych.
+   *
+   * DLACZEGO TU, A NIE W KOMPONENCIE: te same wartości czytają trasa React
+   * (RecipeDetails) i generator mirrorów (scripts/gen-przepisy.py). Do tej pory
+   * dopracowane tytuły istniały WYŁĄCZNIE w ręcznie pisanych plikach .html i nie
+   * miały żadnego źródła — trasa React, czyli ta, która zbiera wyświetlenia,
+   * dostawała szablon i pierwsze 160 znaków ogólnego opisu.
+   *
+   * seoTitle do ~60 znaków, seoDescription do ~155 — dłuższe Google przycina.
+   */
+  seoTitle?: string;
+  seoDescription?: string;
   yield: string;
   ageTime: string;
   image: string;
@@ -2751,6 +2766,13 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "emmental",
+    // Odbiorca ZNA ten ser — jest wizualnie charakterystyczny, "żółty z dziurami
+    // jak w bajkach". Nie wie tylko, jak się to pisze: w GSC 62 zapytania i 3856
+    // wyświetleń w klastrze pisowni (emmental 977, emmentaler 841, ementaler 369),
+    // a dwa pytają wprost "czy emmental to ementaler". Stąd tytuł i opis zawierają
+    // obie dominujące formy i rozstrzygają nazwę, zamiast tłumaczyć, co to za ser.
+    seoTitle: "Emmental (emmentaler) — przepis na ser z dziurami",
+    seoDescription: "Emmental, emmentaler, ementaler — to ten sam szwajcarski ser z dziurami. Przepis krok po kroku: 40 l mleka, kultury termofilne i propionowe, dojrzewanie.",
     zastosowanie: "Fondue (klasycznie razem z gruyère'em), zapiekanki, tosty, pizza, sos czterech serów, sałatki i kanapki. Jeden z najbardziej uniwersalnych serów do topienia — łagodny, więc nie zdominuje innych składników. Na desce serów podawaj go z winogronami i orzechami.",
     encyklopedia: [
       {

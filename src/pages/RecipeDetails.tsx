@@ -24,10 +24,19 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     if (recipe) {
-      document.title = `${recipe.name} — przepis na ser krok po kroku | Moja Serowarnia`;
+      // Tytuł i opis pisane pod konkretny przepis mają pierwszeństwo przed szablonem.
+      // Szablon zostaje dla przepisów, którym nikt jeszcze tekstu nie napisał — a opis
+      // brany z pierwszych 160 znaków `description` to definicja sera, nie powód do
+      // kliknięcia, i przy emmentalu kosztował nas CTR 0,74% przy 6515 wyświetleniach.
+      document.title = recipe.seoTitle
+        ? `${recipe.seoTitle} | Moja Serowarnia`
+        : `${recipe.name} — przepis na ser krok po kroku | Moja Serowarnia`;
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
-        metaDescription.setAttribute("content", recipe.description.slice(0, 160));
+        metaDescription.setAttribute(
+          "content",
+          recipe.seoDescription ?? recipe.description.slice(0, 160),
+        );
       }
     }
   }, [recipe]);

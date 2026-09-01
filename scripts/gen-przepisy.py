@@ -60,7 +60,9 @@ def parse_recipes(src):
                             ageTime=grab(block, "ageTime"), milkBase=grab(block, "milkBase"),
                             starter=grab(block, "starter"), coagulant=grab(block, "coagulant"),
                             aging=grab(block, "aging"), cultures=cultures, dosage=dosage,
-                            steps=steps, variants=variants, nut=nut)
+                            steps=steps, variants=variants, nut=nut,
+                            seoTitle=grab(block, "seoTitle"),
+                            seoDescription=grab(block, "seoDescription"))
     return recipes
 
 
@@ -132,9 +134,13 @@ def gen_page(r, siblings):
 
     o = []
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
-    o.append(f"  <title>{n} — przepis na ser domowy krok po kroku</title>")
+    # seoTitle/seoDescription z recipesData maja pierwszenstwo — to jedyne miejsce,
+    # w ktorym te teksty istnieja dla OBU warstw. Bez nich zostaje szablon.
+    tytul = r.get("seoTitle") or f"{n} — przepis na ser domowy krok po kroku"
+    o.append(f"  <title>{e(tytul)}</title>")
     # 140 zn. (nie 155): zapas na rozszerzenie encji HTML po escape (apostrof ' -> &#x27; = +4 zn.), by meta description <=160
-    desc = (r["description"][:140] + "…") if len(r["description"]) > 141 else r["description"]
+    desc = r.get("seoDescription") or (
+        (r["description"][:140] + "…") if len(r["description"]) > 141 else r["description"])
     o.append(f'  <meta name="description" content="{e(desc)}" />')
     o.append(f'  <link rel="canonical" href="{url}" />\n  <meta name="robots" content="index, follow" />')
     o.append(f'  <meta property="og:title" content="{n} — przepis na ser domowy" />\n  <meta property="og:description" content="{e(desc)}" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="{url}" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')

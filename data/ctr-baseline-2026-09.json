@@ -1,0 +1,171 @@
+{
+  "opis": "Stan wyjsciowy przed zmianami tytulow i opisow (etap 1 zlecenia CTR). Jedyny punkt odniesienia, jaki bedziemy mieli za miesiac.",
+  "dataPomiaru": "2026-09-01",
+  "zrodloDanych": "Google Search Console, ostatnie 3 miesiace (tabela diagnozy w zleceniu)",
+  "uwagaOPozycji": "Sredniej pozycji per strona brak — eksport, ktorym dysponujemy, podaje pozycje per zapytanie. Do uzupelnienia z eksportow per strona.",
+  "zmiany": [
+    {
+      "data": "2026-09-01",
+      "strony": [
+        "/przepisy/emmental"
+      ],
+      "co": "Nowy tytul i opis w OBU warstwach, ze wspolnego zrodla (seoTitle/seoDescription w recipesData).",
+      "nastepnyPomiar": "2026-09-29 (4 tygodnie)"
+    }
+  ],
+  "strony": [
+    {
+      "url": "https://mojaserowarnia.pl/kalkulator-pasz",
+      "wyswietlenia": 1767,
+      "klikniecia": 185,
+      "ctr": 10.47,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    },
+    {
+      "url": "https://mojaserowarnia.pl/przepisy/mozzarella.html",
+      "wyswietlenia": 9002,
+      "klikniecia": 161,
+      "ctr": 1.79,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Mozzarella domowa — przepis krok po kroku",
+        "dlugoscTitle": 41,
+        "description": "Mozzarella domowa krok po kroku: składniki na 4 L mleka, kwas cytrynowy lub kultura, podpuszczka i rozciąganie pasta filata 77–82°C. Prosty przepis.",
+        "dlugoscDescription": 148,
+        "canonical": "https://mojaserowarnia.pl/przepisy/mozzarella"
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    },
+    {
+      "url": "https://mojaserowarnia.pl/prawo/rhd",
+      "wyswietlenia": 8979,
+      "klikniecia": 81,
+      "ctr": 0.9,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": {
+        "title": "Rolniczy handel detaliczny (RHD) — zasady, limity, rejestracja",
+        "description": "RHD: kto może prowadzić, co można sprzedawać, limit 100 000 zł bez podatku PIT, rejestracja w Sanepidzie (14 dni) lub u powiatowego lekarza weterynarii (30 dni).",
+        "canonical": "https://mojaserowarnia.pl/prawo/rhd",
+        "dlugoscTitle": 62,
+        "dlugoscDescription": 161
+      }
+    },
+    {
+      "url": "https://mojaserowarnia.pl/przepisy/emmental",
+      "wyswietlenia": 6515,
+      "klikniecia": 48,
+      "ctr": 0.74,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": {
+        "title": "Emmental (emmentaler) — przepis na ser z dziurami | Moja Serowarnia",
+        "description": "Emmental, emmentaler, ementaler — to ten sam szwajcarski ser z dziurami. Przepis krok po kroku: 40 l mleka, kultury termofilne i propionowe, dojrzewanie.",
+        "uzasadnienie": "Odbiorca ZNA ten ser (charakterystyczny wizualnie), nie wie tylko, jak sie go pisze. GSC: 62 zapytania i 3856 wyswietlen w klastrze pisowni; 'czy emmental to ementaler' 90 wyswietlen na pozycji 7,6. Tytul i opis zawieraja obie dominujace formy i rozstrzygaja nazwe zamiast tlumaczyc, co to za ser."
+      },
+      "dataZmiany": "2026-09-01",
+      "przedZmianaRender": {
+        "title": "Emmental — przepis na ser krok po kroku | Moja Serowarnia",
+        "description": "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. J",
+        "canonical": "https://mojaserowarnia.pl/przepisy/emmental",
+        "dlugoscTitle": 57,
+        "dlugoscDescription": 160
+      }
+    },
+    {
+      "url": "https://mojaserowarnia.pl/prawo/rzeznia-rolnicza",
+      "wyswietlenia": 4187,
+      "klikniecia": 31,
+      "ctr": 0.74,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    },
+    {
+      "url": "https://mojaserowarnia.pl/przepisy/gouda",
+      "wyswietlenia": 3137,
+      "klikniecia": 50,
+      "ctr": 1.59,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    },
+    {
+      "url": "https://mojaserowarnia.pl/baza-kultur",
+      "wyswietlenia": 2859,
+      "klikniecia": 61,
+      "ctr": 2.13,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    },
+    {
+      "url": "https://mojaserowarnia.pl/prawo/mol",
+      "wyswietlenia": 2464,
+      "klikniecia": 66,
+      "ctr": 2.68,
+      "sredniaPozycja": null,
+      "przedZmiana": {
+        "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
+        "dlugoscTitle": 55,
+        "description": "Kompletna baza 188 kultur bakteryjnych, przepisy na ser, kalkulatory, poradniki RHD/MOL. Profesjonalny portal dla polskich serowarów i producentów sera.",
+        "dlugoscDescription": 152,
+        "canonical": null
+      },
+      "poZmianie": null,
+      "dataZmiany": null,
+      "przedZmianaRender": null
+    }
+  ],
+  "uwagaOSurowymHtml": "WAZNE: w surowym HTML (bez JavaScriptu) SIEDEM z osmiu tras React oddaje ten sam, ogolny tytul i opis strony glownej oraz ZADNEGO canonicala. Wlasne metadane ma tylko mirror .html. Po wyrenderowaniu react-helmet ustawia poprawne wartosci — sprawdzone 2026-09-01 na /przepisy/emmental i /prawo/rhd — wiec Google, ktory renderuje, widzi je dobrze. Problem dotyczy konsumentow, ktorzy NIE renderuja JavaScriptu: crawlerow modeli jezykowych. Pole 'przedZmiana' nizej to wartosci SUROWE, 'przedZmianaRender' to wartosci po renderze — i to te drugie sa tym, co widac w wynikach wyszukiwania."
+}
