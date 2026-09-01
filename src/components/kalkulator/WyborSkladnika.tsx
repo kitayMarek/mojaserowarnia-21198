@@ -44,19 +44,31 @@ export default function WyborSkladnika({
   const [otwarty, setOtwarty] = useState(false);
   const [fraza, setFraza] = useState("");
 
-  const pogrupowane = useMemo(() => {
+  const { pogrupowane, tylkoKategoria } = useMemo(() => {
     const szukane = uprosc(fraza.trim());
-    const pasujace = szukane
-      ? pozycje.filter((p) => uprosc(p.nazwa).includes(szukane)
-          || uprosc(p.kategoria).includes(szukane))
+
+    // Szukamy po NAZWACH składników. Dopasowanie po nazwie kategorii było tu
+    // wcześniej i psuło wyszukiwanie: kategoria „Produkty uboczne, śruty i oleje"
+    // ma 20 pozycji, więc wpisanie „olej" wyrzucało wszystkie drożdże i kiełki,
+    // spychając jedyny prawdziwy wynik („Olej rzepakowy") pod widoczny obszar.
+    const poNazwie = szukane
+      ? pozycje.filter((p) => uprosc(p.nazwa).includes(szukane))
       : pozycje;
+
+    // Kategoria wraca do gry TYLKO wtedy, gdy nazwy nic nie dały — wtedy lepiej
+    // pokazać całą grupę niż „nic nie pasuje" (np. na frazę „mineralne”).
+    const zapasowe = szukane && poNazwie.length === 0
+      ? pozycje.filter((p) => uprosc(p.kategoria).includes(szukane))
+      : [];
+
+    const pasujace = poNazwie.length ? poNazwie : zapasowe;
     const grupy = new Map<string, PozycjaDoWyboru[]>();
     for (const p of pasujace) {
       const lista = grupy.get(p.kategoria);
       if (lista) lista.push(p);
       else grupy.set(p.kategoria, [p]);
     }
-    return [...grupy.entries()];
+    return { pogrupowane: [...grupy.entries()], tylkoKategoria: zapasowe.length > 0 };
   }, [pozycje, fraza]);
 
   return (
@@ -92,6 +104,11 @@ export default function WyborSkladnika({
                 Nic nie pasuje do „{fraza}"
               </span>
             </CommandEmpty>
+            {tylkoKategoria && (
+              <p className="px-3 pb-1 pt-2 text-xs text-muted-foreground">
+                Żaden składnik nie nazywa się „{fraza}" — pokazuję pasującą kategorię.
+              </p>
+            )}
             {pogrupowane.map(([kategoria, lista]) => (
               <CommandGroup key={kategoria} heading={kategoria}>
                 {lista.map((p) => (
