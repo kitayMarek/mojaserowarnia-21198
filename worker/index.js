@@ -85,6 +85,15 @@ Disallow: /
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
 
+    // 1c) Pliki i katalogi kropkowe → 404. Żadna trasa React tak nie wygląda,
+    //     a bez tego /.env, /.git/config czy /.htaccess dostawały aplikację
+    //     z kodem 200 — czyli soft 404, dokładnie to, czego pozbywamy się
+    //     w kroku 4. Wyjątkiem jest /.well-known/, które bywa potrzebne
+    //     (security.txt, weryfikacje usług).
+    if (/\/\.[^/]/.test(url.pathname) && !url.pathname.startsWith('/.well-known/')) {
+      return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
+    }
+
     // 2) Bot podglądu linków → mirror z własnym og:title/description/image.
     //    Człowiek tego nie zobaczy: warunek dotyczy wyłącznie User-Agenta.
     if (BOTY_PODGLADU.test(request.headers.get('user-agent') || '')) {
