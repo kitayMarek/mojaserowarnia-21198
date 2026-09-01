@@ -11,9 +11,17 @@ tytuly SEO istnialy WYLACZNIE w tych plikach, a trasa React — czyli ta, ktora 
 wyswietlenia w Google — dostawala szablon i pierwsze 160 znakow ogolnego opisu.
 Teraz zrodlem jest recipesData, a ten skrypt tylko dosyla wartosci do mirrora.
 
-CHIRURGICZNIE: rusza wylacznie <title>, meta description oraz odpowiedniki og:
-i twitter:. Widoczna tresc strony zostaje nietknieta. Przepisy bez seoTitle sa
-pomijane, wiec uruchomienie niczego nie psuje.
+CHIRURGICZNIE: rusza wylacznie <title> i meta description. Widoczna tresc strony
+zostaje nietknieta. Przepisy bez seoTitle sa pomijane, wiec uruchomienie niczego
+nie psuje.
+
+OG I TWITTER TYLKO WTEDY, gdy powtarzaly stara wartosc. Czesc mirrorow ma te pola
+napisane OSOBNO i KROCEJ, pod karte spolecznosciowa — np. mleko-do-sera mialo
+twitter:description na 58 znakow, podczas gdy opis SEO ma 161. Wczesniejsza wersja
+tego skryptu nadpisywala je opisem SEO i kasowala te roznice; karta pokazywalaby
+urwany tekst. Regula jest wiec taka: jesli pole rownalo sie staremu tytulowi lub
+staremu opisowi, to bylo tylko ich kopia i idzie za nimi. Jesli brzmialo inaczej,
+ktos napisal je swiadomie i zostaje nietkniete.
 
 Uruchom:  python scripts/sync-seo-mirrory.py            (podglad)
           python scripts/sync-seo-mirrory.py --zapisz
@@ -88,6 +96,14 @@ def main():
             continue
         html = io.open(sciezka, encoding="utf-8").read()
         zmian = 0
+        pominiete = 0
+
+        # Stary tytul i opis — do rozpoznania, ktore pola byly tylko ich kopia.
+        st = re.search(r"(<title>)(.*?)(</title>)", html, re.S)
+        so = re.search(r'(<meta\s+name="description"\s+content=")(.*?)(")', html, re.S)
+        stary_tytul = st.group(2) if st else None
+        stary_opis = so.group(2) if so else None
+
         for wzor, rodzaj in PODMIANY:
             nowa = esc(tytul if rodzaj == "tytul" else opis)
             m = re.search(wzor, html, re.S)
@@ -95,10 +111,15 @@ def main():
                 continue
             if m.group(2) == nowa:
                 continue
+            czy_glowne = wzor.startswith("(<title>") or 'name="description"' in wzor
+            if not czy_glowne and m.group(2) not in (stary_tytul, stary_opis):
+                pominiete += 1   # napisane osobno — nie ruszamy
+                continue
             html = html[:m.start()] + m.group(1) + nowa + m.group(3) + html[m.end():]
             zmian += 1
-        print("  %-22s %s (%d pol do zmiany)"
-              % (etykieta, "ZAPISANO" if (zapisz and zmian) else ("bez zmian" if not zmian else "podglad"), zmian))
+        print("  %-22s %s (%d pol do zmiany%s)"
+              % (etykieta, "ZAPISANO" if (zapisz and zmian) else ("bez zmian" if not zmian else "podglad"),
+                 zmian, ", %d wlasnych pominieto" % pominiete if pominiete else ""))
         if zapisz and zmian:
             io.open(sciezka, "w", encoding="utf-8", newline="\n").write(html)
 

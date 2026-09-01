@@ -22,6 +22,16 @@
       "co": "Nowe tytuly i opisy w obu warstwach. Zrodlo: src/data/metaStron.ts (strony) i seoTitle/seoDescription w recipesData (przepisy).",
       "uwaga": "Marek swiadomie zrezygnowal z czekania do 29.09. Skutek: na /prawo/rhd i /prawo/mol nie da sie potem rozdzielic efektu panelu pytan od efektu opisu — obie zmiany ruszyly tego samego dnia. Stan wyjsciowy obu jest zapisany, wiec porownanie 'przed/po' zostaje mozliwe.",
       "nastepnyPomiar": "2026-09-29 (4 tygodnie)"
+    },
+    {
+      "data": "2026-09-01",
+      "strony": [
+        "/baza-kultur"
+      ],
+      "co": "Nowy tytul i opis w obu warstwach; strona przeniesiona do metaStron.ts (jedno zrodlo).",
+      "uwaga": "TO NIE JEST ZMIANA NA CTR i nie nalezy jej tak mierzyc. Rozklad pozycji przed zmiana: 6 wyswietlen na poz. 1-3 (1 klikniecie), 124 na poz. 4-10 (2 klikniecia), 556 na poz. 11-20 (0 klikniec), 189 na poz. 21+ (0 klikniec). 85% wyswietlen przychodzi z drugiej i trzeciej strony Google, gdzie zero klikniec jest norma, a nie objawem zlego opisu. Zmiana celuje w TRAFNOSC, czyli w pozycje. Wlasciwa miara za 4 tygodnie to srednia pozycja na frazach 'bakterie do serow' (17,8), 'kultury starterowe do serow' (17,1), 'kultury bakterii do twarogu' (25,1) i 'bioprotekcja sera' (16,8) — nie CTR strony.",
+      "hipotezaOtwarta": "Serwis ma DZIEWIEC stron o kulturach, w tym dwie bliznaicze (/kultury/przewodnik i /bakterie-kultury, oba 'przewodnik'). Podejrzenie: moc rozproszona, zadna nie wchodzi do pierwszej dziesiatki. Do sprawdzenia po eksportach GSC dla pozostalych stron o kulturach.",
+      "nastepnyPomiar": "2026-09-29 (4 tygodnie)"
     }
   ],
   "strony": [
@@ -156,7 +166,7 @@
       "wyswietlenia": 2859,
       "klikniecia": 61,
       "ctr": 2.13,
-      "sredniaPozycja": null,
+      "sredniaPozycja": 11.2,
       "przedZmiana": {
         "title": "Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL",
         "dlugoscTitle": 55,
@@ -164,8 +174,12 @@
         "dlugoscDescription": 152,
         "canonical": null
       },
-      "poZmianie": null,
-      "dataZmiany": null,
+      "poZmianie": {
+        "title": "Bakterie do sera, twarogu i zsiadłego mleka — 188 kultur",
+        "description": "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka: 188 kultur starterowych — mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 5 sklepach.",
+        "uzasadnienie": "Slownictwo z eksportu GSC (3 mies., 51 zapytan): poprzedni tytul niosl z tej listy JEDNO slowo. Dolozone: bakterie (627 wysw.), kultury starterowe (97), bioprotekcja (104), twarog (98), mezofilne (96), termofilne (89). 'Jogurtowe' ODRZUCONE — zero zapytan ze slowem jogurt, a istnieje osobna strona /kultury/jogurtowe. 'Zsiadle mleko' to zaklad Marka, nie wniosek z danych (zero zapytan); pokryte trescia — baza ma 4 kultury ALPHA opisane wprost jako 'Zsiadle mleko'."
+      },
+      "dataZmiany": "2026-09-01",
       "przedZmianaRender": null
     },
     {

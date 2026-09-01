@@ -66,7 +66,7 @@ const BazaKultur = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const { cultures: culturesData, loading } = useCultures();
 
-  // Odczytaj parametry z URL i ustaw SEO
+  // Odczytaj parametry z URL. Tytul i opis: src/data/metaStron.ts
   useEffect(() => {
     const queryParam = searchParams.get('q');
     const typeParam = searchParams.get('type');
@@ -79,18 +79,6 @@ const BazaKultur = () => {
       setTypeFilter(typeParam);
     }
 
-    // SEO optimization
-    // Opis FUNKCJI, nie inwentarza. Google AI Overview przepisuje predykat z opisu,
-    // ktory strona daje sama o sobie: sklepy dostaly "oferuje", "znajdziesz tam",
-    // "ma w ofercie", a my "pelna liste sprawdzisz" — i trafilismy do osobnego worka
-    // "Zestawienia i bazy" zamiast do glownej listy. Stad przeformulowanie na to,
-    // co uzytkownik ZROBI, z nazwami sklepow w tresci.
-    document.title = "Kultury bakteryjne do sera — porównanie 188 z 5 sklepów";
-
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Sprawdzisz, który z 5 polskich sklepów ma daną kulturę i w jakiej cenie: 188 kultur bakteryjnych i pleśni ze składem, zastosowaniem i temperaturą pracy.');
-    }
   }, [searchParams]);
   const handleSort = (field: SortField) => {
     if (sortField === field) {

@@ -221,4 +221,28 @@ export const metaStron: Record<string, MetaStrony> = {
       "Jak woskować ser domowy: temperatura wosku (82–93°C), przygotowanie sera, liczba warstw, które sery woskować, a których nie. Praktyczny przewodnik.",
     mirror: "woskowanie-sera.html",
   },
+  "/baza-kultur": {
+    // Slownictwo wprost z Search Console (3 miesiace, 51 zapytan). Poprzedni tytul
+    // niosl z tej listy JEDNO slowo — "kultury". Ludzie pisza inaczej: "bakterie"
+    // (627 wyswietlen), "kultury starterowe" (97), "bioprotekcja" (104),
+    // "do twarogu" (98), "mezofilne" (96), "szczepionki" (92), "termofilne" (89).
+    //
+    // ZSIADLE MLEKO to zaklad Marka, nie wniosek z danych: w tych 51 zapytaniach
+    // nie ma go wcale. Uzasadnienie jest inne — gospodyni domowa wie, ze ze
+    // sklepowego mleka zsiadle nie wyjdzie (zgnije, zanim sie zsiadzie), i nie wie,
+    // ze wlasnie te bakterie to zalatwiaja. Baza ma cztery kultury ALPHA opisane
+    // wprost jako "Zsiadle mleko", wiec obietnica jest pokryta trescia.
+    //
+    // CZASOWNIK "dobierzesz" zostaje z poprzedniej wersji i jest tu celowo.
+    // AI Overview przepisuje predykat, ktory strona daje sama o sobie: przy opisie
+    // inwentarzowym trafialismy do worka "Zestawienia i bazy" zamiast do glownej
+    // listy. Opis ma mowic, co uzytkownik ZROBI.
+    //
+    // Stan przed zmiana (2026-09-01): 2859 wyswietlen, 61 klikniec, pozycja 11,2.
+    // 85% wyswietlen przychodzi z pozycji 11+, wiec to zmiana na TRAFNOSC, nie na CTR.
+    title: "Bakterie do sera, twarogu i zsiadłego mleka — 188 kultur",
+    description:
+      "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka: 188 kultur starterowych — mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 5 sklepach.",
+    mirror: "kultury/baza.html",
+  },
 };
