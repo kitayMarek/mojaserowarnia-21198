@@ -48,8 +48,9 @@ const zasob = (env, origin, sciezka) => env.ASSETS.fetch(new URL(sciezka, origin
 // przepisujemy z oryginału, żeby zachować to, co ustawia public/_headers
 // (nosniff, HSTS, ramki). Cache — nigdy: pod tym adresem jutro może stać co
 // innego, a plik źródłowy jest tylko nośnikiem treści.
-function odpowiedzZ(zrodlo, status) {
+function odpowiedzZ(zrodlo, status, adresTestowy) {
   const naglowki = new Headers(zrodlo.headers);
+  if (adresTestowy) naglowki.set('x-robots-tag', 'noindex, nofollow');
   naglowki.set('cache-control', 'no-cache, no-store, must-revalidate');
   naglowki.set('content-type', 'text/html; charset=utf-8');
   return new Response(zrodlo.body, { status, headers: naglowki });
@@ -65,6 +66,21 @@ export default {
       url.hostname = url.hostname.slice(4);
       url.protocol = 'https:'; // od razu docelowy protokol — jeden przeskok zamiast dwoch
       return Response.redirect(url.toString(), 301);
+    }
+
+    // 1b) Adres testowy *.workers.dev serwuje pelna kopie serwisu. Bez tego
+    //     Google moglby ja zaindeksowac jako duplikat calej domeny, a kara za
+    //     duplikat trafilaby w adres wlasciwy. Roboty pytaja o robots.txt przed
+    //     czymkolwiek innym, wiec ta jedna odpowiedz zamyka temat takze dla
+    //     mirrorow serwowanych z pominieciem tego workera.
+    const adresTestowy = url.hostname.endsWith('.workers.dev');
+    if (url.pathname === '/robots.txt') {
+      if (!adresTestowy) return zasob(env, url.origin, '/robots.txt');
+      return new Response(`User-agent: *
+Disallow: /
+`, {
+        headers: { 'content-type': 'text/plain; charset=utf-8', 'x-robots-tag': 'noindex' },
+      });
     }
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
@@ -92,12 +108,12 @@ export default {
     // 4) Brakujący plik z rozszerzeniem → prawdziwe 404 (nie index.html z 200).
     if (ROZSZERZENIE_PLIKU.test(url.pathname)) {
       const strona = await zasob(env, url.origin, '/404.html');
-      return odpowiedzZ(strona, 404);
+      return odpowiedzZ(strona, 404, adresTestowy);
     }
 
     // 5) Wszystko inne to trasa React — aplikacja rozstrzyga sama, czy strona
     //    istnieje. Odpowiedź nigdy nie może być cache'owana: pod tym adresem
     //    jutro może stać zupełnie co innego.
-    return odpowiedzZ(await zasob(env, url.origin, '/index.html'), 200);
+    return odpowiedzZ(await zasob(env, url.origin, '/index.html'), 200, adresTestowy);
   },
 };

@@ -26,7 +26,14 @@
     // "none" = brak dopasowania spada do Workera (nie: "single-page-application").
     // Gdyby SPA-fallback robiła warstwa assetów, worker/index.js NIGDY by się nie
     // uruchomił — a to on serwuje mirrory botom i zwraca prawdziwe 404.
-    "not_found_handling": "none"
+    "not_found_handling": "none",
+
+    // Wylacznie dla tej jednej sciezki worker dostaje zadanie przed warstwa
+    // assetow. Powod: adresy podgladowe *.workers.dev serwuja pelna kopie
+    // serwisu, a robots.txt jest pierwsza rzecza, o ktora pyta robot. Bez
+    // tego plik z repo (Allow: /) serwowalby sie takze tam i kopia mogla by
+    // trafic do indeksu jako duplikat calej domeny.
+    "run_worker_first": ["/robots.txt"]
   },
 
   "observability": { "enabled": true }
