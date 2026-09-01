@@ -1,4 +1,4 @@
-# Przekierowania 301 — przepisane z public/.htaccess.
+# Przekierowania 301 — przepisane z dawnego .htaccess (docs/htaccess-home-pl.txt).
 # Czyta je warstwa assetów Cloudflare, ZANIM uruchomi się worker/index.js.
 # Apache tego pliku nie widzi, więc obie konfiguracje mogą istnieć równolegle.
 #

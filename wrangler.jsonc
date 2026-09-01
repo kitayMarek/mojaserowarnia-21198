@@ -6,7 +6,8 @@
   //  aplikację React dla ludzi i statyczne mirrory public/**.html dla botów.
   //  Na Apache rozdzielał je .htaccess (reguły po User-Agent, DirectoryIndex,
   //  prawdziwe 404). Sam hosting plików tego nie odtworzy, więc logika z
-  //  .htaccess przeniesiona jest 1:1 do worker/index.js.
+  //  .htaccess (zachowany jako docs/htaccess-home-pl.txt) przeniesiona jest
+  //  1:1 do worker/index.js.
   // ===========================================================================
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mojaserowarnia",

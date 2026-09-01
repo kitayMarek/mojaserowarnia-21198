@@ -1,4 +1,5 @@
-# Nagłówki HTTP — przepisane z sekcji CACHE CONTROL i MIME public/.htaccess.
+# Nagłówki HTTP — przepisane z sekcji CACHE CONTROL i MIME dawnego .htaccess
+# (zachowany jako docs/htaccess-home-pl.txt).
 # Czyta je warstwa assetów Cloudflare; Apache tego pliku nie widzi.
 
 /*
@@ -17,7 +18,7 @@
 # charset=utf-8 wymuszony jawnie: pliki mają polskie znaki, a przy nosniff
 # brak charsetu grozi błędnym dekodowaniem (llms.txt to 157 linii z ogonkami).
 # CORS "*" pozwala fermly.pl pobierać te dane po stronie klienta; dane i tak
-# są publiczne. W .htaccess obejmowało to każdy .json/.txt/.xml — tu wymieniam
+# są publiczne. Tam obejmowało to każdy .json/.txt/.xml — tu wymieniam
 # pliki po nazwie, bo składnia _headers dopasowuje prefiks ścieżki, nie sufiks.
 /llms.txt
   Content-Type: text/plain; charset=utf-8

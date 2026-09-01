@@ -1,12 +1,12 @@
 /**
- * mojaserowarnia.pl — router brzegowy (odpowiednik public/.htaccess)
+ * mojaserowarnia.pl — router brzegowy (odpowiednik dawnego .htaccess)
  *
  * Serwis ma DWIE warstwy treści pod tymi samymi adresami:
  *   • aplikację React (trasy typu /przepisy/mozzarella) — dla ludzi,
  *   • statyczne mirrory (public/przepisy/mozzarella.html) — dla botów, bo one
  *     nie renderują JavaScriptu.
  * Na Apache rozdzielał je .htaccess. Tutaj robi to ten plik. Kolejność reguł
- * jest przepisana z .htaccess i ma znaczenie — nie zmieniać jej bez powodu.
+ * jest przepisana z docs/htaccess-home-pl.txt i ma znaczenie — nie zmieniać jej bez powodu.
  *
  * Czego tu NIE ma, bo załatwia to warstwa assetów Cloudflare:
  *   • istniejące pliki (assety, mirrory pod własnym adresem) — serwowane
@@ -17,7 +17,7 @@
  */
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
-// kanoniczną (trasę React), a nie mirror. Lista 1:1 z .htaccess.
+// kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
 const BOTY_PODGLADU =
   /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly/i;
 
