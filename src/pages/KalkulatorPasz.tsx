@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
+import ZapisaneReceptury from '@/components/kalkulator/ZapisaneReceptury';
+import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -9,24 +12,6 @@ import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
 
-interface Skladnik {
-  nazwa: string;
-  procent: string | number;
-  em: string | number;
-  bialko: string | number;
-  ca: string | number;
-  p: string | number;
-  wlokno: string | number;
-  cena: string;
-  na: string | number;
-  k: string | number;
-  mg: string | number;
-  mn: string | number;
-  zn: string | number;
-  se: string | number;
-  fe: string | number;
-  i: string | number;
-}
 
 interface PrzykladowySkladnik {
   nazwa: string;
@@ -176,20 +161,12 @@ const KalkulatorPasz = () => {
   const { ingredients: feedMerged, categories: pickerKategorie } = useFeedIngredients();
   useEffect(() => { setPrzykladoweSkladniki(feedMerged); }, [feedMerged]);
 
-  // Lista skladnikow do wyboru jest IDENTYCZNA w kazdym wierszu tabeli, wiec liczymy
-  // ja raz. Wczesniej powstawala od nowa dla kazdego wiersza przy KAZDYM nacisnieciu
-  // klawisza w dowolnym z szesnastu pol liczbowych: przy kilku wierszach to kilkaset
-  // przebiegow `filter` i kilka tysiecy elementow <option> na jedno wcisniecie.
-  // Cloudflare Web Analytics pokazywal wlasnie tu najgorszy INP w calym serwisie.
-  const opcjeSkladnikow = useMemo(
-    () => pickerKategorie.map(kat => (
-      <optgroup key={kat} label={kat}>
-        {przykladoweSkladniki.filter(p => p.kategoria === kat).map(p => (
-          <option key={p.nazwa} value={p.nazwa}>{p.nazwa}</option>
-        ))}
-      </optgroup>
-    )),
-    [pickerKategorie, przykladoweSkladniki],
+  // Plaska lista dla wyszukiwarki skladnikow. Liczona raz - wczesniej lista opcji
+  // powstawala od nowa dla KAZDEGO wiersza przy KAZDYM nacisnieciu klawisza
+  // w dowolnym z szesnastu pol liczbowych, co dawalo najgorszy INP w serwisie.
+  const pozycjeDoWyboru = useMemo(
+    () => przykladoweSkladniki.map(p => ({ nazwa: p.nazwa, kategoria: p.kategoria })),
+    [przykladoweSkladniki],
   );
   const [zaproponujOpen, setZaproponujOpen] = useState(false);
   const [panelAdmin, setPanelAdmin] = useState(false);
@@ -326,6 +303,14 @@ const KalkulatorPasz = () => {
     } catch (e) {
       console.error('Błąd zapisywania składników:', e);
     }
+  };
+
+  const wczytajRecepture = (mieszanka: ZapisanaMieszanka) => {
+    // Kolejnosc ma znaczenie: najpierw gatunek, potem okres. Lista okresow zalezy
+    // od gatunku, wiec ustawiony wczesniej okres zostalby wyczyszczony.
+    setDrob(mieszanka.drob);
+    setOkres(mieszanka.okres);
+    setSkladniki(mieszanka.pozycje);
   };
 
   const aktualnaNorma = okres ? normy[drob]?.find((n: any) => n.okres === okres) : null;
@@ -1177,14 +1162,11 @@ const KalkulatorPasz = () => {
                     {skladniki.map((skladnik, idx) => (
                       <tr key={idx} className="border-b border-border">
                         <td className="p-2">
-                          <select
-                            value={skladnik.nazwa}
-                            onChange={(e) => aktualizujSkladnik(idx, 'nazwa', e.target.value)}
-                            className="w-full min-w-[190px] p-2 border border-input bg-background text-foreground rounded"
-                          >
-                            <option value="">— wybierz składnik —</option>
-                            {opcjeSkladnikow}
-                          </select>
+                          <WyborSkladnika
+                            wartosc={skladnik.nazwa}
+                            pozycje={pozycjeDoWyboru}
+                            onZmiana={(nazwa) => aktualizujSkladnik(idx, 'nazwa', nazwa)}
+                          />
                         </td>
                         <td className="p-2">
                           <input
@@ -1815,6 +1797,14 @@ const KalkulatorPasz = () => {
                 </span>
               </p>
             </div>
+
+            <ZapisaneReceptury
+              drob={drob}
+              okres={okres}
+              normaEtykieta={okres ? `${typyDrobiu.find(t => t.value === drob)?.label ?? drob} — ${okres}` : 'bez wybranej normy'}
+              skladniki={skladniki}
+              onWczytaj={wczytajRecepture}
+            />
           </div>
 
           <div className="text-center mb-6">
