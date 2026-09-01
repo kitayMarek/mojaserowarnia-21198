@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -283,14 +282,6 @@ const FakturaVatRr = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Faktura VAT RR — generator projektu i zasady | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Kto wystawia fakturę VAT RR, kiedy przysługuje 7% zryczałtowanego zwrotu i jakie pola są obowiązkowe (art. 116 VAT). Darmowy generator faktury do druku."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/faktura-vat-rr" />
-      </Helmet>
 
       {/* CSS druku: na wydruku tylko dokument (Oryginał + Kopia na osobnych stronach) */}
       <style>{`

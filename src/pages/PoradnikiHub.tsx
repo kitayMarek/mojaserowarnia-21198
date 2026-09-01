@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -92,11 +91,6 @@ const PoradnikiHub = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Poradniki serowara | Start</title>
-        <meta name="description" content="Kompletne poradniki dla serowarów: kompleksowy przewodnik po produkcji sera oraz szczegółowe informacje o sile podpuszczki i metodzie flokulacji." />
-        <link rel="canonical" href="https://mojaserowarnia.pl/poradniki" />
-      </Helmet>
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Poradniki" }]} />
       

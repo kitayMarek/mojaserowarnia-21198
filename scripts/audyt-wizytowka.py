@@ -43,8 +43,19 @@ LAYOUT_Z_TYTULEM = tuple(
     if os.path.exists(R('src', 'components', n + '.tsx'))
     and 'document.title' in io.open(R('src', 'components', n + '.tsx'), encoding='utf-8').read())
 
+W_METASTRON = set(re.findall(r'"(/[^"]*)":\s*\{',
+                              io.open(R('src', 'data', 'metaStron.ts'), encoding='utf-8').read()))
+
 wyniki = []
 for sciezka, komponent in sorted(set(trasy)):
+    # "/" jest wyjatkiem: bot dostaje na niej statyczny index.html, ktory JEST
+    # trescia strony glownej (ma wlasny tytul, opis i JSON-LD). Mirror bylby
+    # kopia samego siebie.
+    if sciezka == '/':
+        wyniki.append(dict(sciezka='/', komponent=komponent, maMirror=True,
+                           maTytul=True, martwyHelmet=False, ldWHelmecie=False,
+                           mirror='/index.html'))
+        continue
     kandydat = INNA.get(sciezka) or (sciezka + '.html')
     kandydat = przek.get(kandydat, kandydat)
     ma_mirror = os.path.exists(R('public', *kandydat.lstrip('/').split('/')))
@@ -52,8 +63,11 @@ for sciezka, komponent in sorted(set(trasy)):
     plik = next((R('src', k, komponent + '.tsx') for k in ('pages', 'components')
                  if os.path.exists(R('src', k, komponent + '.tsx'))), None)
     tresc = io.open(plik, encoding='utf-8').read() if plik else ''
+    # Tytul moze pochodzic z trzech miejsc: z samego komponentu, z layoutu,
+    # albo z tabeli metaStron.ts podpietej globalnie przez <MetaStrony /> w App.
     ma_tytul = ('document.title' in tresc
-                or any('<' + n in tresc for n in LAYOUT_Z_TYTULEM))
+                or any('<' + n in tresc for n in LAYOUT_Z_TYTULEM)
+                or sciezka in W_METASTRON)
     martwy_helmet = '<Helmet' in tresc and not ma_tytul
     ld_w_helmecie = bool(re.search(r'<Helmet>.*?ld\+json.*?</Helmet>', tresc, re.S))
 

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -116,15 +115,10 @@ const LicznerskiMleko = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Mleko wg Licznerskiego — Część I Praktycznego serowarstwa (1922)</title>
-        <meta
-          name="description"
-          content='Skład chemiczny mleka, mikrobiologia, pasteryzacja i dojrzewanie mleka wg Jana Licznerskiego (1922). Analiza Części I "Praktycznego serowarstwa" — co z tej wiedzy obowiązuje po 100 latach.'
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/licznerski-mleko" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

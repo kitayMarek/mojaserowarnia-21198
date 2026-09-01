@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -143,15 +142,6 @@ const Slownik = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-      <Helmet>
-        <title>Słownik Serowarski Polsko-Angielski | Moja Serowarnia</title>
-        <meta 
-          name="description" 
-          content="Kompleksowy słownik terminów serowarskich polsko-angielski. Ponad 60 terminów z definicjami: kultury starterowe, podpuszczka, koagulacja, dojrzewanie i więcej."
-        />
-        <meta name="keywords" content="słownik serowarski, terminologia serowarska, cheese glossary, cheesemaking terms, kultury bakteryjne, podpuszczka, rennet" />
-        <link rel="canonical" href="https://mojaserowarnia.pl/slownik" />
-      </Helmet>
 
       <DatasetSchema
         name="Słownik Terminów Serowarskich Polsko-Angielski"

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -78,15 +77,10 @@ const KleckiJakoscMleka = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>9 warunków jakości mleka wg Kleckiego (1900) — co decyduje o serze</title>
-        <meta
-          name="description"
-          content="Prof. Klecki (UJ, 1900) opisał 9 czynników jakości mleka serowarskiego: rasa, sezon, żywienie, laktacja, higiena udoju, czas, temperatura, dojrzewanie mleka."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/klecki-jakosc-mleka" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

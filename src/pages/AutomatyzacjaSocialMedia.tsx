@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -83,13 +82,6 @@ const AutomatyzacjaSocialMedia = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Automatyzacja Social Media - RSS Feed do Facebook | Moja Serowarnia</title>
-        <meta 
-          name="description" 
-          content="Automatycznie publikuj nowe przepisy na Facebooku używając RSS Feed i Zapier/IFTTT. Instrukcje krok po kroku i panel testowy." 
-        />
-      </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
         <Navigation />

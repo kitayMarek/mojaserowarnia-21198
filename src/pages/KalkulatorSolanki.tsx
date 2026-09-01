@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -107,15 +106,10 @@ const KalkulatorSolanki = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Kalkulator solanki i chlorku wapnia (CaCl₂) do sera | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Darmowy kalkulator solanki do sera (18–22%) — ile soli na wodę — oraz dawka chlorku wapnia (CaCl₂) na litr mleka. Z praktycznymi wskazówkami i FAQ."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/kalkulator-solanki" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

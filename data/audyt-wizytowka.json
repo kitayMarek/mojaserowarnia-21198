@@ -2,18 +2,18 @@
   {
     "sciezka": "/",
     "komponent": "Index",
-    "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maMirror": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
-    "mirror": null
+    "mirror": "/index.html"
   },
   {
     "sciezka": "/automatyzacja-social-media",
     "komponent": "AutomatyzacjaSocialMedia",
     "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": null
   },
@@ -21,8 +21,8 @@
     "sciezka": "/bakterie-kultury",
     "komponent": "BakterieKultury",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": "/bakterie-kultury.html"
   },
@@ -48,18 +48,18 @@
     "sciezka": "/dojrzewalnia-z-lodowki",
     "komponent": "DojrzewalniaZLodowki",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/dojrzewalnia-z-lodowki.html"
   },
   {
     "sciezka": "/encyklopedia-serowarstwo",
     "komponent": "EncyklopediaSerowarstwo",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/encyklopedia-serowarstwo.html"
   },
   {
@@ -75,8 +75,8 @@
     "sciezka": "/faktura-vat-rr",
     "komponent": "FakturaVatRr",
     "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": null
   },
@@ -138,27 +138,27 @@
     "sciezka": "/kalkulator-solanki",
     "komponent": "KalkulatorSolanki",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/kalkulator-solanki.html"
   },
   {
     "sciezka": "/klasyka-serowarstwa",
     "komponent": "KlasykaPolskiegoSerowarstwa",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/klasyka-serowarstwa.html"
   },
   {
     "sciezka": "/klecki-jakosc-mleka",
     "komponent": "KleckiJakoscMleka",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/klecki-jakosc-mleka.html"
   },
   {
@@ -219,36 +219,36 @@
     "sciezka": "/licznerski",
     "komponent": "LicznerskiSerowarstwo",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/licznerski.html"
   },
   {
     "sciezka": "/licznerski-mleko",
     "komponent": "LicznerskiMleko",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/licznerski-mleko.html"
   },
   {
     "sciezka": "/licznerski-sery",
     "komponent": "LicznerskiSery",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/licznerski-sery.html"
   },
   {
     "sciezka": "/mleko-do-sera",
     "komponent": "MlekoDoSera",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/mleko-do-sera.html"
   },
   {
@@ -264,9 +264,9 @@
     "sciezka": "/nieudany-ser",
     "komponent": "NieudanySer",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/nieudany-ser.html"
   },
   {
@@ -282,18 +282,18 @@
     "sciezka": "/organizacja-serowarni",
     "komponent": "OrganizacjaSerowarni",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/organizacja-serowarni.html"
   },
   {
     "sciezka": "/pasze",
     "komponent": "PaszeHub",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/pasze.html"
   },
   {
@@ -309,8 +309,8 @@
     "sciezka": "/poradniki",
     "komponent": "PoradnikiHub",
     "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": null
   },
@@ -318,9 +318,9 @@
     "sciezka": "/porownanie-wartosci-odzywczych",
     "komponent": "PorownanieWartosciOdzywczych",
     "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": null
   },
   {
@@ -408,8 +408,8 @@
     "sciezka": "/przepisy-kulinarne",
     "komponent": "PrzepisyKulinarne",
     "maMirror": false,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": null
   },
@@ -453,27 +453,27 @@
     "sciezka": "/serowarnie",
     "komponent": "Serowarnie",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/serowarnie.html"
   },
   {
     "sciezka": "/serowarstwo-staropolskie",
     "komponent": "SerowarstwoStaropolskie",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/serowarstwo-staropolskie.html"
   },
   {
     "sciezka": "/serwatka-dla-zwierzat",
     "komponent": "SerwatkaDlaZwierzat",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/serwatka-dla-zwierzat.html"
   },
   {
@@ -498,8 +498,8 @@
     "sciezka": "/slownik",
     "komponent": "Slownik",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
+    "maTytul": true,
+    "martwyHelmet": false,
     "ldWHelmecie": false,
     "mirror": "/slownik.html"
   },
@@ -507,9 +507,9 @@
     "sciezka": "/solenie-sera",
     "komponent": "SolenieSera",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/solenie-sera.html"
   },
   {
@@ -525,18 +525,18 @@
     "sciezka": "/wady-mleka-a-wady-sera",
     "komponent": "WadyMlekaWadySera",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/wady-mleka-a-wady-sera.html"
   },
   {
     "sciezka": "/wedzenie-sera",
     "komponent": "WedzenieSera",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/wedzenie-sera.html"
   },
   {
@@ -552,9 +552,9 @@
     "sciezka": "/woskowanie-sera",
     "komponent": "WoskowanieSera",
     "maMirror": true,
-    "maTytul": false,
-    "martwyHelmet": true,
-    "ldWHelmecie": true,
+    "maTytul": true,
+    "martwyHelmet": false,
+    "ldWHelmecie": false,
     "mirror": "/woskowanie-sera.html"
   },
   {

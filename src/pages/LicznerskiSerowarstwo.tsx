@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -90,15 +89,10 @@ const LicznerskiSerowarstwo = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Jan Licznerski — człowiek, który napisał polską biblię serowarstwa</title>
-        <meta
-          name="description"
-          content='Biografia Jana Licznerskiego, autora "Praktycznego serowarstwa" (1922). Oś czasu, osiągnięcia i cytaty z polskiej biblii serowarstwa.'
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/licznerski" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

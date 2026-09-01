@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -98,15 +97,10 @@ const WadyMlekaWadySera = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Wady mleka a wady sera — łańcuchy od obory do dojrzewalni | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Kiszonka i Clostridium a wzdęcia późne (progi przetrwalników), antybiotyki a martwe kultury, komórki somatyczne a słaby skrzep, późna laktacja. Tabela: objaw w serze → przyczyna w oborze."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/wady-mleka-a-wady-sera" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

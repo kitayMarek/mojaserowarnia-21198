@@ -5,7 +5,6 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
@@ -88,15 +87,10 @@ export default function Serowarnie() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Serowarnie zagrodowe w Polsce — katalog producentów | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Katalog małych serowarni zagrodowych w Polsce. Znajdź producenta w swoim województwie, zobacz jakie sery robi i jak kupić prosto od niego."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/serowarnie" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Serowarnie" }]} />

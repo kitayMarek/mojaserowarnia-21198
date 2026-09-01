@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -72,15 +71,10 @@ const SerowarstwoStaropolskie = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Serowarstwo Staropolskie — polskie piśmiennictwo (XIX–XX w.)</title>
-        <meta
-          name="description"
-          content="Polskie serowarstwo akademickie: Klecki (UJ 1900), Licznerski (1922) i inne źródła w domenie publicznej. Wiedza sprzed ponad 100 lat, aktualna do dziś."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/serowarstwo-staropolskie" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Serowarstwo Staropolskie" }]} />

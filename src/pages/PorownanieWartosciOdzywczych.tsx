@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -282,15 +281,10 @@ const PorownanieWartosciOdzywczych = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/20">
-      <Helmet>
-        <title>Kalkulator porównania wartości odżywczych serów | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Porównaj wartości odżywcze serów — kalorie, białko, tłuszcze, wapń i sód. Do 3 serów naraz, na 100 g lub dowolną porcję. Przydatne do diety i etykiet."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/porownanie-wartosci-odzywczych" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <Navigation />
       <PageBreadcrumbs items={[
         { label: "Poradniki", href: "/poradniki" },

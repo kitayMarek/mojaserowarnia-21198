@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -73,15 +72,10 @@ const EncyklopediaSerowarstwo = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Encyklopedya rolnicza — ponadczasowa wiedza o serowarstwie (ok. 1900)</title>
-        <meta
-          name="description"
-          content='Hasło "Serowarstwo" z Encyklopedyi rolniczej (ok. 1900) — chemia mleka, koagulacja, klasyfikacja serów, dojrzewanie. Co z tej wiedzy obowiązuje do dziś.'
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/encyklopedia-serowarstwo" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

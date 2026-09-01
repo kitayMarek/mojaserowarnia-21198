@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -47,6 +46,9 @@ const CulinaryRecipeDetails = () => {
   useEffect(() => {
     if (recipe) {
       document.title = `${recipe.name} | Przepisy Kulinarne | Moja Serowarnia`;
+      // Opis stal w martwym <Helmet>; bez tego strona dziedziczyla opis z index.html.
+      const opis = document.querySelector('meta[name="description"]');
+      if (opis && recipe.description) opis.setAttribute("content", recipe.description);
     }
   }, [recipe]);
 
@@ -128,11 +130,6 @@ const CulinaryRecipeDetails = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{recipe.name} | Przepisy Kulinarne | Moja Serowarnia</title>
-        <meta name="description" content={recipe.description} />
-        <link rel="canonical" href={`https://mojaserowarnia.pl/przepisy-kulinarne/${id}`} />
-      </Helmet>
 
       <CulinaryRecipeSchema
         name={recipe.name}

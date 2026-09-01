@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -110,15 +109,10 @@ const SerwatkaDlaZwierzat = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Serwatka dla zwierząt — dawki dla świń, drobiu i cieląt | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Co zrobić z serwatką po serze: dawki dla świń (10–20 L), drobiu (ukwaszona, 10–20% pojenia) i cieląt. Serwatka słodka vs kwasowa, ostrzeżenie o solonej, przechowywanie i nawóz."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/serwatka-dla-zwierzat" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -167,15 +166,10 @@ const PaszeHub = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Pasze i zwierzęta — bilansowanie mieszanek i produkty uboczne | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Dział o żywieniu zwierząt: kalkulatory pasz dla drobiu i bydła, normy (nioski 16–18% białka, 3,8–4,2% wapnia), po co olej, muszle ostryg, metionina i grit, oraz co zrobić z serwatką i nieudanym serem."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/pasze" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Pasze i zwierzęta" }]} />

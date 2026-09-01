@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -78,15 +77,10 @@ const KlasykaPolskiegoSerowarstwa = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Klasyka polskiego serowarstwa — podręczniki (domena publiczna)</title>
-        <meta
-          name="description"
-          content="Klecki (1900), Licznerski (1922), Encyklopedya rolnicza — polskie klasyki serowarstwa w domenie publicznej. Darmowe skany i cytaty historyczne."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/klasyka-serowarstwa" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

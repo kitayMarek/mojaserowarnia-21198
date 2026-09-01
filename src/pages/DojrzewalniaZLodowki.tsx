@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -87,15 +86,10 @@ const DojrzewalniaZLodowki = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Dojrzewalnia do sera z lodówki lub piwniczki | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Jak zrobić dojrze walnię do sera: piwniczka do wina, stara lodówka + Inkbird ITC-308, temperatura 10–14°C, wilgotność 80–95%, koszty od 200 zł."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/dojrzewalnia-z-lodowki" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -80,15 +79,10 @@ const WedzenieSera = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Wędzenie sera — drewno, temperatura, czas | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Jak uwędzić ser: które sery się nadają, dobór drewna (olcha, buk, owocowe), wędzenie na zimno 20–30°C, czas wędzenia, leżakowanie i typowe błędy."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/wedzenie-sera" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -112,15 +111,10 @@ const MlekoDoSera = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Mleko do sera — skład, wydajność i wpływ żywienia krów | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Ile sera z litra mleka (tabela dla 8 serów), co decyduje o wydajności (kazeina i tłuszcz), wzór Van Slyke'a, porównanie ras Jersey vs HF, kappa-kazeina i wpływ żywienia krów."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/mleko-do-sera" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

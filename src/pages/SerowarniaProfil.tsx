@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { useMetaStrony } from "@/hooks/useMetaStrony";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
@@ -73,6 +73,25 @@ export default function SerowarniaProfil() {
     })();
   }, [slug]);
 
+  const lokalizacja = [wpis?.miejscowosc, wpis?.wojewodztwo].filter(Boolean).join(", ");
+  const opisMeta = wpis
+    ? (wpis.opis?.slice(0, 150) ??
+        `${wpis.nazwa} — serowarnia zagrodowa${lokalizacja ? ` (${lokalizacja})` : ""}. ${wpis.produkty.slice(0, 4).join(", ")}.`)
+    : undefined;
+
+  // Tytul liczy sie przed wczesnymi wyjsciami, bo hooka nie wolno wywolac warunkowo.
+  // NOINDEX dla nieznalezionej wizytowki: wczesniej stal w bloku <Helmet>, czyli
+  // nie dzialal — kazdy nieistniejacy slug byl dla Google zwyklą stroną do indeksu.
+  useMetaStrony(
+    wpis
+      ? `${wpis.nazwa}${lokalizacja ? ` — ${lokalizacja}` : ""} | Serowarnie`
+      : loading
+        ? undefined
+        : "Nie znaleziono serowarni | Moja Serowarnia",
+    opisMeta,
+    !wpis && !loading ? { robots: "noindex" } : undefined,
+  );
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -85,10 +104,6 @@ export default function SerowarniaProfil() {
   if (!wpis) {
     return (
       <div className="min-h-screen bg-background">
-        <Helmet>
-          <title>Nie znaleziono serowarni | Moja Serowarnia</title>
-          <meta name="robots" content="noindex" />
-        </Helmet>
         <Navigation />
         <main className="pt-20">
           <div className="container mx-auto px-4 py-20 text-center space-y-3">
@@ -104,10 +119,6 @@ export default function SerowarniaProfil() {
     );
   }
 
-  const lokalizacja = [wpis.miejscowosc, wpis.wojewodztwo].filter(Boolean).join(", ");
-  const opisMeta =
-    (wpis.opis?.slice(0, 150) ??
-      `${wpis.nazwa} — serowarnia zagrodowa${lokalizacja ? ` (${lokalizacja})` : ""}. ${wpis.produkty.slice(0, 4).join(", ")}.`);
 
   // LocalBusiness — realny, lokalny producent żywności
   const structuredData = {
@@ -147,12 +158,10 @@ export default function SerowarniaProfil() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{wpis.nazwa}{lokalizacja ? ` — ${lokalizacja}` : ""} | Serowarnie</title>
-        <meta name="description" content={opisMeta} />
-        <link rel="canonical" href={`https://mojaserowarnia.pl/serowarnie/${wpis.slug}`} />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Serowarnie", href: "/serowarnie" }, { label: wpis.nazwa }]} />

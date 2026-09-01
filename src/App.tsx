@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Kanoniczny from "@/components/Kanoniczny";
+import MetaStrony from "@/components/MetaStrony";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
@@ -118,6 +119,7 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <Kanoniczny />
+          <MetaStrony />
           <AuthProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>

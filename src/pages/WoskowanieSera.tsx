@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -78,15 +77,10 @@ const WoskowanieSera = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Woskowanie sera — jak i czym woskować | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Jak woskować ser domowy: temperatura wosku 82–93°C, przygotowanie (2–7 dni osuszania), technika zanurzeniowa, 2–3 warstwy, które sery woskować a których nie."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/woskowanie-sera" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

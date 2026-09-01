@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from "react";
-import { Helmet } from "react-helmet";
 import { useSearchParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -140,10 +139,6 @@ const BazaKultur = () => {
   const shops = Array.from(new Set(culturesData.map(c => c.shop)));
   const types = Array.from(new Set(culturesData.map(c => c.type)));
   return <div className="min-h-screen flex flex-col">
-      <Helmet>
-        {/* Canonical bez parametrów zapytania — zwija warianty /baza-kultur?q=... do jednego URL-a */}
-        <link rel="canonical" href="https://mojaserowarnia.pl/baza-kultur" />
-      </Helmet>
       <DatasetSchema
         name="Baza Kultur Bakteryjnych do Produkcji Sera"
         description={`Kompletna baza ${culturesData.length} kultur bakteryjnych do produkcji domowych serów z polskich sklepów specjalistycznych. Zawiera informacje o składzie bakteryjnym, zastosowaniu w serowarstwie, temperaturze pracy, typie kultury i aktualnych cenach.`}

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
@@ -12,11 +11,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <Helmet>
-        <title>Moja Serowarnia — baza kultur, przepisy na ser, RHD/MOL</title>
-        {/* meta description: jedyne źródło to statyczny tag w index.html (uniknięcie duplikatu „more than one meta description" w Bing) */}
-        <link rel="canonical" href="https://mojaserowarnia.pl/" />
-      </Helmet>
       <Navigation />
       <main data-hero className="pt-16 lg:pt-0" role="main">
         <Hero />

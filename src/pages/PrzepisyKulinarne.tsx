@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -35,13 +34,6 @@ const PrzepisyKulinarne = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Przepisy Kulinarne z Serem | Moja Serowarnia</title>
-        <meta 
-          name="description" 
-          content="Odkryj wyjątkowe przepisy kulinarne, w których ser jest głównym bohaterem. Eleganckie dania z serem Gouda, Brie, Camembert i innymi serami." 
-        />
-      </Helmet>
 
       <Navigation />
       

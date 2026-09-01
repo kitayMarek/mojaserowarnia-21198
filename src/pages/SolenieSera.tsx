@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -95,15 +94,10 @@ const SolenieSera = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Solenie sera — suche vs solanka: czasy i stężenia | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Solanie sera: solanka 18–22% (Gouda 1 kg = 10–12 h), solenie suche 2–3% masy, rola CaCl₂, sól niejodowana, kiedy każda metoda i ponowne użycie solanki."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/solenie-sera" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

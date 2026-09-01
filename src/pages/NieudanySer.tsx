@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -103,15 +102,10 @@ const NieudanySer = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Nieudany ser — ratować czy wyrzucić? Diagnostyka i odzysk | Moja Serowarnia</title>
-        <meta
-          name="description"
-          content="Nieudany ser: tabela 9 objawów z przyczyną i ścieżką odzysku. Pleśń na twardym (odkrój 2–3 cm) vs miękkim (wyrzuć), gorycz, brak skrzepu, bezpieczne skarmianie zwierzętami."
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/nieudany-ser" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs

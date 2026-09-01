@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -261,15 +260,10 @@ const LicznerskiSery = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Rodzaje serów wg Licznerskiego — Część II Praktycznego serowarstwa</title>
-        <meta
-          name="description"
-          content='8 typów serów wg Licznerskiego (1922): miękkie, limburski, quartirolo, ementalski, holenderski, twarde, topione. Co z tej wiedzy przetrwało 100 lat?'
-        />
-        <link rel="canonical" href="https://mojaserowarnia.pl/licznerski-sery" />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      </Helmet>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <Navigation />
       <PageBreadcrumbs
