@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
+import PelnySklad from '@/components/kalkulator/PelnySklad';
 import ZapisaneReceptury from '@/components/kalkulator/ZapisaneReceptury';
 import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
 import Navigation from "@/components/Navigation";
@@ -1390,6 +1391,14 @@ const KalkulatorPasz = () => {
                   )}
                 </div>
               )}
+
+              {/* Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
+                  nie z wierszy tabeli — tabela zostaje bez zmian. */}
+              <PelnySklad
+                wiersze={skladniki}
+                baza={feedMerged}
+                normaTluszczu={aktualnaNorma?.tluszcz}
+              />
 
               {obliczKoszt() > 0 && (
                 <div className="mt-4 pt-4 border-t border-border">
