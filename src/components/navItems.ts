@@ -1,9 +1,10 @@
 // Jedna lista dla calej nawigacji: sidebar i pelnoekranowy "Spis tresci"
 // czytaja ten sam obiekt, wiec nowa strona pojawia sie w obu miejscach naraz.
 import {
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store, Milk,
   type LucideIcon,
 } from "lucide-react";
+import { mleczneProdukty, sciezkaMlecznegoProduktu } from "@/data/mleczneProdukty";
 
 // Kolory pozycji — pełne klasy (Tailwind nie może budować ich dynamicznie).
 export const COLORS = {
@@ -58,6 +59,18 @@ export const navItems: NavItem[] = [
     ],
   },
   {
+    // Osobny dzial, bo to nie sery podpuszczkowe: bez podpuszczki i bez dojrzewalni.
+    // Dotad te cztery przepisy istnialy tylko jako kafelki pod cala siatka na
+    // /przepisy — serek homogenizowany mial JEDEN link w calej aplikacji.
+    // Pozycje pochodza z data/mleczneProdukty.ts, zeby menu i kafelki nie rozjechaly
+    // sie przy dodaniu wariantu.
+    label: "Mleczne przetwory", icon: Milk, color: "cyan",
+    children: mleczneProdukty.map((p) => ({
+      label: p.label,
+      href: sciezkaMlecznegoProduktu(p.slug),
+    })),
+  },
+  {
     label: "Poradniki", icon: GraduationCap, color: "sky",
     children: [
       { label: "Poradnik główny", href: "/poradnik" },
@@ -68,6 +81,7 @@ export const navItems: NavItem[] = [
       { label: "Solenie sera", href: "/solenie-sera" },
       { label: "Bakterie i kultury", href: "/bakterie-kultury" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
+      { label: "Chlorek wapnia do mleka", href: "/chlorek-wapnia-do-mleka" },
       { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },
       { label: "Wszystkie poradniki", href: "/poradniki" },
     ],
@@ -78,8 +92,10 @@ export const navItems: NavItem[] = [
       { label: "Kalkulator Beaugel", href: "/kalkulator-beaugel" },
       { label: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera" },
       { label: "Kalkulator miar", href: "/kalkulator-miar" },
+      { label: "Kalkulator solanki", href: "/kalkulator-solanki" },
       { label: "Wartości odżywcze serów", href: "/porownanie-wartosci-odzywczych" },
       { label: "Etykieta RHD", href: "/etykieta-rhd" },
+      { label: "Faktura VAT RR", href: "/faktura-vat-rr" },
       { label: "Wszystkie narzędzia", href: "/narzedzia" },
     ],
   },
