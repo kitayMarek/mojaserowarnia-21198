@@ -49,3 +49,9 @@ __pycache__/
 
 # Lokalny stan wranglera (cache builda i podgladu) - nie do repo
 .wrangler
+
+# Eksporty z GSC / Bing / Senuto i raport z ich analizy - repo jest publiczne,
+# a to pelna mapa fraz i ruchu serwisu. Skrypt i wybrane pytania zostaja w repo,
+# surowe dane leza lokalnie u Marka (patrz data/pytania/README.md).
+data/pytania/zrodla/
+data/pytania/kandydaci-*.md

@@ -175,6 +175,23 @@ def main():
         html = html[:m.start()] + "\n\n  " + zbuduj_html(punkty) + html[m.start():]
         io.open(sciezka_mirrora, "w", encoding="utf-8", newline="\n").write(html)
 
+        # Kotwice musza ISTNIEC w obu warstwach. Martwy link typu A nie rzuca bledu
+        # w przegladarce - po prostu nic sie nie dzieje, a uzytkownik uznaje panel za
+        # zepsuty. Lepiej, zeby wysypal sie generator.
+        braki = []
+        for p in punkty:
+            if ('id="%s"' % p["kotwica"]) not in html:
+                braki.append("mirror: brak id=\"%s\" (pytanie %s)" % (p["kotwica"], p["id"]))
+        sciezka_tsx = dane.get("komponentReact")
+        if sciezka_tsx:
+            tsx = io.open(os.path.join(ROOT, sciezka_tsx.replace("/", os.sep)), encoding="utf-8").read()
+            for p in punkty:
+                kotwica = p.get("kotwicaReact") or p["kotwica"]
+                if ('id="%s"' % kotwica) not in tsx:
+                    braki.append("%s: brak id=\"%s\" (pytanie %s)" % (sciezka_tsx, kotwica, p["id"]))
+        if braki:
+            raise SystemExit("Brakujace kotwice:\n  " + "\n  ".join(braki))
+
         sciezka_ts, nazwa = zapisz_ts(dane, punkty, slug)
         print("%-14s %d pytan | mirror: %s, kotwic dodanych: %d | React: %s"
               % (slug, len(punkty), "podmieniony" if bylo else "wstawiony", dodane, sciezka_ts))

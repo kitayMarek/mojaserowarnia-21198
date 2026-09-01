@@ -28,6 +28,25 @@ Pytań **nie wymyślamy**. Kolejność pracy przy odświeżaniu listy:
    AI Performance (cytowania — pokazuje, o co pytają modele, a nie wyszukiwarka).
 3. **Senuto** → frazy i klastry tematyczne dla adresu.
 
+Eksporty kładziemy w `data/pytania/zrodla/` pod nazwami: `gsc-zapytania.csv`,
+`gsc-strony.csv`, `bing-zapytania.csv`, `bing-strony.csv`, `senuto-widocznosc.xlsx`.
+Potem `python scripts/gen-kandydaci-pytan.py` scala je w klastry intencji i zapisuje
+raport `data/pytania/kandydaci-<slug>.md`.
+
+**Katalog `zrodla/` i raport są w `.gitignore` — celowo.** Repo jest publiczne, a to
+pełna mapa fraz i ruchu serwisu; w repo zostaje skrypt (żeby analiza była odtwarzalna)
+oraz liczby przy wybranych pytaniach (żeby dobór dało się zakwestionować). Surowe
+eksporty trzymaj lokalnie.
+
+Dwie pułapki, na które trzeba uważać przy odświeżaniu:
+
+- **Eksport zapytań z GSC dotyczy całej domeny**, nie jednej strony — GSC nie daje
+  przekroju zapytanie × strona. Przypisanie do strony robi się po temacie, wzorcami
+  w skrypcie. Przeglądaj klaster `inne`: to tam widać, czego wzorce nie złapały.
+- **Ta sama fraza bywa z innej branży.** „rhd" to także *right-hand drive* — samo
+  „rhd plus" ma 210 wyszukiwań miesięcznie i nie ma nic wspólnego z serem. Skrypt
+  odsiewa je listą `OBCE`; przy nowej stronie sprawdź, czy nie trzeba jej rozszerzyć.
+
 Trzy listy scalamy w jedną: warianty tej samej intencji grupujemy w jedno pytanie,
 sortujemy po sumie wyświetleń, do panelu bierzemy **5–8** o najwyższym potencjale.
 Resztę zostawiamy w pliku z `"wPanelu": false` — nic nie ginie, a promocja pytania

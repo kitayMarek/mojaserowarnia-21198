@@ -468,7 +468,7 @@ const RHD = () => {
             </Card>
 
             {/* Sekcja 5: Zakres produkcji */}
-            <Card>
+            <Card id="rhd-zakres-sprzedazy">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
                   <ShoppingBag className="h-5 w-5 text-primary" />
