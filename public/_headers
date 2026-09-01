@@ -1,0 +1,46 @@
+# Nagłówki HTTP — przepisane z sekcji CACHE CONTROL i MIME public/.htaccess.
+# Czyta je warstwa assetów Cloudflare; Apache tego pliku nie widzi.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000
+
+# Assety mają hash w nazwie — zmiana treści to zmiana adresu, więc mogą leżeć
+# w cache na zawsze.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- Publiczne kontrakty integracyjne -------------------------------------
+# charset=utf-8 wymuszony jawnie: pliki mają polskie znaki, a przy nosniff
+# brak charsetu grozi błędnym dekodowaniem (llms.txt to 157 linii z ogonkami).
+# CORS "*" pozwala fermly.pl pobierać te dane po stronie klienta; dane i tak
+# są publiczne. W .htaccess obejmowało to każdy .json/.txt/.xml — tu wymieniam
+# pliki po nazwie, bo składnia _headers dopasowuje prefiks ścieżki, nie sufiks.
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+/humans.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+/kultury.summary.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+/przepisy.summary.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+/90bbed815ee44b9c82e2e8a77fbe93f9.txt
+  Content-Type: text/plain; charset=utf-8
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+/BingSiteAuth.xml
+  Content-Type: application/xml; charset=utf-8
+/przepisy/index.json
+  Access-Control-Allow-Origin: *
+/wiadomosci.json
+  Access-Control-Allow-Origin: *

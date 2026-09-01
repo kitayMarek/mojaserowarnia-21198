@@ -1,0 +1,25 @@
+# Przekierowania 301 — przepisane z public/.htaccess.
+# Czyta je warstwa assetów Cloudflare, ZANIM uruchomi się worker/index.js.
+# Apache tego pliku nie widzi, więc obie konfiguracje mogą istnieć równolegle.
+#
+# Uwaga 1: ŻADNEJ reguły catch-all (/* /index.html 200) — SPA-fallback robi
+# worker, inaczej przesłoniłaby serwowanie mirrorów botom i prawdziwe 404.
+# Uwaga 2: kanonikalizacji www → bez www TU NIE MA. Workers (w odróżnieniu od
+# Pages) odrzuca w _redirects adresy absolutne: „Only relative URLs are allowed".
+# Robi to worker/index.js, krok 1.
+# Uwaga 3: reguły bez gwiazdki stoją nad regułami z gwiazdką — wrangler inaczej
+# ostrzega, że dopasowanie jest wolniejsze niż mogłoby być.
+
+# --- Stare/błędne ścieżki: eliminują pozorne 404 w Search Console ---
+# literówka w starej trasie kalkulatora wartości odżywczych
+  /porownawie-wartosci-odzywczych /porownanie-wartosci-odzywczych 301
+  /porownawie-wartosci-odzywczych/ /porownanie-wartosci-odzywczych 301
+# stary mirror etykiety → opisowy slug GEO
+  /etykieta-rhd.html /etykieta-do-sprzedazy-rhd.html 301
+# /kalkulator nie jest trasą → hub narzędzi
+  /kalkulator /narzedzia 301
+  /kalkulator/ /narzedzia 301
+# /wege → /wege/ (mirror leży w katalogu, adres kanoniczny ma ukośnik)
+  /wege /wege/ 301
+# /przepis/<id> (liczba pojedyncza) → /przepisy/<id>
+  /przepis/* /przepisy/:splat 301

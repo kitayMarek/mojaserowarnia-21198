@@ -1,0 +1,33 @@
+{
+  // ===========================================================================
+  //  mojaserowarnia.pl — hosting na Cloudflare Workers (zastępuje home.pl)
+  //
+  //  DLACZEGO WORKER, A NIE SAME STATIC ASSETS: serwis ma dwie warstwy treści —
+  //  aplikację React dla ludzi i statyczne mirrory public/**.html dla botów.
+  //  Na Apache rozdzielał je .htaccess (reguły po User-Agent, DirectoryIndex,
+  //  prawdziwe 404). Sam hosting plików tego nie odtworzy, więc logika z
+  //  .htaccess przeniesiona jest 1:1 do worker/index.js.
+  // ===========================================================================
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mojaserowarnia",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+
+    // "none" = ścieżka trafia wyłącznie w plik o dokładnie tej nazwie.
+    // KLUCZOWE dla dwuwarstwowości: przy domyślnym "auto-trailing-slash"
+    // żądanie /przepisy/mozzarella dostałoby /przepisy/mozzarella.html, czyli
+    // mirror dla botów trafiłby do KAŻDEGO człowieka zamiast aplikacji React.
+    "html_handling": "none",
+
+    // "none" = brak dopasowania spada do Workera (nie: "single-page-application").
+    // Gdyby SPA-fallback robiła warstwa assetów, worker/index.js NIGDY by się nie
+    // uruchomił — a to on serwuje mirrory botom i zwraca prawdziwe 404.
+    "not_found_handling": "none"
+  },
+
+  "observability": { "enabled": true }
+}
