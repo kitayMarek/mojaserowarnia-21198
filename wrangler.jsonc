@@ -36,5 +36,22 @@
     "run_worker_first": ["/robots.txt"]
   },
 
+  // Domena wlasciwa.
+  //
+  // Apex celowo jako TRASA, nie custom_domain: custom_domain zada usuniecia
+  // rekordu A wskazujacego na home.pl (blad 100117), a trasa nakłada sie na
+  // istniejacy rekord. Worker obsluguje wtedy 100% zadan i nigdy nie odpytuje
+  // serwera zrodlowego, wiec rekord moze zostac - jest darmowa droga odwrotu
+  // (skasowanie trasy = natychmiastowy powrot na home.pl) i nie ma ani sekundy
+  // przerwy przy przelaczaniu. Gdy home.pl zgasnie, rekord bedzie wskazywac
+  // martwy adres, do ktorego i tak nic nie puka.
+  //
+  // www przeciwnie - jest custom_domain, bo tam rekordu A juz nie ma. Istnieje
+  // tylko po to, zeby worker mogl przekierowac na adres bez www (krok 1).
+  "routes": [
+    { "pattern": "mojaserowarnia.pl/*", "zone_name": "mojaserowarnia.pl" },
+    { "pattern": "www.mojaserowarnia.pl", "custom_domain": true }
+  ],
+
   "observability": { "enabled": true }
 }
