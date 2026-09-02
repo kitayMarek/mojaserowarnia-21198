@@ -352,6 +352,37 @@ const RecipeDetails = () => {
             </section>
           )}
 
+          {/* Wyjaśnienie mechanizmu — wywód ze źródłem, nie lista wskazówek */}
+          {recipe.wyjasnienie && (
+            <section className="bg-card rounded-xl border border-border p-8 mb-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-6">
+                {recipe.wyjasnienie.tytul}
+              </h2>
+
+              <div className="space-y-4">
+                {recipe.wyjasnienie.akapity.map((a, i) => (
+                  <p key={i} className="text-sm leading-relaxed">{a}</p>
+                ))}
+              </div>
+
+              <p className="mt-6 pt-4 border-t border-border text-xs text-muted-foreground">
+                <strong>Źródło:</strong>{" "}
+                {recipe.wyjasnienie.zrodlo.url ? (
+                  <a
+                    href={recipe.wyjasnienie.zrodlo.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 hover:text-primary"
+                  >
+                    {recipe.wyjasnienie.zrodlo.tekst}
+                  </a>
+                ) : (
+                  recipe.wyjasnienie.zrodlo.tekst
+                )}
+              </p>
+            </section>
+          )}
+
           {/* Profil smakowy */}
           {recipe.flavor && (
             <section className="bg-card rounded-xl border border-border p-8 mb-8">

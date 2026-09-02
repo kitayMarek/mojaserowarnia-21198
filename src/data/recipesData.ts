@@ -108,6 +108,23 @@ export interface Recipe {
     variants: string[];
   };
   
+  /**
+   * Dłuższe wyjaśnienie mechanizmu — sekcja z własnym nagłówkiem i źródłem.
+   *
+   * DLACZEGO OSOBNE POLE, A NIE `notes`: tamto to krótkie punkty renderowane
+   * jako lista. Tu chodzi o wywód, który tłumaczy PRZYCZYNĘ, a nie podaje
+   * wskazówkę — i który musi nieść przypis, bo opiera się na źródle zewnętrznym.
+   *
+   * Po co w ogóle: to jest treść, po którą sięgają modele językowe, bo nikt
+   * inny nie tłumaczy tego po polsku. Wymaga jednak realnego źródła — pole
+   * `zrodlo` jest tu obowiązkowe z premedytacją.
+   */
+  wyjasnienie?: {
+    tytul: string;
+    akapity: string[];
+    zrodlo: { tekst: string; url?: string };
+  };
+
   // Profil smakowy
   flavor?: {
     taste: string;
@@ -3362,6 +3379,23 @@ export const recipesData: Recipe[] = [
         "Twaróg na sernik — krócej odciskany, dwukrotnie przepuszczony przez maszynkę, bez soli.",
         "Serek ziarnisty (typu cottage) — ziarno płukane zimną wodą po odcieknięciu i zalane śmietanką."
       ]
+    },
+
+    wyjasnienie: {
+      tytul: "Dlaczego z mleka UHT twaróg wychodzi kluchowaty — i co z tym robi przemysł",
+      akapity: [
+        "Popularne wytłumaczenie brzmi: UHT to gorsze mleko. To nieprawda, a prawdziwy mechanizm jest ciekawszy — i tłumaczy przy okazji, dlaczego to samo mleko świetnie nadaje się na jogurt.",
+        "Wysoka temperatura denaturuje białka serwatkowe, głównie beta-laktoglobulinę i alfa-laktoalbuminę. Zdenaturowana beta-laktoglobulina łączy się wtedy z kappa-kazeiną — czyli z tym samym białkiem, na które działa podpuszczka. Przy serze podpuszczkowym to koniec sprawy: enzym nie ma się do czego dobrać i skrzep nie powstaje. Przy twarogu koagulacja jest kwasowa, podpuszczka nie bierze w niej udziału, więc skrzep powstanie. Tylko będzie inny.",
+        "Przyłączone białka serwatkowe wiążą wodę. Skrzep robi się miękki, smarowny i niechętnie oddaje serwatkę — to jest dokładnie ta „rzadka, kluchowata masa”, o której ostrzegamy przy kroku pierwszym. Co ciekawe, w klasycznej technologii twarogu wykorzystuje się tylko około 75% białek mleka; pozostałe 25%, głównie serwatkowe, odchodzi z serwatką. Wysoka obróbka cieplna część z nich zatrzymuje w skrzepie — więc płacisz konsystencją za to, co zyskujesz na wydajności.",
+        "Przemysł tego nie omija, tylko na tym zarabia. W opisie polskiego zgłoszenia patentowego P.393113 autorzy piszą wprost, że ukierunkowaną denaturację prowadzi się w szerokim zakresie: od pasteryzacji 90°C przez 50–60 sekund, przez 95°C przez 100 sekund, aż po sterylizację w 120–135°C przez 3–5 sekund. To ostatnie to dokładnie parametry UHT. Dobierając temperaturę i czas, można — jak to ujmują — „modyfikować cechy sensoryczne i reologiczne kwasowych serów twarogowych”.",
+        "Miękki skrzep naprawiają enzymem. Transglutaminaza tworzy w białkach poprzeczne wiązania kowalencyjne, które usztywniają strukturę i przywracają zwięzłość. Efekt podany w zgłoszeniu: retencja białek serwatkowych rośnie o 10–20%, wydajność produkcji idzie w górę, a z gotowego twarogu mniej wycieka serwatki.",
+        "Wniosek dla domowej kuchni jest prosty, choć niewesoły: mleko UHT nie jest gorsze, tylko inaczej zbudowane — a przemysł potrafi to obrócić na swoją korzyść, bo ma enzym, którego ty nie masz. Dlatego na twaróg, który ma się dać odcisnąć i pokroić, bierz mleko pasteryzowane. To ograniczenie domowej kuchni, a nie wada mleka.",
+      ],
+      zrodlo: {
+        tekst:
+          "Zgłoszenie patentowe P.393113 „Sposób wytwarzania sera twarogowego” — Uniwersytet Warmińsko-Mazurski w Olsztynie i P.M.T. Trading sp. z o.o., zgłoszone 2 grudnia 2010. Wynalazcy: M. Baranowska, K. Bohdziewicz, B. Staniewski, W. Chojnowski. Publikacja PL393113A1 (2012), patent PL228081B1 udzielony w 2018.",
+        url: "https://patents.google.com/patent/PL393113A1/pl",
+      },
     },
 
     flavor: {
