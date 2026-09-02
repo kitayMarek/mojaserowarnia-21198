@@ -523,6 +523,44 @@ def grafika_jogurt(rek):
     return img
 
 
+def grafika_pasze(rek):
+    """Najmocniejszy konkret kalkulatora: sama pszenica to ulamek potrzeb nioski.
+
+    Marek opisal odbiorce tak: "przydomowa hodowla to najczesciej totalny brak
+    wiedzy, karmia tak bo tak im sie wydaje albo widzieli jak babcia sypala
+    pszenice". Plansza obala to jednym zestawieniem, a liczby sa z naszych
+    wlasnych danych: pszenica z feed_base.json (11,9% bialka, 0,07% wapnia)
+    wobec normy dla niosek podanej na /pasze (16-18% bialka, 3,8-4,2% wapnia).
+    Wapnia wychodzi okolo jednej piecdziesiatej potrzeby — stad cienkie skorupy.
+    """
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "SAMA PSZENICA TO ZA MAŁO", "kura nioska potrzebuje 57 razy więcej wapnia, niż daje pszenica", 50)
+
+    d.rounded_rectangle([(48, 172), (SZER - 48, 314)], radius=12, fill=(255, 255, 255),
+                        outline=LINIA, width=2)
+    d.text((74, 192), "Czego brakuje, gdy sypiesz samo ziarno:", font=czcionka("segoeuib.ttf", 26), fill=TEKST)
+    d.text((74, 232), "PSZENICA  — 11,9% białka,  0,07% wapnia",
+           font=czcionka("segoeui.ttf", 24), fill=(185, 28, 28))
+    d.text((74, 268), "NIOSKA POTRZEBUJE — 16–18% białka,  3,8–4,2% wapnia",
+           font=czcionka("segoeui.ttf", 24), fill=(21, 128, 61))
+
+    kafle = [("136", "składników w bazie"), ("0,07%", "wapnia w pszenicy"), ("4%", "potrzebuje nioska")]
+    x = 48
+    for duza, opis in kafle:
+        d.rounded_rectangle([(x, 344), (x + 352, 452)], radius=10, fill=(254, 243, 199))
+        d.text((x + 26, 358), duza, font=czcionka("segoeuib.ttf", 46), fill=CIEMNY)
+        d.text((x + 26, 412), opis, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        x += 368
+
+    d.text((48, 480), "Cienka skorupa i słaba nieśność biorą się najczęściej właśnie z wapnia.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((48, 516), "Ułóż własną mieszankę i zobacz, czego w niej brakuje. Za darmo.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/kalkulator-pasz")
+    return img
+
+
 def grafika_zsiadle(rek):
     """Najmocniejszy konkret: sklepowe mleko nie jest gorsze, tylko PUSTE.
 
@@ -602,6 +640,7 @@ GRAFIKI = {
     "jogurt": grafika_jogurt,
     "kefir": grafika_kefir,
     "zsiadle": grafika_zsiadle,
+    "pasze": grafika_pasze,
 }
 
 
