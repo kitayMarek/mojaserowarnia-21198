@@ -54,5 +54,14 @@
     { "pattern": "www.mojaserowarnia.pl", "custom_domain": true }
   ],
 
+  // Adres projektu Supabase — potrzebny licznikowi wizyt botów
+  // (worker/wizyty-botow.js). NIE jest sekretem: ten sam adres siedzi jawnie
+  // w buildzie aplikacji React. Sekretem jest wyłącznie klucz service_role,
+  // ustawiany osobno przez `npx wrangler secret put SUPABASE_SERVICE_KEY`
+  // i nigdy nietrzymany w repo (repo jest publiczne).
+  "vars": {
+    "SUPABASE_URL": "https://hsgxmbhunclhgzumafrk.supabase.co"
+  },
+
   "observability": { "enabled": true }
 }

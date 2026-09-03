@@ -16,6 +16,8 @@
  *   • http → https → przełącznik „Always Use HTTPS" w panelu Cloudflare.
  */
 
+import { zapiszWizyteBota } from './wizyty-botow.js';
+
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
 const BOTY_PODGLADU =
@@ -75,8 +77,47 @@ function odpowiedzZ(zrodlo, status, adresTestowy) {
   return new Response(zrodlo.body, { status, headers: naglowki });
 }
 
-export default {
-  async fetch(request, env) {
+// Nagłówek techniczny: mówi funkcji fetch, że treść poszła ze statycznego
+// mirrora, a nie ze skorupy React. Do klienta NIE trafia — jest zdejmowany
+// przed oddaniem odpowiedzi. Powód istnienia: tylko router wie, którą warstwę
+// obsłużył, a licznik wizyt musi to odnotować.
+const MIRROR = 'x-mirror';
+
+function oznaczMirror(zrodlo) {
+  const naglowki = new Headers(zrodlo.headers);
+  naglowki.set(MIRROR, '1');
+  return new Response(zrodlo.body, { status: zrodlo.status, headers: naglowki });
+}
+
+const router = {
+  /**
+   * Cały router siedzi w metodzie `trasuj` niżej — ta funkcja tylko go woła,
+   * zdejmuje nagłówek techniczny i zleca zapis wizyty w tle. Zapis idzie przez
+   * ctx.waitUntil(), czyli PO odesłaniu odpowiedzi: bot nie czeka na bazę ani
+   * chwili, a awaria Supabase nie może przewrócić serwowania stron.
+   */
+  async fetch(request, env, ctx) {
+    const surowa = await router.trasuj(request, env);
+
+    const mirror = surowa.headers.get(MIRROR) === '1';
+    let odpowiedz = surowa;
+    if (mirror) {
+      const naglowki = new Headers(surowa.headers);
+      naglowki.delete(MIRROR);
+      odpowiedz = new Response(surowa.body, { status: surowa.status, headers: naglowki });
+    }
+
+    const dlugosc = odpowiedz.headers.get('content-length');
+    ctx.waitUntil(zapiszWizyteBota(request, {
+      status: odpowiedz.status,
+      rozmiar: dlugosc ? Number(dlugosc) : null,
+      mirror,
+    }, env));
+
+    return odpowiedz;
+  },
+
+  async trasuj(request, env) {
     const url = new URL(request.url);
 
     // 1) www → bez www. Kanonikalizacja hosta; drugi egzemplarz serwisu pod
@@ -122,7 +163,7 @@ Disallow: /
         || (bezUkosnika === '/' || ROZSZERZENIE_PLIKU.test(bezUkosnika) ? null : bezUkosnika + '.html');
       if (mirror) {
         const odpowiedz = await zasob(env, url.origin, mirror);
-        if (odpowiedz.status === 200) return odpowiedz;
+        if (odpowiedz.status === 200) return oznaczMirror(odpowiedz);
       }
     }
 
@@ -132,7 +173,7 @@ Disallow: /
     //    o tej nazwie. Stąd wyjątek ZAWSZE_APLIKACJA.
     if (!ROZSZERZENIE_PLIKU.test(url.pathname) && !ZAWSZE_APLIKACJA.has(bezUkosnika)) {
       const odpowiedz = await zasob(env, url.origin, (bezUkosnika === '/' ? '' : bezUkosnika) + '/index.html');
-      if (odpowiedz.status === 200) return odpowiedz;
+      if (odpowiedz.status === 200) return oznaczMirror(odpowiedz);
     }
 
     // 3b) Brakujący plik w /assets/ → 410 Gone, nie 404.
@@ -159,3 +200,5 @@ Disallow: /
     return odpowiedzZ(await zasob(env, url.origin, '/index.html'), 200, adresTestowy);
   },
 };
+
+export default router;
