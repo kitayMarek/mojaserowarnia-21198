@@ -107,12 +107,22 @@ const router = {
       odpowiedz = new Response(surowa.body, { status: surowa.status, headers: naglowki });
     }
 
-    const dlugosc = odpowiedz.headers.get('content-length');
-    ctx.waitUntil(zapiszWizyteBota(request, {
-      status: odpowiedz.status,
-      rozmiar: dlugosc ? Number(dlugosc) : null,
-      mirror,
-    }, env));
+    // Rozmiar treści liczymy z klona, a nie z content-length: warstwa assetów
+    // Cloudflare streamuje odpowiedź i tego nagłówka po prostu nie ustawia
+    // (sprawdzone na produkcji — kolumna wychodziła w całości NULL). Objętość
+    // jest tu istotna, bo u nas odróżnia pełny mirror od skorupy React:
+    // bot na /prawo/rhd dostaje 40 kB, człowiek 13,8 kB.
+    // Klon czytamy w tle, więc bot i tak nie czeka.
+    const klon = odpowiedz.clone();
+    ctx.waitUntil((async () => {
+      let rozmiar = null;
+      try {
+        rozmiar = (await klon.arrayBuffer()).byteLength;
+      } catch {
+        // trudno — wizyta zapisze się bez rozmiaru
+      }
+      await zapiszWizyteBota(request, { status: odpowiedz.status, rozmiar, mirror }, env);
+    })());
 
     return odpowiedz;
   },
@@ -173,7 +183,14 @@ Disallow: /
     //    o tej nazwie. Stąd wyjątek ZAWSZE_APLIKACJA.
     if (!ROZSZERZENIE_PLIKU.test(url.pathname) && !ZAWSZE_APLIKACJA.has(bezUkosnika)) {
       const odpowiedz = await zasob(env, url.origin, (bezUkosnika === '/' ? '' : bezUkosnika) + '/index.html');
-      if (odpowiedz.status === 200) return oznaczMirror(odpowiedz);
+      // Jako mirror liczą się katalogi treści (/kultury/, /wege/) — tam index.html
+      // to prawdziwy dokument dla botów. Strona główna NIE: pod "/" leży index.html
+      // aplikacji React, czyli skorupa. Oznaczenie jej jako mirrora zafałszowałoby
+      // widok bot_czytane_strony. Wyszło na produkcji: prawdziwy ChatGPT-User dostał
+      // pod "/" 13 810 B — tyle samo, co człowiek na trasie React.
+      if (odpowiedz.status === 200) {
+        return bezUkosnika === '/' ? odpowiedz : oznaczMirror(odpowiedz);
+      }
     }
 
     // 3b) Brakujący plik w /assets/ → 410 Gone, nie 404.
