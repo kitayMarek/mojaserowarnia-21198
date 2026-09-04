@@ -1,4 +1,4 @@
-import { __wewnetrzne, rozpoznajBota } from '../worker/wizyty-botow.js';
+import { __wewnetrzne, rozpoznajBota, czyZOperatora } from '../worker/wizyty-botow.js';
 const { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie } = __wewnetrzne;
 
 let ok = 0, zle = 0;
@@ -54,6 +54,19 @@ sprawdz('Perplexity-User',  rozpoznajBota('Perplexity-User/1.0').bot,'Perplexity
 sprawdz('operator dla CCBot', rozpoznajBota('CCBot/2.0').operator,   'inny');
 sprawdz('Googlebot pomijany', rozpoznajBota('Googlebot/2.1'),        null);
 sprawdz('zwykla przegladarka', rozpoznajBota('Mozilla/5.0 (Windows NT 10.0) Chrome/120'), null);
+
+// --- Regresja: bot po IPv6 nie moze zostac oskarzony o podszywanie -------
+// Zaden operator nie publikuje prefiksow IPv6 (sprawdzone 2026-09-04).
+// Wczesniejsza wersja dawala w tej sytuacji false, czyli zarzut podszywania
+// sie, i zanieczyscila widok bot_podszywacze. Ma byc null.
+// Test siega do sieci; przy braku polaczenia jest pomijany.
+try {
+  sprawdz('IPv6 przy liscie bez IPv6 -> null', await czyZOperatora('2600:1f18::a', 'OpenAI'), null);
+  sprawdz('polskie IPv4 wobec listy OpenAI -> false', await czyZOperatora('83.20.100.15', 'OpenAI'), false);
+  sprawdz('operator bez zrodla -> null', await czyZOperatora('1.2.3.4', 'inny'), null);
+} catch (e) {
+  console.log('  (pominieto testy sieciowe: ' + e.message + ')');
+}
 
 console.log(`\n${ok} przeszlo, ${zle} nie przeszlo`);
 process.exit(zle ? 1 : 0);

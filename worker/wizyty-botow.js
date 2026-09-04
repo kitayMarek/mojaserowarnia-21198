@@ -29,6 +29,9 @@ const ZRODLA_ZAKRESOW = {
   // Jedna lista dla wszystkich trzech botów Anthropic (ClaudeBot, Claude-User,
   // Claude-SearchBot) — operator wystawia je pod wspólnym adresem.
   Anthropic: ['https://claude.com/crawling/bots.json'],
+  // Perplexity oddaje te dwa adresy przez 302 (stan na 2026-09-04). fetch()
+  // w Workers domyślnie podąża za przekierowaniem, więc działa — ale gdyby
+  // kiedyś przestało, listy przyjdą puste i operator zacznie wychodzić NULL.
   Perplexity: [
     'https://www.perplexity.com/perplexitybot.json',
     'https://www.perplexity.com/perplexity-user.json',
@@ -190,17 +193,23 @@ export async function czyZOperatora(ip, operator) {
   if (!ip || !ZRODLA_ZAKRESOW[operator]) return null;
 
   const zakresy = (await wszystkieZakresy())[operator];
-  if (!zakresy || (!zakresy.v4.length && !zakresy.v6.length)) return null;
+  if (!zakresy) return null;
 
-  if (ip.includes(':')) {
-    const adres = ipv6NaLiczbe(ip);
-    if (adres === null) return null;
-    return zakresy.v6.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, 128));
-  }
+  const szescnastkowy = ip.includes(':');
+  const lista = szescnastkowy ? zakresy.v6 : zakresy.v4;
 
-  const adres = ipv4NaLiczbe(ip);
+  // ⚠ Brak prefiksów DLA TEJ WERSJI ADRESU musi dać null, nie false. Stan na
+  // 2026-09-04: ŻADEN z sześciu plików operatorów nie zawiera ani jednego
+  // ipv6Prefix (OpenAI 21/35/207, Anthropic 26, Perplexity 8/4 — wszystkie
+  // wyłącznie IPv4). Poprzednia wersja sprawdzała, czy obie listy są puste
+  // naraz, więc bot przychodzący po IPv6 trafiał na `[].some(...)` === false
+  // i lądował w bot_podszywacze jako rzekomy oszust. Fałszywe oskarżenie jest
+  // tu gorsze od braku rozstrzygnięcia: to na `false` opiera się cały zarzut.
+  if (!lista.length) return null;
+
+  const adres = szescnastkowy ? ipv6NaLiczbe(ip) : ipv4NaLiczbe(ip);
   if (adres === null) return null;
-  return zakresy.v4.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, 32));
+  return lista.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, szescnastkowy ? 128 : 32));
 }
 
 // --- Zapis ---------------------------------------------------------------
