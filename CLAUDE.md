@@ -3,6 +3,14 @@
 Portal wiedzy o serowarstwie domowym (React SPA + Vite, hostowany na Lovable). Główny, ciągły wątek pracy: **GEO/SEO** — statyczne mirrory treści (`public/*.html`), żeby darmowe boty LLM (GPTBot, ClaudeBot, PerplexityBot, Google AI Overviews), które renderują się bez JavaScriptu, mogły czytać i cytować serwis. Szczegóły reguł i stanu → w pliku pamięci niżej.
 
 <!-- ════════ BLOK DO WKLEJENIA W DRUGIM PROJEKCIE (Fermly) — skopiuj od tej linii do „KONIEC BLOKU" ════════ -->
+## ⚠️ Budowanie i wdrażanie — tylko z głównego katalogu repozytorium
+
+Wdrażaj przez **`npm run deploy`** (sprawdza środowisko → build → `wrangler deploy`), nie gołym `npx wrangler deploy`.
+
+**Nigdy z worktree ani ze świeżego klonu.** Nie ma tam `.env`, bo plik jest w `.gitignore`, a Vite wstawia zmienne do kodu **w czasie budowania**. Brak nie objawia się niczym: build kończy się sukcesem, wdrożenie przechodzi, serwer oddaje 200 — a aplikacja pada w przeglądarce na `supabaseUrl is required` i nie renderuje niczego. Tak stanął serwis 3 września 2026 na kilka godzin i żaden `curl` ani kod odpowiedzi tego nie wyłapał.
+
+`scripts/wdroz.mjs` i `vite.config.ts` blokują dziś ten przypadek same, ale nie polegaj na nich — buduj z głównego katalogu. I pamiętaj, że **w danej chwili wdraża jeden wątek**: dwa równoległe nadpisują sobie produkcję.
+
 ## 🐦 Pamięć między projektami (mojaserowarnia ⇄ fermly.pl)
 
 Istnieje wspólny, **lokalny** plik pamięci **`KONTEKST-MIEDZY-PROJEKTAMI.md`** (w tym repo trzymany w `ProjektyLLm/`; jest w `.gitignore` — nie commitować). Marek („gołąb") przenosi go między oboma projektami — to ręczna, wspólna pamięć dwóch instancji Claude.

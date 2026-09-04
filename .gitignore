@@ -55,3 +55,11 @@ __pycache__/
 # surowe dane leza lokalnie u Marka (patrz data/pytania/README.md).
 data/pytania/zrodla/
 data/pytania/kandydaci-*.md
+
+# Katalog roboczy Claude Code. REPO JEST PUBLICZNE, a 3 wrzesnia 2026 lezala tu
+# CALA druga kopia repozytorium (.claude/worktrees/) — jedno "git add -A"
+# wciagneloby ja do publicznego repo. Ignorujemy zawartosc, ale zostawiamy
+# launch.json: to konfiguracja serwera deweloperskiego, wspolna dla projektu,
+# a nie ustawienie konkretnej maszyny.
+.claude/*
+!.claude/launch.json
