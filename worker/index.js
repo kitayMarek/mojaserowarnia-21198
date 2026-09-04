@@ -47,6 +47,10 @@ const BOTY_MODELI =
 // (ścieżka + ".html") ich nie złapie, więc bez tej mapy /baza-kultur dostawało
 // generyczną grafikę zamiast własnego og:image.
 const MIRROR_POD_INNA_NAZWA = {
+  // Strona glowna: bot dostaje wlasna, statyczna mape tresci, a nie skorupe
+  // React. Pod "/" lezy index.html aplikacji, wiec bez tego wpisu crawler
+  // modelu widzial tam 13,8 kB tego samego, co czlowiek przed renderem.
+  '/': '/index-mirror.html',
   '/baza-kultur': '/kultury/baza.html',
   '/sery-wege': '/wege/index.html',
   '/prawo': '/prawo/przewodnik.html',
@@ -185,7 +189,8 @@ Disallow: /
       const odpowiedz = await zasob(env, url.origin, (bezUkosnika === '/' ? '' : bezUkosnika) + '/index.html');
       // Jako mirror liczą się katalogi treści (/kultury/, /wege/) — tam index.html
       // to prawdziwy dokument dla botów. Strona główna NIE: pod "/" leży index.html
-      // aplikacji React, czyli skorupa. Oznaczenie jej jako mirrora zafałszowałoby
+      // aplikacji React, czyli skorupa. Bot pod "/" i tak tu nie dojdzie — łapie go
+      // wcześniej reguła 2, która oddaje mu /index-mirror.html. Oznaczenie jej jako mirrora zafałszowałoby
       // widok bot_czytane_strony. Wyszło na produkcji: prawdziwy ChatGPT-User dostał
       // pod "/" 13 810 B — tyle samo, co człowiek na trasie React.
       if (odpowiedz.status === 200) {
