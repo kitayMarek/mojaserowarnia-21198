@@ -52,7 +52,14 @@ sprawdz('ChatGPT-User',     rozpoznajBota('ChatGPT-User/1.0').bot,   'ChatGPT-Us
 sprawdz('GPTBot',           rozpoznajBota('GPTBot/1.2').bot,         'GPTBot');
 sprawdz('Perplexity-User',  rozpoznajBota('Perplexity-User/1.0').bot,'Perplexity-User');
 sprawdz('operator dla CCBot', rozpoznajBota('CCBot/2.0').operator,   'inny');
-sprawdz('Googlebot pomijany', rozpoznajBota('Googlebot/2.1'),        null);
+// Wyszukiwarki SA logowane (kategoryzujemy, nie filtrujemy — patrz migracja
+// 20260905070000). To NIE znaczy, ze dostaja mirror: o tym decyduje osobna
+// lista BOTY_MODELI w worker/index.js, w ktorej wyszukiwarek nie ma.
+sprawdz('Googlebot logowany',  rozpoznajBota('Googlebot/2.1').bot,     'Googlebot');
+sprawdz('Googlebot-Image osobno', rozpoznajBota('Googlebot-Image/1.0').bot, 'Googlebot-Image');
+sprawdz('Bingbot logowany',    rozpoznajBota('Bingbot/2.0').bot,       'Bingbot');
+sprawdz('AhrefsBot jako SEO',  rozpoznajBota('AhrefsBot/7.0').bot,     'AhrefsBot');
+sprawdz('zwykla przegladarka pomijana', rozpoznajBota('Mozilla/5.0 (Windows NT 10.0)'), null);
 sprawdz('zwykla przegladarka', rozpoznajBota('Mozilla/5.0 (Windows NT 10.0) Chrome/120'), null);
 
 // --- Regresja: bot po IPv6 nie moze zostac oskarzony o podszywanie -------
@@ -61,9 +68,24 @@ sprawdz('zwykla przegladarka', rozpoznajBota('Mozilla/5.0 (Windows NT 10.0) Chro
 // sie, i zanieczyscila widok bot_podszywacze. Ma byc null.
 // Test siega do sieci; przy braku polaczenia jest pomijany.
 try {
-  sprawdz('IPv6 przy liscie bez IPv6 -> null', await czyZOperatora('2600:1f18::a', 'OpenAI'), null);
-  sprawdz('polskie IPv4 wobec listy OpenAI -> false', await czyZOperatora('83.20.100.15', 'OpenAI'), false);
-  sprawdz('operator bez zrodla -> null', await czyZOperatora('1.2.3.4', 'inny'), null);
+  // czyZOperatora zwraca teraz { wynik, metoda } — metoda odroznia
+  // "sprawdzilem i falsz" od "nie umiem sprawdzic", co przy zarzucie
+  // podszywania sie jest roznica zasadnicza.
+  const ipv6 = await czyZOperatora('2600:1f18::a', 'OpenAI');
+  sprawdz('IPv6 przy liscie bez IPv6 -> null', ipv6.wynik, null);
+  sprawdz('  ...i metoda brak_metody',         ipv6.metoda, 'brak_metody');
+  const polskie = await czyZOperatora('83.20.100.15', 'OpenAI');
+  sprawdz('polskie IPv4 wobec listy OpenAI -> false', polskie.wynik, false);
+  sprawdz('  ...i metoda ip_lista',                   polskie.metoda, 'ip_lista');
+  const bezZrodla = await czyZOperatora('1.2.3.4', 'inny');
+  sprawdz('operator bez zrodla -> null', bezZrodla.wynik, null);
+  sprawdz('  ...i metoda brak_metody',   bezZrodla.metoda, 'brak_metody');
+
+  // Google publikuje zakresy w tym samym formacie — sprawdzenie, ze nowe
+  // zrodlo faktycznie sie pobiera, a nie tylko jest wpisane w konfiguracji.
+  const google = await czyZOperatora('66.249.66.1', 'Google');
+  sprawdz('Googlebot z zakresu Google -> true', google.wynik, true);
+  sprawdz('  ...i metoda ip_lista',             google.metoda, 'ip_lista');
 } catch (e) {
   console.log('  (pominieto testy sieciowe: ' + e.message + ')');
 }

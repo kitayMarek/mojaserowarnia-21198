@@ -21,6 +21,17 @@
 // { creationTime, prefixes: [ { ipv4Prefix } | { ipv6Prefix } ] }.
 // Sprawdzone 2026-09-03 — cztery adresy, każdy oddaje 200.
 const ZRODLA_ZAKRESOW = {
+  // Wyszukiwarki. Google i Bing publikuja swoje zakresy w dokladnie tym samym
+  // formacie co operatorzy AI, wiec weryfikacja dziala bez zmian w kodzie.
+  // To wazne przy KALIBRACJI: Google i Bing raportuja wlasna aktywnosc
+  // w GSC i Bing Webmaster Tools, a tego nie da sie podrobic — wiec ich ruch
+  // jest jedynym punktem, w ktorym mozna sprawdzic, czy licznik nie gubi zadan.
+  Google: [
+    'https://developers.google.com/static/search/apis/ipranges/googlebot.json',
+    'https://developers.google.com/static/search/apis/ipranges/special-crawlers.json',
+    'https://developers.google.com/static/search/apis/ipranges/user-triggered-fetchers-google.json',
+  ],
+  Microsoft: ['https://www.bing.com/toolbox/bingbot.json'],
   OpenAI: [
     'https://openai.com/gptbot.json',
     'https://openai.com/searchbot.json',
@@ -54,6 +65,30 @@ const BOTY = [
   [/anthropic-ai/i,      'Anthropic',  'anthropic-ai'],
   [/Perplexity-User/i,   'Perplexity', 'Perplexity-User'],
   [/PerplexityBot/i,     'Perplexity', 'PerplexityBot'],
+  // WYSZUKIWARKI. Zlecenie rozstrzyga: kategoryzujemy je, NIE filtrujemy.
+  // Granica "wyszukiwarka kontra crawler AI" juz nie istnieje — Googlebot karmi
+  // AI Overviews, Bingbot Copilota, a ChatGPT historycznie korzystal z indeksu
+  // Bing. Czesci pracy "dla GPT" fizycznie nie da sie oddzielic po stronie
+  // serwera. Filtrowanie kasowaloby dane bezpowrotnie; kategoria pozwala je
+  // ciac dowolnie i zmienic zdanie pozniej.
+  //
+  // ⚠ To NIE zmienia serwowania: BOTY_MODELI w worker/index.js nadal nie
+  // zawiera wyszukiwarek, wiec Googlebot dostaje trase React, a nie mirror.
+  [/Googlebot-Image/i,   'Google',     'Googlebot-Image'],
+  [/Googlebot/i,         'Google',     'Googlebot'],
+  [/Google-Extended/i,   'Google',     'Google-Extended'],
+  [/Bingbot/i,           'Microsoft',  'Bingbot'],
+  [/Applebot/i,          'inny',       'Applebot'],
+  [/Seznam-?Bot/i,       'inny',       'Seznam-Bot'],
+  [/YandexBot|Yandex/i,  'inny',       'YandexBot'],
+  [/Baiduspider/i,       'inny',       'Baiduspider'],
+  [/Naverbot/i,          'inny',       'Naverbot'],
+  // NARZEDZIA SEO — nie karmia zadnego modelu, ale zuzywaja budzet i warto
+  // wiedziec, ile ich jest.
+  [/AhrefsBot/i,         'inny',       'AhrefsBot'],
+  [/SemrushBot/i,        'inny',       'SemrushBot'],
+  [/DotBot/i,            'inny',       'DotBot'],
+  [/MJ12bot/i,           'inny',       'MJ12bot'],
   // Poniżej operatorzy bez publicznej listy zakresów w tym formacie.
   // Trafiają do bazy ze zweryfikowany = NULL, czyli "nie da się rozstrzygnąć".
   [/CCBot/i,             'inny',       'CCBot'],
@@ -185,15 +220,21 @@ async function wszystkieZakresy() {
 
 /**
  * Czy adres należy do sieci operatora.
- * Zwraca true / false / null, gdzie null znaczy „nie da się rozstrzygnąć"
+ * Zwraca { wynik, metoda }. `wynik` to true / false / null, gdzie null znaczy
+ * „nie da się rozstrzygnąć"
  * (operator nie publikuje listy albo lista jest chwilowo nieosiągalna).
  * Rozróżnienie jest istotne: false to zarzut podszywania się i musi być pewny.
  */
 export async function czyZOperatora(ip, operator) {
-  if (!ip || !ZRODLA_ZAKRESOW[operator]) return null;
+  if (!ip || !ZRODLA_ZAKRESOW[operator]) return { wynik: null, metoda: 'brak_metody' };
 
   const zakresy = (await wszystkieZakresy())[operator];
-  if (!zakresy) return null;
+  if (!zakresy) return { wynik: null, metoda: 'blad_sprawdzenia' };
+
+  // Kazdy skonfigurowany operator publikuje co najmniej jeden prefiks IPv4.
+  // Obie listy puste znacza wiec, ze pobranie sie nie udalo — a to co innego
+  // niz "operator nie publikuje IPv6". Rozroznienie idzie do kolumny metoda.
+  if (!zakresy.v4.length && !zakresy.v6.length) return { wynik: null, metoda: 'blad_sprawdzenia' };
 
   const szescnastkowy = ip.includes(':');
   const lista = szescnastkowy ? zakresy.v6 : zakresy.v4;
@@ -205,11 +246,14 @@ export async function czyZOperatora(ip, operator) {
   // naraz, więc bot przychodzący po IPv6 trafiał na `[].some(...)` === false
   // i lądował w bot_podszywacze jako rzekomy oszust. Fałszywe oskarżenie jest
   // tu gorsze od braku rozstrzygnięcia: to na `false` opiera się cały zarzut.
-  if (!lista.length) return null;
+  if (!lista.length) return { wynik: null, metoda: 'brak_metody' };
 
   const adres = szescnastkowy ? ipv6NaLiczbe(ip) : ipv4NaLiczbe(ip);
-  if (adres === null) return null;
-  return lista.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, szescnastkowy ? 128 : 32));
+  if (adres === null) return { wynik: null, metoda: 'blad_sprawdzenia' };
+  return {
+    wynik: lista.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, szescnastkowy ? 128 : 32)),
+    metoda: 'ip_lista',
+  };
 }
 
 // --- Zapis ---------------------------------------------------------------
@@ -240,7 +284,16 @@ export async function zapiszWizyteBota(request, wynik, env) {
     if (url.hostname.endsWith('.workers.dev')) return;
 
     const ip = request.headers.get('cf-connecting-ip');
-    const zweryfikowany = await czyZOperatora(ip, kto.operator);
+    const { wynik: zweryfikowany, metoda } = await czyZOperatora(ip, kto.operator);
+
+    // WEB BOT AUTH — standard IETF, w ktorym bot podpisuje zadanie kluczem
+    // Ed25519. Docelowo zastapi listy IP. Na razie tylko LOGUJEMY obecnosc
+    // naglowkow, bez walidacji: gdy adopcja wzrosnie, beda dane historyczne
+    // i gotowe miejsce na implementacje.
+    const maPodpis = Boolean(
+      request.headers.get('signature-agent') ||
+      (request.headers.get('signature-input') && request.headers.get('signature'))
+    );
 
 
     const zapis = await fetch(`${env.SUPABASE_URL}/rest/v1/bot_visits`, {
@@ -255,6 +308,8 @@ export async function zapiszWizyteBota(request, wynik, env) {
         operator: kto.operator,
         bot: kto.bot,
         zweryfikowany,
+        metoda_weryfikacji: metoda,
+        ma_podpis: maPodpis,
         sciezka: url.pathname,
         status: wynik.status,
         rozmiar: wynik.rozmiar,
