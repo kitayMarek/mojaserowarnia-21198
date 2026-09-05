@@ -63,6 +63,22 @@ const MIRROR_POD_INNA_NAZWA = {
 const ROZSZERZENIE_PLIKU =
   /\.(html|css|js|mjs|json|txt|xml|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|pdf|zip)$/i;
 
+// Rozszerzenia, których ten serwis nie serwuje i nigdy nie będzie: nie ma tu
+// żadnego języka po stronie serwera ani bazy do zrzucenia. Żądanie o taki plik
+// jest z definicji skanem.
+//
+// ⚠ CELOWO BEZ `pl`: trasa /serowarnie/:slug przyjmuje dowolny slug, a ten
+// bywa nazwą domeny („mleczarnia-example.pl"). Zysk z łapania skryptów Perla
+// jest żaden, a koszt — prawdziwa strona pod prawdziwym adresem oddana jako 404.
+const ROZSZERZENIE_OBCE =
+  /\.(php\d?|phtml|asp|aspx|jsp|cgi|sh|bash|py|rb|exe|dll|bak|old|orig|save|swp|sql|db|sqlite|ini|conf|cfg|env|yml|yaml|toml|log|war|jar|tgz|tar|gz|rar|7z)$/i;
+
+// Katalogi, o które pytają wyłącznie skanery podatności. Lista sprawdzona wobec
+// wszystkich tras z src/App.tsx — żadna się z nią nie przecina. Uwaga przy
+// dopisywaniu: „/admin" JEST prawdziwą trasą, więc tu stoi tylko „administrator".
+const SCIEZKA_SKANERA =
+  /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|backup|backups|dump|dumps)(\/|$)/i;
+
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
 // aplikację, nawet gdyby w katalogu kiedyś pojawił się index.html.
 const ZAWSZE_APLIKACJA = new Set(['/przepisy', '/prawo', '/serowarnie', '/przepisy-kulinarne']);
@@ -165,6 +181,29 @@ Disallow: /
     //     w kroku 4. Wyjątkiem jest /.well-known/, które bywa potrzebne
     //     (security.txt, weryfikacje usług).
     if (/\/\.[^/]/.test(url.pathname) && !url.pathname.startsWith('/.well-known/')) {
+      return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
+    }
+
+    // 1d) Ścieżki, które może chcieć wyłącznie skaner → 404. Krok 1c łapał tylko
+    //     adresy kropkowe, a krok 4 tylko rozszerzenia, które faktycznie u nas
+    //     występują. Wszystko poza tym spadało do kroku 5, czyli dostawało
+    //     skorupę React z kodem 200.
+    //
+    //     ZMIERZONE 06.09.2026 na produkcji: /wp-login.php, /graphql, /wp-admin/
+    //     i /actuator/health zwracały 200 i 14 252 B. Skutki były trzy:
+    //       • soft 404 — dla Google sygnał niskiej jakości serwisu,
+    //       • skaner dostaje 200 i wnioskuje, że WordPress tu stoi, więc wraca,
+    //       • nasz własny wskaźnik błędów przestaje działać: skan z AS1004 miał
+    //         w liczniku 27% odbitych zamiast ~100%, bo 52 z 72 żądań o pliki
+    //         z sekretami odesłaliśmy z kodem 200.
+    //
+    //     Trzeci punkt jest tu najważniejszy, bo `odbite` to jeden z sygnałów
+    //     punktacji w zrodla_botow(). Serwer psuł pomiar, który sam zasila.
+    //
+    //     ⚠ Ta sama wiedza żyje w dwóch miejscach: tu i w SQL-owej typ_sciezki().
+    //     Nie da się tego scalić — worker nie sięga do bazy w ścieżce żądania.
+    //     Przy zmianie listy zajrzeć w obie.
+    if (SCIEZKA_SKANERA.test(url.pathname) || ROZSZERZENIE_OBCE.test(url.pathname)) {
       return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
     }
 
