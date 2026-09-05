@@ -1,7 +1,7 @@
 // Jedna lista dla calej nawigacji: sidebar i pelnoekranowy "Spis tresci"
 // czytaja ten sam obiekt, wiec nowa strona pojawia sie w obu miejscach naraz.
 import {
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store, Milk,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store, Milk, Compass,
   type LucideIcon,
 } from "lucide-react";
 import { mleczneProdukty, sciezkaMlecznegoProduktu } from "@/data/mleczneProdukty";
@@ -126,5 +126,17 @@ export const navItems: NavItem[] = [
   { label: "Wiadomości", href: "/wiadomosci", icon: Newspaper, color: "cyan" },
   { label: "Ewidencja RHD", href: "/system-ewidencji", icon: ClipboardList, color: "teal" },
   { label: "Kontakt", href: "/kontakt", icon: Mail, color: "slate" },
+
+  // Grupa na tresci, ktore z serowarstwem nie maja nic wspolnego. Stoi CELOWO
+  // na samym koncu i ma wlasna nazwe zamiast wtopic sie w "Narzedzia": czytelnik
+  // ma z etykiety wiedziec, ze wchodzi poza temat portalu, zanim kliknie.
+  // Nazwa mowi wprost, czego sie spodziewac — "Ciekawostki" obiecywalyby drobiazg,
+  // a leza tu rzeczy z danymi i metodologia.
+  {
+    label: "Poza serowarstwem", icon: Compass, color: "violet",
+    children: [
+      { label: "Ruch botów AI — ile jest prawdziwy", href: "/boty-ai" },
+    ],
+  },
 ];
 

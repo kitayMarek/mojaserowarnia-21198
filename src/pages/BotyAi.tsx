@@ -4,7 +4,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
-import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -337,12 +336,6 @@ const BotyAi = () => {
           </CardContent>
         </Card>
 
-        <SeeAlso
-          links={[
-            { title: "llms.txt", description: "Mapa treści serwisu przygotowana dla modeli językowych", href: "/llms.txt" },
-            { title: "robots.txt", description: "Zasady, o które prosimy boty", href: "/robots.txt" },
-          ]}
-        />
       </main>
       <Footer />
     </div>
@@ -679,6 +672,16 @@ const Metodologia = ({ wiersze, zZapisana, technicznie }: {
       To jest cała różnica między tą stroną a panelem, który sprzedaje wskaźnik. Panele nie
       mają kategorii „nie wiem", bo źle wygląda. My mamy, bo bez niej pozostałe liczby nic
       nie znaczą.
+    </p>
+
+    <h3 className="font-semibold pt-2">Sprawdź nas</h3>
+    <p>
+      To, o co prosimy boty, i to, co im udostępniamy, leży otworem w dwóch plikach
+      tekstowych: <a className="underline" href="/robots.txt">robots.txt</a> (zasady,
+      o które prosimy) i <a className="underline" href="/llms.txt">llms.txt</a> (mapa
+      treści przygotowana dla modeli). Możesz porównać, czy zgadzają się z tym, co
+      opisaliśmy wyżej. To surowe pliki konfiguracyjne, nie artykuły — otwieramy je
+      tutaj po to, żeby dało się nas skontrolować.
     </p>
 
     <h3 className="font-semibold pt-2">Czego celowo nie zapisujemy</h3>
