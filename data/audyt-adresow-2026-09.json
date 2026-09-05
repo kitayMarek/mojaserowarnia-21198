@@ -27,6 +27,10 @@
       "mirror": "/etykieta-do-sprzedazy-rhd.html"
     },
     {
+      "sciezka": "/faktura-vat-rr",
+      "mirror": "/faktura-vat-rr.html"
+    },
+    {
       "sciezka": "/kalkulator-beaugel",
       "mirror": "/kalkulator-beaugel.html"
     },
@@ -95,6 +99,10 @@
       "mirror": "/poradnik.html"
     },
     {
+      "sciezka": "/poradniki",
+      "mirror": "/poradniki.html"
+    },
+    {
       "sciezka": "/porownywarka-kultur",
       "mirror": "/porownywarka-kultur.html"
     },
@@ -107,12 +115,20 @@
       "mirror": "/prawo/mol.html"
     },
     {
+      "sciezka": "/prawo/mol/dokumenty",
+      "mirror": "/prawo/mol/dokumenty.html"
+    },
+    {
       "sciezka": "/prawo/rhd",
       "mirror": "/prawo/rhd.html"
     },
     {
       "sciezka": "/przepisy",
       "mirror": "/przepisy/przewodnik.html"
+    },
+    {
+      "sciezka": "/przepisy-kulinarne",
+      "mirror": "/przepisy-kulinarne"
     },
     {
       "sciezka": "/przepisy/jogurt-domowy",
@@ -185,10 +201,6 @@
       "mirror": null
     },
     {
-      "sciezka": "/faktura-vat-rr",
-      "mirror": null
-    },
-    {
       "sciezka": "/gdzie-kupic-podpuszczke",
       "mirror": null
     },
@@ -217,10 +229,6 @@
       "mirror": null
     },
     {
-      "sciezka": "/poradniki",
-      "mirror": null
-    },
-    {
       "sciezka": "/porownanie-wartosci-odzywczych",
       "mirror": null
     },
@@ -229,19 +237,11 @@
       "mirror": null
     },
     {
-      "sciezka": "/prawo/mol/dokumenty",
-      "mirror": null
-    },
-    {
       "sciezka": "/prawo/rhd/dokumenty",
       "mirror": null
     },
     {
       "sciezka": "/prawo/rzeznia-rolnicza",
-      "mirror": null
-    },
-    {
-      "sciezka": "/przepisy-kulinarne",
       "mirror": null
     },
     {
