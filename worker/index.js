@@ -17,6 +17,7 @@
  */
 
 import { zapiszWizyteBota } from './wizyty-botow.js';
+import { feedJson, mirrorHtml } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -117,7 +118,7 @@ const router = {
    * chwili, a awaria Supabase nie może przewrócić serwowania stron.
    */
   async fetch(request, env, ctx) {
-    const surowa = await router.trasuj(request, env);
+    const surowa = await router.trasuj(request, env, ctx);
 
     const mirror = surowa.headers.get(MIRROR) === '1';
     let odpowiedz = surowa;
@@ -147,7 +148,7 @@ const router = {
     return odpowiedz;
   },
 
-  async trasuj(request, env) {
+  async trasuj(request, env, ctx) {
     const url = new URL(request.url);
 
     // 1) www → bez www. Kanonikalizacja hosta; drugi egzemplarz serwisu pod
@@ -174,6 +175,39 @@ Disallow: /
     }
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
+
+    // 1b2) Strona /boty-ai — mirror i feed składane na żywo z widoków pub_*.
+    //
+    //      ⚠ MUSI STAĆ PRZED REGUŁĄ 2. `public/boty-ai.html` nie jest gotowym
+    //      dokumentem, tylko SZABLONEM z żetonami {{...}}. Reguła 2 oddaje botom
+    //      „ścieżka + .html" prosto z warstwy assetów, więc bez tego wyjątku
+    //      crawler modelu dostałby stronę z widocznym {{proc_calosci}} — i to
+    //      właśnie ta wersja poszłaby do korpusów, bo ludzie chodzą po trasie
+    //      React i nikt by tego nie zobaczył.
+    //
+    //      Żeby worker w ogóle zobaczył /boty-ai.html, obie ścieżki są wpisane
+    //      w `run_worker_first` w wrangler.jsonc. Warstwa assetów odpowiada
+    //      wcześniej niż worker i bez tego oddałaby surowy szablon.
+    if (url.pathname === '/bot-stats.json') {
+      return feedJson(request, env, ctx);
+    }
+
+    if (bezUkosnika === '/boty-ai' || url.pathname === '/boty-ai.html') {
+      const uaBota = request.headers.get('user-agent') || '';
+      const chceMirror = url.pathname === '/boty-ai.html'
+        || BOTY_PODGLADU.test(uaBota) || BOTY_MODELI.test(uaBota);
+
+      if (chceMirror) {
+        const szablon = await zasob(env, url.origin, '/boty-ai.html');
+        if (szablon.status === 200) {
+          const gotowe = await mirrorHtml(request, env, ctx, szablon);
+          // Jako mirror liczy się tylko podmiana na trasie React — bezpośrednie
+          // wejście na .html jest zwykłym żądaniem pliku, tak jak w regule 2.
+          return url.pathname === '/boty-ai.html' ? gotowe : oznaczMirror(gotowe);
+        }
+      }
+      // Człowiek na /boty-ai leci dalej i dostaje trasę React (reguła 5).
+    }
 
     // 1c) Pliki i katalogi kropkowe → 404. Żadna trasa React tak nie wygląda,
     //     a bez tego /.env, /.git/config czy /.htaccess dostawały aplikację

@@ -34,7 +34,22 @@
     // serwisu, a robots.txt jest pierwsza rzecza, o ktora pyta robot. Bez
     // tego plik z repo (Allow: /) serwowalby sie takze tam i kopia mogla by
     // trafic do indeksu jako duplikat calej domeny.
-    "run_worker_first": ["/robots.txt"]
+    // Trzy sciezki, dla ktorych worker dostaje zadanie PRZED warstwa assetow.
+    //
+    // /robots.txt — adresy podgladowe *.workers.dev serwuja pelna kopie serwisu,
+    //   a robots.txt jest pierwsza rzecza, o ktora pyta robot. Bez tego plik
+    //   z repo (Allow: /) serwowalby sie takze tam i kopia mogla by trafic do
+    //   indeksu jako duplikat calej domeny.
+    //
+    // /boty-ai.html — to NIE jest gotowy dokument, tylko szablon z zetonami
+    //   {{...}}, ktore worker podstawia z widokow pub_*. Warstwa assetow
+    //   odpowiada wczesniej niz worker, wiec bez tego wpisu strona poszlaby
+    //   w swiat z widocznym {{proc_calosci}}.
+    //
+    // /bot-stats.json — pliku nie ma na dysku, sklada go worker z tych samych
+    //   danych. Wpis jest tu dla jawnosci: obie sciezki strony /boty-ai stoja
+    //   obok siebie, zamiast jednej w konfiguracji i drugiej ukrytej w kodzie.
+    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/bot-stats.json"]
   },
 
   // Domena wlasciwa.

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ile ruchu botów AI jest naprawdę botami AI — pomiar z realnej strony</title>
+  <meta name="description" content="Nagłówek User-Agent to deklaracja, nie tożsamość. Pomiar na realnej stronie: ile żądań podających się za GPTBota, ClaudeBota czy PerplexityBota naprawdę przyszło z sieci tych operatorów — i po czym poznać podszywacza bez sprawdzania tożsamości." />
+  <link rel="canonical" href="https://mojaserowarnia.pl/boty-ai" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Ile ruchu botów AI jest naprawdę botami AI" />
+  <meta property="og:description" content="Pomiar z realnej strony: ile żądań podających się za boty AI przeszło weryfikację, a ile było podrobionych. Wyszukiwarek nie podrabia nikt." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mojaserowarnia.pl/boty-ai.html" />
+  <meta property="og:site_name" content="Moja Serowarnia" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Ile ruchu botów AI jest naprawdę botami AI" />
+  <meta name="twitter:description" content="User-Agent to deklaracja, nie tożsamość. Pomiar z realnej strony i sposób rozpoznania podszywacza bez sprawdzania tożsamości." />
+
+  <!--DEV
+    ŻETONY PODSTAWIANE PRZEZ WORKERA (worker/boty-ai.js).
+    Ten plik jest SZABLONEM, nie gotowym dokumentem — nie linkować go, dopóki
+    worker nie podstawia wartości, bo pójdzie w świat z gołym {{...}}.
+
+    Skalary wprost z pub_bot_podsumowanie:
+      pomiar_od  stan_na  stan_na_iso  dni_pomiaru  zadan_ogolem  oryginalne
+      falszowane  niesprawdzone  rozstrzygniete  testy_wlasciciela
+      proc_wsrod_rozstrzygnietych  proc_calosci  roznych_tozsamosci
+      roznych_sieci  z_zapisana_metoda
+
+    Wyliczane przez workera:
+      proc_falszowanych        100 - proc_wsrod_rozstrzygnietych
+      proc_testow              udział testów właściciela w całości ruchu
+      falszowane_wyszukiwarek  pub_bot_kategorie, kategoria=wyszukiwarka
+      uzytkownik_zadan         pub_bot_kategorie, kategoria=ai_uzytkownik
+      uzytkownik_falszowane    j.w., kolumna falszowane
+      oryginalne_wrazliwe      pub_bot_cele, grupa=oryginalne, typ w (sekret,kod)
+      falszowane_wrazliwe      j.w. dla grupy falszowane
+      falszowane_tresc         pub_bot_cele, grupa=falszowane, typ=tresc
+      falszowane_cele          suma żądań grupy falszowane w pub_bot_cele
+      rozmiar_oryginalne  rozmiar_falszowane  bledy_oryginalne  bledy_falszowane
+        — z pub_bot_zachowanie, z wiersza o NAJWIĘKSZEJ liczbie żądań w danej
+          grupie (szereg jest rozbity na okresy, więc trzeba wskazać który)
+
+    Tabele (worker wstawia gotowe <tr>):
+      tabela_wg_bota  tabela_kategorie  tabela_zachowanie  tabela_cele  tabela_metody
+
+    ⚠ Gdy Supabase nie odpowie, worker MUSI podstawić kreski i dopisać notkę.
+      Mirror wysłany z widocznym {{...}} byłby najgłupszym błędem tej strony.
+  -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Ile ruchu botów AI jest naprawdę botami AI",
+    "description": "Pomiar udziału zweryfikowanych botów AI w ruchu realnej strony, metody weryfikacji tożsamości crawlerów i sygnatura zachowania odróżniająca crawlery od skanerów.",
+    "inLanguage": "pl-PL",
+    "datePublished": "2026-09-06",
+    "dateModified": "{{stan_na_iso}}",
+    "author": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "mainEntityOfPage": "https://mojaserowarnia.pl/boty-ai",
+    "about": [
+      { "@type": "Thing", "name": "Weryfikacja tożsamości crawlerów" },
+      { "@type": "Thing", "name": "Boty modeli językowych" },
+      { "@type": "Thing", "name": "User-Agent spoofing" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Licznik zweryfikowanych wizyt botów — mojaserowarnia.pl",
+    "description": "Agregaty ruchu botów: udział żądań zweryfikowanych wobec podrobionych, rozkład wg tożsamości, kategorii i typu żądanej ścieżki, metody weryfikacji. Bez adresów IP i bez pełnych ścieżek.",
+    "inLanguage": "pl-PL",
+    "dateModified": "{{stan_na_iso}}",
+    "creator": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "isAccessibleForFree": true,
+    "distribution": [{
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://mojaserowarnia.pl/bot-stats.json"
+    }]
+  }
+  </script>
+</head>
+<body>
+
+<h1>Ile ruchu botów AI jest naprawdę botami AI</h1>
+
+<p><strong>Branża sprzedaje raporty widoczności w AI liczone z nagłówka, którego nikt nie sprawdza.</strong> Ten nagłówek nazywa się User-Agent i jest deklaracją, nie tożsamością — wpisać można w niego cokolwiek. Poniżej pomiar z realnej strony: ile żądań podających się za bota AI naprawdę przyszło z sieci operatora, pod którego się podawało.</p>
+
+<h2>Liczba, o którą chodzi</h2>
+
+<p>Spośród żądań, które <strong>dało się rozstrzygnąć</strong>, prawdziwe było <strong>{{proc_wsrod_rozstrzygnietych}}%</strong>. Licząc wszystkie, także te, których rozstrzygnąć się nie da — <strong>{{proc_calosci}}%</strong>. Stan na {{stan_na}}.</p>
+
+<p>Podajemy obie liczby, bo mianownik zmienia wynik radykalnie, a strona o rzetelności pomiaru nie może opublikować liczby, której czytelnik nie odtworzy sam. Pierwsza mówi: <em>z żądań, o których wiemy, ile było prawdziwych</em>. Druga: <em>z całego ruchu, licząc nierozstrzygalne jako niepotwierdzone</em>.</p>
+
+<table>
+  <thead><tr><th>Kategoria</th><th>Żądań</th><th>Co to znaczy</th></tr></thead>
+  <tbody>
+    <tr><td>oryginalne</td><td>{{oryginalne}}</td><td>bot był tym, za kogo się podawał</td></tr>
+    <tr><td>fałszowane</td><td>{{falszowane}}</td><td>ktoś obcy użył jego nazwy</td></tr>
+    <tr><td>niesprawdzone</td><td>{{niesprawdzone}}</td><td>operator nie publikuje danych pozwalających rozstrzygnąć</td></tr>
+    <tr><td><strong>razem</strong></td><td><strong>{{zadan_ogolem}}</strong></td><td>bez testów właściciela — te liczymy osobno niżej</td></tr>
+  </tbody>
+</table>
+
+<h2>Co to za pomiar — skala od razu, nie w przypisie</h2>
+
+<p>To <strong>jedna niewielka strona</strong>: portal o serowarstwie domowym. Pomiar trwa od {{pomiar_od}}, czyli {{dni_pomiaru}} dni, i obejmuje {{zadan_ogolem}} żądań od {{roznych_tozsamosci}} różnych tożsamości botów z {{roznych_sieci}} sieci.</p>
+
+<p><strong>To nie jest próba reprezentatywna dla internetu</strong> i nie udajemy, że jest. Wartość tych danych bierze się z czegoś innego: z tego, że każde żądanie zostało sprawdzone tą samą, opisaną niżej metodą, a wynik — łącznie z tym, czego nie umieliśmy rozstrzygnąć — jest podany w całości. Liczby na tej stronie odświeżają się same, więc im dłużej trwa pomiar, tym są mocniejsze.</p>
+
+<h2>Jak w ogóle można podszyć się pod bota</h2>
+
+<p>Wyobraź sobie, że wysyłasz list i piszesz na kopercie cudze nazwisko jako nadawcę. Poczta go dostarczy — nikt nie sprawdza, czy nadawca jest tym, za kogo się podaje. Dokładnie tak działa nagłówek User-Agent: przeglądarka albo bot <em>deklaruje</em>, czym jest, a serwer tę deklarację przyjmuje.</p>
+
+<p>Napisanie programu, który przedstawia się jako GPTBot, zajmuje jedną linijkę. Nie trzeba do tego żadnych uprawnień ani wiedzy — wystarczy wpisać tekst.</p>
+
+<p><strong>Weryfikacja polega na sprawdzeniu, czy list rzeczywiście wyszedł z podanego adresu.</strong> Duzi operatorzy publikują listy adresów sieciowych, z których wychodzą ich boty. Jeśli żądanie przyszło spoza tej listy, a przedstawia się nazwą operatora, to nie jest ten operator. To jedyny sposób i nie da się go obejść samą deklaracją.</p>
+
+<p>Narzędzia analityczne, które pokazują „ruch botów AI", w większości <strong>zliczają deklaracje</strong>. Nie dlatego, że ktoś oszukuje — po prostu weryfikacja kosztuje zapytania sieciowe, a deklaracja jest za darmo.</p>
+
+<h2>Kto tu chodzi</h2>
+
+<p><strong>Im bardziej rozpoznawalny bot, tym częściej ktoś się pod niego podszywa — bo strony przepuszczają znane nazwy. Liczba podszyć mówi o popularności marki, nie o jej uczciwości.</strong> Wysoka liczba w kolumnie „fałszowane" nie jest zarzutem wobec operatora. Jest odwrotnie: to znaczy, że jego nazwa jest na tyle warta, że ktoś obcy ją ukradł.</p>
+
+<table>
+  <thead><tr><th>Bot</th><th>Operator</th><th>Kategoria</th><th>Oryginalne</th><th>Fałszowane</th><th>Niesprawdzone</th></tr></thead>
+  <tbody>
+{{tabela_wg_bota}}
+  </tbody>
+</table>
+
+<p>W tabeli są wyłącznie boty z co najmniej trzema żądaniami — przy jednym trafieniu nazwa w zestawieniu to szum, a nie dana.</p>
+
+<h3>Rzecz, która rzuca się w oczy najmocniej</h3>
+
+<p>Żądań podających się za <strong>wyszukiwarkę</strong>, które okazały się podrobione, jest w tym pomiarze <strong>{{falszowane_wyszukiwarek}}</strong>. Podrabia się boty AI — nie wyszukiwarki.</p>
+
+<p>Powód jest prosty i jest w istocie tezą całej tej strony. <strong>Googlebota strony weryfikują od dwudziestu lat</strong>: mechanizm sprawdzania jest opisany w dokumentacji Google, wbudowany w serwery i powszechnie stosowany. Podszycie się pod Googlebota nic nie daje, bo zostanie wykryte. <strong>Botów AI nie weryfikuje prawie nikt</strong> — więc podszycie się pod nie działa.</p>
+
+<p>To nie jest różnica w technologii. To różnica w tym, ile lat dana nazwa jest sprawdzana.</p>
+
+<h2>Crawler czy pytanie konkretnego człowieka</h2>
+
+<p>Nie wszystkie boty AI robią to samo, a większość narzędzi wrzuca je do jednego worka. Rozróżnienie ma znaczenie praktyczne:</p>
+
+<ul>
+  <li><strong>ai_crawler</strong> — zbiera treść do przyszłego indeksu modelu. Chodzi sam, wedle własnego harmonogramu.</li>
+  <li><strong>ai_uzytkownik</strong> — <strong>konkretny człowiek zadał pytanie w czacie, a model poszedł po tę stronę, żeby na nie odpowiedzieć.</strong> Za każdym takim żądaniem stoi żywa osoba i konkretne pytanie.</li>
+  <li><strong>wyszukiwarka</strong> — klasyczny indeks. Granica z AI już nie istnieje: Googlebot karmi też AI Overviews.</li>
+  <li><strong>narzedzie_seo</strong> — komercyjne crawlery analityczne.</li>
+</ul>
+
+<table>
+  <thead><tr><th>Kategoria</th><th>Żądań</th><th>Oryginalne</th><th>Fałszowane</th><th>Różnych tożsamości</th><th>Obsłużonych mirrorem</th></tr></thead>
+  <tbody>
+{{tabela_kategorie}}
+  </tbody>
+</table>
+
+<p>Kategoria <strong>ai_uzytkownik</strong> to {{uzytkownik_zadan}} żądań, z czego podrobionych było {{uzytkownik_falszowane}}. To jest ta grupa, na której właścicielom stron zależy najbardziej — i jednocześnie ta, w której deklaracji ufa się najchętniej, bo brzmi jak dowód, że ktoś realnie o nas pytał.</p>
+
+<h2>Jak rozpoznać podszywacza bez sprawdzania tożsamości</h2>
+
+<p>Weryfikacja po adresie sieciowym wymaga list, których nie ma dla każdego operatora. Ale okazuje się, że <strong>obie grupy zachowują się inaczej na tyle wyraźnie, że da się je rozdzielić bez żadnej listy</strong> — a to znaczy, że metoda zadziała też dla operatorów, którzy jeszcze nie powstali.</p>
+
+<table>
+  <thead><tr><th>Grupa</th><th>Okres</th><th>Żądań</th><th>Odbitych</th><th>% błędów</th><th>Średni rozmiar odpowiedzi</th><th>Różnych ścieżek</th></tr></thead>
+  <tbody>
+{{tabela_zachowanie}}
+  </tbody>
+</table>
+
+<h3>Pierwszy sygnał: rozmiar odpowiedzi</h3>
+
+<p>Prawdziwe boty dostają średnio <strong>{{rozmiar_oryginalne}} bajtów</strong>, podszywacze <strong>{{rozmiar_falszowane}}</strong>. Powód jest banalny: prawdziwy bot prosi o istniejącą stronę i dostaje jej treść. Podszywacz prosi o pliki, których nie ma, i dostaje krótką stronę błędu.</p>
+
+<h3>Drugi sygnał: odsetek błędów</h3>
+
+<p>Prawdziwe boty mylą się w <strong>{{bledy_oryginalne}}%</strong> przypadków, podszywacze w <strong>{{bledy_falszowane}}%</strong>. <strong>Prawdziwy crawler idzie po mapie strony — więc wie, co istnieje.</strong> Podszywacz zgaduje adresy z gotowej listy popularnych plików konfiguracyjnych i większość jego prób trafia w pustkę.</p>
+
+<h3>Dwa zastrzeżenia, bez których te liczby wprowadzałyby w błąd</h3>
+
+<p><strong>Po pierwsze, to obserwacja z jednego przypadku, nie prawo.</strong> Ruch podrobiony w tym pomiarze był zdominowany przez jedną serię skanowania z jednej sieci. Sygnatura jest wyraźna, ale opiera się w praktyce na jednym sprawcy — i tak należy ją traktować, dopóki nie powtórzy się na kolejnych.</p>
+
+<p><strong>Po drugie, my sami przecięliśmy ten szereg na pół.</strong> 5 września 2026 zmieniliśmy zachowanie serwera: ścieżki typowe dla skanerów przestały dostawać stronę aplikacji z kodem 200, a zaczęły dostawać prawdziwe 404. To zmienia oba powyższe wskaźniki — odsetek błędów rośnie, średni rozmiar spada — <strong>bez żadnej zmiany w zachowaniu botów</strong>. Dlatego tabela ma kolumnę „okres" i pokazuje obie części osobno, zamiast udawać ciągłość. Wykres, który by to zszył w jedną linię, pokazywałby zmianę, której nie było.</p>
+
+<h2>Czego szukają jedni, a czego drudzy</h2>
+
+<p>To najostrzejsze rozróżnienie w całym zbiorze. Nie publikujemy konkretnych adresów, o które pytano — opublikowana lista wrażliwych ścieżek byłaby gotową mapą dla następnego skanera. Wystarczą <strong>typy</strong>:</p>
+
+<table>
+  <thead><tr><th>Grupa</th><th>Typ ścieżki</th><th>Żądań</th><th>% grupy</th></tr></thead>
+  <tbody>
+{{tabela_cele}}
+  </tbody>
+</table>
+
+<p>Boty potwierdzone zapytały o pliki z kodem lub sekretami <strong>{{oryginalne_wrazliwe}}</strong> razy. Podszywacze — <strong>{{falszowane_wrazliwe}}</strong> razy. Odwrotnie z treścią: podszywacze sięgnęli po nią {{falszowane_tresc}} razy na {{falszowane_cele}} wszystkich swoich żądań.</p>
+
+<p><strong>Zbiory celów obu grup prawie się nie przecinają.</strong> To nie są dwa rodzaje botów robiące to samo z różną intensywnością. To dwa zupełnie różne zajęcia, wykonywane pod tymi samymi nazwami.</p>
+
+<p>I stąd bierze się właściwa obrona, która nie polega na blokowaniu: <strong>skanerzy nie znaleźli niczego, bo pliki, o które pytali, nie istnieją.</strong> Nie ma tu żadnego języka po stronie serwera, żadnego panelu administracyjnego pod znanym adresem i żadnej bazy do zrzucenia. Blokowanie po nazwie bota byłoby bez sensu — nazwa jest fałszywa z definicji. Blokowanie po sieci uderzyłoby też w ruch legalny, bo duże serwerownie hostują jednych i drugich.</p>
+
+<h2>Ile tego ruchu robi sam właściciel strony</h2>
+
+<p>Przez kilka dni sprawdzałem, czy roboty widzą treść tego serwisu — podszywając się kolejno pod ClaudeBota, GPTBota i PerplexityBota. Zostawiłem <strong>{{testy_wlasciciela}} wizyt</strong>, które w każdym zwykłym narzędziu analitycznym wyglądałyby jak zainteresowanie sztucznej inteligencji moją stroną. To <strong>{{proc_testow}}%</strong> całego ruchu robotów w tym okresie.</p>
+
+<p><strong>Nie usuwam ich. Odliczam.</strong> Wszystkie liczby powyżej są policzone po ich odjęciu.</p>
+
+<p>Reguła jest mechaniczna i podana z góry: wizyta trafia do kategorii „testy właściciela", jeśli przyszła z sieci, z której pracuję, <em>albo</em> niesie umówiony znacznik w podpisie — niezależnie od tego, jak wypada dla statystyki. Wiarygodność bierze się z tego, że reguła jest automatyczna i opisana, a nie z zapewnienia, że jestem uczciwy.</p>
+
+<p>Ta pozycja jest tu z konkretnego powodu. <strong>Jeśli ktoś testujący własną stronę potrafi w kilka dni wytworzyć {{proc_testow}}% jej „ruchu AI", to każdy licznik oparty na deklaracji jest podatny na zafałszowanie także bez złych intencji.</strong></p>
+
+<h2>Kronika zdarzeń</h2>
+
+<p>Wybrane zdarzenia warte zapamiętania. Bez adresów IP i bez ścieżek.</p>
+
+<h3>4 września 2026, 11:06 — pięć tożsamości w dziewiętnaście sekund</h3>
+
+<p>Z jednej sieci w Stanach Zjednoczonych (AS1004) przyszła seria żądań, w której ten sam ruch przedstawiał się kolejno jako <strong>sześć różnych botów</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot i PerplexityBot. Całość trwała dziewiętnaście sekund. Żądania dotyczyły plików konfiguracyjnych, kopii zapasowych i map kodu źródłowego.</p>
+
+<p><strong>Nie znalazły nic</strong> — żaden z tych plików w tym serwisie nie istnieje.</p>
+
+<p>Formalna uwaga, która ma znaczenie: piszemy, że <em>żądania przyszły z sieci AS1004</em>, a nie że „AS1004 skanuje". Operator sieci wynajmuje serwery i sprawca jest jego klientem, nie nim. Pierwsze sformułowanie to weryfikowalna obserwacja, drugie byłoby zarzutem wobec podmiotu, którego nie znamy.</p>
+
+<h3>5 września 2026 — koniec z odpowiedzią „200 OK" na pytanie o cudzy panel</h3>
+
+<p>Analiza powyższej serii ujawniła, że część pytań o nieistniejące pliki dostawała od nas kod 200 i stronę aplikacji, zamiast błędu 404. Skaner odczytuje to jako „coś tu jest" i wraca. Zostało poprawione — a przy okazji okazało się, że <strong>zaniżało to nasz własny wskaźnik błędów</strong>, czyli jeden z sygnałów, którymi rozpoznajemy skanowanie. Serwer psuł pomiar, który sam zasilał.</p>
+
+<h2>Jak to jest liczone</h2>
+
+<p>Każde żądanie bota zapisujemy razem z wynikiem próby rozstrzygnięcia jego tożsamości. Metody, w kolejności pewności:</p>
+
+<h3>Lista adresów operatora</h3>
+<p>Najpewniejsza. OpenAI, Anthropic, Perplexity, Google i Microsoft publikują pliki z zakresami adresów, z których wychodzą ich boty. Sprawdzenie polega na porównaniu adresu żądania z tą listą. Wynik jest jednoznaczny w obie strony: adres z listy potwierdza, adres spoza niej przy nazwie operatora oznacza podszycie.</p>
+
+<h3>Numer sieci operatora</h3>
+<p>Dla operatorów, którzy listy nie publikują, ale mają własną, znaną sieć. Słabsze niż lista adresów, bo sieć bywa duża, ale wciąż rozstrzygające przy nazwach, których nikt inny nie ma prawa używać.</p>
+
+<h3>Odwrotny DNS w trzech krokach (FCrDNS)</h3>
+<p>Klasyczna metoda, stosowana od lat do weryfikacji Googlebota. Ma trzy kroki i <strong>pominięcie któregokolwiek czyni ją bezwartościową</strong>:</p>
+<ol>
+  <li>zapytaj o nazwę domenową przypisaną do adresu, z którego przyszło żądanie,</li>
+  <li>sprawdź, czy ta nazwa <strong>kończy się</strong> domeną operatora — nie „zawiera jej", bo <code>googlebot.com.przyklad.pl</code> zawiera, a nie jest,</li>
+  <li>zapytaj o adres tej nazwy i sprawdź, czy wraca ten sam adres, od którego zaczęliśmy.</li>
+</ol>
+<p>Bez kroku trzeciego wystarczyłoby ustawić sobie dowolny wpis odwrotny. <strong>Uczciwe zastrzeżenie: w naszym pomiarze ta metoda nie potwierdziła jeszcze nikogo</strong> — same odmowy. Może działać poprawnie i trafiać wyłącznie na podszywaczy, ale dopóki nie potwierdzi żadnego prawdziwego bota, traktujemy ją jako <em>zaimplementowaną, lecz niesprawdzoną</em>, i nie opieramy na niej wniosków.</p>
+
+<h3>Podpis kryptograficzny (Web Bot Auth)</h3>
+<p>Powstający standard, w którym bot podpisuje żądanie kluczem. Docelowo najlepsza metoda z możliwych. Na razie <strong>tylko odnotowujemy obecność nagłówków podpisu — nie sprawdzamy ich poprawności</strong>, więc nie jest to weryfikacja i nie liczymy jej jako takiej. Zapisujemy, żeby mieć dane historyczne, kiedy standard się przyjmie.</p>
+
+<table>
+  <thead><tr><th>Metoda</th><th>Żądań</th><th>Potwierdzone</th><th>Zaprzeczone</th></tr></thead>
+  <tbody>
+{{tabela_metody}}
+  </tbody>
+</table>
+
+<p>Tabela obejmuje {{z_zapisana_metoda}} żądań — te, przy których zapisaliśmy, <em>czym</em> rozstrzygnięto. Wcześniejsze wpisy mają to pole puste nie dlatego, że weryfikacja zawiodła, tylko dlatego, że kolumna powstała później niż licznik.</p>
+
+<h3>Co znaczy „niesprawdzone"</h3>
+
+<p>Że <strong>nie umiemy rozstrzygnąć</strong> — nie że bot jest podejrzany. Niektórzy operatorzy nie publikują ani list adresów, ani niczego, co pozwoliłoby ich potwierdzić. Wrzucenie tych żądań do „prawdziwych" zawyżyłoby wynik, a do „podrobionych" — byłoby oskarżeniem bez dowodu. Zostają osobno.</p>
+
+<p><strong>To jest cała różnica między tą stroną a panelem, który sprzedaje wskaźnik.</strong> Panele nie mają kategorii „nie wiem", bo źle wygląda. My mamy, bo bez niej pozostałe liczby nic nie znaczą.</p>
+
+<h3>Czego celowo nie zapisujemy</h3>
+
+<p>Nie zapisujemy adresów IP ani niczego, co wskazuje osobę. Do rozpoznania podszywacza wystarczy numer sieci i kraj — jedno i drugie opisuje serwerownię, nie człowieka. Nie zapisujemy też treści zapytań użytkowników, bo żaden bot jej nie przekazuje i nie przekaże; to cudze dane.</p>
+
+<h2>Dane do pobrania</h2>
+
+<p>Wszystkie liczby z tej strony są dostępne maszynowo pod adresem <a href="https://mojaserowarnia.pl/bot-stats.json">bot-stats.json</a>, na licencji <a href="https://creativecommons.org/licenses/by/4.0/deed.pl" rel="license nofollow">CC BY 4.0</a>. Warunek jeden: podanie źródła.</p>
+
+<p>Plik zawiera wyłącznie agregaty — te same, które widać wyżej. Nie ma w nim adresów IP ani pełnych ścieżek.</p>
+
+<h2>Pytania i odpowiedzi</h2>
+
+<h3>Czy podszywanie się pod bota AI jest nielegalne?</h3>
+<p>Sam nagłówek User-Agent to deklaracja i wpisanie w niego dowolnego tekstu nie jest przestępstwem. Co innego to, do czego się go używa: w opisanym tu przypadku posłużył do skanowania serwera w poszukiwaniu haseł i kluczy, a to jest już czym innym niż wybór nazwy.</p>
+
+<h3>Czy powinienem blokować boty AI?</h3>
+<p>Blokowanie po nazwie nie działa, bo nazwa jest właśnie tym, co podszywacz fałszuje — zablokujesz prawdziwego, przepuścisz fałszywego. Blokowanie po sieci uderza też w ruch legalny, bo duże serwerownie hostują jednych i drugich. Sensowniejsza jest odwrotna kolejność: nie mieć na serwerze niczego, co warto ukraść, i mierzyć, kto naprawdę przychodzi.</p>
+
+<h3>Czy plik robots.txt to powstrzymuje?</h3>
+<p><code>robots.txt</code> to prośba, nie zabezpieczenie — respektują ją ci, którzy chcą. Warto pamiętać o jednym szczególe: bot stosuje <strong>wyłącznie tę grupę reguł, która pasuje do jego nazwy</strong>, a reguły z grupy ogólnej się z nią nie sumują. Zakaz wpisany tylko do <code>User-agent: *</code> nie obejmie bota, który ma własną grupę.</p>
+
+<h3>Dlaczego akurat portal o serowarstwie mierzy ruch botów?</h3>
+<p>Bo trafił na to przypadkiem. Licznik powstał, żeby sprawdzić, czy modele językowe w ogóle widzą treść serwisu — a przy okazji okazało się, że znaczna część „ruchu AI" nim nie jest. Dane są przy tym o tyle wiarygodne, że nie mamy żadnego interesu w tym, żeby wypadły w którąkolwiek stronę.</p>
+
+<h3>Czy te liczby będą się zmieniać?</h3>
+<p>Tak, i to jest zamierzone. Strona składa się na żywo z aktualnego stanu licznika, a nie z zamrożonej migawki. Dlatego przy każdej liczbie stoi data — jeśli cytujesz, cytuj razem z nią.</p>
+
+<h2>Powiązane strony</h2>
+<ul>
+  <li><a href="https://mojaserowarnia.pl/llms.txt">llms.txt</a> — mapa treści serwisu przygotowana dla modeli językowych</li>
+  <li><a href="https://mojaserowarnia.pl/robots.txt">robots.txt</a> — zasady, o które prosimy boty</li>
+  <li><a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> — po co ta strona w ogóle istnieje: serowarstwo domowe</li>
+</ul>
+
+</body>
+</html>
