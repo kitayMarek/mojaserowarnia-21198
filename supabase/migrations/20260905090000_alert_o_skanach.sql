@@ -4,14 +4,11 @@
 -- wykryliśmy ręcznie i dopiero po fakcie. Widok `bot_skany` już go rozpoznaje;
 -- tu dochodzi to, żeby zgłosił się sam.
 --
--- ⚠ WYMAGA JEDNORAZOWEGO KROKU MARKA przed uruchomieniem tej migracji.
---   Klucz service_role NIE MOŻE trafić do repozytorium — jest publiczne.
---   Zapisz go raz w Vault, w SQL Editorze:
---
---     select vault.create_secret('<TU_KLUCZ_SERVICE_ROLE>', 'klucz_alertu_botow');
---
---   Sprawdzenie, czy siedzi:
---     select name from vault.secrets where name = 'klucz_alertu_botow';
+-- ŻADNEGO KLUCZA NIE TRZEBA. Funkcja send-notification ma w config.toml
+-- `verify_jwt = false`, więc nie wymaga nagłówka Authorization — sprawdzone
+-- przed napisaniem tej migracji. Gdyby kiedyś to ustawienie się zmieniło,
+-- wywołanie zacznie zwracać 401 i trzeba będzie dołożyć nagłówek z kluczem
+-- (wtedy przez Vault, bo repozytorium jest publiczne).
 --
 -- CZEGO TU CELOWO NIE MA: automatycznego blokowania. Blokada po podpisie jest
 -- bezwartościowa (podpis jest fałszywy z definicji), a po ASN ryzykowna — ten
@@ -32,7 +29,6 @@ AS $$
 DECLARE
   _tresc  TEXT := '';
   _ile    INTEGER := 0;
-  _klucz  TEXT;
   _wiersz RECORD;
 BEGIN
   -- Te same progi co w widoku bot_skany, ale zawężone do ostatnich godzin.
@@ -68,28 +64,9 @@ BEGIN
     RETURN 'brak zgloszen';
   END IF;
 
-  -- Odczyt z Vault w bloku z wyjatkiem: gdyby rozszerzenia nie bylo albo
-  -- zmienila sie nazwa widoku, funkcja ma zwrocic tresc alertu, a NIE wywrocic
-  -- zadania cron. Alert jest dodatkiem — nie moze psuc niczego innego.
-  BEGIN
-    SELECT decrypted_secret INTO _klucz
-    FROM vault.decrypted_secrets WHERE name = 'klucz_alertu_botow';
-  EXCEPTION WHEN OTHERS THEN
-    _klucz := NULL;
-  END;
-
-  IF _klucz IS NULL THEN
-    -- Brak klucza nie moze wywrocic zadania cron. Zwracamy tresc, zeby dalo sie
-    -- ja zobaczyc, wolajac funkcje recznie.
-    RETURN 'BRAK KLUCZA w vault (klucz_alertu_botow). Tresc alertu:' || chr(10) || _tresc;
-  END IF;
-
   PERFORM net.http_post(
     url := 'https://hsgxmbhunclhgzumafrk.supabase.co/functions/v1/send-notification',
-    headers := jsonb_build_object(
-      'Content-Type', 'application/json',
-      'Authorization', 'Bearer ' || _klucz
-    ),
+    headers := jsonb_build_object('Content-Type', 'application/json'),
     body := jsonb_build_object(
       'recipients', jsonb_build_array('marek@fermly.pl'),
       'subject', format('mojaserowarnia.pl — %s podejrzanych zrodel w ostatnich %s h', _ile, _godzin),
@@ -107,7 +84,7 @@ END;
 $$;
 
 COMMENT ON FUNCTION public.zglos_skany_botow(INTEGER) IS
-  'Sprawdza ostatnie N godzin pod kątem skanowania i wysyła e-mail przez Edge Function send-notification. Wywołana bez klucza w Vault zwraca treść alertu zamiast go wysyłać — to celowe, żeby dało się ją przetestować bez konfiguracji.';
+  'Sprawdza ostatnie N godzin pod kątem skanowania i wysyła e-mail przez Edge Function send-notification. Zwraca "brak zgloszen" albo liczbę zgłoszonych źródeł, więc da się ją wywołać ręcznie i zobaczyć wynik bez czekania na crona.';
 
 REVOKE ALL ON FUNCTION public.zglos_skany_botow(INTEGER) FROM PUBLIC, anon, authenticated;
 
