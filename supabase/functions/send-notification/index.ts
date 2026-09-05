@@ -36,38 +36,90 @@ function bezHtml(tekst: string): string {
 }
 
 /**
- * Kto ma prawo wysłać powiadomienie. Wzorzec 1:1 z export-data: albo wywołanie
- * serwer-serwer kluczem service_role, albo zalogowany administrator.
+ * Kto ma prawo wyslac powiadomienie.
  *
- * DLACZEGO TO ISTNIEJE: do 5 września 2026 funkcja nie sprawdzała NICZEGO,
- * a `recipients` przychodziło od wywołującego. Każdy w internecie mógł wysłać
- * list z adresu noreply@mojaserowarnia.pl do dowolnego adresata i z dowolną
- * treścią HTML. Domena jest w Resend zweryfikowana, więc taki list wyglądałby
- * całkowicie wiarygodnie, a odbudowa reputacji nadawcy trwa miesiącami.
+ * DLACZEGO TO ISTNIEJE: do 5 wrzesnia 2026 funkcja nie sprawdzala NICZEGO,
+ * a `recipients` przychodzilo od wywolujacego. Kazdy w internecie mogl wyslac
+ * list z adresu noreply@mojaserowarnia.pl do dowolnego adresata i z dowolna
+ * trescia HTML. Domena jest w Resend zweryfikowana, wiec taki list wygladalby
+ * calkowicie wiarygodnie, a odbudowa reputacji nadawcy trwa miesiacami.
+ *
+ * TRZY DROGI, bo jedna nie wystarczyla. Pierwsza wersja porownywala token
+ * wylacznie ze zmienna SUPABASE_SERVICE_ROLE_KEY i alert dostal 403 mimo
+ * poprawnego klucza w Vault (odkodowany token mial "role":"service_role").
+ * Projekt ma wlaczony nowy system kluczy Supabase obok starego, wiec ciag
+ * widziany przez funkcje nie musi byc tym samym ciagiem, ktory siedzi w Vault.
+ * Dlatego doszlo sprawdzenie CZYNNOSCIOWE: token, ktory potrafi wywolac
+ * auth.admin, jest kluczem serwisowym — niezaleznie od formatu i nazwy zmiennej.
  */
-async function wolnoWysylac(req: Request): Promise<boolean> {
-  const naglowek = req.headers.get("authorization") ?? "";
-  const token = naglowek.replace(/^Bearer\s+/i, "").trim();
-  if (!token) return false;
+type Droga = "sekret_alertu" | "klucz_serwisowy" | "administrator" | null;
 
-  const kluczSerwisowy = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-  if (kluczSerwisowy && token === kluczSerwisowy) return true;   // cron, zadania w tle
+/** Odczytuje pole `role` z ladunku JWT bez weryfikacji podpisu. */
+function rolaZTokenu(token: string): string | null {
+  const czesci = token.split(".");
+  if (czesci.length !== 3) return null;
+  try {
+    const pad = "=".repeat((4 - (czesci[1].length % 4)) % 4);
+    const json = atob(czesci[1].replace(/-/g, "+").replace(/_/g, "/") + pad);
+    return JSON.parse(json)?.role ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function ktoWysyla(req: Request): Promise<Droga> {
+  const token = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "").trim();
+  if (!token) return null;
+
+  // 1) DEDYKOWANY SEKRET — wzorzec 1:1 z export-data (EXPORT_SECRET). Nie zalezy
+  //    od zadnego systemu kluczy Supabase, wiec jest droga awaryjna, gdy dwie
+  //    ponizsze zawioda po kolejnej zmianie po stronie platformy.
+  const sekret = Deno.env.get("NOTIFY_SECRET");
+  if (sekret && token === sekret) return "sekret_alertu";
 
   const url = Deno.env.get("SUPABASE_URL");
+  if (!url) return null;
+  const zeZmiennej = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+
+  // 2) KLUCZ SERWISOWY. Najpierw tanie porownanie ze zmienna, potem — gdy token
+  //    tylko DEKLARUJE role serwisowa — jeden strzal do auth.admin, ktory jest
+  //    dostepny wylacznie dla klucza serwisowego. Deklaracja z niepodpisanego
+  //    ladunku niczego nie dowodzi, ale wystarcza, zeby nie wysylac tego
+  //    zapytania przy kazdym smieciowym tokenie z internetu.
+  if (zeZmiennej && token === zeZmiennej) return "klucz_serwisowy";
+
+  if (rolaZTokenu(token) === "service_role" || token.startsWith("sb_secret_")) {
+    try {
+      const { error } = await createClient(url, token, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      }).auth.admin.listUsers({ page: 1, perPage: 1 });
+      if (!error) return "klucz_serwisowy";
+      console.warn("send-notification: token deklaruje service_role, ale auth.admin odmawia:", error.message);
+    } catch (e) {
+      console.warn("send-notification: sprawdzenie czynnosciowe klucza nie powiodlo sie:", e);
+    }
+  }
+
+  // 3) ZALOGOWANY ADMINISTRATOR — tak wola nas panel przez functions.invoke,
+  //    ktore dolacza JWT sesji.
   const anon = Deno.env.get("SUPABASE_ANON_KEY");
-  if (!url || !anon || !kluczSerwisowy) return false;
+  if (!anon || !zeZmiennej) return null;
 
-  const { data, error } = await createClient(url, anon).auth.getUser(token);
-  if (error || !data.user) return false;
+  const { data, error } = await createClient(url, anon, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  }).auth.getUser(token);
+  if (error || !data.user) return null;
 
-  const { data: rola } = await createClient(url, kluczSerwisowy)
+  const { data: rola } = await createClient(url, zeZmiennej, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
     .from("user_roles")
     .select("role")
     .eq("user_id", data.user.id)
     .eq("role", "admin")
     .maybeSingle();
 
-  return Boolean(rola);
+  return rola ? "administrator" : null;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -77,12 +129,17 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    if (!(await wolnoWysylac(req))) {
+    const droga = await ktoWysyla(req);
+    if (!droga) {
+      // Log nazywa powod, zeby kolejne 403 nie wymagalo zgadywania — poprzednie
+      // kosztowalo pol dnia, bo odpowiedz nie mowila, ktore sprawdzenie odpadlo.
+      console.warn("send-notification: odmowa 403, zaden sposob uwierzytelnienia nie przeszedl");
       return new Response(
         JSON.stringify({ error: "Unauthorized" }),
         { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } },
       );
     }
+    console.log(`send-notification: wpuszczono przez ${droga}`);
 
     const { recipients, subject, message }: NotificationRequest = await req.json();
 
