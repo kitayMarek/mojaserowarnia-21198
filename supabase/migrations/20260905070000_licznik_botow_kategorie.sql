@@ -88,9 +88,12 @@ BEGIN
   --  • znacznik w User-Agencie działa też z sieci komórkowej, gdzie ASN jest inny,
   --  • ASN łapie testy sprzed wprowadzenia znacznika (24 z 33 „fałszywych
   --    ClaudeBotów" w pierwszym pomiarze to były nasze własne sprawdzenia).
-  NEW.wlasne := (NEW.asn = 5617)
-             OR (NEW.ua ILIKE '%test-marek%')
-             OR (NEW.ua ILIKE '%Agrojelonki-Test%');
+  -- COALESCE jest tu konieczne, nie kosmetyczne: `asn` bywa puste, a
+  -- (NULL = 5617) daje NULL, po czym NULL OR false = NULL — czyli proba
+  -- zapisania NULL do kolumny NOT NULL i wywrocenie calego insertu.
+  NEW.wlasne := COALESCE(NEW.asn = 5617, false)
+             OR COALESCE(NEW.ua ILIKE '%test-marek%', false)
+             OR COALESCE(NEW.ua ILIKE '%Agrojelonki-Test%', false);
 
   RETURN NEW;
 END;
@@ -104,7 +107,9 @@ CREATE TRIGGER oznacz_wizyte_bota_trg
 -- Backfill istniejących wierszy tymi samymi regułami.
 UPDATE public.bot_visits
 SET kategoria = public.kategoria_bota(bot),
-    wlasne    = (asn = 5617) OR (ua ILIKE '%test-marek%') OR (ua ILIKE '%Agrojelonki-Test%')
+    wlasne    = COALESCE(asn = 5617, false)
+             OR COALESCE(ua ILIKE '%test-marek%', false)
+             OR COALESCE(ua ILIKE '%Agrojelonki-Test%', false)
 WHERE kategoria IS NULL OR wlasne IS NOT TRUE;
 
 CREATE INDEX IF NOT EXISTS bot_visits_kategoria_idx
@@ -144,20 +149,25 @@ WHERE zweryfikowany IS TRUE
 GROUP BY sciezka
 ORDER BY wizyt DESC;
 
+-- ⚠ `kategoria` MUSI stac na koncu listy. CREATE OR REPLACE VIEW pozwala
+-- wylacznie DOPISAC kolumny za istniejacymi — proba wstawienia nowej w srodek
+-- jest odczytywana jako zmiana nazwy kolumny, ktora tam dotad stala, i konczy
+-- sie bledem 42P16 ("cannot change name of view column"). Kolejnosc jest wiec
+-- wymuszona przez Postgresa, a nie przez czytelnosc.
 CREATE OR REPLACE VIEW public.bot_podszywacze
 WITH (security_invoker = true) AS
 SELECT operator,
        bot,
-       kategoria,
        asn,
        kraj,
        count(*)        AS zadan,
        min(odwiedzono) AS pierwsze,
-       max(odwiedzono) AS ostatnie
+       max(odwiedzono) AS ostatnie,
+       kategoria
 FROM public.bot_visits
 WHERE zweryfikowany IS FALSE
   AND NOT wlasne
-GROUP BY operator, bot, kategoria, asn, kraj
+GROUP BY operator, bot, asn, kraj, kategoria
 ORDER BY zadan DESC;
 
 -- ---------------------------------------------------------------------------
