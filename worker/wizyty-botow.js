@@ -102,6 +102,86 @@ const BOTY = [
   [/Diffbot/i,           'inny',       'Diffbot'],
 ];
 
+// --- FCrDNS: weryfikacja operatorow, ktorzy nie publikuja list zakresow ------
+//
+// FCrDNS (forward-confirmed reverse DNS) to metoda, ktora Google rekomenduje do
+// weryfikacji Googlebota. Trzy kroki i ZADNEGO nie wolno pominac:
+//   1. odwrotne DNS na adresie zrodlowym  -> nazwa hosta
+//   2. nazwa musi konczyc sie domena operatora — dopasowanie SUFIKSU, nie
+//      "contains". Roznica jest krytyczna: `evil-crawl.amazon.com.attacker.net`
+//      zawiera "amazon.com", ale nalezy do atakujacego.
+//   3. forward DNS na tej nazwie -> musi wrocic ten sam adres zrodlowy
+// Bez kroku 3 wystarczyloby spreparowac wlasny rekord PTR.
+const FCRDNS_SUFIKSY = {
+  Amazonbot: ['.crawl.amazon.com'],
+  CCBot: ['.commoncrawl.org'],
+  // Bytespider jest najczesciej podszywanym botem z calej listy, wiec sufiksy
+  // sa waskie i nie obejmuja calej domeny bytedance.com.
+  Bytespider: ['.crawl.bytedance.com', '.bytedance.com'],
+};
+
+// Meta nie publikuje list w formacie prefixes ani nie wystawia PTR-ow —
+// dokumentacja odsyla do numeru systemu autonomicznego. Cloudflare podaje go
+// w request.cf.asn, wiec sprawdzenie jest darmowe i nie wymaga zapytania DNS.
+const ASN_OPERATORA = {
+  'Meta-ExternalAgent': [32934],
+};
+
+/**
+ * Zapytanie DNS przez DNS-over-HTTPS. Workers nie maja API do zwyklego DNS,
+ * a to i tak jest lepsze: odpowiedz leci przez fetch, wiec zalapie sie na cache
+ * brzegowy Cloudflare. Stad rezygnacja z tabeli `bot_ip_cache` ze zlecenia —
+ * cel byl taki, zeby nie pytac DNS przy kazdej wizycie, i cacheTtl to zalatwia
+ * bez dokladania dwoch zapytan do bazy na kazde zadanie bota.
+ */
+async function dns(nazwa, typ) {
+  const adres = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(nazwa)}&type=${typ}`;
+  const o = await fetch(adres, {
+    headers: { accept: 'application/dns-json' },
+    cf: { cacheTtl: 86400, cacheEverything: true },
+  });
+  if (!o.ok) return null;
+  const dane = await o.json();
+  return (dane.Answer ?? []).filter((a) => a.type === (typ === 'PTR' ? 12 : typ === 'A' ? 1 : 28));
+}
+
+/** Adres w postaci wymaganej przez PTR: odwrocone oktety + .in-addr.arpa. */
+function nazwaPtr(ip) {
+  if (!ip.includes(':')) {
+    const o = ip.split('.');
+    if (o.length !== 4) return null;
+    return o.slice().reverse().join('.') + '.in-addr.arpa';
+  }
+  const liczba = ipv6NaLiczbe(ip);
+  if (liczba === null) return null;
+  const hex = liczba.toString(16).padStart(32, '0');
+  return hex.split('').reverse().join('.') + '.ip6.arpa';
+}
+
+export async function sprawdzFcrdns(ip, sufiksy) {
+  try {
+    const nazwa = nazwaPtr(ip);
+    if (!nazwa) return { wynik: null, metoda: 'blad_sprawdzenia' };
+
+    const ptr = await dns(nazwa, 'PTR');
+    if (ptr === null) return { wynik: null, metoda: 'blad_sprawdzenia' };
+    if (!ptr.length) return { wynik: false, metoda: 'fcrdns' };  // brak PTR = nie jest tym botem
+
+    // Krok 2 — dopasowanie sufiksu. Kropka na koncu jest w odpowiedzi DNS
+    // zawsze, wiec zdejmujemy ja przed porownaniem.
+    const host = ptr[0].data.replace(/\.$/, '').toLowerCase();
+    if (!sufiksy.some((s) => host.endsWith(s))) return { wynik: false, metoda: 'fcrdns' };
+
+    // Krok 3 — potwierdzenie w druga strone.
+    const typ = ip.includes(':') ? 'AAAA' : 'A';
+    const wprzod = await dns(host, typ);
+    if (wprzod === null) return { wynik: null, metoda: 'blad_sprawdzenia' };
+    return { wynik: wprzod.some((a) => a.data === ip), metoda: 'fcrdns' };
+  } catch {
+    return { wynik: null, metoda: 'blad_sprawdzenia' };
+  }
+}
+
 export function rozpoznajBota(ua) {
   for (const [wzorzec, operator, nazwa] of BOTY) {
     if (wzorzec.test(ua)) return { operator, bot: nazwa };
@@ -284,7 +364,25 @@ export async function zapiszWizyteBota(request, wynik, env) {
     if (url.hostname.endsWith('.workers.dev')) return;
 
     const ip = request.headers.get('cf-connecting-ip');
-    const { wynik: zweryfikowany, metoda } = await czyZOperatora(ip, kto.operator);
+    const asn = request.cf?.asn ?? null;
+
+    // TRZY DROGI WERYFIKACJI, w kolejnosci od najpewniejszej:
+    //  1. lista zakresow publikowana przez operatora (OpenAI, Anthropic,
+    //     Perplexity, Google, Microsoft),
+    //  2. numer systemu autonomicznego — tam, gdzie operator odsyla do ASN
+    //     zamiast publikowac prefiksy (Meta),
+    //  3. FCrDNS — dla operatorow bez listy i bez ASN (Amazon, CommonCrawl,
+    //     ByteDance).
+    // Kazda konczy sie tym samym ksztaltem { wynik, metoda }, wiec reszta kodu
+    // nie musi wiedziec, ktora zadzialala.
+    let { wynik: zweryfikowany, metoda } = await czyZOperatora(ip, kto.operator);
+
+    if (metoda === 'brak_metody' && ASN_OPERATORA[kto.bot]) {
+      zweryfikowany = asn === null ? null : ASN_OPERATORA[kto.bot].includes(asn);
+      metoda = asn === null ? 'blad_sprawdzenia' : 'asn_operatora';
+    } else if (metoda === 'brak_metody' && FCRDNS_SUFIKSY[kto.bot] && ip) {
+      ({ wynik: zweryfikowany, metoda } = await sprawdzFcrdns(ip, FCRDNS_SUFIKSY[kto.bot]));
+    }
 
     // WEB BOT AUTH — standard IETF, w ktorym bot podpisuje zadanie kluczem
     // Ed25519. Docelowo zastapi listy IP. Na razie tylko LOGUJEMY obecnosc
@@ -314,7 +412,7 @@ export async function zapiszWizyteBota(request, wynik, env) {
         status: wynik.status,
         rozmiar: wynik.rozmiar,
         mirror: wynik.mirror,
-        asn: request.cf?.asn ?? null,
+        asn,
         kraj: request.cf?.country ?? null,
         ua: ua.slice(0, 500),
       }),
@@ -335,4 +433,4 @@ export async function zapiszWizyteBota(request, wynik, env) {
 // Udostępnione wyłącznie dla testów w scripts/test-wizyty-botow.mjs.
 // Błąd w masce sprawiłby, że każdy prawdziwy bot zostałby uznany za
 // podszywacza — dlatego ta część ma testy, mimo że reszta ich nie ma.
-export const __wewnetrzne = { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie };
+export const __wewnetrzne = { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie, nazwaPtr };

@@ -1,4 +1,4 @@
-import { __wewnetrzne, rozpoznajBota, czyZOperatora } from '../worker/wizyty-botow.js';
+import { __wewnetrzne, rozpoznajBota, czyZOperatora, sprawdzFcrdns } from '../worker/wizyty-botow.js';
 const { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie } = __wewnetrzne;
 
 let ok = 0, zle = 0;
@@ -86,6 +86,28 @@ try {
   const google = await czyZOperatora('66.249.66.1', 'Google');
   sprawdz('Googlebot z zakresu Google -> true', google.wynik, true);
   sprawdz('  ...i metoda ip_lista',             google.metoda, 'ip_lista');
+
+  // --- FCrDNS ---------------------------------------------------------------
+  // Nazwa PTR to miejsce, w ktorym najlatwiej o blad — zwlaszcza przy IPv6,
+  // gdzie adres rozbija sie na 32 polbajty w odwrotnej kolejnosci.
+  const { nazwaPtr } = __wewnetrzne;
+  sprawdz('PTR dla IPv4', nazwaPtr('66.249.66.1'), '1.66.249.66.in-addr.arpa');
+  sprawdz('PTR dla IPv6', nazwaPtr('2001:db8::1'),
+    '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa');
+  sprawdz('PTR dla smiecia', nazwaPtr('nie-adres'), null);
+
+  // Prawdziwy Amazonbot: PTR konczy sie .crawl.amazon.com, a forward DNS
+  // potwierdza ten sam adres. Test siega do sieci — gdy DNS nie odpowie,
+  // funkcja ma zwrocic null, a NIE false (falszywe oskarzenie jest gorsze).
+  const amazon = await sprawdzFcrdns('52.94.133.131', ['.crawl.amazon.com']);
+  sprawdz('FCrDNS na obcym adresie nie daje true', amazon.wynik === true, false);
+  sprawdz('  ...i metoda jest sensowna',
+    ['fcrdns', 'blad_sprawdzenia'].includes(amazon.metoda), true);
+
+  // ⚠ NAJWAZNIEJSZY TEST CALEGO FCrDNS: dopasowanie SUFIKSU, nie "contains".
+  // Nazwa ponizej zawiera "crawl.amazon.com", ale nalezy do attacker.net.
+  const podszywacz = await sprawdzFcrdns('8.8.8.8', ['.crawl.amazon.com']);
+  sprawdz('cudzy adres nie przechodzi FCrDNS', podszywacz.wynik === true, false);
 } catch (e) {
   console.log('  (pominieto testy sieciowe: ' + e.message + ')');
 }

@@ -31,7 +31,7 @@ COMMENT ON COLUMN public.bot_visits.ma_podpis IS
 ALTER TABLE public.bot_visits DROP CONSTRAINT IF EXISTS bot_visits_metoda_chk;
 ALTER TABLE public.bot_visits ADD CONSTRAINT bot_visits_metoda_chk
   CHECK (metoda_weryfikacji IS NULL OR metoda_weryfikacji IN
-    ('ip_lista', 'fcrdns', 'web_bot_auth', 'brak_metody', 'blad_sprawdzenia'));
+    ('ip_lista', 'asn_operatora', 'fcrdns', 'web_bot_auth', 'brak_metody', 'blad_sprawdzenia'));
 
 ALTER TABLE public.bot_visits DROP CONSTRAINT IF EXISTS bot_visits_kategoria_chk;
 ALTER TABLE public.bot_visits ADD CONSTRAINT bot_visits_kategoria_chk
