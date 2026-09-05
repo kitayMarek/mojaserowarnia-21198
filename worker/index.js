@@ -17,7 +17,7 @@
  */
 
 import { zapiszWizyteBota } from './wizyty-botow.js';
-import { feedJson, mirrorHtml } from './boty-ai.js';
+import { feedJson, mirrorHtml, raportJson } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -190,6 +190,14 @@ Disallow: /
     //      wcześniej niż worker i bez tego oddałaby surowy szablon.
     if (url.pathname === '/bot-stats.json') {
       return feedJson(request, env, ctx);
+    }
+
+    // Raporty interaktywne. Bez wpisu w run_worker_first — pliku o tej nazwie
+    // nie ma w assetach, więc żądanie i tak spada do workera. Musi jednak stać
+    // PRZED regułą 5, bo /api/raport nie ma rozszerzenia i catch-all SPA oddałby
+    // na nie skorupę React z kodem 200 zamiast danych.
+    if (url.pathname === '/api/raport') {
+      return raportJson(request, env, ctx);
     }
 
     if (bezUkosnika === '/boty-ai' || url.pathname === '/boty-ai.html') {

@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
+import RaportyBotow from "@/components/RaportyBotow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -318,6 +319,13 @@ const BotyAi = () => {
               </Card>
             );
           })}
+        </div>
+
+        {/* Raporty stoja PO modulach opisowych: najpierw czytelnik ma wiedziec,
+            co znacza te liczby, dopiero potem dostaje narzedzie do grzebania
+            w nich. Odwrotna kolejnosc dawalaby tabele bez kontekstu. */}
+        <div className="mt-8">
+          <RaportyBotow dniPomiaru={p?.dni_pomiaru} />
         </div>
 
         <Card className="mt-8">

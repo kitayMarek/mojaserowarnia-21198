@@ -27,6 +27,7 @@ const WIDOKI = [
   'pub_bot_cele',
   'pub_bot_metody',
   'pub_bot_kategorie',
+  'pub_bot_pod_kogo',
 ];
 
 // Godzina. Liczby narastające i okno 30 dni zmieniają się powoli, a strona
@@ -92,22 +93,32 @@ async function pobierzDane(env) {
   const klucz = env.SUPABASE_ANON_KEY;
   if (!env.SUPABASE_URL || !klucz) return null;
 
-  try {
-    const wyniki = await Promise.all(WIDOKI.map(async (widok) => {
-      const odp = await fetch(`${env.SUPABASE_URL}/rest/v1/${widok}?select=*`, {
-        headers: { apikey: klucz, authorization: `Bearer ${klucz}`, accept: 'application/json' },
-      });
-      if (!odp.ok) throw new Error(`${widok}: HTTP ${odp.status}`);
-      return [widok, await odp.json()];
-    }));
-    const dane = Object.fromEntries(wyniki);
-    // Podsumowanie to jeden wiersz i bez niego nie ma czego składać.
-    if (!dane.pub_bot_podsumowanie?.[0]) return null;
-    return dane;
-  } catch (e) {
-    console.warn('boty-ai: nie udalo sie pobrac danych —', e.message);
-    return null;
+  // allSettled, NIE all. Jeden brakujacy albo przemianowany widok nie ma prawa
+  // wygasic calej strony — a wlasnie tak by bylo przy Promise.all, ktore odrzuca
+  // calosc po pierwszym bledzie. Praktyczny skutek: mozna wdrozyc kod przed
+  // zastosowaniem migracji, bo brakujacy widok da tylko jedna pusta tabele
+  // z notka zamiast strony w kreskach.
+  const wyniki = await Promise.allSettled(WIDOKI.map(async (widok) => {
+    const odp = await fetch(`${env.SUPABASE_URL}/rest/v1/${widok}?select=*`, {
+      headers: { apikey: klucz, authorization: `Bearer ${klucz}`, accept: 'application/json' },
+    });
+    if (!odp.ok) throw new Error(`${widok}: HTTP ${odp.status}`);
+    return [widok, await odp.json()];
+  }));
+
+  const dane = {};
+  for (const w of wyniki) {
+    if (w.status === 'fulfilled') {
+      dane[w.value[0]] = w.value[1];
+    } else {
+      console.warn('boty-ai: widok niedostepny —', w.reason?.message ?? w.reason);
+    }
   }
+
+  // Podsumowanie jest jedynym widokiem OBOWIAZKOWYM: bez niego nie ma liczby
+  // naglowkowej ani daty stanu, wiec nie ma czego skladac.
+  if (!dane.pub_bot_podsumowanie?.[0]) return null;
+  return dane;
 }
 
 // ---------------------------------------------------------------------------
@@ -149,6 +160,12 @@ function tabelaMetody(w = []) {
   if (!w.length) return PUSTA(4);
   return w.map((r) => `    <tr><td>${bezHtml(r.metoda)}</td><td>${liczba(r.zadan)}</td>`
     + `<td>${liczba(r.potwierdzone)}</td><td>${liczba(r.zaprzeczone)}</td></tr>`).join('\n');
+}
+
+function tabelaPodKogo(w = []) {
+  if (!w.length) return PUSTA(4);
+  return w.map((r) => `    <tr><td>${bezHtml(r.bot)}</td><td>${bezHtml(r.operator)}</td>`
+    + `<td>${liczba(r.falszowane)}</td><td>${liczba(r.z_ilu_sieci)}</td></tr>`).join('\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -221,6 +238,7 @@ function zbudujZetony(dane) {
     tabela_zachowanie: tabelaZachowanie(zach),
     tabela_cele: tabelaCele(cele),
     tabela_metody: tabelaMetody(dane.pub_bot_metody),
+    tabela_pod_kogo: tabelaPodKogo(dane.pub_bot_pod_kogo),
   };
 }
 
@@ -234,6 +252,7 @@ function zetonyAwaryjne() {
     tabela_zachowanie: PUSTA(7),
     tabela_cele: PUSTA(4),
     tabela_metody: PUSTA(4),
+    tabela_pod_kogo: PUSTA(4),
   };
 }
 
@@ -302,6 +321,7 @@ export async function feedJson(request, env, ctx) {
     zachowanie: dane.pub_bot_zachowanie,
     cele: dane.pub_bot_cele,
     metody: dane.pub_bot_metody,
+    pod_kogo: dane.pub_bot_pod_kogo,
   }, CACHE_SEKUND);
 
   ctx.waitUntil(cache.put(klucz, odp.clone()));
@@ -333,4 +353,98 @@ export async function mirrorHtml(request, env, ctx, szablon) {
 
   if (dane) ctx.waitUntil(cache.put(klucz, odp.clone()));
   return odp;
+}
+
+// ---------------------------------------------------------------------------
+// RAPORTY — proxy do funkcji pub_raport_* z cache na brzegu
+// ---------------------------------------------------------------------------
+/**
+ * DLACZEGO PRZEZ WORKERA, A NIE PROSTO Z PRZEGLĄDARKI DO SUPABASE:
+ *
+ *  • CACHE. Osiem raportów razy cztery okresy to 32 STAŁE odpowiedzi. Z cache
+ *    na brzegu baza dostaje 32 zapytania na godzinę niezależnie od tego, czy
+ *    stronę czyta jedna osoba, czy tysiąc. Bez tego każde kliknięcie każdego
+ *    odwiedzającego to osobne zapytanie.
+ *  • OGRANICZENIE TEMPA. Zlecenie proponowało regułę Cloudflare „na ścieżkę RPC
+ *    Supabase" — to niewykonalne, bo przeglądarka woła *.supabase.co
+ *    z pominięciem naszej strefy i Cloudflare tego ruchu nigdy nie widzi.
+ *    Przez workera ruch idzie przez naszą domenę, więc reguła staje się możliwa.
+ *  • DRUGIE SPRAWDZENIE PARAMETRÓW. Baza broni się sama (CASE na zamkniętym
+ *    zbiorze), ale nazwa funkcji nie ma prawa pochodzić z adresu URL. Tutaj
+ *    parametr jest KLUCZEM w mapie, nie fragmentem sklejanego napisu — żeby
+ *    zbudować obce wywołanie, trzeba by dopisać wiersz do tego pliku.
+ */
+
+const RAPORTY = {
+  kto_byl: 'pub_raport_kto_byl',
+  co_odwiedzali: 'pub_raport_co_odwiedzali',
+  sygnatura: 'pub_raport_sygnatura',
+  pod_kogo: 'pub_raport_pod_kogo',
+  incydenty: 'pub_raport_incydenty',
+  w_czasie: 'pub_raport_w_czasie',
+  czego_nie_bylo: 'pub_raport_czego_nie_bylo',
+  porownanie: 'pub_raport_porownanie',
+};
+
+const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
+
+export async function raportJson(request, env, ctx) {
+  const url = new URL(request.url);
+  const raport = url.searchParams.get('raport') ?? '';
+  const okres = url.searchParams.get('okres') ?? '7d';
+
+  // Nazwa funkcji bierze się z MAPY, nigdy z adresu. Wartość spoza listy
+  // kończy się tutaj i nie dociera do bazy.
+  const funkcja = Object.prototype.hasOwnProperty.call(RAPORTY, raport) ? RAPORTY[raport] : null;
+  if (!funkcja || !OKRESY_DOZWOLONE.has(okres)) {
+    return zJsonem({
+      blad: 'nieznany raport lub okres',
+      dostepne_raporty: Object.keys(RAPORTY),
+      dostepne_okresy: [...OKRESY_DOZWOLONE],
+    }, 0);
+  }
+
+  // Klucz cache w postaci znormalizowanej: ?okres=7d&raport=X i ?raport=X&okres=7d
+  // to ma być JEDEN wpis, a nie dwa.
+  const kluczUrl = `${url.origin}/api/raport?raport=${raport}&okres=${okres}`;
+  const cache = caches.default;
+  const zCache = await cache.match(new Request(kluczUrl));
+  if (zCache) return zCache;
+
+  const klucz = env.SUPABASE_ANON_KEY;
+  if (!env.SUPABASE_URL || !klucz) {
+    return zJsonem({ blad: 'raporty chwilowo niedostepne' }, 60);
+  }
+
+  try {
+    const odp = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/${funkcja}`, {
+      method: 'POST',
+      headers: {
+        apikey: klucz,
+        authorization: `Bearer ${klucz}`,
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      body: JSON.stringify({ okres }),
+    });
+    if (!odp.ok) throw new Error(`HTTP ${odp.status}`);
+    const wiersze = await odp.json();
+
+    const gotowe = zJsonem({
+      raport,
+      okres,
+      stan_na: new Date().toISOString(),
+      zrodlo: 'https://mojaserowarnia.pl/boty-ai',
+      licencja: 'CC BY 4.0',
+      wierszy: Array.isArray(wiersze) ? wiersze.length : 0,
+      dane: wiersze,
+    }, CACHE_SEKUND);
+
+    ctx.waitUntil(cache.put(new Request(kluczUrl), gotowe.clone()));
+    return gotowe;
+  } catch (e) {
+    // Treść błędu z bazy NIE wychodzi na zewnątrz — do logu, nie do odpowiedzi.
+    console.warn(`boty-ai: raport ${raport}/${okres} nie powiodl sie —`, e.message);
+    return zJsonem({ blad: 'nie udalo sie pobrac danych' }, 60);
+  }
 }
