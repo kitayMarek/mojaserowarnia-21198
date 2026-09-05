@@ -13,6 +13,11 @@
 # jako ostrzezenie), a reszty botow nie ma po co dlawic na statycznych plikach.
 # Gdyby kiedys bylo trzeba - Bing Webmaster Tools ma wlasne sterowanie tempem.
 
+# /wewnetrzne/ jest zakazane we WSZYSTKICH grupach, nie tylko w "*". Powod jest
+# ten sam, co wyzej: bot czyta tylko swoja grupe. Pod tym adresem lezy strona,
+# ktorej nie ma w sitemapie, w llms.txt ani w zadnym linku — zadanie jej
+# pobrania jest wiec dowodem zignorowania tego pliku, a nie przypadkiem.
+
 # === GLOWNE WYSZUKIWARKI ===
 User-agent: Googlebot
 User-agent: Googlebot-Image
@@ -27,6 +32,7 @@ Disallow: /auth
 Disallow: /api/
 Disallow: /admin
 Disallow: /settings
+Disallow: /wewnetrzne/
 
 # === BOTY SPOLECZNOSCIOWE (podglady linkow) ===
 # Te boty dostaja statyczne mirrory przez .htaccess, wiec czytaja og:image.
@@ -44,6 +50,7 @@ Disallow: /auth
 Disallow: /api/
 Disallow: /admin
 Disallow: /settings
+Disallow: /wewnetrzne/
 
 # === BOTY AI / LLM ===
 # Swiadomie wpuszczamy: cytowanie w odpowiedziach LLM jest dla tego serwisu
@@ -78,6 +85,7 @@ Disallow: /auth
 Disallow: /api/
 Disallow: /admin
 Disallow: /settings
+Disallow: /wewnetrzne/
 
 # === POZOSTALE BOTY ===
 User-agent: *
@@ -87,6 +95,7 @@ Disallow: /auth
 Disallow: /api/
 Disallow: /admin
 Disallow: /settings
+Disallow: /wewnetrzne/
 
 # === SITEMAP ===
 Sitemap: https://mojaserowarnia.pl/sitemap.xml
