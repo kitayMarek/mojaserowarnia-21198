@@ -81,7 +81,7 @@ AS $$
     WHEN _sciezka = '/'
       OR _sciezka ~* '^/(przepisy|kultury|prawo|poradnik|poradniki|pasze|serowarnie|przepisy-kulinarne)'
       OR _sciezka ~* '\.html$'
-      OR _sciezka ~* '^/(baza-kultur|slownik|mleko-do-sera|nieudany-ser|solenie-sera|wedzenie-sera|woskowanie-sera|dojrzewalnia-z-lodowki|bakterie-kultury|zamienniki-kultur|kto-produkuje-kultury|porownywarka-kultur|sery-wege|klasyka-serowarstwa|klecki-jakosc-mleka|licznerski|encyklopedia-serowarstwo|serowarstwo-staropolskie|serwatka-dla-zwierzat|wady-mleka-a-wady-sera|organizacja-serowarni|chlorek-wapnia-do-mleka|sila-podpuszczki|gdzie-kupic-podpuszczke|etykieta-rhd|faktura-vat-rr|kalkulator)')
+      OR _sciezka ~* '^/(baza-kultur|slownik|mleko-do-sera|nieudany-ser|solenie-sera|wedzenie-sera|woskowanie-sera|dojrzewalnia-z-lodowki|bakterie-kultury|zamienniki-kultur|kto-produkuje-kultury|porownywarka-kultur|sery-wege|klasyka-serowarstwa|klecki-jakosc-mleka|licznerski|encyklopedia-serowarstwo|serowarstwo-staropolskie|serwatka-dla-zwierzat|wady-mleka-a-wady-sera|organizacja-serowarni|chlorek-wapnia-do-mleka|sila-podpuszczki|gdzie-kupic-podpuszczke|etykieta-rhd|faktura-vat-rr|kalkulator)'
       THEN 'tresc'
 
     ELSE 'inne'
