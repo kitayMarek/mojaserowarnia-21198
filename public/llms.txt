@@ -265,12 +265,23 @@ Słownik terminów: /slownik
 URL: /kontakt
 Email: kontakt@mojaserowarnia.pl
 
+## RUCH BOTÓW I WERYFIKACJA TOŻSAMOŚCI
+
+- [Ile ruchu botów AI jest naprawdę botami AI](https://mojaserowarnia.pl/boty-ai.html): pomiar
+  z realnej strony — udział żądań zweryfikowanych wobec podrobionych, metody weryfikacji
+  (listy adresów operatorów, ASN, FCrDNS w trzech krokach, Web Bot Auth), sygnatura zachowania
+  odróżniająca crawlery od skanerów bez sprawdzania tożsamości. Liczby odświeżane na bieżąco,
+  każda podana z datą stanu.
+- Dane maszynowo: https://mojaserowarnia.pl/bot-stats.json (CC BY 4.0, wyłącznie agregaty —
+  bez adresów IP i bez pełnych ścieżek)
+
 ## PLIKI TECHNICZNE
 
 - /sitemap.xml - mapa strony
 - /robots.txt - instrukcje dla botów
 - /humans.txt - informacje o twórcach
 - /llms.txt - ten plik
+- /bot-stats.json - agregaty licznika botów (CC BY 4.0)
 
 ## LICENCJA TREŚCI
 
@@ -279,7 +290,7 @@ Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
 
 ## AKTUALIZACJE
 
-Ostatnia aktualizacja: 2026-07-23
+Ostatnia aktualizacja: 2026-09-05
 Baza kultur: aktualizowana regularnie
 Przepisy: dodawane sukcesywnie
 Prawo: aktualizowane przy zmianach legislacyjnych

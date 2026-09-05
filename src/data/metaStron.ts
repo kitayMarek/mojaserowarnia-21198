@@ -22,6 +22,15 @@ export interface MetaStrony {
 }
 
 export const metaStron: Record<string, MetaStrony> = {
+  "/boty-ai": {
+    // Strona o ZJAWISKU, nie o statystykach serwisu — stad tytul bez nazwy
+    // portalu. Tekst 1:1 z mirrorem public/boty-ai.html, ktory jest szablonem
+    // skladanym przez workera; przy zmianie poprawic OBA miejsca.
+    title: "Ile ruchu botów AI jest naprawdę botami AI",
+    description:
+      "User-Agent to deklaracja, nie tożsamość. Pomiar z realnej strony: ile żądań podających się za boty AI przeszło weryfikację i po czym poznać podszywacza.",
+    mirror: "boty-ai.html",
+  },
   "/prawo/rhd": {
     // Profil odbiorcy (od Marka): małe gospodarstwo szukające dodatkowego dochodu
     // BEZ zakładania działalności. Nie widzi, co zyskuje — widzi papiery. Dlatego

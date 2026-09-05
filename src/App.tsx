@@ -81,6 +81,7 @@ const SystemEwidencji = lazy(() => import("./pages/SystemEwidencji"));
 const Wiadomosci = lazy(() => import("./pages/Wiadomosci"));
 const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialMedia"));
 const Slownik = lazy(() => import("./pages/Slownik"));
+const BotyAi = lazy(() => import("./pages/BotyAi"));
 const MojeListy = lazy(() => import("./pages/MojeListy"));
 const KulturyMezofilne = lazy(() => import("./pages/KulturyMezofilne"));
 const KulturyTermofilne = lazy(() => import("./pages/KulturyTermofilne"));
@@ -192,6 +193,7 @@ const App = () => (
             <Route path="/wiadomosci" element={<Wiadomosci />} />
             <Route path="/automatyzacja-social-media" element={<AutomatyzacjaSocialMedia />} />
             <Route path="/slownik" element={<Slownik />} />
+            <Route path="/boty-ai" element={<BotyAi />} />
             </Route>
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />

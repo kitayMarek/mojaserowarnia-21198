@@ -20,6 +20,12 @@
 # CORS "*" pozwala fermly.pl pobierać te dane po stronie klienta; dane i tak
 # są publiczne. Tam obejmowało to każdy .json/.txt/.xml — tu wymieniam
 # pliki po nazwie, bo składnia _headers dopasowuje prefiks ścieżki, nie sufiks.
+# /bot-stats.json i /boty-ai.html CELOWO NIE MAJA TU WPISU. Obie sciezki stoja
+# w `run_worker_first` w wrangler.jsonc, wiec odpowiada na nie worker
+# (worker/boty-ai.js) i sam ustawia content-type, CORS oraz cache. Wpis w tym
+# pliku bylby martwa konfiguracja, ktora przy pierwszej zmianie wprowadzi
+# w blad — bo wyglada, jakby dzialal.
+
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
