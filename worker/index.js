@@ -189,7 +189,7 @@ Disallow: /
     //     występują. Wszystko poza tym spadało do kroku 5, czyli dostawało
     //     skorupę React z kodem 200.
     //
-    //     ZMIERZONE 06.09.2026 na produkcji: /wp-login.php, /graphql, /wp-admin/
+    //     ZMIERZONE 05.09.2026 na produkcji: /wp-login.php, /graphql, /wp-admin/
     //     i /actuator/health zwracały 200 i 14 252 B. Skutki były trzy:
     //       • soft 404 — dla Google sygnał niskiej jakości serwisu,
     //       • skaner dostaje 200 i wnioskuje, że WordPress tu stoi, więc wraca,
