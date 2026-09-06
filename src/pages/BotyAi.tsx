@@ -265,6 +265,64 @@ const BotyAi = () => {
           </div>
         )}
 
+        {/* NAJCZESTSZA REAKCJA CZYTELNIKOW, nie hipoteza: pod postem
+            zapowiadajacym te strone trzy osoby niezaleznie napisaly wariant
+            "przeciez to juz jest w Cloudflare / istnieja narzedzia / kiedys
+            wystarczal webalizer". Wszyscy slysza "statystyki botow" i mysla
+            "panel z liczbami" — a panel maja. Dlatego odpowiedz stoi WYSOKO
+            i jest zawsze widoczna, a nie schowana w module do rozwiniecia. */}
+        <Card className="mb-8 border-amber-300">
+          <CardHeader>
+            <CardTitle>„Przecież mam to w Cloudflare"</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p>
+              To najczęstsza reakcja na tę stronę i trzeba ją potraktować poważnie, bo jest
+              rozsądna: panele hostingowe pokazują ruch botów AI od dawna, więc po co liczyć
+              to samo drugi raz.
+            </p>
+            <p>
+              <strong>Po to, że one liczą deklaracje.</strong> 3 września 2026 sprawdziliśmy,
+              ile taki licznik jest wart. Dwa żądania wysłane zwykłym poleceniem{" "}
+              <code>curl</code> z polskiego łącza, z nagłówkiem podającym się za
+              PerplexityBota, podbiły w panelu Cloudflare licznik „AI Answer retrievals"
+              z 16 na 18, a samego Perplexity z 5 na 7.{" "}
+              <strong>Żadne z tych dwóch żądań nie przyszło od Perplexity.</strong>
+            </p>
+            <p className="font-medium">
+              Nie trzeba nam wierzyć — to zajmuje dwie minuty i można powtórzyć na własnej
+              domenie. Wystarczy jedno polecenie z podmienionym nagłówkiem i spojrzenie
+              w panel przed i po.
+            </p>
+            <p>
+              To nie jest zarzut o nieuczciwość. Sprawdzenie tożsamości kosztuje zapytania
+              sieciowe przy każdym żądaniu, a przyjęcie deklaracji jest darmowe — przy skali
+              takiego dostawcy to realna różnica. Skutek jest jednak taki, że{" "}
+              <strong>licznik mierzy, co bot o sobie napisał, a nie kto naprawdę przyszedł</strong>.
+              {prawda !== null && (
+                <> W naszym pomiarze rozjazd wynosi{" "}
+                  <strong>{ulamek(Math.round(10 * (100 - prawda)) / 10)}%</strong> wśród
+                  żądań, które dało się rozstrzygnąć.</>
+              )}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Pada też regularnie, że to kwestia konfiguracji — że trzeba „oddać domenę
+              w całości". Nie w tym rzecz: ten serwis stoi za Cloudflare w stu procentach
+              i panel dalej przypisuje żądanie operatorowi na podstawie samego podpisu.
+            </p>
+
+            <h3 className="font-semibold pt-2">„Kiedyś do tego wystarczał zwykły analizator logów"</h3>
+            <p>
+              Wystarczał i nadal wystarcza — do liczenia. Narzędzia rozbijające ruch po
+              nagłówku User-Agent istnieją od lat dziewięćdziesiątych i robią to dobrze.{" "}
+              <strong>Różnica nie polega na tym, że liczymy, tylko na tym, że sprawdzamy.</strong>{" "}
+              Analizator sprzed dwudziestu lat pokaże wizyty GPTBota; kafelki wyżej pokazują,
+              ile z nich przeszło weryfikację tożsamości. To są dwie różne liczby i tylko
+              jedna z nich nadaje się pod decyzje.
+            </p>
+          </CardContent>
+        </Card>
+
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <p className="text-sm text-muted-foreground">
             Wybierz, co chcesz zobaczyć. Każda sekcja ma własny adres — da się ją podlinkować.
