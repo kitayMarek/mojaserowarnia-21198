@@ -388,6 +388,21 @@ const RAPORTY = {
 
 const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
 
+/**
+ * Wersja ksztaltu raportow, wchodzaca do klucza cache.
+ *
+ * PO CO: klucz cache jest znormalizowany (?raport=X&okres=Y), zeby dwa zapisy
+ * tych samych parametrow w innej kolejnosci nie robily dwoch wpisow. Skutek
+ * uboczny: nie da sie wymusic odswiezenia doklejeniem czegokolwiek do adresu.
+ * Przy zwyklej zmianie DANYCH to nie problem — godzina i tak minie. Przy
+ * zmianie KSZTALTU raportu owszem: 6 wrzesnia poprawka funkcji
+ * pub_raport_czego_nie_bylo zeszla z 41 wierszy smiecia do 1, a brzeg przez
+ * godzine podawal stara wersje i wygladalo to na niezastosowana migracje.
+ *
+ * Podbic przy kazdej zmianie kolumn albo filtrow po stronie bazy.
+ */
+const WERSJA_RAPORTOW = 2;
+
 export async function raportJson(request, env, ctx) {
   const url = new URL(request.url);
   const raport = url.searchParams.get('raport') ?? '';
@@ -406,7 +421,7 @@ export async function raportJson(request, env, ctx) {
 
   // Klucz cache w postaci znormalizowanej: ?okres=7d&raport=X i ?raport=X&okres=7d
   // to ma być JEDEN wpis, a nie dwa.
-  const kluczUrl = `${url.origin}/api/raport?raport=${raport}&okres=${okres}`;
+  const kluczUrl = `${url.origin}/api/raport?raport=${raport}&okres=${okres}&w=${WERSJA_RAPORTOW}`;
   const cache = caches.default;
   const zCache = await cache.match(new Request(kluczUrl));
   if (zCache) return zCache;

@@ -21,6 +21,14 @@
   /kalkulator/ /narzedzia 301
 # /wege → /wege/ (mirror leży w katalogu, adres kanoniczny ma ukośnik)
   /wege /wege/ 301
+# Googlebot pytal o /przepisy/do-twarogu.html i dostawal 404 — znalazl to
+# raport "czego szukali, a nie znalezli" 6 wrzesnia 2026, na pierwszym czystym
+# uruchomieniu. Zaden nasz link tak nie brzmi (sprawdzone: w public/przepisy/
+# nie ma ani jednego odnosnika wzglednego), wiec adres wzial sie z zewnatrz
+# albo z domyslu wyszukiwarki. Prawdziwa strona lezy w /kultury/.
+  /przepisy/do-twarogu.html /kultury/do-twarogu.html 301
+  /przepisy/do-twarogu /kultury/do-twarogu.html 301
+
 # /przepis/<id> (liczba pojedyncza) → /przepisy/<id>
   /przepis/* /przepisy/:splat 301
 # Przewodnik o kulturach scalony z /bakterie-kultury (2026-09-01). Powod: obie
