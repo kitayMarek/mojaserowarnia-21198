@@ -112,12 +112,25 @@ const BOTY = [
 //      zawiera "amazon.com", ale nalezy do atakujacego.
 //   3. forward DNS na tej nazwie -> musi wrocic ten sam adres zrodlowy
 // Bez kroku 3 wystarczyloby spreparowac wlasny rekord PTR.
+//
+// ⚠ WPISUJ TU WYLACZNIE DOMENY SPRAWDZONE PELNYM OBIEGIEM. Zly sufiks nie
+// powoduje bledu — powoduje, ze KAZDY prawdziwy bot danego operatora nie
+// przechodzi kroku 2 i zostaje publicznie oznaczony jako podszywacz.
+//
+// Kosztowalo nas to 6 wrzesnia 2026 dwadziescia cztery falszywe oskarzenia
+// Amazona. Sufiks brzmial `.crawl.amazon.com` — domena, ktora NIE ISTNIEJE
+// (NXDOMAIN). Amazon dokumentuje `crawl.amazonbot.amazon` i to ona przechodzi
+// pelny obieg:
+//     23.22.35.162                        -> PTR -> 23-22-35-162.crawl.amazonbot.amazon
+//     23-22-35-162.crawl.amazonbot.amazon -> A   -> 23.22.35.162
+//
+// CCBot i Bytespider WYPADAJA z tej mapy do czasu takiego samego sprawdzenia.
+// `.crawl.bytedance.com` rowniez nie rozwiazuje sie jako nazwa, a dla Common
+// Crawl nie znalazlem udokumentowanego schematu PTR. Brak metody daje
+// „niesprawdzone" — i to jest uczciwa odpowiedz. Zly sufiks daje „falszowane",
+// czyli zarzut wobec cudzej firmy postawiony na podstawie naszej literowki.
 const FCRDNS_SUFIKSY = {
-  Amazonbot: ['.crawl.amazon.com'],
-  CCBot: ['.commoncrawl.org'],
-  // Bytespider jest najczesciej podszywanym botem z calej listy, wiec sufiksy
-  // sa waskie i nie obejmuja calej domeny bytedance.com.
-  Bytespider: ['.crawl.bytedance.com', '.bytedance.com'],
+  Amazonbot: ['.crawl.amazonbot.amazon'],
 };
 
 // Meta nie publikuje list w formacie prefixes ani nie wystawia PTR-ow —

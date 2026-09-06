@@ -611,6 +611,27 @@ const Kronika = () => (
       sformułowanie to weryfikowalna obserwacja, drugie byłoby zarzutem wobec podmiotu,
       którego nie znamy.
     </p>
+    <h3 className="font-semibold pt-2">6 września 2026 — przez trzy dni oskarżaliśmy Amazona o to, co robiliśmy sami</h3>
+    <p>
+      Weryfikacja przez odwrotny DNS sprawdza, czy nazwa hosta kończy się domeną
+      operatora. Dla Amazonbota mieliśmy wpisane <code>crawl.amazon.com</code> — domenę,
+      która <strong>nie istnieje</strong>. Amazon dokumentuje{" "}
+      <code>crawl.amazonbot.amazon</code>. Każde żądanie prawdziwego Amazonbota odpadało
+      więc na drugim kroku i trafiało do tabeli jako podszycie.
+    </p>
+    <p>
+      Sygnał był w danych od początku: ta metoda miała bilans <strong>zero potwierdzeń
+      na dwadzieścia pięć sprawdzeń</strong>. Odnotowaliśmy to dzień wcześniej i opisaliśmy
+      ją jako niesprawdzoną — zabrakło wniosku, że skoro jest niesprawdzona, to jej „nie"
+      też nie nadaje się do publikacji.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Werdyktów nie dało się przeliczyć, bo celowo nie zapisujemy adresów IP — bez adresu
+      nie ma jak ponowić zapytania DNS. Zostały cofnięte do „niesprawdzone". Ta sama
+      zasada, którą stosujemy do cudzych liczb: pomiar, o którym wiadomo, że był błędny,
+      przestaje być dowodem.
+    </p>
+
     <h3 className="font-semibold pt-2">5 września 2026 — koniec z odpowiedzią „200 OK" na pytanie o cudzy panel</h3>
     <p>
       Analiza tej serii ujawniła, że część pytań o nieistniejące pliki dostawała od nas kod
@@ -640,10 +661,12 @@ const Metodologia = ({ wiersze, zZapisana, technicznie }: {
       <li>zapytaj o adres tej nazwy i sprawdź, czy wraca ten sam adres, od którego zaczęliśmy.</li>
     </ol>
     <p className="text-sm">
-      <strong>Uczciwe zastrzeżenie:</strong> w naszym pomiarze ta metoda nie potwierdziła
-      jeszcze nikogo — same odmowy. Może działać poprawnie i trafiać wyłącznie na
-      podszywaczy, ale dopóki nie potwierdzi żadnego prawdziwego bota, traktujemy ją jako
-      <em> zaimplementowaną, lecz niesprawdzoną</em>, i nie opieramy na niej wniosków.
+      <strong>Na tej metodzie zaliczyliśmy własny błąd pomiarowy.</strong> Przez pierwsze
+      dni sprawdzaliśmy dla Amazonbota domenę, która nie istnieje, więc każde prawdziwe
+      żądanie tego bota odpadało na kroku 2 i było zapisywane jako podszycie — przez trzy
+      doby ta strona pokazywała Amazonbota jako najczęściej podszywanego bota w zbiorze.
+      Poprawione 6 września 2026, wcześniejsze werdykty tej metody wycofane do
+      „niesprawdzone". Szczegóły w kronice zdarzeń.
     </p>
     <p>
       <strong>Podpis kryptograficzny (Web Bot Auth).</strong> Powstający standard, docelowo

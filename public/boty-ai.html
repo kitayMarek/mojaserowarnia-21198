@@ -249,6 +249,14 @@
 
 <p>Analiza powyższej serii ujawniła, że część pytań o nieistniejące pliki dostawała od nas kod 200 i stronę aplikacji, zamiast błędu 404. Skaner odczytuje to jako „coś tu jest" i wraca. Zostało poprawione — a przy okazji okazało się, że <strong>zaniżało to nasz własny wskaźnik błędów</strong>, czyli jeden z sygnałów, którymi rozpoznajemy skanowanie. Serwer psuł pomiar, który sam zasilał.</p>
 
+<h3>6 września 2026 — przez trzy dni oskarżaliśmy Amazona o to, co robiliśmy sami</h3>
+
+<p>Weryfikacja przez odwrotny DNS sprawdza, czy nazwa hosta kończy się domeną operatora. Dla Amazonbota mieliśmy wpisane <code>crawl.amazon.com</code> — domenę, która <strong>nie istnieje</strong>. Amazon dokumentuje <code>crawl.amazonbot.amazon</code>. Skutek: każde żądanie prawdziwego Amazonbota odpadało na drugim kroku i trafiało do tabeli jako podszycie. Przez trzy doby ta strona pokazywała Amazonbota jako najczęściej podszywanego bota w całym zbiorze.</p>
+
+<p>Sygnał był w danych od początku: metoda odwrotnego DNS miała bilans <strong>zero potwierdzeń na dwadzieścia pięć sprawdzeń</strong>. Odnotowaliśmy to dzień wcześniej i opisaliśmy tę metodę jako niesprawdzoną — ale zabrakło wniosku, że skoro jest niesprawdzona, to jej „nie" też nie nadaje się do publikacji.</p>
+
+<p>Werdyktów nie dało się przeliczyć, bo <strong>celowo nie zapisujemy adresów IP</strong> — bez adresu nie ma jak ponowić zapytania DNS. Zostały więc cofnięte do „niesprawdzone". To jest ta sama zasada, którą stosujemy do cudzych liczb: pomiar, o którym wiadomo, że był błędny, przestaje być dowodem.</p>
+
 <h2>Jak to jest liczone</h2>
 
 <p>Każde żądanie bota zapisujemy razem z wynikiem próby rozstrzygnięcia jego tożsamości. Metody, w kolejności pewności:</p>
@@ -266,7 +274,7 @@
   <li>sprawdź, czy ta nazwa <strong>kończy się</strong> domeną operatora — nie „zawiera jej", bo <code>googlebot.com.przyklad.pl</code> zawiera, a nie jest,</li>
   <li>zapytaj o adres tej nazwy i sprawdź, czy wraca ten sam adres, od którego zaczęliśmy.</li>
 </ol>
-<p>Bez kroku trzeciego wystarczyłoby ustawić sobie dowolny wpis odwrotny. <strong>Uczciwe zastrzeżenie: w naszym pomiarze ta metoda nie potwierdziła jeszcze nikogo</strong> — same odmowy. Może działać poprawnie i trafiać wyłącznie na podszywaczy, ale dopóki nie potwierdzi żadnego prawdziwego bota, traktujemy ją jako <em>zaimplementowaną, lecz niesprawdzoną</em>, i nie opieramy na niej wniosków.</p>
+<p>Bez kroku trzeciego wystarczyłoby ustawić sobie dowolny wpis odwrotny. <strong>I właśnie na tej metodzie zaliczyliśmy własny błąd pomiarowy</strong> — opisany niżej w kronice. Przez pierwsze dni sprawdzaliśmy dla Amazonbota domenę, która nie istnieje, więc każde prawdziwe żądanie tego bota odpadało na kroku 2 i było zapisywane jako podszycie. Poprawione 6 września 2026, a wcześniejsze werdykty tej metody wycofaliśmy do „niesprawdzone".</p>
 
 <h3>Podpis kryptograficzny (Web Bot Auth)</h3>
 <p>Powstający standard, w którym bot podpisuje żądanie kluczem. Docelowo najlepsza metoda z możliwych. Na razie <strong>tylko odnotowujemy obecność nagłówków podpisu — nie sprawdzamy ich poprawności</strong>, więc nie jest to weryfikacja i nie liczymy jej jako takiej. Zapisujemy, żeby mieć dane historyczne, kiedy standard się przyjmie.</p>
