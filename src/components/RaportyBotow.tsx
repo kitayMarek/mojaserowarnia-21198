@@ -145,7 +145,7 @@ const RAPORTY: Raport[] = [
   {
     id: "czego_nie_bylo",
     nazwa: "Czego szukali, a nie znaleźli",
-    opis: "Adresy, o które pytały ZWERYFIKOWANE boty i dostały 404. Każdy wiersz to kandydat na nową stronę albo na przekierowanie. Zgadywanki skanerów są tu odsiane — to lista braków w treści, a nie lista prób włamania.",
+    opis: "Adresy TREŚCI, o które pytały zweryfikowane boty i dostały 404. Każdy wiersz to kandydat na nową stronę albo na przekierowanie. Świadomie pomijamy dwie rzeczy: zgadywanki skanerów oraz żądania o nieaktualne pliki budowania — te dostają od nas kod 410 („już tego nie ma”), bo każde wdrożenie zmienia ich adresy, a crawler wraca po stare. To normalne zużycie budżetu indeksowania, nie luka w treści i nie próba włamania.",
     domyslny: "30d",
     kolumny: [
       { k: "sciezka", n: "Adres", typ: "tekst" },
@@ -153,7 +153,7 @@ const RAPORTY: Raport[] = [
       { k: "boty", n: "Boty", typ: "lista" },
       { k: "ostatnio", n: "Ostatnio", typ: "data" },
     ],
-    pusto: "Żaden zweryfikowany bot nie szukał u nas czegoś, czego nie ma — czyli znajdują wszystko, po co przychodzą.",
+    pusto: "Żaden zweryfikowany bot nie szukał u nas treści, której nie ma — czyli znajdują wszystko, po co przychodzą. Pustka jest tu dobrą wiadomością.",
   },
   {
     id: "porownanie",
