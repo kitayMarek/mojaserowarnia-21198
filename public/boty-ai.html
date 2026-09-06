@@ -9,7 +9,7 @@
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="Ile ruchu botów AI jest naprawdę botami AI" />
-  <meta property="og:description" content="Pomiar z realnej strony: ile żądań podających się za boty AI przeszło weryfikację, a ile było podrobionych. Wyszukiwarek nie podrabia nikt." />
+  <meta property="og:description" content="Pomiar z realnej strony: ile żądań podających się za boty AI przeszło sprawdzenie tożsamości, a ile było podrobionych — i po czym poznać podszywacza bez list adresów." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mojaserowarnia.pl/boty-ai.html" />
   <meta property="og:site_name" content="Moja Serowarnia" />
@@ -158,22 +158,11 @@
 
 <h3>Rzecz, która rzuca się w oczy najmocniej</h3>
 
-<p>Żądań podających się za <strong>wyszukiwarkę</strong>, które okazały się podrobione, jest w tym pomiarze <strong>{{falszowane_wyszukiwarek}}</strong>. Podrabia się boty AI — nie wyszukiwarki.</p>
+<p>Podszywanie zdarza się <strong>każdej</strong> rozpoznawalnej nazwie, także wyszukiwarkom — w tym pomiarze żądań podających się za wyszukiwarkę i zdemaskowanych jest <strong>{{falszowane_wyszukiwarek}}</strong>. Nieporównywalne są proporcje: przy wyszukiwarkach podrobiona jest mniejszość, przy części botów AI nie ma ani jednego potwierdzonego żądania. Aktualny stan widać w tabeli wyżej.</p>
 
-<p>Powód jest prosty i jest w istocie tezą całej tej strony. <strong>Googlebota strony weryfikują od dwudziestu lat</strong>: mechanizm sprawdzania jest opisany w dokumentacji Google, wbudowany w serwery i powszechnie stosowany. Podszycie się pod Googlebota nic nie daje, bo zostanie wykryte. <strong>Botów AI nie weryfikuje prawie nikt</strong> — więc podszycie się pod nie działa.</p>
+<p>Powód jest prosty i jest w istocie tezą całej tej strony. <strong>Googlebota strony weryfikują od dwudziestu lat</strong>: mechanizm sprawdzania jest opisany w dokumentacji Google, wbudowany w serwery i powszechnie stosowany. Podszycie się pod niego <em>zostaje wykryte</em> — dokładnie tak, jak te żądania wyżej. <strong>Botów AI nie weryfikuje prawie nikt</strong>, więc podszycie się pod nie po prostu działa i nikt go nie liczy.</p>
 
 <p>To nie jest różnica w technologii. To różnica w tym, ile lat dana nazwa jest sprawdzana.</p>
-
-<h3>Pod kogo się podszywano</h3>
-
-<p>Ta tabela liczy wyłącznie żądania, przy których weryfikacja <strong>zaprzeczyła</strong> deklarowanej tożsamości. Liczba przy nazwie bota mówi, ile razy ktoś obcy użył tej nazwy — jest miarą jej rozpoznawalności, a nie zarzutem wobec operatora.</p>
-
-<table>
-  <thead><tr><th>Bot</th><th>Operator</th><th>Fałszowane</th><th>Z ilu sieci</th></tr></thead>
-  <tbody>
-{{tabela_pod_kogo}}
-  </tbody>
-</table>
 
 <h2>Crawler czy pytanie konkretnego człowieka</h2>
 

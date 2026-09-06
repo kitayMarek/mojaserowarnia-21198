@@ -478,13 +478,17 @@ const KtoTuChodzi = ({ wiersze, wyszukiwarki }: {
     {wyszukiwarki && (
       <>
         <p>
-          Żądań podających się za <strong>wyszukiwarkę</strong>, które okazały się podrobione,
-          jest w tym pomiarze <strong>{liczba(wyszukiwarki.falszowane)}</strong>.
+          Podszywanie zdarza się <strong>każdej</strong> rozpoznawalnej nazwie, także
+          wyszukiwarkom — zdemaskowanych żądań podających się za wyszukiwarkę jest w tym
+          pomiarze <strong>{liczba(wyszukiwarki.falszowane)}</strong>. Nieporównywalne są
+          proporcje: przy wyszukiwarkach podrobiona jest mniejszość, przy części botów AI
+          nie ma ani jednego potwierdzonego żądania.
         </p>
         <p>
           <strong>Googlebota strony weryfikują od dwudziestu lat</strong> — mechanizm jest
           opisany w dokumentacji, wbudowany w serwery i powszechnie stosowany, więc podszycie
-          się pod niego nic nie daje. Botów AI nie weryfikuje prawie nikt. To nie różnica
+          się pod niego <em>zostaje wykryte</em>. Botów AI nie weryfikuje prawie nikt, więc
+          podszycie się pod nie po prostu działa i nikt go nie liczy. To nie różnica
           w technologii, tylko w tym, ile lat dana nazwa jest sprawdzana.
         </p>
       </>
