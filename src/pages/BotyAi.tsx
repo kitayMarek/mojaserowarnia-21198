@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
 import RaportyBotow from "@/components/RaportyBotow";
+import SprawdzUSiebie from "@/components/SprawdzUSiebie";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -322,6 +323,8 @@ const BotyAi = () => {
             </p>
           </CardContent>
         </Card>
+
+        <SprawdzUSiebie />
 
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <p className="text-sm text-muted-foreground">

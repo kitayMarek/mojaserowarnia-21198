@@ -123,6 +123,25 @@
 
 <p>Pada też regularnie, że to kwestia konfiguracji — że trzeba „oddać domenę w całości". Nie w tym rzecz: ten serwis stoi za Cloudflare w stu procentach i panel dalej przypisuje żądanie operatorowi na podstawie samego podpisu.</p>
 
+<h3>Sprawdź to u siebie</h3>
+
+<p>Nie trzeba nam wierzyć na słowo. Na stronie interaktywnej jest generator, który składa gotowe polecenie dla podanej domeny; tutaj wersja z adresem zastępczym. Wyśle ona na <strong>Twoją własną stronę</strong> dwa żądania podpisane jako PerplexityBot:</p>
+
+<pre>curl -s -o /dev/null -w "%{http_code}
+" -A "Mozilla/5.0 (compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)" https://twoja-domena.pl/</pre>
+
+<p>Zapisz najpierw obecną wartość licznika ruchu AI w swoim panelu, uruchom polecenie dwa razy, odczekaj kilka minut i odśwież.</p>
+
+<p><strong>Co powinieneś zobaczyć:</strong> nic. Żadne z tych żądań nie przyszło od Perplexity — przyszły z Twojego własnego komputera. <strong>Co zobaczysz:</strong> licznik wyższy o dwa, przypisany do Perplexity.</p>
+
+<p>Uruchamiaj to wyłącznie na stronie, którą sam prowadzisz. Dwa żądania nikomu nie zaszkodzą, ale wysyłanie podrobionych podpisów pod cudze serwery to już nie jest sprawdzanie, tylko dokładanie się do problemu.</p>
+
+<h3>Dlaczego nie robimy tego za Ciebie</h3>
+
+<p>Bo <strong>nie umiemy sprawdzić, czy podana domena należy do osoby, która ją wpisała</strong>. Gdyby to pole wysyłało żądania z naszego serwera, każdy mógłby wpisać cudzy adres i pod cudzą stronę poleciałby podrobiony ruch — z naszego adresu.</p>
+
+<p>To jest <em>ten sam problem</em>, o którym jest cała ta strona. Nie możemy zweryfikować tożsamości, więc nie działamy na podstawie samej deklaracji. Panele statystyk stoją przed dokładnie tym samym pytaniem — i odpowiadają na nie inaczej.</p>
+
 <h3>„Kiedyś do tego wystarczał zwykły analizator logów"</h3>
 
 <p>Wystarczał i nadal wystarcza — do liczenia. Narzędzia rozbijające ruch po nagłówku User-Agent istnieją od lat dziewięćdziesiątych i robią to dobrze. <strong>Różnica nie polega na tym, że liczymy, tylko na tym, że sprawdzamy.</strong> Analizator sprzed dwudziestu lat pokaże wizyty GPTBota; tabela wyżej pokazuje, ile z nich przeszło weryfikację tożsamości. To są dwie różne liczby i tylko jedna z nich nadaje się pod decyzje.</p>
