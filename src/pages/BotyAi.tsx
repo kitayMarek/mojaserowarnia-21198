@@ -737,6 +737,15 @@ const BezPodpisu = ({ liczba_ }: { liczba_?: number }) => (
       skaner, jest gotową mapą dla następnego.
     </p>
     <p>
+      <strong>Nie porównuj tej liczby z panelem swojego hostingu.</strong> Nasz licznik widzi
+      wyłącznie żądania, które trafiają do naszego kodu. Pliki leżące gotowe na dysku —
+      obrazki, arkusze stylów, skrypty, favikona — oddaje warstwa serwera stojąca przed nim,
+      i tego ruchu tu nie ma. Panel hostingu policzy wszystko, my policzymy mniej. Różnica
+      nie znaczy, że któryś licznik się myli: liczą co innego. Sprawdziliśmy to
+      doświadczalnie — żądanie o mapę serwisu dociera do naszego kodu, żądanie o favikonę
+      nie.
+    </p>
+    <p>
       <strong>To nadal nie jest licznik ludzi.</strong> Przeglądarka wysyła nagłówki, których
       prosty klient HTTP nie wysyła — metadane żądania albo przynajmniej preferowany język.
       Żądanie, które je ma, nie trafia do tej tabeli w ogóle. Granica jest arbitralna i może
