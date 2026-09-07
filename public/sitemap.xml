@@ -823,7 +823,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/boty-ai.html</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/en/ai-bots.html</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

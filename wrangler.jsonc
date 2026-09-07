@@ -44,6 +44,8 @@
     // /bot-stats.json — pliku nie ma na dysku, sklada go worker z tych samych
     //   danych. Wpis jest tu dla jawnosci: obie sciezki strony /boty-ai stoja
     //   obok siebie, zamiast jednej w konfiguracji i drugiej ukrytej w kodzie.
+    // /en/ai-bots.html — to samo co /boty-ai.html, tylko po angielsku: rowniez
+    //   szablon z zetonami, wiec bez tego wpisu poszlaby w swiat surowa.
     // /sitemap.xml i /llms.txt — DOPISANE 7.09.2026, zeby dalo sie je ZMIERZYC.
     // Oba fizycznie leza w dist/, wiec warstwa assetow oddawala je bez
     // uruchamiania workera i zapiszWizyteBota nigdy sie nie wykonywalo.
@@ -52,7 +54,7 @@
     //
     // Kosztowalo to jeden falszywy wniosek o llms.txt ("konwencja bez pokrycia")
     // i pol dnia podejrzen, ze sitemapa jest zle zgloszona.
-    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/bot-stats.json", "/sitemap.xml", "/llms.txt"]
+    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/en/ai-bots.html", "/bot-stats.json", "/sitemap.xml", "/llms.txt"]
   },
 
   // Domena wlasciwa.

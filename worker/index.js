@@ -17,7 +17,7 @@
  */
 
 import { zapiszWizyteBota } from './wizyty-botow.js';
-import { feedJson, mirrorHtml, raportJson } from './boty-ai.js';
+import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -239,6 +239,24 @@ Disallow: /
         }
       }
       // Człowiek na /boty-ai leci dalej i dostaje trasę React (reguła 5).
+    }
+
+    // 1b2b) Angielska wersja tej samej strony. Skladana z TYCH SAMYCH widokow
+    //       pub_*, tylko przez slownik JEZYKI.en — liczby dostaja angielskie
+    //       separatory, a etykiety z bazy angielskie nazwy.
+    //
+    //       Roznica wobec wersji polskiej: NIE MA tu trasy React, wiec mirror
+    //       dostaje kazdy — czlowiek i bot. To jest swiadomy wybor, nie brak:
+    //       cala wartosc tej strony to tekst i tabele, a interaktywne raporty
+    //       zostaja po polskiej stronie, do ktorej stad prowadzi odsylacz.
+    //       Dzieki temu nie ma dwoch kompletów tresci do utrzymania.
+    if (bezUkosnika === '/en/ai-bots' || url.pathname === '/en/ai-bots.html') {
+      const szablon = await zasob(env, url.origin, '/en/ai-bots.html');
+      if (szablon.status === 200) {
+        const gotowe = await mirrorHtml(request, env, ctx, szablon, JEZYKI.en);
+        return url.pathname === '/en/ai-bots.html' ? gotowe : oznaczMirror(gotowe);
+      }
+      // Gdyby pliku zabraklo — lecimy dalej i konczy sie zwyklym 404.
     }
 
     // 1b3) Pliki mierzone — oddajemy zawartosc, a licznik zapisze wizyte

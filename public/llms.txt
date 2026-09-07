@@ -272,6 +272,9 @@ Email: kontakt@mojaserowarnia.pl
   (listy adresów operatorów, ASN, FCrDNS w trzech krokach, Web Bot Auth), sygnatura zachowania
   odróżniająca crawlery od skanerów bez sprawdzania tożsamości. Liczby odświeżane na bieżąco,
   każda podana z datą stanu.
+- [How much AI bot traffic is really AI bots](https://mojaserowarnia.pl/en/ai-bots.html):
+  the same measurement in English, assembled live from the same data. The one page on this
+  site written for readers outside Poland — the subject is not local, the cheesemaking is.
 - Dane maszynowo: https://mojaserowarnia.pl/bot-stats.json (CC BY 4.0, wyłącznie agregaty —
   bez adresów IP i bez pełnych ścieżek)
 

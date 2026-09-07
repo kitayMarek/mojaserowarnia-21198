@@ -188,6 +188,21 @@ const BotyAi = () => {
       />
 
       <main className="container mx-auto px-4 pb-16 max-w-4xl">
+        {/* Odsylacz do wersji angielskiej. Zwykly <a>, nie <Link>: wersja EN nie
+            jest trasa React, tylko statyczna strona skladana przez workera z tych
+            samych widokow pub_*. Temat jest globalny, serowarstwo nie — dlatego
+            po angielsku jest ta jedna strona, a nie caly serwis. */}
+        <p className="text-sm text-muted-foreground mb-6">
+          <a
+            href="/en/ai-bots"
+            hrefLang="en"
+            lang="en"
+            className="underline underline-offset-2"
+          >
+            Read this page in English
+          </a>
+        </p>
+
         <p className="text-lg leading-relaxed mb-8">
           Branża sprzedaje raporty widoczności w AI liczone z nagłówka, którego nikt nie
           sprawdza. Ten nagłówek nazywa się <strong>User-Agent</strong> i jest deklaracją,

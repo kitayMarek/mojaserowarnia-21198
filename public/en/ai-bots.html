@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How much AI bot traffic is really AI bots — measured on a live site</title>
+  <meta name="description" content="The User-Agent header is a claim, not an identity. Measured on a live site: how many requests claiming to be GPTBot, ClaudeBot or PerplexityBot actually came from those operators' networks — and how to spot an impostor without checking identity at all." />
+  <link rel="canonical" href="https://mojaserowarnia.pl/en/ai-bots" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="alternate" hreflang="pl" href="https://mojaserowarnia.pl/boty-ai" />
+  <link rel="alternate" hreflang="en" href="https://mojaserowarnia.pl/en/ai-bots" />
+  <link rel="alternate" hreflang="x-default" href="https://mojaserowarnia.pl/boty-ai" />
+
+  <meta property="og:title" content="How much AI bot traffic is really AI bots" />
+  <meta property="og:description" content="Measured on a live site: how many requests claiming to be AI bots passed an identity check, how many were forged — and how to spot an impostor without any address lists." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mojaserowarnia.pl/en/ai-bots.html" />
+  <meta property="og:site_name" content="Moja Serowarnia" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:locale:alternate" content="pl_PL" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="How much AI bot traffic is really AI bots" />
+  <meta name="twitter:description" content="User-Agent is a claim, not an identity. A measurement from a live site, and how to recognise an impostor without checking identity." />
+
+  <!--DEV
+    ANGIELSKA WERSJA /boty-ai. Ten plik jest SZABLONEM — worker podstawia te
+    same zetony z tych samych widokow pub_*, ale przez slownik JEZYKI.en:
+    inne separatory liczb (56.1 zamiast 56,1 — po angielsku przecinek dzieli
+    tysiace, wiec polska pisownia zmienialaby wartosc), inne nazwy miesiecy
+    i przetlumaczone etykiety w tabelach.
+
+    Zetony sa IDENTYCZNE jak w public/boty-ai.html — pelna lista tam.
+    Kotwica notki awaryjnej dla tej wersji to <h2>The number this is about</h2>
+    i musi zgadzac sie z JEZYKI.en.kotwicaAwaryjna w worker/boty-ai.js.
+
+    Zeby worker w ogole zobaczyl ten plik, /en/ai-bots.html jest wpisane
+    w run_worker_first w wrangler.jsonc. Bez tego warstwa assetow oddalaby
+    surowy szablon z widocznym {{proc_calosci}}.
+  -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How much AI bot traffic is really AI bots",
+    "description": "A measurement of how much verified AI bot traffic a real website receives, the methods used to verify crawler identity, and the behavioural signature that separates crawlers from scanners.",
+    "inLanguage": "en",
+    "datePublished": "2026-09-07",
+    "dateModified": "{{stan_na_iso}}",
+    "author": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "mainEntityOfPage": "https://mojaserowarnia.pl/en/ai-bots",
+    "about": [
+      { "@type": "Thing", "name": "Crawler identity verification" },
+      { "@type": "Thing", "name": "Large language model bots" },
+      { "@type": "Thing", "name": "User-Agent spoofing" }
+    ],
+    "translationOfWork": { "@type": "Article", "@id": "https://mojaserowarnia.pl/boty-ai" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Verified bot visit counter — mojaserowarnia.pl",
+    "description": "Aggregated bot traffic: verified versus forged requests, broken down by identity, category and requested path type, plus verification methods. No IP addresses and no full paths.",
+    "inLanguage": "en",
+    "dateModified": "{{stan_na_iso}}",
+    "creator": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "isAccessibleForFree": true,
+    "distribution": [{
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://mojaserowarnia.pl/bot-stats.json"
+    }]
+  }
+  </script>
+</head>
+<body>
+
+<p><a href="https://mojaserowarnia.pl/boty-ai" hreflang="pl" lang="pl">Wersja polska</a></p>
+
+<h1>How much AI bot traffic is really AI bots</h1>
+
+<p><strong>The industry sells AI visibility reports built on a header nobody checks.</strong> That header is called User-Agent, and it is a claim rather than an identity — you can put anything in it. Below is a measurement from a live website: how many requests claiming to be an AI bot actually came from the network of the operator they named.</p>
+
+<h2>The number this is about</h2>
+
+<p>Among the requests that <strong>could be resolved</strong>, <strong>{{proc_wsrod_rozstrzygnietych}}%</strong> were genuine. Counting everything, including what cannot be resolved at all — <strong>{{proc_calosci}}%</strong>. As of {{stan_na}}.</p>
+
+<p>We publish both numbers because the denominator changes the result drastically, and a page about measurement honesty cannot publish a figure the reader is unable to reconstruct. The first says: <em>of the requests we know about, how many were real</em>. The second: <em>of all traffic, counting the unresolvable as unconfirmed</em>.</p>
+
+<table>
+  <thead><tr><th>Category</th><th>Requests</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td>genuine</td><td>{{oryginalne}}</td><td>the bot was who it claimed to be</td></tr>
+    <tr><td>forged</td><td>{{falszowane}}</td><td>someone else used its name</td></tr>
+    <tr><td>unverifiable</td><td>{{niesprawdzone}}</td><td>the operator publishes nothing that would settle it</td></tr>
+    <tr><td><strong>total</strong></td><td><strong>{{zadan_ogolem}}</strong></td><td>excluding the owner's own tests — counted separately below</td></tr>
+  </tbody>
+</table>
+
+<h2>“But I already have this in Cloudflare”</h2>
+
+<p>This is the most common reaction to this page, and it deserves to be taken seriously, because it is reasonable: hosting dashboards have shown AI bot traffic for a long time, so why count the same thing twice.</p>
+
+<p><strong>Because they count claims.</strong> On 3 September 2026 we checked what such a counter is worth. Two requests sent with an ordinary <code>curl</code> command from a Polish home connection, carrying a header claiming to be PerplexityBot, pushed the Cloudflare dashboard's “AI Answer retrievals” counter from 16 to 18, and Perplexity's own line from 5 to 7. <strong>Neither of those two requests came from Perplexity.</strong></p>
+
+<p><strong>You do not have to take our word for it — this takes two minutes and can be repeated on your own domain.</strong> One command with a substituted header, and a look at the dashboard before and after.</p>
+
+<p>This is not an accusation of dishonesty. Checking identity costs network lookups on every request, while accepting the claim is free — at the scale of a provider like that, the difference is real. The consequence, however, is that <strong>the counter measures what the bot said about itself, not who actually showed up</strong>. In our measurement the gap is {{proc_falszowanych}}% among the requests that could be resolved.</p>
+
+<p>People also regularly suggest this is a configuration issue — that you have to “put the whole domain behind it”. That is not the point: this site is behind Cloudflare in full, and the dashboard still attributes requests to an operator based on the signature alone.</p>
+
+<h3>Check it on your own site</h3>
+
+<p>Do not take our word for it. The interactive version of this page has a generator that assembles the command for a domain you type in; here is the version with a placeholder address. It sends <strong>your own website</strong> two requests signed as PerplexityBot:</p>
+
+<pre>curl -s -o /dev/null -w "%{http_code}
+" -A "Mozilla/5.0 (compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)" https://your-domain.example/</pre>
+
+<p>First write down the current value of the AI traffic counter in your dashboard, run the command twice, wait a few minutes and refresh.</p>
+
+<p><strong>What you should see:</strong> nothing. Neither request came from Perplexity — they came from your own computer. <strong>What you will see:</strong> the counter two higher, attributed to Perplexity.</p>
+
+<p>Only run this against a site you operate yourself. Two requests will not harm anyone, but sending forged signatures at other people's servers stops being a test and starts being a contribution to the problem.</p>
+
+<h3>Why we do not do it for you</h3>
+
+<p>Because <strong>we cannot check whether the domain someone typed in belongs to them</strong>. If that field sent requests from our server, anyone could enter someone else's address and forged traffic would land on a stranger's site — from our address.</p>
+
+<p>This is <em>the same problem</em> the whole page is about. We cannot verify identity, so we do not act on a claim alone. Analytics dashboards face exactly the same question — and answer it differently.</p>
+
+<h3>“A plain log analyser used to be enough for this”</h3>
+
+<p>It was, and it still is — for counting. Tools that break traffic down by User-Agent have existed since the nineties and they do it well. <strong>The difference is not that we count, but that we check.</strong> A twenty-year-old analyser will show you GPTBot's visits; the table above shows how many of them passed an identity check. Those are two different numbers, and only one of them is fit to base decisions on.</p>
+
+<h2>What kind of measurement this is — scale up front, not in a footnote</h2>
+
+<p>This is <strong>one small website</strong>: a portal about home cheesemaking. The measurement has been running since {{pomiar_od}}, that is {{dni_pomiaru}} days, and covers {{zadan_ogolem}} requests from {{roznych_tozsamosci}} distinct bot identities across {{roznych_sieci}} networks.</p>
+
+<p><strong>This is not a representative sample of the internet</strong> and we do not pretend it is. The value of the data comes from something else: every request was checked by the same method, described below, and the result — including what we could not resolve — is published in full. The figures refresh themselves, so the longer the measurement runs, the stronger they get.</p>
+
+<h2>How you can impersonate a bot in the first place</h2>
+
+<p>Imagine posting a letter and writing someone else's name as the sender. The post office will deliver it — nobody checks whether the sender is who they say they are. The User-Agent header works exactly like that: a browser or a bot <em>declares</em> what it is, and the server accepts the declaration.</p>
+
+<p>Writing a program that introduces itself as GPTBot takes one line. It requires no permissions and no expertise — you just type the text.</p>
+
+<p><strong>Verification means checking whether the letter really came from the stated address.</strong> Large operators publish lists of the network addresses their bots come from. If a request arrives from outside that list while carrying the operator's name, it is not that operator. That is the only way, and no declaration can get around it.</p>
+
+<p>Analytics tools that show “AI bot traffic” mostly <strong>count declarations</strong>. Not because anyone is cheating — verification simply costs network lookups, and a declaration is free.</p>
+
+<h2>Who actually comes here</h2>
+
+<p><strong>The more recognisable the bot, the more often someone impersonates it — because sites let known names through. The number of forgeries says something about the value of the brand, not about its honesty.</strong> A high figure in the “forged” column is not an accusation against the operator. Quite the opposite: it means the name is worth enough for a stranger to steal it.</p>
+
+<table>
+  <thead><tr><th>Bot</th><th>Operator</th><th>Category</th><th>Genuine</th><th>Forged</th><th>Unverifiable</th></tr></thead>
+  <tbody>
+{{tabela_wg_bota}}
+  </tbody>
+</table>
+
+<p>The table lists only bots with at least three requests — at a single hit, a name in a ranking is noise rather than data.</p>
+
+<h3>The thing that stands out most</h3>
+
+<p>Impersonation happens to <strong>every</strong> recognisable name, search engines included — in this measurement, the number of requests claiming to be a search engine and exposed as forged is <strong>{{falszowane_wyszukiwarek}}</strong>. What is not comparable is the proportions: for search engines the forged share is a minority, while for some AI bots there is not a single confirmed request. The current state is in the table above.</p>
+
+<p>The reason is simple, and it is essentially the thesis of this entire page. <strong>Sites have been verifying Googlebot for twenty years</strong>: the checking mechanism is documented by Google, built into servers and widely used. Impersonating it <em>gets caught</em> — exactly like the requests above. <strong>Almost nobody verifies AI bots</strong>, so impersonating them simply works, and nobody counts it.</p>
+
+<p>This is not a difference in technology. It is a difference in how many years a given name has been checked.</p>
+
+<h2>A crawler, or one specific person's question</h2>
+
+<p>Not all AI bots do the same thing, and most tools throw them into one bucket. The distinction matters in practice:</p>
+
+<ul>
+  <li><strong>ai_crawler</strong> — collects content for a model's future index. It moves on its own schedule.</li>
+  <li><strong>ai_user</strong> — <strong>a specific person asked a question in a chat, and the model went to this page to answer it.</strong> Behind every such request stands a living person and a concrete question.</li>
+  <li><strong>search_engine</strong> — the classic index. The boundary with AI no longer exists: Googlebot also feeds AI Overviews.</li>
+  <li><strong>seo_tool</strong> — commercial analytics crawlers.</li>
+</ul>
+
+<table>
+  <thead><tr><th>Category</th><th>Requests</th><th>Genuine</th><th>Forged</th><th>Distinct identities</th><th>Served a mirror</th></tr></thead>
+  <tbody>
+{{tabela_kategorie}}
+  </tbody>
+</table>
+
+<p>The <strong>ai_user</strong> category accounts for {{uzytkownik_zadan}} requests, of which {{uzytkownik_falszowane}} were forged. This is the group site owners care about most — and at the same time the one whose claims are trusted most readily, because it sounds like proof that somebody genuinely asked about us.</p>
+
+<h2>How to recognise an impostor without checking identity</h2>
+
+<p>Verification by network address requires lists that do not exist for every operator. But it turns out that <strong>the two groups behave differently enough to be separated without any list at all</strong> — which means the method will also work for operators that do not exist yet.</p>
+
+<table>
+  <thead><tr><th>Group</th><th>Period</th><th>Requests</th><th>Rejected</th><th>Error rate</th><th>Mean response size</th><th>Distinct paths</th></tr></thead>
+  <tbody>
+{{tabela_zachowanie}}
+  </tbody>
+</table>
+
+<h3>First signal: response size</h3>
+
+<p>Genuine bots receive <strong>{{rozmiar_oryginalne}} bytes</strong> on average, impostors <strong>{{rozmiar_falszowane}}</strong>. The reason is mundane: a real bot asks for a page that exists and receives its content. An impostor asks for files that are not there and receives a short error page.</p>
+
+<h3>Second signal: error rate</h3>
+
+<p>Genuine bots miss <strong>{{bledy_oryginalne}}%</strong> of the time, impostors <strong>{{bledy_falszowane}}%</strong>. <strong>A real crawler follows the site map — so it knows what exists.</strong> An impostor guesses addresses from a ready-made list of popular configuration files, and most of its attempts hit nothing.</p>
+
+<h3>Two caveats, without which these numbers would mislead</h3>
+
+<p><strong>First, this is an observation from a single case, not a law.</strong> Forged traffic in this measurement was dominated by one scanning run from one network. The signature is clear, but in practice it rests on a single actor — and should be treated that way until it repeats elsewhere.</p>
+
+<p><strong>Second, we cut this series in half ourselves.</strong> On 5 September 2026 we changed the server's behaviour: paths typical of scanners stopped receiving the application page with a 200 code and started receiving a real 404. That moves both indicators above — the error rate rises, the mean size falls — <strong>with no change whatsoever in bot behaviour</strong>. This is why the table has a “period” column and shows both halves separately instead of pretending continuity. A chart stitching them into one line would show a change that never happened.</p>
+
+<h2>What one group looks for, and what the other does</h2>
+
+<p>This is the sharpest distinction in the whole dataset. We do not publish the specific addresses that were requested — a published list of sensitive paths would be a ready-made map for the next scanner. The <strong>types</strong> are enough:</p>
+
+<table>
+  <thead><tr><th>Group</th><th>Path type</th><th>Requests</th><th>% of group</th></tr></thead>
+  <tbody>
+{{tabela_cele}}
+  </tbody>
+</table>
+
+<p>Confirmed bots asked for files containing code or secrets <strong>{{oryginalne_wrazliwe}}</strong> times. Impostors — <strong>{{falszowane_wrazliwe}}</strong> times. With content it is the other way round: impostors reached for it {{falszowane_tresc}} times out of {{falszowane_cele}} requests in total.</p>
+
+<p><strong>What “asset” means here</strong>: JavaScript bundles, stylesheets and images — the files every visitor's browser downloads. They are public by design and do not count as sensitive. With genuine bots they take up a fair share of traffic for a prosaic reason: every deployment changes their addresses, so the crawler comes back for a version that no longer exists.</p>
+
+<p><strong>The two groups' target sets barely overlap.</strong> These are not two kinds of bot doing the same job with different intensity. They are two entirely different activities carried out under the same names.</p>
+
+<p>And this is where the real defence comes from, and it is not blocking: <strong>the scanners found nothing, because the files they asked for do not exist.</strong> There is no server-side language here, no admin panel at a well-known address and no database to dump. Blocking by bot name would be pointless — the name is false by definition. Blocking by network would also hit legitimate traffic, because large hosting providers host both.</p>
+
+<h2>How much of this traffic the site owner makes</h2>
+
+<p>For several days I checked whether robots can see this site's content — by impersonating ClaudeBot, GPTBot and PerplexityBot in turn. I left <strong>{{testy_wlasciciela}} visits</strong> which, in any ordinary analytics tool, would look like artificial intelligence taking an interest in my website. That is <strong>{{proc_testow}}%</strong> of all robot traffic in the period.</p>
+
+<p><strong>I do not delete them. I subtract them.</strong> Every figure above is calculated after they are removed.</p>
+
+<p>The rule is mechanical and stated in advance: a visit goes into the “owner's tests” category if it came from the network I work from, <em>or</em> carries an agreed marker in its signature — regardless of how that turns out for the statistics. The credibility comes from the rule being automatic and documented, not from my assurance that I am honest.</p>
+
+<p>This entry is here for a specific reason. <strong>If someone testing their own site can produce {{proc_testow}}% of its “AI traffic” in a few days, then every counter built on declarations is open to distortion even without ill intent.</strong></p>
+
+<h2>Traffic that does not introduce itself at all</h2>
+
+<p>Everything above concerns requests that <em>gave some name</em> — because only such a declaration can be disbelieved. But part of the traffic gives none. The User-Agent field is sometimes empty, or holds a name that appears on no list: a script, a monitor, someone's tool written yesterday.</p>
+
+<p>Since 7 September 2026 we count that traffic too. So far: <strong>{{bez_podpisu}} requests</strong>.</p>
+
+<p><strong>This figure has been measured for a shorter time than the rest of the page</strong> — since 7 September 2026, not since the start of the measurement. While the number is small, draw no conclusions from it: a zero at the start of a counter means the counter has just started. This page has already made that mistake once — see the paragraph below.</p>
+
+<p><strong>This number stands on its own and enters none of the percentages above.</strong> The headline figure on this page says how much traffic <em>claiming</em> to be an AI bot is genuine. Putting something into the denominator that never made such a claim would change what that figure measures — overnight, and without warning to the reader. So the percentages mean exactly what they meant yesterday.</p>
+
+<p><strong>Who they are, we will not find out.</strong> They left no name, and we deliberately do not record IP addresses. But <em>what they are looking for</em> we know precisely — and that is the more interesting information, because intent shows in the targets, not in the tool. A monitor asks for the home page and nothing else. A scanner asks for configuration files and backups. A reader asks for content. The breakdown by target is in the interactive “unsigned traffic” report on this page; sensitive paths appear there only as a count, because a published list of the addresses a scanner asked for is a ready-made map for the next one.</p>
+
+<p><strong>Do not compare this number with your hosting dashboard.</strong> Our counter sees only requests that reach our code. Files sitting ready on disk — images, stylesheets, scripts, the favicon — are served by the layer in front of it, and that traffic is not here. A hosting dashboard will count everything; we will count less. The difference does not mean either counter is wrong: they count different things. We checked this experimentally — a request for the site map reaches our code, a request for the favicon does not.</p>
+
+<p><strong>This is still not a counter of people.</strong> A browser sends headers that a simple HTTP client does not — request metadata, or at least a preferred language. A request carrying them does not enter this table at all. The boundary is arbitrary and can be wrong in both directions, but it is single, mechanical and stated in advance.</p>
+
+<p>The reason we added this is instructive in itself. For the first days of the measurement, one line stood in the code: “if you do not recognise the name, record nothing”. Within a single day the same question came back from three different directions — the Cloudflare dashboard showed traffic our counter did not know about; visitor statistics turned up “users” with nothing behind them; and someone asked whether the site map had been read by something unrecognised. All three had the same cause. <strong>The counter was not showing zero because nothing was arriving — it was showing zero because it had no way to see.</strong></p>
+
+<h2>Chronicle</h2>
+
+<p>Selected events worth remembering. No IP addresses and no paths.</p>
+
+<h3>4 September 2026, 11:06 — six identities in nineteen seconds</h3>
+
+<p>From one network in the United States (AS1004) came a run of requests in which the same traffic introduced itself in turn as <strong>six different bots</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot and PerplexityBot. The whole thing lasted nineteen seconds. The requests concerned configuration files, backups and source maps.</p>
+
+<p><strong>They found nothing</strong> — none of those files exists on this site.</p>
+
+<p>A formal note that matters: we write that <em>the requests came from the AS1004 network</em>, not that “AS1004 is scanning”. A network operator rents out servers, and the actor is its customer, not the operator. The first phrasing is a verifiable observation; the second would be an accusation against a party we do not know.</p>
+
+<h3>5 September 2026 — no more answering “200 OK” to a question about somebody else's admin panel</h3>
+
+<p>Analysis of the run above revealed that some requests for non-existent files were getting a 200 code and the application page from us, instead of a 404. A scanner reads that as “there is something here” and comes back. It has been fixed — and along the way it turned out that <strong>this was deflating our own error rate</strong>, one of the very signals we use to recognise scanning. The server was corrupting a measurement it was itself feeding.</p>
+
+<h3>6 September 2026 — for three days we accused Amazon of what we were doing ourselves</h3>
+
+<p>Reverse DNS verification checks whether a hostname ends with the operator's domain. For Amazonbot we had <code>crawl.amazon.com</code> configured — a domain that <strong>does not exist</strong>. Amazon documents <code>crawl.amazonbot.amazon</code>. The consequence: every request from the real Amazonbot failed at step two and was recorded as impersonation. For three days this page showed Amazonbot as the most impersonated bot in the entire dataset.</p>
+
+<p>The signal was in the data from the start: the reverse DNS method had a record of <strong>zero confirmations out of twenty-five checks</strong>. We noted that a day earlier and described the method as unproven — but stopped short of the conclusion that if it is unproven, then its “no” is not fit to publish either.</p>
+
+<p>The verdicts could not be recomputed, because <strong>we deliberately do not store IP addresses</strong> — without the address there is no way to repeat the DNS query. So they were rolled back to “unverifiable”. This is the same principle we apply to other people's figures: a measurement known to have been faulty stops being evidence.</p>
+
+<h2>How this is counted</h2>
+
+<p>Every bot request is recorded together with the outcome of an attempt to resolve its identity. The methods, in order of certainty:</p>
+
+<h3>Operator address list</h3>
+<p>The most reliable. OpenAI, Anthropic, Perplexity, Google and Microsoft publish files with the address ranges their bots come from. The check compares the request's address against that list. The result is decisive in both directions: an address on the list confirms, an address outside it carrying the operator's name means impersonation.</p>
+
+<h3>Operator network number</h3>
+<p>For operators that publish no list but do have a known network of their own. Weaker than an address list, because a network can be large, but still decisive for names nobody else has any business using.</p>
+
+<h3>Three-step reverse DNS (FCrDNS)</h3>
+<p>A classic method, used for years to verify Googlebot. It has three steps, and <strong>skipping any one of them makes it worthless</strong>:</p>
+<ol>
+  <li>ask for the domain name assigned to the address the request came from,</li>
+  <li>check that the name <strong>ends with</strong> the operator's domain — not “contains it”, because <code>googlebot.com.example.org</code> contains it and is not it,</li>
+  <li>ask for that name's address and check that it returns the same address you started from.</li>
+</ol>
+<p>Without step three, anyone could simply set their own reverse record. <strong>And this is the method on which we made our own measurement error</strong> — described in the chronicle above. For the first days we were checking Amazonbot against a domain that does not exist, so every genuine request from that bot failed at step two and was recorded as impersonation. Fixed on 6 September 2026, and the earlier verdicts from this method were withdrawn to “unverifiable”.</p>
+
+<h3>Cryptographic signature (Web Bot Auth)</h3>
+<p>An emerging standard in which a bot signs its request with a key. Ultimately the best method available. For now we <strong>only record the presence of signature headers — we do not check their validity</strong>, so this is not verification and we do not count it as such. We record it to have historical data once the standard takes hold.</p>
+
+<table>
+  <thead><tr><th>Method</th><th>Requests</th><th>Confirmed</th><th>Refuted</th></tr></thead>
+  <tbody>
+{{tabela_metody}}
+  </tbody>
+</table>
+
+<p>The table covers {{z_zapisana_metoda}} requests — those where we recorded <em>what</em> settled the question. Earlier entries have that field empty not because verification failed, but because the column was added later than the counter.</p>
+
+<h3>What “unverifiable” means</h3>
+
+<p>That <strong>we cannot resolve it</strong> — not that the bot is suspect. Some operators publish neither address lists nor anything else that would confirm them. Putting those requests into “genuine” would inflate the result; putting them into “forged” would be an accusation without evidence. They stay separate.</p>
+
+<p><strong>This is the whole difference between this page and a dashboard that sells you a metric.</strong> Dashboards have no “don't know” category, because it looks bad. We have one, because without it the other numbers mean nothing.</p>
+
+<h3>Check us</h3>
+
+<p>What we ask of bots, and what we make available to them, is laid out in two text files: <a href="https://mojaserowarnia.pl/robots.txt">robots.txt</a> (the rules we ask for) and <a href="https://mojaserowarnia.pl/llms.txt">llms.txt</a> (a content map prepared for models). You can compare them against what is described above. They are raw configuration files, not articles — we point at them so that we can be audited.</p>
+
+<h3>What we deliberately do not record</h3>
+
+<p>We record no IP addresses and nothing that identifies a person. Recognising an impostor needs only the network number and the country — both describe a data centre, not a human being. We also do not record users' queries, because no bot passes them on and none will; that is somebody else's data.</p>
+
+<h2>Data download</h2>
+
+<p>Every figure on this page is available machine-readable at <a href="https://mojaserowarnia.pl/bot-stats.json">bot-stats.json</a>, under a <a href="https://creativecommons.org/licenses/by/4.0/" rel="license nofollow">CC BY 4.0</a> licence. One condition: credit the source.</p>
+
+<p>The file contains aggregates only — the same ones shown above. It holds no IP addresses and no full paths.</p>
+
+<h2>Questions and answers</h2>
+
+<h3>Is impersonating an AI bot illegal?</h3>
+<p>The User-Agent header itself is a declaration, and putting arbitrary text in it is not a crime. What it is used for is another matter: in the case described here it served to scan a server for passwords and keys, and that is something other than a choice of name.</p>
+
+<h3>Should I block AI bots?</h3>
+<p>Blocking by name does not work, because the name is precisely what an impostor forges — you will block the genuine one and let the fake one through. Blocking by network also hits legitimate traffic, because large hosting providers host both. The sensible order is the reverse: keep nothing on the server worth stealing, and measure who actually turns up.</p>
+
+<h3>Does robots.txt stop this?</h3>
+<p><code>robots.txt</code> is a request, not a security control — it is honoured by those who choose to. One detail is worth remembering: a bot applies <strong>only the group of rules matching its own name</strong>, and rules from the general group do not add to it. A prohibition written only under <code>User-agent: *</code> will not cover a bot that has its own group.</p>
+
+<h3>Why is a cheesemaking portal measuring bot traffic?</h3>
+<p>Because it ran into it by accident. The counter was built to check whether language models see the site's content at all — and along the way it turned out that a substantial part of “AI traffic” is not that. The data is credible in one particular respect: we have no stake in it coming out one way or the other.</p>
+
+<h3>Will these numbers change?</h3>
+<p>Yes, and that is intended. The page is assembled live from the counter's current state, not from a frozen snapshot. That is why every figure carries a date — if you quote it, quote the date with it.</p>
+
+<h2>Related pages</h2>
+<ul>
+  <li><a href="https://mojaserowarnia.pl/boty-ai" hreflang="pl" lang="pl">Wersja polska tej strony</a> — the Polish original, with the interactive reports</li>
+  <li><a href="https://mojaserowarnia.pl/llms.txt">llms.txt</a> — a content map of the site prepared for language models</li>
+  <li><a href="https://mojaserowarnia.pl/robots.txt">robots.txt</a> — the rules we ask bots to follow</li>
+  <li><a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> — why this site exists at all: home cheesemaking, in Polish</li>
+</ul>
+
+</body>
+</html>

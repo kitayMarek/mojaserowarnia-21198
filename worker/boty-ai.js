@@ -34,8 +34,79 @@ const WIDOKI = [
 // nie ma być licznikiem na żywo — zlecenie wprost odrzuca efekciarstwo.
 const CACHE_SEKUND = 3600;
 
-const MIESIACE = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca',
-  'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+// ---------------------------------------------------------------------------
+// JEZYKI
+// ---------------------------------------------------------------------------
+// Ta sama tresc idzie w dwoch wersjach jezykowych z tych samych widokow pub_*.
+// Slownik obejmuje NIE TYLKO slowa, ale i formatowanie liczb — i to jest tu
+// najwazniejsze. Polskie „56,1" znaczy po angielsku 561, a „1 234" bez
+// wlasciwego separatora czyta sie jak dwie liczby. Opublikowanie liczby, ktora
+// w drugim jezyku znaczy co innego, byloby dokladnie tym rodzajem bledu, ktory
+// ta strona opisuje.
+export const JEZYKI = {
+  pl: {
+    kod: 'pl',
+    tysiace: '\u00a0',   // spacja nierozdzielajaca: 15 321 nie moze sie zlamac
+    dziesietny: ',',
+    miesiace: ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca',
+      'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'],
+    oGodzinie: 'godz.',
+    brakDanych: 'Dane chwilowo niedostępne.',
+    kotwicaAwaryjna: '<h2>Liczba, o którą chodzi</h2>',
+    notkaAwaryjna:
+      '<p><strong>Uwaga:</strong> chwilowo nie udało się pobrać aktualnych liczb '
+      + 'z licznika, więc w miejscach liczbowych są kreski. Treść merytoryczna jest '
+      + 'kompletna. Spróbuj odświeżyć za kilka minut.</p>',
+    // Baza trzyma okresy bez ogonkow — to wartosci sterujace, nie tekst dla ludzi.
+    slowa: {
+      'przed zmiana metody': 'przed zmianą metody',
+      'po zmianie metody': 'po zmianie metody',
+    },
+  },
+  en: {
+    kod: 'en',
+    tysiace: ',',
+    dziesietny: '.',
+    miesiace: ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'],
+    oGodzinie: 'at',
+    brakDanych: 'Data temporarily unavailable.',
+    kotwicaAwaryjna: '<h2>The number this is about</h2>',
+    notkaAwaryjna:
+      '<p><strong>Note:</strong> current figures could not be fetched from the counter, '
+      + 'so numeric slots show dashes. The substance of the page is complete. '
+      + 'Try refreshing in a few minutes.</p>',
+    slowa: {
+      'przed zmiana metody': 'before the method change',
+      'po zmianie metody': 'after the method change',
+      // grupy
+      oryginalne: 'genuine',
+      falszowane: 'forged',
+      niesprawdzone: 'unverifiable',
+      // kategorie botow
+      ai_crawler: 'ai_crawler',
+      ai_uzytkownik: 'ai_user',
+      wyszukiwarka: 'search_engine',
+      narzedzie_seo: 'seo_tool',
+      inne: 'other',
+      // typy sciezek
+      tresc: 'content',
+      techniczna: 'technical',
+      zasob: 'asset',
+      sekret: 'secret',
+      kod: 'code',
+      kanarek: 'canary',
+      // metody weryfikacji
+      ip_lista: 'ip_list',
+      asn_operatora: 'operator_asn',
+      fcrdns: 'fcrdns',
+      brak_metody: 'no_method',
+      blad_sprawdzenia: 'check_failed',
+      // etykieta ruchu bez deklaracji — pochodzi z bazy, nie z naglowka
+      '(bez podpisu)': '(unsigned)',
+    },
+  },
+};
 
 // ---------------------------------------------------------------------------
 // Formatowanie
@@ -51,39 +122,39 @@ function bezHtml(w) {
 }
 
 /** Spacja nierozdzielająca co trzy cyfry — 15 321 nie może się złamać na końcu wiersza. */
-function liczba(n) {
+function liczba(n, L = JEZYKI.pl) {
   if (n === null || n === undefined || n === '') return '—';
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, L.tysiace);
 }
 
 /** Polski separator dziesiętny. Wartości z Postgresa przychodzą jako "58.3". */
-function ulamek(n) {
+function ulamek(n, L = JEZYKI.pl) {
   if (n === null || n === undefined || n === '') return '—';
-  return String(n).replace('.', ',');
+  return String(n).replace('.', L.dziesietny);
 }
 
-function dataDlugo(iso) {
+function dataDlugo(iso, L = JEZYKI.pl) {
   if (!iso) return '—';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '—';
-  return `${d.getUTCDate()} ${MIESIACE[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+  return `${d.getUTCDate()} ${L.miesiace[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
-function dataZGodzina(iso) {
+function dataZGodzina(iso, L = JEZYKI.pl) {
   if (!iso) return '—';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '—';
   const gg = String(d.getUTCHours()).padStart(2, '0');
   const mm = String(d.getUTCMinutes()).padStart(2, '0');
-  return `${dataDlugo(iso)}, godz. ${gg}:${mm} UTC`;
+  return `${dataDlugo(iso, L)}, ${L.oGodzinie} ${gg}:${mm} UTC`;
 }
 
-// SQL trzyma okresy bez ogonków (wartości sterujące, nie tekst dla ludzi).
-// Tłumaczenie na wyjściu, żeby baza nie musiała znać polskiej ortografii.
-const OKRESY = {
-  'przed zmiana metody': 'przed zmianą metody',
-  'po zmianie metody': 'po zmianie metody',
-};
+/** Etykiety, ktore baza trzyma jako wartosci sterujace (bez ogonkow, po
+ *  polsku). Brak wpisu = zostawiamy jak jest. To celowe: nowa kategoria
+ *  w bazie ma sie pokazac po swojemu, a nie zniknac albo wyjsc jako kreska. */
+function etykieta(w, L = JEZYKI.pl) {
+  return L.slowa[w] ?? w;
+}
 
 // ---------------------------------------------------------------------------
 // Pobranie danych
@@ -125,47 +196,47 @@ async function pobierzDane(env) {
 // Tabele
 // ---------------------------------------------------------------------------
 
-const PUSTA = (kolumn) =>
-  `    <tr><td colspan="${kolumn}">Dane chwilowo niedostępne.</td></tr>`;
+const PUSTA = (kolumn, L = JEZYKI.pl) =>
+  `    <tr><td colspan="${kolumn}">${L.brakDanych}</td></tr>`;
 
-function tabelaWgBota(w = []) {
-  if (!w.length) return PUSTA(6);
-  return w.map((r) => `    <tr><td>${bezHtml(r.bot)}</td><td>${bezHtml(r.operator)}</td>`
-    + `<td>${bezHtml(r.kategoria)}</td><td>${liczba(r.oryginalne)}</td>`
-    + `<td>${liczba(r.falszowane)}</td><td>${liczba(r.niesprawdzone)}</td></tr>`).join('\n');
+function tabelaWgBota(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(6, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.bot, L))}</td><td>${bezHtml(r.operator)}</td>`
+    + `<td>${bezHtml(etykieta(r.kategoria, L))}</td><td>${liczba(r.oryginalne, L)}</td>`
+    + `<td>${liczba(r.falszowane, L)}</td><td>${liczba(r.niesprawdzone, L)}</td></tr>`).join('\n');
 }
 
-function tabelaKategorie(w = []) {
-  if (!w.length) return PUSTA(6);
-  return w.map((r) => `    <tr><td>${bezHtml(r.kategoria)}</td><td>${liczba(r.zadan)}</td>`
-    + `<td>${liczba(r.oryginalne)}</td><td>${liczba(r.falszowane)}</td>`
-    + `<td>${liczba(r.roznych_tozsamosci)}</td><td>${liczba(r.obsluzonych_mirrorem)}</td></tr>`).join('\n');
+function tabelaKategorie(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(6, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.kategoria, L))}</td><td>${liczba(r.zadan, L)}</td>`
+    + `<td>${liczba(r.oryginalne, L)}</td><td>${liczba(r.falszowane, L)}</td>`
+    + `<td>${liczba(r.roznych_tozsamosci, L)}</td><td>${liczba(r.obsluzonych_mirrorem, L)}</td></tr>`).join('\n');
 }
 
-function tabelaZachowanie(w = []) {
-  if (!w.length) return PUSTA(7);
-  return w.map((r) => `    <tr><td>${bezHtml(r.grupa)}</td>`
-    + `<td>${bezHtml(OKRESY[r.okres] ?? r.okres)}</td><td>${liczba(r.zadan)}</td>`
-    + `<td>${liczba(r.odbite)}</td><td>${ulamek(r.proc_bledow)}%</td>`
-    + `<td>${liczba(r.sredni_rozmiar)} B</td><td>${liczba(r.roznych_sciezek)}</td></tr>`).join('\n');
+function tabelaZachowanie(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(7, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.grupa, L))}</td>`
+    + `<td>${bezHtml(etykieta(r.okres, L))}</td><td>${liczba(r.zadan, L)}</td>`
+    + `<td>${liczba(r.odbite, L)}</td><td>${ulamek(r.proc_bledow, L)}%</td>`
+    + `<td>${liczba(r.sredni_rozmiar, L)} B</td><td>${liczba(r.roznych_sciezek, L)}</td></tr>`).join('\n');
 }
 
-function tabelaCele(w = []) {
-  if (!w.length) return PUSTA(4);
-  return w.map((r) => `    <tr><td>${bezHtml(r.grupa)}</td><td>${bezHtml(r.sciezka_typ)}</td>`
-    + `<td>${liczba(r.zadan)}</td><td>${ulamek(r.proc_grupy)}%</td></tr>`).join('\n');
+function tabelaCele(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(4, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.grupa, L))}</td><td>${bezHtml(etykieta(r.sciezka_typ, L))}</td>`
+    + `<td>${liczba(r.zadan, L)}</td><td>${ulamek(r.proc_grupy, L)}%</td></tr>`).join('\n');
 }
 
-function tabelaMetody(w = []) {
-  if (!w.length) return PUSTA(4);
-  return w.map((r) => `    <tr><td>${bezHtml(r.metoda)}</td><td>${liczba(r.zadan)}</td>`
-    + `<td>${liczba(r.potwierdzone)}</td><td>${liczba(r.zaprzeczone)}</td></tr>`).join('\n');
+function tabelaMetody(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(4, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.metoda, L))}</td><td>${liczba(r.zadan, L)}</td>`
+    + `<td>${liczba(r.potwierdzone, L)}</td><td>${liczba(r.zaprzeczone, L)}</td></tr>`).join('\n');
 }
 
-function tabelaPodKogo(w = []) {
-  if (!w.length) return PUSTA(4);
-  return w.map((r) => `    <tr><td>${bezHtml(r.bot)}</td><td>${bezHtml(r.operator)}</td>`
-    + `<td>${liczba(r.falszowane)}</td><td>${liczba(r.z_ilu_sieci)}</td></tr>`).join('\n');
+function tabelaPodKogo(w = [], L = JEZYKI.pl) {
+  if (!w.length) return PUSTA(4, L);
+  return w.map((r) => `    <tr><td>${bezHtml(etykieta(r.bot, L))}</td><td>${bezHtml(r.operator)}</td>`
+    + `<td>${liczba(r.falszowane, L)}</td><td>${liczba(r.z_ilu_sieci, L)}</td></tr>`).join('\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -182,7 +253,7 @@ function glownyWiersz(w = [], grupa) {
           .sort((a, b) => (b.zadan || 0) - (a.zadan || 0))[0] ?? {};
 }
 
-function zbudujZetony(dane) {
+function zbudujZetony(dane, L = JEZYKI.pl) {
   const p = dane.pub_bot_podsumowanie[0];
   const cele = dane.pub_bot_cele ?? [];
   const kat = dane.pub_bot_kategorie ?? [];
@@ -202,69 +273,64 @@ function zbudujZetony(dane) {
     : null;
 
   return {
-    pomiar_od: dataDlugo(p.pomiar_od),
-    stan_na: dataZGodzina(p.stan_na),
+    pomiar_od: dataDlugo(p.pomiar_od, L),
+    stan_na: dataZGodzina(p.stan_na, L),
     stan_na_iso: String(p.stan_na ?? '').slice(0, 10),
-    dni_pomiaru: liczba(p.dni_pomiaru),
-    zadan_ogolem: liczba(p.zadan_ogolem),
-    oryginalne: liczba(p.oryginalne),
-    falszowane: liczba(p.falszowane),
-    niesprawdzone: liczba(p.niesprawdzone),
-    rozstrzygniete: liczba(p.rozstrzygniete),
-    testy_wlasciciela: liczba(p.testy_wlasciciela),
-    proc_wsrod_rozstrzygnietych: ulamek(p.proc_wsrod_rozstrzygnietych),
-    proc_calosci: ulamek(p.proc_calosci),
-    roznych_tozsamosci: liczba(p.roznych_tozsamosci),
-    roznych_sieci: liczba(p.roznych_sieci),
-    z_zapisana_metoda: liczba(p.z_zapisana_metoda),
+    dni_pomiaru: liczba(p.dni_pomiaru, L),
+    zadan_ogolem: liczba(p.zadan_ogolem, L),
+    oryginalne: liczba(p.oryginalne, L),
+    falszowane: liczba(p.falszowane, L),
+    niesprawdzone: liczba(p.niesprawdzone, L),
+    rozstrzygniete: liczba(p.rozstrzygniete, L),
+    testy_wlasciciela: liczba(p.testy_wlasciciela, L),
+    proc_wsrod_rozstrzygnietych: ulamek(p.proc_wsrod_rozstrzygnietych, L),
+    proc_calosci: ulamek(p.proc_calosci, L),
+    roznych_tozsamosci: liczba(p.roznych_tozsamosci, L),
+    roznych_sieci: liczba(p.roznych_sieci, L),
+    z_zapisana_metoda: liczba(p.z_zapisana_metoda, L),
 
     // Ruch bez deklaracji stoi POZA zadan_ogolem i poza oboma procentami —
     // widok pub_bot_podsumowanie liczy go osobnym podzapytaniem. Gdyby wpadl
     // do mianownika, liczba naglowkowa zmienilaby znaczenie bez ostrzezenia.
-    bez_podpisu: liczba(p.bez_podpisu),
+    bez_podpisu: liczba(p.bez_podpisu, L),
 
     proc_falszowanych: p.proc_wsrod_rozstrzygnietych === null ? '—'
-      : ulamek(Math.round(10 * (100 - Number(p.proc_wsrod_rozstrzygnietych))) / 10),
-    proc_testow: procTestow === null ? '—' : ulamek(procTestow),
-    falszowane_wyszukiwarek: liczba(kategoria('wyszukiwarka').falszowane ?? 0),
-    uzytkownik_zadan: liczba(kategoria('ai_uzytkownik').zadan ?? 0),
-    uzytkownik_falszowane: liczba(kategoria('ai_uzytkownik').falszowane ?? 0),
-    oryginalne_wrazliwe: liczba(wrazliwe('oryginalne')),
-    falszowane_wrazliwe: liczba(wrazliwe('falszowane')),
-    falszowane_tresc: liczba(suma(cele.filter((r) => r.grupa === 'falszowane' && r.sciezka_typ === 'tresc'), (r) => r.zadan)),
-    falszowane_cele: liczba(suma(cele.filter((r) => r.grupa === 'falszowane'), (r) => r.zadan)),
-    rozmiar_oryginalne: liczba(oryg.sredni_rozmiar),
-    rozmiar_falszowane: liczba(falsz.sredni_rozmiar),
-    bledy_oryginalne: ulamek(oryg.proc_bledow),
-    bledy_falszowane: ulamek(falsz.proc_bledow),
+      : ulamek(Math.round(10 * (100 - Number(p.proc_wsrod_rozstrzygnietych))) / 10, L),
+    proc_testow: procTestow === null ? '—' : ulamek(procTestow, L),
+    falszowane_wyszukiwarek: liczba(kategoria('wyszukiwarka').falszowane ?? 0, L),
+    uzytkownik_zadan: liczba(kategoria('ai_uzytkownik').zadan ?? 0, L),
+    uzytkownik_falszowane: liczba(kategoria('ai_uzytkownik').falszowane ?? 0, L),
+    oryginalne_wrazliwe: liczba(wrazliwe('oryginalne'), L),
+    falszowane_wrazliwe: liczba(wrazliwe('falszowane'), L),
+    falszowane_tresc: liczba(suma(cele.filter((r) => r.grupa === 'falszowane' && r.sciezka_typ === 'tresc'), (r) => r.zadan), L),
+    falszowane_cele: liczba(suma(cele.filter((r) => r.grupa === 'falszowane'), (r) => r.zadan), L),
+    rozmiar_oryginalne: liczba(oryg.sredni_rozmiar, L),
+    rozmiar_falszowane: liczba(falsz.sredni_rozmiar, L),
+    bledy_oryginalne: ulamek(oryg.proc_bledow, L),
+    bledy_falszowane: ulamek(falsz.proc_bledow, L),
 
-    tabela_wg_bota: tabelaWgBota(dane.pub_bot_wg_bota),
-    tabela_kategorie: tabelaKategorie(kat),
-    tabela_zachowanie: tabelaZachowanie(zach),
-    tabela_cele: tabelaCele(cele),
-    tabela_metody: tabelaMetody(dane.pub_bot_metody),
-    tabela_pod_kogo: tabelaPodKogo(dane.pub_bot_pod_kogo),
+    tabela_wg_bota: tabelaWgBota(dane.pub_bot_wg_bota, L),
+    tabela_kategorie: tabelaKategorie(kat, L),
+    tabela_zachowanie: tabelaZachowanie(zach, L),
+    tabela_cele: tabelaCele(cele, L),
+    tabela_metody: tabelaMetody(dane.pub_bot_metody, L),
+    tabela_pod_kogo: tabelaPodKogo(dane.pub_bot_pod_kogo, L),
   };
 }
 
 /** Żetony na wypadek awarii Supabase. Strona ma się wyświetlić z treścią —
  *  cała warstwa merytoryczna jest statyczna i nie zależy od liczb. */
-function zetonyAwaryjne() {
+function zetonyAwaryjne(L = JEZYKI.pl) {
   return {
     stan_na_iso: new Date().toISOString().slice(0, 10),
-    tabela_wg_bota: PUSTA(6),
-    tabela_kategorie: PUSTA(6),
-    tabela_zachowanie: PUSTA(7),
-    tabela_cele: PUSTA(4),
-    tabela_metody: PUSTA(4),
-    tabela_pod_kogo: PUSTA(4),
+    tabela_wg_bota: PUSTA(6, L),
+    tabela_kategorie: PUSTA(6, L),
+    tabela_zachowanie: PUSTA(7, L),
+    tabela_cele: PUSTA(4, L),
+    tabela_metody: PUSTA(4, L),
+    tabela_pod_kogo: PUSTA(4, L),
   };
 }
-
-const NOTKA_AWARYJNA =
-  '<p><strong>Uwaga:</strong> chwilowo nie udało się pobrać aktualnych liczb '
-  + 'z licznika, więc w miejscach liczbowych są kreski. Treść merytoryczna jest '
-  + 'kompletna. Spróbuj odświeżyć za kilka minut.</p>';
 
 /**
  * Podstawienie z siatką bezpieczeństwa: cokolwiek zostanie w postaci {{...}},
@@ -333,7 +399,7 @@ export async function feedJson(request, env, ctx) {
   return odp;
 }
 
-export async function mirrorHtml(request, env, ctx, szablon) {
+export async function mirrorHtml(request, env, ctx, szablon, L = JEZYKI.pl) {
   const cache = caches.default;
   const klucz = new Request(new URL(request.url).toString(), { method: 'GET' });
   const zCache = await cache.match(klucz);
@@ -343,10 +409,12 @@ export async function mirrorHtml(request, env, ctx, szablon) {
   let tresc = await szablon.text();
 
   if (dane) {
-    tresc = podstaw(tresc, zbudujZetony(dane));
+    tresc = podstaw(tresc, zbudujZetony(dane, L));
   } else {
-    tresc = podstaw(tresc, zetonyAwaryjne()).replace('<h2>Liczba, o którą chodzi</h2>',
-      `${NOTKA_AWARYJNA}\n<h2>Liczba, o którą chodzi</h2>`);
+    // Kotwica jest w jezyku szablonu — notka ma stanac nad liczba naglowkowa,
+    // a nie w losowym miejscu albo (gdy naglowek sie nie zgadza) nigdzie.
+    tresc = podstaw(tresc, zetonyAwaryjne(L))
+      .replace(L.kotwicaAwaryjna, `${L.notkaAwaryjna}\n${L.kotwicaAwaryjna}`);
   }
 
   const odp = new Response(tresc, {
