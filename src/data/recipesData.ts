@@ -56,6 +56,41 @@ export interface NutritionInfo {
   calciumContent: number;
 }
 
+/**
+ * Jeden wpis dziennika warzeń — najbardziej cytowalna treść, jaką ta strona
+ * może mieć, i jednocześnie jedyna, której nie da się skądinąd wziąć.
+ *
+ * PO CO TO ISTNIEJE. Pomiar z 7 września 2026 pokazał, po które strony sięga
+ * model, gdy odpowiada człowiekowi: wyłącznie po takie, których treści nie zna
+ * z siebie — polskie przepisy prawne (bo limity się zmieniają) i nasz własny
+ * pomiar ruchu botów (bo powstał dwa dni wcześniej). Po przepisy nie sięgnął
+ * ani razu, bo przepis na goudę zna każdy model.
+ *
+ * Czego NIE zna żaden model: co wyszło TOBIE, przy polskim mleku, w tej partii,
+ * i co zmieniłeś w kolejnej. Wpis z datą, zmianą i powodem jest jednocześnie
+ * powodem, żeby po stronę sięgnąć, i faktem, którego nie da się zacytować bez
+ * podania, kto go ustalił.
+ *
+ * ⚠ WPISUJ WYŁĄCZNIE TO, CO NAPRAWDĘ ZMIERZYŁEŚ. Wymyślony wpis jest
+ * bezwartościowy w sposób gorszy niż jego brak: cały serwis stoi na tym, że
+ * podane liczby są prawdziwe, a jeden zmyślony dziennik podważa wszystkie
+ * pozostałe pomiary, łącznie z licznikiem botów.
+ */
+export interface DziennikWarzenia {
+  /** Numer wersji przepisu, rosnąco. */
+  wersja: number;
+  /** Data warzenia w formacie RRRR-MM-DD — bez niej wpis nie ma wartości. */
+  data: string;
+  /** Co zmieniono względem poprzedniej wersji. Jedno zdanie. */
+  zmiana: string;
+  /** Dlaczego — czyli co poszło nie tak poprzednio. To jest najcenniejsza część:
+   *  opisów nieudanych prób prawie nikt nie publikuje. */
+  powod: string;
+  /** Zmierzone liczby z tej partii: wydajność, pH, czas, temperatura. Opcjonalne,
+   *  ale wpis z liczbą jest wart wielokrotnie więcej niż wpis bez. */
+  pomiar?: string;
+}
+
 export interface Recipe {
   id: string;
   name: string;
@@ -101,6 +136,16 @@ export interface Recipe {
   // Kroki
   steps: RecipeStep[];
   
+  /**
+   * Dziennik kolejnych warzeń tego sera. Pole OPCJONALNE — przepis bez niego
+   * wygląda i działa dokładnie tak jak dotąd, więc dopisanie dziennika do
+   * jednego sera niczego nie rusza w pozostałych.
+   *
+   * Wpisy w kolejności od NAJNOWSZEGO, bo czytelnika interesuje aktualna wersja,
+   * a historia jest kontekstem.
+   */
+  dziennikWarzen?: DziennikWarzenia[];
+
   // Uwagi
   notes?: {
     tips: string[];

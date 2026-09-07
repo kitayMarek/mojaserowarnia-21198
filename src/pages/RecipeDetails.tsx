@@ -295,6 +295,43 @@ const RecipeDetails = () => {
             </section>
           )}
 
+          {/* DZIENNIK WARZEN — sekcja, ktorej tresci nie ma zaden model.
+              Pomiar z 7.09.2026: gdy czlowiek zada pytanie, model siega
+              WYLACZNIE po strony, ktorych nie zna z siebie — polskie przepisy
+              prawne i nasz wlasny pomiar ruchu botow. Po przepisy nie siegnal
+              ani razu, bo goude zna kazdy model. Wlasne warzenia to jedyna
+              czesc przepisu, ktorej nie da sie wziac skadinad.
+
+              Renderuje sie tylko, gdy sa wpisy — przepis bez dziennika wyglada
+              dokladnie tak jak dotad. */}
+          {recipe.dziennikWarzen && recipe.dziennikWarzen.length > 0 && (
+            <section className="bg-card rounded-xl border border-amber-300 p-8 mb-8">
+              <h2 className="text-2xl font-display font-bold text-primary mb-2">
+                🧀 Nasz dziennik warzeń
+              </h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Ten przepis zmienia się z każdą partią. Poniżej co dokładnie zmienialiśmy
+                i dlaczego — razem z tym, co wcześniej nie wychodziło. Wersja{" "}
+                {recipe.dziennikWarzen[0].wersja}, stan na {recipe.dziennikWarzen[0].data}.
+              </p>
+              <ol className="space-y-5">
+                {recipe.dziennikWarzen.map((w) => (
+                  <li key={w.wersja} className="border-l-2 border-amber-400 pl-4">
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                      <span className="font-semibold">Wersja {w.wersja}</span>
+                      <time className="text-sm text-muted-foreground" dateTime={w.data}>{w.data}</time>
+                    </div>
+                    <p className="mt-1"><strong>Zmiana:</strong> {w.zmiana}</p>
+                    <p className="text-muted-foreground"><strong>Powód:</strong> {w.powod}</p>
+                    {w.pomiar && (
+                      <p className="text-sm mt-1"><strong>Zmierzone:</strong> {w.pomiar}</p>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           {/* Porady, ostrzezenia i warianty — dane byly w recipesData od poczatku,
               ale zaden komponent ich nie renderowal. 24 przepisy, 173 pozycje
               widoczne wylacznie w mirrorach statycznych, nie dla czytelnikow. */}
