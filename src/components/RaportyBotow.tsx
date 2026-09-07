@@ -49,6 +49,21 @@ interface Raport {
  *  i jak to czytać. Bez niego tabela liczb nie znaczy nic dla kogoś z zewnątrz. */
 const RAPORTY: Raport[] = [
   {
+    id: "po_co_przychodza",
+    nazwa: "Po co przychodzą",
+    opis: "Strony treściowe, które pobrały POTWIERDZONE boty, w rozbiciu na kategorię. Wiersze z kategorią „ai_uzytkownik” są tu najciekawsze: to strony, po które model sięgnął, bo konkretny człowiek zadał mu pytanie. Najbliższe, co da się zmierzyć, temu o co ludzie realnie pytają — bez pośrednictwa narzędzi SEO. Pliki techniczne i paczki budowania są odsiane, bo zagłuszają obraz.",
+    domyslny: "all",
+    kolumny: [
+      { k: "kategoria", n: "Kategoria", typ: "tekst" },
+      { k: "sciezka", n: "Adres", typ: "tekst" },
+      { k: "zadan", n: "Żądań", typ: "liczba" },
+      { k: "boty", n: "Boty", typ: "lista" },
+      { k: "czy_mirror", n: "Wersja dla botów", typ: "bool" },
+      { k: "ostatnio", n: "Ostatnio", typ: "data" },
+    ],
+    pusto: "Żaden potwierdzony bot nie pobrał jeszcze strony treściowej w tym okresie.",
+  },
+  {
     id: "kto_byl",
     nazwa: "Kto tu był",
     opis: "Wszystkie tożsamości botów widziane w wybranym okresie, z podziałem na te, które przeszły weryfikację, te którym zaprzeczyła, i te, których nie da się rozstrzygnąć.",

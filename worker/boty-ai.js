@@ -384,6 +384,7 @@ const RAPORTY = {
   w_czasie: 'pub_raport_w_czasie',
   czego_nie_bylo: 'pub_raport_czego_nie_bylo',
   porownanie: 'pub_raport_porownanie',
+  po_co_przychodza: 'pub_raport_po_co_przychodza',
 };
 
 const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
@@ -401,7 +402,7 @@ const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
  *
  * Podbic przy kazdej zmianie kolumn albo filtrow po stronie bazy.
  */
-const WERSJA_RAPORTOW = 2;
+const WERSJA_RAPORTOW = 3;
 
 export async function raportJson(request, env, ctx) {
   const url = new URL(request.url);
