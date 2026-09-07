@@ -134,6 +134,33 @@ function oznaczMirror(zrodlo) {
   return new Response(zrodlo.body, { status: zrodlo.status, headers: naglowki });
 }
 
+/**
+ * Czy to bot, ktory NIE PRZEDSTAWIL SIE zadna znana nazwa.
+ *
+ * DLACZEGO TO ISTNIEJE: 7 wrzesnia 2026 Gemini poproszony o tresc /boty-ai
+ * odpowiedzial, ze dostal "spis tresci portalu przypominajacy sitemape".
+ * Dostal skorupe Reacta z awaryjnym <noscript> — bo jego User-Agent nie pasuje
+ * do zadnego wzorca w BOTY_MODELI. Model tej klasy chodzi wiec po serwisie
+ * i widzi mape zamiast artykulu, po ktory przyszedl.
+ *
+ * Lista nazw zawsze bedzie spozniona wobec rzeczywistosci — nowy bot pojawia
+ * sie wczesniej, niz ktokolwiek dopisze go do regexa. Dlatego obok listy stoi
+ * regula ogolna: zadanie BEZ naglowkow, ktore wysyla przegladarka, nie jest
+ * zadaniem od czlowieka.
+ *
+ * ⚠ TEN SAM WARUNEK co w worker/wizyty-botow.js (funkcja zapiszWizyteBota).
+ * Tam decyduje o LOGOWANIU, tu o SERWOWANIU. Musza pozostac zgodne, bo inaczej
+ * licznik pokazywalby co innego, niz serwis faktycznie oddaje.
+ *
+ * Ryzyko pomylki jest asymetryczne i dlatego akceptowalne: czlowiek uznany za
+ * bota dostanie mirror, czyli poprawna strone HTML z ta sama trescia — gorszy
+ * uklad, ale nie brak tresci. Bot uznany za czlowieka dostaje pusta skorupe,
+ * czyli nie dostaje nic.
+ */
+function botBezPodpisu(request) {
+  return !(request.headers.get('sec-fetch-mode') || request.headers.get('accept-language'));
+}
+
 const router = {
   /**
    * Cały router siedzi w metodzie `trasuj` niżej — ta funkcja tylko go woła,
@@ -227,7 +254,8 @@ Disallow: /
     if (bezUkosnika === '/boty-ai' || url.pathname === '/boty-ai.html') {
       const uaBota = request.headers.get('user-agent') || '';
       const chceMirror = url.pathname === '/boty-ai.html'
-        || BOTY_PODGLADU.test(uaBota) || BOTY_MODELI.test(uaBota);
+        || BOTY_PODGLADU.test(uaBota) || BOTY_MODELI.test(uaBota)
+        || botBezPodpisu(request);
 
       if (chceMirror) {
         const szablon = await zasob(env, url.origin, '/boty-ai.html');
@@ -303,7 +331,7 @@ Disallow: /
     //    uruchamia JavaScriptu, więc na trasie React zobaczyłby pustą skorupę.
     //    Człowiek tego nie zobaczy: warunek dotyczy wyłącznie User-Agenta.
     const ua = request.headers.get('user-agent') || '';
-    if (BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua)) {
+    if (BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua) || botBezPodpisu(request)) {
       const mirror = MIRROR_POD_INNA_NAZWA[bezUkosnika]
         || (bezUkosnika === '/' || ROZSZERZENIE_PLIKU.test(bezUkosnika) ? null : bezUkosnika + '.html');
       if (mirror) {
