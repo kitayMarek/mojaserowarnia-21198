@@ -316,6 +316,33 @@
 
 <p>Zestawienie tych dwóch przypadków jest pouczające samo w sobie. <strong>Model, który przyznał się do niewiedzy, dał nam informację wartą poprawki. Model, który odpowiedział na wszystko, nie dał żadnej.</strong></p>
 
+<h3>7 września 2026 — trzeci model powiedział „nie wiem" i to była najlepsza odpowiedź</h3>
+
+<p>Ten sam test przeszedł jeszcze jeden model, też w wersji darmowej. Przyszedł po wszystkie trzy pliki — mamy jego żądania co do sekundy. Przy mapie serwisu napotkał to samo ograniczenie co poprzedni: nie potrafił odczytać XML-a. I zrobił jedyną rzecz, której żaden z pozostałych nie zrobił: <strong>napisał, że nie poda liczby, bo nie chce zgadywać</strong>, i zaproponował, żeby wkleić mu zawartość pliku.</p>
+
+<p>Plik llms.txt odczytał <strong>poprawnie i aktualnie</strong>, łącznie z datą ostatniej aktualizacji — tą samą, którą poprzedni model podał o trzy miesiące starszą.</p>
+
+<p>Przy liczbach z tej strony podał wartości spójne arytmetycznie, ale nieodpowiadające stanowi licznika z chwili odczytu. <strong>Nie umiemy tego rozstrzygnąć</strong> i tak to zapisujemy: strona jest buforowana na godzinę, a liczby rosną szybko, więc mógł dostać starszą wersję — albo sięgnąć do pamięci. Bez zapisu historii tych liczb nie mamy jak sprawdzić, a zgadywanie byłoby dokładnie tym, co tej stronie zarzucamy u innych.</p>
+
+<h3>Co z tego wynika</h3>
+
+<p>Trzy modele, to samo pytanie, ta sama przeszkoda — i trzy różne zachowania:</p>
+
+<table>
+  <thead><tr><th>Model</th><th>Czy przyszedł</th><th>Co zrobił z przeszkodą</th></tr></thead>
+  <tbody>
+    <tr><td>pierwszy</td><td>brak żądania w liczniku</td><td>podał liczbę, której nigdy nie było, wraz z opisem liczenia</td></tr>
+    <tr><td>drugi</td><td>tak, oba pliki</td><td>uznał własne ograniczenie za awarię naszego serwera</td></tr>
+    <tr><td>trzeci</td><td>tak, wszystkie trzy</td><td>powiedział „nie chcę zgadywać" i poprosił o plik</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Model, który jako jedyny odmówił odpowiedzi, jest jednocześnie jedynym, którego pozostałe odpowiedzi okazały się prawdziwe.</strong> To nie jest przypadek ani ładna puenta — to ta sama zależność, o której jest cała ta strona. Wartość odpowiedzi bierze się z tego, czy stoi za nią sprawdzenie, a nie z tego, jak pewnie brzmi.</p>
+
+<p class="uwaga">Wszystkie trzy testy wykonano na wersjach darmowych. Nie wiemy, czy wersje płatne zachowałyby się tak samo, i nie twierdzimy, że to cecha tych firm — to jest obserwacja z trzech rozmów, nie pomiar.</p>
+
+
+
 <h3>4 września 2026, 11:06 — pięć tożsamości w dziewiętnaście sekund</h3>
 
 <p>Z jednej sieci w Stanach Zjednoczonych (AS1004) przyszła seria żądań, w której ten sam ruch przedstawiał się kolejno jako <strong>sześć różnych botów</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot i PerplexityBot. Całość trwała dziewiętnaście sekund. Żądania dotyczyły plików konfiguracyjnych, kopii zapasowych i map kodu źródłowego.</p>
@@ -335,6 +362,16 @@
 <p>Sygnał był w danych od początku: metoda odwrotnego DNS miała bilans <strong>zero potwierdzeń na dwadzieścia pięć sprawdzeń</strong>. Odnotowaliśmy to dzień wcześniej i opisaliśmy tę metodę jako niesprawdzoną — ale zabrakło wniosku, że skoro jest niesprawdzona, to jej „nie" też nie nadaje się do publikacji.</p>
 
 <p>Werdyktów nie dało się przeliczyć, bo <strong>celowo nie zapisujemy adresów IP</strong> — bez adresu nie ma jak ponowić zapytania DNS. Zostały więc cofnięte do „niesprawdzone". To jest ta sama zasada, którą stosujemy do cudzych liczb: pomiar, o którym wiadomo, że był błędny, przestaje być dowodem.</p>
+
+<h2>Nie jesteśmy pierwsi — i to jest dobra wiadomość</h2>
+
+<p>28 sierpnia 2026, <strong>tydzień przed uruchomieniem tego licznika</strong>, Jakub Sawa opublikował <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">badanie oparte na tej samej metodzie</a>: weryfikacji botów po adresie IP zamiast po nazwie. Prowadzi je na jsseo.dev przez osiemdziesiąt dni i publikuje metodykę oraz surowe dane.</p>
+
+<p>Doszedł do tego samego mechanizmu, niezależnie i wcześniej: jedna pula tanich serwerów przebierająca się za kolejne boty (u niego jeden adres wystąpił pod dwunastoma nazwami), skanowanie plików konfiguracyjnych zamiast czytania treści, i infrastruktura brzegowa, która weryfikuje Google, a resztę przepuszcza.</p>
+
+<p><strong>Ale nasze liczby się różnią — i ta różnica jest pouczająca.</strong> U niego podszywek pod GPTBota jest 3%, u nas w tym pomiarze 100%. To nie jest sprzeczność, tylko inny mianownik. Jego domena to laboratorium SEO, które prawdziwe crawlery odwiedzają regularnie od miesięcy, więc podszywki topią się w masie autentycznego ruchu. Do portalu o serowarstwie prawdziwy GPTBot w oknie pomiaru <em>nie przyszedł ani razu</em> — więc wszystko, co przyszło pod jego nazwą, było cudze. <strong>Ta sama metoda, dwie strony, przeciwne proporcje i obie liczby prawdziwe.</strong></p>
+
+<p>To jest zarazem najmocniejszy argument za tym, żeby takich pomiarów było więcej. Jeden pomiar z jednej domeny mówi o tej domenie. Dwa niezależne, zgodne co do mechanizmu i rozbieżne co do skali, mówią już coś o zjawisku — i pokazują, od czego ta skala zależy.</p>
 
 <h2>Jak to jest liczone</h2>
 

@@ -302,6 +302,33 @@
 
 <p>The pair is instructive on its own. <strong>The model that admitted ignorance gave us something worth fixing. The model that answered everything gave us nothing.</strong></p>
 
+<h3>7 September 2026 — a third model said “I don't know”, and that was the best answer</h3>
+
+<p>A third model took the same test, also on a free tier. It came for all three files — we have its requests to the second. At the sitemap it hit the same limitation as the previous one: it could not read XML. And it did the one thing neither of the others did: <strong>it wrote that it would not give a number because it did not want to guess</strong>, and asked to be given the file's contents instead.</p>
+
+<p>It read llms.txt <strong>correctly and currently</strong>, including the last-updated date — the same date the earlier model reported three months out.</p>
+
+<p>For the figures on this page it gave values that are arithmetically consistent but do not match the counter at the moment of reading. <strong>We cannot settle this</strong>, and we record it as such: the page is cached for an hour and the numbers move quickly, so it may have received an older version — or reached into memory. Without a stored history of these figures we have no way to check, and guessing would be precisely what this page criticises in others.</p>
+
+<h3>What follows from this</h3>
+
+<p>Three models, one question, the same obstacle — and three different behaviours:</p>
+
+<table>
+  <thead><tr><th>Model</th><th>Did it arrive</th><th>What it did with the obstacle</th></tr></thead>
+  <tbody>
+    <tr><td>first</td><td>no request in the counter</td><td>produced a number that never existed, with a description of counting</td></tr>
+    <tr><td>second</td><td>yes, both files</td><td>reported its own limitation as our server's outage</td></tr>
+    <tr><td>third</td><td>yes, all three</td><td>said “I don't want to guess” and asked for the file</td></tr>
+  </tbody>
+</table>
+
+<p><strong>The one model that refused to answer is also the only one whose other answers turned out to be true.</strong> That is not a coincidence or a neat ending — it is the same relationship this entire page is about. An answer is worth what the checking behind it is worth, not what its confidence sounds like.</p>
+
+<p>All three tests were run on free tiers. We do not know whether paid versions would behave the same, and we make no claim about these companies — this is an observation from three conversations, not a measurement.</p>
+
+
+
 <h3>4 September 2026, 11:06 — six identities in nineteen seconds</h3>
 
 <p>From one network in the United States (AS1004) came a run of requests in which the same traffic introduced itself in turn as <strong>six different bots</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot and PerplexityBot. The whole thing lasted nineteen seconds. The requests concerned configuration files, backups and source maps.</p>
@@ -321,6 +348,16 @@
 <p>The signal was in the data from the start: the reverse DNS method had a record of <strong>zero confirmations out of twenty-five checks</strong>. We noted that a day earlier and described the method as unproven — but stopped short of the conclusion that if it is unproven, then its “no” is not fit to publish either.</p>
 
 <p>The verdicts could not be recomputed, because <strong>we deliberately do not store IP addresses</strong> — without the address there is no way to repeat the DNS query. So they were rolled back to “unverifiable”. This is the same principle we apply to other people's figures: a measurement known to have been faulty stops being evidence.</p>
+
+<h2>We are not the first — and that is good news</h2>
+
+<p>On 28 August 2026, <strong>a week before this counter started</strong>, Jakub Sawa published <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">a study built on the same method</a>: verifying bots by IP address rather than by name. He has been running it on jsseo.dev for eighty days and publishes both the methodology and the raw data.</p>
+
+<p>He arrived at the same mechanism, independently and earlier: a pool of cheap servers dressing up as one bot after another (one address appeared under twelve names), scanning for configuration files instead of reading content, and edge infrastructure that verifies Google while letting the rest through.</p>
+
+<p><strong>But our numbers differ — and the difference is instructive.</strong> On his site 3% of GPTBot traffic is forged; in this measurement, 100%. That is not a contradiction, it is a different denominator. His domain is an SEO laboratory that genuine crawlers visit regularly, so impostors are diluted by authentic traffic. The real GPTBot did not visit a home-cheesemaking portal <em>even once</em> during the measurement window — so everything arriving under its name belonged to somebody else. <strong>Same method, two sites, opposite proportions, and both figures true.</strong></p>
+
+<p>This is also the strongest argument for having more such measurements. One measurement from one domain says something about that domain. Two independent ones, agreeing on the mechanism and diverging on scale, start to say something about the phenomenon — and show what that scale depends on.</p>
 
 <h2>How this is counted</h2>
 

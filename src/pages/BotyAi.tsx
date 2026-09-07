@@ -851,6 +851,33 @@ const Kronika = () => (
       odpowiedział na wszystko, nie dał żadnej.
     </p>
 
+    <h3 className="font-semibold">7 września 2026 — trzeci model powiedział „nie wiem" i to była najlepsza odpowiedź</h3>
+    <p>
+      Ten sam test przeszedł jeszcze jeden model, też w wersji darmowej. Przyszedł po wszystkie trzy
+      pliki — mamy jego żądania co do sekundy. Przy mapie serwisu napotkał to samo ograniczenie co
+      poprzedni: nie potrafił odczytać XML-a. I zrobił jedyną rzecz, której żaden z pozostałych nie
+      zrobił: <strong>napisał, że nie poda liczby, bo nie chce zgadywać</strong>, i poprosił o wklejenie
+      zawartości pliku. Plik llms.txt odczytał <strong>poprawnie i aktualnie</strong>, z datą, którą
+      poprzedni model podał o trzy miesiące starszą.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Przy liczbach z tej strony podał wartości spójne arytmetycznie, ale nieodpowiadające stanowi
+      licznika z chwili odczytu. <strong>Nie umiemy tego rozstrzygnąć</strong> i tak to zapisujemy:
+      strona jest buforowana na godzinę, a liczby rosną szybko, więc mógł dostać starszą wersję albo
+      sięgnąć do pamięci. Bez zapisu historii tych liczb nie mamy jak sprawdzić, a zgadywanie byłoby
+      dokładnie tym, co tej stronie zarzucamy u innych.
+    </p>
+    <p className="font-medium">
+      Trzy modele, to samo pytanie, ta sama przeszkoda. Pierwszy nie przyszedł i podał liczbę, której
+      nigdy nie było. Drugi przyszedł i uznał własne ograniczenie za awarię naszego serwera. Trzeci
+      przyszedł i powiedział „nie chcę zgadywać". <strong>Ten jedyny, który odmówił odpowiedzi, jest
+      jednocześnie jedynym, którego pozostałe odpowiedzi okazały się prawdziwe.</strong>
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Wszystkie trzy testy wykonano na wersjach darmowych. Nie wiemy, czy wersje płatne zachowałyby
+      się tak samo, i nie twierdzimy, że to cecha tych firm — to obserwacja z trzech rozmów, nie pomiar.
+    </p>
+
     <h3 className="font-semibold">4 września 2026, 11:06 — sześć tożsamości w dziewiętnaście sekund</h3>
     <p>
       Z jednej sieci w Stanach Zjednoczonych (AS1004) przyszła seria żądań, w której ten sam
