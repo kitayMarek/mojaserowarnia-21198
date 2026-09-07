@@ -877,9 +877,12 @@ const Kronika = () => (
       Test powtórzyliśmy potem na pięciu modelach i wersjach, w tym trzech płatnych.
     </p>
     <p>
-      <strong>Żadna z pięciu wersji nie odczytała mapy serwisu w formacie XML.</strong> Cztery
-      uczciwie to zgłosiły, jedna zmyśliła liczbę. To praktyczny wniosek dla każdego, kto liczy, że
-      sitemapa „karmi modele" — nie karmi, bo modele jej nie czytają.
+      <strong>Tylko jedna z sześciu wersji odczytała mapę serwisu w formacie XML</strong> — podała
+      liczbę adresów, ostatni z nich i jego datę, wszystko zgodnie ze stanem. Cztery uczciwie
+      przyznały, że nie potrafią, jedna zmyśliła liczbę. Wniosek dla każdego, kto liczy, że sitemapa
+      „karmi modele": czasem karmi, częściej nie — i nie da się z góry przewidzieć, którego modelu
+      to dotyczy. (Pierwsza wersja tego akapitu mówiła „żadna z pięciu". Była prawdziwa przez
+      godzinę, do szóstego testu.)
     </p>
     <p>
       <strong>Wyższy tryb rozumowania nie dał lepszej odpowiedzi na pytanie faktograficzne.</strong>{" "}
