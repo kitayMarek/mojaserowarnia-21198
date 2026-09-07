@@ -95,6 +95,15 @@ const ROZSZERZENIE_OBCE =
 const SCIEZKA_SKANERA =
   /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|server-info|phpinfo|backup|backups|dump|dumps|api|v1|v2|v3|debug|console|status|metrics|health|healthz|config|app|static|_next)(\/|$)/i;
 
+// Pliki, ktore chcemy MIERZYC, wiec przechodza przez workera zamiast przez
+// warstwe assetow (patrz run_worker_first w wrangler.jsonc).
+//
+// ⚠ MUSZA MIEC WLASNA OBSLUGE. Bez niej spadalyby do reguly 4, ktora na
+// rozszerzenie z ROZSZERZENIE_PLIKU oddaje 404 — bo zaklada, ze istniejace
+// pliki obsluzyla juz warstwa assetow. Dopisanie sciezki do run_worker_first
+// bez dopisania jej tutaj WYLACZA plik.
+const PLIKI_MIERZONE = new Set(['/sitemap.xml', '/llms.txt']);
+
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
 // aplikację, nawet gdyby w katalogu kiedyś pojawił się index.html.
 const ZAWSZE_APLIKACJA = new Set(['/przepisy', '/prawo', '/serowarnie', '/przepisy-kulinarne']);
@@ -230,6 +239,14 @@ Disallow: /
         }
       }
       // Człowiek na /boty-ai leci dalej i dostaje trasę React (reguła 5).
+    }
+
+    // 1b3) Pliki mierzone — oddajemy zawartosc, a licznik zapisze wizyte
+    //      w zwykly sposob (przez router.fetch, ktory wola zapiszWizyteBota).
+    if (PLIKI_MIERZONE.has(url.pathname)) {
+      const plik = await zasob(env, url.origin, url.pathname);
+      if (plik.status === 200) return plik;
+      // Gdyby pliku zabraklo — lecimy dalej i konczy sie normalnym 404.
     }
 
     // 1c) Pliki i katalogi kropkowe → 404. Żadna trasa React tak nie wygląda,

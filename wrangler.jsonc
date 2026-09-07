@@ -29,11 +29,6 @@
     // uruchomił — a to on serwuje mirrory botom i zwraca prawdziwe 404.
     "not_found_handling": "none",
 
-    // Wylacznie dla tej jednej sciezki worker dostaje zadanie przed warstwa
-    // assetow. Powod: adresy podgladowe *.workers.dev serwuja pelna kopie
-    // serwisu, a robots.txt jest pierwsza rzecza, o ktora pyta robot. Bez
-    // tego plik z repo (Allow: /) serwowalby sie takze tam i kopia mogla by
-    // trafic do indeksu jako duplikat calej domeny.
     // Trzy sciezki, dla ktorych worker dostaje zadanie PRZED warstwa assetow.
     //
     // /robots.txt — adresy podgladowe *.workers.dev serwuja pelna kopie serwisu,
@@ -49,7 +44,15 @@
     // /bot-stats.json — pliku nie ma na dysku, sklada go worker z tych samych
     //   danych. Wpis jest tu dla jawnosci: obie sciezki strony /boty-ai stoja
     //   obok siebie, zamiast jednej w konfiguracji i drugiej ukrytej w kodzie.
-    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/bot-stats.json"]
+    // /sitemap.xml i /llms.txt — DOPISANE 7.09.2026, zeby dalo sie je ZMIERZYC.
+    // Oba fizycznie leza w dist/, wiec warstwa assetow oddawala je bez
+    // uruchamiania workera i zapiszWizyteBota nigdy sie nie wykonywalo.
+    // Skutek: licznik pokazywal dla nich twarde zero, a my odczytalismy je jako
+    // "nikt nie pobiera". Bledny wniosek — nie mielismy jak zobaczyc.
+    //
+    // Kosztowalo to jeden falszywy wniosek o llms.txt ("konwencja bez pokrycia")
+    // i pol dnia podejrzen, ze sitemapa jest zle zgloszona.
+    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/bot-stats.json", "/sitemap.xml", "/llms.txt"]
   },
 
   // Domena wlasciwa.
