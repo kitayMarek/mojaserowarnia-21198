@@ -884,6 +884,24 @@ const Kronika = () => (
       Jeśli go nie ma, żadna hipoteza o serwerze nie ma podstaw — serwer nie dostał okazji, żeby
       cokolwiek zrobić.
     </p>
+    <p>
+      <strong>Rozstrzygnięcie przyszło od modelu, który pobiera.</strong> Ten sam zestaw czterech
+      plików odczytał w całości — XML, zwykły tekst, JSON i kopię mapy serwisu pod inną nazwą. Cztery
+      klucze, cztery trafienia, a w liczniku cztery jego żądania, wszystkie zweryfikowane.{" "}
+      <strong>Format nie ma znaczenia dla nikogo, kto faktycznie wychodzi po plik.</strong>
+    </p>
+    <p>
+      Pierwsze wrażenie bywa tu odwrotne od wniosku. Model, który przychodzi po plik,{" "}
+      <em>zostawia ślad</em>: przedstawia się nazwą, przychodzi z adresów publikowanych przez swojego
+      operatora, można go sprawdzić, policzyć albo nie wpuścić przez <code>robots.txt</code>. Model,
+      który czyta cudzy indeks, <strong>jest dla właściciela strony niewidzialny</strong> — nie ma go
+      w logach, nie sposób go zablokować i nie wiadomo nawet, że cytuje.
+    </p>
+    <p className="font-medium">
+      Im mniej model fatyguje się do źródła, tym mniej właściciel źródła wie, że jest czytany. Ta
+      strona liczy tych, którzy przychodzą. O tych, którzy nie przychodzą, a jednak cytują, nie wie
+      nic i wiedzieć nie może.
+    </p>
 
     <h3 className="font-semibold">7 września 2026 — trzeci model powiedział „nie wiem" i to była najlepsza odpowiedź</h3>
     <p>

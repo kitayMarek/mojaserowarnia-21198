@@ -427,6 +427,12 @@
 
 <p>Pytanie, które warto zadać, jest proste i rozstrzyga w minutę: <strong>„czy w moich logach jest ślad Twojego żądania?"</strong> Jeśli go nie ma, żadna hipoteza o serwerze nie ma podstaw, bo serwer nie dostał okazji, żeby cokolwiek zrobić.</p>
 
+<p><strong>Rozstrzygnięcie przyszło od modelu, który pobiera.</strong> Ten sam zestaw czterech plików odczytał w całości: XML, zwykły tekst, JSON i kopię mapy serwisu pod inną nazwą — cztery klucze, cztery trafienia, a w liczniku cztery jego żądania, wszystkie zweryfikowane jako pochodzące naprawdę od tego operatora. <strong>Format nie ma znaczenia dla nikogo, kto faktycznie wychodzi po plik.</strong> Znaczenie ma wyłącznie to, czy wychodzi.</p>
+
+<p>Warto się przy tym zatrzymać, bo pierwsze wrażenie bywa odwrotne od wniosku. Model, który przychodzi po plik, <em>zostawia ślad</em>: przedstawia się nazwą, przychodzi z adresów, które jego operator publikuje, i można go sprawdzić, policzyć albo odmówić mu wstępu w <code>robots.txt</code>. Model, który czyta cudzy indeks, <strong>jest dla właściciela strony niewidzialny</strong> — nie ma go w logach, nie sposób go zablokować i nie wiadomo nawet, że cytuje.</p>
+
+<p>To jest niewygodna symetria. <strong>Im mniej model fatyguje się do źródła, tym mniej właściciel źródła wie, że jest czytany</strong> — i tym mniej ma nad tym kontroli. Cała ta strona liczy tych, którzy przychodzą. O tych, którzy nie przychodzą, a jednak cytują, nie wie nic i wiedzieć nie może.</p>
+
 <p class="uwaga">Jeden szczegół dla porządku: model uruchamiający kod odczytał wcześniej tego samego dnia dwa inne nasze pliki i zrobił to poprawnie — jego narzędzie przeglądania działa. Tym razem sięgnął po interpreter zamiast po nie. <strong>Nie zawiodła umiejętność, tylko wybór narzędzia</strong> — a wniosek o cudzej zaporze wyciągnięty został tak samo pewnie.</p>
 
 <h2>Nie jesteśmy pierwsi — i to jest dobra wiadomość</h2>
