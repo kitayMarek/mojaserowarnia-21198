@@ -54,7 +54,7 @@
     //
     // Kosztowalo to jeden falszywy wniosek o llms.txt ("konwencja bez pokrycia")
     // i pol dnia podejrzen, ze sitemapa jest zle zgloszona.
-    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/en/ai-bots.html", "/bot-stats.json", "/sitemap.xml", "/llms.txt"]
+    "run_worker_first": ["/robots.txt", "/boty-ai.html", "/en/ai-bots.html", "/bot-stats.json", "/sitemap.xml", "/llms.txt", "/proba/dane.xml", "/proba/dane.txt", "/proba/dane.json", "/proba/mapa.xml"]
   },
 
   // Domena wlasciwa.

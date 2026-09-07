@@ -102,7 +102,16 @@ const SCIEZKA_SKANERA =
 // rozszerzenie z ROZSZERZENIE_PLIKU oddaje 404 — bo zaklada, ze istniejace
 // pliki obsluzyla juz warstwa assetow. Dopisanie sciezki do run_worker_first
 // bez dopisania jej tutaj WYLACZA plik.
-const PLIKI_MIERZONE = new Set(['/sitemap.xml', '/llms.txt']);
+const PLIKI_MIERZONE = new Set([
+  '/sitemap.xml', '/llms.txt',
+  // PROBA FORMATOW, 7.09.2026. Cztery pliki o tej samej tresci i roznych
+  // rozszerzeniach: sprawdzamy, ktorych formatow narzedzia przegladania modeli
+  // nie potrafia odczytac. Musza byc MIERZONE, bo caly wynik testu zalezy od
+  // tego, czy model w ogole przyszedl — bez tego znowu czytalibysmy zero jako
+  // odpowiedz, a to juz nas w tym tygodniu kosztowalo dwa falszywe wnioski.
+  // DO USUNIECIA po zakonczeniu proby (razem z katalogiem public/proba/).
+  '/proba/dane.xml', '/proba/dane.txt', '/proba/dane.json', '/proba/mapa.xml',
+]);
 
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
 // aplikację, nawet gdyby w katalogu kiedyś pojawił się index.html.
