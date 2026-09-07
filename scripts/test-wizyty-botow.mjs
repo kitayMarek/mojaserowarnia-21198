@@ -96,21 +96,101 @@ try {
     '1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa');
   sprawdz('PTR dla smiecia', nazwaPtr('nie-adres'), null);
 
-  // Prawdziwy Amazonbot: PTR konczy sie .crawl.amazon.com, a forward DNS
+  // Prawdziwy Amazonbot: PTR konczy sie .crawl.amazonbot.amazon, a forward DNS
   // potwierdza ten sam adres. Test siega do sieci — gdy DNS nie odpowie,
   // funkcja ma zwrocic null, a NIE false (falszywe oskarzenie jest gorsze).
-  const amazon = await sprawdzFcrdns('52.94.133.131', ['.crawl.amazon.com']);
+  const amazon = await sprawdzFcrdns('52.94.133.131', ['.crawl.amazonbot.amazon']);
   sprawdz('FCrDNS na obcym adresie nie daje true', amazon.wynik === true, false);
   sprawdz('  ...i metoda jest sensowna',
     ['fcrdns', 'blad_sprawdzenia'].includes(amazon.metoda), true);
 
   // ⚠ NAJWAZNIEJSZY TEST CALEGO FCrDNS: dopasowanie SUFIKSU, nie "contains".
   // Nazwa ponizej zawiera "crawl.amazon.com", ale nalezy do attacker.net.
-  const podszywacz = await sprawdzFcrdns('8.8.8.8', ['.crawl.amazon.com']);
+  const podszywacz = await sprawdzFcrdns('8.8.8.8', ['.crawl.amazonbot.amazon']);
   sprawdz('cudzy adres nie przechodzi FCrDNS', podszywacz.wynik === true, false);
 } catch (e) {
   console.log('  (pominieto testy sieciowe: ' + e.message + ')');
 }
+
+
+// ---------------------------------------------------------------------------
+// RUCH BEZ PODPISU — czy trafia do licznika, a czlowiek w przegladarce nie
+// ---------------------------------------------------------------------------
+// Tego warunku NIE DA SIE sprawdzic na produkcji z naszego lacza: trigger
+// `oznacz_wizyte_bota` ustawia wlasne = (asn = 5617), a KAZDY publiczny widok
+// filtruje `NOT wlasne`. Wlasny test jest wiec z definicji niewidoczny w tym
+// samym raporcie, ktory mial go pokazac — pierwsze sprawdzenie 7.09.2026
+// zwrocilo zero i wygladalo na awarie, a bylo poprawnym dzialaniem odsiewu.
+//
+// Dlatego dyskryminator sprawdzamy tutaj, na samych naglowkach, z podstawionym
+// fetch-em. To jedyne miejsce, w ktorym odpowiedz jest rozstrzygajaca.
+
+const prawdziwyFetch = globalThis.fetch;
+
+async function probaZapisu(naglowki, ua) {
+  let zapisane = null;
+  globalThis.fetch = async (adres, opcje) => {
+    if (String(adres).includes('/rest/v1/bot_visits')) {
+      zapisane = JSON.parse(opcje.body);
+      return { ok: true, status: 201, text: async () => '' };
+    }
+    return { ok: false, status: 404, json: async () => ({}), text: async () => '' };
+  };
+  try {
+    const { zapiszWizyteBota } = await import('../worker/wizyty-botow.js');
+    await zapiszWizyteBota(
+      {
+        url: 'https://mojaserowarnia.pl/przepisy/gouda',
+        headers: new Headers({ 'user-agent': ua, ...naglowki }),
+        cf: { asn: 15169, country: 'US' },
+      },
+      { status: 200, rozmiar: 1234, mirror: false },
+      { SUPABASE_URL: 'https://przyklad.test', SUPABASE_SERVICE_KEY: 'x' }
+    );
+  } finally {
+    globalThis.fetch = prawdziwyFetch;
+  }
+  return zapisane;
+}
+
+const bezPodpisu = await probaZapisu({}, '');
+sprawdz('pusty UA trafia do licznika',       bezPodpisu !== null,   true);
+sprawdz('  ...z etykieta (bez podpisu)',     bezPodpisu?.bot,       '(bez podpisu)');
+sprawdz('  ...i operatorem nieznany',        bezPodpisu?.operator,  'nieznany');
+sprawdz('  ...bez werdyktu o podszywaniu',   bezPodpisu?.zweryfikowany, null);
+
+const dziwnyUa = await probaZapisu({}, 'python-requests/2.31.0');
+sprawdz('nieznany UA skryptu tez trafia',    dziwnyUa?.bot,         '(bez podpisu)');
+
+// Granica prywatnosci: to ma byc licznik BOTOW, nie licznik wszystkiego.
+const zSecFetch = await probaZapisu({ 'sec-fetch-mode': 'navigate' }, 'Mozilla/5.0 (Windows NT 10.0)');
+sprawdz('przegladarka (sec-fetch-mode) NIE trafia', zSecFetch, null);
+
+const zJezykiem = await probaZapisu({ 'accept-language': 'pl-PL,pl;q=0.9' }, 'Mozilla/5.0 (X11; Linux)');
+sprawdz('przegladarka (accept-language) NIE trafia', zJezykiem, null);
+
+// Regresja: rozpoznane boty musza dzialac jak wczesniej, takze gdy wysylaja
+// accept-language — warunek `przegladarka` stoi PO rozpoznaniu nazwy i nie
+// wolno mu przeslonic bota, ktory sie przedstawil.
+const gptbot = await probaZapisu({ 'accept-language': 'en-US' }, 'GPTBot/1.2 (+https://openai.com/gptbot)');
+sprawdz('GPTBot z accept-language nadal liczony', gptbot?.bot, 'GPTBot');
+
+// Adresy podgladowe zostaja poza statystyka takze dla ruchu bez podpisu.
+let zWorkersDev = null;
+globalThis.fetch = async (adres, opcje) => {
+  if (String(adres).includes('/rest/v1/bot_visits')) { zWorkersDev = JSON.parse(opcje.body); }
+  return { ok: true, status: 201, text: async () => '' };
+};
+{
+  const { zapiszWizyteBota } = await import('../worker/wizyty-botow.js');
+  await zapiszWizyteBota(
+    { url: 'https://mojaserowarnia.workers.dev/', headers: new Headers({ 'user-agent': '' }), cf: { asn: 15169 } },
+    { status: 200, rozmiar: 1, mirror: false },
+    { SUPABASE_URL: 'https://przyklad.test', SUPABASE_SERVICE_KEY: 'x' }
+  );
+}
+globalThis.fetch = prawdziwyFetch;
+sprawdz('workers.dev nie zasmieca licznika', zWorkersDev, null);
 
 console.log(`\n${ok} przeszlo, ${zle} nie przeszlo`);
 process.exit(zle ? 1 : 0);
