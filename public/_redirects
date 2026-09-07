@@ -44,14 +44,3 @@
 # adresem bez rozszerzenia. To nie brak tresci, tylko utracone cytowanie.
 # Lista z scripts/audyt-adresow.py --redirects; grupy Z MIRROREM tu NIE MA i byc
 # nie moze — tam .html to osobny, kanoniczny dokument.
-  /automatyzacja-social-media.html /automatyzacja-social-media 301
-  /gdzie-kupic-podpuszczke.html /gdzie-kupic-podpuszczke 301
-  /kalkulator-kosztu-sera.html /kalkulator-kosztu-sera 301
-  /kalkulator-miar.html /kalkulator-miar 301
-  /kalkulator-pasz-bydlo.html /kalkulator-pasz-bydlo 301
-  /kontakt.html /kontakt 301
-  /narzedzia.html /narzedzia 301
-  /nota-prawna.html /nota-prawna 301
-  /porownanie-wartosci-odzywczych.html /porownanie-wartosci-odzywczych 301
-  /system-ewidencji.html /system-ewidencji 301
-  /wiadomosci.html /wiadomosci 301
