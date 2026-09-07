@@ -378,6 +378,43 @@
 
 <p>Something we do deliberately was confirmed along the way. Every figure on this page carries the date and time of the measurement, with a request to quote them together. <strong>The models did exactly that</strong> — reporting the number alongside “as of 7 September, 09:49 UTC”. A reader of such an answer knows they are seeing an hour-old snapshot rather than the current state. It is the cheapest protection against a quotation going stale that we know of, and the only one that works without the quoter's cooperation.</p>
 
+<h2>When a model cannot read something, it diagnoses your server</h2>
+
+<p>This is the most practical finding in the whole measurement, and the only one that can cost money.</p>
+
+<p>On 7 September we published four tiny test files with the same content and different extensions — XML, plain text, JSON, and a copy of the sitemap. We wanted to learn which format models cannot read. <strong>The answer turned out to be unrelated to the question: format had nothing to do with it.</strong></p>
+
+<table>
+  <thead><tr><th>Model</th><th>What actually happened</th><th>What it said the cause was</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>fetches live</td>
+      <td>arrived, fetched, read it — its requests are in our counter, all verified</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>reads from an index</td>
+      <td><strong>sent no request at all.</strong> Its own words: “cache miss, the search engine has no copy”</td>
+      <td>“blocked by the way the XML file is served”</td>
+    </tr>
+    <tr>
+      <td>runs code</td>
+      <td><strong>sent no request at all.</strong> It wrote a script and ran it in a sandbox with no DNS — name resolution failure</td>
+      <td>“server protection against bots, a loading error, or a missing file”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Throughout, the file answered anyone who asked: status 200, 246 bytes.</strong> We checked during and after. None of the guesses above — firewall, bot protection, missing file, serving method — had any basis in fact.</p>
+
+<p>Three different architectures, three different causes of failure, all on the model's side. And three times the same reaction: <strong>describing someone else's infrastructure as broken, stated confidently and without the caveat that the problem might be their own.</strong></p>
+
+<p>Why this costs. Imagine asking an assistant why your site is invisible to AI and being told your server blocks bots. You start relaxing firewall rules, adding exceptions, asking your provider to change a configuration that was working correctly. <strong>You pay to fix something that was not broken</strong> — and weaken your defences along the way, guided by a diagnosis from a tool that never sent a request.</p>
+
+<p>The question worth asking is simple and settles it in a minute: <strong>“is there any trace of your request in my logs?”</strong> If there is none, no hypothesis about the server has any basis, because the server never got the chance to do anything.</p>
+
+<p>One detail for the record: the code-running model had read two other files of ours correctly earlier the same day — its browsing tool works. This time it reached for the interpreter instead. <strong>It was not ability that failed, but the choice of tool</strong> — and the conclusion about somebody else's firewall was drawn just as confidently.</p>
+
 <h2>We are not the first — and that is good news</h2>
 
 <p>On 28 August 2026, <strong>a week before this counter started</strong>, Jakub Sawa published <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">a study built on the same method</a>: verifying bots by IP address rather than by name. He has been running it on jsseo.dev for eighty days and publishes both the methodology and the raw data.</p>

@@ -851,6 +851,40 @@ const Kronika = () => (
       odpowiedział na wszystko, nie dał żadnej.
     </p>
 
+    <h3 className="font-semibold">7 września 2026 — gdy model czegoś nie przeczyta, diagnozuje Twój serwer</h3>
+    <p>
+      Wystawiliśmy cztery malutkie pliki testowe o tej samej treści i różnych rozszerzeniach, żeby
+      sprawdzić, którego formatu modele nie potrafią odczytać.{" "}
+      <strong>Odpowiedź okazała się inna od pytania: format nie miał z tym nic wspólnego.</strong>
+    </p>
+    <ul className="list-disc pl-5 space-y-1">
+      <li>Model pobierający na żywo — przyszedł, pobrał, odczytał. Jego żądania są w liczniku.</li>
+      <li>
+        Model czytający z indeksu — <strong>nie wysłał ani jednego żądania</strong>, sam podał powód
+        („cache miss"), a przyczynę opisał jako „blokowany przez sposób serwowania pliku XML".
+      </li>
+      <li>
+        Model uruchamiający kod — <strong>też ani jednego żądania</strong>: napisał skrypt i uruchomił
+        go w piaskownicy bez dostępu do DNS. Przyczynę opisał jako „zabezpieczenia serwera przed
+        botami, błąd wczytywania lub brak pliku".
+      </li>
+    </ul>
+    <p className="font-medium">
+      Przez cały ten czas plik odpowiadał każdemu, kto o niego poprosił: kod 200, 246 bajtów. Żaden
+      z tych domysłów — zapora, blokada botów, brak pliku — nie miał pokrycia w rzeczywistości.
+    </p>
+    <p>
+      Trzy różne architektury, trzy różne przyczyny niepowodzenia, wszystkie po stronie modelu. I trzy
+      razy ta sama reakcja: <strong>opis cudzej infrastruktury jako uszkodzonej, bez zastrzeżenia, że
+      problem może leżeć po własnej stronie.</strong> To kosztuje wtedy, gdy właściciel strony zacznie
+      rozluźniać reguły zapory, żeby naprawić coś, co nie było zepsute.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Pytanie, które rozstrzyga w minutę: <strong>„czy w moich logach jest ślad Twojego żądania?"</strong>{" "}
+      Jeśli go nie ma, żadna hipoteza o serwerze nie ma podstaw — serwer nie dostał okazji, żeby
+      cokolwiek zrobić.
+    </p>
+
     <h3 className="font-semibold">7 września 2026 — trzeci model powiedział „nie wiem" i to była najlepsza odpowiedź</h3>
     <p>
       Ten sam test przeszedł jeszcze jeden model, też w wersji darmowej. Przyszedł po wszystkie trzy

@@ -392,6 +392,43 @@
 
 <p>Przy okazji potwierdziło się coś, co robimy tu celowo. Przy każdej liczbie na tej stronie stoi data i godzina stanu, z prośbą, żeby cytować je razem. <strong>Modele to zrobiły</strong> — podały liczbę wraz z „stan na 7 września, godz. 09:49 UTC". Czytelnik takiej odpowiedzi wie, że ogląda migawkę sprzed godziny, a nie stan bieżący. To najtańsze zabezpieczenie przed zestarzeniem się cytatu, jakie znamy, i jedyne, które działa bez współpracy cytującego.</p>
 
+<h2>Gdy model czegoś nie przeczyta, diagnozuje Twój serwer</h2>
+
+<p>To jest najbardziej praktyczny wniosek z całego tego pomiaru i jedyny, który może kosztować pieniądze.</p>
+
+<p>7 września wystawiliśmy cztery malutkie pliki testowe o tej samej treści i różnych rozszerzeniach — XML, tekst, JSON i kopię mapy serwisu. Chcieliśmy sprawdzić, którego formatu modele nie potrafią odczytać. <strong>Odpowiedź okazała się inna od pytania: format nie miał z tym nic wspólnego.</strong></p>
+
+<table>
+  <thead><tr><th>Model</th><th>Co się stało naprawdę</th><th>Co powiedział o przyczynie</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>pobierający na żywo</td>
+      <td>przyszedł, pobrał, odczytał — mamy jego żądania w liczniku, wszystkie zweryfikowane</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>czytający z indeksu</td>
+      <td><strong>nie wysłał ani jednego żądania.</strong> Sam podał powód: „cache miss, wyszukiwarka nie ma jego kopii"</td>
+      <td>„blokowany przez sposób serwowania pliku XML"</td>
+    </tr>
+    <tr>
+      <td>uruchamiający kod</td>
+      <td><strong>nie wysłał ani jednego żądania.</strong> Napisał skrypt i uruchomił go w piaskownicy bez dostępu do DNS — błąd rozwiązywania nazwy</td>
+      <td>„zabezpieczenia serwera przed botami, błąd wczytywania lub brak pliku"</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Przez cały ten czas plik odpowiadał każdemu, kto o niego poprosił: kod 200, 246 bajtów.</strong> Sprawdzaliśmy to w trakcie i po. Żaden z opisanych wyżej domysłów — zapora, blokada botów, brak pliku, sposób serwowania — nie miał pokrycia w rzeczywistości.</p>
+
+<p>Trzy różne architektury, trzy różne przyczyny niepowodzenia, wszystkie po stronie modelu. I trzy razy ta sama reakcja: <strong>opis cudzej infrastruktury jako uszkodzonej, sformułowany z pewnością siebie i bez zastrzeżenia, że problem może leżeć po własnej stronie.</strong></p>
+
+<p>Dlaczego to kosztuje. Wyobraź sobie, że pytasz asystenta, czemu Twojej strony nie widać w AI, a on odpowiada, że serwer blokuje boty. Zaczynasz rozluźniać reguły zapory, dopisujesz wyjątki, prosisz dostawcę o zmiany w konfiguracji, która działała poprawnie. <strong>Płacisz za naprawę czegoś, co nie było zepsute</strong> — i przy okazji osłabiasz zabezpieczenia, kierując się diagnozą narzędzia, które nigdy nie wysłało żądania.</p>
+
+<p>Pytanie, które warto zadać, jest proste i rozstrzyga w minutę: <strong>„czy w moich logach jest ślad Twojego żądania?"</strong> Jeśli go nie ma, żadna hipoteza o serwerze nie ma podstaw, bo serwer nie dostał okazji, żeby cokolwiek zrobić.</p>
+
+<p class="uwaga">Jeden szczegół dla porządku: model uruchamiający kod odczytał wcześniej tego samego dnia dwa inne nasze pliki i zrobił to poprawnie — jego narzędzie przeglądania działa. Tym razem sięgnął po interpreter zamiast po nie. <strong>Nie zawiodła umiejętność, tylko wybór narzędzia</strong> — a wniosek o cudzej zaporze wyciągnięty został tak samo pewnie.</p>
+
 <h2>Nie jesteśmy pierwsi — i to jest dobra wiadomość</h2>
 
 <p>28 sierpnia 2026, <strong>tydzień przed uruchomieniem tego licznika</strong>, Jakub Sawa opublikował <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">badanie oparte na tej samej metodzie</a>: weryfikacji botów po adresie IP zamiast po nazwie. Prowadzi je na jsseo.dev przez osiemdziesiąt dni i publikuje metodykę oraz surowe dane.</p>
