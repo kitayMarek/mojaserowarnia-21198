@@ -77,8 +77,23 @@ const ROZSZERZENIE_OBCE =
 // Katalogi, o które pytają wyłącznie skanery podatności. Lista sprawdzona wobec
 // wszystkich tras z src/App.tsx — żadna się z nią nie przecina. Uwaga przy
 // dopisywaniu: „/admin" JEST prawdziwą trasą, więc tu stoi tylko „administrator".
+//
+// DRUGA RUNDA, 7.09.2026. Skan z AS23470 (264 żądania, 200 o pliki wrażliwe,
+// 21 sekund) miał tylko 47% odbitych — reszta dostawała od nas skorupę React
+// z kodem 200. Powód: pierwsza lista łapała katalogi znane z PHP i WordPressa,
+// a nie łapała wzorców nowoczesnych: /api/*, /v1/*, /debug, /console, /status,
+// /metrics, /config. Trafił się nawet /v1/chat/completions — ktoś szuka
+// wystawionego na świat endpointu API modelu językowego.
+//
+// Wszystkie dopisane słowa to angielskie nazwy infrastrukturalne. Ten serwis ma
+// slugi po polsku i treściowe, więc kolizja jest wykluczona — a i tak sprawdza
+// to scripts/test-sciezki-skanera.mjs wobec kompletu tras.
+//
+// ⚠ „api" jest tu bezpieczne WYŁĄCZNIE dlatego, że nasze własne /api/raport
+// obsługuje reguła 1b2, czyli PRZED tą. Przeniesienie tamtej niżej wyłączyłoby
+// raporty na stronie.
 const SCIEZKA_SKANERA =
-  /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|backup|backups|dump|dumps)(\/|$)/i;
+  /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|server-info|phpinfo|backup|backups|dump|dumps|api|v1|v2|v3|debug|console|status|metrics|health|healthz|config|app|static|_next)(\/|$)/i;
 
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
 // aplikację, nawet gdyby w katalogu kiedyś pojawił się index.html.
