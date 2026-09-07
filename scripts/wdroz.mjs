@@ -115,6 +115,30 @@ function uruchom(polecenie, argumenty, dodatkoweEnv = {}) {
 }
 
 console.log(`\nKatalog: ${KATALOG}`);
+// ---------------------------------------------------------------------------
+// llms.txt deklaruje wlasna date aktualizacji. Jesli plik zmieniono pozniej,
+// ta data klamie — a jest to jedna z niewielu rzeczy, ktore modele z tego pliku
+// faktycznie odczytuja. Wykryl to model podczas testu 7.09.2026: plik mowil
+// "2026-09-05", choc tego samego dnia dopisano do niego wersje angielska.
+//
+// NIE poprawiamy daty automatycznie. Ustawienie "dzis" przy kazdym wdrozeniu
+// klamaloby w druga strone — mowiloby o zmianie tresci, ktorej nie bylo.
+// Ostrzegamy, a decyzje zostawiamy czlowiekowi.
+{
+  const llms = resolve(KATALOG, "public", "llms.txt");
+  if (existsSync(llms)) {
+    const zadeklarowana = (readFileSync(llms, "utf8")
+      .match(/Ostatnia aktualizacja:\s*(\d{4}-\d{2}-\d{2})/) || [])[1];
+    const zGita = spawnSync("git",
+      ["log", "-1", "--format=%ad", "--date=short", "--", "public/llms.txt"],
+      { encoding: "utf8" }).stdout.trim();
+    if (zadeklarowana && zGita && zadeklarowana < zGita) {
+      console.log(`\n⚠ llms.txt deklaruje date ${zadeklarowana}, a plik zmieniono ${zGita}.`);
+      console.log("  Popraw date przed wdrozeniem — modele ja czytaja.\n");
+    }
+  }
+}
+
 console.log("Kontrole przeszły. Buduję…\n");
 uruchom("npm", ["run", "build"]);
 
