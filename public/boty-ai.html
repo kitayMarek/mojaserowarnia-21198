@@ -328,14 +328,26 @@
 
 <p>Trzy modele, to samo pytanie, ta sama przeszkoda — i trzy różne zachowania:</p>
 
+<p>Test powtórzyliśmy na pięciu modelach i wersjach, w tym trzech płatnych. Wynik zbiorczy:</p>
+
 <table>
-  <thead><tr><th>Model</th><th>Czy przyszedł</th><th>Co zrobił z przeszkodą</th></tr></thead>
+  <thead><tr><th>Wersja</th><th>Czy przyszedł</th><th>Liczby ze strony</th><th>Mapa serwisu (XML)</th><th>llms.txt</th></tr></thead>
   <tbody>
-    <tr><td>pierwszy</td><td>brak żądania w liczniku</td><td>podał liczbę, której nigdy nie było, wraz z opisem liczenia</td></tr>
-    <tr><td>drugi</td><td>tak, oba pliki</td><td>uznał własne ograniczenie za awarię naszego serwera</td></tr>
-    <tr><td>trzeci</td><td>tak, wszystkie trzy</td><td>powiedział „nie chcę zgadywać" i poprosił o plik</td></tr>
+    <tr><td>A, darmowa</td><td><strong>nie</strong></td><td>błędne</td><td>podał liczbę, której nigdy nie było</td><td>sekcja dobrze, data o trzy miesiące stara</td></tr>
+    <tr><td>B, darmowa</td><td>tak</td><td>trafnie zgłosił, że dostał mapę zamiast artykułu</td><td>„nie mogę" — obwinił nasz serwer</td><td>„nie mogę"</td></tr>
+    <tr><td>C, darmowa</td><td>tak</td><td>niezgodne ze stanem</td><td><strong>odmówił zgadywania</strong></td><td>poprawnie</td></tr>
+    <tr><td>D, płatna</td><td>nie — cytował odczyt sprzed godziny</td><td><strong>dokładnie, z datą stanu</strong></td><td><strong>odmówił zgadywania</strong></td><td>poprawnie</td></tr>
+    <tr><td>E, płatna, tryb rozumowania</td><td>nie — jak wyżej</td><td><strong>dokładnie, z pełnym rozbiciem</strong></td><td>odmówił; poprosił o dostęp do repozytorium</td><td><strong>wymyślił sekcję, której nie ma</strong></td></tr>
   </tbody>
 </table>
+
+<p><strong>Trzy rzeczy z tej tabeli są warte więcej niż sam ranking.</strong></p>
+
+<p>Po pierwsze: <strong>żadna z pięciu wersji nie odczytała mapy serwisu w formacie XML</strong>. Cztery z pięciu uczciwie to zgłosiły, jedna zmyśliła liczbę. To jest praktyczny wniosek dla każdego, kto liczy na to, że sitemapa „karmi modele" — nie karmi, bo modele jej nie czytają.</p>
+
+<p>Po drugie: <strong>wyższy tryb rozumowania nie dał lepszej odpowiedzi na pytanie faktograficzne</strong>. Wersja E podała liczby z tej strony dokładniej niż ktokolwiek — a przy prostszym pytaniu o ostatnią sekcję pliku tekstowego wskazała sekcję, której w nim nie ma, i uzasadniła to „aktualnie zindeksowaną wersją". Wersja D, prostsza, odpowiedziała poprawnie.</p>
+
+<p>Po trzecie, i to jest ostrzeżenie praktyczne: <strong>wersja E, nie mogąc odczytać publicznego pliku, poprosiła o dostęp do prywatnego repozytorium kodu.</strong> Plik leży pod publicznym adresem i nie wymaga żadnych uprawnień. Prośba została odrzucona i słusznie — to wzorzec, na który łatwo się nabrać: skoro nie mogę odczytać A, daj mi dostęp do B. Odległość między jednym a drugim bywa ogromna.</p>
 
 <p><strong>Model, który jako jedyny odmówił odpowiedzi, jest jednocześnie jedynym, którego pozostałe odpowiedzi okazały się prawdziwe.</strong> To nie jest przypadek ani ładna puenta — to ta sama zależność, o której jest cała ta strona. Wartość odpowiedzi bierze się z tego, czy stoi za nią sprawdzenie, a nie z tego, jak pewnie brzmi.</p>
 
@@ -362,6 +374,18 @@
 <p>Sygnał był w danych od początku: metoda odwrotnego DNS miała bilans <strong>zero potwierdzeń na dwadzieścia pięć sprawdzeń</strong>. Odnotowaliśmy to dzień wcześniej i opisaliśmy tę metodę jako niesprawdzoną — ale zabrakło wniosku, że skoro jest niesprawdzona, to jej „nie" też nie nadaje się do publikacji.</p>
 
 <p>Werdyktów nie dało się przeliczyć, bo <strong>celowo nie zapisujemy adresów IP</strong> — bez adresu nie ma jak ponowić zapytania DNS. Zostały więc cofnięte do „niesprawdzone". To jest ta sama zasada, którą stosujemy do cudzych liczb: pomiar, o którym wiadomo, że był błędny, przestaje być dowodem.</p>
+
+<h2>Jedno pobranie, wiele odpowiedzi — czyli licznik zaniża</h2>
+
+<p>Cała ta strona pokazuje, że liczniki ruchu AI <em>zawyżają</em>, bo wliczają podszywki. Uczciwość wymaga pokazania drugiej strony: <strong>w innym wymiarze zaniżają, i to prawdopodobnie bardziej.</strong></p>
+
+<p>7 września 2026 ta strona została pobrana przez bota jednego z operatorów o godzinie 09:49:29 — jedno żądanie, jedno w naszym liczniku. Następnie <strong>trzy różne rozmowy</strong> u tego samego operatora zacytowały jej treść, w tym dwie ponad godzinę później, bez żadnego nowego żądania do naszego serwera. Wiemy to, bo licznik nie odnotował już nic, a odpowiedzi podawały liczby zamrożone dokładnie na 09:49.</p>
+
+<p><strong>Jedno pobranie obsłużyło co najmniej trzy odpowiedzi.</strong> Ile naprawdę — nie wiemy i nie mamy jak się dowiedzieć. Cytowanie zdarza się po stronie operatora i nie zostawia u nas żadnego śladu.</p>
+
+<p>To znaczy, że <strong>liczba żądań w logu nie jest liczbą cytowań, tylko jej dolnym ograniczeniem</strong> — i to ograniczeniem nieznanej ostrości. Kto liczy „wizyty AI" po to, żeby wiedzieć, ile razy jego treść trafiła do czyjejś odpowiedzi, mierzy nie to, co myśli, nawet gdy odsieje wszystkie podszywki.</p>
+
+<p>Przy okazji potwierdziło się coś, co robimy tu celowo. Przy każdej liczbie na tej stronie stoi data i godzina stanu, z prośbą, żeby cytować je razem. <strong>Modele to zrobiły</strong> — podały liczbę wraz z „stan na 7 września, godz. 09:49 UTC". Czytelnik takiej odpowiedzi wie, że ogląda migawkę sprzed godziny, a nie stan bieżący. To najtańsze zabezpieczenie przed zestarzeniem się cytatu, jakie znamy, i jedyne, które działa bez współpracy cytującego.</p>
 
 <h2>Nie jesteśmy pierwsi — i to jest dobra wiadomość</h2>
 

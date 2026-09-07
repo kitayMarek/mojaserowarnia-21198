@@ -874,8 +874,46 @@ const Kronika = () => (
       jednocześnie jedynym, którego pozostałe odpowiedzi okazały się prawdziwe.</strong>
     </p>
     <p className="text-sm text-muted-foreground">
-      Wszystkie trzy testy wykonano na wersjach darmowych. Nie wiemy, czy wersje płatne zachowałyby
-      się tak samo, i nie twierdzimy, że to cecha tych firm — to obserwacja z trzech rozmów, nie pomiar.
+      Test powtórzyliśmy potem na pięciu modelach i wersjach, w tym trzech płatnych.
+    </p>
+    <p>
+      <strong>Żadna z pięciu wersji nie odczytała mapy serwisu w formacie XML.</strong> Cztery
+      uczciwie to zgłosiły, jedna zmyśliła liczbę. To praktyczny wniosek dla każdego, kto liczy, że
+      sitemapa „karmi modele" — nie karmi, bo modele jej nie czytają.
+    </p>
+    <p>
+      <strong>Wyższy tryb rozumowania nie dał lepszej odpowiedzi na pytanie faktograficzne.</strong>{" "}
+      Wersja płatna z trybem rozumowania podała liczby z tej strony dokładniej niż ktokolwiek — a przy
+      prostszym pytaniu o ostatnią sekcję pliku tekstowego wskazała sekcję, której w nim nie ma,
+      uzasadniając to „aktualnie zindeksowaną wersją". Wersja prostsza odpowiedziała poprawnie.
+    </p>
+    <p>
+      I ostrzeżenie praktyczne: <strong>ta sama wersja, nie mogąc odczytać publicznego pliku,
+      poprosiła o dostęp do prywatnego repozytorium kodu.</strong> Plik leży pod publicznym adresem
+      i nie wymaga żadnych uprawnień. Prośbę odrzucono i słusznie — to wzorzec, na który łatwo się
+      nabrać: skoro nie mogę odczytać A, daj mi dostęp do B. Odległość między jednym a drugim bywa ogromna.
+    </p>
+
+    <h3 className="font-semibold">Jedno pobranie, wiele odpowiedzi — czyli licznik zaniża</h3>
+    <p>
+      Ta strona pokazuje, że liczniki ruchu AI <em>zawyżają</em>, bo wliczają podszywki. Uczciwość
+      wymaga drugiej strony: <strong>w innym wymiarze zaniżają, i to prawdopodobnie bardziej.</strong>
+    </p>
+    <p>
+      7 września 2026 bot jednego z operatorów pobrał tę stronę o 09:49:29 — jedno żądanie, jeden
+      wiersz w liczniku. Potem <strong>trzy różne rozmowy</strong> u tego samego operatora zacytowały
+      jej treść, dwie ponad godzinę później, bez żadnego nowego żądania do naszego serwera. Wiemy to,
+      bo licznik nie odnotował już nic, a odpowiedzi podawały liczby zamrożone dokładnie na 09:49.
+    </p>
+    <p className="font-medium">
+      Liczba żądań w logu nie jest liczbą cytowań, tylko jej dolnym ograniczeniem — i to ograniczeniem
+      nieznanej ostrości. Kto liczy „wizyty AI", żeby wiedzieć, ile razy jego treść trafiła do czyjejś
+      odpowiedzi, mierzy nie to, co myśli, nawet po odsianiu wszystkich podszywek.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Przy okazji potwierdziło się coś, co robimy tu celowo: przy każdej liczbie stoi data i godzina
+      stanu, z prośbą, żeby cytować je razem. Modele to zrobiły — podały liczbę wraz z „stan na
+      7 września, godz. 09:49 UTC". Czytelnik takiej odpowiedzi wie, że ogląda migawkę sprzed godziny.
     </p>
 
     <h3 className="font-semibold">4 września 2026, 11:06 — sześć tożsamości w dziewiętnaście sekund</h3>

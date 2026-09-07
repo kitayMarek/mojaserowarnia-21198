@@ -314,14 +314,26 @@
 
 <p>Three models, one question, the same obstacle — and three different behaviours:</p>
 
+<p>We repeated the test across five models and tiers, three of them paid. Combined result:</p>
+
 <table>
-  <thead><tr><th>Model</th><th>Did it arrive</th><th>What it did with the obstacle</th></tr></thead>
+  <thead><tr><th>Version</th><th>Did it arrive</th><th>Figures from the page</th><th>Sitemap (XML)</th><th>llms.txt</th></tr></thead>
   <tbody>
-    <tr><td>first</td><td>no request in the counter</td><td>produced a number that never existed, with a description of counting</td></tr>
-    <tr><td>second</td><td>yes, both files</td><td>reported its own limitation as our server's outage</td></tr>
-    <tr><td>third</td><td>yes, all three</td><td>said “I don't want to guess” and asked for the file</td></tr>
+    <tr><td>A, free</td><td><strong>no</strong></td><td>wrong</td><td>gave a number that never existed</td><td>section right, date three months stale</td></tr>
+    <tr><td>B, free</td><td>yes</td><td>correctly reported getting a map instead of the article</td><td>“cannot” — blamed our server</td><td>“cannot”</td></tr>
+    <tr><td>C, free</td><td>yes</td><td>inconsistent with the state</td><td><strong>refused to guess</strong></td><td>correct</td></tr>
+    <tr><td>D, paid</td><td>no — quoted an hour-old fetch</td><td><strong>exact, with the timestamp</strong></td><td><strong>refused to guess</strong></td><td>correct</td></tr>
+    <tr><td>E, paid, reasoning mode</td><td>no — as above</td><td><strong>exact, fully broken down</strong></td><td>refused; asked for repository access</td><td><strong>invented a section that does not exist</strong></td></tr>
   </tbody>
 </table>
+
+<p><strong>Three things here matter more than the ranking.</strong></p>
+
+<p>First: <strong>none of the five read the XML sitemap</strong>. Four said so honestly, one made a number up. That is the practical lesson for anyone counting on a sitemap to “feed the models” — it does not, because the models do not read it.</p>
+
+<p>Second: <strong>a higher reasoning mode did not produce a better factual answer</strong>. Version E reported this page's figures more precisely than anyone — and then, asked the simpler question of what the last section of a text file is, named a section that is not in it, justifying it with “the currently indexed version”. The simpler version D got it right.</p>
+
+<p>Third, and this one is a practical warning: <strong>unable to read a public file, version E asked for access to a private code repository.</strong> The file sits at a public address and requires no permissions at all. The request was declined, rightly — it is an easy pattern to fall for: since I cannot read A, give me access to B. The distance between the two can be enormous.</p>
 
 <p><strong>The one model that refused to answer is also the only one whose other answers turned out to be true.</strong> That is not a coincidence or a neat ending — it is the same relationship this entire page is about. An answer is worth what the checking behind it is worth, not what its confidence sounds like.</p>
 
@@ -348,6 +360,18 @@
 <p>The signal was in the data from the start: the reverse DNS method had a record of <strong>zero confirmations out of twenty-five checks</strong>. We noted that a day earlier and described the method as unproven — but stopped short of the conclusion that if it is unproven, then its “no” is not fit to publish either.</p>
 
 <p>The verdicts could not be recomputed, because <strong>we deliberately do not store IP addresses</strong> — without the address there is no way to repeat the DNS query. So they were rolled back to “unverifiable”. This is the same principle we apply to other people's figures: a measurement known to have been faulty stops being evidence.</p>
+
+<h2>One fetch, many answers — the counter also undercounts</h2>
+
+<p>This whole page shows that AI traffic counters <em>overstate</em>, because they include impostors. Honesty requires the other side: <strong>in a different dimension they understate, probably by more.</strong></p>
+
+<p>On 7 September 2026 this page was fetched by one operator's bot at 09:49:29 — one request, one row in our counter. Then <strong>three separate conversations</strong> with that same operator quoted its content, two of them more than an hour later, without any new request reaching our server. We know because the counter recorded nothing further, while the answers carried figures frozen exactly at 09:49.</p>
+
+<p><strong>One fetch served at least three answers.</strong> How many in truth we do not know and have no way to find out. Citation happens on the operator's side and leaves no trace with us.</p>
+
+<p>So <strong>the number of requests in a log is not the number of citations, only a lower bound</strong> — and one of unknown tightness. Anyone counting “AI visits” to learn how often their content reached somebody's answer is measuring something other than they think, even after filtering out every impostor.</p>
+
+<p>Something we do deliberately was confirmed along the way. Every figure on this page carries the date and time of the measurement, with a request to quote them together. <strong>The models did exactly that</strong> — reporting the number alongside “as of 7 September, 09:49 UTC”. A reader of such an answer knows they are seeing an hour-old snapshot rather than the current state. It is the cheapest protection against a quotation going stale that we know of, and the only one that works without the quoter's cooperation.</p>
 
 <h2>We are not the first — and that is good news</h2>
 
