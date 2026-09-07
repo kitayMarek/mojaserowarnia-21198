@@ -218,6 +218,11 @@ function zbudujZetony(dane) {
     roznych_sieci: liczba(p.roznych_sieci),
     z_zapisana_metoda: liczba(p.z_zapisana_metoda),
 
+    // Ruch bez deklaracji stoi POZA zadan_ogolem i poza oboma procentami —
+    // widok pub_bot_podsumowanie liczy go osobnym podzapytaniem. Gdyby wpadl
+    // do mianownika, liczba naglowkowa zmienilaby znaczenie bez ostrzezenia.
+    bez_podpisu: liczba(p.bez_podpisu),
+
     proc_falszowanych: p.proc_wsrod_rozstrzygnietych === null ? '—'
       : ulamek(Math.round(10 * (100 - Number(p.proc_wsrod_rozstrzygnietych))) / 10),
     proc_testow: procTestow === null ? '—' : ulamek(procTestow),

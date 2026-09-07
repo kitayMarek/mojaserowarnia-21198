@@ -42,6 +42,9 @@ interface Podsumowanie {
   roznych_tozsamosci: number;
   roznych_sieci: number;
   z_zapisana_metoda: number;
+  /** Ruch bez zadnej deklaracji. POZA zadan_ogolem i poza oboma procentami —
+   *  nigdy nie zlozyl deklaracji, ktorej moglibysmy nie uwierzyc. */
+  bez_podpisu: number;
 }
 
 interface Statystyki {
@@ -85,6 +88,7 @@ const MODULY = [
   { id: "jak-rozpoznac", tytul: "Jak rozpoznać podszywacza bez sprawdzania tożsamości?", zajawka: "Obie grupy zachowują się inaczej na tyle wyraźnie, że nie trzeba list adresów." },
   { id: "czego-szukaja", tytul: "Czego szukają jedni, a czego drudzy?", zajawka: "Zbiory celów obu grup prawie się nie przecinają." },
   { id: "ruch-wlasciciela", tytul: "Ile tego ruchu robi sam właściciel strony?", zajawka: "Odliczam własne testy i pokazuję ile ich było. Oto dlaczego to ważne." },
+  { id: "bez-podpisu", tytul: "Ruch, który nie przedstawia się wcale", zajawka: "Puste pole User-Agent. Kim są — nie wiemy. Czego szukają — wiemy dokładnie." },
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
   { id: "metodologia", tytul: "Jak to jest liczone?", zajawka: "Listy adresów, odwrotny DNS, podpisy — i co znaczy „nie wiadomo”." },
 ] as const;
@@ -122,6 +126,19 @@ const BotyAi = () => {
         document.getElementById(id)?.scrollIntoView({ block: "start" }));
     }
   }, []);
+
+  // Odsylacz WEWNATRZ strony nie moze byc zwyklym <a href="#...">: efekt wyzej
+  // czyta hash tylko przy wejsciu, wiec klikniecie przewijaloby do ZWINIETEJ
+  // karty. Ta funkcja otwiera modul i przewija — i celowo NIE rusza adresu:
+  // history.replaceState liczy sie w Google Analytics jako osobna odslona,
+  // przez co ta strona pokazywala 2,01 odslony na uzytkownika. Adres zmienia
+  // wiec tylko `przelacz` (klikniecie w sam modul), gdzie jest to potrzebne
+  // do podlinkowania sekcji.
+  const otworzModul = (id: string) => {
+    setOtwarte((p) => (p.includes(id) ? p : [...p, id]));
+    requestAnimationFrame(() =>
+      document.getElementById(id)?.scrollIntoView({ block: "start", behavior: "smooth" }));
+  };
 
   const przelacz = (id: string) =>
     setOtwarte((p) => {
@@ -266,6 +283,28 @@ const BotyAi = () => {
           </div>
         )}
 
+        {/* Ruch bez deklaracji CELOWO nie jest piatym kafelkiem. Czwórka wyżej to
+            rozklad jednej calosci; postawienie obok niej liczby, ktora do tej
+            calosci nie nalezy, sugerowaloby udzial w sumie — czyli dokladnie to,
+            czemu zapobiega osobna kolumna w widoku. Stoi wiec pod gridem, w jednym
+            zdaniu, z odsylaczem do modulu z pelnym wyjasnieniem. */}
+        {p && p.bez_podpisu > 0 && (
+          <p className="text-sm text-muted-foreground mb-8">
+            Osobno, poza powyższym rozkładem i poza oboma procentami:{" "}
+            <strong className="text-foreground tabular-nums">{liczba(p.bez_podpisu)}</strong>{" "}
+            żądań nie przedstawiło się <em>żadną</em> nazwą — nie złożyły deklaracji, której
+            można by nie uwierzyć.{" "}
+            <button
+              type="button"
+              onClick={() => otworzModul("bez-podpisu")}
+              className="underline underline-offset-2 text-foreground"
+            >
+              Co o nich wiemy
+            </button>
+            .
+          </p>
+        )}
+
         {/* NAJCZESTSZA REAKCJA CZYTELNIKOW, nie hipoteza: pod postem
             zapowiadajacym te strone trzy osoby niezaleznie napisaly wariant
             "przeciez to juz jest w Cloudflare / istnieja narzedzia / kiedys
@@ -371,6 +410,7 @@ const BotyAi = () => {
                     {m.id === "ruch-wlasciciela" && (
                       <RuchWlasciciela liczbaTestow={p?.testy_wlasciciela} proc={pochodne?.procTestow} />
                     )}
+                    {m.id === "bez-podpisu" && <BezPodpisu liczba_={p?.bez_podpisu} />}
                     {m.id === "kronika" && <Kronika />}
                     {m.id === "metodologia" && (
                       <Metodologia wiersze={data?.metody ?? []} zZapisana={p?.z_zapisana_metoda} technicznie={technicznie} />
@@ -656,6 +696,63 @@ const RuchWlasciciela = ({ liczbaTestow, proc }: { liczbaTestow?: number; proc?:
       Jeśli ktoś testujący własną stronę potrafi w kilka dni wytworzyć {ulamek(proc ?? null)}%
       jej „ruchu AI", to każdy licznik oparty na deklaracji jest podatny na zafałszowanie
       także bez złych intencji.
+    </p>
+  </>
+);
+
+const BezPodpisu = ({ liczba_ }: { liczba_?: number }) => (
+  <>
+    <p>
+      Wszystkie liczby wyżej dotyczą żądań, które <em>podały jakąś nazwę</em> — bo tylko
+      takiej deklaracji można nie uwierzyć. Ale część ruchu nie podaje żadnej. Pole
+      User-Agent bywa puste albo zawiera nazwę, której nie ma na żadnej liście: skrypt,
+      monitoring, czyjeś narzędzie napisane wczoraj.
+    </p>
+    <p>
+      Od 7 września 2026 liczymy także ten ruch. Do tej pory{" "}
+      <strong>{liczba(liczba_)} żądań</strong>.
+    </p>
+    <p>
+      <strong>Ta pozycja mierzy się krócej niż reszta strony</strong> — od 7 września 2026,
+      a nie od początku pomiaru. Dopóki liczba jest mała, nie wyciągaj z niej wniosków: zero
+      na starcie licznika znaczy tyle, że licznik właśnie ruszył. Ta strona zaliczyła już ten
+      błąd raz — patrz akapit niżej.
+    </p>
+    <p className="font-medium">
+      Ta liczba stoi osobno i nie wchodzi do żadnego procentu wyżej.
+    </p>
+    <p>
+      Liczba nagłówkowa tej strony mówi, ile ruchu <em>podającego się</em> za bota AI jest
+      prawdziwe. Wrzucenie do mianownika czegoś, co nigdy takiej deklaracji nie złożyło,
+      zmieniłoby to, co ta liczba mierzy — z dnia na dzień i bez ostrzeżenia dla czytelnika.
+      Dlatego procenty znaczą dokładnie to samo, co znaczyły wczoraj.
+    </p>
+    <p>
+      <strong>Kim są, nie dowiemy się.</strong> Nie zostawili nazwy, a adresów IP świadomie
+      nie zapisujemy. Ale <em>czego szukają</em>, wiemy dokładnie — i to jest ciekawsza
+      informacja, bo intencję widać w celach, nie w narzędziu. Monitoring pyta o stronę
+      główną i nic więcej. Skaner pyta o pliki konfiguracyjne i kopie zapasowe. Czytnik pyta
+      o treść. Rozbicie na cele jest w raporcie „Ruch bez podpisu" niżej; ścieżki wrażliwe
+      pokazujemy tam wyłącznie jako liczbę, bo opublikowana lista adresów, o które pytał
+      skaner, jest gotową mapą dla następnego.
+    </p>
+    <p>
+      <strong>To nadal nie jest licznik ludzi.</strong> Przeglądarka wysyła nagłówki, których
+      prosty klient HTTP nie wysyła — metadane żądania albo przynajmniej preferowany język.
+      Żądanie, które je ma, nie trafia do tej tabeli w ogóle. Granica jest arbitralna i może
+      się mylić w obie strony, ale jest jedna, mechaniczna i podana z góry.
+    </p>
+    <p>
+      Powód, dla którego to dopisaliśmy, jest pouczający sam w sobie. Przez pierwsze dni
+      pomiaru w kodzie stała jedna linijka: „jeśli nie rozpoznajesz nazwy, nic nie zapisuj".
+      W ciągu jednej doby to samo pytanie wróciło z trzech różnych stron — panel Cloudflare
+      pokazywał ruch, którego licznik nie znał; w statystykach odwiedzin pojawili się
+      „użytkownicy" bez pokrycia; i padło pytanie, czy mapy serwisu nie czytał ktoś
+      nierozpoznany. Wszystkie trzy miały tę samą przyczynę.{" "}
+      <strong>
+        Licznik nie pokazywał zera dlatego, że nic nie przychodziło — tylko dlatego, że nie
+        miał jak zobaczyć.
+      </strong>
     </p>
   </>
 );
