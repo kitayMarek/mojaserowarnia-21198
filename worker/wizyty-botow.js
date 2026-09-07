@@ -367,8 +367,26 @@ export async function zapiszWizyteBota(request, wynik, env) {
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return;
 
     const ua = request.headers.get('user-agent') || '';
-    const kto = rozpoznajBota(ua);
-    if (!kto) return;
+    let kto = rozpoznajBota(ua);
+
+    if (!kto) {
+      // RUCH BEZ PODPISU. Do 7 wrzesnia 2026 stalo tu `if (!kto) return;`
+      // i wszystko spoza listy znanych nazw nie zostawialo zadnego sladu.
+      // To samo pytanie wrocilo w niecala dobe trzy razy: 276 zadan dziennie
+      // z pustym User-Agentem w panelu Cloudflare, trzej "uzytkownicy" w GA
+      // ktorych nie znalismy, i "a moze sitemape czytal ktos nierozpoznany".
+      //
+      // NIE LOGUJEMY LUDZI. Przegladarka wysyla `sec-fetch-mode` (naglowek
+      // metadanych zadania) albo przynajmniej `accept-language`. Skrypt
+      // i prosty klient HTTP nie wysylaja zadnego z nich. Ten warunek jest
+      // granica miedzy licznikiem BOTOW a licznikiem wszystkiego — bez niego
+      // tabela zmienialaby przeznaczenie, a razem z nim zakres prywatnosci.
+      const przegladarka = request.headers.get('sec-fetch-mode')
+                        || request.headers.get('accept-language');
+      if (przegladarka) return;
+
+      kto = { operator: 'nieznany', bot: '(bez podpisu)' };
+    }
 
     const url = new URL(request.url);
 

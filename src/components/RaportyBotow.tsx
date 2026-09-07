@@ -64,6 +64,21 @@ const RAPORTY: Raport[] = [
     pusto: "Żaden potwierdzony bot nie pobrał jeszcze strony treściowej w tym okresie.",
   },
   {
+    id: "bez_podpisu",
+    nazwa: "Ruch bez podpisu",
+    opis: "Żądania, które nie przedstawiły się ŻADNĄ nazwą — ani prawdziwą, ani podrobioną. Kim są, nie wiemy i nie dowiemy się: nazwy nie zostawili, a adresów IP świadomie nie zapisujemy. Ale to, CZEGO SZUKAJĄ, widać dokładnie — i to jest ciekawsza informacja. Monitoring pyta o stronę główną, skaner o pliki konfiguracyjne, czytnik o treść. Ten ruch stoi poza procentami na górze strony, bo nigdy nie złożył deklaracji, której moglibyśmy nie uwierzyć. Przeglądarki są odsiane: człowieka tu nie ma.",
+    domyslny: "7d",
+    kolumny: [
+      { k: "sciezka_typ", n: "Typ celu", typ: "tekst" },
+      { k: "sciezka", n: "Adres", typ: "tekst" },
+      { k: "zadan", n: "Żądań", typ: "liczba" },
+      { k: "odbite", n: "Odbitych", typ: "liczba" },
+      { k: "proc_bledow", n: "% błędów", typ: "procent" },
+      { k: "ostatnio", n: "Ostatnio", typ: "data" },
+    ],
+    pusto: "W tym okresie nie było ruchu bez podpisu.",
+  },
+  {
     id: "kto_byl",
     nazwa: "Kto tu był",
     opis: "Wszystkie tożsamości botów widziane w wybranym okresie, z podziałem na te, które przeszły weryfikację, te którym zaprzeczyła, i te, których nie da się rozstrzygnąć.",
