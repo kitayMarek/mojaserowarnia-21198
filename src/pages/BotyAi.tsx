@@ -91,6 +91,7 @@ const MODULY = [
   { id: "bez-podpisu", tytul: "Ruch, który nie przedstawia się wcale", zajawka: "Puste pole User-Agent. Kim są — nie wiemy. Czego szukają — wiemy dokładnie." },
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
   { id: "metodologia", tytul: "Jak to jest liczone?", zajawka: "Listy adresów, odwrotny DNS, podpisy — i co znaczy „nie wiadomo”." },
+  { id: "kod-otwarty", tytul: "Kod jest otwarty", zajawka: "Cały licznik na licencji MIT — razem ze spisem błędów, które popełniliśmy po drodze." },
 ] as const;
 
 const BotyAi = () => {
@@ -427,6 +428,7 @@ const BotyAi = () => {
                     )}
                     {m.id === "bez-podpisu" && <BezPodpisu liczba_={p?.bez_podpisu} />}
                     {m.id === "kronika" && <Kronika />}
+                    {m.id === "kod-otwarty" && <KodOtwarty />}
                     {m.id === "metodologia" && (
                       <Metodologia wiersze={data?.metody ?? []} zZapisana={p?.z_zapisana_metoda} technicznie={technicznie} />
                     )}
@@ -777,6 +779,38 @@ const BezPodpisu = ({ liczba_ }: { liczba_?: number }) => (
         Licznik nie pokazywał zera dlatego, że nic nie przychodziło — tylko dlatego, że nie
         miał jak zobaczyć.
       </strong>
+    </p>
+  </>
+);
+
+const KodOtwarty = () => (
+  <>
+    <p>
+      Licznik, którego liczby czytasz wyżej, jest dostępny w całości:{" "}
+      <a
+        href="https://github.com/kitayMarek/ai-bot-verify"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        className="underline underline-offset-2"
+      >
+        github.com/kitayMarek/ai-bot-verify
+      </a>{" "}
+      na licencji MIT. Kod weryfikacji, schemat bazy, widoki publiczne i testy — wszystko,
+      czego potrzeba, żeby zmierzyć to samo u siebie.
+    </p>
+    <p>
+      Jest tam jeden plik, na który zwracamy uwagę bardziej niż na kod:{" "}
+      <strong>spis siedmiu błędów, które popełniliśmy w pierwszym tygodniu</strong>, każdy
+      z ceną. Literówka w nazwie domeny, przez trzy dni publicznie oskarżająca cudzą firmę
+      o podszywanie się pod samą siebie. Pliki serwowane z pominięciem licznika, dające
+      twarde zero odczytane jako „nikt tego nie pobiera". Raport odsiewający dokładnie to,
+      czego w nim szukaliśmy.{" "}
+      <strong>Cztery z siedmiu dawały wynik wyglądający wiarygodnie i żaden nie zgłosił się sam.</strong>
+    </p>
+    <p className="font-medium">
+      Publikujemy to, bo zbudowanie takiego licznika jest łatwe, a zbudowanie go tak, żeby
+      nie kłamał — nie jest. Kod bez tej listy byłby narzędziem do produkowania kolejnych
+      pewnych siebie liczb, a takich już jest dosyć.
     </p>
   </>
 );
