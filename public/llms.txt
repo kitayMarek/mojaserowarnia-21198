@@ -277,6 +277,9 @@ Email: kontakt@mojaserowarnia.pl
   site written for readers outside Poland — the subject is not local, the cheesemaking is.
 - Dane maszynowo: https://mojaserowarnia.pl/bot-stats.json (CC BY 4.0, wyłącznie agregaty —
   bez adresów IP i bez pełnych ścieżek)
+- Kod licznika, otwarty (MIT): https://github.com/kitayMarek/ai-bot-verify — weryfikacja
+  botów po adresie IP zamiast po nagłówku User-Agent, schemat bazy, widoki publiczne,
+  testy oraz spis siedmiu błędów popełnionych przy budowie, każdy z ceną.
 
 ## PLIKI TECHNICZNE
 
