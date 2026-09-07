@@ -783,6 +783,74 @@ const BezPodpisu = ({ liczba_ }: { liczba_?: number }) => (
 
 const Kronika = () => (
   <>
+    <h3 className="font-semibold">7 września 2026 — model opisał plik, którego nie pobrał</h3>
+    <p>
+      Poprosiliśmy trzy modele o <strong>sprawdzalne fakty</strong> z trzech naszych plików: ile
+      adresów ma mapa serwisu i jaki jest ostatni, jaka jest ostatnia sekcja llms.txt, jaka liczba
+      stoi w nagłówku tej strony. Pytania tak sformułowane, żeby odpowiedź dało się zweryfikować co
+      do znaku — i żeby licznik pokazał, czy model naprawdę po te pliki przyszedł.
+    </p>
+    <p>
+      Jeden odpowiedział na wszystkie trzy, z pełną pewnością siebie i z opisem procedury:{" "}
+      <em>„licząc wszystkie linie z adresami (…) wychodzi 204 pozycje"</em>. W liczniku nie ma śladu
+      żądania o mapę serwisu w oknie testu — jedyne tego dnia przyszło z innej strony i o innej godzinie.
+    </p>
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="border-b bg-secondary/50">
+            <th className="text-left p-2">Pytanie</th>
+            <th className="text-left p-2">Odpowiedź modelu</th>
+            <th className="text-left p-2">Stan faktyczny</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b"><td className="p-2">Ile ruchu AI jest prawdziwe</td><td className="p-2">10–15%</td><td className="p-2">liczba nagłówkowa tej strony, wyżej</td></tr>
+          <tr className="border-b"><td className="p-2">Ile adresów ma mapa serwisu</td><td className="p-2">204</td><td className="p-2">106 — a 204 nie było <strong>nigdy</strong>; maksimum w historii to 135</td></tr>
+          <tr className="border-b"><td className="p-2">Ostatni adres w mapie</td><td className="p-2">/bakterie-kultury.html</td><td className="p-2">/en/ai-bots — podany był ostatni do 1 września</td></tr>
+          <tr className="border-b"><td className="p-2">Ostatnia sekcja llms.txt</td><td className="p-2">„AKTUALIZACJE"</td><td className="p-2">zgadza się — jedyne trafienie</td></tr>
+          <tr><td className="p-2">Data w tej sekcji</td><td className="p-2">2026-06-16</td><td className="p-2">2026-09-05</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <strong>Dwie rzeczy warto rozróżnić, bo mają różne przyczyny.</strong> Ostatni adres i data
+      w llms.txt są <em>prawdziwe, ale nieaktualne</em> — opisują stan sprzed kilku dni. To zapamiętana
+      kopia i nic w tym zdrożnego, poza podaniem jej jako świeżego odczytu. Liczba 204 to co innego:{" "}
+      <strong>nie była prawdziwa nigdy</strong>. Nie ma wersji tego pliku, w której by wystąpiła.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Uczciwe zastrzeżenie: nie możemy wykluczyć, że model pobrał te pliki wcześniej, poza naszym
+      oknem pomiaru — na to wskazują dane sprzed 5 września i to tłumaczyłoby nieaktualność. Nie
+      tłumaczy liczby, której nigdy nie było, ani zdania opisującego liczenie jako czynność wykonaną
+      przed chwilą.
+    </p>
+    <p className="font-medium">
+      Strona, która mierzy, ile „ruchu AI" jest prawdziwe, została opisana liczbą, która z niej nie
+      pochodzi — i to z dokładnością gorszą niż czterokrotna.
+    </p>
+
+    <h3 className="font-semibold">7 września 2026 — drugi model przyznał się do niewiedzy i wykrył nasz błąd</h3>
+    <p>
+      W tym samym teście inny model odpowiedział: <em>nie udało mi się pobrać tego pliku</em>,
+      i zgadywał, że to zapora po naszej stronie. Licznik pokazał co innego:{" "}
+      <strong>jego żądania dotarły</strong>, oba, co do sekundy. Serwer oddał pliki poprawnie — to
+      narzędzie modelu nie poradziło sobie z formatem innym niż HTML i zgłosiło własne ograniczenie
+      jako awarię cudzego serwera.
+    </p>
+    <p>
+      Ale ten sam model, zapytany o treść tej strony, odpowiedział, że dostał{" "}
+      <em>„spis treści portalu przypominający sitemapę, a nie właściwy artykuł"</em>.{" "}
+      <strong>I to była prawda — a błąd był nasz.</strong> Nie przedstawia się nazwą, którą znaliśmy,
+      więc nie trafiał do grupy dostającej pełną treść. Poprawione tego samego dnia: o tym, czy
+      żądanie pochodzi od człowieka, decyduje teraz brak nagłówków wysyłanych przez przeglądarkę,
+      a nie obecność nazwy na naszej liście. Lista nazw zawsze będzie spóźniona wobec rzeczywistości.
+    </p>
+    <p className="font-medium">
+      Model, który przyznał się do niewiedzy, dał nam informację wartą poprawki. Model, który
+      odpowiedział na wszystko, nie dał żadnej.
+    </p>
+
     <h3 className="font-semibold">4 września 2026, 11:06 — sześć tożsamości w dziewiętnaście sekund</h3>
     <p>
       Z jednej sieci w Stanach Zjednoczonych (AS1004) przyszła seria żądań, w której ten sam

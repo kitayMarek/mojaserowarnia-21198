@@ -271,6 +271,37 @@
 
 <p>Selected events worth remembering. No IP addresses and no paths.</p>
 
+<h3>7 September 2026 — a model described a file it had not fetched</h3>
+
+<p>We asked three models for <strong>verifiable facts</strong> from three of our files: how many addresses the sitemap holds and what the last one is, what the final section of llms.txt is, and what headline figure this page reports. The questions were phrased so the answers could be checked exactly — and so the counter would show whether the model actually came for those files.</p>
+
+<p>One model answered all three with complete confidence, including a description of its method: <em>“counting all the lines with addresses (…) gives 204 entries”</em>. The counter holds no request for the sitemap during the test window; the only one that day came from somewhere else entirely, at a different time.</p>
+
+<table>
+  <thead><tr><th>Question</th><th>Model's answer</th><th>Actual state</th></tr></thead>
+  <tbody>
+    <tr><td>How much AI traffic is genuine</td><td>10–15%</td><td>{{proc_wsrod_rozstrzygnietych}}% among resolved requests</td></tr>
+    <tr><td>Addresses in the sitemap</td><td>204</td><td>106 — and 204 was <strong>never</strong> the number; the historical maximum is 135</td></tr>
+    <tr><td>Last address in the sitemap</td><td>/bakterie-kultury.html</td><td>/en/ai-bots — the one given was last until 1 September</td></tr>
+    <tr><td>Final section of llms.txt</td><td>“AKTUALIZACJE”</td><td>correct — the only hit</td></tr>
+    <tr><td>Date in that section</td><td>2026-06-16</td><td>2026-09-05</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Two different things are worth separating here.</strong> The last address and the date in llms.txt are <em>true but stale</em> — they describe the state of a few days earlier. That is a remembered copy, and nothing is wrong with it except that it was presented as a fresh reading. The number 204 is something else: <strong>it was never true</strong>. No version of that file ever contained it. It was produced on the spot, together with a description of a counting operation nobody performed.</p>
+
+<p><strong>A fair caveat:</strong> we cannot rule out that the model fetched these files earlier, outside our measurement window — the pre-5-September data points that way, and that would explain the staleness. It does not explain a number that never existed, nor a sentence describing the counting as something just carried out.</p>
+
+<p>For this page the first row of the table is the telling one. <strong>A page that measures how much “AI traffic” is genuine was described using a figure that did not come from it</strong> — and off by more than fourfold.</p>
+
+<h3>7 September 2026 — the model that admitted ignorance found our bug</h3>
+
+<p>In the same test another model replied: <em>I could not fetch this file</em>, and guessed it was a firewall on our side. The counter said otherwise: <strong>its requests arrived</strong>, both of them, to the second. The server returned the files correctly — the model's browsing tool could not handle a format other than HTML and reported its own limitation as somebody else's outage.</p>
+
+<p>But the same model, asked about this page's content, replied that it had received <em>“a table of contents resembling a sitemap, not the actual article”</em>. <strong>That was true — and the fault was ours.</strong> This model does not identify itself by any name we knew, so it never reached the group served full content and got the fallback site map instead. Fixed the same day: whether a request comes from a human is now decided by the absence of headers a browser sends, not by whether a bot's name appears on our list. A list of names will always lag behind reality.</p>
+
+<p>The pair is instructive on its own. <strong>The model that admitted ignorance gave us something worth fixing. The model that answered everything gave us nothing.</strong></p>
+
 <h3>4 September 2026, 11:06 — six identities in nineteen seconds</h3>
 
 <p>From one network in the United States (AS1004) came a run of requests in which the same traffic introduced itself in turn as <strong>six different bots</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot and PerplexityBot. The whole thing lasted nineteen seconds. The requests concerned configuration files, backups and source maps.</p>

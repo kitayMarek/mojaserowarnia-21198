@@ -285,6 +285,37 @@
 
 <p>Wybrane zdarzenia warte zapamiętania. Bez adresów IP i bez ścieżek.</p>
 
+<h3>7 września 2026 — model opisał plik, którego nie pobrał</h3>
+
+<p>Poprosiliśmy trzy modele o podanie <strong>sprawdzalnych faktów</strong> z trzech naszych plików: ile adresów ma mapa serwisu i jaki jest ostatni, jaka jest ostatnia sekcja llms.txt, jaka liczba stoi w nagłówku tej strony. Pytania celowo tak sformułowane, żeby odpowiedź dało się zweryfikować co do znaku — a jednocześnie żeby licznik pokazał, czy model naprawdę po te pliki przyszedł.</p>
+
+<p>Jeden z modeli odpowiedział na wszystkie trzy pytania, z pełną pewnością siebie i z opisem procedury: <em>„licząc wszystkie linie z adresami (…) wychodzi 204 pozycje"</em>. W liczniku nie ma śladu żądania o mapę serwisu w oknie testu — jedyne tego dnia przyszło z zupełnie innej strony i o innej godzinie.</p>
+
+<table>
+  <thead><tr><th>Pytanie</th><th>Odpowiedź modelu</th><th>Stan faktyczny</th></tr></thead>
+  <tbody>
+    <tr><td>Ile ruchu AI jest prawdziwe</td><td>10–15%</td><td>{{proc_wsrod_rozstrzygnietych}}% wśród rozstrzygniętych</td></tr>
+    <tr><td>Ile adresów ma mapa serwisu</td><td>204</td><td>106 — a 204 nie było <strong>nigdy</strong>; najwięcej w historii było 135</td></tr>
+    <tr><td>Ostatni adres w mapie</td><td>/bakterie-kultury.html</td><td>/en/ai-bots — podany adres był ostatni do 1 września</td></tr>
+    <tr><td>Ostatnia sekcja llms.txt</td><td>„AKTUALIZACJE"</td><td>zgadza się — jedyne trafienie</td></tr>
+    <tr><td>Data w tej sekcji</td><td>2026-06-16</td><td>2026-09-05</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Warto rozróżnić dwie rzeczy, bo mają różne przyczyny.</strong> Ostatni adres i data w llms.txt to informacje <em>prawdziwe, ale nieaktualne</em> — opisują stan sprzed kilku dni. To zapamiętana kopia i nic w tym zdrożnego, poza tym, że została podana jako świeży odczyt. Liczba 204 to co innego: <strong>nie była prawdziwa nigdy</strong>. Nie ma wersji tego pliku, w której by wystąpiła. Powstała na miejscu, razem z opisem czynności liczenia, której nikt nie wykonał.</p>
+
+<p><strong>Uczciwe zastrzeżenie:</strong> nie możemy wykluczyć, że model pobrał te pliki wcześniej, poza naszym oknem pomiaru — właśnie na to wskazują dane sprzed 5 września. To by tłumaczyło nieaktualność. Nie tłumaczy natomiast liczby, której nigdy nie było, ani zdania opisującego liczenie jako czynność wykonaną przed chwilą.</p>
+
+<p>Dla tej strony najbardziej wymowna jest pierwsza linijka tabeli. <strong>Strona, która mierzy, ile „ruchu AI" jest prawdziwe, została opisana liczbą, która z niej nie pochodzi</strong> — i to z dokładnością gorszą niż czterokrotna.</p>
+
+<h3>7 września 2026 — drugi model przyznał się do niewiedzy i przez to wykrył nasz błąd</h3>
+
+<p>W tym samym teście inny model odpowiedział: <em>nie udało mi się pobrać tego pliku</em>, i zgadywał, że to wina zapory po naszej stronie. Licznik pokazał co innego: <strong>jego żądania dotarły</strong>, oba, co do sekundy. Serwer oddał pliki poprawnie — to narzędzie modelu nie poradziło sobie z formatem innym niż HTML i zgłosiło własne ograniczenie jako awarię cudzego serwera.</p>
+
+<p>Ale ten sam model, zapytany o treść tej strony, odpowiedział, że dostał <em>„spis treści portalu przypominający sitemapę, a nie właściwy artykuł"</em>. <strong>I to była prawda — a błąd był nasz.</strong> Ten model nie przedstawia się nazwą, którą znaliśmy, więc nie trafiał do grupy dostającej pełną treść i dostawał awaryjną mapę serwisu. Poprawione tego samego dnia: o tym, czy żądanie pochodzi od człowieka, decyduje teraz brak nagłówków, które wysyła przeglądarka — a nie to, czy nazwa bota jest na naszej liście. Lista nazw zawsze będzie spóźniona wobec rzeczywistości.</p>
+
+<p>Zestawienie tych dwóch przypadków jest pouczające samo w sobie. <strong>Model, który przyznał się do niewiedzy, dał nam informację wartą poprawki. Model, który odpowiedział na wszystko, nie dał żadnej.</strong></p>
+
 <h3>4 września 2026, 11:06 — pięć tożsamości w dziewiętnaście sekund</h3>
 
 <p>Z jednej sieci w Stanach Zjednoczonych (AS1004) przyszła seria żądań, w której ten sam ruch przedstawiał się kolejno jako <strong>sześć różnych botów</strong>: CCBot, ChatGPT-User, ClaudeBot, GPTBot, OAI-SearchBot i PerplexityBot. Całość trwała dziewiętnaście sekund. Żądania dotyczyły plików konfiguracyjnych, kopii zapasowych i map kodu źródłowego.</p>
