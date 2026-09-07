@@ -435,6 +435,34 @@
 
 <p class="uwaga">Jeden szczegół dla porządku: model uruchamiający kod odczytał wcześniej tego samego dnia dwa inne nasze pliki i zrobił to poprawnie — jego narzędzie przeglądania działa. Tym razem sięgnął po interpreter zamiast po nie. <strong>Nie zawiodła umiejętność, tylko wybór narzędzia</strong> — a wniosek o cudzej zaporze wyciągnięty został tak samo pewnie.</p>
 
+<h2>Co wiemy o llms.txt — razem z tym, jak sami sobie zafałszowaliśmy pomiar</h2>
+
+<p><code>llms.txt</code> to proponowany standard: mapa treści serwisu przygotowana dla modeli językowych. Mamy go i zostawiamy. Ale trzeba powiedzieć wprost, co pokazują dane, także wtedy, gdy przeczą temu, po co się go tworzy.</p>
+
+<p><strong>U nas plik pobrano cztery razy. Trzy z tych pobrań wywołaliśmy sami.</strong></p>
+
+<p>Testując, czy modele czytają ten plik, poprosiliśmy trzy z nich o podanie jego zawartości. Każdy poszedł po niego naprawdę — i każde z tych żądań wylądowało w liczniku jako ruch bota. Nasz mechanizm odsiewania własnego ruchu tego <strong>nie łapie</strong>, bo rozpoznaje ruch po naszym numerze sieci i znaczniku w podpisie, a model przychodzi ze swojej infrastruktury, z prawdziwą nazwą i adresem przechodzącym weryfikację. Dla licznika to wzorowy, autentyczny bot — bo nim jest. Tyle że jego przyczyną byliśmy my.</p>
+
+<p>Po odjęciu własnych testów zostaje <strong>jedno niezależne pobranie</strong>. I nawet przy nim nie umiemy dziś powiedzieć, czy przeszło weryfikację tożsamości, bo nasz raport nie rozbija plików technicznych na zweryfikowane i niezweryfikowane. To luka w narzędziu, nie w danych — do naprawienia.</p>
+
+<p>Ta pułapka jest podstępniejsza od pozostałych, bo działa w jedną stronę: <strong>im więcej testujesz, tym bardziej Twoje dane potwierdzają to, co testujesz.</strong> Kilkanaście pytań zadanych modelom o własną stronę wystarczy, żeby mała domena pokazała „żywy ruch AI", którego bez tych pytań by nie było.</p>
+
+<h3>Mocniejsze badanie mówi to samo, tylko pewniej</h3>
+
+<p>Nasza próba to jedna strona i kilka dni. <a href="https://seekio.pl/roboty-ai-ignoruja-llms-txt/" rel="nofollow">Badanie Przemysława Charchana</a> obejmuje <strong>około 900 domen przez 191 dni</strong>: 1227 zapytań o pliki <code>llms.txt</code> wobec <strong>blisko 45 milionów żądań od botów AI</strong> w tym samym czasie. To trzy tysięczne procenta. Wśród pytających o ten plik nie było ani jednego zweryfikowanego bota AI — dominowały agregatory danych, skanery bezpieczeństwa i ludzie sprawdzający ręcznie w przeglądarce.</p>
+
+<p>Jego próba jest od naszej jakieś czterdzieści tysięcy razy większa. <strong>Gdy dwa pomiary o tak różnej skali mówią to samo, to nie nasz jest dowodem</strong> — nasz jest co najwyżej ilustracją, i tak go traktujemy.</p>
+
+<h3>Dlaczego tak jest — to akurat wyszło z naszego testu</h3>
+
+<p>Liczby pokazują skutek. Mechanizm zobaczyliśmy przy okazji zupełnie innego sprawdzenia: wystawiliśmy cztery nowe pliki pod publicznymi adresami i poprosiliśmy modele o ich zawartość. Jeden nie wysłał ani jednego żądania i podał powód wprost — <em>„cache miss, wyszukiwarka nie ma jego kopii"</em>.</p>
+
+<p>Model o takiej architekturze <strong>nie ignoruje llms.txt — on w ogóle nie chodzi po plikach.</strong> Czyta z indeksu wyszukiwarki. Plik przygotowany specjalnie dla niego leży poza ścieżką, którą się porusza, i żadne ulepszanie jego treści tego nie zmieni.</p>
+
+<h3>Co z tym robimy</h3>
+
+<p>Zostawiamy. Kosztuje zero, a gdyby konwencja się przyjęła, będziemy mieli dane historyczne od dnia, w którym zaczęliśmy mierzyć. <strong>Ale nie liczymy na niego i nikomu nie radzimy liczyć.</strong> Jeżeli masz wybrać, gdzie włożyć godzinę pracy — <code>robots.txt</code> czyta u nas kilkanaście różnych botów, a strona główna jest drugim najczęściej pobieranym adresem w całym serwisie. To są drzwi, którymi się faktycznie wchodzi.</p>
+
 <h2>Nie jesteśmy pierwsi — i to jest dobra wiadomość</h2>
 
 <p>28 sierpnia 2026, <strong>tydzień przed uruchomieniem tego licznika</strong>, Jakub Sawa opublikował <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">badanie oparte na tej samej metodzie</a>: weryfikacji botów po adresie IP zamiast po nazwie. Prowadzi je na jsseo.dev przez osiemdziesiąt dni i publikuje metodykę oraz surowe dane.</p>

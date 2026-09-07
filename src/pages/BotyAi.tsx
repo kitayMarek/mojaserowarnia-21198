@@ -91,6 +91,7 @@ const MODULY = [
   { id: "bez-podpisu", tytul: "Ruch, który nie przedstawia się wcale", zajawka: "Puste pole User-Agent. Kim są — nie wiemy. Czego szukają — wiemy dokładnie." },
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
   { id: "metodologia", tytul: "Jak to jest liczone?", zajawka: "Listy adresów, odwrotny DNS, podpisy — i co znaczy „nie wiadomo”." },
+  { id: "llms-txt", tytul: "Co wiemy o llms.txt", zajawka: "Cztery pobrania, z czego trzy wywołaliśmy sami. I mocniejsze badanie, które mówi to samo." },
   { id: "kod-otwarty", tytul: "Kod jest otwarty", zajawka: "Cały licznik na licencji MIT — razem ze spisem błędów, które popełniliśmy po drodze." },
 ] as const;
 
@@ -428,6 +429,7 @@ const BotyAi = () => {
                     )}
                     {m.id === "bez-podpisu" && <BezPodpisu liczba_={p?.bez_podpisu} />}
                     {m.id === "kronika" && <Kronika />}
+                    {m.id === "llms-txt" && <LlmsTxt />}
                     {m.id === "kod-otwarty" && <KodOtwarty />}
                     {m.id === "metodologia" && (
                       <Metodologia wiersze={data?.metody ?? []} zZapisana={p?.z_zapisana_metoda} technicznie={technicznie} />
@@ -779,6 +781,62 @@ const BezPodpisu = ({ liczba_ }: { liczba_?: number }) => (
         Licznik nie pokazywał zera dlatego, że nic nie przychodziło — tylko dlatego, że nie
         miał jak zobaczyć.
       </strong>
+    </p>
+  </>
+);
+
+const LlmsTxt = () => (
+  <>
+    <p>
+      <code>llms.txt</code> to proponowany standard: mapa treści serwisu przygotowana dla
+      modeli. Mamy go i zostawiamy. Ale dane trzeba podać wprost, także tam, gdzie przeczą
+      temu, po co się ten plik tworzy.
+    </p>
+    <p className="font-medium">
+      U nas plik pobrano cztery razy. Trzy z tych pobrań wywołaliśmy sami.
+    </p>
+    <p>
+      Testując, czy modele go czytają, poprosiliśmy trzy z nich o jego zawartość. Każdy
+      poszedł po niego naprawdę — i każde żądanie wylądowało w liczniku jako ruch bota. Nasz
+      odsiew własnego ruchu tego <strong>nie łapie</strong>: rozpoznaje ruch po naszym numerze
+      sieci i znaczniku w podpisie, a model przychodzi ze swojej infrastruktury, pod prawdziwą
+      nazwą i z adresu przechodzącego weryfikację. Dla licznika to wzorowy bot — bo nim jest.
+      Tyle że jego przyczyną byliśmy my. Zostaje <strong>jedno niezależne pobranie</strong>.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Ta pułapka działa w jedną stronę: im więcej testujesz, tym bardziej Twoje dane
+      potwierdzają to, co testujesz.
+    </p>
+    <h4 className="font-semibold mt-4">Mocniejsze badanie mówi to samo</h4>
+    <p>
+      Nasza próba to jedna strona i kilka dni.{" "}
+      <a
+        href="https://seekio.pl/roboty-ai-ignoruja-llms-txt/"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        className="underline underline-offset-2"
+      >
+        Badanie Przemysława Charchana
+      </a>{" "}
+      obejmuje <strong>około 900 domen przez 191 dni</strong>: 1227 zapytań o pliki llms.txt
+      wobec blisko <strong>45 milionów żądań od botów AI</strong> w tym samym czasie — trzy
+      tysięczne procenta. Wśród pytających nie było ani jednego zweryfikowanego bota AI.
+      Jego próba jest od naszej jakieś czterdzieści tysięcy razy większa, więc to nie nasza
+      liczba jest tu dowodem.
+    </p>
+    <h4 className="font-semibold mt-4">Dlaczego tak jest</h4>
+    <p>
+      Mechanizm wyszedł z innego naszego testu: wystawiliśmy cztery nowe pliki i poprosiliśmy
+      modele o ich zawartość. Jeden nie wysłał ani jednego żądania i podał powód wprost —{" "}
+      <em>„cache miss, wyszukiwarka nie ma jego kopii"</em>. Taki model{" "}
+      <strong>nie ignoruje llms.txt — on w ogóle nie chodzi po plikach</strong>, tylko czyta
+      z indeksu. Plik przygotowany specjalnie dla niego leży poza jego ścieżką.
+    </p>
+    <p>
+      Zostawiamy go, bo kosztuje zero, a gdyby konwencja się przyjęła, będziemy mieli dane od
+      dziś. <strong>Ale nie liczymy na niego.</strong> Jeśli masz jedną godzinę:{" "}
+      <code>robots.txt</code> czyta u nas kilkanaście różnych botów, a strona główna jest
+      drugim najczęściej pobieranym adresem w serwisie. To są drzwi, którymi się wchodzi.
     </p>
   </>
 );

@@ -421,6 +421,34 @@
 
 <p>One detail for the record: the code-running model had read two other files of ours correctly earlier the same day — its browsing tool works. This time it reached for the interpreter instead. <strong>It was not ability that failed, but the choice of tool</strong> — and the conclusion about somebody else's firewall was drawn just as confidently.</p>
 
+<h2>What we know about llms.txt — including how we skewed our own measurement</h2>
+
+<p><code>llms.txt</code> is a proposed standard: a content map of a site prepared for language models. We have one and we are keeping it. But the data has to be reported plainly, including where it contradicts the reason for creating the file at all.</p>
+
+<p><strong>Ours was fetched four times. Three of those fetches we caused ourselves.</strong></p>
+
+<p>Testing whether models read the file, we asked three of them for its contents. Each genuinely went for it — and each of those requests landed in the counter as bot traffic. Our own-traffic filter <strong>does not catch this</strong>, because it recognises traffic by our network number and a marker in the signature, while the model arrives from its own infrastructure, under a real name, from an address that passes verification. To the counter it is an exemplary, authentic bot — because it is one. Only its cause was us.</p>
+
+<p>Subtracting our own tests leaves <strong>one independent fetch</strong>. And even for that one we cannot currently say whether it passed identity verification, because our report does not split technical files into verified and unverified. That is a gap in the tool, not in the data — and it is fixable.</p>
+
+<p>This trap is more insidious than the others because it works in one direction only: <strong>the more you test, the more your data confirms what you are testing.</strong> A dozen questions put to models about your own site is enough to make a small domain show “live AI traffic” that would not exist without them.</p>
+
+<h3>A stronger study says the same thing, with more confidence</h3>
+
+<p>Our sample is one site over a few days. <a href="https://seekio.pl/roboty-ai-ignoruja-llms-txt/" rel="nofollow">Przemysław Charchan's study</a> covers <strong>around 900 domains over 191 days</strong>: 1,227 requests for <code>llms.txt</code> files against <strong>nearly 45 million requests from AI bots</strong> in the same period. That is three thousandths of a percent. Among those asking for the file there was not a single verified AI bot — the traffic came from data aggregators, security scanners and people checking manually in a browser.</p>
+
+<p>His sample is some forty thousand times larger than ours. <strong>When two measurements of such different scale agree, ours is not the evidence</strong> — it is at most an illustration, and that is how we treat it.</p>
+
+<h3>Why this happens — that part came from our own test</h3>
+
+<p>Numbers show the effect. We saw the mechanism during an unrelated check: we published four new files at public addresses and asked models for their contents. One sent no request at all and gave the reason outright — <em>“cache miss, the search engine has no copy”</em>.</p>
+
+<p>A model built that way <strong>does not ignore llms.txt — it does not walk the files at all.</strong> It reads from a search index. A file prepared specially for it sits outside the path it travels, and no amount of improving its contents will change that.</p>
+
+<h3>What we do about it</h3>
+
+<p>We keep it. It costs nothing, and if the convention catches on we will have history from the day we started measuring. <strong>But we do not count on it, and we advise nobody else to.</strong> If you have one hour to spend: <code>robots.txt</code> is read here by more than a dozen different bots, and the home page is the second most fetched address on the whole site. Those are the doors people actually come through.</p>
+
 <h2>We are not the first — and that is good news</h2>
 
 <p>On 28 August 2026, <strong>a week before this counter started</strong>, Jakub Sawa published <a href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/" rel="nofollow">a study built on the same method</a>: verifying bots by IP address rather than by name. He has been running it on jsseo.dev for eighty days and publishes both the methodology and the raw data.</p>
