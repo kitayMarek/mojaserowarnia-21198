@@ -77,7 +77,8 @@ Deno.serve(async (request) => {
       return odpowiedz({ blad: "brak uprawnien" }, 401);
     }
 
-    const { wiadomosc_id, akcja = "podglad", potwierdzenie } = await request.json();
+    const { wiadomosc_id, akcja = "podglad", potwierdzenie, tylko_email } =
+      await request.json();
     if (!wiadomosc_id) return odpowiedz({ blad: "brakuje wiadomosc_id" }, 400);
 
     const baza = createClient(
@@ -99,9 +100,27 @@ Deno.serve(async (request) => {
     });
     if (bladL) return odpowiedz({ blad: bladL.message }, 500);
 
-    const lista = (odbiorcy ?? []) as Array<
+    const wszyscy = (odbiorcy ?? []) as Array<
       { profil_id: string; email: string; wypis_token: string }
     >;
+
+    // PRÓBA NA JEDNYM ADRESIE. Pierwszy list zawsze warto zobaczyc we wlasnej
+    // skrzynce, zanim zobaczy go dwadziescia osob: dopiero tam widac, jak
+    // klient poczty polamal uklad i czy odnosnik do wypisania dziala.
+    //
+    // ⚠ Zawezenie, nie obejscie: adres MUSI juz byc na liscie uprawnionych.
+    // Tego pola nie da sie uzyc do wyslania czegokolwiek komus, kto nie wyrazil
+    // zgody — i tak ma zostac.
+    const lista = tylko_email
+      ? wszyscy.filter((o) => o.email.toLowerCase() === String(tylko_email).toLowerCase())
+      : wszyscy;
+
+    if (tylko_email && lista.length === 0) {
+      return odpowiedz({
+        blad: "ten adres nie jest na liscie uprawnionych albo juz dostal te wiadomosc",
+        adres: String(tylko_email),
+      }, 400);
+    }
 
     // ─── PODGLAD ────────────────────────────────────────────────────────────
     if (akcja !== "wyslij") {
@@ -110,6 +129,7 @@ Deno.serve(async (request) => {
         tryb: "podglad — NIC NIE WYSLANO",
         tytul: wiadomosc.title,
         adresow_do_wyslania: lista.length,
+        adresow_uprawnionych_lacznie: wszyscy.length,
         // Adresow nie zwracamy. Do decyzji wystarczy ich liczba, a wypisanie
         // ich tutaj przenosiloby cala liste do logow.
         tresc_tekstowa: przyklad.tekst,
