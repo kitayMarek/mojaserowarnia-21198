@@ -3473,7 +3473,7 @@ export const recipesData: Recipe[] = [
 
     milkBase: "≈ 500 g dojrzałego sera twardego lub półtwardego (gouda, cheddar, ementaler, ser z wadami — mieszanka daje najlepszy smak). Ser powinien mieć min. 4–6 tygodni dojrzewania.",
     starter: "Sole emulgujące — kluczowy składnik: cytrynian sodu (E331) lub fosforan sodu (E339/E452). Bez nich ser nie stopnieje równomiernie, lecz rozdzieli się na tłuszcz i białko.",
-    coagulant: "Brak — ser topiony nie używa podpuszczki. Koagulacja (emulsja) zachodzi dzięki solom emulgującym, które wiążą wapń z kazeiny i tworzą stabilną emulsję.",
+    coagulant: "Brak — ser topiony nie używa podpuszczki. Koagulacja (emulsja) zachodzi dzięki solom emulgującym, które wiążą wapń z kazeiny i tworzą stabilną emulsję. Dlatego o tym, czy ser topiony jest wegetariański, decyduje wyłącznie SER BAZOWY. Sole emulgujące — cytrynian sodu (E331) i fosforany (E339, E452) — powstają chemicznie i nie mają pochodzenia zwierzęcego. Jeśli ser bazowy ścięto podpuszczką mikrobiologiczną (chymozyną z pleśni Rhizomucor miehei albo z fermentacji drożdży), cały ser topiony jest wegetariański. Wersja z twarogu jest wegetariańska niemal zawsze: twaróg ścina się kwasem, nie enzymem — warto tylko sprawdzić skład, bo część mleczarni dodaje śladową ilość podpuszczki dla zwięzłości.",
     salting: "Sól do smaku (ok. 1–2 g na 500 g sera) — jeśli ser bazowy jest już słony, można pominąć.",
     aging: "Bez dojrzewania — ser topiony jest gotowy od razu po ostudzeniu. Przechowywanie w lodówce do 3–4 tygodni. Tekstura poprawia się po 1–2 dniach w lodówce.",
 

@@ -8,6 +8,7 @@ const faqData = [
   { question: "Co to podpuszczka mikrobiologiczna?", answer: "Podpuszczka z grzybów/pleśni, bez udziału zwierząt — wegetariańska." },
   { question: "Wegetariański czy wegański?", answer: "Wegetariański = mleko zwierzęce + podpuszczka niezwierzęca. Wegański = bez nabiału, z mleka roślinnego." },
   { question: "Czy parmezan jest wegetariański?", answer: "Nie — Parmigiano Reggiano i Grana Padano (PDO) robi się z podpuszczki cielęcej. Wegetariańska alternatywa to twardy ser na podpuszczce mikrobiologicznej lub wegański „parmezan” z nerkowców." },
+  { question: "Czy ser topiony jest wegetariański?", answer: "Decyduje ser bazowy — samo topienie nie wymaga podpuszczki. Sole emulgujące (cytrynian sodu E331, fosforany E339 i E452) powstają chemicznie i nie są pochodzenia zwierzęcego. Ser topiony z sera ściętego podpuszczką mikrobiologiczną jest wegetariański w całości. Wersja z twarogu jest wegetariańska niemal zawsze, bo twaróg ścina się kwasem, nie enzymem — warto tylko sprawdzić skład kupnego twarogu." },
   { question: "Jakie mleko roślinne najlepsze do sera wegańskiego?", answer: "Nerkowce (kremowa, neutralna baza) i soja (dużo białka). Owies, migdały i kokos zwykle wymagają dodatku skrobi lub agaru." },
 ];
 
@@ -103,6 +104,27 @@ const SeryWege = () => (
         <tr><td>Paneer</td><td>Tak</td><td>ścinany kwasem (sok z cytryny)</td></tr>
       </tbody>
     </table>
+
+    <h2>Ser topiony, serek śmietankowy — przetwory a wegetarianizm</h2>
+    <p>
+      Przy serach <em>przetwarzanych</em> pytanie wygląda inaczej niż przy dojrzewających, bo w samym
+      przetwarzaniu nic zwierzęcego nie uczestniczy. <strong>Sole emulgujące — cytrynian sodu (E331)
+      i fosforany (E339, E452) — powstają chemicznie i nigdy nie są przeszkodą.</strong> Decyduje
+      wyłącznie to, z czego zrobiono ser bazowy.
+    </p>
+    <p>
+      Ser topiony z goudy ściętej podpuszczką cielęcą nie jest wegetariański, choć topiono go bez
+      udziału enzymu. Ten sam ser topiony z goudy na <strong>podpuszczce mikrobiologicznej</strong> — jest,
+      w całości.
+    </p>
+    <p>
+      <strong>Najprostsza droga prowadzi jednak przez twaróg.</strong> Twaróg ścina się kwasem, a nie
+      enzymem, więc podpuszczki w nim po prostu nie ma; domowy ser topiony robi się z niego na sodzie
+      oczyszczonej, bez soli emulgujących. Taki ser jest wegetariański z samej technologii. Jedyne, co warto
+      sprawdzić, to skład kupnego twarogu — część mleczarni dodaje śladową ilość podpuszczki dla
+      zwięzłości ziarna i wtedy widnieje ona na etykiecie. Cała metoda jest w{" "}
+      <Link to="/przepisy/ser-topiony">przepisie na ser topiony</Link>.
+    </p>
 
     <h2>Po czym poznać ser wegetariański w sklepie?</h2>
     <p>Czytaj skład na etykiecie:</p>
