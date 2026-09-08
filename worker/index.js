@@ -58,6 +58,16 @@ const MIRROR_POD_INNA_NAZWA = {
   '/przepisy': '/przepisy/przewodnik.html',
 };
 
+// Odwrotnosc powyzszej mapy. Uzywana przy scalaniu adresow (regula 1a): dla
+// zwyklego mirrora czysty adres to sciezka bez ".html", ale dla tych pieciu
+// nazwa pliku i trasa nie maja ze soba nic wspolnego.
+//
+// ⚠ Trzymac zgodne z mapa wyzej. Rozjazd nie da bledu — da przekierowanie
+// w zle miejsce, czyli najgorszy rodzaj usterki: taki, ktory dziala.
+const TRASA_MIRRORA = Object.fromEntries(
+  Object.entries(MIRROR_POD_INNA_NAZWA).map(([trasa, plik]) => [plik, trasa])
+);
+
 // Rozszerzenia, dla których brak pliku ma znaczyć PRAWDZIWE 404, a nie
 // index.html z kodem 200. Dla Google taki „soft 404" (np. /assets/stary-chunk.js
 // zwracające HTML) to sygnał niskiej jakości serwisu.
@@ -260,6 +270,38 @@ Disallow: /
     }
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
+
+    // 1a) SCALENIE ADRESOW: /x.html -> /x.
+    //
+    //     Kazdy mirror odpowiadal pod dwoma adresami naraz — czystym i z
+    //     rozszerzeniem — oddajac identyczne bajty. Bing zaindeksowal WERSJE
+    //     .html i cytowal ja czesciej niz kanoniczna: /przepisy/ser-topiony.html
+    //     mial 84 cytowania, a /wedzenie-sera.html 31 przy 2 na adresie czystym.
+    //     Ta sama strona, dwa wiersze w raporcie, podzielone sygnaly.
+    //
+    //     ⚠ DLACZEGO TUTAJ, A NIE W public/_redirects. Bo tam juz to raz bylo
+    //     i wygasilo tresc na pietnastu stronach (docs/pulapki.md nr 5):
+    //     warstwa przekierowan dziala PRZED workerem, wiec reguly serwujace
+    //     botom mirror dostawaly 301 zamiast pliku i po cichu rezygnowaly.
+    //     Worker siega po pliki przez env.ASSETS, ktore tego routera nie
+    //     przechodzi — wiec stad przekierowanie jest niewidoczne dla wlasnych
+    //     odczytow i dotyczy wylacznie zadan z zewnatrz.
+    //
+    //     Przekierowujemy TYLKO gdy plik faktycznie istnieje. Inaczej
+    //     /wymyslona.html trafiloby na trase Reacta z kodem 200, czyli soft 404
+    //     — dokladnie to, czego pozbywamy sie w regule 4.
+    //
+    //     Sprawdzone przed wdrozeniem: dla 101 mirrorow czysty adres oddaje
+    //     botowi te sama tresc co .html (dwa wyjatki to /boty-ai i /en/ai-bots,
+    //     rozne o 4 bajty, bo licza zywe liczby w chwili zadania).
+    if (request.method === 'GET' && url.pathname.endsWith('.html')) {
+      const trasa = TRASA_MIRRORA[url.pathname] ?? url.pathname.slice(0, -'.html'.length);
+      const plik = await zasob(env, url.origin, url.pathname);
+      if (plik.status === 200) {
+        url.pathname = trasa;
+        return Response.redirect(url.toString(), 301);
+      }
+    }
 
     // 1b2) Strona /boty-ai — mirror i feed składane na żywo z widoków pub_*.
     //
