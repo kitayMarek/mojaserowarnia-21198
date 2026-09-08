@@ -34,6 +34,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,6 +67,10 @@ def wczytaj_kultury():
 
 
 def pobierz(url, prob=3):
+    """Oddaje (html, adres_koncowy). Adres koncowy jest istotny: sklepy
+    przenosza produkty i zostawiaja przekierowanie, a wtedy stary link w naszej
+    bazie dziala, ale prowadzi gdzie indziej — czasem do zupelnie innego
+    towaru. Cena odczytana z takiej strony byla by poprawna i nieprawdziwa."""
     ostatni = None
     for n in range(prob):
         try:
@@ -74,10 +79,11 @@ def pobierz(url, prob=3):
             )
             with urllib.request.urlopen(zad, timeout=30) as odp:
                 surowe = odp.read()
+                koncowy = odp.geturl()
             try:
-                return surowe.decode("utf-8")
+                return surowe.decode("utf-8"), koncowy
             except UnicodeDecodeError:
-                return surowe.decode("iso-8859-2", "replace")
+                return surowe.decode("iso-8859-2", "replace"), koncowy
         except urllib.error.HTTPError:
             raise
         except Exception as e:
@@ -85,6 +91,23 @@ def pobierz(url, prob=3):
             if n < prob - 1:
                 time.sleep(2.5 * (n + 1))
     raise ostatni
+
+
+def jest_na_stronie(nazwa, html):
+    """Czy nasza nazwa produktu w ogole wystepuje na tej stronie.
+
+    To jest caly test na PODMIANE towaru pod tym samym adresem — celowo tak
+    prosty. Probowalem najpierw czytac nazwe z danych strukturalnych i to sie
+    nie udalo: Artiser rozbija JSON-LD na dwanascie blokow, nazwa produktu lezy
+    w bloku BEZ @type, a wyrazenie regularne przechodzilo miedzy blokami
+    i wyciagalo "Artiser" z sekcji marki. Dwa falszywe alarmy na dziesiec stron.
+
+    Szukanie nazwy w tekscie nie zalezy od konwencji sklepu i myli sie w jedna,
+    bezpieczna strone: jesli nazwa jest, produkt niemal na pewno jest; jesli jej
+    nie ma, to warto spojrzec okiem. Nie wykryje podmiany na produkt o tej samej
+    nazwie i innym skladzie — na to nie ma automatu i trzeba o tym pamietac."""
+    czysc = lambda s: re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+    return czysc(nazwa) in czysc(re.sub(r"<[^>]+>", " ", html))
 
 
 def cena_z_jsonld(html):
@@ -185,18 +208,48 @@ def main():
         rek = [d for lista in wg.values() for d in lista[: max(1, probka // len(wg))]]
         print("PROBKA: %d stron\n" % len(rek))
 
-    wyniki, bledy, zmiany, netto_brutto = [], 0, 0, 0
+    wyniki, bledy, zmiany, netto_brutto, do_reki = [], 0, 0, 0, 0
     for n, d in enumerate(rek, 1):
         try:
-            html = pobierz(d["productUrl"])
+            html, koncowy = pobierz(d["productUrl"])
         except Exception as e:
+            # ⚠ Blad MUSI trafic do pliku wynikowego. Wczesniej wypadal tylko na
+            # ekran, wiec generator SQL takiego wiersza nie ruszal i w bazie
+            # zostawala stara cena BEZ ZADNEGO SLADU, ze strony juz nie ma.
+            # Cicho przeterminowana cena jest gorsza od widocznej luki.
             print("  !! %-8s %-24s %s" % (type(e).__name__, d["name"][:24], str(e)[:32]))
+            wyniki.append((d["name"], d.get("shop", ""), d.get("cena_baza") or "",
+                           "", "", "DO SPRAWDZENIA RECZNIE (%s)" % type(e).__name__))
             bledy += 1
             time.sleep(ODSTEP)
             continue
 
+        # Przeprowadzka produktu: link dziala, ale prowadzi gdzie indziej.
+        # Rozne adresy same w sobie nie sa bledem (sklepy dopisuja parametry),
+        # wiec porownujemy sciezke, nie caly adres.
+        sciezka = lambda u: urllib.parse.urlsplit(u).path.rstrip("/")
+        przeprowadzka = sciezka(koncowy) != sciezka(d["productUrl"])
+
+        podmiana = not jest_na_stronie(d["name"], html)
+
         cena, zrodlo = cena_ze_strony(html)
         stara = d.get("cena_baza")
+
+        if podmiana or przeprowadzka:
+            # Cene odczytana ZOSTAWIAMY w kolumnie, ale status krzyczy — bo to
+            # jest moment, w ktorym automat nie powinien decydowac sam.
+            powod = []
+            if przeprowadzka:
+                powod.append("adres -> %s" % sciezka(koncowy)[:48])
+            if podmiana:
+                powod.append("nazwy \"%s\" nie ma na stronie" % d["name"][:40])
+            status = "DO SPRAWDZENIA RECZNIE (%s)" % "; ".join(powod)
+            wyniki.append((d["name"], d.get("shop", ""), stara if stara else "",
+                           cena if cena else "", zrodlo or "", status))
+            print("  %-24s %-13s %s" % (d["name"][:24], d.get("shop", "")[:13], status))
+            do_reki += 1
+            time.sleep(ODSTEP)
+            continue
 
         if cena is None:
             status = "BRAK CENY"
@@ -227,6 +280,7 @@ def main():
     print("  zmiany            : %d" % zmiany)
     print("  w tym netto->brutto: %d" % netto_brutto)
     print("  bledy             : %d" % bledy)
+    print("  do sprawdzenia recznie: %d" % do_reki)
 
     if not probka:
         wszystkie = list(juz.values()) + [list(w) for w in wyniki]
