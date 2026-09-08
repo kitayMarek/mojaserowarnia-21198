@@ -385,6 +385,40 @@ export async function ktoZListy(ip) {
   return null;
 }
 
+/**
+ * Waga zadania w bajtach — tyle, ile wazy PYTANIE, a nie odpowiedz.
+ *
+ * PO CO. Rozmiar odpowiedzi zapisujemy od poczatku, ale bez drugiej strony nie
+ * mowi on nic o wymianie. Dopiero razem widac, na czym ten handel polega: bot
+ * przysyla kilkaset bajtow naglowkow i zabiera kilkadziesiat kilobajtow tresci.
+ * Ten stosunek jest tez jedynym sygnalem, ktory samoczynnie wylapalby pomylke
+ * w rodzaju obrazka Open Graph wazacego megabajt.
+ *
+ * ⚠ CO TA LICZBA NAPRAWDE ZNACZY. Dwie rzeczy trzeba wiedziec, zanim sie ja
+ * gdziekolwiek poda:
+ *  1. Liczymy tak, jakby szlo po HTTP/1.1. Prawdziwe polaczenie uzywa HTTP/2
+ *     albo /3, gdzie naglowki ida skompresowane (HPACK/QPACK) — wiec to jest
+ *     GORNE OSZACOWANIE, czesto dwu-trzykrotne.
+ *  2. Liczymy to, co doszlo DO NASZEGO KODU, a nie to, co wyslal bot. Warstwa
+ *     brzegowa dokleja po drodze swoje naglowki (cf-*, x-forwarded-*). Do
+ *     porownywania gosci miedzy soba to nie szkodzi, bo kazdy dostaje ten sam
+ *     dodatek. Do zdania "bot wyslal N bajtow" — szkodzi i tak pisac nie wolno.
+ */
+function wagaZadania(request) {
+  try {
+    // Linia zadania: METODA SP sciezka SP HTTP/1.1 CRLF
+    let bajty = request.method.length + new URL(request.url).pathname.length + 13;
+    for (const [nazwa, wartosc] of request.headers) bajty += nazwa.length + wartosc.length + 4;
+    bajty += 2;  // pusta linia konczaca naglowki
+
+    // Cialo — u nas praktycznie zawsze zero, bo boty wysylaja GET.
+    const cialo = Number(request.headers.get('content-length'));
+    return bajty + (Number.isFinite(cialo) && cialo > 0 ? cialo : 0);
+  } catch {
+    return null;
+  }
+}
+
 // --- Zapis ---------------------------------------------------------------
 
 /**
@@ -497,6 +531,7 @@ export async function zapiszWizyteBota(request, wynik, env) {
         sciezka: url.pathname,
         status: wynik.status,
         rozmiar: wynik.rozmiar,
+        rozmiar_zadania: wagaZadania(request),
         mirror: wynik.mirror,
         asn,
         kraj: request.cf?.country ?? null,
