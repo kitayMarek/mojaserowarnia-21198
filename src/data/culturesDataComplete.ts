@@ -909,9 +909,12 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/GAMMA-3/1346",
-    price: "39,00 zł",
-    price_numeric: 39.0,
-    lastChecked: "2026-08-22",
+    // Sklep oddaje pod tym adresem kod 200, ale strona jest pusta: bez nazwy,
+    // bez naglowka i bez ceny. Produkt zniknal, link dziala. Zostawiamy pozycje
+    // z jawnym "Niedostepna" zamiast starej ceny — cicha cena z 22 sierpnia
+    // wygladalaby na aktualna. Sprawdzone 8 wrzesnia 2026.
+    price: "Niedostępna",
+    lastChecked: "2026-09-08",
   },
   {
     name: "GEO",

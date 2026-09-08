@@ -107,8 +107,15 @@ const BazaKultur = () => {
         let aValue: string | number = (a as unknown as Record<string, string>)[sortField] ?? "";
         let bValue: string | number = (b as unknown as Record<string, string>)[sortField] ?? "";
         if (sortField === 'price') {
-          aValue = a.price_numeric ?? (parseFloat((a.price || "").replace(' zł', '').replace(',', '.')) || 0);
-          bValue = b.price_numeric ?? (parseFloat((b.price || "").replace(' zł', '').replace(',', '.')) || 0);
+          const cena = (c: typeof a) =>
+            c.price_numeric ?? parseFloat((c.price || "").replace(' zł', '').replace(',', '.'));
+          const ca = cena(a), cb = cena(b);
+          const brakA = !Number.isFinite(ca), brakB = !Number.isFinite(cb);
+          // Pozycje bez ceny (niedostępne) zawsze na końcu, niezależnie od kierunku.
+          // Wcześniej `|| 0` robiło z nich zero, czyli najtańszy towar w zestawieniu —
+          // dokładna odwrotność prawdy i to w kolumnie, dla której ludzie tu przychodzą.
+          if (brakA || brakB) return brakA && brakB ? 0 : (brakA ? 1 : -1);
+          aValue = ca; bValue = cb;
         }
         if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
