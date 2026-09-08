@@ -3,7 +3,7 @@
   <!-- STRONA GŁÓWNA -->
   <url>
     <loc>https://mojaserowarnia.pl/</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,31 +11,31 @@
   <!-- BAZY DANYCH -->
   <url>
     <loc>https://mojaserowarnia.pl/kto-produkuje-kultury</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/zamienniki-kultur</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/baza-kultur</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/porownywarka-kultur</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/slownik</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -43,13 +43,13 @@
   <!-- PRZEPISY -->
   <url>
     <loc>https://mojaserowarnia.pl/przepisy</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -57,133 +57,133 @@
   <!-- PRZEPISY NA SER (podstrony) -->
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/korycinski</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/asiago</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/caciotta</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/dunlop</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/feta_bulgarische</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/yorkshire</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/gouda</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/cheddar</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/mozzarella</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/camembert</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/halloumi</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/brie</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/parmezan</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/ricotta</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/mascarpone</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/feta-grecka</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/gorgonzola</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/roquefort</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/stilton</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/gruyere</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/quartirolo</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/limburski</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -195,7 +195,7 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/jogurt-domowy</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -207,13 +207,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/kefir-domowy</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/ser-z-jogurtu</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -225,13 +225,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/ser-topiony</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/emmental</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -239,25 +239,25 @@
   <!-- STATYCZNE STRONY SEO/GEO (bez JS, treść dla botów i AI) -->
   <url>
     <loc>https://mojaserowarnia.pl/kultury/mezofilne</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kultury/termofilne</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kultury/jogurtowe</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/sery-wege</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -269,13 +269,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kultury/do-caciotta</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kultury/do-twarogu</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -283,31 +283,31 @@
   <!-- PRZEPISY KULINARNE (podstrony) -->
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/aksamitne-involtini-gouda</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/zapiekane-brie-miodem-orzechami</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/kremowe-risotto-gorgonzola</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/warminski-sernik-bakaliowy</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy-kulinarne/rustykalna-tarta-camembert</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -321,19 +321,19 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/poradnik</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/organizacja-serowarni</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/wedzenie-sera</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -345,7 +345,7 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/serowarstwo-staropolskie</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -381,13 +381,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/bakterie-kultury</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/chlorek-wapnia-do-mleka</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -399,67 +399,67 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/woskowanie-sera</loc>
-    <lastmod>2026-08-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/dojrzewalnia-z-lodowki</loc>
-    <lastmod>2026-08-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/solenie-sera</loc>
-    <lastmod>2026-08-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/serowarnie</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/serowarnie/agrojelonki</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/mleko-do-sera</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/wady-mleka-a-wady-sera</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/pasze</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/serwatka-dla-zwierzat</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/nieudany-ser</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/gdzie-kupic-podpuszczke</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -467,7 +467,7 @@
   <!-- NARZĘDZIA / KALKULATORY -->
   <url>
     <loc>https://mojaserowarnia.pl/narzedzia</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -479,7 +479,7 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/etykieta-do-sprzedazy-rhd</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -503,37 +503,37 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kalkulator-kosztu-sera</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kalkulator-miar</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kalkulator-pasz</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kalkulator-pasz-bydlo</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/porownanie-wartosci-odzywczych</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/kalkulator-solanki</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -541,7 +541,7 @@
   <!-- PRAWO -->
   <url>
     <loc>https://mojaserowarnia.pl/prawo</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -553,7 +553,7 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/prawo/rhd/dokumenty</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -571,13 +571,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/prawo/akty-prawne-ue</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/prawo/rzeznia-rolnicza</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -585,7 +585,7 @@
   <!-- WIADOMOŚCI -->
   <url>
     <loc>https://mojaserowarnia.pl/wiadomosci</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
@@ -593,25 +593,25 @@
   <!-- INNE STRONY PUBLICZNE -->
   <url>
     <loc>https://mojaserowarnia.pl/kontakt</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/nota-prawna</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/system-ewidencji</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/automatyzacja-social-media</loc>
-    <lastmod>2026-01-02</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
