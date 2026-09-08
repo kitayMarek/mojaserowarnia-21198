@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import Wypisanie from "./pages/Wypisanie";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -135,6 +136,8 @@ const App = () => (
             <Route path="/kultury/termofilne" element={<KulturyTermofilne />} />
             <Route path="/kultury/jogurtowe" element={<KulturyJogurtowe />} />
             <Route path="/sery-wege" element={<SeryWege />} />
+            {/* Wypisanie z wiadomosci — bez logowania, patrz komentarz w Wypisanie.tsx */}
+            <Route path="/wypisz" element={<Wypisanie />} />
             <Route path="/przepisy" element={<Przepisy />} />
             {/* Nabial fermentowany - trasy statyczne MUSZA byc przed /przepisy/:id */}
             <Route path="/przepisy/serek-homogenizowany" element={<SerekHomogenizowany />} />

@@ -455,6 +455,17 @@ Disallow: /
     // 5) Wszystko inne to trasa React — aplikacja rozstrzyga sama, czy strona
     //    istnieje. Odpowiedź nigdy nie może być cache'owana: pod tym adresem
     //    jutro może stać zupełnie co innego.
+    // Strona wypisania z wiadomosci nie ma po co stac w wynikach wyszukiwania.
+    // Sama strona ustawia <meta name="robots"> juz po uruchomieniu JavaScriptu,
+    // ale crawler czytajacy sam HTML tego nie zobaczy — wiec zakaz idzie tez
+    // naglowkiem, ktory dziala bez wykonywania czegokolwiek.
+    if (bezUkosnika === '/wypisz') {
+      const spa = await zasob(env, url.origin, '/index.html');
+      const naglowki = new Headers(spa.headers);
+      naglowki.set('x-robots-tag', 'noindex, nofollow');
+      return new Response(spa.body, { status: 200, headers: naglowki });
+    }
+
     return odpowiedzZ(await zasob(env, url.origin, '/index.html'), 200, adresTestowy);
   },
 };

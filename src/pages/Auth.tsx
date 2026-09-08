@@ -22,6 +22,19 @@ const registerSchema = loginSchema.extend({
   telefon: z.string().optional(),
 });
 
+/**
+ * Brzmienie zgody marketingowej. JEDNO ZRODLO: ten sam tekst widzi czlowiek
+ * przy kwadraciku i ten sam laduje w bazie razem z jego "tak". Rozjazd miedzy
+ * etykieta a zapisem znaczylby, ze nie wiemy, na co ktos sie zgodzil.
+ *
+ * Zmieniajac ten tekst, NIE poprawiaj zapisow juz istniejacych - one dotycza
+ * poprzedniego brzmienia i takie maja zostac.
+ */
+const TRESC_ZGODY =
+  "Wyrażam zgodę na otrzymywanie informacji marketingowych, w tym powiadomień " +
+  "o nowych funkcjach i aktualizacjach systemu, na podany adres email. Zgoda jest " +
+  "dobrowolna i można ją wycofać w każdej chwili.";
+
 export default function Auth() {
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
@@ -136,6 +149,11 @@ export default function Auth() {
         adres: adres || undefined,
         telefon: telefon || undefined,
         marketing_consent: marketingConsent,
+        // Zapisujemy BRZMIENIE zgody, a nie samo "tak". Gdy ten tekst kiedys
+        // sie zmieni, bez tego nie da sie wykazac, na co zgodzili sie ludzie
+        // zapisani wczesniej. Konta sprzed 8 wrzesnia 2026 maja tu NULL
+        // i tak zostanie - nie zgadujemy wstecz.
+        marketing_consent_tresc: marketingConsent ? TRESC_ZGODY : undefined,
       });
       
       if (error) {
@@ -311,9 +329,7 @@ export default function Auth() {
                     htmlFor="marketing-consent"
                     className="text-sm font-normal leading-relaxed cursor-pointer"
                   >
-                    Wyrażam zgodę na otrzymywanie informacji marketingowych, w tym powiadomień o 
-                    nowych funkcjach i aktualizacjach systemu, na podany adres email. Zgoda jest 
-                    dobrowolna i można ją wycofać w każdej chwili.
+                    {TRESC_ZGODY}
                   </Label>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
