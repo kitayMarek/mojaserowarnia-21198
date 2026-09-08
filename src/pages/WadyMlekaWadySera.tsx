@@ -65,7 +65,7 @@ const WadyMlekaWadySera = () => {
           "Cztery łańcuchy przyczynowe: kiszonka i Clostridium tyrobutyricum a wzdęcia późne, antybiotyki a martwe kultury starterowe, komórki somatyczne i mastitis a słaby skrzep, mleko późnej laktacji. Progi, objawy i zapobieganie.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/wady-mleka-a-wady-sera",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

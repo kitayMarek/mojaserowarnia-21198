@@ -111,6 +111,25 @@ const PLIKI_MIERZONE = new Set([
   // odpowiedz, a to juz nas w tym tygodniu kosztowalo dwa falszywe wnioski.
   // DO USUNIECIA po zakonczeniu proby (razem z katalogiem public/proba/).
   '/proba/dane.xml', '/proba/dane.txt', '/proba/dane.json', '/proba/mapa.xml',
+
+  // PROBA 8.09.2026: dwa najczesciej pobierane pliki statyczne.
+  //
+  // Panel Cloudflare pokazuje dla OpenAI 422 zadania na dobe, nasz licznik 49 —
+  // osmiokrotna roznica, podczas gdy przy Google, Microsoft, Perplexity, Meta
+  // i Amazon miescimy sie w granicach 0,5-1,5x. Gdyby przyczyna byly pliki
+  // statyczne omijajace workera, roznica dotyczylaby WSZYSTKICH rowno.
+  //
+  // Te dwa pliki maja w panelu 785 i 650 zadan tygodniowo i dotad byly dla nas
+  // niewidzialne. Jesli okaze sie, ze pobiera je glownie jeden operator —
+  // zagadka rozwiazana. Jesli rozkladaja sie rowno — trzeba szukac dalej.
+  //
+  // DO USUNIECIA po rozstrzygnieciu: to sa zadania o ikone i obrazek, ktore
+  // zasmiecaja raporty tresci.
+  // og-image.jpg zastapil 8.09.2026 wersje .png (1,02 MB -> 87 kB, ok. 60%
+  // calego transferu tygodniowego). Stara sciezka zostaje mierzona, bo pod
+  // nia chodza podglady linkow udostepnionych wczesniej i zapamietane przez
+  // crawlery - a to wlasnie ten ruch probujemy policzyc.
+  '/favicon.ico', '/og-image.png', '/og-image.jpg',
 ]);
 
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać

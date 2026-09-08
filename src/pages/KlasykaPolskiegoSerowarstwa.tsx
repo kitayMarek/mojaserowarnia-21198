@@ -51,7 +51,7 @@ const KlasykaPolskiegoSerowarstwa = () => {
           "Przegląd polskich klasycznych dzieł serowarskich z lat 1900–1922: Walerian Józef Klecki, Jan Licznerski, Encyklopedya rolnicza. Linki do darmowych skanów, cytaty, kontekst historyczny.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/klasyka-serowarstwa",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         author: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
         datePublished: "2026-07-22",

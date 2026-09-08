@@ -66,7 +66,7 @@ const NieudanySer = () => {
           "Diagnostyka nieudanego sera: pleśń na twardym vs miękkim, gorycz, kruszenie, brak skrzepu. Ścieżki odzysku (ser topiony, tarcie), bezpieczne skarmianie zwierzętami i sygnały, przy których ser trzeba wyrzucić.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/nieudany-ser",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

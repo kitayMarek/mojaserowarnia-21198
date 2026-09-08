@@ -54,7 +54,7 @@ const WoskowanieSera = () => {
           "Praktyczny przewodnik po woskowaniu sera domowego: rodzaje wosku, temperatura aplikacji (82–93°C), przygotowanie powierzchni, liczba warstw i które sery woskować.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/woskowanie-sera",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

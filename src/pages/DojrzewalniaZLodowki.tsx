@@ -54,7 +54,7 @@ const DojrzewalniaZLodowki = () => {
           "Jak przekształcić piwniczkę do wina lub starą lodówkę w dojrze walnię do sera: wymagane temperatury, utrzymanie wilgotności, kontroler Inkbird, koszty.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/dojrzewalnia-z-lodowki",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

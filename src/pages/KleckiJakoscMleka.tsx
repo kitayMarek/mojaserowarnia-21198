@@ -50,7 +50,7 @@ const KleckiJakoscMleka = () => {
           "Profesor Walerian Józef Klecki z UJ opisał w 1900 r. warunki decydujące o jakości mleka serowarskiego: rasa krów, sezon, żywienie, stadium laktacji, zdrowie zwierząt, higiena udoju, czas przeróbki, temperatura i dojrzewanie mleka.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/klecki-jakosc-mleka",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         datePublished: "2026-07-23",
         author: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },

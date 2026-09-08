@@ -59,7 +59,7 @@ const SolenieSera = () => {
           "Porównanie metod solenia sera: solenie suche (2–3% masy) i solanka (18–22%, czasy dla 10 serów). Rola CaCl₂, sól niejodowana, ponowne użycie solanki.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/solenie-sera",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

@@ -60,7 +60,7 @@ const MlekoDoSera = () => {
           "Co w mleku decyduje o serze: skład (tłuszcz, kazeina), wydajność serowarska wg typu sera, wzór Van Slyke'a, różnice ras (Jersey vs HF), kappa-kazeina oraz wpływ żywienia krów na tłuszcz i białko mleka.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/mleko-do-sera",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

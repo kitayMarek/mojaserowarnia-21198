@@ -69,7 +69,7 @@ const SerwatkaDlaZwierzat = () => {
           "Co zrobić z serwatką po produkcji sera: skład, serwatka słodka vs kwasowa, dawki dla świń (10–20 L), drobiu (ukwaszona, 10–20% pojenia) i cieląt, ostrzeżenie o serwatce solonej, przechowywanie i wykorzystanie jako nawóz.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/serwatka-dla-zwierzat",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {

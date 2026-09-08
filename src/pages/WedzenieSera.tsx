@@ -55,7 +55,7 @@ const WedzenieSera = () => {
           "Jak uwędzić ser w przydomowej wędzarni: które sery się nadają, przygotowanie i osuszanie, dobór drewna, wędzenie na zimno (20–30 °C), leżakowanie po wędzeniu i najczęstsze błędy.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/wedzenie-sera",
-        image: "https://mojaserowarnia.pl/og-image.png",
+        image: "https://mojaserowarnia.pl/og-image.jpg",
         publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
       },
       {
