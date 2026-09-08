@@ -77,6 +77,11 @@ const BOTY = [
   [/Googlebot-Image/i,   'Google',     'Googlebot-Image'],
   [/Googlebot/i,         'Google',     'Googlebot'],
   [/Google-Extended/i,   'Google',     'Google-Extended'],
+  // ⚠ PRZED Bingbotem: podpis AdIdxBota zawiera slowo "bingbot", wiec przy
+  //   odwrotnej kolejnosci nigdy by sie nie dopasowal. To crawler REKLAMOWY
+  //   (sprawdza strony docelowe reklam Microsoft Advertising), nie wyszukiwarka
+  //   i nie model — kategoria_bota() slusznie zostawia go w 'inne'.
+  [/adidxbot/i,          'Microsoft',  'AdIdxBot'],
   [/Bingbot/i,           'Microsoft',  'Bingbot'],
   [/Applebot/i,          'inny',       'Applebot'],
   [/Seznam-?Bot/i,       'inny',       'Seznam-Bot'],
@@ -473,7 +478,20 @@ export async function zapiszWizyteBota(request, wynik, env) {
         // naprawde jest.
         kto = { operator, bot: '(przegladarka z sieci operatora)' };
       } else {
-        kto = { operator: 'nieznany', bot: '(bez podpisu)' };
+        // BRAK PODPISU to co innego niz PODPIS, KTOREGO NIE ZNAMY, a do
+        // 8 wrzesnia 2026 obie sytuacje dostawaly te sama etykiete. Skutek:
+        // kazdy bot spoza naszej listy — na przyklad AdIdxBot, crawler
+        // reklamowy Microsoftu, ktory przedstawia sie wzorowo — trafial do
+        // kubelka "(bez podpisu)" i zawyzal liczbe, ktora publikujemy jako
+        // "ruch, ktory nie przedstawia sie wcale".
+        //
+        // Lista nazw zawsze bedzie spozniona wobec rzeczywistosci, wiec ten
+        // drugi kubelek nie zniknie nigdy — ale ma byc widoczny jako osobny,
+        // bo znaczy dokladnie tyle: "nie nadazamy z lista", a nie "ktos sie
+        // ukrywa". Zarzut ukrywania sie stawiamy tylko przy pustym podpisie.
+        kto = ua.trim()
+          ? { operator: 'nieznany', bot: '(nierozpoznany podpis)' }
+          : { operator: 'nieznany', bot: '(bez podpisu)' };
       }
     }
 
