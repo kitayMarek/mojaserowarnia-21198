@@ -92,8 +92,8 @@ serve(async (req) => {
       items.push({
         date: pubDate,
         xml: `    <item>
-      <title>${escapeXml(item.title)}</title>
-      <link>${escapeXml(item.link_url)}</link>
+      <title>${escapeXml(item.title)}</title>${item.link_url ? `
+      <link>${escapeXml(item.link_url)}</link>` : ''}
       <description>${escapeXml(item.subtitle || item.title)}</description>
       <guid isPermaLink="false">${item.id}</guid>
       <pubDate>${pubDate.toUTCString()}</pubDate>

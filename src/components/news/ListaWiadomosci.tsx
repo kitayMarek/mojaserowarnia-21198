@@ -50,12 +50,15 @@ const ListaWiadomosci = () => {
     <ul className="divide-y divide-border">
       {banners.map((w) => {
         const zewnetrzny = jestZewnetrzny(w.linkUrl);
+        // Wiadomosc bez linku ma cala tresc u siebie — nie owijamy jej
+        // w odsylacz, bo prowadzilby donikad.
+        const Wiersz = w.linkUrl ? "a" : "div";
         return (
           <li key={w.id} className="py-5 first:pt-0">
-            <a
-              href={w.linkUrl}
-              target={zewnetrzny ? "_blank" : undefined}
-              rel={zewnetrzny ? "noopener noreferrer" : undefined}
+            <Wiersz
+              href={w.linkUrl || undefined}
+              target={w.linkUrl && zewnetrzny ? "_blank" : undefined}
+              rel={w.linkUrl && zewnetrzny ? "noopener noreferrer" : undefined}
               className="group flex gap-4"
             >
               {w.imageUrl ? (
@@ -94,7 +97,7 @@ const ListaWiadomosci = () => {
                   </span>
                 )}
               </span>
-            </a>
+            </Wiersz>
           </li>
         );
       })}

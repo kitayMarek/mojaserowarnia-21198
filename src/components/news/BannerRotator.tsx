@@ -76,15 +76,20 @@ export const BannerRotator: React.FC<BannerRotatorProps> = ({
       onMouseEnter={clearTimer}
       onMouseLeave={startTimer}
     >
-      {displayed.map((banner, idx) => (
-        <a
+      {displayed.map((banner, idx) => {
+        // Wiadomosc bez linku jest kompletna sama w sobie i nigdzie nie
+        // prowadzi — wtedy slajd nie moze byc odsylaczem, bo pusty <a href>
+        // laduje w drzewie dostepnosci jako lacze donikad.
+        const Slajd = banner.linkUrl ? 'a' : 'div';
+        return (
+        <Slajd
           key={banner.id}
-          href={banner.linkUrl}
+          href={banner.linkUrl || undefined}
           // Slajdy poza aktywnym sa niewidoczne, wiec nie moga byc osiagalne
           // Tabem ani czytane przez czytnik ekranu. Klikniecia blokuje CSS
           // (pointer-events), to zamyka te sama dziure dla klawiatury.
           aria-hidden={idx !== activeIndex}
-          tabIndex={idx === activeIndex ? 0 : -1}
+          tabIndex={banner.linkUrl && idx === activeIndex ? 0 : -1}
           className={`${styles.slide} ${
             idx === activeIndex ? styles.active : ''
           }`}
@@ -110,8 +115,9 @@ export const BannerRotator: React.FC<BannerRotatorProps> = ({
               )}
             </div>
           </div>
-        </a>
-      ))}
+        </Slajd>
+        );
+      })}
 
       {displayed.length > 1 && (
         <>
