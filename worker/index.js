@@ -16,7 +16,7 @@
  *   • http → https → przełącznik „Always Use HTTPS" w panelu Cloudflare.
  */
 
-import { zapiszWizyteBota } from './wizyty-botow.js';
+import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
@@ -238,6 +238,7 @@ const router = {
         // trudno — wizyta zapisze się bez rozmiaru
       }
       await zapiszWizyteBota(request, { status: odpowiedz.status, rozmiar, mirror }, env);
+      await zapiszPrzyjscie(request, env);
     })());
 
     return odpowiedz;
