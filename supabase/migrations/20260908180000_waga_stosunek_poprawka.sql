@@ -15,6 +15,11 @@
 -- waga zadania w ogole zostala zmierzona. Reszta kolumn zostaje na pelnym
 -- okresie, bo tam to jest poprawne.
 
+-- ⚠ DROP jest konieczny, nie ozdobny: doszla kolumna zadan_z_waga, a Postgres
+-- nie pozwala zmienic typu zwracanego przez CREATE OR REPLACE. Bez tego
+-- migracja konczy sie bledem 42P13.
+DROP FUNCTION IF EXISTS public.pub_raport_waga(TEXT);
+
 CREATE OR REPLACE FUNCTION public.pub_raport_waga(okres TEXT DEFAULT '7d')
 RETURNS TABLE (
   bot            TEXT,
