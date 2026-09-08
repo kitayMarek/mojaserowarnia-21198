@@ -19,6 +19,10 @@ interface ProfileData {
   adres?: string;
   telefon?: string;
   marketing_consent?: boolean;
+  /** Brzmienie zgody, ktore czlowiek widzial przy kwadraciku — zapisujemy je
+   *  razem z samym "tak", bo gdy tekst kiedys sie zmieni, samo "tak" niczego
+   *  nie dowodzi. Zrodlo: TRESC_ZGODY w src/pages/Auth.tsx. */
+  marketing_consent_tresc?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -52,33 +56,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string, profileData?: ProfileData) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { data, error } = await supabase.auth.signUp({
+    // Dane profilu ida w options.data, czyli do raw_user_meta_data na serwerze.
+    // Stamtad odbiera je wyzwalacz handle_new_user_profile i tworzy profil.
+    //
+    // ⚠ WCZESNIEJ BYLO INACZEJ I NIE DZIALALO. Profil zakladala przegladarka,
+    // osobnym insertem zaraz po rejestracji. Przy wlaczonym potwierdzaniu adresu
+    // signUp NIE ZWRACA SESJI — czlowiek ma konto, ale nie jest zalogowany —
+    // wiec zapis szedl jako anon i regula "TO authenticated" go odrzucala.
+    // Blad ladowal w console.error w cudzej przegladarce, a uzytkownik widzial
+    // "rejestracja udana". Trzy pierwsze rejestracje po przenosinach skonczyly
+    // sie kontem bez profilu i bez zapisanej zgody.
+    //
+    // Wyzwalacz nadajacy range uzytkownika dzialal przez caly ten czas, bo od
+    // poczatku byl po stronie serwera. Roznica jest tylko w tym.
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl
-      }
+        emailRedirectTo: redirectUrl,
+        data: {
+          firma_nazwa: profileData?.firma_nazwa ?? null,
+          nip: profileData?.nip ?? null,
+          adres: profileData?.adres ?? null,
+          telefon: profileData?.telefon ?? null,
+          marketing_consent: profileData?.marketing_consent ?? false,
+          marketing_consent_tresc: profileData?.marketing_consent_tresc ?? null,
+        },
+      },
     });
 
     if (error) return { error };
-
-    // Create profile if signup successful
-    if (data.user) {
-      // @ts-ignore - Lovable Cloud type generation issue
-      const { error: profileError} = await supabase
-        .from("profiles")
-        .insert({
-          id: data.user.id,
-          email: data.user.email,
-          ...profileData,
-          marketing_consent_date: profileData?.marketing_consent ? new Date().toISOString() : null
-        });
-
-      if (profileError) {
-        console.error("Error creating profile:", profileError);
-      }
-    }
-
     return { error: null };
   };
 
