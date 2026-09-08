@@ -1,24 +1,24 @@
 # nazwa | sklep | cena w bazie | cena teraz | zrodlo | status
-ARTiVEG ME-30 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
-ARTiVEG TH-33 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
-ARTiVEG YO PRO-12 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
-ARTiVEG YO-9 | Artiser.pl | 12.2 | 15.0 | json-ld | ZMIANA +2.80 (netto->brutto)
-BTH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-BTMH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-Brevibacterium Linens | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+ARTiVEG ME-30 | Artiser.pl | 15.0 | 15.0 | json-ld | bez zmian
+ARTiVEG TH-33 | Artiser.pl | 15.0 | 15.0 | json-ld | bez zmian
+ARTiVEG YO PRO-12 | Artiser.pl | 15.0 | 15.0 | json-ld | bez zmian
+ARTiVEG YO-9 | Artiser.pl | 15.0 | 15.0 | json-ld | bez zmian
+BTH | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+BTMH | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+Brevibacterium Linens | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
 CLC | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
-CLCH | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-F-YO | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-Geotrichum Candidum | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-KFF | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-ML | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-ML-O | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-MLE | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-MLL | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-P-YO | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-Penicillium Candidum | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-Penicillium Roqueforti | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
-Propionibacterium | Artiser.pl | 15.04 | 18.5 | json-ld | ZMIANA +3.46 (netto->brutto)
+CLCH | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+F-YO | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+Geotrichum Candidum | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+KFF | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+ML | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+ML-O | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+MLE | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+MLL | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+P-YO | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+Penicillium Candidum | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+Penicillium Roqueforti | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
+Propionibacterium | Artiser.pl | 18.5 | 18.5 | json-ld | bez zmian
 Brevibacterium linens | GAP Poland | 20.0 | 20.0 | etykieta | bez zmian
 EF LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
 HL 06 LYO | GAP Poland | 18.0 | 18.0 | etykieta | bez zmian
@@ -60,24 +60,24 @@ Beaugel Yog 2 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
 Beaugel Yog 3 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
 Beaugel Yog 4 | Lactic.pl | 11.5 | 11.5 | etykieta | bez zmian
 DELTA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
-DELTA 2 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
+DELTA 2 | Lactic.pl | 18.0 | 19.0 | etykieta | ZMIANA +1.00
 GAMMA 1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
-GAMMA 3 | Lactic.pl | 39.0 |  |  | BRAK CENY
+GAMMA 3 | Lactic.pl | 39.0 |  |  | DO SPRAWDZENIA RECZNIE (nazwy "GAMMA 3" nie ma na stronie)
 IOTA 1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
 IOTA 2 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
-IOTA 4 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
-IOTA CL1 | Lactic.pl | 18.0 | 19.0 | etykieta | ZMIANA +1.00
+IOTA 4 | Lactic.pl | 18.0 | 19.0 | etykieta | ZMIANA +1.00
+IOTA CL1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA CL2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA Ca/1 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA Ca/2 | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA FETA | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA FF1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
 IOTA FF2 | Lactic.pl | 38.5 | 38.5 | etykieta | bez zmian
-IOTA KEFIR 2 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
-IOTA KEFIR 3 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+IOTA KEFIR 2 | Lactic.pl | 17.0 | 19.0 | etykieta | ZMIANA +2.00
+IOTA KEFIR 3 | Lactic.pl | 17.0 | 19.0 | etykieta | ZMIANA +2.00
 IOTA M | Lactic.pl | 22.0 | 22.0 | etykieta | bez zmian
 IOTA PETIT BLEU | Lactic.pl | 21.0 | 21.0 | etykieta | bez zmian
-IOTA PROBI 1 | Lactic.pl | 17.0 | 17.0 | etykieta | bez zmian
+IOTA PROBI 1 | Lactic.pl | 17.0 | 19.0 | etykieta | ZMIANA +2.00
 IOTA RACLETTE | Lactic.pl | 19.0 | 19.0 | etykieta | bez zmian
 IOTA ST NECTAIRE 1 | Lactic.pl | 18.0 | 18.0 | etykieta | bez zmian
 IOTA V | Lactic.pl | 22.0 | 22.0 | etykieta | bez zmian
