@@ -349,6 +349,42 @@ export async function czyZOperatora(ip, operator) {
   };
 }
 
+/**
+ * Ktory operator ma ten adres na swojej liscie. To czyZOperatora zadane
+ * odwrotnie: tam znamy nazwe z podpisu i sprawdzamy adres, tu nie mamy zadnej
+ * nazwy i szukamy jej po adresie.
+ *
+ * PO CO. Model w trybie agenta nie chodzi po stronach jak crawler — chodzi
+ * PRZEGLADARKA. Jego zadania niosa `sec-fetch-mode` i `accept-language`,
+ * wiec wypadaja z licznika na warunku „to czlowiek" w zapiszWizyteBota,
+ * i to zanim ktokolwiek sprawdzi, skad przyszly. Jedno wejscie agenta to
+ * kilkadziesiat takich zadan; u operatora hostingu widac je wszystkie,
+ * u nas ani jednego.
+ *
+ * DLACZEGO TO NIE LAMIE ZASADY „nie logujemy ludzi". Z opublikowanej listy
+ * crawlerow operatora nie chodzi po internecie zaden czlowiek — to serwerownia
+ * wystawiona wlasnie po to, zeby dalo sie ja rozpoznac. Adres z tej listy jest
+ * dowodem, ze zadanie nie jest ruchem prywatnym. Nic poza taka lista tego
+ * warunku nie przechodzi.
+ *
+ * Zwraca nazwe operatora albo null. Zadnych zapytan DNS — samo porownanie
+ * z lista trzymana w pamieci, wiec tanie takze przy ruchu ludzi.
+ */
+export async function ktoZListy(ip) {
+  if (!ip) return null;
+
+  const szescnastkowy = ip.includes(':');
+  const adres = szescnastkowy ? ipv6NaLiczbe(ip) : ipv4NaLiczbe(ip);
+  if (adres === null) return null;
+
+  for (const [operator, zakresy] of Object.entries(await wszystkieZakresy())) {
+    const lista = szescnastkowy ? zakresy.v6 : zakresy.v4;
+    const bity = szescnastkowy ? 128 : 32;
+    if (lista.some(([siec, dlugosc]) => wZakresie(adres, siec, dlugosc, bity))) return operator;
+  }
+  return null;
+}
+
 // --- Zapis ---------------------------------------------------------------
 
 /**
@@ -383,9 +419,28 @@ export async function zapiszWizyteBota(request, wynik, env) {
       // tabela zmienialaby przeznaczenie, a razem z nim zakres prywatnosci.
       const przegladarka = request.headers.get('sec-fetch-mode')
                         || request.headers.get('accept-language');
-      if (przegladarka) return;
 
-      kto = { operator: 'nieznany', bot: '(bez podpisu)' };
+      if (przegladarka) {
+        // ...ale naglowki przegladarki wysyla tez model chodzacy w trybie
+        // agenta, bo on DOSLOWNIE uzywa przegladarki. Do 8 wrzesnia 2026
+        // stalo tu samo `if (przegladarka) return;` i caly taki ruch przepadal
+        // bez sladu — jedno wejscie agenta potrafi byc kilkudziesiecioma
+        // zadaniami, ktorych nasz licznik nie widzial ani jednego.
+        //
+        // Rozstrzyga adres: z opublikowanej listy crawlerow operatora nie
+        // chodzi po internecie zaden czlowiek. Wszystko inne z naglowkami
+        // przegladarki nadal wypada.
+        const operator = await ktoZListy(request.headers.get('cf-connecting-ip'));
+        if (!operator) return;
+
+        // Nazwy bota nie zmyslamy — zadanie jej nie podalo. Trafi przez
+        // kategoria_bota() do 'inne', czyli poza statystyki crawlerow
+        // i uzytkownikow AI, i tam ma zostac, dopoki nie zobaczymy, co to
+        // naprawde jest.
+        kto = { operator, bot: '(przegladarka z sieci operatora)' };
+      } else {
+        kto = { operator: 'nieznany', bot: '(bez podpisu)' };
+      }
     }
 
     const url = new URL(request.url);

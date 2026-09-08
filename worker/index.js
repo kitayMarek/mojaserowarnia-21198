@@ -177,8 +177,14 @@ function oznaczMirror(zrodlo) {
  * zadaniem od czlowieka.
  *
  * ⚠ TEN SAM WARUNEK co w worker/wizyty-botow.js (funkcja zapiszWizyteBota).
- * Tam decyduje o LOGOWANIU, tu o SERWOWANIU. Musza pozostac zgodne, bo inaczej
- * licznik pokazywalby co innego, niz serwis faktycznie oddaje.
+ * Tam decyduje o LOGOWANIU, tu o SERWOWANIU.
+ *
+ * Od 8 wrzesnia 2026 strona logowania ma JEDEN wyjatek wiecej: zadanie
+ * z naglowkami przegladarki, ale z opublikowanej sieci operatora, jest
+ * zapisywane (agent chodzacy przegladarka). Tutaj tego wyjatku CELOWO NIE MA
+ * — taki klient wykonuje JavaScript, wiec aplikacja React wyrenderuje mu sie
+ * poprawnie i mirror nie jest mu do niczego potrzebny. Rozjazd jest swiadomy
+ * i tylko w te strone: logujemy wiecej, niz serwujemy inaczej.
  *
  * Ryzyko pomylki jest asymetryczne i dlatego akceptowalne: czlowiek uznany za
  * bota dostanie mirror, czyli poprawna strone HTML z ta sama trescia — gorszy
