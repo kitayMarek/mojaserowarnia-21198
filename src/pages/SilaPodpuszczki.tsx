@@ -12,7 +12,10 @@ import ReactionButton from "@/components/ReactionButton";
 
 const SilaPodpuszczki = () => {
   useEffect(() => {
-    document.title = "Siła podpuszczki i metoda flokulacji | Start";
+    // "| Start" bylo koncowka tytulu PORADNIKOW, doklejana tu przez pomylke —
+    // Google pokazywal ja w wynikach. Tytul ma nosic pytanie, po ktorym ludzie
+    // tu trafiaja, a nie nazwe metody, ktorej poczatkujacy nie zna.
+    document.title = "Ile podpuszczki na 10 litrów mleka — dawka i kalkulator | Moja Serowarnia";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", "Kompleksowy przewodnik po jednostkach IMCU, obliczaniu ilości podpuszczki oraz metodzie flokulacji do precyzyjnego określania momentu cięcia skrzepu.");
@@ -118,6 +121,35 @@ const SilaPodpuszczki = () => {
           </div>
 
           <div className="container mx-auto px-4 py-8">
+            {/* ODPOWIEDZ PRZED TEORIA. Zapytania, po ktorych ludzie tu trafiaja,
+                brzmia "ile podpuszczki na 10 l mleka" — a strona zaczynala sie od
+                jednostki IMCU i normy ISO. Pozycja 4 w Google, zero klikniec przez
+                trzy miesiace. Zawodowiec dostaje swoje nizej, bez zmian. */}
+            <section className="py-8 border-b border-border">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Ile podpuszczki na 10 litrów mleka</h2>
+              <p className="mb-4">
+                <strong>Najkrócej: przy zwykłej podpuszczce w płynie 1:10 000 — od 1 do 2 ml na
+                10 litrów mleka</strong>, czyli mniej więcej 20–30 kropli. Na 1 litr wychodzą 2–3 krople.
+              </p>
+              <p className="mb-4">
+                <strong>Jeśli wahasz się między mniej a więcej — daj więcej.</strong> Przy zbyt małej
+                dawce mleko może w ogóle się nie ściąć albo skrzep będzie tak wiotki, że rozpadnie się
+                przy krojeniu i stracisz połowę wsadu. Przy odrobinę większej skrzep powstanie zawsze;
+                ser może wyjść trochę twardszy, ale będzie. Sam daję tyle, ile każe opakowanie,
+                i dolewam odrobinę dla spokoju.
+              </p>
+              <p className="mb-4 italic text-muted-foreground">
+                Jedno zastrzeżenie: to rada dla serów świeżych i krótko dojrzewających. Przy serach
+                leżakujących miesiącami nadmiar podpuszczki potrafi dać po czasie gorzkawy posmak —
+                tam warto policzyć dokładnie.
+              </p>
+              <p>
+                Na opakowaniu Twojej podpuszczki jest jej siła i to ona rozstrzyga — preparaty różnią
+                się między sobą nawet dwukrotnie. Jeśli chcesz przeliczyć dokładnie, niżej jest wzór,
+                tabela mnożników i kalkulator.
+              </p>
+            </section>
+
             {/* IMCU Section */}
             <section id="imcu" className="py-12">
               <h2 className="text-2xl md:text-3xl font-bold mb-6">Międzynarodowa Jednostka Krzepnięcia Mleka (IMCU)</h2>
