@@ -27,6 +27,7 @@ UZYCIE:
   python scripts/pobierz-ceny.py               # wszystkie
   python scripts/pobierz-ceny.py --uzupelnij   # dobierz brakujace
 """
+import difflib
 import io
 import json
 import os
@@ -107,7 +108,27 @@ def jest_na_stronie(nazwa, html):
     nie ma, to warto spojrzec okiem. Nie wykryje podmiany na produkt o tej samej
     nazwie i innym skladzie — na to nie ma automatu i trzeba o tym pamietac."""
     czysc = lambda s: re.sub(r"[^a-z0-9]+", "", (s or "").lower())
-    return czysc(nazwa) in czysc(re.sub(r"<[^>]+>", " ", html))
+    if czysc(nazwa) in czysc(re.sub(r"<[^>]+>", " ", html)):
+        return True
+
+    # Zapasowo: porownanie z tytulem i naglowkiem, z tolerancja na literowke.
+    # GAP Poland pisze "Penicilium roqueforti" przez jedno L, my przez dwa —
+    # nazwa rozni sie o jeden znak i pierwsza wersja krzyczala o tym przy kazdym
+    # odswiezeniu. Alarm powtarzalny i nieprawdziwy jest gorszy od jego braku,
+    # bo uczy przewijania listy bez czytania.
+    kandydaci = []
+    m = re.search(r"<title[^>]*>(.*?)</title>", html, re.S)
+    if m:
+        kandydaci.append(m.group(1))
+    m = re.search(r"<h1[^>]*>(.*?)</h1>", html, re.S)
+    if m:
+        kandydaci.append(m.group(1))
+    cel = czysc(nazwa)
+    for k in kandydaci:
+        tekst = czysc(re.sub(r"<[^>]+>", " ", k))
+        if tekst and difflib.SequenceMatcher(None, cel, tekst).ratio() >= 0.85:
+            return True
+    return False
 
 
 def cena_z_jsonld(html):
