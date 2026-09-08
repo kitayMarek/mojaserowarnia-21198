@@ -25,3 +25,8 @@ verify_jwt = false
 
 [functions.export-storage]
 verify_jwt = false
+# Wysylka wiadomosci. verify_jwt = false, bo autoryzacja idzie wlasnym
+# kluczem w naglowku x-klucz-wysylki (sekret KLUCZ_WYSYLKI) - dostep do
+# wysylki nie ma zalezec od tego, czy ktos ma wazny token zalogowanego.
+[functions.wyslij-wiadomosc]
+verify_jwt = false
