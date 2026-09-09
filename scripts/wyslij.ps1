@@ -31,19 +31,23 @@
       .\scripts\wyslij.ps1 -Wiadomosc "id-wiadomosci"
           Podglad: ile adresow i jak wyglada list. Nic nie wysyla.
 
-      .\scripts\wyslij.ps1 -Wiadomosc "id" -TylkoEmail "ja@example.pl" -Potwierdzenie "Dokladny tytul"
+      scripts\wyslij.cmd -Wiadomosc "id" -TylkoEmail "ja@example.pl" -Wyslij
           Proba na jednym adresie.
 
-      .\scripts\wyslij.ps1 -Wiadomosc "id" -Potwierdzenie "Dokladny tytul"
+      scripts\wyslij.cmd -Wiadomosc "id" -Wyslij
           Do wszystkich uprawnionych.
 
-    Bez -Potwierdzenie skrypt ZAWSZE robi tylko podglad. Tytul musi zgadzac sie
-    co do znaku, razem z polskimi ogonkami — najprosciej skopiowac go z wyniku
-    podgladu.
+    Bez -Wyslij skrypt ZAWSZE robi tylko podglad. Przy -Wyslij pokazuje tytul
+    i liczbe odbiorcow, po czym pyta o jedno slowo: TAK.
+
+    ⚠ NIE podawaj tytulu recznie. PowerShell 5.1 czyta wejscie w kodowaniu OEM
+    i gubi polskie znaki — "pięć" dochodzi jako "pi" i potwierdzenie sie nie
+    zgadza. Skrypt bierze tytul z podgladu, wiec konsoli w ogole nie dotyka.
 #>
 
 param(
     [switch] $Diagnoza,
+    [switch] $Wyslij,
     [string] $Wiadomosc,
     [string] $TylkoEmail,
     [string] $Potwierdzenie,
@@ -53,6 +57,10 @@ param(
 # PowerShell 5.1 potrafi domyslnie sprobowac starszego protokolu i konczy sie to
 # bledem polaczenia, ktory wyglada jak blad funkcji.
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# Bez tego konsola pokazuje polskie znaki jako krzaki — a wlasnie po nich
+# rozpoznajemy, czy tresc listu jest w porzadku.
+try { [Console]::OutputEncoding = [Text.Encoding]::UTF8 } catch { }
 
 $plikKlucza = Join-Path (Split-Path $PSScriptRoot -Parent) ".klucz-wysylki"
 
@@ -146,6 +154,44 @@ if (-not $klucz) {
     Write-Host "  Brak pliku .klucz-wysylki. Uruchom z -Diagnoza, zeby zobaczyc jak go zalozyc." -ForegroundColor Red
     Write-Host ""
     return
+}
+
+# ─── -Wyslij: POTWIERDZENIE BEZ PRZEPISYWANIA TYTULU ─────────────────────────
+# Funkcja wymaga, zeby pole "potwierdzenie" bylo DOKLADNYM tytulem wiadomosci.
+# To dobre zabezpieczenie po stronie serwera i zostaje bez zmian — ale tytul
+# nie moze przechodzic przez konsole:
+#
+#   PowerShell 5.1 czyta wejscie w kodowaniu OEM i po prostu GUBI znaki, ktorych
+#   w nim nie ma. "pięć zmian ... którego już nie ma" doszlo do funkcji jako
+#   "pi zmian ... ktorego ju nie ma" i potwierdzenie sie nie zgodzilo.
+#
+# Wiec tytul bierzemy z PODGLADU (przychodzi jako UTF-8 w JSON, konsoli nie
+# dotyka), pokazujemy go czlowiekowi i pytamy o jedno slowo. Rozmyslnosc
+# zostaje — trzeba zobaczyc tytul i swiadomie odpowiedziec — a znika jedyna
+# rzecz, ktora tu nie dzialala.
+if ($Wyslij) {
+    $podglad = Wyslij-Zadanie $klucz @{ wiadomosc_id = $Wiadomosc }
+    if ($podglad.kod -ne 200) {
+        Write-Host "Kod HTTP: $($podglad.kod)" -ForegroundColor Red
+        Write-Host $podglad.tresc
+        return
+    }
+    $tytul = $podglad.tresc.tytul
+    $ilu = if ($TylkoEmail) { "JEDEN adres: $TylkoEmail" } else { "$($podglad.tresc.adresow_do_wyslania) adresow" }
+
+    Write-Host ""
+    Write-Host "  TYTUL:    $tytul"
+    Write-Host "  ODBIORCY: $ilu" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "  Tego sie nie cofa. Wpisz TAK, zeby wyslac (cokolwiek innego przerywa):" -ForegroundColor Yellow
+    $odp = Read-Host "  "
+    if ($odp.Trim().ToUpper() -ne "TAK") {
+        Write-Host ""
+        Write-Host "  Przerwane. Nic nie wyslano." -ForegroundColor Cyan
+        Write-Host ""
+        return
+    }
+    $Potwierdzenie = $tytul
 }
 
 $cialo = @{ wiadomosc_id = $Wiadomosc }
