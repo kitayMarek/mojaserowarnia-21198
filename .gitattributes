@@ -1,0 +1,5 @@
+
+# Pliki wsadowe Windows MUSZA miec CRLF — przy uniksowych koncach linii
+# cmd.exe rozjezdza sie na pierwszym komentarzu.
+*.cmd text eol=crlf
+*.bat text eol=crlf
