@@ -105,6 +105,32 @@ const BOTY = [
   [/Bytespider/i,        'inny',       'Bytespider'],
   [/YouBot/i,            'inny',       'YouBot'],
   [/Diffbot/i,           'inny',       'Diffbot'],
+
+  // ── Dopisane 9 wrzesnia 2026 po przejrzeniu kubelka "(nierozpoznany podpis)".
+  //
+  // Mial 386 zadan na dobe i wygladal, jakby wymagal podpiecia gotowej bazy
+  // botow. Po rozbiciu na podpisy okazalo sie, ze to OSIEMNASCIE nazw, z czego
+  // wiekszosc ruchu nie ma nazwy Z PREMEDYTACJA — najwiekszy pojedynczy podpis
+  // (177 zadan, 176 sciezek, 91% bledow, 139 prob o pliki wrazliwe) to zwykly
+  // Chrome 131. Zadna baza nazw tego nie nazwie, bo to skaner w przebraniu.
+  //
+  // Dopisujemy wiec recznie te, ktore nazwe maja. Dziesiec minut zamiast nowej
+  // zaleznosci do utrzymywania.
+  [/GoogleOther/i,       'Google',     'GoogleOther'],
+  [/DeepSeekBot/i,       'DeepSeek',   'DeepSeekBot'],
+  [/facebookexternalhit/i, 'Meta',     'facebookexternalhit'],
+  [/SleepBot/i,          'inny',       'SleepBot'],
+  [/ShapBot/i,           'inny',       'ShapBot'],
+
+  // ── Biblioteki HTTP, nie tozsamosci.
+  //
+  // Te podpisy nie mowia KTO przyszedl, tylko CZYM napisano skrypt. To nadal
+  // wiecej niz "(nierozpoznany podpis)": wiadomo, ze to nie przegladarka
+  // i nie znany crawler, tylko czyjes narzedzie. Weryfikacja jest tu z definicji
+  // niemozliwa i tak ma zostac — nie ma czego weryfikowac.
+  [/python-httpx/i,      'inny',       'python-httpx'],
+  [/python-requests/i,   'inny',       'python-requests'],
+  [/Go-http-client/i,    'inny',       'Go-http-client'],
 ];
 
 // --- FCrDNS: weryfikacja operatorow, ktorzy nie publikuja list zakresow ------
@@ -143,6 +169,10 @@ const FCRDNS_SUFIKSY = {
 // w request.cf.asn, wiec sprawdzenie jest darmowe i nie wymaga zapytania DNS.
 const ASN_OPERATORA = {
   'Meta-ExternalAgent': [32934],
+  // Podglady linkow z Facebooka. Ta sama siec co Meta-ExternalAgent, bo to ta
+  // sama firma — a poniewaz Meta nie publikuje listy prefiksow, numer sieci
+  // jest jedyna droga weryfikacji, jaka mamy.
+  'facebookexternalhit': [32934],
 };
 
 /**
