@@ -37,6 +37,9 @@ ProjektyLLm/
 .env.deploy
 .env.import
 .env.stary-projekt.bak
+# Klucz do uruchamiania wysylki. Trzymany w pliku, zeby nie przechodzil przez
+# konsole, historie polecen i zrzuty ekranu - tak juz raz wyciekl.
+.klucz-wysylki
 
 # Pliki eksportu z Lovable: konta, ewidencja RHD, faktury i pliki uzytkownikow.
 # REPO JEST PUBLICZNE - te dane nie moga trafic do commita pod zadnym pozorem.
