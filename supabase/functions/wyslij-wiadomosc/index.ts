@@ -49,9 +49,19 @@ const bezpieczny = (s: string) =>
 function zloz(tytul: string, tresc: string, token: string) {
   const wypis = BAZA + "/wypisz?t=" + token;
 
+  // Znacznik zrodla w odnosniku do serwisu. Pierwszy list poszedl bez niego
+  // i przez to nie wiadomo, ilu z dwudziestu odbiorcow weszlo — wizyta bez
+  // znacznika laduje w koszu "bezposrednie", ktory ma u nas 31% ruchu
+  // i nie mowi nic.
+  //
+  // Odnosnik do WYPISANIA zostaje czysty: to nie jest wizyta, ktora chcemy
+  // liczyc jako zainteresowanie, a doklejanie znacznikow do przycisku
+  // rezygnacji byloby w zlym guscie.
+  const zSerwisu = BAZA + "/?utm_source=list";
+
   const tekst =
     tytul + "\n\n" + tresc + "\n\n" +
-    "—\nMoja Serowarnia — mojaserowarnia.pl\n" +
+    "—\nMoja Serowarnia — " + zSerwisu + "\n" +
     "Dostajesz tę wiadomość, bo przy zakładaniu konta wyraziłeś/aś zgodę.\n" +
     "Nie chcesz więcej? Wypisz się jednym kliknięciem: " + wypis + "\n";
 
@@ -61,7 +71,7 @@ function zloz(tytul: string, tresc: string, token: string) {
     '<p style="margin:0 0 1.2em">' + bezpieczny(tresc) + "</p>" +
     '<hr style="border:0;border-top:1px solid #e7e5e4;margin:2em 0 1em">' +
     '<p style="font-size:.85em;color:#78716c;margin:0">' +
-    'Moja Serowarnia — <a href="' + BAZA + '" style="color:#78716c">mojaserowarnia.pl</a><br>' +
+    'Moja Serowarnia — <a href="' + zSerwisu + '" style="color:#78716c">mojaserowarnia.pl</a><br>' +
     "Dostajesz tę wiadomość, bo przy zakładaniu konta wyraziłeś/aś zgodę.<br>" +
     '<a href="' + wypis + '" style="color:#78716c">Wypisz się jednym kliknięciem</a>' +
     "</p></div>";

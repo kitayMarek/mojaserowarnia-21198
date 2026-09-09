@@ -448,6 +448,10 @@ function zrodloOdpowiedzi(request, url) {
   //    Perplexity utm_source=perplexity.
   const utm = (url.searchParams.get('utm_source') || '').toLowerCase();
   if (utm) {
+    // Nie tylko modele: nasz wlasny list tez dostaje znacznik. Dzieki temu
+    // wiadomo, ilu z odbiorcow faktycznie weszlo — a to jest jedyna liczba,
+    // ktora mowi, czy ten kanal cokolwiek robi.
+    if (utm === 'list') return 'Lista';
     if (utm.includes('chatgpt') || utm.includes('openai')) return 'ChatGPT';
     if (utm.includes('perplexity')) return 'Perplexity';
     if (utm.includes('copilot') || utm.includes('bing')) return 'Copilot';
