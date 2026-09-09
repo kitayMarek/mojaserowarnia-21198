@@ -186,6 +186,20 @@ const RAPORTY: Raport[] = [
     pusto: "Żaden zweryfikowany bot nie szukał u nas treści, której nie ma — czyli znajdują wszystko, po co przychodzą. Pustka jest tu dobrą wiadomością.",
   },
   {
+    id: "czego_szukaja",
+    nazwa: "Czego szukały skanery",
+    opis: "Adresy, o które pytają skanery podatności — czyli pliki, które ktoś mógł przez nieuwagę wgrać na serwer razem z serwisem. Publikujemy WYŁĄCZNIE te, które dostały u nas błąd, czyli takich plików tu nie ma; adres, który cokolwiek oddał, nie pojawi się na tej liście nigdy. Pokazujemy to, bo te nazwy są w słowniku każdego skanera od lat — milczenie nie chroni nikogo prócz tych, którzy z nich korzystają. Sprawdź u siebie, czy któregoś z tych plików przypadkiem nie widać z zewnątrz.",
+    domyslny: "30d",
+    kolumny: [
+      { k: "sciezka", n: "Adres", typ: "tekst" },
+      { k: "czego_szuka", n: "Czego szuka", typ: "tekst" },
+      { k: "zadan", n: "Żądań", typ: "liczba" },
+      { k: "roznych_sieci", n: "Z ilu sieci", typ: "liczba" },
+      { k: "ostatnio", n: "Ostatnio", typ: "data" },
+    ],
+    pusto: "Przez ten okres nikt nie próbował u nas szukać plików konfiguracyjnych ani kodu źródłowego.",
+  },
+  {
     id: "porownanie",
     nazwa: "Porównanie okresów",
     opis: "Wybrany okres zestawiony z poprzednim o tej samej długości. Przy „całości” poprzedniego okresu nie ma i kolumna zostaje pusta — to nie to samo co zero.",
