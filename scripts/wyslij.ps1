@@ -121,7 +121,7 @@ if ($Diagnoza) {
         Write-Host "  [4] Baza ............... funkcja doszla do sprawdzania wiadomosci" -ForegroundColor Green
         Write-Host ""
         Write-Host "      Wszystko dziala. Teraz podglad z prawdziwym identyfikatorem:"
-        Write-Host "        .\scripts\wyslij.ps1 -Wiadomosc ""ID-WIADOMOSCI"""
+        Write-Host "        scripts\wyslij.cmd -Wiadomosc ""ID-WIADOMOSCI"""
         Write-Host ""
         Write-Host "      Identyfikator wyciagniesz w SQL Editorze:"
         Write-Host "        select id, title from public.news_banners where date = date '2026-09-08';"
@@ -174,6 +174,6 @@ if ($wynik.kod -eq 200) {
     Write-Host $wynik.tresc
     if ($wynik.kod -eq 401) {
         Write-Host ""
-        Write-Host "  Uruchom .\scripts\wyslij.ps1 -Diagnoza — powie, gdzie dokladnie jest problem." -ForegroundColor Yellow
+        Write-Host "  Uruchom scripts\wyslij.cmd -Diagnoza — powie, gdzie dokladnie jest problem." -ForegroundColor Yellow
     }
 }
