@@ -415,6 +415,28 @@ Disallow: /
       return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
     }
 
+    // 1c2) /.well-known/* — pliki dla MASZYN, nigdy dla ludzi.
+    //
+    //      Wyjatek wyzej wpuszcza caly ten katalog, bo bywa potrzebny
+    //      (security.txt, weryfikacje uslug). Ale gdy pliku nie ma, zadanie
+    //      spadalo do reguly 5 i dostawalo APLIKACJE REACT z kodem 200 —
+    //      czyli 14,6 kB HTML-a dla klienta, ktory prosil o JSON z zasadami.
+    //
+    //      Zlapane na /.well-known/traffic-advice: 50 zadan tygodniowo od
+    //      Chrome Privacy Preserving Prefetch Proxy, za kazdym razem strona
+    //      zamiast odpowiedzi. Kod 200 znaczy tu "oto plik zasad", a to nie
+    //      byl plik zasad — czyli miekkie 404, dokladnie ten sam blad, ktorego
+    //      pozbywamy sie regula 4, tylko na sciezce bez rozszerzenia.
+    //
+    //      Brak pliku to poprawna odpowiedz: klient traktuje 404 jako "ta
+    //      strona nic w tej sprawie nie deklaruje" i stosuje domyslne
+    //      zachowanie. Nie trzeba niczego dodawac, trzeba przestac klamac.
+    if (url.pathname.startsWith('/.well-known/')) {
+      const plik = await zasob(env, url.origin, url.pathname);
+      if (plik.status === 200) return plik;
+      return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
+    }
+
     // 1d) Ścieżki, które może chcieć wyłącznie skaner → 404. Krok 1c łapał tylko
     //     adresy kropkowe, a krok 4 tylko rozszerzenia, które faktycznie u nas
     //     występują. Wszystko poza tym spadało do kroku 5, czyli dostawało
