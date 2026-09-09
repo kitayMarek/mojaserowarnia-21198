@@ -433,7 +433,19 @@ Disallow: /
     //      zachowanie. Nie trzeba niczego dodawac, trzeba przestac klamac.
     if (url.pathname.startsWith('/.well-known/')) {
       const plik = await zasob(env, url.origin, url.pathname);
-      if (plik.status === 200) return plik;
+      if (plik.status === 200) {
+        // Ten jeden plik ma wlasny typ tresci i warstwa assetow go nie zna,
+        // bo nazwa nie ma rozszerzenia. Bez tego oddawalibysmy poprawna tresc
+        // pod niepoprawna etykieta — a klient, ktory jej nie rozpozna, moze
+        // uznac odpowiedz za niezrozumiala i zachowac sie tak, jakby pliku
+        // nie bylo. Wtedy caly plik nie ma sensu.
+        if (url.pathname === '/.well-known/traffic-advice') {
+          const naglowki = new Headers(plik.headers);
+          naglowki.set('content-type', 'application/trafficadvice+json');
+          return new Response(plik.body, { status: 200, headers: naglowki });
+        }
+        return plik;
+      }
       return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);
     }
 

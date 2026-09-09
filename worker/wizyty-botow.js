@@ -131,6 +131,11 @@ const BOTY = [
   [/python-httpx/i,      'inny',       'python-httpx'],
   [/python-requests/i,   'inny',       'python-requests'],
   [/Go-http-client/i,    'inny',       'Go-http-client'],
+
+  // Chrome pobiera strony z wyprzedzeniem, zeby otwieraly sie natychmiast
+  // po klknieciu w wynikach wyszukiwania. Zaglada najpierw po
+  // /.well-known/traffic-advice, zeby sprawdzic, czy strona nie protestuje.
+  [/Chrome Privacy Preserving Prefetch Proxy/i, 'Google', 'Prefetch Proxy'],
 ];
 
 // --- FCrDNS: weryfikacja operatorow, ktorzy nie publikuja list zakresow ------
