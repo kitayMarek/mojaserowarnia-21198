@@ -70,8 +70,22 @@ function Pobierz-Klucz {
 }
 
 function Wyslij-Zadanie($klucz, $cialo) {
+    # ⚠ CIALO WYSYLAMY JAKO BAJTY UTF-8, NIE JAKO LANCUCH.
+    #
+    # PowerShell 5.1 koduje lancuchowe -Body w ISO-8859-1, w ktorym polskich
+    # znakow po prostu NIE MA — wypadaja po drodze. Tytul wziety z podgladu
+    # wygladal na ekranie poprawnie, doszedl do funkcji jako "piec ... juz"
+    # i potwierdzenie sie nie zgadzalo. Wygladalo to na blad porownania,
+    # a bylo kodowanie zadania.
+    #
+    #   lancuch:     {"potwierdzenie":"piec - juz"}
+    #   bajty UTF-8: {"potwierdzenie":"pięć — już"}
+    #
+    # Tablica bajtow idzie do serwera bez przekodowania.
+    $json = $cialo | ConvertTo-Json -Compress
+    $bajty = [Text.Encoding]::UTF8.GetBytes($json)
     try {
-        $odp = Invoke-RestMethod -Method Post -Uri $Adres -Headers @{ "x-klucz-wysylki" = $klucz } -ContentType "application/json" -Body ($cialo | ConvertTo-Json)
+        $odp = Invoke-RestMethod -Method Post -Uri $Adres -Headers @{ "x-klucz-wysylki" = $klucz } -ContentType "application/json; charset=utf-8" -Body $bajty
         return @{ kod = 200; tresc = $odp }
     }
     catch {

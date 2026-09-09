@@ -115,13 +115,6 @@ Deno.serve(async (request) => {
       ? wszyscy.filter((o) => o.email.toLowerCase() === String(tylko_email).toLowerCase())
       : wszyscy;
 
-    if (tylko_email && lista.length === 0) {
-      return odpowiedz({
-        blad: "ten adres nie jest na liscie uprawnionych albo juz dostal te wiadomosc",
-        adres: String(tylko_email),
-      }, 400);
-    }
-
     // ─── PODGLAD ────────────────────────────────────────────────────────────
     if (akcja !== "wyslij") {
       const przyklad = zloz(wiadomosc.title, wiadomosc.subtitle, "PRZYKLADOWY-TOKEN");
@@ -141,6 +134,27 @@ Deno.serve(async (request) => {
       return odpowiedz({
         blad: "potwierdzenie musi byc dokladnym tytulem wiadomosci",
         oczekiwano: wiadomosc.title,
+      }, 400);
+    }
+
+    // Pusta lista SPRAWDZANA PO POTWIERDZENIU, nie przed.
+    //
+    // Dwa powody. Po pierwsze kolejnosc jest sensowniejsza: najpierw upewniamy
+    // sie, ze czlowiek naprawde chce wyslac TE wiadomosc, a dopiero potem
+    // marudzimy o odbiorcach.
+    //
+    // Po drugie — i to jest wazniejsze — dzieki temu da sie sprawdzic samo
+    // potwierdzenie BEZ WYSYLANIA CZEGOKOLWIEK: wystarczy podac tylko_email
+    // z adresem, ktorego na liscie nie ma. Jesli w odpowiedzi jest "ten adres
+    // nie jest na liscie", to znaczy, ze potwierdzenie przeszlo. Wczesniej ten
+    // warunek stal wyzej i zaslanial wynik, wiec jedynym sposobem sprawdzenia
+    // potwierdzenia bylo wyslanie prawdziwego listu.
+    if (lista.length === 0) {
+      return odpowiedz({
+        blad: tylko_email
+          ? "ten adres nie jest na liscie uprawnionych albo juz dostal te wiadomosc"
+          : "nikomu nie trzeba juz wysylac tej wiadomosci",
+        adres: tylko_email ? String(tylko_email) : undefined,
       }, 400);
     }
 
