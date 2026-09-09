@@ -272,6 +272,40 @@ Disallow: /
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
 
+    // 1a0) UKOSNIK NA KONCU: /x/ -> /x.
+    //
+    //      Trzecia postac tej samej choroby w ciagu dwoch dni. Najpierw /x
+    //      kontra /x.html, potem /sery-wege kontra /wege/, teraz koncowy
+    //      ukosnik. Za kazdym razem ta sama tresc pod dwoma adresami i te same
+    //      liczby podzielone na pol:
+    //
+    //        /przepisy/   144 odslony w GA        /przepisy    80
+    //
+    //      Oba oddawaly identyczne 13 103 bajty. Wybieramy wersje BEZ ukosnika,
+    //      bo tak brzmia trasy w src/App.tsx i tak linkuje caly serwis.
+    //
+    //      /kultury/ tu nie dojdzie — przechwytuje je wczesniej public/_redirects
+    //      i prowadzi na /bakterie-kultury. /wege/ ma wyjatek nizej, zeby nie
+    //      robic dwoch przeskokow.
+    if (url.pathname === '/wege/' || url.pathname === '/wege') {
+      url.pathname = '/sery-wege';
+      return Response.redirect(url.toString(), 301);
+    }
+    if (url.pathname !== bezUkosnika) {
+      url.pathname = bezUkosnika;
+      return Response.redirect(url.toString(), 301);
+    }
+
+    // 1a1) Adres sklejony przy udostepnianiu. W naszym kodzie nie ma go nigdzie
+    //      (sprawdzone) — powstal poza serwisem, gdy odnosnik stanal tuz przed
+    //      slowem i platforma zlepila oba w jeden. Dziewiec zadan w liczniku
+    //      botow i jedno wejscie czlowieka, ktory zobaczyl "nie znaleziono".
+    //      Taniej przekierowac niz liczyc, ze kazdy poprawi swoj post.
+    if (bezUkosnika === '/boty-aiKod') {
+      url.pathname = '/boty-ai';
+      return Response.redirect(url.toString(), 301);
+    }
+
     // 1a) SCALENIE ADRESOW: /x.html -> /x.
     //
     //     Kazdy mirror odpowiadal pod dwoma adresami naraz — czystym i z

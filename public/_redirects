@@ -19,8 +19,10 @@
 # /kalkulator nie jest trasą → hub narzędzi
   /kalkulator /narzedzia 301
   /kalkulator/ /narzedzia 301
-# /wege → /wege/ (mirror leży w katalogu, adres kanoniczny ma ukośnik)
-  /wege /wege/ 301
+# /wege → /sery-wege. Od 8 września 2026 kanoniczny jest adres bez ukośnika,
+# bo tak brzmi trasa Reacta i tak linkuje cały serwis. Reguła jest zapasowa —
+# worker przechwytuje /wege i /wege/ wcześniej, w regule 1a0.
+  /wege /sery-wege 301
 # Googlebot pytal o /przepisy/do-twarogu.html i dostawal 404 — znalazl to
 # raport "czego szukali, a nie znalezli" 6 wrzesnia 2026, na pierwszym czystym
 # uruchomieniu. Zaden nasz link tak nie brzmi (sprawdzone: w public/przepisy/
