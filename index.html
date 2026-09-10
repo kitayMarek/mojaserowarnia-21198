@@ -7,7 +7,16 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XR997KZQKB');
+
+      // NIE LICZYMY PRACY NAD SERWISEM JAKO RUCHU.
+      // Serwer deweloperski chodzi na localhost, a znacznik odpalal sie tam tak
+      // samo jak na produkcji. 10 wrzesnia 2026 cztery testowe wejscia na nowe
+      // strony kultur pokazaly sie w raporcie czasu rzeczywistego obok prawdziwych
+      // ludzi — w tym adres, ktory zostal wymyslony na potrzeby testu bledu.
+      // Statystyka, ktora liczy wlasna prace, zawyza kazda decyzje opartą na niej.
+      var lokalnie = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
+                  || location.hostname.endsWith('.local');
+      if (!lokalnie) gtag('config', 'G-XR997KZQKB');
     </script>
     
     <meta charset="UTF-8" />
