@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { useCultures } from "@/hooks/useCultures";
+import { adresKultury } from "@/lib/adresKultury";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
 import AddToListButton from "@/components/AddToListButton";
@@ -393,6 +394,14 @@ const BazaKultur = () => {
                           {culture.name}
                         </a>
                       </h3>
+                      {/* Wejscie na WLASNA strone kultury. Nazwa wyzej celowo dalej
+                          prowadzi do sklepu — to ruch afiliacyjny i nie ruszamy go. */}
+                      <Link
+                        to={`/kultury/${adresKultury(culture.name)}`}
+                        className="text-xs text-primary-foreground/90 underline hover:text-primary-foreground"
+                      >
+                        cena za litr, skład i zamienniki →
+                      </Link>
                       {culture.lastChanged && (
                         <div className="text-xs text-primary-foreground/80 mt-1 italic">
                           📝 {culture.lastChanged}
