@@ -55,6 +55,17 @@ POLSKIE = re.compile(
     r"termofiln\w*|dodatek|aromat\w*)", re.I)
 
 
+# Blizniak adresKultury() z src/lib/adresKultury.ts. Ta sama regula jest tez
+# w gen-kultury-strony.py i gen-baza.py — zmiana w jednym miejscu bez
+# pozostalych daje odnosnik prowadzacy donikad.
+def adres_kultury(nazwa):
+    import unicodedata
+    s = unicodedata.normalize("NFD", nazwa)
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = s.replace("ł", "l").replace("Ł", "L").lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+
+
 def czy_lacinska(czesc):
     """Czy to nazwa gatunku, a nie polski opis marketingowy."""
     return not POLSKIE.search(czesc)
@@ -274,9 +285,9 @@ def zbuduj_html(grupy, wszystkie):
         czesci.append("  <table>\n    <thead><tr><th>Nazwa handlowa</th><th>Producent</th><th>Sklep</th>"
                       "<th>Cena</th><th>Proporcje</th><th>Temperatura</th><th>Do czego</th></tr></thead>\n    <tbody>\n")
         for k in g["kultury"]:
-            czesci.append("      <tr><td><strong>%s</strong></td><td>%s</td><td>%s</td><td>%s</td>"
+            czesci.append('      <tr><td><a href="https://mojaserowarnia.pl/kultury/%s"><strong>%s</strong></a></td><td>%s</td><td>%s</td><td>%s</td>'
                           "<td>%s</td><td>%s</td><td>%s</td></tr>\n" % (
-                esc(k.get("name")), esc(k.get("manufacturer") or "?"), esc(k.get("shop")),
+                adres_kultury(k.get("name")), esc(k.get("name")), esc(k.get("manufacturer") or "?"), esc(k.get("shop")),
                 esc(k.get("price") or "—"), esc(k.get("strainRatio") or "?"),
                 esc(k.get("temperature") or "—"), esc(k.get("application") or "—")))
         czesci.append("    </tbody>\n  </table>\n")
