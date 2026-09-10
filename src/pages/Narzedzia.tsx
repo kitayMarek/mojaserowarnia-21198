@@ -50,6 +50,47 @@ const Narzedzia = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               
+              {/* Symulator sera */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
+                <CardContent className="p-8">
+                  <div className="flex justify-end mb-2">
+                    <ReactionButton contentType="tool" contentId="symulator-sera" variant="compact" />
+                  </div>
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center transition-shadow">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Symulator warzenia sera
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Ustawiasz kulturę, podpuszczkę, dogrzewanie, prasowanie i dojrzewanie, a symulator mówi,
+                        jaki ser z tego wychodzi albo dlaczego się nie uda. Kultury z prawdziwej bazy.
+                      </p>
+                    </div>
+                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">&bull;</span>
+                        <span>Trzynaście archetypów serów</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">&bull;</span>
+                        <span>Błędy produkcji z wyjaśnieniem, co poszło nie tak</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">&bull;</span>
+                        <span>Co zostaje w serwatce i czy będzie z niej ricotta</span>
+                      </li>
+                    </ul>
+                    <Button asChild className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white">
+                      <a href="/symulator-sera" className="flex items-center justify-center gap-2">
+                        Otwórz symulator
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
               {/* Kalkulator Miar */}
               <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
                 <CardContent className="p-8">
