@@ -27,6 +27,17 @@ OUT_HTML = os.path.join(ROOT, "public", "kultury", "baza.html")
 OUT_SUMMARY = os.path.join(ROOT, "public", "kultury.summary.txt")
 
 
+# Blizniak adresKultury() z src/lib/adresKultury.ts. Trzecie miejsce z ta sama
+# regula (TS, gen-kultury-strony.py, tutaj) — zmiana w jednym wymaga zmiany
+# we wszystkich, inaczej odnosnik prowadzi w prozne miejsce.
+def adres_kultury(nazwa):
+    import unicodedata
+    s = unicodedata.normalize("NFD", nazwa)
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = s.replace("ł", "l").replace("Ł", "L").lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+
+
 def parse_cultures(src: str):
     blocks = re.split(r"\n  \{", src)
 
@@ -112,8 +123,9 @@ def gen_html(items):
         o.append(f"  <h2>{e(TYPE_LABELS.get(t, t.capitalize()))} ({len(rows)})</h2>")
         o.append("  <table>\n    <thead><tr><th>Nazwa</th><th>Skład</th><th>Zastosowanie</th><th>Temperatura</th><th>Sklep</th><th>Cena</th></tr></thead>\n    <tbody>")
         for it in rows:
-            o.append("      <tr><td class=\"name\">{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
-                e(it["name"]), e(it["comp"]), e(it["app"]), e(it["temp"]), e(it["shop"]), e(it["price"])))
+            o.append("      <tr><td class=\"name\"><a href=\"https://mojaserowarnia.pl/kultury/{}\">{}</a></td>"
+                     "<td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
+                adres_kultury(it["name"]), e(it["name"]), e(it["comp"]), e(it["app"]), e(it["temp"]), e(it["shop"]), e(it["price"])))
         o.append("    </tbody>\n  </table>")
     o.append('  <footer>Pełna, statyczna baza kultur (źródło dla wyszukiwarek i asystentów AI). Aktualne ceny i filtry w aplikacji <a href="https://mojaserowarnia.pl/baza-kultur">Moja Serowarnia</a>. Ceny mogą się zmieniać — weryfikuj u producenta.</footer>\n</body>\n</html>')
     return "\n".join(o)

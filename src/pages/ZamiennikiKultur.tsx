@@ -7,6 +7,7 @@ import BuyButton from "@/components/BuyButton";
 import CenaKultury from "@/components/CenaKultury";
 import { useCultures } from "@/hooks/useCultures";
 import { grupujPoSkladzie, ladnyGatunek, type KulturaWejscie } from "@/lib/grupyKultur";
+import { adresKultury } from "@/lib/adresKultury";
 
 const ZamiennikiKultur = () => {
   const { cultures, loading } = useCultures();
@@ -163,7 +164,9 @@ const ZamiennikiKultur = () => {
                     {g.kultury.map((k, i) => (
                       <tr key={`${g.id}-${k.name}-${i}`}>
                         <td className="border border-border p-2">
-                          <span className="font-semibold">{k.name}</span>
+                          <Link to={`/kultury/${adresKultury(k.name)}`} className="font-semibold underline">
+                            {k.name}
+                          </Link>
                           {k.manufacturer && (
                             <span className="block text-xs text-muted-foreground">{k.manufacturer}</span>
                           )}
