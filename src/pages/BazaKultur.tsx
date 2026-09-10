@@ -383,19 +383,19 @@ const BazaKultur = () => {
                 filteredData.map((culture, index) => (
                   <div key={`${culture.name}-${culture.shop}-${index}`} className="bg-card border border-[hsl(var(--rule))] overflow-hidden">
                     <div className="bg-primary px-3 py-2">
+                      {/* NAZWA PROWADZI NA WLASNA STRONE KULTURY, nie do sklepu.
+                          Do sklepu jest przycisk "Kup w ..." nizej w karcie, wiec nazwa
+                          kierujaca tam byla drugim odnosnikiem do tego samego miejsca.
+                          Nie wolno tu wolac trackShopClick: to przestalo byc przejscie
+                          do sklepu, a licznik zapisywalby klikniecia, ktorych nie ma. */}
                       <h3 className="font-bold text-primary-foreground text-sm">
-                        <a
-                          href={culture.productUrl || culture.shopUrl}
-                          target="_blank"
-                          rel="noopener nofollow"
-                          onClick={() => trackShopClick(culture.name, culture.shop)}
+                        <Link
+                          to={`/kultury/${adresKultury(culture.name)}`}
                           className="hover:underline"
                         >
                           {culture.name}
-                        </a>
+                        </Link>
                       </h3>
-                      {/* Wejscie na WLASNA strone kultury. Nazwa wyzej celowo dalej
-                          prowadzi do sklepu — to ruch afiliacyjny i nie ruszamy go. */}
                       <Link
                         to={`/kultury/${adresKultury(culture.name)}`}
                         className="text-xs text-primary-foreground/90 underline hover:text-primary-foreground"
@@ -551,9 +551,12 @@ const BazaKultur = () => {
                             </TableCell>
                             <TableCell className="font-semibold text-primary">
                               <div>
-                                {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener nofollow" onClick={() => trackShopClick(culture.name, culture.shop)} className="hover:underline hover:text-accent transition-colors">
-                                    {culture.name}
-                                  </a> : culture.name}
+                                <Link
+                                  to={`/kultury/${adresKultury(culture.name)}`}
+                                  className="hover:underline hover:text-accent transition-colors"
+                                >
+                                  {culture.name}
+                                </Link>
                                 {/* Wejscie na wlasna strone kultury. W widoku KART ten
                                     sam odnosnik jest wyzej; tabela to osobne renderowanie
                                     tego samego pliku i przy pierwszym podejsciu ja pominalem,
