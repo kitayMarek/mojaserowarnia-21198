@@ -1,0 +1,5 @@
+#!/bin/sh
+# Uruchamia straznika sekretow. Logika siedzi w pliku .mjs obok - w node,
+# nie w powloce, bo powloka na Windowsie i na Linuksie to dwa rozne swiaty,
+# a ten hak musi dzialac tak samo u kazdego.
+exec node "$(dirname "$0")/straznik-sekretow.mjs"

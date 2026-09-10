@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test:boty": "node scripts/test-wizyty-botow.mjs",
-    "deploy": "node scripts/wdroz.mjs"
+    "deploy": "node scripts/wdroz.mjs",
+    "prepare": "git config core.hooksPath .githooks || exit 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

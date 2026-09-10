@@ -3,3 +3,10 @@
 # cmd.exe rozjezdza sie na pierwszym komentarzu.
 *.cmd text eol=crlf
 *.bat text eol=crlf
+
+# Hak gita to skrypt powloki uruchamiany przez sh. Przy windowsowych CRLF sh
+# widzi w shebangu znak  i odmawia z komunikatem, ktory nie mowi nic o
+# koncach linii. Ta sama pulapka co przy scripts/wyslij.cmd, tylko odwrotnie:
+# tam CRLF byl wymagany, tu jest trucizna.
+.githooks/pre-commit text eol=lf
+.githooks/*.mjs text eol=lf

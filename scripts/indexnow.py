@@ -40,6 +40,9 @@ import sys
 import urllib.error
 import urllib.request
 
+# straznik: jawny - klucz IndexNow JEST publiczny z zalozenia. Lezy pod
+# https://mojaserowarnia.pl/<klucz>.txt i wlasnie tym plikiem dowodzimy
+# wyszukiwarkom, ze domena jest nasza. Ukrycie go zepsuloby mechanizm.
 KLUCZ = "90bbed815ee44b9c82e2e8a77fbe93f9"
 HOST = "mojaserowarnia.pl"
 BAZA = "https://" + HOST
