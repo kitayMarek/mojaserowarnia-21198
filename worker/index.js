@@ -81,8 +81,21 @@ const ROZSZERZENIE_PLIKU =
 // ⚠ CELOWO BEZ `pl`: trasa /serowarnie/:slug przyjmuje dowolny slug, a ten
 // bywa nazwą domeny („mleczarnia-example.pl"). Zysk z łapania skryptów Perla
 // jest żaden, a koszt — prawdziwa strona pod prawdziwym adresem oddana jako 404.
+//
+// DRUGA RUNDA, 10.09.2026. Alert o skanach kazal sprawdzic, czy cokolwiek
+// zwrocilo 200 — i zwrocilo. /terraform.tfstate, /terraform.tfvars i
+// /web.config oddawaly aplikacje React z kodem 200, czyli 15 804 bajty
+// zamiast odmowy. Zadne z tych rozszerzen nie bylo ani tutaj, ani w
+// ROZSZERZENIE_PLIKU, wiec sciezka szla dalej jako zwykla trasa Reacta.
+//
+// terraform.tfstate to szczegolnie zly przypadek: ten plik trzyma stan
+// infrastruktury razem z sekretami, wiec kod 200 mowi skanerowi „jest tu
+// cos takiego", nawet gdy dostal tylko skorupe HTML.
+//
+// Sprawdzone przed dopisaniem: zaden plik w public/ i zadna trasa w App.tsx
+// nie konczy sie zadnym z tych rozszerzen.
 const ROZSZERZENIE_OBCE =
-  /\.(php\d?|phtml|asp|aspx|jsp|cgi|sh|bash|py|rb|exe|dll|bak|old|orig|save|swp|sql|db|sqlite|ini|conf|cfg|env|yml|yaml|toml|log|war|jar|tgz|tar|gz|rar|7z)$/i;
+  /\.(php\d?|phtml|asp|aspx|jsp|cgi|sh|bash|py|rb|exe|dll|bak|old|orig|save|swp|sql|db|sqlite|ini|conf|cfg|config|env|yml|yaml|toml|log|war|jar|tgz|tar|gz|rar|7z|tf|tfstate|tfvars|tfbackend|properties|pem|key|crt|cer|p12|pfx|jks|kdbx|htpasswd|htaccess|dist)$/i;
 
 // Katalogi, o które pytają wyłącznie skanery podatności. Lista sprawdzona wobec
 // wszystkich tras z src/App.tsx — żadna się z nią nie przecina. Uwaga przy
