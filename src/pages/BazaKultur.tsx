@@ -554,6 +554,16 @@ const BazaKultur = () => {
                                 {culture.productUrl ? <a href={culture.productUrl} target="_blank" rel="noopener nofollow" onClick={() => trackShopClick(culture.name, culture.shop)} className="hover:underline hover:text-accent transition-colors">
                                     {culture.name}
                                   </a> : culture.name}
+                                {/* Wejscie na wlasna strone kultury. W widoku KART ten
+                                    sam odnosnik jest wyzej; tabela to osobne renderowanie
+                                    tego samego pliku i przy pierwszym podejsciu ja pominalem,
+                                    wiec na szerokim ekranie nie bylo zadnego wejscia. */}
+                                <Link
+                                  to={`/kultury/${adresKultury(culture.name)}`}
+                                  className="block text-xs font-normal underline text-muted-foreground hover:text-foreground mt-1"
+                                >
+                                  cena za litr i zamienniki →
+                                </Link>
                                 {culture.lastChanged && (
                                   <div className="text-xs text-muted-foreground font-normal mt-1 italic">
                                     📝 {culture.lastChanged}

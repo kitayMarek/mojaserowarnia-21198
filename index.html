@@ -16,7 +16,18 @@
       // Statystyka, ktora liczy wlasna prace, zawyza kazda decyzje opartą na niej.
       var lokalnie = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
                   || location.hostname.endsWith('.local');
-      if (!lokalnie) gtag('config', 'G-XR997KZQKB');
+
+      // PANEL ADMINISTRACYJNY TO TEZ WLASNA PRACA, NIE RUCH.
+      // Zmierzone 10 wrzesnia na oknie czterech tygodni: /admin mial 120 odslon
+      // przy 3 uzytkownikach, czyli 40 ODSLON NA UZYTKOWNIKA i 4,6% ruchu calego
+      // serwisu. Przy sredniej 3,79 odslony to jest dziesieciokrotnosc — czyli
+      // liczba, ktora sama z siebie zawyza kazde zestawienie stron.
+      //
+      // Wyciszamy CALE poddrzewo /admin, nie sam /admin: panel ma podstrony
+      // i to one robily wieksza czesc tych odslon.
+      var panel = /^\/admin(\/|$)/.test(location.pathname);
+
+      if (!lokalnie && !panel) gtag('config', 'G-XR997KZQKB');
     </script>
     
     <meta charset="UTF-8" />
