@@ -93,6 +93,7 @@ const MODULY = [
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
   { id: "metodologia", tytul: "Jak to jest liczone?", zajawka: "Listy adresów, odwrotny DNS, podpisy — i co znaczy „nie wiadomo”." },
   { id: "llms-txt", tytul: "Co wiemy o llms.txt", zajawka: "Cztery pobrania, z czego trzy wywołaliśmy sami. I mocniejsze badanie, które mówi to samo." },
+  { id: "niezalezne-pomiary", tytul: "Nie jesteśmy pierwsi — trzy niezależne pomiary", zajawka: "Jakub Sawa, Krzysztof Balicki na 126 domenach i my. Gdzie się zgadzamy, a gdzie nie." },
   { id: "kod-otwarty", tytul: "Kod jest otwarty", zajawka: "Cały licznik na licencji MIT — razem ze spisem błędów, które popełniliśmy po drodze." },
 ] as const;
 
@@ -432,6 +433,7 @@ const BotyAi = () => {
                     {m.id === "bez-podpisu" && <BezPodpisu liczba_={p?.bez_podpisu} />}
                     {m.id === "kronika" && <Kronika />}
                     {m.id === "llms-txt" && <LlmsTxt />}
+                    {m.id === "niezalezne-pomiary" && <NiezaleznePomiary />}
                     {m.id === "kod-otwarty" && <KodOtwarty />}
                     {m.id === "metodologia" && (
                       <Metodologia wiersze={data?.metody ?? []} zZapisana={p?.z_zapisana_metoda} technicznie={technicznie} />
@@ -954,6 +956,116 @@ const LlmsTxt = () => (
       dziś. <strong>Ale nie liczymy na niego.</strong> Jeśli masz jedną godzinę:{" "}
       <code>robots.txt</code> czyta u nas kilkanaście różnych botów, a strona główna jest
       drugim najczęściej pobieranym adresem w serwisie. To są drzwi, którymi się wchodzi.
+    </p>
+  </>
+);
+
+// Cudze pomiary tej samej rzeczy. Sekcja stala dotad WYLACZNIE w mirrorze
+// public/boty-ai.html, czyli widzialy ja boty, a nie ludzie — wychwycone
+// 10 wrzesnia 2026 przy dopisywaniu trzeciego pomiaru.
+//
+// Liczby Balickiego sa CUDZE i niezweryfikowane; podajemy je jako jego pomiar,
+// nie jako nasz wynik, i tak sa oznaczone w tresci. Nasze liczby obok pochodza
+// z tego samego licznika, ktory zasila reszte tej strony.
+const NiezaleznePomiary = () => (
+  <>
+    <p>
+      <strong>28 sierpnia 2026</strong>, tydzień przed uruchomieniem tego licznika,{" "}
+      <strong>Jakub Sawa</strong> opublikował badanie oparte na tej samej metodzie —
+      weryfikacji botów po adresie IP zamiast po nazwie. Doszedł do tego samego mechanizmu
+      niezależnie i wcześniej: jedna pula tanich serwerów przebierająca się za kolejne boty,
+      skanowanie plików konfiguracyjnych zamiast czytania treści, i infrastruktura brzegowa,
+      która weryfikuje Google, a resztę przepuszcza.
+    </p>
+
+    <h3 className="font-semibold pt-2">Trzeci pomiar, 10 września 2026 — 126 domen</h3>
+    <p>
+      <strong>Krzysztof Balicki</strong> sprawdził te same tezy na dwóch serwerach
+      hostujących <strong>126 domen klienckich</strong>, w oknie 1–10 września. To pomiar
+      z poziomu logów serwera, a nie pojedynczej witryny — czyli skala, której my nie mamy
+      i mieć nie będziemy. Podał: <strong>llms.txt pobrane 559 razy</strong>, z czego raz
+      przez bota OpenAI i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota.
+      Podszywek pod GPTBota <strong>3,5 tys. na 375 tys.</strong> żądań spoza puli adresów
+      OpenAI, czyli około 1%. I rzecz najciekawsza: największym botem AI nie jest u niego
+      GPTBot, tylko <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Tych liczb nie weryfikowaliśmy — pochodzą z komentarza w grupie, nie z opublikowanego
+      badania z metodyką. Podajemy je jako cudzy pomiar, nie jako nasz wynik. Dwie z trzech
+      tez dają się jednak sprawdzić u nas i obie się bronią.
+    </p>
+
+    <p>
+      <strong>llms.txt.</strong> Nasze cztery pobrania, z czego trzy wywołane przez nas
+      samych, nie pozwalały wnioskować o niczym i tak to opisaliśmy. Jego 559 żądań na
+      126 domenach temat zamyka.
+    </p>
+
+    <p>
+      <strong>Meta-ExternalAgent.</strong> U nas jest tak samo pierwszy — i tego nikt
+      nie planował:
+    </p>
+    <Tabela naglowki={["Bot AI", "Żądań u nas"]}>
+      {[
+        ["Meta-ExternalAgent", 221],
+        ["PerplexityBot", 171],
+        ["OAI-SearchBot", 130],
+        ["ChatGPT-User", 129],
+        ["Amazonbot", 117],
+        ["GPTBot", 94],
+      ].map(([bot, n]) => (
+        <tr key={String(bot)} className="border-b last:border-0">
+          <td className="py-2 pr-4 font-medium">{bot}</td>
+          <td className="py-2 pr-4 tabular-nums">{n}</td>
+        </tr>
+      ))}
+    </Tabela>
+    <p>
+      Dwie zupełnie różne witryny, skala różniąca się tysiące razy, ta sama nazwa na
+      szczycie. Nazwa, o której w rozmowach o „ruchu z AI" prawie się nie mówi.
+    </p>
+
+    <p>
+      <strong>Podszywki — trzy liczby i trzy mianowniki.</strong> 1% u niego, 3% u Jakuba
+      Sawy, 49% u nas. Żadna nie zaprzecza pozostałym, bo każda odpowiada na inne pytanie.
+      My liczymy, ile spośród żądań <em>podających się</em> za GPTBota kłamie: 46 z 94.
+      On liczy, ile spośród całego ruchu spoza puli OpenAI udaje GPTBota. Im większy ruch
+      autentyczny, tym bardziej podszywki się w nim topią — a portal o serowarstwie jest
+      w tej skali punktem, nie krzywą.
+    </p>
+
+    <h3 className="font-semibold pt-2">Czego żaden z tych pomiarów jeszcze nie sprawdził</h3>
+    <p>
+      Zestawiając nasze liczby z jego, zauważyliśmy coś, czego sami wcześniej nie
+      widzieliśmy: <strong>podszywki nie idą za wielkością bota, tylko za tym, kogo
+      właściciele stron przepuszczają</strong>.
+    </p>
+    <Tabela naglowki={["Bot", "Żądań", "Podszywek"]}>
+      {[
+        ["Meta-ExternalAgent", 221, "0%"],
+        ["Amazonbot", 117, "0%"],
+        ["PerplexityBot", 171, "37%"],
+        ["GPTBot", 94, "49%"],
+        ["Claude-User", 44, "77%"],
+        ["ClaudeBot", 65, "95%"],
+      ].map(([bot, n, p]) => (
+        <tr key={String(bot)} className="border-b last:border-0">
+          <td className="py-2 pr-4 font-medium">{bot}</td>
+          <td className="py-2 pr-4 tabular-nums">{n}</td>
+          <td className="py-2 pr-4 tabular-nums">{p}</td>
+        </tr>
+      ))}
+    </Tabela>
+    <p>
+      Nikt nie udaje Mety, mimo że to największy realny crawler — bo podszycie się pod nią
+      nic nie otwiera. Nikt nie wpisuje Meta-ExternalAgent na białą listę. Fałszowane są te
+      nazwy, które ludzie wpuszczają <em>świadomie</em>, w przekonaniu, że wpuszczają „tego
+      dobrego bota AI". ClaudeBot ma u nas trzy prawdziwe żądania na sześćdziesiąt pięć.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      <strong>To jest teza, nie wynik.</strong> Sześćdziesiąt pięć żądań to za mało, żeby
+      cokolwiek twierdzić — u kogoś z setkami tysięcy żądań da się to rozstrzygnąć w jeden
+      wieczór. Jeśli ktoś to sprawdzi, chętnie dopiszemy wynik, także gdyby tezę obalił.
     </p>
   </>
 );

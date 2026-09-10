@@ -473,6 +473,53 @@
 
 <p>To jest zarazem najmocniejszy argument za tym, żeby takich pomiarów było więcej. Jeden pomiar z jednej domeny mówi o tej domenie. Dwa niezależne, zgodne co do mechanizmu i rozbieżne co do skali, mówią już coś o zjawisku — i pokazują, od czego ta skala zależy.</p>
 
+<h3>Trzeci pomiar, 10 września 2026 — 126 domen</h3>
+
+<p><strong>Krzysztof Balicki</strong> sprawdził te same tezy na dwóch serwerach hostujących 126 domen klienckich, w oknie 1–10 września. To jest pomiar z poziomu logów serwera, a nie pojedynczej witryny — czyli skala, której my nie mamy i mieć nie będziemy. Podał: <strong>llms.txt pobrane 559 razy</strong>, z czego jeden raz przez bota OpenAI i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota. Podszywek pod GPTBota <strong>3,5 tys. na 375 tys.</strong> żądań spoza puli adresów OpenAI, czyli około 1%. I rzecz najciekawsza: największym botem AI nie jest u niego GPTBot, tylko <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.</p>
+
+<p class="uwaga">Tych liczb nie weryfikowaliśmy — pochodzą z komentarza w grupie, nie z opublikowanego badania z metodyką. Podajemy je jako cudzy pomiar, nie jako nasz wynik. Dwie z trzech tez dają się jednak sprawdzić u nas i obie się bronią.</p>
+
+<p><strong>llms.txt.</strong> Nasze cztery pobrania, z czego trzy wywołane przez nas samych, nie pozwalały wnioskować o niczym i tak to opisaliśmy. Jego 559 żądań na 126 domenach temat zamyka.</p>
+
+<p><strong>Meta-ExternalAgent.</strong> U nas jest tak samo pierwszy — i tego nikt nie planował:</p>
+
+<table>
+  <thead><tr><th>Bot AI</th><th>Żądań u nas</th></tr></thead>
+  <tbody>
+    <tr><td>Meta-ExternalAgent</td><td>221</td></tr>
+    <tr><td>PerplexityBot</td><td>171</td></tr>
+    <tr><td>OAI-SearchBot</td><td>130</td></tr>
+    <tr><td>ChatGPT-User</td><td>129</td></tr>
+    <tr><td>Amazonbot</td><td>117</td></tr>
+    <tr><td>GPTBot</td><td>94</td></tr>
+  </tbody>
+</table>
+
+<p>Dwie zupełnie różne witryny, skala różniąca się tysiące razy, ta sama nazwa na szczycie. Nazwa, o której w rozmowach o „ruchu z AI" prawie się nie mówi.</p>
+
+<p><strong>Podszywki — trzy liczby i trzy mianowniki.</strong> 1% u niego, 3% u Jakuba Sawy, 49% u nas. Żadna nie zaprzecza pozostałym, bo każda odpowiada na inne pytanie. My liczymy, ile spośród żądań <em>podających się</em> za GPTBota kłamie: 46 z 94. On liczy, ile spośród całego ruchu spoza puli OpenAI udaje GPTBota. Im większy ruch autentyczny, tym bardziej podszywki się w nim topią — a nasz portal o serowarstwie jest w tej skali punktem, nie krzywą.</p>
+
+<h3>Czego żaden z tych pomiarów jeszcze nie sprawdził</h3>
+
+<p>Zestawiając nasze liczby z jego, zauważyliśmy coś, czego sami wcześniej nie widzieliśmy: <strong>podszywki nie idą za wielkością bota, tylko za tym, kogo właściciele stron przepuszczają</strong>.</p>
+
+<table>
+  <thead><tr><th>Bot</th><th>Żądań</th><th>Podszywek</th></tr></thead>
+  <tbody>
+    <tr><td>Meta-ExternalAgent</td><td>221</td><td>0%</td></tr>
+    <tr><td>Amazonbot</td><td>117</td><td>0%</td></tr>
+    <tr><td>PerplexityBot</td><td>171</td><td>37%</td></tr>
+    <tr><td>GPTBot</td><td>94</td><td>49%</td></tr>
+    <tr><td>Claude-User</td><td>44</td><td>77%</td></tr>
+    <tr><td>ClaudeBot</td><td>65</td><td>95%</td></tr>
+  </tbody>
+</table>
+
+<p>Nikt nie udaje Mety, mimo że to największy realny crawler — bo podszycie się pod nią nic nie otwiera. Nikt nie wpisuje Meta-ExternalAgent na białą listę. Fałszowane są te nazwy, które ludzie wpuszczają <em>świadomie</em>, w przekonaniu, że wpuszczają „tego dobrego bota AI". ClaudeBot ma u nas trzy prawdziwe żądania na sześćdziesiąt pięć.</p>
+
+<p><strong>To jest teza, nie wynik.</strong> Sześćdziesiąt pięć żądań to za mało, żeby cokolwiek twierdzić — u kogoś z setkami tysięcy żądań da się to rozstrzygnąć w jeden wieczór. Jeśli ktoś to sprawdzi, chętnie dopiszemy wynik, także gdyby tezę obalił.</p>
+
+
 <h2>Trzy czwarte ruchu skanerów to polowanie na jeden plik</h2>
 
 <p>Przez cały pomiar skanery poprosiły nas o <strong>44 różne adresy zawierające <code>.env</code></strong> — łącznie 197 razy. To około trzech czwartych wszystkiego, czego u nas szukały. Reszta, czyli <code>.git</code>, panele administracyjne i pliki konfiguracyjne, jest w porównaniu z tym marginesem.</p>
