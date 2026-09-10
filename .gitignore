@@ -29,14 +29,18 @@ ProjektyLLm/
 # Zmienne srodowiskowe. Repo jest PUBLICZNE, a GitHub jest przeczesywany przez
 # boty pod katem kluczy API w ciagu minut od commita — plik nie moze tu trafic.
 # Sam .env zostaje na dysku i lokalny build dziala normalnie.
-.env
-.env.local
-.env.*.local
-# Dane FTP do wgrywania na home.pl. REPO JEST PUBLICZNE - ten plik nigdy
-# nie moze trafic do commita. Claude czyta go przy deployu.
-.env.deploy
-.env.import
-.env.stary-projekt.bak
+#
+# WZORZEC, NIE LISTA. Do 10 wrzesnia 2026 stala tu wyliczanka szesciu nazw:
+# .env, .env.local, .env.deploy, .env.import, .env.stary-projekt.bak i wzorzec
+# .env.*.local. Wyliczanka ma te sama wade, co slowniki skanerow, ktore nas
+# omiataja: chroni tylko te nazwy, ktore ktos wczesniej pomyslal. Sprawdzone
+# tego dnia — .envStary, .env.bak i .env~ NIE byly ignorowane, a repo jest
+# publiczne. Zaden z nich akurat nie istnial, ale to byl przypadek, nie system.
+#
+# git rozumie gwiazdke, wiec zamiast dopisywac siodma nazwe, dopisujemy wzorzec.
+# Wyjatek na koncu: przyklad bez wartosci ma zostac widoczny.
+.env*
+!.env.deploy.przyklad
 # Klucz do uruchamiania wysylki. Trzymany w pliku, zeby nie przechodzil przez
 # konsole, historie polecen i zrzuty ekranu - tak juz raz wyciekl.
 .klucz-wysylki
