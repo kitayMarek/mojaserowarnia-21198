@@ -1,5 +1,5 @@
 import { __wewnetrzne, rozpoznajBota, czyZOperatora, sprawdzFcrdns } from '../worker/wizyty-botow.js';
-const { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie } = __wewnetrzne;
+const { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie, zrodloOdpowiedzi } = __wewnetrzne;
 
 let ok = 0, zle = 0;
 const sprawdz = (opis, wynik, oczekiwane) => {
@@ -160,7 +160,9 @@ sprawdz('  ...i operatorem nieznany',        bezPodpisu?.operator,  'nieznany');
 sprawdz('  ...bez werdyktu o podszywaniu',   bezPodpisu?.zweryfikowany, null);
 
 const dziwnyUa = await probaZapisu({}, 'python-requests/2.31.0');
-sprawdz('nieznany UA skryptu tez trafia',    dziwnyUa?.bot,         '(bez podpisu)');
+// python-requests dostal wlasna nazwe 6 wrzesnia; ten test zostal na starej
+// odpowiedzi i swiecil na czerwono, przez co maskowal ewentualne prawdziwe bledy.
+sprawdz('nieznany UA skryptu tez trafia',    dziwnyUa?.bot,         'python-requests');
 
 // Granica prywatnosci: to ma byc licznik BOTOW, nie licznik wszystkiego.
 const zSecFetch = await probaZapisu({ 'sec-fetch-mode': 'navigate' }, 'Mozilla/5.0 (Windows NT 10.0)');
@@ -191,6 +193,27 @@ globalThis.fetch = async (adres, opcje) => {
 }
 globalThis.fetch = prawdziwyFetch;
 sprawdz('workers.dev nie zasmieca licznika', zWorkersDev, null);
+
+// ---------------------------------------------------------------------------
+// SKAD PRZYSZLI LUDZIE. Do 10 wrzesnia licznik widzial wylacznie modele, wiec
+// odsylacz z Facebooka czy z forum nie zostawial sladu. Te testy pilnuja obu
+// stron zmiany: ze zwykly serwis jest zapisywany, i ze granice zostaly.
+// ---------------------------------------------------------------------------
+const zrodlo = (referer, adres = 'https://mojaserowarnia.pl/boty-ai') =>
+  zrodloOdpowiedzi(
+    { headers: { get: (n) => (n.toLowerCase() === 'referer' ? referer : null) } },
+    new URL(adres),
+  );
+sprawdz('ChatGPT rozpoznany po odsylaczu',   zrodlo('https://chatgpt.com/c/abc'),        'ChatGPT');
+sprawdz('Copilot mimo normalizacji www',     zrodlo('https://www.bing.com/chat'),        'Copilot');
+sprawdz('Facebook zapisany jako serwis',     zrodlo('https://www.facebook.com/groups/1/posts/2'), 'facebook.com');
+sprawdz('Google zapisany jako serwis',       zrodlo('https://google.com/search?q=tajne'), 'google.com');
+sprawdz('wlasny serwis to nie przyjscie',    zrodlo('https://mojaserowarnia.pl/przepisy'), null);
+sprawdz('  ...takze z www',                  zrodlo('https://www.mojaserowarnia.pl/x'),  null);
+sprawdz('brak odsylacza nie jest zapisywany', zrodlo(null),                              null);
+sprawdz('pokrecony odsylacz nie wywala',     zrodlo('nie-adres'),                        null);
+sprawdz('znacznik listu ma pierwszenstwo',
+  zrodlo('https://www.facebook.com/x', 'https://mojaserowarnia.pl/?utm_source=list'),    'Lista');
 
 console.log(`\n${ok} przeszlo, ${zle} nie przeszlo`);
 process.exit(zle ? 1 : 0);

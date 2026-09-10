@@ -1304,6 +1304,12 @@ const Metodologia = ({ wiersze, zZapisana, technicznie }: {
       sieci i kraj — jedno i drugie opisuje serwerownię, nie człowieka. Nie zapisujemy też
       treści zapytań użytkowników: żaden bot jej nie przekazuje i nie przekaże, to cudze dane.
     </p>
+    <p>
+      Z odsyłaczy bierzemy wyłącznie <strong>nazwę serwisu</strong> — <code>facebook.com</code>,
+      <code>chatgpt.com</code> — nigdy ścieżki. Ścieżka odsyłająca potrafi zawierać treść
+      wpisanego pytania albo adres zamkniętej grupy, więc odcinamy ją, zanim cokolwiek trafi
+      do zapisu. Wejść bez odsyłacza nie zapisujemy wcale.
+    </p>
   </>
 );
 

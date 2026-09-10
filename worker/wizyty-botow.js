@@ -501,6 +501,24 @@ function zrodloOdpowiedzi(request, url) {
     if (!skad) return null;
     const host = new URL(skad).hostname;
     for (const [wzorzec, nazwa] of ZNACZNIKI_AI) if (wzorzec.test(host)) return nazwa;
+
+    // 3. Kazdy inny serwis odsylajacy — sama nazwa. Dopisane 10 wrzesnia 2026:
+    //    wczesniej wszystko poza modelami wypadalo stad jako null, wiec licznik
+    //    nie widzial ani Facebooka, ani zadnego innego odsylacza z zewnatrz.
+    //    Mierzylismy waski wycinek i po samym raporcie nie bylo tego widac.
+    //
+    //    Normalizacja MUSI byc po tescie wyzej, nie przed: wzorzec Copilota to
+    //    ^www\.bing\.com$, wiec scieciem 'www.' zepsulbym jego rozpoznawanie.
+    const czysty = host.toLowerCase().replace(/^www\./, '');
+
+    //    Wlasny serwis to nawigacja wewnetrzna, nie przyjscie z zewnatrz.
+    if (czysty === url.hostname.toLowerCase().replace(/^www\./, '')) return null;
+
+    //    Wejscia BEZ odsylacza zostaja NIEZAPISANE — obsluguje to `return null`
+    //    wyzej. Kubelek 'bezposrednie' to dokladnie ta bezuzyteczna kategoria,
+    //    przed ktora ten licznik mial byc odpowiedzia; dokladanie jej tutaj
+    //    cofneloby caly sens pomiaru.
+    return czysty.slice(0, 60);
   } catch {
     // pokreczony odsylacz — trudno, nie zgadujemy
   }
@@ -692,4 +710,4 @@ export async function zapiszWizyteBota(request, wynik, env) {
 // Udostępnione wyłącznie dla testów w scripts/test-wizyty-botow.mjs.
 // Błąd w masce sprawiłby, że każdy prawdziwy bot zostałby uznany za
 // podszywacza — dlatego ta część ma testy, mimo że reszta ich nie ma.
-export const __wewnetrzne = { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie, nazwaPtr };
+export const __wewnetrzne = { ipv4NaLiczbe, ipv6NaLiczbe, wZakresie, nazwaPtr, zrodloOdpowiedzi };
