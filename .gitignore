@@ -75,3 +75,8 @@ data/pytania/kandydaci-*.md
 # zeby ich nie szukac. Straznik przed commitem i tak zablokowalby kazdy nowy
 # katalog najwyzszego poziomu, ale bez tego wpisu `git status` szumi.
 Moje/
+
+# Spis projektu - lokalny zapis stanu katalogu, do wykrywania zmian, ktorych
+# nie zrobil Claude. Zawiera sciezki plikow prywatnych (skroty, nie tresc),
+# wiec nie moze trafic do publicznego repo. Zakladany przez `npm run spis`.
+.spis-projektu.json

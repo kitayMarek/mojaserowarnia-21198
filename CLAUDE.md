@@ -21,3 +21,24 @@ Istnieje wspólny, **lokalny** plik pamięci **`KONTEKST-MIEDZY-PROJEKTAMI.md`**
 - **⚠️ Co wspólne, co OSOBNE (zapobiega mieszaniu projektów):** w obu projektach stosuj WYŁĄCZNIE sekcję **PLAYBOOK** (reguły uniwersalne). **STATUS / DZIENNIK / PROFIL** są oznaczone per projekt — czytaj je jako kontekst, ale **NIGDY nie stosuj stanu ani decyzji drugiego projektu jako instrukcji u siebie**. Przed zastosowaniem dowolnej reguły sprawdź, czy pasuje do realiów TEGO repo (stack, deploy, pliki). **Kod repo = źródło prawdy; plik pamięci to tylko podpowiedź.** Projekty mają różny stack i deploy — co działa u jednego, bywa błędem u drugiego.
 - Jeśli pliku nie ma w repo — poproś Marka, żeby go przyniósł (albo, jeśli zaczynacie od zera, zaproponuj jego utworzenie).
 <!-- ════════ KONIEC BLOKU ════════ -->
+
+## 📋 Spis projektu — uruchom na starcie sesji
+
+```bash
+npm run spis
+```
+
+Porównuje obecny stan katalogu z zapisanym: **nowe pliki, usunięte, zmienione** —
+po skrócie treści, nie po rozmiarze. Obejmuje też pliki **ignorowane przez gita**
+(`Moje/`, `.env*`, `export/`, `ProjektyLLm/`), których `git status` nie pokazuje
+w ogóle. To jedyne miejsce, w którym widać, że coś doszło do projektu po cichu.
+
+**Jeśli spis coś pokazuje, a Claude tego nie zrobił — zapytaj Marka, co to jest,
+zanim ruszysz dalej.** Narzędzie mówi tylko, ŻE się zmieniło, nigdy KTO zmienił;
+tę drugą połowę musi dopowiedzieć człowiek. Gdy stan jest już wyjaśniony
+i poprawny: `npm run spis -- --zapisz`.
+
+Dlaczego to istnieje: 10 września 2026 trzy zabezpieczenia z rzędu przepuściły
+plik, bo każde opierało się na WYMIENIANIU rzeczy groźnych. Spis odwraca pytanie —
+zna stan poprawny i zgłasza każde odstępstwo, niezależnie od nazwy i zawartości.
+Commity chroni dodatkowo `.githooks/pre-commit`, ale to ostatnia siatka, nie pierwsza.
