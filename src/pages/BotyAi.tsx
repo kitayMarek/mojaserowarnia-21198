@@ -87,6 +87,7 @@ const MODULY = [
   { id: "crawler-czy-czlowiek", tytul: "Crawler czy pytanie konkretnego człowieka?", zajawka: "Za częścią tych żądań stoi żywa osoba, która o coś zapytała w czacie." },
   { id: "jak-rozpoznac", tytul: "Jak rozpoznać podszywacza bez sprawdzania tożsamości?", zajawka: "Obie grupy zachowują się inaczej na tyle wyraźnie, że nie trzeba list adresów." },
   { id: "czego-szukaja", tytul: "Czego szukają jedni, a czego drudzy?", zajawka: "Zbiory celów obu grup prawie się nie przecinają." },
+  { id: "polowanie-na-env", tytul: "Trzy czwarte ruchu skanerów to polowanie na jeden plik", zajawka: "44 adresy z .env, 197 żądań. I sprawdzone w danych: czy inna nazwa cokolwiek daje." },
   { id: "ruch-wlasciciela", tytul: "Ile tego ruchu robi sam właściciel strony?", zajawka: "Odliczam własne testy i pokazuję ile ich było. Oto dlaczego to ważne." },
   { id: "bez-podpisu", tytul: "Ruch, który nie przedstawia się wcale", zajawka: "Puste pole User-Agent. Kim są — nie wiemy. Czego szukają — wiemy dokładnie." },
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
@@ -424,6 +425,7 @@ const BotyAi = () => {
                     {m.id === "czego-szukaja" && (
                       <CzegoSzukaja wiersze={data?.cele ?? []} pochodne={pochodne} technicznie={technicznie} />
                     )}
+                    {m.id === "polowanie-na-env" && <PolowanieNaEnv />}
                     {m.id === "ruch-wlasciciela" && (
                       <RuchWlasciciela liczbaTestow={p?.testy_wlasciciela} proc={pochodne?.procTestow} />
                     )}
@@ -660,8 +662,10 @@ const CzegoSzukaja = ({ wiersze, pochodne, technicznie }: {
 }) => (
   <>
     <p>
-      Nie publikujemy konkretnych adresów, o które pytano — opublikowana lista wrażliwych
-      ścieżek byłaby gotową mapą dla następnego skanera. Wystarczą typy.
+      Nie publikujemy konkretnych adresów, o które pytano u NAS — lista naszych wrażliwych
+      ścieżek byłaby gotową mapą dla następnego skanera. Tutaj wystarczą typy. Osobno,
+      w sekcji o polowaniu na jeden plik, pokazujemy nazwy, które w słownikach skanerów
+      są od lat: tam ukrywanie nikomu nie pomaga, a sprawdzenie własnej strony owszem.
     </p>
     <Tabela naglowki={technicznie ? ["Grupa", "Typ ścieżki", "Żądań", "% grupy"] : ["Grupa", "Typ ścieżki", "% grupy"]}>
       {wiersze.map((r) => (
@@ -691,6 +695,119 @@ const CzegoSzukaja = ({ wiersze, pochodne, technicznie }: {
       Stąd właściwa obrona, która nie polega na blokowaniu: skanerzy nie znaleźli niczego, bo
       pliki, o które pytali, nie istnieją. Blokowanie po nazwie bota jest bez sensu — nazwa
       jest fałszywa z definicji. Blokowanie po sieci uderza też w ruch legalny.
+    </p>
+  </>
+);
+
+// Liczby poniżej to zamknięty odczyt z okna pomiaru, nie dane na żywo — ten sam,
+// który stoi w mirrorze public/boty-ai.html. Jeśli będą aktualizowane, to w obu
+// miejscach naraz, inaczej wersja dla ludzi i wersja dla botów się rozjadą.
+const PolowanieNaEnv = () => (
+  <>
+    <p>
+      Przez cały pomiar skanery poprosiły nas o <strong>44 różne adresy zawierające{" "}
+      <code>.env</code></strong> — łącznie 197 razy. To około trzech czwartych wszystkiego,
+      czego u nas szukały. Reszta, czyli <code>.git</code>, panele administracyjne i pliki
+      konfiguracyjne, jest przy tym marginesem.
+    </p>
+    <p>
+      <strong>Ale nie szukają <code>.env</code>. Szukają jego kopii.</strong> Tylko w naszych
+      logach pojawiło się dziewiętnaście końcówek:
+    </p>
+    <p className="text-sm">
+      <code>.bak</code> · <code>.old</code> · <code>.save</code> · <code>.swp</code> ·{" "}
+      <code>.backup</code> · <code>.prod</code> · <code>.production</code> · <code>.dev</code> ·{" "}
+      <code>.development</code> · <code>.stage</code> · <code>.staging</code> ·{" "}
+      <code>.test</code> · <code>.uat</code> · <code>.ci</code> · <code>.docker</code> ·{" "}
+      <code>.live</code> · <code>.local</code> · <code>.example</code> · <code>.sample</code>
+    </p>
+    <p>
+      Do tego ten sam plik w dwudziestu czterech katalogach: <code>/api/</code>,{" "}
+      <code>/admin/</code>, <code>/app/</code>, <code>/administrator/</code>,{" "}
+      <code>/backend/</code>, <code>/public/</code>, <code>/config/</code>, <code>/wp/</code>{" "}
+      i tak dalej.
+    </p>
+    <p>
+      Nikt nie liczy, że wgrałeś hasła na serwer. Liczą, że{" "}
+      <strong>zrobiłeś kopię przed zmianą i o niej zapomniałeś</strong>.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Warto zauważyć dwie ostatnie końcówki: <code>.example</code> i <code>.sample</code> to
+      pliki wgrywane <em>celowo</em>, jako wzór do wypełnienia. Haseł nie zawierają — ale
+      zdradzają <strong>nazwy zmiennych</strong>, czyli mówią czytającemu, czego szukać dalej.
+    </p>
+
+    <h3 className="font-semibold pt-2">Czy pomaga nazwanie pliku inaczej?</h3>
+    <p>
+      Sprawdziliśmy w danych, bo pytanie jest naturalne. Forma bez kropki —{" "}
+      <code>.envStary</code>, <code>.envKopia</code> —{" "}
+      <strong>nie pojawiła się w naszych logach ani razu</strong>. Jedyny wariant bez kropki,
+      o który ktokolwiek pytał, to <code>.env~</code>, czyli plik zapasowy zostawiany
+      automatycznie przez edytory tekstu.
+    </p>
+    <p>
+      Czyli tak: nietypowa nazwa faktycznie omija dzisiejsze słowniki.{" "}
+      <strong>Tylko że to jest ukrywanie, nie zabezpieczanie</strong> — i przestaje działać
+      w trzech sytuacjach, z których żadna nie zależy od nazwy:
+    </p>
+    <ul className="list-disc pl-5 space-y-1">
+      <li>
+        <strong>Słowniki rosną.</strong> <code>.env~</code> już w nich jest. Dopisanie
+        kolejnych wariantów to kwestia czasu i niczyjej decyzji.
+      </li>
+      <li>
+        <strong>Katalog daje się wylistować.</strong> Wtedy widać wszystkie nazwy naraz
+        i pomysłowość nie ma znaczenia.
+      </li>
+      <li>
+        <strong>Wyszedł katalog <code>.git</code>.</strong> To u nas <em>najczęściej</em>{" "}
+        odpytywany adres w ogóle. Z niego odtwarza się każdą nazwę pliku, jaka kiedykolwiek
+        trafiła do zapisu — a często i jej zawartość, także skasowaną.
+      </li>
+    </ul>
+
+    <h3 className="font-semibold pt-2">Co naprawdę chroni, od najmocniejszego</h3>
+    <ol className="list-decimal pl-5 space-y-1">
+      <li>
+        <strong>Sekret w ogóle nie leży w pliku.</strong> Klucze serwera trzymamy w sekretach
+        hostingu, nie w repozytorium. Czego nie ma, tego nie znajdzie żaden skaner.
+      </li>
+      <li>
+        <strong>Plik nigdy nie trafia do katalogu publicznego.</strong> Nasz <code>.env</code>{" "}
+        leży w katalogu głównym projektu, a na serwer idzie wyłącznie zawartość{" "}
+        <code>public/</code>. To zabezpieczenie wynika ze struktury, nie z czyjejś czujności.
+      </li>
+      <li>
+        <strong>Serwer odmawia wszystkim adresom zaczynającym się od kropki.</strong> Druga,
+        niezależna warstwa: nawet gdyby taki plik przypadkiem znalazł się wśród publicznych,
+        serwer i tak odpowie „nie znaleziono".
+      </li>
+      <li>
+        <strong>I dopiero na końcu — nietypowa nazwa.</strong> Ma sens tam, gdzie pierwszych
+        trzech rzeczy zrobić się nie da: na współdzielonym hostingu bez dostępu do
+        konfiguracji. Jako jedyne zabezpieczenie jest słaba; jako czwarta w kolejności —
+        nie szkodzi.
+      </li>
+    </ol>
+
+    <h3 className="font-semibold pt-2">Jak sprawdzić u siebie w pół minuty</h3>
+    <p>
+      Wpisz w przeglądarce swój adres z dopiskiem <code>/.env</code>, a potem{" "}
+      <code>/.git/config</code>. <strong>Powinieneś zobaczyć stronę „nie znaleziono".</strong>{" "}
+      Jeśli zobaczysz cokolwiek innego — zwłaszcza tekst z wielkimi literami i znakami
+      równości — masz problem do naprawienia dzisiaj, a nie w wolnej chwili.
+    </p>
+    <p>
+      Potem to samo z końcówkami z listy wyżej, zaczynając od <code>.env.bak</code> i{" "}
+      <code>.env.old</code>. Na koniec sprawdź, czy serwer nie wyświetla zawartości katalogów
+      — wpisz adres samego katalogu, na przykład <code>/config/</code>.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Te nazwy publikujemy świadomie. Wszystkie są w słownikach skanerów od lat — pokazanie
+      ich nie uczy nikogo niczego nowego, za to pozwala sprawdzić własną stronę. Milczenie
+      zostawiałoby tę wiedzę wyłącznie tym, którzy z niej korzystają. Nadal jednak nie
+      pokazujemy <em>naszych</em> ścieżek: w tabelach wyżej są wyłącznie typy, a tutaj —
+      wyłącznie adresy, które dostały u nas błąd.
     </p>
   </>
 );
