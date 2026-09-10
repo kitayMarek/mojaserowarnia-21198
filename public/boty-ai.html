@@ -473,6 +473,49 @@
 
 <p>To jest zarazem najmocniejszy argument za tym, żeby takich pomiarów było więcej. Jeden pomiar z jednej domeny mówi o tej domenie. Dwa niezależne, zgodne co do mechanizmu i rozbieżne co do skali, mówią już coś o zjawisku — i pokazują, od czego ta skala zależy.</p>
 
+<h2>Trzy czwarte ruchu skanerów to polowanie na jeden plik</h2>
+
+<p>Przez cały pomiar skanery poprosiły nas o <strong>44 różne adresy zawierające <code>.env</code></strong> — łącznie 197 razy. To około trzech czwartych wszystkiego, czego u nas szukały. Reszta, czyli <code>.git</code>, panele administracyjne i pliki konfiguracyjne, jest w porównaniu z tym marginesem.</p>
+
+<p><strong>Ale nie szukają <code>.env</code>. Szukają jego kopii.</strong> Tylko w naszych logach pojawiło się dziewiętnaście końcówek:</p>
+
+<p><code>.bak</code> · <code>.old</code> · <code>.save</code> · <code>.swp</code> · <code>.backup</code> · <code>.prod</code> · <code>.production</code> · <code>.dev</code> · <code>.development</code> · <code>.stage</code> · <code>.staging</code> · <code>.test</code> · <code>.uat</code> · <code>.ci</code> · <code>.docker</code> · <code>.live</code> · <code>.local</code> · <code>.example</code> · <code>.sample</code></p>
+
+<p>Do tego ten sam plik w dwudziestu czterech katalogach: <code>/api/</code>, <code>/admin/</code>, <code>/app/</code>, <code>/administrator/</code>, <code>/backend/</code>, <code>/public/</code>, <code>/config/</code>, <code>/wp/</code> i tak dalej.</p>
+
+<p>Nikt nie liczy, że wgrałeś hasła na serwer. Liczą, że <strong>zrobiłeś kopię przed zmianą i o niej zapomniałeś</strong>.</p>
+
+<p>Warto zauważyć dwie ostatnie końcówki: <code>.example</code> i <code>.sample</code> to pliki, które ludzie wgrywają <em>celowo</em>, jako wzór do wypełnienia. Same haseł nie zawierają — ale zdradzają <strong>nazwy zmiennych</strong>, czyli mówią czytającemu, czego szukać dalej.</p>
+
+<h3>Czy pomaga nazwanie pliku inaczej?</h3>
+
+<p>Sprawdziliśmy to w danych, bo pytanie jest naturalne. Forma bez kropki — <code>.envStary</code>, <code>.envKopia</code> — <strong>nie pojawiła się w naszych logach ani razu</strong>. Jedyny wariant bez kropki, o który ktokolwiek pytał, to <code>.env~</code>, czyli plik zapasowy zostawiany automatycznie przez edytory tekstu.</p>
+
+<p>Czyli tak: nietypowa nazwa faktycznie omija dzisiejsze słowniki. <strong>Tylko że to jest ukrywanie, nie zabezpieczanie</strong>, i przestaje działać w trzech sytuacjach, z których żadna nie zależy od nazwy:</p>
+
+<ul>
+  <li><strong>Słowniki rosną.</strong> <code>.env~</code> już w nich jest. Dopisanie kolejnych wariantów to kwestia czasu i niczyjej decyzji.</li>
+  <li><strong>Katalog daje się wylistować.</strong> Wtedy widać wszystkie nazwy naraz i pomysłowość nie ma znaczenia.</li>
+  <li><strong>Wyszedł katalog <code>.git</code>.</strong> To u nas <em>najczęściej</em> odpytywany adres w ogóle. Z niego odtwarza się każdą nazwę pliku, jaka kiedykolwiek trafiła do zapisu — a często i jej zawartość, także skasowaną.</li>
+</ul>
+
+<h3>Co naprawdę chroni, w kolejności od najmocniejszego</h3>
+
+<ol>
+  <li><strong>Sekret w ogóle nie leży w pliku.</strong> Klucze serwera trzymamy w sekretach hostingu, nie w repozytorium. Czego nie ma, tego nie znajdzie żaden skaner.</li>
+  <li><strong>Plik nigdy nie trafia do katalogu publicznego.</strong> Nasz <code>.env</code> leży w katalogu głównego projektu, a na serwer idzie wyłącznie zawartość <code>public/</code>. To zabezpieczenie wynika ze struktury, nie z czyjejś czujności.</li>
+  <li><strong>Serwer odmawia wszystkim adresom zaczynającym się od kropki.</strong> Druga, niezależna warstwa: nawet gdyby taki plik przypadkiem znalazł się wśród publicznych, serwer i tak odpowie „nie znaleziono".</li>
+  <li><strong>I dopiero na końcu — nietypowa nazwa.</strong> Ma sens tam, gdzie pierwszych trzech rzeczy zrobić się nie da: na współdzielonym hostingu bez dostępu do konfiguracji. Jako jedyne zabezpieczenie jest słabe; jako czwarte w kolejności — nie szkodzi.</li>
+</ol>
+
+<h3>Jak sprawdzić u siebie w pół minuty</h3>
+
+<p>Wpisz w przeglądarce swój adres z dopiskiem <code>/.env</code>, a potem <code>/.git/config</code>. <strong>Powinieneś zobaczyć stronę „nie znaleziono".</strong> Jeśli zobaczysz cokolwiek innego — zwłaszcza tekst z wielkimi literami i znakami równości — masz problem do naprawienia dzisiaj, a nie w wolnej chwili.</p>
+
+<p>Potem to samo z końcówkami z listy wyżej, zaczynając od <code>.env.bak</code> i <code>.env.old</code>. I na koniec sprawdź, czy Twój serwer nie wyświetla zawartości katalogów — wpisz adres samego katalogu, na przykład <code>/config/</code>.</p>
+
+<p class="uwaga">Publikujemy te nazwy świadomie. Wszystkie są w słownikach skanerów od lat — pokazanie ich nie uczy nikogo niczego nowego, za to pozwala sprawdzić własną stronę. Milczenie zostawiałoby tę wiedzę wyłącznie tym, którzy z niej korzystają. W tabeli wyżej pokazujemy <strong>wyłącznie adresy, które dostały u nas błąd</strong> — takich plików tu nie ma i nigdy nie pokażemy adresu, który cokolwiek oddał.</p>
+
 <h2>Jak to jest liczone</h2>
 
 <p>Każde żądanie bota zapisujemy razem z wynikiem próby rozstrzygnięcia jego tożsamości. Metody, w kolejności pewności:</p>
