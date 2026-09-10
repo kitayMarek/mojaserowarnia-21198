@@ -463,6 +463,10 @@ const RAPORTY = {
   // 400+, czyli takie, ktorych u nas nie ma, i nigdy sciezki-pulapki —
   // warunki siedza w samej funkcji SQL, nie tutaj.
   czego_szukaja: 'pub_raport_czego_szukaja',
+  // Skad ludzie przychodza. Funkcja stala w bazie od 8 wrzesnia i zbierala dane,
+  // ale nikt jej nie podpial do odczytu - przez dwa dni mierzylismy do szuflady.
+  // Zwraca wylacznie agregaty: zrodlo, liczba przyjsc, najczestsza strona.
+  przyjscia: 'pub_raport_przyjscia',
 };
 
 const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
