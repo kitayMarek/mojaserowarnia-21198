@@ -12,7 +12,8 @@
     "test:boty": "node scripts/test-wizyty-botow.mjs",
     "deploy": "node scripts/wdroz.mjs",
     "prepare": "git config core.hooksPath .githooks || exit 0",
-    "spis": "node scripts/spis.mjs"
+    "spis": "node scripts/spis.mjs",
+    "typy": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

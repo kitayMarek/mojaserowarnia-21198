@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
@@ -211,6 +212,23 @@ const BotyAi = () => {
           Branża sprzedaje raporty widoczności w AI liczone z nagłówka, którego nikt nie
           sprawdza. Ten nagłówek nazywa się <strong>User-Agent</strong> i jest deklaracją,
           nie tożsamością — wpisać można w niego cokolwiek.
+        </p>
+
+        {/* PO CO TU JESTES. Dopisane 11 wrzesnia 2026 po pomiarze: ta strona
+            przyprowadza 35% uzytkownikow calego serwisu i trzyma ich 44 sekundy,
+            a reszta serwisu w tym samym tygodniu spadla o 28%. Ludzie przychodza
+            po temat botow i nie maja powodu isc dalej, bo strona nie mowi, gdzie
+            sa. Marek: ma byc na GORZE, nie na dole — kto wychodzi po czterdziestu
+            sekundach, do stopki nie dojdzie. */}
+        <p className="text-base leading-relaxed mb-8 text-muted-foreground">
+          Ta strona jest częścią portalu o serowarstwie domowym, a licznik powstał
+          z praktycznego powodu: chcieliśmy sprawdzić, czy modele językowe czytają nasze
+          przepisy i bazę kultur. Odpowiedź o botach wyszła ciekawsza, niż zakładaliśmy,
+          i została tutaj. Reszta serwisu to{" "}
+          <Link to="/baza-kultur" className="underline">baza 188 kultur bakteryjnych</Link>{" "}
+          z polskich sklepów, przeliczona na koszt litra mleka,{" "}
+          <Link to="/przepisy" className="underline">przepisy na sery</Link> krok po kroku i{" "}
+          <Link to="/prawo/rhd" className="underline">prawo RHD i MOL</Link> dla małych gospodarstw.
         </p>
 
         {/* ---------------- MODUŁ 1: zgadywanka i liczba ---------------- */}
