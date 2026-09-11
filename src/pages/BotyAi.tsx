@@ -1044,15 +1044,25 @@ const NiezaleznePomiary = () => (
     </p>
 
     <p>
-      <strong>Podszywki — trzy liczby i trzy mianowniki.</strong> 1% u niego, 3% u Jakuba
-      Sawy, 49% u nas. Żadna nie zaprzecza pozostałym, bo każda odpowiada na inne pytanie.
-      My liczymy, ile spośród żądań <em>podających się</em> za GPTBota kłamie: 46 z 94.
-      On liczy, ile spośród całego ruchu spoza puli OpenAI udaje GPTBota. Im większy ruch
-      autentyczny, tym bardziej podszywki się w nim topią — a portal o serowarstwie jest
-      w tej skali punktem, nie krzywą.
+      <strong>Podszywki: to samo pytanie, trzy bardzo różne odpowiedzi.</strong> 1,1%
+      u niego, 3% u Jakuba Sawy, 49% u nas, i we wszystkich trzech przypadkach liczone
+      jest to samo: ile spośród żądań <em>podających się</em> za GPTBota nie przyszło
+      z sieci OpenAI. Różnica nie bierze się z definicji, tylko z tego, ile prawdziwego
+      GPTBota trafia na daną stronę. Skanery pukają do wszystkich mniej więcej tak samo,
+      a prawdziwy crawler odwiedza duże serwisy nieporównanie częściej niż portal
+      o serowarstwie. Im więcej ruchu autentycznego w mianowniku, tym bardziej podszywki
+      się w nim topią.
     </p>
 
-    <h3 className="font-semibold pt-2">Czego żaden z tych pomiarów jeszcze nie sprawdził</h3>
+    <p className="text-sm text-muted-foreground">
+      <strong>Sprostowanie z 11 września 2026.</strong> W pierwszej wersji tego akapitu
+      pisaliśmy, że te trzy liczby odpowiadają na różne pytania, bo każdy liczy inny
+      mianownik. To było nasze wyjaśnienie, a nie ustalenie, i okazało się fałszywe:
+      Krzysztof Balicki sprostował, że jego procent był liczony dokładnie tak jak nasz.
+      Wniosek o topieniu się podszywek w dużym ruchu zostaje, ale bez tamtego uzasadnienia.
+    </p>
+
+    <h3 className="font-semibold pt-2">Kogo udają fałszerze</h3>
     <p>
       Zestawiając nasze liczby z jego, zauważyliśmy coś, czego sami wcześniej nie
       widzieliśmy: <strong>podszywki nie idą za wielkością bota, tylko za tym, kogo
@@ -1081,9 +1091,15 @@ const NiezaleznePomiary = () => (
       dobrego bota AI". ClaudeBot ma u nas trzy prawdziwe żądania na sześćdziesiąt pięć.
     </p>
     <p className="text-sm text-muted-foreground">
-      <strong>To jest teza, nie wynik.</strong> Sześćdziesiąt pięć żądań to za mało, żeby
-      cokolwiek twierdzić — u kogoś z setkami tysięcy żądań da się to rozstrzygnąć w jeden
-      wieczór. Jeśli ktoś to sprawdzi, chętnie dopiszemy wynik, także gdyby tezę obalił.
+      <strong>Obiecaliśmy dopisać wynik, jeśli ktoś to sprawdzi. Sprawdził.</strong>{" "}
+      Sześćdziesiąt pięć żądań to było za mało, żeby cokolwiek twierdzić, więc Krzysztof
+      Balicki policzył to na swoich danych z 1–11 września, każdą nazwę według
+      oficjalnej listy adresów jej właściciela (dla Mety: sieć AS32934). Wynik: pod
+      GPTBota, ClaudeBota i OAI-SearchBota podszywa się u niego po około 4 tysiące żądań,
+      pod Meta-ExternalAgent 1,9 tysiąca, <strong>choć prawdziwego ruchu Mety jest prawie
+      pięć razy więcej</strong>. Gdyby podszywki szły za wielkością bota, Meta byłaby
+      udawana najczęściej. Jest udawana najrzadziej. W jego sformułowaniu, lepszym
+      niż nasze: fałszerze wybierają nazwę, nie wielkość bota.
     </p>
   </>
 );
