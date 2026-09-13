@@ -1,0 +1,7 @@
+Fonty w tym katalogu pochodzą z Google Fonts i są udostępnione na licencji
+SIL Open Font License, wersja 1.1: https://openfontlicense.org
+
+Lato                  autor: Łukasz Dziedzic (tyPoland)
+Libre Caslon Display  autor: Pablo Impallari (Impallari Type)
+
+Pliki są niezmienione, ograniczone do zestawów znaków latin i latin-ext.

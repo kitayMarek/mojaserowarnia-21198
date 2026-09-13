@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,10 +36,26 @@ const TRESC_ZGODY =
   "o nowych funkcjach i aktualizacjach systemu, na podany adres email. Zgoda jest " +
   "dobrowolna i można ją wycofać w każdej chwili.";
 
+/**
+ * Dokad wolno wrocic po zalogowaniu. Zamknieta lista, a nie dowolny adres z paska:
+ * parametr `next` przychodzi z adresu, wiec bez listy dalby sie uzyc do odeslania
+ * czlowieka po zalogowaniu na obca strone.
+ */
+const DOZWOLONE_POWROTY = new Set(["/kalkulator-pasz"]);
+
 export default function Auth() {
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const [loading, setLoading] = useState(false);
+
+  // WEJSCIE Z KALKULATORA PASZ (13.09.2026). Kto chce tylko zapisac mieszanke, nie
+  // powinien trafiac do "Systemu Ewidencji RHD": inny naglowek, rejestracja bez firmy
+  // i NIP-u, powrot do kalkulatora zamiast pulpitu z limitem przychodu.
+  const zKalkulatora = params.get("cel") === "kalkulator";
+  const next = params.get("next");
+  const powrot = next && DOZWOLONE_POWROTY.has(next) ? next : null;
+  const poZalogowaniu = powrot ?? "/dashboard";
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
@@ -56,7 +73,7 @@ export default function Auth() {
 
   // Redirect if already logged in
   if (user) {
-    navigate("/dashboard");
+    navigate(poZalogowaniu);
     return null;
   }
 
@@ -67,6 +84,9 @@ export default function Auth() {
   //
   // Link z maila loguje uzytkownika sesja odzyskiwania i odsyla do ustawien,
   // gdzie stoi gotowy formularz zmiany hasla.
+  //
+  // Do 13.09.2026 w tym pliku brakowalo importu `supabase`, wiec klikniecie
+  // "Nie pamietam hasla" konczylo sie bledem w przegladarce zamiast wysylka maila.
   const handleReset = async () => {
     if (!loginEmail) {
       toast({
@@ -94,17 +114,17 @@ export default function Auth() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       loginSchema.parse({ email: loginEmail, password: loginPassword });
-      
+
       setLoading(true);
       const { error } = await signIn(loginEmail, loginPassword);
-      
+
       if (error) {
         toast({
           title: "Błąd logowania",
-          description: error.message === "Invalid login credentials" 
+          description: error.message === "Invalid login credentials"
             ? "Nieprawidłowy email lub hasło"
             : error.message,
           variant: "destructive",
@@ -112,9 +132,9 @@ export default function Auth() {
       } else {
         toast({
           title: "Zalogowano pomyślnie",
-          description: "Witamy w systemie ewidencji RHD",
+          description: zKalkulatora ? "Wracasz do kalkulatora pasz." : "Witamy w systemie ewidencji RHD",
         });
-        navigate("/dashboard");
+        navigate(poZalogowaniu);
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -131,7 +151,7 @@ export default function Auth() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       registerSchema.parse({
         email: registerEmail,
@@ -141,7 +161,7 @@ export default function Auth() {
         adres,
         telefon,
       });
-      
+
       setLoading(true);
       const { error } = await signUp(registerEmail, registerPassword, {
         firma_nazwa: firmaNazwa || undefined,
@@ -154,8 +174,9 @@ export default function Auth() {
         // zapisani wczesniej. Konta sprzed 8 wrzesnia 2026 maja tu NULL
         // i tak zostanie - nie zgadujemy wstecz.
         marketing_consent_tresc: marketingConsent ? TRESC_ZGODY : undefined,
-      });
-      
+        cel: zKalkulatora ? "kalkulator" : undefined,
+      }, powrot ?? undefined);
+
       if (error) {
         toast({
           title: "Błąd rejestracji",
@@ -163,6 +184,14 @@ export default function Auth() {
             ? "Użytkownik o tym adresie email już istnieje"
             : error.message,
           variant: "destructive",
+        });
+      } else if (zKalkulatora) {
+        // Bez przekierowania: przy potwierdzaniu adresu nie ma jeszcze sesji, a powrot
+        // do kalkulatora zuzylby szkic mieszanki, zanim czlowiek kliknie link z maila.
+        // Jesli sesja jest od razu, przekierowanie wyzej (if user) zrobi swoje.
+        toast({
+          title: "Konto utworzone",
+          description: "Jeśli przyszedł mail z linkiem, potwierdź adres. Link zaprowadzi Cię z powrotem do kalkulatora.",
         });
       } else {
         toast({
@@ -184,41 +213,52 @@ export default function Auth() {
     }
   };
 
+  /* Komunikat po przeniesieniu bazy na wlasny projekt Supabase (31.08.2026).
+     Zamiast rozsylac maile do 24 osob, informacja stoi tam, gdzie problem
+     sie objawia - przy probie zalogowania. Do usuniecia, gdy wszyscy
+     ustawia nowe haslo (orientacyjnie: pazdziernik 2026). */
+  const komunikatOHasle = (
+    <div className="mb-5 border-l-4 border-primary bg-secondary p-4 text-sm leading-relaxed text-foreground">
+      <p className="font-semibold mb-1.5">Stare hasło nie zadziała — trzeba ustawić nowe</p>
+      <p className="mb-2 text-muted-foreground">
+        Przenieśliśmy serwis na własną bazę danych. Wszystkie dane są na miejscu:
+        ewidencja RHD, faktury, listy kultur i konta. Ze względów bezpieczeństwa
+        haseł nie da się przenieść — trzeba je ustawić raz na nowo.
+      </p>
+      <p className="text-muted-foreground">
+        Wpisz swój adres e-mail w polu poniżej i kliknij{" "}
+        <strong className="text-foreground">„Nie pamiętam hasła"</strong>. Wyślemy link
+        do ustawienia nowego. Jeśli wiadomość nie dotrze w kilka minut, sprawdź folder ze spamem.
+      </p>
+    </div>
+  );
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">System Ewidencji RHD</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            {zKalkulatora ? "Zapisz swoją mieszankę paszową" : "System Ewidencji RHD"}
+          </CardTitle>
           <CardDescription className="text-center">
-            Zarządzaj sprzedażą i rachunkami w ramach Rolniczego Handlu Detalicznego
+            {zKalkulatora
+              ? "Darmowe konto: e-mail i hasło. Mieszanki wczytasz przy następnym zamówieniu surowców. Ewidencja RHD nie jest do tego potrzebna."
+              : "Zarządzaj sprzedażą i rachunkami w ramach Rolniczego Handlu Detalicznego"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="login">
+          <Tabs defaultValue={zKalkulatora ? "register" : "login"}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Logowanie</TabsTrigger>
               <TabsTrigger value="register">Rejestracja</TabsTrigger>
             </TabsList>
 
-            {/* Komunikat po przeniesieniu bazy na wlasny projekt Supabase (31.08.2026).
-                Zamiast rozsylac maile do 24 osob, informacja stoi tam, gdzie problem
-                sie objawia - przy probie zalogowania. Do usuniecia, gdy wszyscy
-                ustawia nowe haslo (orientacyjnie: pazdziernik 2026). */}
-            <div className="mb-5 border-l-4 border-primary bg-secondary p-4 text-sm leading-relaxed text-foreground">
-              <p className="font-semibold mb-1.5">Stare hasło nie zadziała — trzeba ustawić nowe</p>
-              <p className="mb-2 text-muted-foreground">
-                Przenieśliśmy serwis na własną bazę danych. Wszystkie dane są na miejscu:
-                ewidencja RHD, faktury, listy kultur i konta. Ze względów bezpieczeństwa
-                haseł nie da się przenieść — trzeba je ustawić raz na nowo.
-              </p>
-              <p className="text-muted-foreground">
-                Wpisz swój adres e-mail w polu poniżej i kliknij{" "}
-                <strong className="text-foreground">„Nie pamiętam hasła"</strong>. Wyślemy link
-                do ustawienia nowego. Jeśli wiadomość nie dotrze w kilka minut, sprawdź folder ze spamem.
-              </p>
-            </div>
+            {/* Przy wejsciu z kalkulatora komunikat stoi tylko przy logowaniu: nowe konto
+                nie ma starego hasla, a przed formularzem rejestracji tylko by mylil. */}
+            {!zKalkulatora && komunikatOHasle}
 
             <TabsContent value="login">
+              {zKalkulatora && komunikatOHasle}
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="login-email">Email</Label>
@@ -279,46 +319,51 @@ export default function Auth() {
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="firma-nazwa">Nazwa firmy / Imię i nazwisko</Label>
-                  <Input
-                    id="firma-nazwa"
-                    type="text"
-                    placeholder="Opcjonalne"
-                    value={firmaNazwa}
-                    onChange={(e) => setFirmaNazwa(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="nip">NIP</Label>
-                  <Input
-                    id="nip"
-                    type="text"
-                    placeholder="Opcjonalne"
-                    value={nip}
-                    onChange={(e) => setNip(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="adres">Adres</Label>
-                  <Input
-                    id="adres"
-                    type="text"
-                    placeholder="Opcjonalne"
-                    value={adres}
-                    onChange={(e) => setAdres(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="telefon">Telefon</Label>
-                  <Input
-                    id="telefon"
-                    type="tel"
-                    placeholder="Opcjonalne"
-                    value={telefon}
-                    onChange={(e) => setTelefon(e.target.value)}
-                  />
-                </div>
+                {/* Dane firmy sa potrzebne do ewidencji i faktur, a nie do zapisania paszy. */}
+                {!zKalkulatora && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="firma-nazwa">Nazwa firmy / Imię i nazwisko</Label>
+                      <Input
+                        id="firma-nazwa"
+                        type="text"
+                        placeholder="Opcjonalne"
+                        value={firmaNazwa}
+                        onChange={(e) => setFirmaNazwa(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="nip">NIP</Label>
+                      <Input
+                        id="nip"
+                        type="text"
+                        placeholder="Opcjonalne"
+                        value={nip}
+                        onChange={(e) => setNip(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="adres">Adres</Label>
+                      <Input
+                        id="adres"
+                        type="text"
+                        placeholder="Opcjonalne"
+                        value={adres}
+                        onChange={(e) => setAdres(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="telefon">Telefon</Label>
+                      <Input
+                        id="telefon"
+                        type="tel"
+                        placeholder="Opcjonalne"
+                        value={telefon}
+                        onChange={(e) => setTelefon(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="flex items-start space-x-2 pt-2">
                   <Checkbox
                     id="marketing-consent"

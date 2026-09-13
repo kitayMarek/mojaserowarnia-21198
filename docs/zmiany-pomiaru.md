@@ -15,6 +15,7 @@ któraś z tych dat.** Jeśli leży, różnica może być zmianą pomiaru, a nie
 | 13.09.2026, 21:49 | GA wyłącznie za zgodą (tryb podstawowy Consent Mode) i wyłącznie na mojaserowarnia.pl. Wcześniej skrypt ładował się przed zgodą, a przycisk „Odrzuć” nie działał | **GA liczy tylko osoby, które się zgodziły.** Spadek użytkowników i odsłon po tej dacie to zmiana pomiaru. Serwerowy licznik przyjść (raport „Skąd przychodzą”) nie używa ciasteczek i nie zależy od zgody |
 | 13.09.2026, 21:49 | Nowe zdarzenia `mieszanka_zapisana` (kalkulator drobiu, po udanym zapisie) i `mieszanka_eksport` (drób: CSV, TXT; bydło: CSV, PDF) | Liczą się od zera i tylko od osób ze zgodą. Zapisane mieszanki są też w bazie (`feed_recipes`), niezależnie od zgody |
 | 13.09.2026, 21:49 | `/przepisy/gruyere`: tytuł i opis pod zapytania informacyjne zamiast przepisu | CTR oceniać po ponownym zaindeksowaniu, razem z pozycją i strukturą zapytań |
+| 13.09.2026, 22:31 | Kalkulator pasz: widoczna informacja o zapisie mieszanki dla niezalogowanych. Logowanie z kalkulatora bez ewidencji RHD: rejestracja tylko e-mail i hasło, powrót do kalkulatora, ułożona mieszanka wraca sama. Konta z tej ścieżki mają `cel=kalkulator` w metadanych | **Punkt odniesienia** do oceny, czy informacja coś zmienia: liczba zapisanych mieszanek (tabela `feed_recipes`) i kont z `cel=kalkulator`, tygodnie przed i po tej dacie. Ograniczenia dla niezalogowanych odłożone do czasu tej oceny |
 
 Weryfikacja po wdrożeniu 13.09.2026 około 21:50: jedno testowe wejście ze zgodą
 na `/nota-prawna`.

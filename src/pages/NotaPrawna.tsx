@@ -158,6 +158,7 @@ const NotaPrawna = () => {
                 <li>sesja logowania, jeśli masz konto,</li>
                 <li>informacja, że komunikat o charakterze treści był już wyświetlony,</li>
                 <li>dane producenta w generatorze etykiety RHD i dane rolnika w fakturze VAT RR, żeby nie trzeba było wpisywać ich ponownie,</li>
+                <li>szkic mieszanki z kalkulatora pasz, jeśli przed jej zapisem klikniesz logowanie. Kasujemy go, gdy tylko wczytamy go z powrotem,</li>
                 <li>wybrany motyw, jasny albo ciemny.</li>
               </ul>
               <p>Decyzję możesz zmienić w każdej chwili. Po kliknięciu baner pojawi się ponownie.</p>

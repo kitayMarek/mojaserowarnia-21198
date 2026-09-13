@@ -14,6 +14,12 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Fonty mają wersję kroju w nazwie pliku (lato-v25-...), więc nowa wersja to nowy
+# adres i mogą leżeć w cache na zawsze, tak jak /assets. Arkusz fonty.css nie ma
+# wersji w nazwie, dlatego jego ten wpis nie obejmuje.
+/fonts/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
 # --- Publiczne kontrakty integracyjne -------------------------------------
 # charset=utf-8 wymuszony jawnie: pliki mają polskie znaki, a przy nosniff
 # brak charsetu grozi błędnym dekodowaniem (llms.txt to 157 linii z ogonkami).

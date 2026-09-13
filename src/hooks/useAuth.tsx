@@ -8,7 +8,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, profileData?: ProfileData) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, profileData?: ProfileData, powrot?: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
@@ -23,6 +23,10 @@ interface ProfileData {
    *  razem z samym "tak", bo gdy tekst kiedys sie zmieni, samo "tak" niczego
    *  nie dowodzi. Zrodlo: TRESC_ZGODY w src/pages/Auth.tsx. */
   marketing_consent_tresc?: string;
+  /** Skad przyszla rejestracja, np. "kalkulator". Wyzwalacz profilu tego pola nie
+   *  czyta; zostaje w raw_user_meta_data, zeby dalo sie policzyc konta zalozone
+   *  tylko po to, zeby zapisac mieszanke pasz (od 13.09.2026). */
+  cel?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,9 +57,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, profileData?: ProfileData) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
+  // `powrot` to sciezka w serwisie, na ktora ma zaprowadzic link potwierdzajacy adres.
+  // Bez niego link prowadzi na strone glowna, jak dotad.
+  const signUp = async (email: string, password: string, profileData?: ProfileData, powrot?: string) => {
+    const redirectUrl = `${window.location.origin}${powrot ?? "/"}`;
+
     // Dane profilu ida w options.data, czyli do raw_user_meta_data na serwerze.
     // Stamtad odbiera je wyzwalacz handle_new_user_profile i tworzy profil.
     //
@@ -81,6 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           telefon: profileData?.telefon ?? null,
           marketing_consent: profileData?.marketing_consent ?? false,
           marketing_consent_tresc: profileData?.marketing_consent_tresc ?? null,
+          cel: profileData?.cel ?? null,
         },
       },
     });

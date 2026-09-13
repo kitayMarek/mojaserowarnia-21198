@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
 import PelnySklad from '@/components/kalkulator/PelnySklad';
-import ZapisaneReceptury from '@/components/kalkulator/ZapisaneReceptury';
+import ZapisaneReceptury, { PodpowiedzZapisu } from '@/components/kalkulator/ZapisaneReceptury';
 import { zdarzenieMieszankaEksport } from '@/lib/zdarzeniaGa4';
 import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
 import Navigation from "@/components/Navigation";
@@ -942,6 +942,7 @@ const KalkulatorPasz = () => {
           <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
             <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
               <h2 className="text-2xl font-bold text-foreground">🦅 Kalkulator Pasz dla Drobiu</h2>
+              <PodpowiedzZapisu />
             </div>
 
             {/* Panel Admina */}
