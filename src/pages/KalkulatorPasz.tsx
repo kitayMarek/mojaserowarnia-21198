@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
 import PelnySklad from '@/components/kalkulator/PelnySklad';
 import ZapisaneReceptury from '@/components/kalkulator/ZapisaneReceptury';
+import { zdarzenieMieszankaEksport } from '@/lib/zdarzeniaGa4';
 import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -228,6 +229,7 @@ const KalkulatorPasz = () => {
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
+      zdarzenieMieszankaEksport('drob', 'csv');
       setTimeout(() => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
@@ -286,6 +288,7 @@ const KalkulatorPasz = () => {
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
+      zdarzenieMieszankaEksport('drob', 'txt');
       setTimeout(() => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
@@ -297,13 +300,11 @@ const KalkulatorPasz = () => {
     }
   };
 
+  // Do 13.09.2026 zapisywało to też localStorage 'adminSkladniki', którego nic nie
+  // odczytywało (pozostałość po "atrapie admina"). Pamięć przeglądarki bez celu wyleciała
+  // przy porządkowaniu zgód.
   const zapiszSkladniki = (noweSkladniki: PrzykladowySkladnik[]) => {
     setPrzykladoweSkladniki(noweSkladniki);
-    try {
-      localStorage.setItem('adminSkladniki', JSON.stringify(noweSkladniki));
-    } catch (e) {
-      console.error('Błąd zapisywania składników:', e);
-    }
   };
 
   const wczytajRecepture = (mieszanka: ZapisanaMieszanka) => {
@@ -2090,7 +2091,8 @@ const KalkulatorPasz = () => {
             <div className="flex gap-3 mt-4">
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(eksportTresc);
+                  navigator.clipboard.writeText(eksportTresc)
+                    .then(() => zdarzenieMieszankaEksport('drob', eksportTyp));
                   alert('Skopiowano do schowka!');
                 }}
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"

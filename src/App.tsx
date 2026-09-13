@@ -229,7 +229,7 @@ const App = () => (
         {/* Cookie Consent Banner - RODO/GDPR Compliance */}
         <CookieConsent
           location="bottom"
-          buttonText="Akceptuję wszystkie"
+          buttonText="Akceptuję"
           declineButtonText="Odrzuć"
           enableDeclineButton
           cookieName="moja-serowarnia-consent"
@@ -260,26 +260,18 @@ const App = () => (
           }}
           expires={365}
           onAccept={() => {
-            // Włącz Google Analytics tracking
-            if ((window as any).gtag) {
-              (window as any).gtag('consent', 'update', {
-                analytics_storage: 'granted'
-              });
-            }
-            console.log('[Cookie Consent] Użytkownik zaakceptował cookies');
+            // Obie funkcje są w index.html, bo tam zapada decyzja, czy skrypt Google
+            // w ogóle się ładuje. Do 13.09.2026 "Odrzuć" nie robiło nic.
+            (window as any).wlaczAnalityke?.();
           }}
           onDecline={() => {
-            // Wyłącz Google Analytics tracking
-            if ((window as any)['ga-disable-G-XR997KZQKB']) {
-              (window as any)['ga-disable-G-XR997KZQKB'] = true;
-            }
-            console.log('[Cookie Consent] Użytkownik odrzucił cookies');
+            (window as any).wylaczAnalityke?.();
           }}
         >
           <div className="text-sm text-white">
-            Strona używa plików cookie (m.in. Google Analytics). Treści mają charakter informacyjny — weryfikuj dane u producenta.{" "}
+            Za Twoją zgodą używamy Google Analytics, żeby wiedzieć, które treści są czytane. Bez zgody nie ładujemy go wcale. Treści mają charakter informacyjny, weryfikuj dane u producenta.{" "}
             <a
-              href="/nota-prawna"
+              href="/nota-prawna#cookies"
               className="underline text-amber-400 hover:text-amber-300 transition-colors"
             >
               Nota Prawna i Polityka Cookies

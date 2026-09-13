@@ -2680,6 +2680,11 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "gruyere",
+    // Tytul i opis pod to, czego ludzie naprawde szukaja. GSC 12.06-10.09.2026:
+    // 82 zapytania o gruyere, 3986 wyswietlen, ani jedno o przepis ("gruyere",
+    // "ser gruyere", "co to za ser", "czym zastapic"). Szablon obiecywal przepis.
+    seoTitle: "Ser gruyère: co to za ser, czym zastąpić, przepis domowy",
+    seoDescription: "Gruyère to szwajcarski ser twardy AOP o orzechowym smaku. Jak smakuje z wiekiem, czym go zastąpić (Comté, Beaufort, Cezar) i jak zrobić go w domu.",
     zastosowanie: "Fondue moitié-moitié, francuska zupa cebulowa zapiekana pod serem, croque-monsieur, quiche lorraine, sos Mornay i gratin dauphinois. Topi się gładko i nie rozdziela, dlatego jest pierwszym wyborem tam, gdzie ser ma tworzyć aksamitną warstwę, a nie ciągnące się nitki.",
     encyklopedia: [
       {

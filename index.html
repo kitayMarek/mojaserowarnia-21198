@@ -1,33 +1,82 @@
 <!doctype html>
 <html lang="pl">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XR997KZQKB"></script>
+    <!-- Google Analytics: wylacznie za zgoda (tryb podstawowy Consent Mode). -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      // NIE LICZYMY PRACY NAD SERWISEM JAKO RUCHU.
-      // Serwer deweloperski chodzi na localhost, a znacznik odpalal sie tam tak
-      // samo jak na produkcji. 10 wrzesnia 2026 cztery testowe wejscia na nowe
-      // strony kultur pokazaly sie w raporcie czasu rzeczywistego obok prawdziwych
-      // ludzi — w tym adres, ktory zostal wymyslony na potrzeby testu bledu.
-      // Statystyka, ktora liczy wlasna prace, zawyza kazda decyzje opartą na niej.
-      var lokalnie = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
-                  || location.hostname.endsWith('.local');
-
-      // PANEL ADMINISTRACYJNY TO TEZ WLASNA PRACA, NIE RUCH.
-      // Zmierzone 10 wrzesnia na oknie czterech tygodni: /admin mial 120 odslon
-      // przy 3 uzytkownikach, czyli 40 ODSLON NA UZYTKOWNIKA i 4,6% ruchu calego
-      // serwisu. Przy sredniej 3,79 odslony to jest dziesieciokrotnosc — czyli
-      // liczba, ktora sama z siebie zawyza kazde zestawienie stron.
+      // DO 13 WRZESNIA 2026 skrypt Google ladowal sie przy kazdym wejsciu, zanim
+      // ktokolwiek zobaczyl baner, a "Odrzuc" nie robilo nic: warunek w App.tsx
+      // ustawial flage wylaczenia GA tylko wtedy, gdy juz istniala, czyli nigdy.
+      // Baner dawal wybor, ktory nie dzialal. Wychwycil to audyt SEO z 13 wrzesnia.
       //
-      // Wyciszamy CALE poddrzewo /admin, nie sam /admin: panel ma podstrony
-      // i to one robily wieksza czesc tych odslon.
-      var panel = /^\/admin(\/|$)/.test(location.pathname);
+      // TERAZ bez zgody skrypt Google sie nie laduje i nie powstaja ciasteczka _ga.
+      // Po zgodzie ladujemy go od razu, bez przeladowania. Przy kolejnych wizytach
+      // decyzje czytamy z ciasteczka banera (react-cookie-consent: "true"/"false").
+      //
+      // SKUTEK DLA DANYCH: od wdrozenia GA liczy tylko osoby, ktore sie zgodzily.
+      // Porownanie przez te date nie jest porownaniem ruchu. Daty zmian pomiaru:
+      // docs/zmiany-pomiaru.md.
+      (function () {
+        var ID = 'G-XR997KZQKB';
+        var zgoda = false;
+        var zaladowane = false;
 
-      if (!lokalnie && !panel) gtag('config', 'G-XR997KZQKB');
+        // gtag istnieje zawsze, zeby wywolania z kodu aplikacji nie wywracaly strony,
+        // ale do zgody niczego nie zapamietuje: zdarzenie sprzed zgody nie ma prawa
+        // wyjsc do Google po niej.
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { if (zgoda) window.dataLayer.push(arguments); };
+
+        // Lista dozwolonych hostow zamiast listy zakazanych. Do 13 wrzesnia
+        // wykluczalismy localhost, a podglady Lovable i *.workers.dev liczyly sie dalej.
+        var produkcja = location.hostname === 'mojaserowarnia.pl';
+
+        // Panel administracyjny to wlasna praca, nie ruch (10 wrzesnia: 4,6% odslon
+        // calego serwisu). Do panelu wchodzi sie pelnym przeladowaniem strony, wiec
+        // sprawdzenie przy ladowaniu obejmuje kazde wejscie.
+        var panel = /^\/admin(\/|$)/.test(location.pathname);
+
+        function usunCiasteczkaGa() {
+          document.cookie.split(';').forEach(function (c) {
+            var nazwa = c.split('=')[0].trim();
+            if (nazwa === '_ga' || nazwa.indexOf('_ga_') === 0) {
+              document.cookie = nazwa + '=; Max-Age=0; path=/';
+              document.cookie = nazwa + '=; Max-Age=0; path=/; domain=.' + location.hostname;
+            }
+          });
+        }
+
+        window.wlaczAnalityke = function () {
+          if (!produkcja || panel || zaladowane) return;
+          zgoda = true;
+          zaladowane = true;
+          window.gtag('consent', 'default', {
+            analytics_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+          });
+          window.gtag('js', new Date());
+          window.gtag('config', ID);
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+          document.head.appendChild(s);
+        };
+
+        window.wylaczAnalityke = function () {
+          if (zgoda) window.gtag('consent', 'update', { analytics_storage: 'denied' });
+          zgoda = false;
+          window['ga-disable-' + ID] = true;
+          usunCiasteczkaGa();
+        };
+
+        if (/(?:^|;\s*)moja-serowarnia-consent=true(?:;|$)/.test(document.cookie)) {
+          window.wlaczAnalityke();
+        } else {
+          // Ciasteczka _ga zalozone przed ta poprawka, bez zgody, nie maja tu czego szukac.
+          usunCiasteczkaGa();
+        }
+      })();
     </script>
     
     <meta charset="UTF-8" />
@@ -48,11 +97,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Preconnect for faster connections -->
-    <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://hsgxmbhunclhgzumafrk.supabase.co">
     
     <!-- DNS Prefetch fallback for older browsers -->
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://hsgxmbhunclhgzumafrk.supabase.co">

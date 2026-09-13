@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { zdarzenieMieszankaEksport } from "@/lib/zdarzeniaGa4";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { 
@@ -271,6 +272,7 @@ const KalkulatorPaszBydlo = () => {
     link.download = `dawka_bydlo_${typBydla}.csv`;
     link.click();
     URL.revokeObjectURL(url);
+    zdarzenieMieszankaEksport('bydlo', 'csv');
   };
 
   const eksportujPDF = () => {
@@ -426,6 +428,7 @@ const KalkulatorPaszBydlo = () => {
     // Zapisz
     const typNazwa = typBydla === "mleczne" ? "mleczne" : "miesne";
     doc.save(`bilans_dawki_bydlo_${typNazwa}_${new Date().toISOString().slice(0, 10)}.pdf`);
+    zdarzenieMieszankaEksport('bydlo', 'pdf');
     toast.success("PDF został wygenerowany");
   };
 

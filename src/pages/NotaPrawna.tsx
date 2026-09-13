@@ -6,18 +6,27 @@ import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { Info, Scale } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 
 const NotaPrawna = () => {
   useEffect(() => {
     document.title = "Nota Prawna - Moja Serowa Przystań";
-    
+
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 'Warunki korzystania z serwisu Moja Serowa Przystań. Informacje o odpowiedzialności, aktualności danych i weryfikacji informacji o kulturach bakteryjnych.');
     }
   }, []);
+
+  // Zgodę trzeba móc wycofać tak samo łatwo, jak się ją daje. Usunięcie ciasteczka
+  // banera sprawia, że po przeładowaniu baner pojawia się znowu.
+  const zmienDecyzjeCookies = () => {
+    (window as any).wylaczAnalityke?.();
+    document.cookie = "moja-serowarnia-consent=; Max-Age=0; path=/";
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-screen">
@@ -33,7 +42,7 @@ const NotaPrawna = () => {
               subtitle="Zastrzeżenia prawne, zakres odpowiedzialności i polityka plików cookie serwisu"
             />
           </div>
-          
+
           {/* TL;DR Section */}
           <TLDRSection>
             <ul className="space-y-1">
@@ -43,7 +52,7 @@ const NotaPrawna = () => {
               <li>• Dane są chronione zgodnie z <strong>RODO</strong></li>
             </ul>
           </TLDRSection>
-          
+
           <Alert className="mb-6">
             <Info className="h-4 w-4" />
             <AlertTitle>Ważne informacje o korzystaniu z serwisu</AlertTitle>
@@ -130,6 +139,34 @@ const NotaPrawna = () => {
             </CardContent>
           </Card>
 
+          <Card className="mb-6 scroll-mt-24" id="cookies">
+            <CardHeader>
+              <CardTitle>Pliki cookie i pamięć przeglądarki</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-muted-foreground">
+              <p>
+                <strong>Google Analytics działa wyłącznie za Twoją zgodą.</strong> Dopóki jej nie wyrazisz,
+                strona nie ładuje skryptu Google i nie zakłada ciasteczek analitycznych. Po zgodzie Google
+                Analytics zapisuje ciasteczka <code>_ga</code> i <code>_ga_XR997KZQKB</code>, dzięki którym
+                wiemy, które strony są czytane i jak długo. Nie używamy ich do reklam.
+              </p>
+              <p>
+                Bez pytania o zgodę zapisujemy tylko to, bez czego strona nie działa albo o co sam prosisz:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><code>moja-serowarnia-consent</code>: Twoja decyzja w sprawie ciasteczek, przechowywana przez rok,</li>
+                <li>sesja logowania, jeśli masz konto,</li>
+                <li>informacja, że komunikat o charakterze treści był już wyświetlony,</li>
+                <li>dane producenta w generatorze etykiety RHD i dane rolnika w fakturze VAT RR, żeby nie trzeba było wpisywać ich ponownie,</li>
+                <li>wybrany motyw, jasny albo ciemny.</li>
+              </ul>
+              <p>Decyzję możesz zmienić w każdej chwili. Po kliknięciu baner pojawi się ponownie.</p>
+              <Button type="button" variant="outline" onClick={zmienDecyzjeCookies}>
+                Zmień decyzję w sprawie plików cookie
+              </Button>
+            </CardContent>
+          </Card>
+
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Zgodność z RODO</CardTitle>
@@ -156,7 +193,7 @@ const NotaPrawna = () => {
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 27 października 2025</p>
+            <p>Ostatnia aktualizacja: 13 września 2026</p>
           </div>
 
           {/* See Also Section */}

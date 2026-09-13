@@ -7,9 +7,10 @@
  * miejsc, w których łatwo pomylić nazwę parametru — a nazwa parametru w GA4 jest
  * kontraktem: raz wysłana źle, psuje porównywalność danych w czasie.
  *
- * Zdarzenia MOGĄ nie dotrzeć, zanim użytkownik zaakceptuje ciasteczka (serwis ma
- * tryb zgody — patrz App.tsx). To nie jest błąd do obejścia: przed zgodą po prostu
- * nie mierzymy. Przy weryfikacji w DebugView trzeba najpierw kliknąć zgodę.
+ * ZGODA: bez zgody na ciasteczka analityczne gtag z index.html niczego nie zapamiętuje
+ * i nic nie wychodzi do Google. Tak jest od 13.09.2026; wcześniej ten komentarz
+ * twierdził to samo, a nie było to prawdą. Przy weryfikacji w DebugView trzeba
+ * najpierw kliknąć zgodę.
  */
 
 type Parametry = Record<string, string | number | boolean | undefined>;
@@ -39,4 +40,22 @@ export function zdarzeniePanelNarzedzie(
   wyslij('panel_link_narzedzie', {
     strona, pytanie_id: pytanieId, url_docelowy: urlDocelowy, czy_zewnetrzna_domena: czyZewnetrznaDomena,
   });
+}
+
+/**
+ * KALKULATORY PASZ: liczymy wynik pracy, nie klikanie.
+ *
+ * "Przelicz" i "Najtańsza mieszanka" można naciskać bez końca, więc ich liczba nie mówi,
+ * czy ktokolwiek ułożył paszę. Zapis pod nazwą i eksport do pliku to deklaracje, że
+ * mieszanka jest gotowa. Nazwa mieszanki nie idzie do GA: to tekst wpisany przez
+ * użytkownika. Oba zdarzenia wysyłamy po udanej operacji, nie przy kliknięciu.
+ */
+export function zdarzenieMieszankaZapisana(
+  kalkulator: string, rodzaj: string, okres: string, skladnikow: number,
+): void {
+  wyslij('mieszanka_zapisana', { kalkulator, rodzaj, okres, skladnikow });
+}
+
+export function zdarzenieMieszankaEksport(kalkulator: string, format: string): void {
+  wyslij('mieszanka_eksport', { kalkulator, format });
 }

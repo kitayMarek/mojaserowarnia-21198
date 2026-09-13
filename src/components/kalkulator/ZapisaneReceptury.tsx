@@ -4,6 +4,7 @@ import { BookmarkPlus, FolderOpen, LogIn, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useFeedRecipes } from "@/hooks/useFeedRecipes";
+import { zdarzenieMieszankaZapisana } from "@/lib/zdarzeniaGa4";
 import type { Skladnik, ZapisanaMieszanka } from "@/types/kalkulatorPasz";
 
 /**
@@ -51,7 +52,8 @@ export default function ZapisaneReceptury({
     );
   }
 
-  const maSklad = skladniki.some((s) => s.nazwa && parseFloat(String(s.procent)) > 0);
+  const pozycjeZUdzialem = skladniki.filter((s) => s.nazwa && parseFloat(String(s.procent)) > 0);
+  const maSklad = pozycjeZUdzialem.length > 0;
 
   return (
     <div className="mt-6 rounded-lg border border-border bg-card p-4">
@@ -73,7 +75,10 @@ export default function ZapisaneReceptury({
           disabled={!maSklad}
           onClick={async () => {
             const mieszanka: ZapisanaMieszanka = { wersja: 1, drob, okres, pozycje: skladniki };
-            if (await zapisz(nazwa, normaEtykieta, mieszanka)) setNazwa("");
+            if (await zapisz(nazwa, normaEtykieta, mieszanka)) {
+              setNazwa("");
+              zdarzenieMieszankaZapisana("drob", drob, okres, pozycjeZUdzialem.length);
+            }
           }}
         >
           <BookmarkPlus className="mr-1.5 h-4 w-4" />
