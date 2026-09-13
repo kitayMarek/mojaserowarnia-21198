@@ -484,7 +484,7 @@ const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);
  *
  * Podbic przy kazdej zmianie kolumn albo filtrow po stronie bazy.
  */
-const WERSJA_RAPORTOW = 5;
+const WERSJA_RAPORTOW = 6;
 
 export async function raportJson(request, env, ctx) {
   const url = new URL(request.url);

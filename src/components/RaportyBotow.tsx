@@ -161,7 +161,7 @@ const RAPORTY: Raport[] = [
   {
     id: "w_czasie",
     nazwa: "Ruch w czasie",
-    opis: "Rozkład żądań w czasie. Przy oknie 24-godzinnym liczony po godzinach, przy tygodniu i miesiącu po dniach, przy całości po tygodniach.",
+    opis: "Rozkład żądań w czasie. Przy oknie 24-godzinnym liczony po godzinach, przy tygodniu i miesiącu po dniach. Całość też po dniach, a po tygodniach dopiero wtedy, gdy pomiar trwa dłużej niż 60 dni.",
     domyslny: "7d",
     kolumny: [
       { k: "okno", n: "Okno", typ: "data" },
