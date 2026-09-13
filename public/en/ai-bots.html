@@ -271,6 +271,26 @@
 
 <p>Selected events worth remembering. No IP addresses and no paths.</p>
 
+<h3>10–13 September 2026 – the counter kept counting, the reports stood still</h3>
+
+<p>On the evening of 10 September we changed the rule that recognises our own test traffic: from a whole operator network to a marker in the request header. The change was meant to touch one rule, but it rewrote the entire function that describes every recorded visit, and it started from an older version of that function. One line fell out along the way: the one that gives each visit an address type, such as content, a technical file, or a file that scanners ask for.</p>
+
+<p>Visits kept being recorded, just without that one field, and the database raised no error, because an empty field is allowed. <strong>The reports on pages read, missing content and scanner requests froze at 10 September, 18:52 UTC</strong>, and the incidents report stopped seeing new requests for sensitive files. We only noticed on 13 September, and by eye: the “last seen” column in all of those reports was stuck at the same hour. Nothing automatic caught it.</p>
+
+<p><strong>No data was lost, because the address type is not a measurement but a conclusion drawn from the stored address.</strong> It could be recomputed backwards without guessing, and the reports filled in for all three days. Had we stored only the conclusion and not what it is drawn from, those three days could not have been recovered.</p>
+
+<h3>13 September 2026, 15:39 – twenty-two well-known bot names from one network</h3>
+
+<p>From one network in the United States (AS396982) came a run of 205 requests that introduced itself under <strong>twenty-two different names</strong>, among them GPTBot, ClaudeBot, PerplexityBot, Googlebot, Meta-ExternalAgent and Amazonbot. In 80 cases verification contradicted the claimed identity; the remaining names belong to bots that cannot be verified. 82 requests concerned configuration files and source code, some of them aimed at the Vite development server, which many AI-built applications are made with.</p>
+
+<p><strong>They found nothing</strong>: none of those files exists on this site.</p>
+
+<p>One of the names gives the forgery away by itself. <strong>Google-Extended is not a bot</strong> but a token used in robots.txt to opt out of Google using content to train its models. Google sends no requests under that name.</p>
+
+<p>The forged names also included Meta-ExternalAgent and Amazonbot, which nobody had forged here before. This tool did not pick names; it worked through a whole list, so it forged every name roughly equally.</p>
+
+<p>Our first reading was wrong. We took this run for a tool that checks whether a site lets AI bots in, because the incidents report showed zero requests for sensitive files next to it. It showed zero because of the failure in the previous entry. After the fix, the same run turned out to be a scanner.</p>
+
 <h3>7 September 2026 — a model described a file it had not fetched</h3>
 
 <p>We asked three models for <strong>verifiable facts</strong> from three of our files: how many addresses the sitemap holds and what the last one is, what the final section of llms.txt is, and what headline figure this page reports. The questions were phrased so the answers could be checked exactly — and so the counter would show whether the model actually came for those files.</p>

@@ -1138,7 +1138,59 @@ const KodOtwarty = () => (
 
 const Kronika = () => (
   <>
-    <h3 className="font-semibold">7 września 2026 — model opisał plik, którego nie pobrał</h3>
+    <h3 className="font-semibold">10–13 września 2026 – licznik liczył, raporty stały</h3>
+    <p>
+      10 września wieczorem zmieniliśmy regułę rozpoznawania naszego ruchu testowego: z całej
+      sieci operatora na znacznik w nagłówku żądania. Zmiana miała dotyczyć jednej reguły, a
+      przepisała całą funkcję, która opisuje każdą zapisaną wizytę, i to od jej starszej wersji.
+      Wypadła przy tym linia, która nadaje wizycie typ adresu: treść, plik techniczny albo plik,
+      o który pytają skanery.
+    </p>
+    <p>
+      Wizyty zapisywały się dalej, tylko bez tego jednego pola, a baza nie zgłosiła błędu, bo
+      puste pole jest dozwolone. <strong>Raporty o czytanych stronach, brakach w treści
+      i pytaniach skanerów zatrzymały się na 10 września, 18:52 UTC</strong>, a raport incydentów
+      nie widział nowych pytań o pliki wrażliwe. Zauważyliśmy to dopiero 13 września i to gołym
+      okiem: kolumna „Ostatnio” we wszystkich tych raportach stała na tej samej godzinie. Żaden
+      automat tego nie wyłapał.
+    </p>
+    <p className="font-medium">
+      Danych nie straciliśmy, bo typ adresu nie jest pomiarem, tylko wnioskiem z zapisanego
+      adresu. Dało się go policzyć wstecz bez zgadywania i raporty uzupełniły się za całe trzy
+      doby. Gdybyśmy zapisywali sam wniosek, a nie to, z czego wynika, tych trzech dni nie
+      dałoby się odzyskać.
+    </p>
+
+    <h3 className="font-semibold pt-2">13 września 2026, 15:39 – dwadzieścia dwie nazwy znanych botów z jednej sieci</h3>
+    <p>
+      Z jednej sieci w Stanach Zjednoczonych (AS396982) przyszła seria 205 żądań, która
+      przedstawiała się <strong>dwudziestoma dwiema różnymi nazwami</strong>, między innymi jako
+      GPTBot, ClaudeBot, PerplexityBot, Googlebot, Meta-ExternalAgent i Amazonbot. W 80
+      przypadkach weryfikacja zaprzeczyła deklarowanej tożsamości, pozostałe nazwy należą do
+      botów, których nie da się sprawdzić. 82 żądania dotyczyły plików konfiguracyjnych i kodu
+      źródłowego, część z nich była wymierzona w serwer deweloperski Vite, na którym powstaje
+      wiele aplikacji budowanych z pomocą AI. <strong>Nie znalazły nic</strong>, żadnego z tych
+      plików tu nie ma.
+    </p>
+    <p>
+      Jedna z nazw zdradza fałszerstwo sama. <strong>Google-Extended nie jest botem</strong>, tylko
+      znacznikiem, którym w robots.txt wyłącza się użycie treści do trenowania modeli Google.
+      Google nie wysyła żadnych żądań pod tą nazwą.
+    </p>
+    <p>
+      Wśród podrobionych nazw były też Meta-ExternalAgent i Amazonbot, których do tej pory nikt
+      u nas nie podrabiał. To narzędzie nie wybierało nazw, tylko brało całą listę po kolei.
+      Z tego, co piszemy w części „Kogo udają fałszerze”, nie zdejmuje to niczego: seria, która
+      bierze całą listę, podrabia wszystkie nazwy mniej więcej po równo.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Pierwsza ocena była błędna. Wzięliśmy tę serię za narzędzie, które sprawdza, czy strona
+      wpuszcza boty AI, bo raport incydentów pokazywał przy niej zero pytań o pliki wrażliwe.
+      Pokazywał zero przez awarię z poprzedniego wpisu. Po naprawie ta sama seria okazała się
+      skanerem.
+    </p>
+
+    <h3 className="font-semibold pt-2">7 września 2026 — model opisał plik, którego nie pobrał</h3>
     <p>
       Poprosiliśmy trzy modele o <strong>sprawdzalne fakty</strong> z trzech naszych plików: ile
       adresów ma mapa serwisu i jaki jest ostatni, jaka jest ostatnia sekcja llms.txt, jaka liczba
