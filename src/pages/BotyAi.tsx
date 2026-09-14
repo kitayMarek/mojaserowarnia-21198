@@ -94,7 +94,7 @@ const MODULY = [
   { id: "kronika", tytul: "Kronika zdarzeń", zajawka: "Sześć tożsamości w dziewiętnaście sekund i inne rzeczy warte zapamiętania." },
   { id: "metodologia", tytul: "Jak to jest liczone?", zajawka: "Listy adresów, odwrotny DNS, podpisy — i co znaczy „nie wiadomo”." },
   { id: "llms-txt", tytul: "Co wiemy o llms.txt", zajawka: "Cztery pobrania, z czego trzy wywołaliśmy sami. I mocniejsze badanie, które mówi to samo." },
-  { id: "niezalezne-pomiary", tytul: "Nie jesteśmy pierwsi — trzy niezależne pomiary", zajawka: "Jakub Sawa, Krzysztof Balicki na 126 domenach i my. Gdzie się zgadzamy, a gdzie nie." },
+  { id: "niezalezne-pomiary", tytul: "Nie jesteśmy pierwsi — trzy niezależne pomiary", zajawka: "Jakub Sawa, Krzysztof Balicki z logów serwerów hostingowych i my. Gdzie się zgadzamy, a gdzie nie." },
   { id: "kod-otwarty", tytul: "Kod jest otwarty", zajawka: "Cały licznik na licencji MIT — razem ze spisem błędów, które popełniliśmy po drodze." },
 ] as const;
 
@@ -989,34 +989,66 @@ const NiezaleznePomiary = () => (
   <>
     <p>
       <strong>28 sierpnia 2026</strong>, tydzień przed uruchomieniem tego licznika,{" "}
-      <strong>Jakub Sawa</strong> opublikował badanie oparte na tej samej metodzie —
-      weryfikacji botów po adresie IP zamiast po nazwie. Doszedł do tego samego mechanizmu
+      <strong>Jakub Sawa</strong> opublikował{" "}
+      <a
+        href="https://www.jakubsawa.pl/twoj-raport-ruchu-z-ai-klamie-sprawdzilem-ile-z-botow-perplexity-to-naprawde-perplexity/"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        className="underline underline-offset-2"
+      >
+        badanie oparte na tej samej metodzie
+      </a>
+      : weryfikacji botów po adresie IP zamiast po nazwie. Doszedł do tego samego mechanizmu
       niezależnie i wcześniej: jedna pula tanich serwerów przebierająca się za kolejne boty,
       skanowanie plików konfiguracyjnych zamiast czytania treści, i infrastruktura brzegowa,
       która weryfikuje Google, a resztę przepuszcza.
     </p>
 
-    <h3 className="font-semibold pt-2">Trzeci pomiar, 10 września 2026 — 126 domen</h3>
+    <h3 className="font-semibold pt-2">Trzeci pomiar, 10 września 2026 – logi dwóch serwerów hostingowych</h3>
     <p>
-      <strong>Krzysztof Balicki</strong> sprawdził te same tezy na dwóch serwerach
-      hostujących <strong>126 domen klienckich</strong>, w oknie 1–10 września. To pomiar
-      z poziomu logów serwera, a nie pojedynczej witryny — czyli skala, której my nie mamy
-      i mieć nie będziemy. Podał: <strong>llms.txt pobrane 559 razy</strong>, z czego raz
-      przez bota OpenAI i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota.
-      Podszywek pod GPTBota <strong>3,5 tys. na 375 tys.</strong> żądań spoza puli adresów
-      OpenAI, czyli około 1%. I rzecz najciekawsza: największym botem AI nie jest u niego
-      GPTBot, tylko <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.
+      <strong>Krzysztof Balicki</strong> z{" "}
+      <a
+        href="https://www.web-systems.pl/"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        className="underline underline-offset-2"
+      >
+        Web Systems
+      </a>{" "}
+      sprawdził te same tezy na dwóch serwerach, na których hostuje strony klientów,
+      w oknie 1–10 września. To pomiar z poziomu logów serwera, a nie pojedynczej witryny,
+      czyli skala, której my nie mamy i mieć nie będziemy. Podał:{" "}
+      <strong>llms.txt pobrane 559 razy</strong>, z czego raz przez bota OpenAI
+      i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota. Te żądania przyszły
+      na 126 domen. Samego OAI-SearchBota widział w tym czasie na 223 domenach, więc 126 to
+      nie wszystkie strony na tych serwerach, tylko te, o których llms.txt ktoś w ogóle
+      zapytał. Spośród <strong>375 tys.</strong> żądań podających się za GPTBota{" "}
+      <strong>3,5 tys.</strong>, czyli około 1%, przyszło spoza puli adresów OpenAI. I rzecz
+      najciekawsza: największym botem AI nie jest u niego GPTBot, tylko{" "}
+      <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.
     </p>
     <p className="text-sm text-muted-foreground">
       Tych liczb nie weryfikowaliśmy — pochodzą z komentarza w grupie, nie z opublikowanego
       badania z metodyką. Podajemy je jako cudzy pomiar, nie jako nasz wynik. Dwie z trzech
       tez dają się jednak sprawdzić u nas i obie się bronią.
     </p>
+    <p className="text-sm text-muted-foreground">
+      <strong>Sprostowanie z 14 września 2026.</strong> W pierwszej wersji pisaliśmy, że te
+      serwery hostują 126 domen. To liczba domen, na które przyszło żądanie o llms.txt,
+      a nie wszystkich stron na tych serwerach. Poprawił nas autor pomiaru.
+    </p>
 
     <p>
       <strong>llms.txt.</strong> Nasze cztery pobrania, z czego trzy wywołane przez nas
       samych, nie pozwalały wnioskować o niczym i tak to opisaliśmy. Jego 559 żądań na
       126 domenach temat zamyka.
+    </p>
+
+    <p>
+      <strong>robots.txt.</strong> Z tych samych logów, 1–11 września: GPTBot pobrał
+      robots.txt <strong>20 razy przy 390 tys. żądań</strong>, a OAI-SearchBot{" "}
+      <strong>prawie 10 tys. razy</strong>. Jeden właściciel, dwa boty i prawie
+      pięćsetkrotna różnica.
     </p>
 
     <p>
@@ -1100,6 +1132,17 @@ const NiezaleznePomiary = () => (
       pięć razy więcej</strong>. Gdyby podszywki szły za wielkością bota, Meta byłaby
       udawana najczęściej. Jest udawana najrzadziej. W jego sformułowaniu, lepszym
       niż nasze: fałszerze wybierają nazwę, nie wielkość bota.
+    </p>
+    <p className="text-sm text-muted-foreground">
+      <strong>14 września 2026 dorzucił obserwację, która poprawiła nasz licznik.</strong>{" "}
+      Połowa żądań z adresów Google Cloud, które udają u niego naraz cztery boty, to próby
+      odczytu plików przez lukę w serwerze deweloperskim Vite (<code>/@fs/…?raw??</code>),
+      klucze AWS (<code>.aws/credentials</code>), pliki gcloud i{" "}
+      <code>/proc/self/environ</code>. Nasz wzorzec skanów rozpoznawał z tego tylko{" "}
+      <code>.env</code> i <code>config.json</code>, więc reszta nie liczyła się jako pytanie
+      o pliki wrażliwe, a <code>/@fs/</code> i <code>/proc/</code> dostawały od serwera
+      stronę z kodem 200 zamiast 404. Dopisaliśmy te wzorce do licznika, a historię
+      przeliczyliśmy.
     </p>
   </>
 );

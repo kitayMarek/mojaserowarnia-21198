@@ -72,6 +72,7 @@ const skany = [
   '/server-status', '/backup.sql', '/dump.sql', '/database.sqlite',
   '/config.yml', '/settings.ini', '/app.log', '/site.tar.gz', '/backup.zip.bak',
   '/index.php', '/main.jsp', '/default.aspx', '/shell.py',
+  '/@fs/etc/passwd', '/proc/self/environ',
 ];
 for (const p of skany) {
   if (!blokowana(p)) zle(`skan NIE zablokowany: ${p}`);

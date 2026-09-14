@@ -31,3 +31,4 @@ parametrów w raportach.
 |---|---|---|
 | 10.09.2026, 18:52 UTC – 13.09.2026 | Migracja przepisała trigger wizyt i zgubiła typ ścieżki | Raporty treści i skanerów były w tym oknie puste. Typ odtworzony wstecz ze ścieżki 13.09, dane są kompletne |
 | 13.09.2026 | „Całość” w raporcie „Ruch w czasie” liczona po dniach, dopóki pomiar trwa krócej niż 60 dni | Wcześniej po tygodniach; sumy bez zmian |
+| 14.09.2026 | Typ ścieżki „sekret” obejmuje też `/@fs/` (luka serwera deweloperskiego Vite), `.aws/`, `gcloud` i `/proc/self/`, po uwadze Krzysztofa Balickiego z logów jego serwerów. Migracja przelicza całą historię. Worker odpowiada na `/@fs/` i `/proc/` 404 zamiast aplikacji z kodem 200 | Pytań o pliki wrażliwe i punktów skanów może przybyć także wstecz. Trzy nowe kategorie w raporcie „Czego szukały skanery” |

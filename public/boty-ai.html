@@ -494,13 +494,17 @@
 
 <p>To jest zarazem najmocniejszy argument za tym, żeby takich pomiarów było więcej. Jeden pomiar z jednej domeny mówi o tej domenie. Dwa niezależne, zgodne co do mechanizmu i rozbieżne co do skali, mówią już coś o zjawisku — i pokazują, od czego ta skala zależy.</p>
 
-<h3>Trzeci pomiar, 10 września 2026 — 126 domen</h3>
+<h3>Trzeci pomiar, 10 września 2026 – logi dwóch serwerów hostingowych</h3>
 
-<p><strong>Krzysztof Balicki</strong> sprawdził te same tezy na dwóch serwerach hostujących 126 domen klienckich, w oknie 1–10 września. To jest pomiar z poziomu logów serwera, a nie pojedynczej witryny — czyli skala, której my nie mamy i mieć nie będziemy. Podał: <strong>llms.txt pobrane 559 razy</strong>, z czego jeden raz przez bota OpenAI i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota. Podszywek pod GPTBota <strong>3,5 tys. na 375 tys.</strong> żądań spoza puli adresów OpenAI, czyli około 1%. I rzecz najciekawsza: największym botem AI nie jest u niego GPTBot, tylko <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.</p>
+<p><strong>Krzysztof Balicki</strong> z <a href="https://www.web-systems.pl/" rel="nofollow">Web Systems</a> sprawdził te same tezy na dwóch serwerach, na których hostuje strony klientów, w oknie 1–10 września. To jest pomiar z poziomu logów serwera, a nie pojedynczej witryny, czyli skala, której my nie mamy i mieć nie będziemy. Podał: <strong>llms.txt pobrane 559 razy</strong>, z czego jeden raz przez bota OpenAI i <em>ani razu</em> przez GPTBota, ClaudeBota czy PerplexityBota. Te żądania przyszły na 126 domen. Samego OAI-SearchBota widział w tym czasie na 223 domenach, więc 126 to nie wszystkie strony na tych serwerach, tylko te, o których llms.txt ktoś w ogóle zapytał. Spośród <strong>375 tys.</strong> żądań podających się za GPTBota <strong>3,5 tys.</strong>, czyli około 1%, przyszło spoza puli adresów OpenAI. I rzecz najciekawsza: największym botem AI nie jest u niego GPTBot, tylko <strong>Meta-ExternalAgent z 1,8 mln żądań</strong>.</p>
 
 <p class="uwaga">Tych liczb nie weryfikowaliśmy — pochodzą z komentarza w grupie, nie z opublikowanego badania z metodyką. Podajemy je jako cudzy pomiar, nie jako nasz wynik. Dwie z trzech tez dają się jednak sprawdzić u nas i obie się bronią.</p>
 
+<p class="uwaga"><strong>Sprostowanie z 14 września 2026.</strong> W pierwszej wersji pisaliśmy, że te serwery hostują 126 domen. To liczba domen, na które przyszło żądanie o llms.txt, a nie wszystkich stron na tych serwerach. Poprawił nas autor pomiaru.</p>
+
 <p><strong>llms.txt.</strong> Nasze cztery pobrania, z czego trzy wywołane przez nas samych, nie pozwalały wnioskować o niczym i tak to opisaliśmy. Jego 559 żądań na 126 domenach temat zamyka.</p>
+
+<p><strong>robots.txt.</strong> Z tych samych logów, 1–11 września: GPTBot pobrał robots.txt <strong>20 razy przy 390 tys. żądań</strong>, a OAI-SearchBot <strong>prawie 10 tys. razy</strong>. Jeden właściciel, dwa boty i prawie pięćsetkrotna różnica.</p>
 
 <p><strong>Meta-ExternalAgent.</strong> U nas jest tak samo pierwszy — i tego nikt nie planował:</p>
 
@@ -541,6 +545,8 @@
 <p>Nikt nie udaje Mety, mimo że to największy realny crawler — bo podszycie się pod nią nic nie otwiera. Nikt nie wpisuje Meta-ExternalAgent na białą listę. Fałszowane są te nazwy, które ludzie wpuszczają <em>świadomie</em>, w przekonaniu, że wpuszczają „tego dobrego bota AI". ClaudeBot ma u nas trzy prawdziwe żądania na sześćdziesiąt pięć.</p>
 
 <p><strong>Obiecaliśmy dopisać wynik, jeśli ktoś to sprawdzi. Sprawdził.</strong> Sześćdziesiąt pięć żądań to było za mało, żeby cokolwiek twierdzić, więc Krzysztof Balicki policzył to na swoich danych z 1–11 września, każdą nazwę według oficjalnej listy adresów jej właściciela (dla Mety: sieć AS32934). Wynik: pod GPTBota, ClaudeBota i OAI-SearchBota podszywa się u niego po około 4 tysiące żądań, pod Meta-ExternalAgent 1,9 tysiąca, <strong>choć prawdziwego ruchu Mety jest prawie pięć razy więcej</strong>. Gdyby podszywki szły za wielkością bota, Meta byłaby udawana najczęściej. Jest udawana najrzadziej. W jego sformułowaniu, lepszym niż nasze: fałszerze wybierają nazwę, nie wielkość bota.</p>
+
+<p><strong>14 września 2026 dorzucił obserwację, która poprawiła nasz licznik.</strong> Połowa żądań z adresów Google Cloud, które udają u niego naraz cztery boty, to próby odczytu plików przez lukę w serwerze deweloperskim Vite (<code>/@fs/…?raw??</code>), klucze AWS (<code>.aws/credentials</code>), pliki gcloud i <code>/proc/self/environ</code>. Nasz wzorzec skanów rozpoznawał z tego tylko <code>.env</code> i <code>config.json</code>, więc reszta nie liczyła się jako pytanie o pliki wrażliwe, a <code>/@fs/</code> i <code>/proc/</code> dostawały od serwera stronę z kodem 200 zamiast 404. Dopisaliśmy te wzorce do licznika, a historię przeliczyliśmy.</p>
 
 
 <h2>Trzy czwarte ruchu skanerów to polowanie na jeden plik</h2>

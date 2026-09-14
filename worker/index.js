@@ -115,8 +115,14 @@ const ROZSZERZENIE_OBCE =
 // ⚠ „api" jest tu bezpieczne WYŁĄCZNIE dlatego, że nasze własne /api/raport
 // obsługuje reguła 1b2, czyli PRZED tą. Przeniesienie tamtej niżej wyłączyłoby
 // raporty na stronie.
+//
+// TRZECIA RUNDA, 14.09.2026. Krzysztof Balicki (Web Systems) zobaczył w logach
+// swoich serwerów skany z Google Cloud pod czterema nazwami botów naraz: /@fs/
+// (odczyt plików przez serwer deweloperski Vite) i /proc/self/environ. Oba
+// dostawały u nas skorupę React z kodem 200. .aws/ i .config/gcloud/ łapie już
+// reguła 1c, bo to katalogi kropkowe. Te same wzorce są w SQL-owej typ_sciezki().
 const SCIEZKA_SKANERA =
-  /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|server-info|phpinfo|backup|backups|dump|dumps|api|v1|v2|v3|debug|console|status|metrics|health|healthz|config|app|static|_next)(\/|$)/i;
+  /^\/(wp-admin|wp-content|wp-includes|wp-json|wordpress|xmlrpc|graphql|graphiql|actuator|laravel|vendor|phpmyadmin|pma|myadmin|adminer|administrator|cgi-bin|solr|jenkins|struts|owa|autodiscover|telescope|_ignition|_profiler|server-status|server-info|phpinfo|backup|backups|dump|dumps|api|v1|v2|v3|debug|console|status|metrics|health|healthz|config|app|static|_next|@fs|proc)(\/|$)/i;
 
 // Pliki, ktore chcemy MIERZYC, wiec przechodza przez workera zamiast przez
 // warstwe assetow (patrz run_worker_first w wrangler.jsonc).
