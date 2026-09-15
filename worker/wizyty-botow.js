@@ -473,12 +473,16 @@ function wagaZadania(request) {
 const ZNACZNIKI_AI = [
   [/^chatgpt\.com$|^chat\.openai\.com$/i, 'ChatGPT'],
   [/^www\.perplexity\.ai$|^perplexity\.ai$/i, 'Perplexity'],
-  [/^copilot\.microsoft\.com$|^www\.bing\.com$/i, 'Copilot'],
+  [/^copilot\.microsoft\.com$/i, 'Copilot'],
+  // www.bing.com to wyszukiwarka i Copilot w Bingu pod jednym adresem, a odsylacz
+  // niesie tylko domene. Do 15.09.2026 calosc szla jako 'Copilot' i zawyzala ruch
+  // z AI na publicznej stronie; wiekszosc to zwykle wyszukiwanie, stad 'Bing'.
+  [/^www\.bing\.com$|^bing\.com$/i, 'Bing'],
   [/^gemini\.google\.com$/i, 'Gemini'],
   [/^claude\.ai$/i, 'Claude'],
 ];
 
-function zrodloOdpowiedzi(request, url) {
+export function zrodloOdpowiedzi(request, url) {
   // 1. Znacznik w adresie — ChatGPT dokleja utm_source=chatgpt.com,
   //    Perplexity utm_source=perplexity.
   const utm = (url.searchParams.get('utm_source') || '').toLowerCase();
@@ -489,7 +493,8 @@ function zrodloOdpowiedzi(request, url) {
     if (utm === 'list') return 'Lista';
     if (utm.includes('chatgpt') || utm.includes('openai')) return 'ChatGPT';
     if (utm.includes('perplexity')) return 'Perplexity';
-    if (utm.includes('copilot') || utm.includes('bing')) return 'Copilot';
+    if (utm.includes('copilot')) return 'Copilot';
+    if (utm.includes('bing')) return 'Bing';
     if (utm.includes('gemini')) return 'Gemini';
     if (utm.includes('claude') || utm.includes('anthropic')) return 'Claude';
   }
@@ -507,8 +512,8 @@ function zrodloOdpowiedzi(request, url) {
     //    nie widzial ani Facebooka, ani zadnego innego odsylacza z zewnatrz.
     //    Mierzylismy waski wycinek i po samym raporcie nie bylo tego widac.
     //
-    //    Normalizacja MUSI byc po tescie wyzej, nie przed: wzorzec Copilota to
-    //    ^www\.bing\.com$, wiec scieciem 'www.' zepsulbym jego rozpoznawanie.
+    //    Normalizacja MUSI byc po tescie wyzej, nie przed: wzorzec Binga to
+    //    ^www\.bing\.com$, wiec scieciem 'www.' zmienilbym, co do niego trafia.
     const czysty = host.toLowerCase().replace(/^www\./, '');
 
     //    Wlasny serwis to nawigacja wewnetrzna, nie przyjscie z zewnatrz.
@@ -534,7 +539,7 @@ function zrodloOdpowiedzi(request, url) {
  * kubelka "(bezposrednie)", ktory u nas ma 31% ruchu i nie mowi nic. Tu
  * pytamy wezej i dostajemy odpowiedz albo jawne zero.
  */
-export async function zapiszPrzyjscie(request, env) {
+export async function zapiszPrzyjscie(request, env, status) {
   try {
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return;
     const url = new URL(request.url);
@@ -544,6 +549,22 @@ export async function zapiszPrzyjscie(request, env) {
     const przegladarka = request.headers.get('sec-fetch-mode')
                       || request.headers.get('accept-language');
     if (!przegladarka) return;
+
+    // Od 15.09.2026 tylko wejscia, ktore koncza sie strona:
+    //  - bez przekierowan 3xx: przegladarka niesie odsylacz dalej, wiec wejscie
+    //    na adres .html liczylo sie dwa razy, przed 301 i po nim,
+    //  - bez wstepnych pobran (Sec-Purpose: prefetch), ktore Chrome robi, zanim
+    //    ktokolwiek kliknie,
+    //  - bez obrazkow i zapytan w tle, gdy przegladarka mowi, czego chce.
+    if (status >= 300 && status < 400) return;
+    if (/prefetch|prerender/i.test(request.headers.get('sec-purpose') || request.headers.get('purpose') || '')) return;
+    const cel = request.headers.get('sec-fetch-dest');
+    if (cel && cel !== 'document') return;
+
+    // Global Privacy Control: nota prawna obiecuje, ze takie wejscie trafia
+    // wylacznie do sumy dnia (tabela wejscia_ludzi), a raport przyjsc publikuje
+    // zrodlo i strone.
+    if (request.headers.get('sec-gpc') === '1') return;
 
     const zrodlo = zrodloOdpowiedzi(request, url);
     if (!zrodlo) return;

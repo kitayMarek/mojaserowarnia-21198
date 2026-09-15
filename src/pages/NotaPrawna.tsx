@@ -151,6 +151,13 @@ const NotaPrawna = () => {
                 wiemy, które strony są czytane i jak długo. Nie używamy ich do reklam.
               </p>
               <p>
+                <strong>Niezależnie od zgody serwer liczy wejścia na strony w postaci sum:</strong> dzień,
+                strona, serwis, z którego ktoś przyszedł, kraj, rodzaj urządzenia i przeglądarki. Nie
+                zapisuje adresu IP ani pełnego podpisu przeglądarki i nie używa ciasteczek, więc z tych sum
+                nie da się odtworzyć ani osoby, ani pojedynczej wizyty. Jeśli przeglądarka wysyła sygnał
+                Global Privacy Control, wejście trafia tylko do sumy dnia, bez żadnych szczegółów.
+              </p>
+              <p>
                 Bez pytania o zgodę zapisujemy tylko to, bez czego strona nie działa albo o co sam prosisz:
               </p>
               <ul className="list-disc pl-6 space-y-2">
@@ -194,7 +201,7 @@ const NotaPrawna = () => {
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 13 września 2026</p>
+            <p>Ostatnia aktualizacja: 15 września 2026</p>
           </div>
 
           {/* See Also Section */}

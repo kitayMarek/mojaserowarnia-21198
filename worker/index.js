@@ -17,6 +17,7 @@
  */
 
 import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
+import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
@@ -267,7 +268,12 @@ const router = {
         // trudno — wizyta zapisze się bez rozmiaru
       }
       await zapiszWizyteBota(request, { status: odpowiedz.status, rozmiar, mirror }, env);
-      await zapiszPrzyjscie(request, env);
+      await zapiszPrzyjscie(request, env, odpowiedz.status);
+      const uaGoscia = request.headers.get('user-agent') || '';
+      await zapiszWejscieCzlowieka(request, {
+        status: odpowiedz.status,
+        botPodgladu: BOTY_PODGLADU.test(uaGoscia) || BOTY_MODELI.test(uaGoscia),
+      }, env);
     })());
 
     return odpowiedz;

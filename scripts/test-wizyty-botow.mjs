@@ -205,7 +205,8 @@ const zrodlo = (referer, adres = 'https://mojaserowarnia.pl/boty-ai') =>
     new URL(adres),
   );
 sprawdz('ChatGPT rozpoznany po odsylaczu',   zrodlo('https://chatgpt.com/c/abc'),        'ChatGPT');
-sprawdz('Copilot mimo normalizacji www',     zrodlo('https://www.bing.com/chat'),        'Copilot');
+sprawdz('www.bing.com to Bing, nie Copilot', zrodlo('https://www.bing.com/chat'),        'Bing');
+sprawdz('Copilot po adresie Copilota',       zrodlo('https://copilot.microsoft.com/'),   'Copilot');
 sprawdz('Facebook zapisany jako serwis',     zrodlo('https://www.facebook.com/groups/1/posts/2'), 'facebook.com');
 sprawdz('Google zapisany jako serwis',       zrodlo('https://google.com/search?q=tajne'), 'google.com');
 sprawdz('wlasny serwis to nie przyjscie',    zrodlo('https://mojaserowarnia.pl/przepisy'), null);
