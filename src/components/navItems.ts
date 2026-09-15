@@ -54,6 +54,7 @@ export const navItems: NavItem[] = [
     label: "Przepisy na sery", icon: ChefHat, color: "rose",
     children: [
       { label: "Przepisy na sery", href: "/przepisy" },
+      { label: "Camembert: co to za ser", href: "/sery/camembert" },
       { label: "Przepisy kulinarne", href: "/przepisy-kulinarne" },
       { label: "Słownik serowarski", href: "/slownik" },
     ],

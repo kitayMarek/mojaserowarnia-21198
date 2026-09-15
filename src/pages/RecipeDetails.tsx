@@ -186,6 +186,21 @@ const RecipeDetails = () => {
             </Button>
           </div>
 
+          {/* Odnosnik do osobnej strony o serze, patrz pole `oSerze` w recipesData. */}
+          {recipe.oSerze && (
+            <Link
+              to={recipe.oSerze.href}
+              className="group flex items-center gap-4 rounded-xl border border-border bg-card p-5 mb-8 transition-colors hover:border-primary hover:bg-primary/5"
+            >
+              <span className="text-3xl shrink-0" aria-hidden="true">📖</span>
+              <span className="flex-1 min-w-0">
+                <span className="block text-sm text-muted-foreground">Szukasz informacji o samym serze?</span>
+                <span className="block font-semibold text-primary group-hover:underline">{recipe.oSerze.tytul}</span>
+              </span>
+              <ArrowRight className="h-5 w-5 shrink-0 text-primary" />
+            </Link>
+          )}
+
           {/* Sekcja encyklopedyczna — NAD przepisem.
               Fraza "ser gruyere" (8 100/mies) to intencja informacyjna: ludzie
               pytaja CO TO ZA SER, a strona odpowiadala wylacznie "jak go zrobic".

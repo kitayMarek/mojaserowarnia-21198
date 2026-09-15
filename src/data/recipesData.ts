@@ -189,6 +189,15 @@ export interface Recipe {
   // jednej stronie: jak zrobic ORAZ co z tym zrobic.
   zastosowanie?: string;
 
+  // Odnosnik do osobnej strony O SERZE (co to jest, jak jesc, piec, przechowywac).
+  // Drugi sposob na ten sam problem co `encyklopedia` nizej: tam odpowiedzi stoja
+  // na stronie przepisu, tu na osobnym adresie. Camembert (15.09.2026) sprawdza,
+  // ktory sposob lepiej zbiera zapytania informacyjne.
+  oSerze?: {
+    href: string;
+    tytul: string;
+  };
+
   // Sekcja encyklopedyczna: pary pytanie-odpowiedz pokazywane NAD przepisem.
   // Powod: ludzie wpisujacy "ser gruyere" szukaja informacji O SERZE, a strona
   // odpowiadala wylacznie "jak go zrobic" — stad wysokie wyswietlenia przy
@@ -1501,6 +1510,7 @@ export const recipesData: Recipe[] = [
   },
   {
     id: "camembert",
+    oSerze: { href: "/sery/camembert", tytul: "Camembert: co to za ser, jak go jeść, piec i przechowywać" },
     zastosowanie: "Zapiekany w całości z miodem, żurawiną i orzechami to gotowa przystawka. Panierowany i smażony podaje się z konfiturą. Na zimno — na desce serów z winogronami i bagietką, koniecznie wyjęty z lodówki pół godziny wcześniej, bo zimny nie oddaje aromatu. Świetnie wypada też w tarcie z karmelizowaną cebulą.",
     video: { youtubeId: "wt0bf199RTw", title: "Jak zrobić ser camembert/ camembert cheese", channel: "Domowy ser", poster: camembertMiniaturaImage },
     name: "Camembert",

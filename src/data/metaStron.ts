@@ -254,4 +254,14 @@ export const metaStron: Record<string, MetaStrony> = {
       "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka: 188 kultur starterowych — mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 5 sklepach.",
     mirror: "kultury/baza.html",
   },
+  "/sery/camembert": {
+    // Strona O SERZE, osobna od przepisu. Slowa z zapytan z Search Console
+    // (15.09.2026): "camembert" 175 wyswietlen i 0 klikniec, do tego ogon
+    // "z czym jesc", "czy mozna mrozic", "jak pokroic", "na cieplo", "z mikrofali",
+    // "z mleka pasteryzowanego". Szczegoly eksperymentu w SerCamembert.tsx.
+    title: "Camembert: co to za ser, jak go jeść, piec i przechowywać",
+    description:
+      "Camembert to miękki ser z Normandii z jadalną białą skórką. Jak go jeść i kroić, ile piec, czy można mrozić, czym różni się od brie i czy można w ciąży.",
+    mirror: "sery/camembert.html",
+  },
 };

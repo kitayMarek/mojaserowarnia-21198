@@ -111,7 +111,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/camembert</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/sery/camembert</loc>
+    <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
