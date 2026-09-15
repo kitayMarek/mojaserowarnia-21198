@@ -18,6 +18,7 @@
 
 import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
 import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
+import { kontraktBotow, SCIEZKA_KONTRAKTU, WLASNY_ODCZYT } from './kontrakt-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
@@ -253,6 +254,16 @@ const router = {
       odpowiedz = new Response(surowa.body, { status: surowa.status, headers: naglowki });
     }
 
+    // Odczyt kontraktu licznika z właściwym kluczem to nasz własny ruch
+    // serwer-serwer. Bez tego każde pobranie danych przez aplikację analityczną
+    // zapisałoby się w liczniku jako bot "(bez podpisu)". Próby bez klucza albo
+    // ze złym kluczem nie mają tego nagłówka i zapisują się jak każde inne.
+    if (surowa.headers.get(WLASNY_ODCZYT) === '1') {
+      const naglowki = new Headers(odpowiedz.headers);
+      naglowki.delete(WLASNY_ODCZYT);
+      return new Response(odpowiedz.body, { status: odpowiedz.status, headers: naglowki });
+    }
+
     // Rozmiar treści liczymy z klona, a nie z content-length: warstwa assetów
     // Cloudflare streamuje odpowiedź i tego nagłówka po prostu nie ustawia
     // (sprawdzone na produkcji — kolumna wychodziła w całości NULL). Objętość
@@ -410,6 +421,13 @@ Disallow: /
     // na nie skorupę React z kodem 200 zamiast danych.
     if (url.pathname === '/api/raport') {
       return raportJson(request, env, ctx);
+    }
+
+    // Prywatny odczyt licznika dla aplikacji analitycznej (kontrakt
+    // licznik-botow/1, klucz w nagłówku). Stoi tu z tego samego powodu co
+    // /api/raport: "api" jest na liście ścieżek skanerów w regule 1d.
+    if (url.pathname === SCIEZKA_KONTRAKTU) {
+      return kontraktBotow(request, env);
     }
 
     if (bezUkosnika === '/boty-ai' || url.pathname === '/boty-ai.html') {

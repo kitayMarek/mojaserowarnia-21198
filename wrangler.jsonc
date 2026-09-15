@@ -79,6 +79,9 @@
   // w buildzie aplikacji React. Sekretem jest wyłącznie klucz service_role,
   // ustawiany osobno przez `npx wrangler secret put SUPABASE_SERVICE_KEY`
   // i nigdy nietrzymany w repo (repo jest publiczne).
+  // Drugi sekret, KLUCZ_LICZNIKA_BOTOW, otwiera prywatny odczyt licznika dla
+  // aplikacji analitycznej (worker/kontrakt-botow.js). Ustawia go
+  // `npm run klucz-licznika`, bez wypisywania wartości.
   "vars": {
     "SUPABASE_URL": "https://hsgxmbhunclhgzumafrk.supabase.co"
   },
