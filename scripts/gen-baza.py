@@ -81,7 +81,7 @@ def gen_html(items):
         "@context": "https://schema.org", "@type": "Dataset",
         "name": "Baza kultur bakteryjnych do produkcji sera",
         "description": f"Pełna baza {total} kultur bakteryjnych do produkcji domowych serów: skład, zastosowanie, temperatura pracy, typ, sklep i cena.",
-        "url": "https://mojaserowarnia.pl/kultury/baza.html", "inLanguage": "pl",
+        "url": "https://mojaserowarnia.pl/baza-kultur", "inLanguage": "pl",
         "keywords": ["kultury bakteryjne", "kultury mezofilne", "kultury termofilne", "serowarstwo", "bakterie do sera"],
         "creator": {"@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl/"},
     }
@@ -89,8 +89,8 @@ def gen_html(items):
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</title>")
     o.append(f'  <meta name="description" content="Sprawdź, który z 5 polskich sklepów ma daną kulturę i w jakiej cenie: {total} kultur ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
-    o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/kultury/baza.html" />\n  <meta name="robots" content="index, follow" />')
-    o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/kultury/baza.html" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
+    o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/baza-kultur" />\n  <meta name="robots" content="index, follow" />')
+    o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/baza-kultur" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('''  <style>
     :root { --brand:#8a5a16; --brand-dark:#5f3d0f; --ink:#241a12; --muted:#5c4a34; --line:#c9b893; --bg-soft:#ece2cc; }
@@ -186,7 +186,7 @@ def gen_summary(items):
         seen.add(it["name"])
         buckets[bucket_of(it)].append(it)
     out = [f"BAZA KULTUR BAKTERYJNYCH — mojaserowarnia.pl ({len(seen)} pozycji)",
-           "Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/kultury/baza.html",
+           "Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/baza-kultur",
            "Wersja interaktywna z filtrami i porównywarką: https://mojaserowarnia.pl/baza-kultur",
            "Format wierszy: Nazwa | Temperatura pracy | Zastosowanie | Sklep", ""]
     for k in SUMMARY_ORDER:

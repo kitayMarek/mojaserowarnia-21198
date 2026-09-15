@@ -174,7 +174,7 @@ def zbuduj_html(grupy, wszystkie):
   <meta property="og:title" content="Zamienniki kultur bakteryjnych — te same szczepy, inne nazwy" />
   <meta property="og:description" content="%d grup kultur o identycznym składzie szczepowym, sprzedawanych pod różnymi nazwami w 5 polskich sklepach." />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://mojaserowarnia.pl/zamienniki-kultur.html" />
+  <meta property="og:url" content="https://mojaserowarnia.pl/zamienniki-kultur" />
   <meta property="og:site_name" content="Moja Serowarnia" />
   <meta property="og:locale" content="pl_PL" />
   <meta property="og:image" content="https://mojaserowarnia.pl/og/zamienniki.png" />
@@ -195,7 +195,7 @@ def zbuduj_html(grupy, wszystkie):
     "inLanguage": "pl-PL",
     "author": { "@type": "Organization", "name": "Moja Serowarnia" },
     "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mojaserowarnia.pl/zamienniki-kultur.html" }
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mojaserowarnia.pl/zamienniki-kultur" }
   }
   </script>
 """ % (len(wszystkie), w_grupach, proc, len(grupy), dzis, dzis))
@@ -213,7 +213,7 @@ def zbuduj_html(grupy, wszystkie):
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://mojaserowarnia.pl" },
       { "@type": "ListItem", "position": 2, "name": "Baza kultur", "item": "https://mojaserowarnia.pl/baza-kultur" },
-      { "@type": "ListItem", "position": 3, "name": "Zamienniki kultur", "item": "https://mojaserowarnia.pl/zamienniki-kultur.html" }
+      { "@type": "ListItem", "position": 3, "name": "Zamienniki kultur", "item": "https://mojaserowarnia.pl/zamienniki-kultur" }
     ]
   }
   </script>

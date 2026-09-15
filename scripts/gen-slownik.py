@@ -15,7 +15,9 @@ import re, html, json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src", "pages", "Slownik.tsx")
 OUT = os.path.join(ROOT, "public", "slownik.html")
-BASE = "https://mojaserowarnia.pl/slownik.html"
+# Od 8.09.2026 slownik.html przekierowuje 301 na /slownik, wiec og:url i JSON-LD
+# wskazuja trase. Adres .html dawal Facebookowi petle przekierowan.
+BASE = "https://mojaserowarnia.pl/slownik"
 # Canonical wskazuje TRASE Reacta, nie mirror - patrz komentarz w gen-przepisy.py.
 KANONICZNY = "https://mojaserowarnia.pl/slownik"
 
@@ -75,7 +77,7 @@ def main():
     o.append(f"  <title>Słownik serowarski — {total} terminów PL/EN z definicjami</title>")
     o.append(f'  <meta name="description" content="Słownik serowarski: {total} terminów po polsku i angielsku z definicjami — podstawy, proces produkcji, typy serów, kultury, parametry, sprzęt i prawo." />')
     o.append(f'  <link rel="canonical" href="{KANONICZNY}" />\n  <meta name="robots" content="index, follow" />')
-    o.append('  <meta property="og:title" content="Słownik serowarski — terminy PL/EN" />\n  <meta property="og:description" content="Dwujęzyczny słownik terminów serowarskich z definicjami." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="' + BASE + '" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
+    o.append('  <meta property="og:title" content="Słownik serowarski — terminy PL/EN" />\n  <meta property="og:description" content="Dwujęzyczny słownik terminów serowarskich z definicjami." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="' + BASE + '" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.jpg" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('''  <style>
     :root { --brand:#8a5a16; --brand-dark:#5f3d0f; --ink:#241a12; --muted:#5c4a34; --line:#c9b893; --bg-soft:#ece2cc; }

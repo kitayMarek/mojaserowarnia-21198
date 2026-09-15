@@ -100,10 +100,11 @@ def data_pl(iso):
 
 def wizytowka_html(w, wpisy):
     slug = w["slug"]
-    url = f"https://mojaserowarnia.pl/serowarnie/{slug}.html"
-    # Canonical wskazuje TRASE Reacta, nie mirror (regula opisana w gen-przepisy.py).
-    # og:url zostaje na mirrorze - to on serwuje sie botom spolecznosciowym przez .htaccess.
-    kanoniczny = f"https://mojaserowarnia.pl/serowarnie/{slug}"
+    url = f"https://mojaserowarnia.pl/serowarnie/{slug}"
+    # Od 8.09.2026 adres .html przekierowuje 301 na trase, a worker podaje ten mirror
+    # botom pod czystym adresem. canonical, og:url i JSON-LD wskazuja wiec jeden adres:
+    # trase Reacta. Adres .html w og:url dawal Facebookowi petle przekierowan.
+    kanoniczny = url
     lokal = ", ".join(x for x in [w.get("miejscowosc"), w.get("wojewodztwo")] if x)
     typ = TYP_OPIS.get(w.get("typ_dzialalnosci") or "", "Serowarnia zagrodowa")
     podtytul = f"{typ}{' — ' + lokal if lokal else ''}"
@@ -262,7 +263,7 @@ def katalog_html(wizytowki):
         "name": "Katalog polskich serowarni zagrodowych",
         "description": "Lista małych, rzemieślniczych serowarni w Polsce — gdzie kupić ser prosto od producenta.",
         "inLanguage": "pl",
-        "url": "https://mojaserowarnia.pl/serowarnie.html",
+        "url": "https://mojaserowarnia.pl/serowarnie",
     }
     karty = []
     for w in wizytowki:

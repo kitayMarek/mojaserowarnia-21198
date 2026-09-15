@@ -203,7 +203,7 @@ def strona(r, ser, rodzenstwo):
     o.append(f"  <title>{e(r['name'])} — przepis krok po kroku | Moja Serowarnia</title>")
     o.append(f'  <meta name="description" content="{e(opis)}" />')
     o.append(f'  <link rel="canonical" href="{url}" />\n  <meta name="robots" content="index, follow" />')
-    o.append(f'  <meta property="og:title" content="{e(r["name"])}" />\n  <meta property="og:description" content="{e(opis)}" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="{url}" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
+    o.append(f'  <meta property="og:title" content="{e(r["name"])}" />\n  <meta property="og:description" content="{e(opis)}" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="{url}" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.jpg" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('  <script type="application/ld+json">\n' + json.dumps(okruchy, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append(CSS)

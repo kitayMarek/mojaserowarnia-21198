@@ -109,7 +109,7 @@ def gen_page(r, siblings):
     ingredients = ([r["milkBase"]] if r["milkBase"] else []) + [f"{d[0]} — {d[1]}" for d in r["dosage"]]
     recipe_ld = {
         "@context": "https://schema.org", "@type": "Recipe", "name": r["name"],
-        "description": r["description"], "image": "https://mojaserowarnia.pl/og-image.png",
+        "description": r["description"], "image": "https://mojaserowarnia.pl/og-image.jpg",
         "author": {"@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl"},
         "datePublished": "2025-01-15",
         "recipeCategory": "Ser", "recipeYield": r["yield_"], "keywords": f"{r['name']}, ser domowy, przepis",
@@ -143,7 +143,7 @@ def gen_page(r, siblings):
         (r["description"][:140] + "…") if len(r["description"]) > 141 else r["description"])
     o.append(f'  <meta name="description" content="{e(desc)}" />')
     o.append(f'  <link rel="canonical" href="{url}" />\n  <meta name="robots" content="index, follow" />')
-    o.append(f'  <meta property="og:title" content="{n} — przepis na ser domowy" />\n  <meta property="og:description" content="{e(desc)}" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="{url}" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.png" />')
+    o.append(f'  <meta property="og:title" content="{n} — przepis na ser domowy" />\n  <meta property="og:description" content="{e(desc)}" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="{url}" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og-image.jpg" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(recipe_ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append('  <script type="application/ld+json">\n' + json.dumps(faq_ld, ensure_ascii=False, indent=2) + "\n  </script>")
     o.append(CSS)

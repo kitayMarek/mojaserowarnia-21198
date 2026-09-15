@@ -257,7 +257,7 @@ def build(slug, r, meta):
         "kategoria": CATEGORY.get(slug),
         "trudnosc": DIFF_MAP.get(r.get("difficulty")),
         "zrodlo": "serowarnia-kurated", "autor": None, "licencja": None,
-        "url": f"https://mojaserowarnia.pl/przepisy/{slug}.html",
+        "url": f"https://mojaserowarnia.pl/przepisy/{slug}",
         "mleko": {"litry": num(r["milkBase"]), "typ": (mtypes[0] if mtypes else None),
                   "typy": mtypes or None, "pasteryzacja": None},
         "kultury": [{"co": c, "dawka": "wg producenta"} for c in r["cultures"]],
