@@ -172,7 +172,7 @@ def gen_page(r, siblings):
         for nm, tp in r["cultures"]:
             o.append(f"    <li><strong>{e(nm)}</strong>{(' — ' + e(tp)) if tp else ''}</li>")
         o.append("  </ul>")
-        o.append('  <p>Porównanie i dostępność: <a href="https://mojaserowarnia.pl/kultury/">przewodnik o kulturach</a> i <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur</a>.</p>')
+        o.append('  <p>Porównanie i dostępność: <a href="https://mojaserowarnia.pl/bakterie-kultury">przewodnik o kulturach</a> i <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur</a>.</p>')
     if r["steps"]:
         o.append("  <h2>Przygotowanie krok po kroku</h2>\n  <ol>")
         for i, (ti, co) in enumerate(r["steps"]):
@@ -193,7 +193,7 @@ def gen_page(r, siblings):
     o.append('      <li><a href="https://mojaserowarnia.pl/przepisy/przewodnik.html">Przepisy na sery domowe — przewodnik</a></li>')
     for sid, sname in siblings[:3]:
         o.append(f'      <li><a href="https://mojaserowarnia.pl/przepisy/{sid}.html">{e(sname)} — przepis</a></li>')
-    o.append('      <li><a href="https://mojaserowarnia.pl/kultury/">Kultury bakteryjne do serów</a></li>')
+    o.append('      <li><a href="https://mojaserowarnia.pl/bakterie-kultury">Kultury bakteryjne do serów</a></li>')
     o.append("    </ul>\n  </div>")
     o.append(f'  <footer>Statyczna strona informacyjna z przepisem na {n}. Interaktywna wersja dostępna jest w aplikacji <a href="https://mojaserowarnia.pl/przepisy">Moja Serowarnia</a>.</footer>\n</body>\n</html>')
     return "\n".join(o)

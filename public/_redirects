@@ -37,6 +37,10 @@
 # Przewodnik o kulturach scalony z /bakterie-kultury (2026-09-01). Powod: obie
 # strony byly przewodnikami o tym samym i bily sie o te same frazy.
   /kultury/przewodnik /bakterie-kultury 301
+# Przewodnik po przepisach ma trase /przepisy. Adres /przepisy/przewodnik byl
+# jego duplikatem: bot dostawal pod nim ten sam mirror, a mirror wskazywal go
+# jako canonical (poprawione 15.09.2026).
+  /przepisy/przewodnik /przepisy 301
   /kultury /bakterie-kultury 301
   /kultury/ /bakterie-kultury 301
 
