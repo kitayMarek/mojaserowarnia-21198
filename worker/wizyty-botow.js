@@ -94,6 +94,10 @@ const BOTY = [
   [/SemrushBot/i,        'inny',       'SemrushBot'],
   [/DotBot/i,            'inny',       'DotBot'],
   [/MJ12bot/i,           'inny',       'MJ12bot'],
+  // Nasza aplikacja analityczna (analiza.mojaserowarnia.pl) sprawdza przekierowania
+  // adresow .html. Do 15.09.2026 zapisywala sie jako "(nierozpoznany podpis)".
+  // Jako ruch wlasny oznacza ja i tak znacznik test-marek w podpisie.
+  [/seo-evidence/i,      'Moja Serowarnia', 'seo-evidence'],
   // Poniżej operatorzy bez publicznej listy zakresów w tym formacie.
   // Trafiają do bazy ze zweryfikowany = NULL, czyli "nie da się rozstrzygnąć".
   [/CCBot/i,             'inny',       'CCBot'],

@@ -14,7 +14,7 @@
  *
  * CZEGO NIE WYDAJE: adresów IP, User-Agentów, ASN, krajów ani godzin.
  *
- * PARAMETRY: od i do w formacie RRRR-MM-DD, dni UTC włącznie, najwyżej 92 dni.
+ * PARAMETRY: od i do w formacie RRRR-MM-DD, dni UTC włącznie, najwyżej 31 dni.
  * Bez parametrów: 28 pełnych dni zakończonych wczoraj.
  */
 
@@ -25,7 +25,9 @@ export const SCIEZKA_KONTRAKTU = '/api/licznik-botow';
 // zanim odpowiedź wyjdzie.
 export const WLASNY_ODCZYT = 'x-wlasny-odczyt';
 
-const NAJDLUZSZY_OKRES_DNI = 92;
+// Tydzień to około 5 tysięcy wierszy wizyt (sprawdzone 15.09.2026), więc dłuższe
+// okresy aplikacja pobiera w kawałkach zamiast jednym ciężkim zapytaniem.
+const NAJDLUZSZY_OKRES_DNI = 31;
 const DOBA = 86_400_000;
 
 // Daty, od których liczby w kontrakcie znaczą co innego niż wcześniej. Źródło:
