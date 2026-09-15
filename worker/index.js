@@ -335,6 +335,21 @@ Disallow: /
       return Response.redirect(url.toString(), 301);
     }
 
+    // 1a-) STARE ADRESY .html, które miały przekierowanie w public/_redirects.
+    //      Od 8.09.2026 "/*.html" jest w run_worker_first (wrangler.jsonc), więc
+    //      każde żądanie .html trafia najpierw tutaj i warstwa _redirects go już
+    //      nie widzi. Reguły z .html po lewej stronie przestały tam działać tego
+    //      dnia i przez tydzień dawały 404. Znalezione na żywo 15.09.2026.
+    const staryAdresHtml = {
+      '/etykieta-rhd.html': '/etykieta-do-sprzedazy-rhd',
+      '/przepisy/do-twarogu.html': '/kultury/do-twarogu',
+      '/kultury/index.html': '/bakterie-kultury',
+    }[url.pathname];
+    if (staryAdresHtml) {
+      url.pathname = staryAdresHtml;
+      return Response.redirect(url.toString(), 301);
+    }
+
     // 1a) SCALENIE ADRESOW: /x.html -> /x.
     //
     //     Kazdy mirror odpowiadal pod dwoma adresami naraz — czystym i z

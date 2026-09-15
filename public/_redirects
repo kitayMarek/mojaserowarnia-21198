@@ -14,8 +14,10 @@
 # literówka w starej trasie kalkulatora wartości odżywczych
   /porownawie-wartosci-odzywczych /porownanie-wartosci-odzywczych 301
   /porownawie-wartosci-odzywczych/ /porownanie-wartosci-odzywczych 301
-# stary mirror etykiety → opisowy slug GEO
-  /etykieta-rhd.html /etykieta-do-sprzedazy-rhd 301
+# Stare adresy z .html po lewej stronie (/etykieta-rhd.html, /przepisy/do-twarogu.html,
+# /kultury/index.html) obsługuje worker, reguła 1a-. Od 8.09.2026 "/*.html" jest
+# w run_worker_first, więc ta warstwa takich żądań nie widzi i reguły tutaj
+# przestały działać. NIE dopisywać tu reguł z .html po lewej stronie.
 # /kalkulator nie jest trasą → hub narzędzi
   /kalkulator /narzedzia 301
   /kalkulator/ /narzedzia 301
@@ -28,7 +30,6 @@
 # uruchomieniu. Zaden nasz link tak nie brzmi (sprawdzone: w public/przepisy/
 # nie ma ani jednego odnosnika wzglednego), wiec adres wzial sie z zewnatrz
 # albo z domyslu wyszukiwarki. Prawdziwa strona lezy w /kultury/.
-  /przepisy/do-twarogu.html /kultury/do-twarogu 301
   /przepisy/do-twarogu /kultury/do-twarogu 301
 
 # /przepis/<id> (liczba pojedyncza) → /przepisy/<id>
@@ -36,7 +37,6 @@
 # Przewodnik o kulturach scalony z /bakterie-kultury (2026-09-01). Powod: obie
 # strony byly przewodnikami o tym samym i bily sie o te same frazy.
   /kultury/przewodnik /bakterie-kultury 301
-  /kultury/index.html /bakterie-kultury 301
   /kultury /bakterie-kultury 301
   /kultury/ /bakterie-kultury 301
 
