@@ -199,7 +199,7 @@ const narzedziaItems: SearchItem[] = [
     description:
       "Dwukierunkowy przelicznik jednostek miar: długość, masa, objętość, temperatura, prędkość, ciśnienie i powierzchnia.",
     category: "narzedzia",
-    href: "/kalkulator-miar.html",
+    href: "/kalkulator-miar",
     keywords: [
       "kalkulator",
       "miary",

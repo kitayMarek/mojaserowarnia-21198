@@ -15,7 +15,7 @@
   /porownawie-wartosci-odzywczych /porownanie-wartosci-odzywczych 301
   /porownawie-wartosci-odzywczych/ /porownanie-wartosci-odzywczych 301
 # stary mirror etykiety → opisowy slug GEO
-  /etykieta-rhd.html /etykieta-do-sprzedazy-rhd.html 301
+  /etykieta-rhd.html /etykieta-do-sprzedazy-rhd 301
 # /kalkulator nie jest trasą → hub narzędzi
   /kalkulator /narzedzia 301
   /kalkulator/ /narzedzia 301
@@ -28,8 +28,8 @@
 # uruchomieniu. Zaden nasz link tak nie brzmi (sprawdzone: w public/przepisy/
 # nie ma ani jednego odnosnika wzglednego), wiec adres wzial sie z zewnatrz
 # albo z domyslu wyszukiwarki. Prawdziwa strona lezy w /kultury/.
-  /przepisy/do-twarogu.html /kultury/do-twarogu.html 301
-  /przepisy/do-twarogu /kultury/do-twarogu.html 301
+  /przepisy/do-twarogu.html /kultury/do-twarogu 301
+  /przepisy/do-twarogu /kultury/do-twarogu 301
 
 # /przepis/<id> (liczba pojedyncza) → /przepisy/<id>
   /przepis/* /przepisy/:splat 301

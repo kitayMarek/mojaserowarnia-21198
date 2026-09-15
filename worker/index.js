@@ -68,6 +68,16 @@ const TRASA_MIRRORA = Object.fromEntries(
   Object.entries(MIRROR_POD_INNA_NAZWA).map(([trasa, plik]) => [plik, trasa])
 );
 
+// Artykuły bez trasy React: istnieją tylko jako plik statyczny, więc worker
+// podaje ten plik pod czystym adresem także ludziom (reguła 2b). Lista
+// z przejścia 15.09.2026 przez wszystkie adresy mapy strony w aplikacji.
+const TYLKO_PLIK_STATYCZNY = new Set([
+  '/etykieta-do-sprzedazy-rhd',
+  '/jak-wystawic-fakture-vat-rr',
+  '/kultury/do-twarogu',
+  '/kultury/do-caciotta',
+]);
+
 // Rozszerzenia, dla których brak pliku ma znaczyć PRAWDZIWE 404, a nie
 // index.html z kodem 200. Dla Google taki „soft 404" (np. /assets/stary-chunk.js
 // zwracające HTML) to sygnał niskiej jakości serwisu.
@@ -502,6 +512,22 @@ Disallow: /
         const odpowiedz = await zasob(env, url.origin, mirror);
         if (odpowiedz.status === 200) return oznaczMirror(odpowiedz);
       }
+    }
+
+    // 2b) Artykuły, które istnieją WYŁĄCZNIE jako plik statyczny, bez trasy React.
+    //     Do 8.09.2026 człowiek dostawał je pod adresem .html. Od reguły 1a
+    //     .html przekierowuje na czysty adres, a tam nie było czego podać:
+    //     aplikacja React odpowiadała stroną 404, a pod /kultury/:slug
+    //     komunikatem „Nie mamy takiej kultury". Przez tydzień ludzie z Google
+    //     lądowali na pustej stronie, choć mapa strony i canonical wskazują
+    //     właśnie czysty adres. Boty dostają ten sam plik regułą 2.
+    //     Sprawdzenie przed wdrożeniem reguły 1a objęło tylko odpowiedzi dla
+    //     botów, więc tej luki nie zobaczyło. Lista z przejścia 15.09.2026 przez
+    //     wszystkie adresy mapy strony w działającej aplikacji.
+    //     ⚠ Jeśli któryś z tych artykułów dostanie trasę React, usunąć go stąd.
+    if (TYLKO_PLIK_STATYCZNY.has(bezUkosnika)) {
+      const plik = await zasob(env, url.origin, bezUkosnika + '.html');
+      if (plik.status === 200) return plik;
     }
 
     // 3) Katalog z index.html — odpowiednik DirectoryIndex Apache'a.

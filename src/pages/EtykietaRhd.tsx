@@ -473,7 +473,7 @@ const EtykietaRhd = () => {
         <section className="py-8">
           <div className="container mx-auto px-4 max-w-4xl">
             <SeeAlso links={[
-              { href: "/prawo/przewodnik.html", title: "Sprzedaż sera w RHD — przewodnik prawny", description: "Rejestracja, limity, oznakowanie miejsca sprzedaży" },
+              { href: "/prawo", title: "Sprzedaż sera w RHD — przewodnik prawny", description: "Rejestracja, limity, oznakowanie miejsca sprzedaży" },
               { href: "/kalkulator-kosztu-sera", title: "Kalkulator kosztu sera", description: "Koszt produkcji, marża i cena sprzedaży" },
               { href: "/przepisy", title: "Przepisy na sery", description: "Krok po kroku jak zrobić ser" },
               { href: "/narzedzia", title: "Wszystkie narzędzia", description: "Kalkulatory i konwertery dla serowara" },
