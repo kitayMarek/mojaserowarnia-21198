@@ -279,4 +279,11 @@ export const metaStron: Record<string, MetaStrony> = {
       "Z kilograma sera zostaje 9–10 l serwatki. Kiedy jest paszą i surowcem, a kiedy kłopotem: skład, ricotta, środowisko, przepisy, serwatka w ogrodzie.",
     mirror: "serwatka.html",
   },
+  "/serwatka-slodka-i-kwasna": {
+    // Plan: ProjektyLLm/PLAN-serwatka.md (strona C).
+    title: "Serwatka słodka i kwaśna: czym się różnią i do czego służą",
+    description:
+      "Serwatka słodka zostaje po serach podpuszczkowych, kwaśna po twarogu i jogurcie. Skład, pH, ricotta, pasza i co jeszcze zależy od rodzaju serwatki.",
+    mirror: "serwatka-slodka-i-kwasna.html",
+  },
 };

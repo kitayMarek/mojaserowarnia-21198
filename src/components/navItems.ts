@@ -81,6 +81,7 @@ export const navItems: NavItem[] = [
       { label: "Dojrzewalnia do sera", href: "/dojrzewalnia-z-lodowki" },
       { label: "Solenie sera", href: "/solenie-sera" },
       { label: "Serwatka: pożytek czy problem", href: "/serwatka" },
+      { label: "Serwatka słodka i kwaśna", href: "/serwatka-slodka-i-kwasna" },
       { label: "Fermentacja serwatki", href: "/fermentacja-serwatki" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
       { label: "Chlorek wapnia do mleka", href: "/chlorek-wapnia-do-mleka" },

@@ -174,7 +174,7 @@ const Serwatka = () => {
                     W litrze serwatki jest 44–52 g laktozy, 6–10 g białka, 5–6 g tłuszczu i kilka gramów składników
                     mineralnych. Serwatka słodka zostaje po serach podpuszczkowych, kwaśna po twarogu i serach
                     kwasowych. Kwaśna ma mniej laktozy, więcej składników mineralnych i niższe pH. Porównanie obu:{" "}
-                    <Link to="/fermentacja-serwatki" className="text-primary underline">fermentacja serwatki</Link>.
+                    <Link to="/serwatka-slodka-i-kwasna" className="text-primary underline">serwatka słodka i kwaśna</Link>.
                   </p>
                 </CardContent>
               </Card>
@@ -188,8 +188,9 @@ const Serwatka = () => {
                     <li>
                       <strong>Ricotta.</strong> Białka serwatkowe zostają w serwatce po serze podpuszczkowym i ścina je
                       dopiero wysoka temperatura z kwasem.{" "}
-                      <Link to="/przepisy/ricotta" className="text-primary underline">Przepis na ricottę</Link>. Po
-                      twarogu serwatka jest wyczerpana i ricotty z niej nie będzie.
+                      <Link to="/przepisy/ricotta" className="text-primary underline">Przepis na ricottę</Link>. Z
+                      serwatki po twarogu klasyczna ricotta zwykle nie wychodzi, patrz{" "}
+                      <Link to="/serwatka-slodka-i-kwasna" className="text-primary underline">serwatka słodka i kwaśna</Link>.
                     </li>
                     <li>
                       <strong>Pasza.</strong> Najlepiej dla świń, drobiowi tylko w małych ilościach i ukwaszona:{" "}
@@ -226,7 +227,7 @@ const Serwatka = () => {
                     suszarnię ma tylko duża mleczarnia.
                   </p>
                   <p>
-                    <strong>Kwaśna jest trudniejsza.</strong> Serwatka po twarogu nie da ricotty, ma więcej
+                    <strong>Kwaśna jest trudniejsza.</strong> Serwatka po twarogu zwykle nie da ricotty, trudno ją wysuszyć, ma więcej
                     składników mineralnych i jest gorszą paszą niż słodka.
                   </p>
                 </CardContent>
