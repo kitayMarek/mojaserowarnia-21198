@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { zdarzenieMieszankaEksport } from "@/lib/zdarzeniaGa4";
+import { otworzWTalkToFarm, dwaMiejsca, OPIS_TALKTOFARM } from "@/lib/talkToFarm";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { 
@@ -273,6 +274,29 @@ const KalkulatorPaszBydlo = () => {
     link.click();
     URL.revokeObjectURL(url);
     zdarzenieMieszankaEksport('bydlo', 'csv');
+  };
+
+  // Dawka do TalkToFarm. Udział liczony ze świeżej masy (kg składnika / suma kg).
+  // "mleczne" albo "opasowe": oba typy bydła mięsnego to opas.
+  const zapiszWTalkToFarm = () => {
+    const sumaKg = dawka.reduce((s, d) => s + d.iloscKg, 0);
+    if (dawka.length === 0 || sumaKg <= 0) return;
+    const rodzajDawki = typBydla === "mleczne" ? "mleczne" : "opasowe";
+    otworzWTalkToFarm({
+      nazwa: `Dawka dla bydła (${rodzajDawki})`,
+      rodzaj: "bydło",
+      sklad: dawka.map(({ skladnik, iloscKg }) => ({
+        nazwa: skladnik.nazwa,
+        udzial: dwaMiejsca((iloscKg / sumaKg) * 100),
+        cena: skladnik.cenaKg > 0 ? skladnik.cenaKg : null,
+      })),
+      parametry: {
+        "Dawka (kg/dzień)": dwaMiejsca(sumaKg),
+        "Sucha masa (kg/dzień)": dwaMiejsca(bilans.sm),
+        "Koszt (zł/dzień)": dwaMiejsca(bilans.koszt),
+      },
+    });
+    zdarzenieMieszankaEksport('bydlo', 'talktofarm');
   };
 
   const eksportujPDF = () => {
@@ -747,6 +771,16 @@ const KalkulatorPaszBydlo = () => {
                   <Button onClick={eksportujPDF} variant="secondary">
                     <FileText className="w-4 h-4 mr-1" /> PDF
                   </Button>
+                  <div className="flex flex-col gap-1 max-w-[260px]">
+                    <Button
+                      onClick={zapiszWTalkToFarm}
+                      disabled={dawka.reduce((s, d) => s + d.iloscKg, 0) <= 0}
+                      className="bg-emerald-700 hover:bg-emerald-800 text-white"
+                    >
+                      🚜 Zapisz w TalkToFarm
+                    </Button>
+                    <span className="text-xs text-muted-foreground">{OPIS_TALKTOFARM}</span>
+                  </div>
                 </>
               )}
             </div>

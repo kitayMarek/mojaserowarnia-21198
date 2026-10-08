@@ -3,6 +3,7 @@ import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
 import PelnySklad from '@/components/kalkulator/PelnySklad';
 import ZapisaneReceptury, { PodpowiedzZapisu } from '@/components/kalkulator/ZapisaneReceptury';
 import { zdarzenieMieszankaEksport } from '@/lib/zdarzeniaGa4';
+import { otworzWTalkToFarm, dwaMiejsca, OPIS_TALKTOFARM } from '@/lib/talkToFarm';
 import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -239,6 +240,42 @@ const KalkulatorPasz = () => {
       setEksportTyp('csv');
       setPokazModalEksport(true);
     }
+  };
+
+  // Mieszanka do TalkToFarm: tylko składniki z udziałem, ceny i parametry.
+  // Koszt jako null, gdy którykolwiek użyty składnik nie ma ceny: częściowa suma
+  // wyglądałaby jak prawdziwy koszt mieszanki.
+  const zapiszWTalkToFarm = () => {
+    if (Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma) {
+      return;
+    }
+    const rodzaj = (typyDrobiu.find(t => t.value === drob)?.label ?? drob)
+      .replace(/^[^\p{L}]+/u, '');
+    const sklad = skladniki
+      .filter(s => parseFloat(s.procent as string) > 0)
+      .map(s => {
+        const cena = parseFloat(s.cena);
+        return {
+          nazwa: s.nazwa,
+          udzial: dwaMiejsca(parseFloat(s.procent as string)),
+          cena: cena > 0 ? cena : null,
+        };
+      });
+    otworzWTalkToFarm({
+      nazwa: `Mieszanka: ${rodzaj} (${okres})`,
+      rodzaj,
+      okres,
+      sklad,
+      parametry: {
+        'EM (MJ/kg)': dwaMiejsca(obliczCalkowita('em')),
+        'Białko (%)': dwaMiejsca(obliczCalkowita('bialko')),
+        'Ca (%)': dwaMiejsca(obliczCalkowita('ca')),
+        'P (%)': dwaMiejsca(obliczCalkowita('p')),
+        'Włókno (%)': dwaMiejsca(obliczCalkowita('wlokno')),
+        'Koszt (zł/kg)': czyCenyWypelnione() ? dwaMiejsca(obliczKoszt()) : null,
+      },
+    });
+    zdarzenieMieszankaEksport('drob', 'talktofarm');
   };
 
   const exportTXT = () => {
@@ -1792,6 +1829,17 @@ const KalkulatorPasz = () => {
               >
                 📄 Eksport TXT
               </button>
+
+              <div className="flex flex-col gap-1 max-w-[260px]">
+                <button
+                  onClick={zapiszWTalkToFarm}
+                  disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
+                  className="px-4 py-3 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
+                >
+                  🚜 Zapisz w TalkToFarm
+                </button>
+                <span className="text-xs text-gray-500">{OPIS_TALKTOFARM}</span>
+              </div>
             </div>
 
             <div className="text-sm text-gray-600 space-y-2">
