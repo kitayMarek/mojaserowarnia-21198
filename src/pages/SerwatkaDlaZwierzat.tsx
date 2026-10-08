@@ -50,7 +50,7 @@ const SerwatkaDlaZwierzat = () => {
     {
       question: "Czy serwatka nadaje się na nawóz?",
       answer:
-        "Tak, ale rozcieńczona i z umiarem. Rozcieńczenie 1:5 do 1:10 z wodą, podlewanie pod korzeń. Serwatka zakwasza glebę, więc sprawdza się przy roślinach lubiących niższe pH (borówka, różaneczniki), a szkodzi tam, gdzie potrzebny jest odczyn zasadowy. Nie wylewaj nierozcieńczonej serwatki w jedno miejsce ani do rowów i zbiorników — ma bardzo wysokie BZT i powoduje zanik tlenu w wodzie oraz śnięcie ryb.",
+        "Tak, ale rozcieńczona i z umiarem. Rozcieńczenie 1:5 do 1:10 z wodą, podlewanie pod korzeń. Nie traktuj jej jednak jako sposobu na zakwaszenie gleby, także pod borówkę: kwas mlekowy bakterie glebowe szybko rozkładają, a sole z serwatki zostają, więc duże dawki zasalają glebę. Trwale zakwasza siarka. Nie wylewaj nierozcieńczonej serwatki w jedno miejsce ani do rowów i zbiorników — ma bardzo wysokie BZT i powoduje zanik tlenu w wodzie oraz śnięcie ryb.",
     },
     {
       question: "Czy wolno oddać serwatkę sąsiadowi na paszę?",
@@ -340,7 +340,7 @@ const SerwatkaDlaZwierzat = () => {
                     <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">3</div>
                     <div>
                       <strong>Nawóz</strong> — nadwyżka, rozcieńczona 1:5 do 1:10, pod korzeń.
-                      Zakwasza glebę, więc dobra pod borówkę czy różaneczniki.
+                      Nie zakwasza gleby na dłużej, więc nie zastąpi siarki pod borówkę (<Link to="/serwatka" className="text-primary underline">serwatka w ogrodzie</Link>).
                     </div>
                   </div>
                   <p className="text-muted-foreground">

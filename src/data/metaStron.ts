@@ -272,4 +272,11 @@ export const metaStron: Record<string, MetaStrony> = {
       "Bakterie mlekowe stają, zanim zjedzą laktozę. Dlaczego, ile cukru zostaje w serwatce i co go zużywa: drożdże, zobojętnianie kwasu, laktaza, biogaz.",
     mirror: "fermentacja-serwatki.html",
   },
+  "/serwatka": {
+    // Strona-matka o serwatce, plan: ProjektyLLm/PLAN-serwatka.md (strona A).
+    title: "Serwatka: pożytek czy problem i co z nią zrobić",
+    description:
+      "Z kilograma sera zostaje 9–10 l serwatki. Kiedy jest paszą i surowcem, a kiedy kłopotem: skład, ricotta, środowisko, przepisy, serwatka w ogrodzie.",
+    mirror: "serwatka.html",
+  },
 };

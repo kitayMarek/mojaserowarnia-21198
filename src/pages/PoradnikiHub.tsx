@@ -88,6 +88,13 @@ const PoradnikiHub = () => {
       color: "from-teal-500 to-emerald-600",
     },
     {
+      icon: <Droplets className="w-12 h-12" />,
+      title: "Serwatka: pożytek czy problem",
+      description: "Z kilograma sera zostaje 9–10 litrów serwatki. Dla kogo to pasza i surowiec, a dla kogo kłopot: skład, ricotta, obciążenie wody (BZT 135–300 razy wyższe niż ścieków z domu), przepisy i dlaczego serwatka nie zakwasi gleby pod borówki.",
+      href: "/serwatka",
+      color: "from-sky-500 to-cyan-600",
+    },
+    {
       icon: <FlaskConical className="w-12 h-12" />,
       title: "Fermentacja serwatki",
       description: "Dlaczego bakterie mlekowe stają, zanim zjedzą laktozę (kwaśna serwatka ma jej jeszcze 44–46 g/l), i co zużywa resztę: drożdże Kluyveromyces, zobojętnianie kwasu, laktaza, biogaz. Plus: czemu fermentacja nie oczyszcza serwatki.",
@@ -194,7 +201,8 @@ const PoradnikiHub = () => {
                 "/woskowanie-sera": "woskowanie-sera",
                 "/dojrzewalnia-z-lodowki": "dojrzewalnia-z-lodowki",
                 "/solenie-sera": "solenie-sera",
-                "/fermentacja-serwatki": "fermentacja-serwatki"
+                "/fermentacja-serwatki": "fermentacja-serwatki",
+                "/serwatka": "serwatka"
               };
               const guideId = guideIdMap[guide.href] || guide.href;
               

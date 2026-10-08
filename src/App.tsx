@@ -100,6 +100,7 @@ const MlekoDoSera = lazy(() => import("./pages/MlekoDoSera"));
 const WadyMlekaWadySera = lazy(() => import("./pages/WadyMlekaWadySera"));
 const SerCamembert = lazy(() => import("./pages/SerCamembert"));
 const FermentacjaSerwatki = lazy(() => import("./pages/FermentacjaSerwatki"));
+const Serwatka = lazy(() => import("./pages/Serwatka"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -169,6 +170,7 @@ const App = () => (
           <Route path="/wady-mleka-a-wady-sera" element={<WadyMlekaWadySera />} />
           <Route path="/sery/camembert" element={<SerCamembert />} />
           <Route path="/fermentacja-serwatki" element={<FermentacjaSerwatki />} />
+          <Route path="/serwatka" element={<Serwatka />} />
           <Route path="/klasyka-serowarstwa" element={<KlasykaPolskiegoSerowarstwa />} />
           <Route path="/serowarstwo-staropolskie" element={<SerowarstwoStaropolskie />} />
           <Route path="/klecki-jakosc-mleka" element={<KleckiJakoscMleka />} />
