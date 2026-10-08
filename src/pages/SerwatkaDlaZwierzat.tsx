@@ -87,6 +87,7 @@ const SerwatkaDlaZwierzat = () => {
     { title: "Kalkulator pasz dla drobiu", href: "/kalkulator-pasz", description: "Zbilansuj mieszankę — serwatka to dodatek, nie podstawa dawki." },
     { title: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser", description: "Druga droga odzysku: kiedy ser ratować, a kiedy przeznaczyć na paszę." },
     { title: "Przepis na ricottę", href: "/przepisy/ricotta", description: "Wyciągnij z serwatki resztę białka, zanim trafi do zwierząt." },
+    { title: "Fermentacja serwatki", href: "/fermentacja-serwatki", description: "Dlaczego ukwaszenie zużywa tylko część laktozy i co zużywa resztę." },
     { title: "Pasze i zwierzęta", href: "/pasze", description: "Cały dział: bilansowanie mieszanek i zagospodarowanie produktów ubocznych." },
   ];
 

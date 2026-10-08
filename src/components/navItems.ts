@@ -80,6 +80,7 @@ export const navItems: NavItem[] = [
       { label: "Woskowanie sera", href: "/woskowanie-sera" },
       { label: "Dojrzewalnia do sera", href: "/dojrzewalnia-z-lodowki" },
       { label: "Solenie sera", href: "/solenie-sera" },
+      { label: "Fermentacja serwatki", href: "/fermentacja-serwatki" },
       { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
       { label: "Chlorek wapnia do mleka", href: "/chlorek-wapnia-do-mleka" },
       { label: "Gdzie kupić podpuszczkę", href: "/gdzie-kupic-podpuszczke" },

@@ -87,6 +87,13 @@ const PoradnikiHub = () => {
       href: "/solenie-sera",
       color: "from-teal-500 to-emerald-600",
     },
+    {
+      icon: <FlaskConical className="w-12 h-12" />,
+      title: "Fermentacja serwatki",
+      description: "Dlaczego bakterie mlekowe stają, zanim zjedzą laktozę (kwaśna serwatka ma jej jeszcze 44–46 g/l), i co zużywa resztę: drożdże Kluyveromyces, zobojętnianie kwasu, laktaza, biogaz. Plus: czemu fermentacja nie oczyszcza serwatki.",
+      href: "/fermentacja-serwatki",
+      color: "from-amber-500 to-yellow-600",
+    },
   ];
 
   return (
@@ -186,7 +193,8 @@ const PoradnikiHub = () => {
                 "/gdzie-kupic-podpuszczke": "gdzie-kupic-podpuszczke",
                 "/woskowanie-sera": "woskowanie-sera",
                 "/dojrzewalnia-z-lodowki": "dojrzewalnia-z-lodowki",
-                "/solenie-sera": "solenie-sera"
+                "/solenie-sera": "solenie-sera",
+                "/fermentacja-serwatki": "fermentacja-serwatki"
               };
               const guideId = guideIdMap[guide.href] || guide.href;
               

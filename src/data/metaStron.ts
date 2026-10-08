@@ -264,4 +264,12 @@ export const metaStron: Record<string, MetaStrony> = {
       "Camembert to miękki ser z Normandii z jadalną białą skórką. Jak go jeść i kroić, ile piec, czy można mrozić, czym różni się od brie i czy można w ciąży.",
     mirror: "sery/camembert.html",
   },
+  "/fermentacja-serwatki": {
+    // Odpowiedź na pytanie z formularza kontaktowego (7.10.2026): kultura, która
+    // zużyje całą laktozę w serwatce. Plan: ProjektyLLm/PLAN-serwatka.md, strona B.
+    title: "Fermentacja serwatki: dlaczego staje i jak zużyć laktozę",
+    description:
+      "Bakterie mlekowe stają, zanim zjedzą laktozę. Dlaczego, ile cukru zostaje w serwatce i co go zużywa: drożdże, zobojętnianie kwasu, laktaza, biogaz.",
+    mirror: "fermentacja-serwatki.html",
+  },
 };
