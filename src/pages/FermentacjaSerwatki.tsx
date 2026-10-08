@@ -51,6 +51,22 @@ const ZRODLA = [
     tekst: "Główny Inspektorat Sanitarny: znakowanie środków spożywczych komunikatem „bez laktozy”",
     url: "https://www.gov.pl/web/gis/znakowanie-srodkow-spozywczych-komunikatem-bez-laktozy",
   },
+  {
+    tekst: "Szczepy Gal+ Streptococcus thermophilus a galaktoza w jogurcie, J. Food Sci. Technol.",
+    url: "https://pubmed.ncbi.nlm.nih.gov/25190881/",
+  },
+  {
+    tekst: "Przechodzenie drożdży z glukozy na galaktozę, PLOS Biology",
+    url: "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002042",
+  },
+  {
+    tekst: "Ustawa o wychowaniu w trzeźwości i przeciwdziałaniu alkoholizmowi, art. 46 (definicja napoju alkoholowego)",
+    url: "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20230002151",
+  },
+  {
+    tekst: "Kolekcja Kultur Drobnoustrojów Przemysłowych (KKP), Instytut Biotechnologii Przemysłu Rolno-Spożywczego",
+    url: "https://kkp.ibprs.pl/contact/",
+  },
 ];
 
 const SKLAD = [
@@ -73,6 +89,7 @@ const CELE: { cel: string; sposob: React.ReactNode }[] = [
       </>
     ),
   },
+  { cel: "Napój bez cukru", sposob: "drożdże Kluyveromyces marxianus; wyjdzie około 3% alkoholu, czyli napój alkoholowy" },
   { cel: "Alkohol", sposob: "drożdże Kluyveromyces marxianus; destylacja w domu jest w Polsce nielegalna" },
   { cel: "Kwas mlekowy, mleczan", sposob: "bakterie mlekowe i zobojętnianie kwasu w trakcie fermentacji" },
   {
@@ -250,6 +267,41 @@ const FermentacjaSerwatki = () => {
                 </CardContent>
               </Card>
 
+              <Card>
+                <CardHeader>
+                  <CardTitle>Napój z serwatki bez cukru: w co zamienia się cukier</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm leading-relaxed">
+                  <p>
+                    Fermentacja nie usuwa cukru, tylko go zamienia. Drożdże robią z niego alkohol, bakterie mlekowe
+                    kwas mlekowy (i same się nim zatrzymują), a bakterie octowe zamieniają alkohol w kwas octowy.
+                    Napoju bez cukru, bez alkoholu i bez mocnego kwasu sama fermentacja nie da.
+                  </p>
+                  <p>
+                    <strong>Ile alkoholu?</strong> Serwatka ma 44–52 g laktozy w litrze, a drożdże{" "}
+                    <em>Kluyveromyces marxianus</em> robią około 0,5 g alkoholu z 1 g laktozy. Po pełnej fermentacji
+                    to 22–26 g alkoholu w litrze, czyli <strong>około 3%</strong>, mniej więcej tyle co lekkie piwo.
+                    W Polsce napój powyżej 0,5% alkoholu jest napojem alkoholowym. Do własnego picia można, sprzedaż
+                    wymaga akcyzy i zezwoleń, a każdy napój na sprzedaż także rejestracji w sanepidzie.
+                  </p>
+                  <p>
+                    <strong>Czy najpierw laktaza?</strong> To nic nie ułatwia. Laktaza rozkłada laktozę na glukozę
+                    i galaktozę, ale te cukry i tak trzeba przefermentować. Drożdże piwne i winiarskie
+                    (<em>Saccharomyces cerevisiae</em>) zjadają galaktozę dopiero po glukozie i wolniej, różnie
+                    zależnie od szczepu, więc część może zostać. Większość szczepów <em>Streptococcus thermophilus</em>, głównej
+                    bakterii kultur jogurtowych, galaktozy nie używa i wydziela ją do produktu.{" "}
+                    <em>K. marxianus</em> rozkłada laktozę i fermentuje oba cukry sam, więc to prostsza droga.
+                  </p>
+                  <p>
+                    <strong>Skąd wziąć <em>K. marxianus</em>?</strong> Czyste kultury drożdży przemysłowych prowadzi
+                    Kolekcja Kultur Drobnoustrojów Przemysłowych (KKP) w Instytucie Biotechnologii Przemysłu
+                    Rolno-Spożywczego w Warszawie: trzeba zapytać, czy ma ten gatunek. Są też zagraniczne kolekcje
+                    kultur. Na próbę wystarczą kultury kefirowe z tymi drożdżami, ale wtedy wyjdzie napój podobny do
+                    kefiru, kwaśny i lekko alkoholowy. Ile cukru zostanie, pokaże dopiero badanie w laboratorium.
+                  </p>
+                </CardContent>
+              </Card>
+
               <Card className="border-amber-300 bg-amber-50/60 dark:bg-amber-950/20">
                 <CardHeader>
                   <CardTitle>Fermentacja mlekowa nie oczyszcza serwatki</CardTitle>
@@ -316,8 +368,8 @@ const FermentacjaSerwatki = () => {
                   ))}
                 </ul>
                 <p className="mt-2">
-                  Stosunek BZT i bilans tlenu dla laktozy i kwasu mlekowego to nasze wyliczenia z liczb podanych w
-                  źródłach.
+                  Stosunek BZT, bilans tlenu dla laktozy i kwasu mlekowego oraz zawartość alkoholu po pełnej
+                  fermentacji to nasze wyliczenia z liczb podanych w źródłach.
                 </p>
               </section>
             </div>
