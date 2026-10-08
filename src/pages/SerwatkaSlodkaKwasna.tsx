@@ -17,9 +17,9 @@ import { Scale } from "lucide-react";
  * (pliki poza repozytorium). Treść 1:1 z mirrorem public/serwatka-slodka-i-kwasna.html,
  * FAQ w faqPoradnikow ("serwatka-slodka-i-kwasna").
  *
- * O ricotcie z kwaśnej serwatki piszemy ostrożniej niż symulator sera, który
- * nazywa ją „wyczerpaną”: według Pires 2021 kwaśna serwatka ma jeszcze 6–8 g
- * białka w litrze, tylko ricotta z niej słabo wychodzi.
+ * Symulator sera (src/lib/symulatorSera.ts, stanSerwatki) mówi o serwatce to
+ * samo: po skrzepie kwasowym jest kwaśna, białka serwatkowe w niej zostają,
+ * ricotta z niej słabo wychodzi. Przy zmianie jednego poprawić drugie.
  */
 
 const ZRODLA = [

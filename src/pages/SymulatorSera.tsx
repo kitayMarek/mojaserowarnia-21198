@@ -207,11 +207,18 @@ const SymulatorSera = () => {
                 {wynik.serwatka === "slodka" ? (
                   <p className="text-sm">
                     <strong>{RICOTTA.nazwa}</strong> do wzięcia: podgrzej serwatkę do 85–90°C
-                    i lekko zakwaś. Ścinają się albuminy, których podpuszczka nie ruszyła.
+                    i lekko zakwaś. Ścinają się białka serwatkowe, których podpuszczka nie ruszyła.
+                    Więcej:{" "}
+                    <Link to="/serwatka" className="text-primary underline">co zrobić z serwatką</Link>.
                   </p>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Ricotty nie będzie, i to nie jest kwestia techniki.
+                    Klasycznej ricotty z samej tej serwatki zwykle nie będzie: przepisy na ricottę
+                    z serwatki po twarogu dodają mleko, a wtedy większość sera pochodzi z mleka.
+                    Co jeszcze zrobić z kwaśną serwatką:{" "}
+                    <Link to="/serwatka-slodka-i-kwasna" className="text-primary underline">
+                      serwatka słodka i kwaśna
+                    </Link>.
                   </p>
                 )}
               </div>

@@ -14,11 +14,17 @@
  *
  * RICOTTA NIE JEST OSIĄGALNA Z FORMULARZA i to nie jest przeoczenie.
  * Ricotta powstaje z serwatki po serze podpuszczkowym, czyli jest produktem
- * drugiego obiegu. Co więcej: tylko podpuszczka zostawia w serwatce albuminy,
- * bo tnie kazeinę i nie rusza białek serwatkowych. Kwas z wysoką temperaturą
- * strąca jedno i drugie naraz, więc po twarogu czy paneerze serwatka jest
- * wyczerpana i ricotty z niej nie będzie. To jest najlepszy „błąd produkcji",
- * jaki ten symulator ma do zaoferowania, bo prawdziwy i nieoczywisty.
+ * drugiego obiegu. Podpuszczka tnie kazeinę, zanim mleko skwaśnieje, i zostawia
+ * w serwatce białka serwatkowe, z których powstaje ricotta.
+ *
+ * Po skrzepie kwasowym, jak przy twarogu, serwatka jest kwaśna. Białka
+ * serwatkowe nadal w niej są (6–8 g/l według Pires 2021), bo ścinają się dopiero
+ * od około 70°C, a koagulacja w tym modelu kończy się na 45°C. Z samej kwaśnej
+ * serwatki ricotta jednak słabo wychodzi, przepisy dodają mleko.
+ * Do 8.10.2026 stało tu, że po twarogu serwatka jest „wyczerpana”, bo kwas
+ * z temperaturą ścina także albuminy. To prawda tylko dla serów
+ * kwasowo-termicznych (paneer, ser z mleka zagotowanego), których model nie obejmuje.
+ * Źródła: ProjektyLLm/ZRODLA-serwatka.md, strona /serwatka-slodka-i-kwasna.
  */
 
 import type { KategoriaKultury } from "./kategorieKultur";
@@ -196,17 +202,18 @@ export function sprawdzBledy(p: Parametry): Blad | null {
 }
 
 // ── SERWATKA I RICOTTA ──────────────────────────────────────────────────────
-export type StanSerwatki = "slodka" | "wyczerpana";
+export type StanSerwatki = "slodka" | "kwasna";
 
 export function stanSerwatki(p: Parametry): StanSerwatki {
-  // Podpuszczka tnie kazeinę i zostawia albuminy w serwatce. Kwas z wysoką
-  // temperaturą strąca jedno i drugie naraz, więc nie zostaje nic do ricotty.
-  return p.podpuszczka === "brak" ? "wyczerpana" : "slodka";
+  // Bez podpuszczki mleko ścina kwas, więc serwatka jest kwaśna. Białka
+  // serwatkowe zostają w niej w obu przypadkach: w zakresie temperatur tego
+  // modelu (do 45°C) nic ich nie ścina.
+  return p.podpuszczka === "brak" ? "kwasna" : "slodka";
 }
 
 export const OPIS_SERWATKI: Record<StanSerwatki, string> = {
   slodka: "Serwatka słodka. Podpuszczka strąciła samą kazeinę, a białka serwatkowe zostały w płynie. Da się z niej ugotować ricottę.",
-  wyczerpana: "Serwatka wyczerpana. Kwas i temperatura strąciły kazeinę razem z albuminami, więc wszystko, co się dało ściąć, jest już w serze. Ricotty z tego nie będzie.",
+  kwasna: "Serwatka kwaśna. Kazeinę ściął kwas, a nie podpuszczka. Białka serwatkowe nadal są w płynie, ale z samej kwaśnej serwatki ścinają się słabo, a kwas wyciągnął z sera do serwatki część wapnia.",
 };
 
 // ── DOPASOWANIE ─────────────────────────────────────────────────────────────
