@@ -1212,12 +1212,12 @@ export const recipesData: Recipe[] = [
     steps: [
       {
         title: "1) Podgrzanie i zakwaszanie 32°C ~45 min",
-        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min.",
+        content: "Podgrzej mleko do 32°C. Dodaj kulturę mezofilną i pozostaw na 45 min. Potem zdejmij garnek z palnika i aż do krojenia skrzepu utrzymuj około 32°C bez grzania: w kąpieli wodnej (większe naczynie albo zlew z wodą 32–33°C) albo owinięty ręcznikiem. Spadek o 1–2°C nie szkodzi.",
         tip: "Kultura LD produkuje CO₂, tworząc charakterystyczne małe oczka w serze."
       },
       {
         title: "2) Krzepnięcie ~45 min",
-        content: "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu.",
+        content: "Dodaj podpuszczkę i pozostaw do utworzenia mocnego skrzepu. W czasie krzepnięcia niczego nie grzej i nie ruszaj garnkiem, żeby nie zniszczyć skrzepu.",
         tip: "Test skrzepu: czyste złamanie przy podniesieniu nożem."
       },
       {
@@ -1227,7 +1227,7 @@ export const recipesData: Recipe[] = [
       },
       {
         title: "4) Gotowanie do 38°C ~30 min",
-        content: "Podgrzewaj powoli do 38°C, mieszając delikatnie przez 30 min.",
+        content: "Podgrzewaj powoli do 38°C, mieszając delikatnie przez 30 min, czyli mniej więcej o 1°C na 5 minut. Najłatwiej dolewać gorącą wodę do kąpieli wodnej albo grzać na małym ogniu, krótko i z mieszaniem.",
         warning: "Nie przekraczaj 40°C — wyższa temperatura zabije współczesne kultury mezofilne. Uwaga hist.: Licznerski (1922) dopuszczał 40-45°C, bo ówczesne kultury naturalne były odporniejsze na ciepło."
       },
       {
@@ -3238,12 +3238,12 @@ export const recipesData: Recipe[] = [
     steps: [
       {
         title: "1) Podgrzanie i zakwaszanie — 32°C, 30–45 min",
-        content: "Podgrzej 8 L mleka do 32°C. Posyp kulturę mezofilną równomiernie po powierzchni, odczekaj 2 min, wmieszaj ruchami góra-dół. Pozostaw pod przykryciem na 30–45 min.",
+        content: "Podgrzej 8 L mleka do 32°C. Posyp kulturę mezofilną równomiernie po powierzchni, odczekaj 2 min, wmieszaj ruchami góra-dół. Pozostaw pod przykryciem na 30–45 min. Potem zdejmij garnek z palnika i aż do przełożenia do form utrzymuj około 32°C bez grzania: w kąpieli wodnej (większe naczynie albo zlew z wodą 32–33°C) albo owinięty ręcznikiem. Spadek o 1–2°C nie szkodzi.",
         tip: "Limburski to ser mezofilny — niższa temperatura (32°C) niż quartirolo (37°C). Daje łagodniejszy, bardziej maślany profil startowy."
       },
       {
         title: "2) Krzepnięcie — podpuszczka, 30–40 min",
-        content: "Rozcieńcz ~2 ml podpuszczki w 30 ml chłodnej wody. Wlej do mleka, mieszaj delikatnie 30 sekund. Przykryj i pozostaw w spokoju na 30–40 min.",
+        content: "Rozcieńcz ~2 ml podpuszczki w 30 ml chłodnej wody. Wlej do mleka, mieszaj delikatnie 30 sekund. Przykryj i pozostaw w spokoju na 30–40 min. W czasie krzepnięcia niczego nie grzej i nie ruszaj garnkiem, żeby nie zniszczyć skrzepu.",
         warning: "Test skrzepu: nóż pod kątem 45° — skrzep łamie się czysto, serwatka zielonkawa. Limburski wymaga delikatnego skrzepu — nie przedłużaj krzepnięcia."
       },
       {
