@@ -467,6 +467,8 @@ const RAPORTY = {
   // ale nikt jej nie podpial do odczytu - przez dwa dni mierzylismy do szuflady.
   // Zwraca wylacznie agregaty: zrodlo, liczba przyjsc, najczestsza strona.
   przyjscia: 'pub_raport_przyjscia',
+  // Pobrania treści na prośbę człowieka w czacie, tydzień po tygodniu (16.10.2026).
+  czaty: 'pub_raport_czaty',
 };
 
 const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);

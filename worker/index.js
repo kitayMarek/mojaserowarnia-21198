@@ -316,6 +316,18 @@ Disallow: /
       });
     }
 
+    // 1z) META-EXTERNALAGENT: 403. Decyzja Marka z 16.10.2026, opis w
+    //     public/robots.txt. Stoi PO obsludze /robots.txt, zeby bot mogl
+    //     przeczytac zakaz. Licznik zapisuje te zadania z kodem 403, wiec widac,
+    //     czy Meta przestrzega robots.txt. facebookexternalhit (podglady linkow)
+    //     ma inny podpis i tej regule nie podlega.
+    if (/meta-externalagent/i.test(request.headers.get('user-agent') || '')) {
+      return new Response('Meta-ExternalAgent is not allowed on this site. See /robots.txt.\n', {
+        status: 403,
+        headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' },
+      });
+    }
+
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
 
     // 1a0) UKOSNIK NA KONCU: /x/ -> /x.

@@ -69,7 +69,6 @@ User-agent: Claude-SearchBot
 User-agent: PerplexityBot
 User-agent: Perplexity-User
 User-agent: cohere-ai
-User-agent: Meta-ExternalAgent
 User-agent: FacebookBot
 User-agent: Applebot
 User-agent: Applebot-Extended
@@ -86,6 +85,16 @@ Disallow: /api/
 Disallow: /admin
 Disallow: /settings
 Disallow: /wewnetrzne/
+
+# === META-EXTERNALAGENT: ZABLOKOWANY ===
+# Decyzja Marka z 16.10.2026. Crawler Mety do trenowania modeli: najwiecej
+# potwierdzonych pobran ze wszystkich botow AI (1939 do 16.10.2026), a zadnego
+# ruchu ludzi w zamian. Worker oddaje mu 403 na wszystko poza tym plikiem,
+# wiec licznik pokaze, czy przestrzega robots.txt.
+# NIE DOTYCZY facebookexternalhit (podglady linkow na Facebooku, grupa wyzej):
+# bez niego posty z linkami nie mialyby podgladu.
+User-agent: Meta-ExternalAgent
+Disallow: /
 
 # === POZOSTALE BOTY ===
 User-agent: *

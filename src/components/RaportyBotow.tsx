@@ -28,7 +28,7 @@ const OKRESY: Array<{ id: Okres; etykieta: string; dni: number }> = [
   { id: "all", etykieta: "całość", dni: Infinity },
 ];
 
-type Typ = "tekst" | "liczba" | "procent" | "data" | "lista" | "bool" | "czas";
+type Typ = "tekst" | "liczba" | "procent" | "data" | "dzien" | "lista" | "bool" | "czas";
 
 interface Kolumna {
   k: string;
@@ -48,6 +48,23 @@ interface Raport {
 /** Opis pod każdym raportem to treść dla laika, nie ozdobnik — mówi, co widać
  *  i jak to czytać. Bez niego tabela liczb nie znaczy nic dla kogoś z zewnątrz. */
 const RAPORTY: Raport[] = [
+  {
+    id: "czaty",
+    nazwa: "Pytania z czatów",
+    opis: "Ile razy w tygodniu model pobrał od nas stronę, bo człowiek zadał mu pytanie w czacie: ChatGPT, Claude, Perplexity. Tylko wizyty potwierdzone po adresie operatora i tylko strony z treścią. To jedyny ruch botów, za którym na pewno stoi człowiek z pytaniem, a trzy najczęstsze strony tygodnia pokazują, o co ludzie pytają. Tydzień zaczyna się w poniedziałek.",
+    domyslny: "all",
+    kolumny: [
+      { k: "tydzien", n: "Tydzień od", typ: "dzien" },
+      { k: "chatgpt", n: "ChatGPT", typ: "liczba" },
+      { k: "claude", n: "Claude", typ: "liczba" },
+      { k: "perplexity", n: "Perplexity", typ: "liczba" },
+      { k: "inne", n: "Inne", typ: "liczba" },
+      { k: "razem", n: "Razem", typ: "liczba" },
+      { k: "roznych_stron", n: "Różnych stron", typ: "liczba" },
+      { k: "najczestsze", n: "Najczęstsze strony", typ: "lista" },
+    ],
+    pusto: "W tym okresie żaden czat nie pobrał od nas strony na prośbę człowieka.",
+  },
   {
     id: "po_co_przychodza",
     nazwa: "Po co przychodzą",
@@ -233,6 +250,11 @@ function formatuj(wartosc: unknown, typ: Typ): string {
       return Array.isArray(wartosc) && wartosc.length ? wartosc.join(", ") : "—";
     case "czas":
       return String(wartosc);
+    case "dzien": {
+      const d = new Date(String(wartosc));
+      if (Number.isNaN(d.getTime())) return String(wartosc);
+      return `${d.getUTCDate()} ${MIESIACE[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    }
     case "data": {
       const d = new Date(String(wartosc));
       if (Number.isNaN(d.getTime())) return String(wartosc);
@@ -422,6 +444,27 @@ const RaportyBotow = ({ dniPomiaru }: { dniPomiaru?: number }) => {
                     <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-rose-500/70 inline-block" /> fałszowane</span>
                     <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-slate-400/70 inline-block" /> niesprawdzone</span>
                   </div>
+                </div>
+              )}
+
+              {/* Słupki tygodni dla raportu z czatów: od najstarszego, jeden kolor. */}
+              {definicja.id === "czaty" && (
+                <div className="mt-6 space-y-1">
+                  {[...wiersze].reverse().map((w, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs">
+                      <span className="w-36 shrink-0 text-muted-foreground">
+                        {formatuj(w.tydzien, "dzien")}
+                      </span>
+                      <span className="flex-1 flex h-4 rounded overflow-hidden bg-muted">
+                        <span
+                          className="bg-emerald-500/70"
+                          style={{ width: `${(100 * (Number(w.razem) || 0)) / maxRazem}%` }}
+                          title={`razem: ${w.razem}`}
+                        />
+                      </span>
+                      <span className="w-10 text-right tabular-nums">{liczba(w.razem)}</span>
+                    </div>
+                  ))}
                 </div>
               )}
 
