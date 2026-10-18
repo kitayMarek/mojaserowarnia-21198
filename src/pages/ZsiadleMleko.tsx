@@ -42,6 +42,16 @@ const faqData = [
       "Najprościej świeżą maślanką albo kefirem naturalnym — 200 ml na 8 litrów mleka, czyli mniej więcej 2 łyżki na litr. Musi mieć żywe kultury i krótką datę; produkt pod koniec przydatności bywa już bez życia. Wynik jest mniej powtarzalny niż z kultury liofilizowanej, ale to najtańszy start i działa.",
   },
   {
+    question: "Czy zsiadłe mleko z mleka koziego wychodzi tak samo jak z krowiego?",
+    answer:
+      "Nie. Skrzep z koziego jest wyraźnie miększy, bliżej gęstego napoju niż zwartej galarety, bo białko mleka koziego ma inny skład niż krowie i daje słabszy żel. To nie jest błąd ani znak zepsucia. Pomaga kultura z bakteriami aromatycznymi i zagęszczającymi oraz zostawienie naczynia w zupełnym bezruchu. Kozi posmak zależy głównie od świeżości mleka: im krócej stało i im mniej je przelewano, tym łagodniejsze zsiadłe.",
+  },
+  {
+    question: "Czy surowe mleko kozie zsiądzie się samo, bez dodawania kultury?",
+    answer:
+      "Z naszego doświadczenia rzadko i niepewnie. Mleko krowie od gospodarza zsiadało się samo dość przewidywalnie, kozie dużo gorzej, i to samo dotyczy twarogu robionego bez dodanej kultury. Nie twierdzimy, że tak jest w każdym gospodarstwie, ale przy mleku kozim od razu dodaj kulturę mezofilną albo łyżkę świeżej maślanki. Wtedy fermentacja rusza pewnie i nie zostawia pola bakteriom psującym.",
+  },
+  {
     question: "Czym zsiadłe mleko różni się od kefiru i jogurtu?",
     answer:
       "Temperaturą i składem mikroflory. Zsiadłe mleko robią bakterie mezofilne w temperaturze pokojowej (20–24°C). Jogurt to bakterie termofilne w 42–45°C — stąd inny, bardziej „mleczny” smak i gęstsza konsystencja. Kefir to grzybki kefirowe, czyli symbioza bakterii i drożdży, przez co bywa lekko gazowany i alkoholowy. Trzy różne produkty z jednego surowca.",
@@ -114,7 +124,7 @@ const ZsiadleMleko = () => (
       description="Zsiadłe mleko z pasteryzowanego mleka sklepowego: zaszczepienie kulturą mezofilną, 12–24 godziny w temperaturze 20–24°C, schłodzenie."
       totalTime="PT26H"
       datePublished="2026-09-01"
-      dateModified="2026-09-01"
+      dateModified="2026-10-18"
       supply={["Mleko pasteryzowane — 1 L", "Kultura mezofilna (szczypta) albo 2 łyżki świeżej maślanki lub kefiru"]}
       tool={["Garnek lub słój", "Termometr", "Ściereczka do przykrycia"]}
       steps={kroki}
@@ -199,6 +209,38 @@ const ZsiadleMleko = () => (
       potraktuj jako eksperyment. Kiedy to sprawdzimy w praktyce, ten akapit zostanie zastąpiony konkretem.
     </p>
 
+    <h2>Zsiadłe mleko z mleka koziego</h2>
+    <p>
+      Kozie mleko też się zsiada, ale <strong>nie wychodzi takie jak krowie</strong> i lepiej wiedzieć o tym
+      z góry, zanim uzna się partię za nieudaną.
+    </p>
+    <ul>
+      <li>
+        <strong>Skrzep jest miększy.</strong> Białko mleka koziego ma inny skład niż krowie i tworzy słabszy żel,
+        więc zsiadłe kozie jest bliżej gęstego napoju niż zwartej galarety. To cecha surowca, nie błąd. Tym bardziej
+        nie ruszaj naczynia, dopóki mleko się nie zsiądzie.
+      </li>
+      <li>
+        <strong>Smak zależy od świeżości.</strong> Typowy kozi posmak dają kwasy tłuszczowe, które uwalniają się,
+        gdy tłuszcz mleka zaczyna się rozkładać: przy długim staniu, przelewaniu i mocnym mieszaniu. Im świeższe
+        i spokojniej traktowane mleko, tym łagodniejsze zsiadłe.
+      </li>
+      <li>
+        <strong>Samo zsiada się słabo.</strong> Z naszego doświadczenia surowe mleko kozie rzadko zsiada się samo
+        tak przewidywalnie jak krowie od gospodarza, a twaróg bez dodanej kultury wychodzi niepewnie. Nie twierdzimy,
+        że tak jest w każdym gospodarstwie, ale przy kozim od razu dodaj kulturę.
+      </li>
+    </ul>
+    <p>
+      <strong>Jaką kulturę wybrać.</strong> Najlepiej mezofilną z bakteriami aromatycznymi (Lactococcus
+      diacetylactis i Leuconostoc). Dają maślaną nutę, która łagodzi kozi posmak. W bazie zsiadłe mleko ma wpisane
+      w przeznaczenie <Link to="/kultury/alpha-3">ALPHA 3</Link>, <Link to="/kultury/alpha-6">ALPHA 6</Link>,{" "}
+      <Link to="/kultury/alpha-10">ALPHA 10</Link> i <Link to="/kultury/alpha-12">ALPHA 12</Link>: mają ten sam
+      opisany skład i sklep podaje je jako zamienniki. Jeśli skrzep wychodzi za rzadki, spróbuj{" "}
+      <Link to="/kultury/beaugel-raieb-1">Beaugel Raieb 1</Link>, kultury do fermentowanego napoju mlecznego
+      z bakteriami zagęszczającymi. Aktualne ceny są w <Link to="/baza-kultur?type=mezofilne">bazie kultur</Link>.
+    </p>
+
     <h2>Podgrzej — i masz twaróg</h2>
     <p>
       To jest ta sama droga, tylko o etap dłuższa. <strong>Twaróg to odgrzane zsiadłe mleko.</strong> Kiedy skrzep
@@ -249,6 +291,11 @@ const ZsiadleMleko = () => (
           <td>Skrzep rzadki, kluchowaty</td>
           <td>Bardzo prawdopodobnie mleko UHT lub mikrofiltrowane</td>
           <td>Zmienić na zwykłe pasteryzowane</td>
+        </tr>
+        <tr>
+          <td>Z koziego mleka skrzep miękki, prawie do picia</td>
+          <td>Tak zachowuje się białko mleka koziego</td>
+          <td>Nie ruszać naczynia; spróbować kultury z bakteriami zagęszczającymi</td>
         </tr>
         <tr>
           <td>Dużo serwatki, mało skrzepu</td>
