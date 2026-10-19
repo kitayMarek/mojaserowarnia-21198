@@ -128,6 +128,21 @@ const RHD = () => {
           {/* Panel pytan - tresc z data/pytania/prawo-rhd.json, ten sam plik zasila mirror. */}
           <PanelPytan dane={panelPytanPrawoRhd} />
 
+          {/* Krok 0 "witryna + magazyn" (19.10.2026): plik danych mierzony przez licznik
+              botow i pytanie, czy ktos chce dostepu dla asystentow AI. Plik generuje
+              scripts/gen-dane-prawo.py z tych samych danych co panel pytan. */}
+          <p className="mb-6 text-sm text-muted-foreground">
+            Te odpowiedzi i najważniejsze progi są też dostępne jako plik danych dla programów i asystentów AI:{" "}
+            <a href="/dane/prawo-rhd.json" className="text-primary underline">
+              dane o RHD w formacie JSON
+            </a>{" "}
+            (licencja CC BY 4.0, z datą stanu prawnego). Przygotowujemy dostęp dla asystentów AI z aktualnymi progami RHD i MOL oraz cenami kultur. Chcesz z niego korzystać?{" "}
+            <Link to="/kontakt" className="text-primary underline">
+              Napisz, do czego
+            </Link>
+            .
+          </p>
+
           {/* Menu szybkiego dostępu */}
           <Card className="mb-6 bg-primary/5 border-primary/20">
             <CardContent className="p-6">

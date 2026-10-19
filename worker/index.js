@@ -171,6 +171,12 @@ const PLIKI_MIERZONE = new Set([
   // nia chodza podglady linkow udostepnionych wczesniej i zapamietane przez
   // crawlery - a to wlasnie ten ruch probujemy policzyc.
   '/favicon.ico', '/og-image.png', '/og-image.jpg',
+
+  // KROK 0 "witryna + magazyn", 19.10.2026: plik danych o RHD dla asystentow AI
+  // (scripts/gen-dane-prawo.py). Liczymy, czy agenci na prosbe ludzi go pobieraja;
+  // prog do 30.11.2026 to 10 pobran. Raport `czaty` go NIE pokaze, bo filtruje
+  // typ "tresc" - liczyc zapytaniem wprost na bot_visits po tej sciezce.
+  '/dane/prawo-rhd.json',
 ]);
 
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać

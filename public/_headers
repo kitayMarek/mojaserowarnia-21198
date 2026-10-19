@@ -55,5 +55,11 @@
   Content-Type: application/xml; charset=utf-8
 /przepisy/index.json
   Access-Control-Allow-Origin: *
+# Dane dla programow i asystentow AI (krok 0 "witryna + magazyn", 19.10.2026).
+# noindex: plik powtarza tresc /prawo/rhd i nie moze konkurowac z nia w Google.
+/dane/*
+  Content-Type: application/json; charset=utf-8
+  X-Robots-Tag: noindex
+  Access-Control-Allow-Origin: *
 /wiadomosci.json
   Access-Control-Allow-Origin: *
