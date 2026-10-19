@@ -95,7 +95,7 @@ def parse_dodatki(content):
     if "podpuszczk" in t:
         out.append({"co": "podpuszczka", "dawka": "wg siły podpuszczki"})
     if "cacl" in t or "chlorek wapnia" in t:
-        out.append({"co": "chlorek wapnia (CaCl2)", "dawka": "0,2-0,3 g/L"})
+        out.append({"co": "chlorek wapnia (CaCl2)", "dawka": "0,1-0,2 g/L"})
     return out
 
 

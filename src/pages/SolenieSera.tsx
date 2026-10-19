@@ -9,6 +9,7 @@ import TLDRSection from "@/components/TLDRSection";
 import WprowadzenieDzialu from "@/components/WprowadzenieDzialu";
 import SeeAlso from "@/components/SeeAlso";
 import SekcjaFAQ from "@/components/SekcjaFAQ";
+import { Link } from "react-router-dom";
 
 const SolenieSera = () => {
   const faqData = [
@@ -259,6 +260,8 @@ const SolenieSera = () => {
                   </div>
                   <div className="bg-secondary/50 p-3 rounded text-sm">
                     <strong>Chlorek wapnia (CaCl₂):</strong> dodaj 1–2 g CaCl₂ na litr solanki. Zapobiega wypłukiwaniu wapnia ze skórki i jej mięknięciu. Szczególnie ważne przy długim soleniu twardych serów.
+                    To ten sam spożywczy E509, który w dziesięć razy mniejszej dawce dodaje się do mleka:{" "}
+                    <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">chlorek wapnia do mleka</Link>.
                   </div>
                 </CardContent>
               </Card>

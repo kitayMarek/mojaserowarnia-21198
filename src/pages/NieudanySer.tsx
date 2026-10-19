@@ -47,7 +47,7 @@ const NieudanySer = () => {
     {
       question: "Ser nie chce się ściąć — co poszło nie tak?",
       answer:
-        "Trzy najczęstsze przyczyny. Pierwsza: mleko UHT, którego białka są zbyt uszkodzone, by utworzyć skrzep — tego nie da się naprawić. Druga: brak chlorku wapnia przy mleku pasteryzowanym, dawkę 0,2–0,3 g na litr trzeba było dodać przed podpuszczką. Trzecia: przeterminowana lub źle przechowywana podpuszczka, która straciła moc. Jeśli mleko jest tylko lekko ścięte, spróbuj podnieść temperaturę o 2°C i dać jeszcze 30 minut; jeśli nie zadziała, przerób mleko na ser kwasowy lub twaróg.",
+        "Trzy najczęstsze przyczyny. Pierwsza: mleko UHT, którego białka są zbyt uszkodzone, by utworzyć skrzep — tego nie da się naprawić. Druga: brak chlorku wapnia przy mleku pasteryzowanym, dawkę 0,1–0,2 g na litr trzeba było dodać przed podpuszczką. Trzecia: przeterminowana lub źle przechowywana podpuszczka, która straciła moc. Jeśli mleko jest tylko lekko ścięte, spróbuj podnieść temperaturę o 2°C i dać jeszcze 30 minut; jeśli nie zadziała, przerób mleko na ser kwasowy lub twaróg.",
     },
     {
       question: "Jak zapobiegać nieudanym partiom sera?",
@@ -379,6 +379,14 @@ const NieudanySer = () => {
                   <p>
                     <strong>Ustabilizuj dojrzewalnię.</strong> Wahania temperatury i wilgotności psują
                     więcej partii niż błędy w samym warzeniu.
+                  </p>
+                  <p>
+                    <strong>Do mleka ze sklepu dodaj chlorek wapnia.</strong> Mleko pasteryzowane bez niego
+                    daje miękki skrzep, który rozpada się przy krojeniu. Dawka i moment dodania:{" "}
+                    <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">
+                      chlorek wapnia do mleka
+                    </Link>
+                    .
                   </p>
                 </CardContent>
               </Card>

@@ -88,9 +88,12 @@ export const metaStron: Record<string, MetaStrony> = {
   },
   "/kalkulator-solanki": {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: mirror (tytul), mirror (opis).
-    title: "Kalkulator solanki do sera — ile soli i CaCl₂",
+    // 19.10.2026: bez "CaCl2 na litr mleka" w tytule i opisie. Ta strona odbierala
+    // fraze "ile chlorku wapnia na litr mleka" stronie /chlorek-wapnia-do-mleka,
+    // ktora od 31.08 wypadla z indeksu jako zbedna.
+    title: "Kalkulator solanki do sera – ile soli na litr wody",
     description:
-      "Ile soli na solankę do sera (18–22%) i ile chlorku wapnia (CaCl₂) na litr mleka. Wzory, gotowe przeliczenia, temperatura solanki i praktyczne wskazówki.",
+      "Ile soli na solankę do sera (18–22%): przeliczenie na dowolną ilość wody, temperatura solanki, chlorek wapnia do solanki i ponowne użycie solanki.",
     mirror: "kalkulator-solanki.html",
   },
   "/klasyka-serowarstwa": {

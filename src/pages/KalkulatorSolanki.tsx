@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -36,10 +37,12 @@ const KalkulatorSolanki = () => {
       setCaclResult("Uzupełnij litry.");
       return;
     }
-    const min = milkLiters * 0.2;
-    const max = milkLiters * 0.3;
+    // Dawki jak na /chlorek-wapnia-do-mleka: 0,1–0,2 g bezwodnego, 0,15–0,25 g
+    // dwuwodnego albo 0,3–0,6 ml roztworu 33% na litr mleka.
+    const fmt = (x: number) => String(x < 10 ? Math.round(x * 10) / 10 : Math.round(x)).replace(".", ",");
+    const zakres = (od: number, doo: number) => `${fmt(milkLiters * od)}–${fmt(milkLiters * doo)}`;
     setCaclResult(
-      `Zakres: ${min.toFixed(0)}–${max.toFixed(0)} g czystego CaCl₂ (lub odpowiednia ilość roztworu 30–33%).`
+      `Na ${fmt(milkLiters)} L mleka: ${zakres(0.1, 0.2)} g CaCl₂ bezwodnego, ${zakres(0.15, 0.25)} g proszku dwuwodnego albo ${zakres(0.3, 0.6)} ml roztworu 33%.`
     );
   };
 
@@ -55,14 +58,9 @@ const KalkulatorSolanki = () => {
         "Na 10 kg wody rozpuść 2 kg soli kamiennej (niejodowanej). Solankę schłodź do temperatury zbliżonej do sera (ok. 10–15 °C). Jeśli ma być wielokrotnego użytku, dodaj odrobinę chlorku wapnia i skoryguj pH, żeby chronić skórkę serów.",
     },
     {
-      question: "Ile chlorku wapnia (CaCl₂) dodać do mleka?",
+      question: "Ile chlorku wapnia dodać do solanki?",
       answer:
-        "Standardowo 0,2–0,3 g czystego CaCl₂ na 1 litr mleka (szczególnie pasteryzowanego). Dla 50 L mleka to 10–15 g. Jeśli używasz gotowego roztworu 30–33%, przelicz odpowiednio większą objętość.",
-    },
-    {
-      question: "Po co dodaje się chlorek wapnia do mleka na ser?",
-      answer:
-        "Pasteryzacja i długie przechowywanie mleka obniżają dostępność jonów wapnia, przez co skrzep jest słabszy i gorzej się kroi. CaCl₂ przywraca wapń, poprawia krzepnięcie, jędrność skrzepu i wydajność. Do świeżego mleka surowego zwykle nie jest konieczny.",
+        "1–2 g CaCl₂ na litr solanki. Świeża solanka jest uboga w wapń i wyciąga go ze skórki sera, która wtedy mięknie i robi się śliska. Chlorek wyrównuje to stężenie. Do mleka daje się go dziesięć razy mniej: 0,1–0,2 g na litr.",
     },
     {
       question: "Jaka temperatura i stężenie solanki są najlepsze?",
@@ -76,13 +74,13 @@ const KalkulatorSolanki = () => {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Kalkulator solanki i chlorku wapnia do sera",
+        name: "Kalkulator solanki do sera",
         url: "https://mojaserowarnia.pl/kalkulator-solanki",
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Web",
         offers: { "@type": "Offer", price: "0", priceCurrency: "PLN" },
         description:
-          "Darmowy kalkulator serowarski: ilość soli do solanki (18–22%) oraz dawka chlorku wapnia (CaCl₂) na litr mleka.",
+          "Darmowy kalkulator serowarski: ilość soli do solanki (18–22%) i przelicznik chlorku wapnia do mleka.",
       },
       {
         "@type": "FAQPage",
@@ -96,6 +94,7 @@ const KalkulatorSolanki = () => {
   };
 
   const seeAlsoLinks = [
+    { title: "Chlorek wapnia do mleka", href: "/chlorek-wapnia-do-mleka", description: "Dawki w trzech postaciach, moment dodania, kiedy pominąć." },
     { title: "Poradnik dla serowarów", href: "/poradnik", description: "Proces, temperatury, higiena, dojrzewanie." },
     { title: "Organizacja małej serowarni", href: "/organizacja-serowarni", description: "Układ, sprzęt i obieg pracy (w tym solarnia)." },
     { title: "Przepisy na sery", href: "/przepisy", description: "Solenie krok po kroku przy konkretnych serach." },
@@ -125,8 +124,8 @@ const KalkulatorSolanki = () => {
             <PageHeader
               icon={Droplets}
               color="cyan"
-              title="Kalkulator solanki i chlorku wapnia (CaCl₂)"
-              subtitle="Policz, ile soli potrzeba na solankę o danym stężeniu oraz ile chlorku wapnia dodać do mleka. Dwa najczęstsze rachunki w serowarni w jednym miejscu."
+              title="Kalkulator solanki do sera"
+              subtitle="Policz, ile soli potrzeba na solankę o danym stężeniu. Obok przelicznik chlorku wapnia do mleka na wybraną liczbę litrów."
             />
 
             <div className="mt-4 mb-8">
@@ -181,7 +180,7 @@ const KalkulatorSolanki = () => {
               {/* Chlorek wapnia */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Chlorek wapnia (CaCl₂)</CardTitle>
+                  <CardTitle>Przelicznik chlorku wapnia do mleka</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -196,7 +195,7 @@ const KalkulatorSolanki = () => {
                     />
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Zalecenie: 0,2–0,3 g CaCl₂ na 1 L mleka (lub odpowiednik roztworu 30–33%).
+                    Zalecenie: 0,1–0,2 g czystego CaCl₂ na 1 L mleka pasteryzowanego. Powyżej 0,2 g ser zaczyna gorzknieć.
                   </p>
                   <Button onClick={calculateCaCl} className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
                     Oblicz
@@ -207,7 +206,9 @@ const KalkulatorSolanki = () => {
                     </div>
                   )}
                   <p className="text-xs text-muted-foreground">
-                    Głównie do mleka pasteryzowanego. Rozpuść w niewielkiej ilości niechlorowanej wody i wmieszaj przed podpuszczką.
+                    Rozcieńcz w ok. dziesięciokrotnej ilości przegotowanej wody i wmieszaj co najmniej 20 minut przed
+                    podpuszczką. Postacie chlorku, moment dodania i kiedy go pominąć:{" "}
+                    <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">chlorek wapnia do mleka</Link>.
                   </p>
                 </CardContent>
               </Card>
@@ -231,17 +232,17 @@ const KalkulatorSolanki = () => {
               </Card>
 
               <Card className="p-6">
-                <h2 className="text-2xl font-bold text-primary mb-3">Chlorek wapnia (CaCl₂) — po co i ile</h2>
+                <h2 className="text-2xl font-bold text-primary mb-3">Chlorek wapnia w solance i w mleku</h2>
                 <p className="text-muted-foreground mb-4">
-                  Pasteryzacja i długie przechowywanie mleka obniżają dostępność jonów wapnia, przez co skrzep jest
-                  słabszy i gorzej się kroi. <strong>CaCl₂</strong> przywraca wapń, poprawiając krzepnięcie, jędrność
-                  skrzepu i wydajność. Standardowa dawka to <strong>0,2–0,3 g czystego CaCl₂ na 1 L mleka</strong>.
+                  W solance chlorek wapnia chroni skórkę: świeża solanka wyciąga wapń z powierzchni sera, która wtedy
+                  mięknie i robi się śliska. Wystarczy <strong>1–2 g CaCl₂ na litr solanki</strong>.
                 </p>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  <li>Do mleka <strong>surowego</strong>, świeżego zwykle nie jest konieczny.</li>
-                  <li>Rozpuść w niewielkiej ilości niechlorowanej wody i wmieszaj <strong>przed</strong> dodaniem podpuszczki.</li>
-                  <li>Nie przedawkowuj — nadmiar może dać gorzkawy posmak i zbyt twardy skrzep.</li>
-                </ul>
+                <p className="text-muted-foreground">
+                  Do mleka pasteryzowanego dawka jest dziesięć razy mniejsza: <strong>0,1–0,2 g czystego CaCl₂ na
+                  litr</strong>. Ile to w proszku dwuwodnym i w roztworze, kiedy dodać i kiedy pominąć, opisujemy
+                  w poradniku{" "}
+                  <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">chlorek wapnia do mleka</Link>.
+                </p>
               </Card>
             </section>
 

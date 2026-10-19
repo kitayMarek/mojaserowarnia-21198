@@ -589,7 +589,7 @@ const LicznerskiMleko = () => {
                   <tr className="hover:bg-muted/30">
                     <td className="border border-border px-3 py-2 font-medium">Efekt na skrzep</td>
                     <td className="border border-border px-3 py-2">Gorszy — słabszy, wolniej krzepnie</td>
-                    <td className="border border-border px-3 py-2">Rozwiązanie: dodanie CaCl₂ (0,2–0,3 g/L)</td>
+                    <td className="border border-border px-3 py-2">Rozwiązanie: dodanie CaCl₂ (0,1–0,2 g/L)</td>
                   </tr>
                   <tr className="hover:bg-muted/30">
                     <td className="border border-border px-3 py-2 font-medium">Efekt na smak</td>

@@ -46,7 +46,7 @@ const MlekoDoSera = () => {
     {
       question: "Dlaczego mleko UHT nie nadaje się na ser?",
       answer:
-        "Obróbka w ultrawysokiej temperaturze denaturuje białka serwatkowe, które wiążą się wtedy z kazeiną i blokują jej zdolność do tworzenia siatki skrzepu. Podpuszczka nadal tnie kazeinę, ale skrzep się nie formuje albo jest galaretowaty i nie daje się pokroić. Mleko pasteryzowane metodą HTST (72°C przez 15 sekund) nadaje się, wymaga jednak dodatku chlorku wapnia w dawce 0,2–0,3 g na litr, aby przywrócić równowagę wapniową.",
+        "Obróbka w ultrawysokiej temperaturze denaturuje białka serwatkowe, które wiążą się wtedy z kazeiną i blokują jej zdolność do tworzenia siatki skrzepu. Podpuszczka nadal tnie kazeinę, ale skrzep się nie formuje albo jest galaretowaty i nie daje się pokroić. Mleko pasteryzowane metodą HTST (72°C przez 15 sekund) nadaje się, wymaga jednak dodatku chlorku wapnia w dawce 0,1–0,2 g na litr, aby przywrócić równowagę wapniową.",
     },
   ];
 
@@ -433,6 +433,14 @@ const MlekoDoSera = () => {
                       wadach mleka
                     </Link>
                     .
+                  </p>
+                  <p>
+                    Mleko pasteryzowane ze sklepu się nadaje, ale pasteryzacja wiąże część wapnia, więc
+                    potrzebuje dodatku{" "}
+                    <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">
+                      chlorku wapnia
+                    </Link>{" "}
+                    (0,1–0,2 g na litr).
                   </p>
                 </CardContent>
               </Card>

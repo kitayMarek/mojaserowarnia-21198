@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, Calculator, Timer } from "lucide-react";
+import { Link } from "react-router-dom";
 import ReactionButton from "@/components/ReactionButton";
 
 const SilaPodpuszczki = () => {
@@ -265,6 +266,8 @@ const SilaPodpuszczki = () => {
                   <CardContent>
                     <p className="text-sm">
                       Dodanie CaCl₂ zwiększa ilość rozpuszczalnego wapnia w mleku, co przyspiesza i wzmacnia koagulację. Szczególnie ważne w mleku pasteryzowanym.
+                      Dawka: 0,1–0,2 g czystego CaCl₂ na litr, co najmniej 20 minut przed podpuszczką. Więcej:{" "}
+                      <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">chlorek wapnia do mleka</Link>.
                     </p>
                   </CardContent>
                 </Card>

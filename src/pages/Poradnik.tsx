@@ -13,6 +13,7 @@ import SeeAlso from "@/components/SeeAlso";
 import FAQSchema from "@/components/FAQSchema";
 import PageHeader from "@/components/PageHeader";
 import { BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Poradnik = () => {
   useEffect(() => {
@@ -44,9 +45,10 @@ const Poradnik = () => {
       setCaclResult("Uzupełnij litry.");
       return;
     }
-    const min = milkLiters * 0.2;
-    const max = milkLiters * 0.3;
-    setCaclResult(`Zakres: ${min.toFixed(0)}–${max.toFixed(0)} g czystego CaCl₂ (lub odpowiednia ilość roztworu 30–33%).`);
+    // Dawki jak na /chlorek-wapnia-do-mleka i w kalkulatorze solanki.
+    const fmt = (x: number) => String(x < 10 ? Math.round(x * 10) / 10 : Math.round(x)).replace(".", ",");
+    const zakres = (od: number, doo: number) => `${fmt(milkLiters * od)}–${fmt(milkLiters * doo)}`;
+    setCaclResult(`Na ${fmt(milkLiters)} L mleka: ${zakres(0.1, 0.2)} g CaCl₂ bezwodnego, ${zakres(0.15, 0.25)} g proszku dwuwodnego albo ${zakres(0.3, 0.6)} ml roztworu 33%.`);
   };
 
   const faqData = [
@@ -64,7 +66,7 @@ const Poradnik = () => {
     },
     {
       question: "Ile chlorku wapnia (CaCl₂) dodać do mleka?",
-      answer: "Zalecana dawka to 0,2-0,3 g CaCl₂ na 1 litr mleka pasteryzowanego. Dla 50 litrów mleka będzie to 10-15 g czystego CaCl₂ lub odpowiednio więcej roztworu 30-33%."
+      answer: "Zalecana dawka to 0,1–0,2 g czystego CaCl₂ na 1 litr mleka pasteryzowanego, czyli 5–10 g na 50 litrów. W roztworze 33% to 0,3–0,6 ml na litr. Powyżej 0,2 g na litr ser zaczyna gorzknieć."
     },
     {
       question: "Jakie są najczęstsze błędy przy robieniu sera?",
@@ -467,7 +469,9 @@ const Poradnik = () => {
                       />
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Zalecenie: 0,2–0,3 g CaCl₂ na 1 L mleka (roztwór 30–33%).
+                      Zalecenie: 0,1–0,2 g czystego CaCl₂ na 1 L mleka pasteryzowanego. Postacie chlorku, moment
+                      dodania i kiedy go pominąć:{" "}
+                      <Link to="/chlorek-wapnia-do-mleka" className="text-primary hover:underline">chlorek wapnia do mleka</Link>.
                     </p>
                     <Button onClick={calculateCaCl} className="w-full">
                       Oblicz
