@@ -56,6 +56,7 @@ const SerCamembert = () => {
     { title: "Przepis na brie", href: "/przepisy/brie", description: "Najbliższy krewny camemberta, większy krąg i dłuższe dojrzewanie." },
     { title: "Tarta z camembertem", href: "/przepisy-kulinarne/rustykalna-tarta-camembert", description: "Camembert z karmelizowaną cebulą w kruchym cieście." },
     { title: "Penicillium candidum", href: "/kultury/penicillium-candidum", description: "Biała pleśń do camemberta i brie: szczepy i sklepy." },
+    { title: "Emmental: co to za ser", href: "/sery/emmental", description: "Szwajcarski ser z dziurami: nazwy, jak jeść, czym zastąpić." },
   ];
 
   return (

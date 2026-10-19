@@ -55,6 +55,7 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Przepisy na sery", href: "/przepisy" },
       { label: "Camembert: co to za ser", href: "/sery/camembert" },
+      { label: "Emmental: co to za ser", href: "/sery/emmental" },
       { label: "Przepisy kulinarne", href: "/przepisy-kulinarne" },
       { label: "Słownik serowarski", href: "/slownik" },
     ],

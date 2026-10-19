@@ -99,6 +99,7 @@ const NieudanySer = lazy(() => import("./pages/NieudanySer"));
 const MlekoDoSera = lazy(() => import("./pages/MlekoDoSera"));
 const WadyMlekaWadySera = lazy(() => import("./pages/WadyMlekaWadySera"));
 const SerCamembert = lazy(() => import("./pages/SerCamembert"));
+const SerEmmental = lazy(() => import("./pages/SerEmmental"));
 const FermentacjaSerwatki = lazy(() => import("./pages/FermentacjaSerwatki"));
 const Serwatka = lazy(() => import("./pages/Serwatka"));
 const SerwatkaSlodkaKwasna = lazy(() => import("./pages/SerwatkaSlodkaKwasna"));
@@ -170,6 +171,7 @@ const App = () => (
           <Route path="/mleko-do-sera" element={<MlekoDoSera />} />
           <Route path="/wady-mleka-a-wady-sera" element={<WadyMlekaWadySera />} />
           <Route path="/sery/camembert" element={<SerCamembert />} />
+          <Route path="/sery/emmental" element={<SerEmmental />} />
           <Route path="/fermentacja-serwatki" element={<FermentacjaSerwatki />} />
           <Route path="/serwatka" element={<Serwatka />} />
           <Route path="/serwatka-slodka-i-kwasna" element={<SerwatkaSlodkaKwasna />} />

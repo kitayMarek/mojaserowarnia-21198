@@ -120,6 +120,8 @@ Poniższe strony zawierają kompletną treść w czystym HTML (bez JavaScript) �
 - [Przepis na goudę](https://mojaserowarnia.pl/przepisy/gouda.html): kultury mezofilne LD, płukanie skrzepu wodą (słodki smak), prasowanie, dojrzewanie 2–12 mies., FAQ.
 - [Przepis na gruyère](https://mojaserowarnia.pl/przepisy/gruyere.html): kultury termofilne + Helveticus, ciężkie prasowanie, mycie skórki, dojrzewanie 5–12 mies., FAQ.
 - [Przepis na emmental](https://mojaserowarnia.pl/przepisy/emmental.html): kultury propionowe (skąd dziury), gotowanie do 55°C, etapowe dojrzewanie 10→22→10°C, FAQ.
+- [Emmental (ementaler): co to za ser](https://mojaserowarnia.pl/sery/emmental.html): emmental, emmentaler i ementaler to ten sam ser; Emmentaler AOP (mleko surowe, bez kiszonki, min. 4 miesiące, bochny 75–100 kg) a zwykły emmental, jak jeść i topić, zamienniki, przechowywanie, laktoza (praktycznie zero), ciąża (ser twardy, wg NHS bezpieczny), wartości USDA.
+- [Camembert: co to za ser](https://mojaserowarnia.pl/sery/camembert.html): Camembert de Normandie a zwykły camembert, jak jeść, kroić, piec (20 min w 200°C), przechowywać i mrozić, ciąża (wg NHS unikać na zimno), wartości USDA.
 - [Przepis na Asiago](https://mojaserowarnia.pl/przepisy/asiago.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
 - [Przepis na Brie](https://mojaserowarnia.pl/przepisy/brie.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
 - [Przepis na Camembert](https://mojaserowarnia.pl/przepisy/camembert.html): składniki, kultury bakteryjne, instrukcja krok po kroku, FAQ.
@@ -296,7 +298,7 @@ Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
 
 ## AKTUALIZACJE
 
-Ostatnia aktualizacja: 2026-09-07
+Ostatnia aktualizacja: 2026-10-19
 Baza kultur: aktualizowana regularnie
 Przepisy: dodawane sukcesywnie
 Prawo: aktualizowane przy zmianach legislacyjnych

@@ -2856,13 +2856,14 @@ export const recipesData: Recipe[] = [
     // a dwa pytają wprost "czy emmental to ementaler". Stąd tytuł i opis zawierają
     // obie dominujące formy i rozstrzygają nazwę, zamiast tłumaczyć, co to za ser.
     seoTitle: "Emmental (emmentaler) — przepis na ser z dziurami",
-    seoDescription: "Emmental, emmentaler, ementaler — to ten sam szwajcarski ser z dziurami. Przepis krok po kroku: 40 l mleka, kultury termofilne i propionowe, dojrzewanie.",
+    // 19.10.2026: opis pod "jak zrobic". Pisownia i "co to za ser" naleza teraz do
+    // /sery/emmental, zeby dwie strony nie odpowiadaly na to samo pytanie.
+    seoDescription: "Przepis na emmental krok po kroku: 40 l mleka, kultury termofilne i propionowe, dogrzewanie do 55°C i ciepła piwnica, w której powstają oczka.",
+    oSerze: { href: "/sery/emmental", tytul: "Emmental (ementaler): co to za ser, jak jeść, czym zastąpić" },
     zastosowanie: "Fondue (klasycznie razem z gruyère'em), zapiekanki, tosty, pizza, sos czterech serów, sałatki i kanapki. Jeden z najbardziej uniwersalnych serów do topienia — łagodny, więc nie zdominuje innych składników. Na desce serów podawaj go z winogronami i orzechami.",
+    // 19.10.2026: zostaly tylko pytania o produkcje. "Co to jest", smak, polscy
+    // producenci oraz kalorie i laktoza przeszly na /sery/emmental.
     encyklopedia: [
-      {
-        pytanie: "Co to jest ementaler?",
-        odpowiedz: "Ementaler to szwajcarski ser podpuszczkowy z doliny rzeki Emme w kantonie Berno, wytwarzany tam od XIII wieku. Jest twardy, ma jasnożółtą barwę, elastyczny miąższ i charakterystyczne duże, owalne oczka. Smak ma łagodny, lekko słodki i orzechowy — to jeden z najłatwiejszych w odbiorze serów dojrzewających. Zawiera około 45% tłuszczu w suchej masie. Oryginał to Emmentaler AOP ze Szwajcarii, ale sama nazwa „ementaler\" nie jest zastrzeżona, więc ser tego typu produkują też Francja i Polska."
-      },
       {
         pytanie: "Skąd się biorą dziury w ementalerze?",
         odpowiedz: "Z fermentacji propionowej — trzeciej fermentacji, która zachodzi już po ukwaszeniu i po prasowaniu. Bakterie Propionibacterium freudenreichii zjadają kwas mlekowy wytworzony wcześniej przez kultury startowe i przerabiają go na kwas propionowy, kwas octowy i dwutlenek węgla. CO₂ nie ma jak uciec z zamkniętego, szczelnego bochna, więc zbiera się w pęcherzykach i rozpycha elastyczną masę od środka. Dzieje się to w tak zwanej piwnicy ciepłej, w temperaturze około 20–24°C, przez 3 do 8 tygodni. Najciekawsze jest to, że dziury i smak mają jedno źródło: kwas propionowy odpowiada również za słodko-orzechowy profil sera. Nie da się mieć jednego bez drugiego."
@@ -2870,24 +2871,12 @@ export const recipesData: Recipe[] = [
       {
         pytanie: "Czy dziury w serze zawsze są pożądane?",
         odpowiedz: "Nie — i to ta sama mechanika, tylko z innym sprawcą. W ementalerze gaz produkują bakterie propionowe w kontrolowanych warunkach i efektem są gładkie, regularne, okrągłe oczka. Gdy gaz wytwarzają przetrwalniki Clostridium tyrobutyricum, pochodzące najczęściej z kiszonek w paszy, mówimy o późnym wzdęciu: ser pęka nieregularnymi szczelinami, rozdyma się i nabiera masłowo-zjełczałego posmaku. Odróżnisz je po kształcie i po zapachu — oczka propionowe są równe i lśniące, wzdęcie daje poszarpane pustki. Dlatego serowarnie robiące sery długo dojrzewające tak pilnują, żeby mleko nie pochodziło od krów karmionych kiszonką."
-      },
-      {
-        pytanie: "Jak smakuje ementaler i do czego się nadaje?",
-        odpowiedz: "Młody jest łagodny, lekko słodkawy, z wyraźną nutą orzecha. Wersje dojrzewające ponad 12 miesięcy stają się intensywniejsze, pikantne i bardziej kruche. Dzięki doskonałej topliwości ementaler jest jednym z najbardziej uniwersalnych serów w kuchni: sprawdza się w fondue (klasycznie razem z gruyère'em), zapiekankach, tostach, na pizzy, w sosie czterech serów i w sałatkach. Na zimno dobrze wypada w kanapkach oraz na desce serów z winogronami i orzechami."
-      },
-      {
-        pytanie: "Czy w Polsce produkuje się ementaler?",
-        odpowiedz: "Tak. Sery typu szwajcarskiego z oczkami mają w ofercie między innymi Mlekovita, Mlekpol i OSM Ryki — najczęściej w blokach i plastrach. Różnice wobec szwajcarskiego oryginału są dwie: polskie wersje powstają zwykle z mleka pasteryzowanego, a nie surowego, i dojrzewają krócej, przez co smak jest łagodniejszy i mniej złożony. Ponieważ nazwa „ementaler\" nie jest chroniona — w przeciwieństwie do Emmentaler AOP — używanie jej jest w pełni legalne."
-      },
-      {
-        pytanie: "Ile kalorii ma ementaler i czy zawiera laktozę?",
-        odpowiedz: "W 100 gramach jest około 383 kcal, 28,2 g białka i 29,7 g tłuszczu. To ser bardzo bogaty w wapń — blisko 1000 mg na 100 g — oraz w fosfor i witaminę B12. Laktozy praktycznie nie zawiera: podczas kilkumiesięcznego dojrzewania bakterie zużywają ją całkowicie, najpierw kultury startowe na kwas mlekowy, a potem bakterie propionowe na kwas propionowy i CO₂. Dlatego bywa dobrze tolerowany przez osoby z nietolerancją laktozy."
       }
     ],
     video: { youtubeId: "tMqZZHbp0-A", title: "Domowy ser w stylu Emmentaler", channel: "Domowy ser", poster: emmentalerMiniaturaImage },
     name: "Emmental",
     difficulty: "Zaawansowany",
-    description: "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. Jest jednym z największych serów świata - koła mogą ważyć do 130 kg.",
+    description: "Emmental (Emmentaler) to słynny szwajcarski ser z doliny Emme w kantonie Berno. Znany z charakterystycznych dużych oczek tworzonych przez bakterie propionowe. Jest jednym z największych serów świata - szwajcarskie bochny ważą 75–100 kg.",
     yield: "≈ 4 kg z 40 L mleka",
     ageTime: "4-12 miesięcy",
     image: emmentalImage,

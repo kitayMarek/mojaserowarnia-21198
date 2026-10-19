@@ -257,6 +257,17 @@ export const metaStron: Record<string, MetaStrony> = {
       "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka: 188 kultur starterowych — mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 5 sklepach.",
     mirror: "kultury/baza.html",
   },
+  "/sery/emmental": {
+    // Druga strona O SERZE po camembercie (ten uklad wszedl w Bingu na 3. miejsce
+    // za Wikipedia). Slowa z GSC 18.08-18.10.2026: emmentaler 489, emmental 306,
+    // ementaler 250, ser ementaler 159 wyswietlen, do tego "czym zastapic",
+    // "zamiennik", "kcal", "emmental a ementaler". Przepis /przepisy/emmental
+    // zostaje przy "jak zrobic".
+    title: "Emmental (ementaler): co to za ser, jak jeść, czym zastąpić",
+    description:
+      "Emmental, emmentaler i ementaler to ten sam szwajcarski ser z dziurami. Skąd dziury, jak go jeść, czym zastąpić, czy ma laktozę i czy można w ciąży.",
+    mirror: "sery/emmental.html",
+  },
   "/sery/camembert": {
     // Strona O SERZE, osobna od przepisu. Slowa z zapytan z Search Console
     // (15.09.2026): "camembert" 175 wyswietlen i 0 klikniec, do tego ogon
