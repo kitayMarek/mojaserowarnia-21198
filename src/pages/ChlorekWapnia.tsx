@@ -39,6 +39,16 @@ const faqData = [
     answer:
       "Ser robi się gorzki, z metalicznym posmakiem, a skrzep bywa twardy i kruchy — źle się skleja i trudno go sformować. Nadmiaru nie da się odwrócić, dlatego przy wątpliwościach lepiej dać mniej.",
   },
+  {
+    question: "Czy chlorek wapnia jest szkodliwy dla zdrowia?",
+    answer:
+      "Nie w dawce używanej do sera. To dodatek do żywności E509 dopuszczony w UE, a EFSA w ponownej ocenie z 2019 roku uznała, że w ilościach stosowanych w żywności nie budzi obaw. Uważać trzeba na stężony chlorek przed rozcieńczeniem, bo drażni oczy i skórę. Do sera używaj tylko chlorku spożywczego, nigdy z pochłaniacza wilgoci ani soli do odladzania.",
+  },
+  {
+    question: "Czy chlorek wapnia zwiększa ilość wapnia w serze?",
+    answer:
+      "Niewiele. 0,1–0,2 g CaCl₂ na litr to 36–72 mg wapnia przy 1100–1200 mg, które mleko ma samo. Nawet gdyby cały został w serze, 100 g goudy miałoby najwyżej około 70 mg wapnia więcej przy około 700 mg. Dużo więcej zmienia rodzaj sera: twaróg ma około 90 mg wapnia w 100 g, gouda około 700 mg, parmezan około 1180 mg.",
+  },
 ];
 
 const Glo = ({ term, children }: { term: string; children: string }) => (
@@ -51,9 +61,9 @@ const ChlorekWapnia = () => (
   <KulturaGuideLayout
     icon={FlaskConical}
     title="Chlorek wapnia do sera — ile dodać do mleka i w którym momencie"
-    subtitle="Chlorek wapnia (CaCl₂, E509) przywraca mleku pasteryzowanemu zdolność do tworzenia zwięzłego skrzepu. Poniżej dawki w trzech postaciach, moment dodania i najczęstsze nieporozumienie: to dodatek do mleka, nie do sera."
+    subtitle="Chlorek wapnia (CaCl₂, E509) przywraca mleku pasteryzowanemu zdolność do tworzenia zwięzłego skrzepu. Poniżej dawki w trzech postaciach, moment dodania, wpływ na zdrowie i najczęstsze nieporozumienie: to dodatek do mleka, nie do sera."
     metaTitle="Chlorek wapnia do sera — ile na litr mleka i kiedy dodać | Moja Serowarnia"
-    metaDescription="Ile chlorku wapnia na litr mleka: 0,1–0,2 g czystego CaCl₂, 0,3–0,6 ml roztworu 33% lub 0,15–0,25 g proszku. Kiedy dodać, po co, kiedy pominąć i co przy przedawkowaniu."
+    metaDescription="Ile chlorku wapnia na litr mleka: 0,1–0,2 g czystego CaCl₂, 0,3–0,6 ml roztworu 33% lub 0,15–0,25 g proszku. Kiedy dodać, kiedy pominąć i czy szkodzi zdrowiu."
     breadcrumb={[{ label: "Poradniki", href: "/poradniki" }, { label: "Chlorek wapnia" }]}
     related={[
       { label: "Siła podpuszczki i flokulacja", href: "/sila-podpuszczki" },
@@ -68,7 +78,8 @@ const ChlorekWapnia = () => (
     <div className="not-prose my-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/30 p-4 text-foreground">
       <strong>Najkrócej:</strong> <strong>0,1–0,2 g czystego CaCl₂ na litr mleka</strong> (albo 0,3–0,6 ml roztworu 33%),
       dodane <strong>do mleka</strong> po pasteryzacji, razem z kulturą i co najmniej 20 minut przed podpuszczką.
-      Do mleka surowego zwykle niepotrzebny. Mleka UHT nie uratuje.
+      Do mleka surowego zwykle niepotrzebny. Mleka UHT nie uratuje. Zdrowiu w tej dawce nie szkodzi, a wapnia w serze
+      dokłada niewiele (więcej <a href="#zdrowie">niżej</a>).
     </div>
 
     <h2>Chlorek wapnia dodaje się do mleka, nie do sera</h2>
@@ -209,6 +220,110 @@ const ChlorekWapnia = () => (
     <p>
       Żadnego z tych efektów nie da się cofnąć — wapnia nie wyjmiesz z mleka. Przy niepewności dawkuj po dolnej granicy
       i obserwuj czas flokulacji: jeśli mieści się w normie, chlorku jest dość.
+    </p>
+
+    <h2 id="zdrowie">Chlorek wapnia a zdrowie: szkodzi czy pomaga?</h2>
+    <p>
+      Krótko: w dawce do sera <strong>nie szkodzi i niewiele dodaje</strong>. To substancja pomocnicza, dzięki której
+      mleko pasteryzowane dobrze się ścina, a nie suplement wapnia. Chlorek wapnia jest dodatkiem do żywności E509
+      dopuszczonym w Unii Europejskiej. Europejski Urząd ds. Bezpieczeństwa Żywności (EFSA) ocenił go ponownie
+      w 2019 roku razem z innymi chlorkami i uznał, że w ilościach stosowanych w żywności nie budzi obaw
+      o bezpieczeństwo.
+    </p>
+
+    <h3>Ile wapnia chlorek dodaje do sera</h3>
+    <p>
+      W 0,1–0,2 g czystego CaCl₂ jest <strong>36–72 mg wapnia</strong>. Litr mleka ma go sam z siebie około
+      1100–1200 mg, więc chlorek powiększa zapas wapnia w garnku o 3–6%. Do sera trafia z tego tylko część, reszta
+      odpływa z <Glo term="serwatka">serwatką</Glo>.
+    </p>
+    <p>
+      Rachunek dla goudy: z 10 litrów mleka wychodzi około 1 kg sera, więc 100 g sera powstaje z mniej więcej litra
+      mleka. Nawet gdyby cały dodany wapń został w serze, 100 g goudy miałoby najwyżej około 70 mg wapnia więcej, przy
+      około 700 mg, które ma i bez chlorku. Na plaster 30 g wypada najwyżej około 20 mg, czyli 2% dziennej normy
+      dorosłego (1000 mg). Sam plaster daje około 210 mg, z chlorkiem czy bez.
+    </p>
+
+    <h3>Więcej wapnia daje wybór sera niż chlorek</h3>
+    <p>
+      Ile wapnia jest w serze, decyduje przede wszystkim sposób krzepnięcia. Przy podpuszczce wapń zostaje związany
+      w sieci białka i trafia do sera. Przy krzepnięciu kwasowym kwas rozpuszcza fosforan wapnia z białka i większość
+      wapnia odpływa z serwatką. Ogólna zasada: im bardziej zakwaszony skrzep w chwili odciekania serwatki i im więcej
+      wody w serze, tym mniej w nim wapnia.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Ser</th><th>Jak krzepnie</th><th>Wapń w 100 g</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Twaróg</td><td>kwasowo</td><td>ok. 90 mg</td></tr>
+        <tr><td>Camembert</td><td>podpuszczka i długie zakwaszanie, dużo wody</td><td>ok. 390 mg</td></tr>
+        <tr><td>Mozzarella</td><td>podpuszczka, skrzep zakwaszony przed parzeniem</td><td>ok. 500 mg</td></tr>
+        <tr><td>Gouda</td><td>podpuszczka</td><td>ok. 700 mg</td></tr>
+        <tr><td>Emmental</td><td>podpuszczka, ziarno mocno dogrzewane, mało wody</td><td>ok. 1000 mg</td></tr>
+        <tr><td>Parmezan</td><td>podpuszczka, ziarno mocno dogrzewane, bardzo mało wody</td><td>ok. 1180 mg</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Wartości jak w naszej <Link to="/porownanie-wartosci-odzywczych">porównywarce wartości odżywczych serów</Link>.
+      Komu zależy na wapniu, ten sięga po ser twardy podpuszczkowy. Chlorek wapnia tej różnicy nie robi, a do twarogu
+      w ogóle się go nie dodaje.
+    </p>
+
+    <h3>Plusy</h3>
+    <ul>
+      <li>
+        <strong>Pozwala zrobić dobry ser z mleka pasteryzowanego.</strong> Pasteryzacja zabija bakterie chorobotwórcze
+        z surowego mleka, takie jak listeria czy groźne szczepy E. coli. To ważne zwłaszcza dla kobiet w ciąży, małych
+        dzieci i osób starszych. To największy, choć pośredni, zysk dla zdrowia.
+      </li>
+      <li>
+        <strong>Dodaje trochę wapnia, a nie dodaje sodu.</strong> Jonów chlorkowych wnosi wielokrotnie mniej niż sól,
+        którą ten sam ser jest solony.
+      </li>
+      <li>
+        <strong>Nie da się nim przekroczyć bezpiecznej ilości wapnia.</strong> Górny bezpieczny poziom dla dorosłych EFSA
+        ustaliła na 2500 mg wapnia dziennie, a chlorek dokłada najwyżej kilkadziesiąt miligramów na 100 g sera.
+      </li>
+    </ul>
+
+    <h3>Minusy i na co uważać</h3>
+    <ul>
+      <li>
+        <strong>Stężony chlorek drażni oczy i skórę.</strong> Dotyczy proszku i roztworu przed rozcieńczeniem: na
+        opakowaniu jest zwykle ostrzeżenie H319 (działa drażniąco na oczy). Proszek grzeje się przy rozpuszczaniu, więc
+        wsypuj go do zimnej wody, a nie zalewaj wodą. Trzymaj opakowanie z dala od dzieci. W mleku, rozcieńczony do
+        0,02%, nie ma już tych właściwości.
+      </li>
+      <li>
+        <strong>Tylko chlorek spożywczy (E509).</strong> Chlorek z pochłaniaczy wilgoci, do odladzania chodników czy do
+        betonu to ten sam związek chemiczny, ale bez gwarancji czystości. Dla wersji spożywczej przepisy UE ustalają
+        limity ołowiu, arsenu i rtęci, dla technicznej nie.
+      </li>
+      <li>
+        <strong>Przedawkowanie psuje smak dużo wcześniej, niż mogłoby zaszkodzić.</strong> Ser z nadmiarem chlorku jest
+        gorzki i niesmaczny, ale przy zwykłym jedzeniu nie jest groźny.
+      </li>
+      <li>
+        <strong>Przy diecie z ograniczeniem wapnia liczy się cały ser.</strong> Jeśli lekarz zalecił mniej wapnia,
+        chlorek dokłada najwyżej kilkadziesiąt miligramów na 100 g sera. W takiej diecie ser z chlorkiem i bez to
+        praktycznie to samo; liczy się, ile i jakiego sera jesz.
+      </li>
+    </ul>
+    <p className="text-sm text-muted-foreground">
+      Źródła:{" "}
+      <a href="https://doi.org/10.2903/j.efsa.2019.5751" target="_blank" rel="noopener noreferrer">
+        EFSA, ponowna ocena chlorków E507, E508, E509 i E511 (2019)
+      </a>
+      ;{" "}
+      <a
+        href="https://ncez.pzh.gov.pl/wp-content/uploads/2021/03/normy_zywienia_2020web.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Normy żywienia dla populacji Polski (NIZP PZH, 2020)
+      </a>
+      ; specyfikacja E509 w rozporządzeniu Komisji (UE) nr 231/2012.
     </p>
 
     <h2 id="solanka">Chlorek wapnia do solanki to zupełnie co innego</h2>
