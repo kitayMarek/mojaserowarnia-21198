@@ -408,7 +408,12 @@ Disallow: /
     //     Sprawdzone przed wdrozeniem: dla 101 mirrorow czysty adres oddaje
     //     botowi te sama tresc co .html (dwa wyjatki to /boty-ai i /en/ai-bots,
     //     rozne o 4 bajty, bo licza zywe liczby w chwili zadania).
-    if (request.method === 'GET' && url.pathname.endsWith('.html')) {
+    //
+    //     HEAD tak samo jak GET. Do 20.10.2026 regula sprawdzala tylko GET, wiec
+    //     HEAD na istniejacy /x.html spadal do reguly 4 i dostawal 404. Klient,
+    //     ktory najpierw pyta HEAD-em (sprawdzarki linkow, czesc crawlerow),
+    //     uznawal stary adres .html za martwy zamiast pojsc za 301.
+    if ((request.method === 'GET' || request.method === 'HEAD') && url.pathname.endsWith('.html')) {
       const trasa = TRASA_MIRRORA[url.pathname] ?? url.pathname.slice(0, -'.html'.length);
       const plik = await zasob(env, url.origin, url.pathname);
       if (plik.status === 200) {
