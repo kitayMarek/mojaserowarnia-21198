@@ -88,6 +88,14 @@ const RHDDokumenty = () => {
             </ul>
           </TLDRSection>
 
+          <p className="mb-6 text-sm text-muted-foreground">
+            Planujesz inwestycję w przetwórnię? Do 2 listopada 2026 r. trwa nabór ARiMR z ryczałtem 30, 60 lub 120 tys. zł:{" "}
+            <Link to="/prawo/rhd/dotacja" className="text-primary underline">
+              dotacja na RHD
+            </Link>
+            .
+          </p>
+
           <div className="space-y-6">
             {/* Sekcja: Dokumenty obowiązkowe */}
             <Card>

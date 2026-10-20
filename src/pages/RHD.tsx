@@ -123,6 +123,16 @@ const RHD = () => {
             </p>
           </TLDRSection>
 
+          {/* Nabor I.10.6.1 do 2.11.2026; po tej dacie zmienic tresc ramki. */}
+          <div className="mb-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/30 p-4 text-sm text-foreground">
+            <strong>Dotacja na RHD z ARiMR:</strong> ryczałt 30, 60 lub 120 tys. zł na przetwórstwo w gospodarstwie,
+            nabór do 2 listopada 2026 r. Kto może i jak złożyć wniosek:{" "}
+            <Link to="/prawo/rhd/dotacja" className="text-primary underline">
+              dotacja na RHD
+            </Link>
+            .
+          </div>
+
           <FAQSchema faqs={faqData} />
 
           {/* Panel pytan - tresc z data/pytania/prawo-rhd.json, ten sam plik zasila mirror. */}

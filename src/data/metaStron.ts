@@ -43,6 +43,14 @@ export const metaStron: Record<string, MetaStrony> = {
       "Sprzedawaj własne sery i przetwory bez zakładania firmy. Limit 100 000 zł bez PIT, rejestracja w 14 lub 30 dni, ewidencja i kasa fiskalna.",
     mirror: "prawo/rhd.html",
   },
+  "/prawo/rhd/dotacja": {
+    // Nabor I.10.6.1 trwa 1.10-2.11.2026. Po 2.11 zmienic tytul i opis na
+    // "nabor zakonczony" i dopisac, co wiadomo o kolejnym.
+    title: "Dotacja na RHD 2026: 30, 60 lub 120 tys. zł z ARiMR",
+    description:
+      "Dotacja ARiMR na przetwórstwo w RHD: 30, 60 lub 120 tys. zł, do 65% kosztów. Kto może, na co i jak złożyć wniosek w PUE do 2 listopada 2026.",
+    mirror: "prawo/rhd/dotacja.html",
+  },
   "/prawo/mol": {
     // Ten sam odbiorca co przy RHD, ale na większą skalę. Kluczowa różnica, której
     // nie widać nigdzie indziej: w MOL surowiec NIE musi pochodzić z własnego

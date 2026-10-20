@@ -119,6 +119,12 @@ const Prawo = () => {
                   etykieta: "dokumenty RHD",
                 },
                 {
+                  sytuacja: "Szukasz pieniędzy na przetwórnię",
+                  propozycja: "– ryczałt 30, 60 lub 120 tys. zł z ARiMR:",
+                  href: "/prawo/rhd/dotacja",
+                  etykieta: "dotacja na RHD",
+                },
+                {
                   sytuacja: "Nie wiesz, co na etykiecie",
                   propozycja: "— wygeneruj gotową:",
                   href: "/etykieta-rhd",

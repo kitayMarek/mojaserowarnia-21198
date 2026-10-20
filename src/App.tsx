@@ -55,6 +55,7 @@ const LicznerskiSery = lazy(() => import("./pages/LicznerskiSery"));
 const AktyPrawneUE = lazy(() => import("./pages/AktyPrawneUE"));
 const RHD = lazy(() => import("./pages/RHD"));
 const RHDDokumenty = lazy(() => import("./pages/RHDDokumenty"));
+const RHDDotacja = lazy(() => import("./pages/RHDDotacja"));
 const MOL = lazy(() => import("./pages/MOL"));
 const MOLDokumenty = lazy(() => import("./pages/MOLDokumenty"));
 const RzezniRolnicza = lazy(() => import("./pages/RzezniRolnicza"));
@@ -202,6 +203,7 @@ const App = () => (
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
+            <Route path="/prawo/rhd/dotacja" element={<RHDDotacja />} />
             <Route path="/prawo/mol" element={<MOL />} />
             <Route path="/prawo/mol/dokumenty" element={<MOLDokumenty />} />
             <Route path="/prawo/rzeznia-rolnicza" element={<RzezniRolnicza />} />

@@ -120,6 +120,7 @@ export const navItems: NavItem[] = [
     children: [
       { label: "RHD – Rolniczy Handel Detaliczny", href: "/prawo/rhd" },
       { label: "Dokumenty RHD", href: "/prawo/rhd/dokumenty" },
+      { label: "Dotacja na RHD", href: "/prawo/rhd/dotacja" },
       { label: "MOL – działalność MOL", href: "/prawo/mol" },
       { label: "Dokumenty MOL", href: "/prawo/mol/dokumenty" },
       { label: "Akty prawne UE", href: "/prawo/akty-prawne-ue" },
