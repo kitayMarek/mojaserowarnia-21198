@@ -18,6 +18,13 @@
 # ktorej nie ma w sitemapie, w llms.txt ani w zadnym linku — zadanie jej
 # pobrania jest wiec dowodem zignorowania tego pliku, a nie przypadkiem.
 
+# CONTENT-SIGNAL (od 21.10.2026, decyzja Marka): deklaracja, do czego wolno
+# uzyc tresci. search = wyszukiwarki, ai-input = odpowiedzi czatow na biezaco,
+# ai-train = trening modeli. Wszystko "yes": przy ogolnych pytaniach czat
+# odpowiada z pamieci modelu, a tam serwis trafi tylko przez trening. Linia
+# stoi w kazdej grupie z tego samego powodu co zakazy: bot czyta tylko swoja.
+# Grupa Meta-ExternalAgent jej nie ma, bo i tak ma zakaz wejscia.
+
 # === GLOWNE WYSZUKIWARKI ===
 User-agent: Googlebot
 User-agent: Googlebot-Image
@@ -26,6 +33,7 @@ User-agent: Yandex
 User-agent: Baiduspider
 User-agent: Seznam-Bot
 User-agent: Naverbot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 Disallow: /dashboard/
 Disallow: /auth
@@ -44,6 +52,7 @@ User-agent: Slackbot
 User-agent: WhatsApp
 User-agent: Discordbot
 User-agent: TelegramBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 Disallow: /dashboard/
 Disallow: /auth
@@ -78,6 +87,7 @@ User-agent: MistralAI-User
 User-agent: CCBot
 User-agent: Diffbot
 User-agent: YouBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 Disallow: /dashboard/
 Disallow: /auth
@@ -98,6 +108,7 @@ Disallow: /
 
 # === POZOSTALE BOTY ===
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 Disallow: /dashboard/
 Disallow: /auth
