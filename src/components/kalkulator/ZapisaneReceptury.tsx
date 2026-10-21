@@ -98,16 +98,19 @@ export default function ZapisaneReceptury({
         id="zapis-mieszanki"
         className="mt-6 scroll-mt-24 rounded-lg border-2 border-primary/40 bg-primary/5 p-4"
       >
-        <div className="flex flex-wrap items-center gap-3">
-          <BookmarkPlus className="h-5 w-5 shrink-0 text-primary" />
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold text-foreground">Zapisz tę mieszankę na później</p>
-            <p className="text-sm text-muted-foreground">
-              Wrócisz do niej przy następnym zamówieniu surowców. Wystarczy e-mail i hasło,
-              bez zakładania ewidencji RHD.
-            </p>
+        {/* Na telefonie przycisk idzie pod tekst: w jednym wierszu tekst ściskał się do kolumny po dwa słowa. */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
+            <BookmarkPlus className="mt-0.5 h-5 w-5 shrink-0 text-primary sm:mt-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-foreground">Zapisz tę mieszankę na później</p>
+              <p className="text-sm text-muted-foreground">
+                Wrócisz do niej przy następnym zamówieniu surowców. Wystarczy e-mail i hasło,
+                bez zakładania ewidencji RHD.
+              </p>
+            </div>
           </div>
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="ml-8 self-start sm:ml-0 sm:self-auto">
             <Link
               to={ADRES_LOGOWANIA_Z_KALKULATORA}
               onClick={() => {
