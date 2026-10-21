@@ -131,6 +131,8 @@ const ZNACZNIK_JAWNY = /straznik:\s*jawny/i;
 const OBSZARY_PROJEKTU = new Set([
   '.claude', '.githooks', '.lovable', 'data', 'design', 'docs',
   'public', 'scripts', 'src', 'supabase', 'worker',
+  // Serwer MCP bazy kultur (dane.mojaserowarnia.pl), dopisany 21.10.2026.
+  'worker-magazyn',
 ]);
 const KORZEN_WOLNO = new Set([
   '.env.deploy.przyklad', '.gitattributes', '.gitignore', '.npmrc', '.nvmrc',

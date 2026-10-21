@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "test:boty": "node scripts/test-wizyty-botow.mjs",
     "deploy": "node scripts/wdroz.mjs",
+    "deploy:magazyn": "node scripts/wdroz-magazyn.mjs",
     "klucz-licznika": "node scripts/klucz-licznika.mjs",
     "prepare": "git config core.hooksPath .githooks || exit 0",
     "spis": "node scripts/spis.mjs",

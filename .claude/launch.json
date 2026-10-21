@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 8080
+    },
+    {
+      "name": "magazyn-mcp",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "-c", "worker-magazyn/wrangler.jsonc", "--port", "8788"],
+      "port": 8788
     }
   ]
 }

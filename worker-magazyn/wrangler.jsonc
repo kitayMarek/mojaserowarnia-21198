@@ -1,0 +1,49 @@
+{
+  // ===========================================================================
+  //  dane.mojaserowarnia.pl: serwer MCP bazy kultur ("magazyn"), wersja testowa
+  //
+  //  Osobny Worker, rownolegly do serwisu: wlasna konfiguracja, wlasne
+  //  zaleznosci (worker-magazyn/package.json), wlasne wdrozenie. Glowny
+  //  wrangler.jsonc i worker/index.js zostaja bez zmian.
+  //
+  //  Lokalnie (z glownego katalogu repo):
+  //    npx wrangler dev -c worker-magazyn/wrangler.jsonc --port 8788
+  //  Wdrozenie (tylko z glownego katalogu, jeden watek naraz):
+  //    npm run deploy:magazyn
+  // ===========================================================================
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "mojaserowarnia-magazyn",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01",
+
+  // ADRES. Subdomena jako custom_domain: wrangler sam zaklada rekord DNS.
+  // Zgoda Marka 21.10.2026. workers_dev: false, zeby kopia nie stala tez pod
+  // *.workers.dev (tam nie ma robots.txt domeny i moglaby trafic do indeksu).
+  "routes": [
+    { "pattern": "dane.mojaserowarnia.pl", "custom_domain": true }
+  ],
+  "workers_dev": false,
+
+  // Dwa limity, oba liczone w oknie 60 s (dozwolone sa tylko 10 i 60).
+  // LIMIT_ADRES: 30 wywolan na minute z jednego adresu (klucz = skrot IP,
+  //   nigdzie niezapisywany).
+  // LIMIT_CALOSC: 600 na minute lacznie, zeby zalew nie zjadl dziennego
+  //   limitu konta Workers, ktory jest wspolny ze strona.
+  // Licznik jest liczony osobno w kazdej lokalizacji Cloudflare i celowo
+  // "przepuszczalny", wiec to hamulec, nie ksiegowosc. namespace_id musi byc
+  // unikalny w koncie; glowny worker nie ma zadnych limitow.
+  "ratelimits": [
+    { "name": "LIMIT_ADRES", "namespace_id": "1101", "simple": { "limit": 30, "period": 60 } },
+    { "name": "LIMIT_CALOSC", "namespace_id": "1102", "simple": { "limit": 600, "period": 60 } }
+  ],
+
+  // Adres projektu Supabase do pomiaru (worker-magazyn/src/pomiar.js). Nie jest
+  // sekretem, ten sam stoi w glownym wrangler.jsonc. Sekretem jest klucz
+  // service_role: `npx wrangler secret put SUPABASE_SERVICE_KEY -c worker-magazyn/wrangler.jsonc`.
+  // Bez niego (np. lokalnie) pomiar tylko wypisuje wpis w logu.
+  "vars": {
+    "SUPABASE_URL": "https://hsgxmbhunclhgzumafrk.supabase.co"
+  },
+
+  "observability": { "enabled": true }
+}

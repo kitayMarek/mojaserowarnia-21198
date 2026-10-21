@@ -1,0 +1,13 @@
+{
+  "name": "mojaserowarnia-magazyn",
+  "private": true,
+  "description": "Serwer MCP bazy kultur (dane.mojaserowarnia.pl). Osobny Worker, osobne zaleznosci: nie dotyka aplikacji React ani worker/index.js.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev -c wrangler.jsonc --port 8788"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.3.1",
+    "zod": "4.6.5"
+  }
+}
