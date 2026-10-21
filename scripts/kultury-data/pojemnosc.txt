@@ -111,24 +111,24 @@ SIGMA 97 | Lactic.pl |  |  | brak deklaracji | https://lactic.pl/pl/p/SIGMA-97/1
 ABY | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/ABY-bakterie-startowe-do-jogurtu-probiotyk/757
 AT | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/AT-kultura-starterowa-bakterie/28
 Brevibacterium Linens | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Brevibacterium-Linens-bakterie-czerwonej-mazi/341
-CL | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/CL-kultura-startowa-uzupelniajaca-do-sera-na-1000-l-mleka/2259
+CL | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/CL-kultura-startowa-uzupelniajaca-do-sera-na-1000-l-mleka/2259
 EM | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/EM-kultura-starterowa-bakterie/23
 GEO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/GEO-plesn-Geotrichum-candidum/806
 Grzybek kefirowy tybetański | Serowar.pl |  |  | brak deklaracji | https://serowar.pl/pl/p/Grzybek-kefirowy-tybetanski-ziarna-zrob-wlasny-kefir/90
-KFA1 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/KFA1-kultura-startowa-do-kefiru-na-1000-l-mleka/1741
-KFB1/2 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/KFB12-kultura-startowa-do-kefiru-na-1000-l-mleka/1742
+KFA1 | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/KFA1-kultura-startowa-do-kefiru-na-1000-l-mleka/1741
+KFB1/2 | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/KFB12-kultura-startowa-do-kefiru-na-1000-l-mleka/1742
 Kefir 31 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Kefir-31-bakterie-startowe-do-kefiru/138
 Kefir 51 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/Kefir-51-bakterie-startowe-do-kefiru/1632
 LCR | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LCR-bakteryjna-kultura-starterowa-probiotyczna/139
-LHT | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHT-kultura-startowa-do-sera-na-1000-l-mleka-/1746
-LHTB | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHTB-kultura-startowa-do-sera-na-1000-l-mleka/1747
-LHTBME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LHTBME-kultura-startowa-do-sera-na-1000-l-mleka/1748
+LHT | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/LHT-kultura-startowa-do-sera-na-1000-l-mleka-/1746
+LHTB | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/LHTB-kultura-startowa-do-sera-na-1000-l-mleka/1747
+LHTBME | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/LHTBME-kultura-startowa-do-sera-na-1000-l-mleka/1748
 LP | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/LP-Lactobacillus-plantarum-bakteryjna-kultura-starterowa-probiotyczna/475
 M | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/M-kultura-starterowa-bakterie/114
-MA | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MA-kultura-startowa-do-masla-i-sera-na-1000-l-mleka/1750
-ME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/ME-kultura-startowa-do-sera-na-1000-l-mleka/1751
+MA | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/MA-kultura-startowa-do-masla-i-sera-na-1000-l-mleka/1750
+ME | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/ME-kultura-startowa-do-sera-na-1000-l-mleka/1751
 MFC | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MFC-kultura-starterowa-bakterie/22
-MO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MO-kultura-startowa-do-masla%2C-sera-na-1000-l-mleka/1752
+MO | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/MO-kultura-startowa-do-masla%2C-sera-na-1000-l-mleka/1752
 MSE | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSE-kultura-starterowa-bakterie/20
 MSE-910 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSE-910-kultura-starterowa-bakterie/1921
 MSO | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/MSO-kultura-starterowa-bakterie/18
@@ -141,8 +141,8 @@ PG | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https:
 PP | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/PP-kultura-starterowa-bakterie/169
 RQ | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/RQ-plesn-Penicillium-roqueforti/121
 SLBH | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/SLBH-kultura-starterowa-bakterie/1097
-TB | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/TB-kultura-startowa-do-sera-na-1000-l-mleka/1753
-TME | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/TME-kultura-startowa-do-sera-na-1000-l-mleka/1749
+TB | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/TB-kultura-startowa-do-sera-na-1000-l-mleka/1753
+TME | Serowar.pl | 1000 |  | opakowanie (całe opakowanie) | https://serowar.pl/pl/p/TME-kultura-startowa-do-sera-na-1000-l-mleka/1749
 YO 122 | Serowar.pl | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://serowar.pl/pl/p/YO-122-bakterie-startowe-do-jogurtu/137
 Camembert Mix | Wańczykówka | 100 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/4-1-camembert-mix.html
 Choozit ARN | Wańczykówka | 5000 |  | opakowanie | https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/22-564--arn.html

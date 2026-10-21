@@ -53,6 +53,18 @@ POJEMNOSC_PEWNE = [
 # Wszystkie wystapienia "na N litrow" — klasyfikacja nastepuje po tym, co stoi ZA liczba.
 POJEMNOSC_WSZYSTKIE_LUZNO = re.compile(r"\bna\s*(\d+)\s*(?:l\b|litr\w*)", re.I)
 
+# CALE OPAKOWANIE: zdanie wprost o calosci ma pierwszenstwo przed kazda inna liczba.
+# Serowar.pl przy kulturach microMilk pisze "Saszetka zawiera 10 doz producenta,
+# kazda na 100 litrow mleka. Cale opakowanie wystarcza na 1000 litrow mleka".
+# Do 21.10.2026 regula "najmniejsza liczba" brala tu dawke (100 L) i cena za litr
+# wychodzila 10 razy za wysoka przy 10 kulturach.
+CALE_OPAKOWANIE = re.compile(
+    r"ca[łl]e\s+opakowanie\s+(?:wystarcza|starcza|jest)\s+na\s*(\d+)\s*(?:l\b|litr\w*)", re.I
+)
+# DAWKA W OPAKOWANIU: "kazda na 100 litrow", "doza na 100 litrow" opisuje jedna
+# porcje, a nie cale opakowanie. Patrzymy tylko tuz PRZED liczba.
+PORCJA_PRZED = re.compile(r"ka[żz]d[aey]\W*$|doz\w*\W*$", re.I)
+
 # Co dyskwalifikuje liczbe jako pojemnosc opakowania — i z ktorej strony patrzec.
 #
 # MLEKO SUROWE: przymiotnik stoi ZA rzeczownikiem ("na 200 litrow mleka surowego"),
@@ -139,11 +151,18 @@ def znajdz_pojemnosc(tekst):
     lub 200 litrow mleka surowego" — slowo "surowego" jest w oknie, ale dotyczy
     innej liczby.
     """
+    cale = CALE_OPAKOWANIE.search(tekst)
+    if cale:
+        return int(cale.group(1)), "opakowanie (całe opakowanie)", czysty_kontekst(tekst, cale)
+
     kandydaci, odrzucone = [], []
     for m in POJEMNOSC_WSZYSTKIE_LUZNO.finditer(tekst):
         ogon = tekst[m.end(): m.end() + 34]
         przed = tekst[max(0, m.start() - 60): m.start()]
         if SUROWE_PO.search(ogon) or SMIETANA.search(ogon) or SMIETANA.search(przed):
+            odrzucone.append(int(m.group(1)))
+            continue
+        if PORCJA_PRZED.search(tekst[max(0, m.start() - 20): m.start()]):
             odrzucone.append(int(m.group(1)))
             continue
         kandydaci.append((int(m.group(1)), czysty_kontekst(tekst, m)))
@@ -186,6 +205,12 @@ TESTY = [
      "Masa netto opakowania: na 5000 litrów mleka Produkt chwilowo niedostępny"),
     ("ML / Artiser", 100,
      "Dawkowanie: 2g / 100 Litrów mleka. Wariant Na 100l mleka Na 1000l mleka Niedostępny 15,04 zł"),
+    # 21.10.2026: dawka w saszetce to nie pojemnosc opakowania.
+    ("ME / Serowar (microMilk)", 1000,
+     "ME - kultura startowa do sera (na 1000 l mleka) Wydajność opakowania Saszetka zawiera 10 doz "
+     "producenta, każda na 100 litrów mleka. Całe opakowanie wystarcza na 1000 litrów mleka."),
+    ("bez zdania o całości, sama dawka", None,
+     "Saszetka zawiera 10 doz producenta, każda na 100 litrów mleka."),
 ]
 
 

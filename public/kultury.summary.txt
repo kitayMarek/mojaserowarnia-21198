@@ -1,5 +1,5 @@
 BAZA KULTUR BAKTERYJNYCH — mojaserowarnia.pl (186 pozycji)
-Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/kultury/baza.html
+Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/baza-kultur
 Wersja interaktywna z filtrami i porównywarką: https://mojaserowarnia.pl/baza-kultur
 Format wierszy: Nazwa | Temperatura pracy | Zastosowanie | Sklep
 
