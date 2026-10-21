@@ -88,6 +88,14 @@ async function wLimicie(env, request) {
 function stronaOpisu(origin) {
   const baza = oBazie();
   const adres = `${origin}${SCIEZKA_MCP}`;
+  // Ten sam link co przycisk na mojaserowarnia.pl/asystenci-ai. Otwiera laczniki
+  // w Claude.ai; okno z wpisana nazwa i adresem pojawia sie tylko czasem (z aplikacji
+  // Claude parametry gina, 21.10.2026), wiec instrukcja zaklada wklejenie adresu.
+  // Adres na sztywno, nie z origin: wrangler dev podaje http://, a Claude
+  // przyjmuje tylko https i i tak nie siegnie do lokalnego serwera.
+  const dodajDoClaude = 'https://claude.ai/customize/connectors?modal=add-custom-connector'
+    + '&amp;connectorName=Moja%20Serowarnia&amp;connectorUrl='
+    + encodeURIComponent(`https://dane.mojaserowarnia.pl${SCIEZKA_MCP}`);
   return `<!doctype html>
 <html lang="pl">
 <head>
@@ -108,6 +116,7 @@ function stronaOpisu(origin) {
   code { background: var(--kod); border: 1px solid var(--ramka); border-radius: 4px; padding: .1rem .35rem; font-size: .95em; }
   .adres { display: block; padding: .7rem .8rem; font-size: 1rem; overflow-wrap: anywhere; }
   a { color: var(--akcent); }
+  .przycisk { display: inline-block; background: var(--akcent); color: var(--tlo); font: 600 1rem/1 system-ui, sans-serif; text-decoration: none; padding: .75rem 1.2rem; border-radius: 6px; }
   small { color: var(--slabszy); }
 </style>
 </head>
@@ -121,11 +130,15 @@ function stronaOpisu(origin) {
   <code class="adres">${adres}</code>
 
   <h2>Jak podłączyć w Claude.ai</h2>
+  <p><a class="przycisk" href="${dodajDoClaude}" rel="nofollow noopener">Otwórz łączniki w Claude</a></p>
   <ol>
-    <li>Ustawienia, Łączniki, Dodaj własny łącznik.</li>
-    <li>Wklej adres z ramki wyżej. Logowanie ani klucz nie są potrzebne.</li>
+    <li>Na stronie łączników kliknij + Add, potem Add custom connector (w menu: Customize, zakładka Connectors).</li>
+    <li>W polu Name wpisz „Moja Serowarnia”, w polu MCP server URL wklej adres z ramki wyżej i kliknij Continue, a potem Add. Logowanie ani klucz nie są potrzebne.</li>
     <li>Zapytaj na przykład: „jaka kultura do camemberta i czym ją zastąpić” albo „zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy”.</li>
   </ol>
+  <p>Krok po kroku: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn">mojaserowarnia.pl/asystenci-ai</a>.</p>
+  <p>W Claude Code (Claude w terminalu) jedno polecenie:</p>
+  <code class="adres">claude mcp add --transport http serowarnia https://dane.mojaserowarnia.pl${SCIEZKA_MCP}</code>
   <p>W ChatGPT własne łączniki działają w trybie dewelopera na planach płatnych. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
 
   <h2>Co potrafi</h2>
