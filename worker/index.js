@@ -370,6 +370,17 @@ Disallow: /
       return Response.redirect(url.toString(), 301);
     }
 
+    // 1a1b) KROTKI LINK DO LACZNIKA CLAUDE: /claude -> /asystenci-ai?z=...
+    //       Do wklejania w postach, np. mojaserowarnia.pl/claude?z=fb-serowarze
+    //       (21.10.2026, prosba Marka). Znacznik idzie dalej do adresu lacznika
+    //       (src/lib/lacznikClaude.ts), wiec serwer MCP pokaze, ile podlaczen dal
+    //       dany post, a licznik wejsc pokaze samo wejscie z linku. Bez znacznika
+    //       "link". 302, nie 301: to link kampanii, cel moze sie zmienic.
+    if (bezUkosnika === '/claude') {
+      const z = (url.searchParams.get('z') || '').toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 60) || 'link';
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}`, 302);
+    }
+
     // 1a-) STARE ADRESY .html, które miały przekierowanie w public/_redirects.
     //      Od 8.09.2026 "/*.html" jest w run_worker_first (wrangler.jsonc), więc
     //      każde żądanie .html trafia najpierw tutaj i warstwa _redirects go już

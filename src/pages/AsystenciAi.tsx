@@ -71,7 +71,10 @@ const AsystenciAi = () => {
   // jako znacznik, wiec serwer MCP pokaze, skad przyszlo podlaczenie.
   const location = useLocation();
   const stan = location.state as { z?: unknown } | null;
-  const zrodlo = zrodloZeSciezki(typeof stan?.z === "string" ? stan.z : "/asystenci-ai");
+  // Albo z adresu: krotki link mojaserowarnia.pl/claude?z=fb-grupa przekierowuje
+  // tu z ?z= (worker/index.js, regula 1a1b), np. z posta w grupie na Facebooku.
+  const zAdresu = new URLSearchParams(location.search).get("z");
+  const zrodlo = zrodloZeSciezki(typeof stan?.z === "string" ? stan.z : zAdresu ?? "/asystenci-ai");
   const adres = adresLacznika(zrodlo);
 
   const kopiuj = async () => {
@@ -144,7 +147,7 @@ const AsystenciAi = () => {
                         rel="noopener noreferrer nofollow"
                         onClick={() => {
                           zdarzenieLacznikAi("polacz_claude");
-                          zapiszKlikniecieLacznika("/asystenci-ai", "przycisk");
+                          zapiszKlikniecieLacznika(zrodlo, "przycisk");
                           // Bez czekania: karta otwiera się zwykłym kliknięciem w link.
                           void kopiuj();
                         }}
@@ -156,7 +159,7 @@ const AsystenciAi = () => {
                     <p className="text-muted-foreground mt-2" aria-live="polite">
                       {skopiowano
                         ? "Adres jest w schowku. W karcie Claude wklej go w pole MCP server URL."
-                        : "Przycisk skopiuje adres serwera i otworzy łączniki w Claude.ai w nowej karcie."}
+                        : "Przycisk otworzy w nowej karcie Claude z wpisaną nazwą i adresem. Claude pokaże przy tym żółte ostrzeżenie, że łącznik przyszedł z linku z zewnątrz: to zwykły komunikat przy każdym takim łączniku. Sprawdź, że adres zaczyna się od https://dane.mojaserowarnia.pl/mcp, i kliknij Continue."}
                     </p>
                   </div>
 
@@ -179,7 +182,7 @@ const AsystenciAi = () => {
                         variant="outline"
                         onClick={() => {
                           zdarzenieLacznikAi("kopiuj_adres");
-                          zapiszKlikniecieLacznika("/asystenci-ai", "kopiuj");
+                          zapiszKlikniecieLacznika(zrodlo, "kopiuj");
                           void kopiuj();
                         }}
                         className="shrink-0"
@@ -212,9 +215,11 @@ const AsystenciAi = () => {
                       </li>
                     </ol>
                     <p className="text-muted-foreground mt-2">
-                      Czasem Claude od razu pokazuje okno z wpisaną nazwą i adresem oraz ostrzeżeniem, że łącznik
-                      przyszedł z linku z zewnątrz. Wtedy sprawdź, czy adres to dane.mojaserowarnia.pl/mcp, i kliknij
-                      Continue. Nazwy przycisków podajemy tak, jak wyglądają w angielskiej wersji Claude.
+                      Zwykle Claude od razu pokazuje okno z wpisaną nazwą i adresem oraz żółtym ostrzeżeniem, że
+                      łącznik przyszedł z linku z zewnątrz. Claude pokazuje je przy każdym łączniku dodawanym z
+                      linku, więc nie oznacza problemu. Sprawdź, czy adres zaczyna się od
+                      https://dane.mojaserowarnia.pl/mcp, i kliknij Continue. Nazwy przycisków podajemy tak, jak
+                      wyglądają w angielskiej wersji Claude.
                     </p>
                   </div>
 

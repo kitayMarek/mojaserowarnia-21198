@@ -4,8 +4,9 @@
  *
  * POMIAR W DWÓCH MIEJSCACH (decyzja Marka 21.10.2026):
  *  1. Kliknięcie: wiersz w llm_queries (model "lacznik-claude", query = rodzaj
- *     przycisku, source = strona). Ta sama tabela co dawne „Zapytaj AI”, więc
- *     bez zmian w bazie, a /admin/statystyki-llm pokazuje to od razu.
+ *     przycisku, source = strona albo znacznik z krótkiego linku /claude?z=...).
+ *     Ta sama tabela co dawne „Zapytaj AI”, więc /admin/statystyki-llm
+ *     pokazuje to od razu.
  *  2. Podłączenie: adres łącznika niesie znacznik strony (?z=/baza-kultur).
  *     Serwer MCP zapisuje go przy każdym wywołaniu w magazyn_wywolania.zrodlo,
  *     więc widać, które strony dały prawdziwe podłączenia, a nie tylko kliknięcia.
