@@ -455,9 +455,11 @@ Disallow: /
 
     // 1b2a) /mcp -> serwer MCP bazy kultur na osobnej subdomenie (worker-magazyn/).
     //       Marek 21.10.2026 wpisal mojaserowarnia.pl/mcp i dostal strone 404,
-    //       bo serwer stoi pod dane.mojaserowarnia.pl/mcp. 308, a nie 301:
-    //       zachowuje metode i tresc, wiec klient MCP ustawiony na krotszy
-    //       adres wysle POST tam, gdzie trzeba, a przegladarka dostanie opis.
+    //       bo serwer stoi pod dane.mojaserowarnia.pl/mcp. Przekierowanie jest
+    //       dla LUDZI: przegladarka dostaje strone opisu. Klient MCP musi miec
+    //       adres dane.mojaserowarnia.pl/mcp, bo oficjalny SDK (2.3.1) z zalozenia
+    //       nie idzie za przekierowaniem na inna domene (sprawdzone 21.10.2026).
+    //       308 zamiast 301 zostaje, bo nie zmienia metody klientom, ktore ida.
     if (bezUkosnika === '/mcp') {
       return Response.redirect('https://dane.mojaserowarnia.pl/mcp', 308);
     }
