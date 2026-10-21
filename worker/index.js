@@ -453,6 +453,15 @@ Disallow: /
       return kontraktBotow(request, env);
     }
 
+    // 1b2a) /mcp -> serwer MCP bazy kultur na osobnej subdomenie (worker-magazyn/).
+    //       Marek 21.10.2026 wpisal mojaserowarnia.pl/mcp i dostal strone 404,
+    //       bo serwer stoi pod dane.mojaserowarnia.pl/mcp. 308, a nie 301:
+    //       zachowuje metode i tresc, wiec klient MCP ustawiony na krotszy
+    //       adres wysle POST tam, gdzie trzeba, a przegladarka dostanie opis.
+    if (bezUkosnika === '/mcp') {
+      return Response.redirect('https://dane.mojaserowarnia.pl/mcp', 308);
+    }
+
     if (bezUkosnika === '/boty-ai' || url.pathname === '/boty-ai.html') {
       const uaBota = request.headers.get('user-agent') || '';
       const chceMirror = url.pathname === '/boty-ai.html'
