@@ -366,6 +366,11 @@ const BazaKultur = () => {
                   Nie wiesz jaką kulturę wybrać? Zapytaj AI z gotowym kontekstem bazy:
                 </p>
                 <AskLLMSelect source="baza-kultur" />
+                <p className="text-xs text-muted-foreground mt-2">
+                  Używasz Claude?{" "}
+                  <Link to="/asystenci-ai" className="underline">Podłącz bazę jako łącznik</Link>{" "}
+                  i pytaj o kultury w rozmowie, z ceną za litr mleka.
+                </p>
               </div>
             </div>
           </div>

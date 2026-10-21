@@ -9,7 +9,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
-import { AlertCircle, CheckCircle, Info } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { AlertCircle, CheckCircle, Info, Plug } from 'lucide-react';
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
@@ -1485,6 +1486,13 @@ const KalkulatorPasz = () => {
                 <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
                 <span>
                   <strong>Ważne:</strong> Optymalizacja uwzględnia ograniczenia dla roślin strączkowych (groch, bobik) w zależności od wieku ptaków.
+                </span>
+              </p>
+              <p className="flex items-start gap-2">
+                <Plug size={16} className="mt-0.5 flex-shrink-0" />
+                <span>
+                  <strong>W Claude:</strong> ten sam kalkulator możesz podłączyć do Claude i układać paszę w rozmowie.{' '}
+                  <Link to="/asystenci-ai" className="underline">Jak podłączyć</Link>
                 </span>
               </p>
             </div>

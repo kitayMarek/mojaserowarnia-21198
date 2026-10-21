@@ -116,6 +116,8 @@ def gen_html(items):
   <nav class="crumbs"><a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> &rarr; <a href="https://mojaserowarnia.pl/bakterie-kultury">Kultury</a> &rarr; Pe&#322;na baza</nav>''')
     o.append(f"  <h1>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</h1>")
     o.append(f'  <p class="lead">Sprawdzisz tu, który z pięciu polskich sklepów ma daną kulturę i w jakiej cenie: Lactic.pl, Wańczykówka, Serowar.pl, Artiser.pl i GAP Poland w jednym zestawieniu. {total} kultur bakteryjnych i pleśni — nazwa, skład, zastosowanie, temperatura pracy, sklep i cena. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
+    # Ta sama wzmianka co pod widgetem „Zapytaj AI” w src/pages/BazaKultur.tsx.
+    o.append('  <p>Używasz Claude? <a href="https://mojaserowarnia.pl/asystenci-ai">Podłącz bazę jako łącznik</a> i pytaj o kultury w rozmowie, z ceną za litr mleka.</p>')
     for t in TYPE_ORDER + [k for k in groups if k not in TYPE_ORDER]:
         if t not in groups:
             continue

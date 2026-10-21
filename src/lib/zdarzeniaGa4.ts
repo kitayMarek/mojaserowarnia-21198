@@ -59,3 +59,12 @@ export function zdarzenieMieszankaZapisana(
 export function zdarzenieMieszankaEksport(kalkulator: string, format: string): void {
   wyslij('mieszanka_eksport', { kalkulator, format });
 }
+
+/**
+ * /asystenci-ai: kliknięcie „Połącz z Claude” albo samo skopiowanie adresu serwera MCP.
+ * To zamiar, nie podłączenie: czy łącznik naprawdę działa, mówi tabela
+ * magazyn_wywolania (klient „Claude”), bo dodanie dzieje się już na claude.ai.
+ */
+export function zdarzenieLacznikAi(akcja: 'polacz_claude' | 'kopiuj_adres'): void {
+  wyslij('lacznik_ai', { akcja });
+}

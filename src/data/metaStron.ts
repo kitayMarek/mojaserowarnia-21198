@@ -285,6 +285,14 @@ export const metaStron: Record<string, MetaStrony> = {
       "Flora Danica (Chr. Hansen): mezofilna kultura LD z CO₂ do goudy i camemberta. Skład i dawka wg producenta, gdzie kupić w Polsce i czym ją zastąpić.",
     mirror: "kultury/flora-danica.html",
   },
+  "/asystenci-ai": {
+    // Jak podlaczyc serwer MCP (dane.mojaserowarnia.pl/mcp) do Claude jako lacznik.
+    // Strona dla ludzi, ktorzy chca pytac czat o kultury i pasze na naszych danych.
+    title: "Baza kultur i kalkulator pasz w Claude: jak podłączyć",
+    description:
+      "Podłącz bazę kultur do sera i kalkulator pasz dla drobiu do Claude jako łącznik (serwer MCP). Bez konta i klucza: przycisk, adres i przykładowe pytania.",
+    mirror: "asystenci-ai.html",
+  },
   "/sery/camembert": {
     // Strona O SERZE, osobna od przepisu. Slowa z zapytan z Search Console
     // (15.09.2026): "camembert" 175 wyswietlen i 0 klikniec, do tego ogon
