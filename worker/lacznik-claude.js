@@ -29,6 +29,15 @@ const ADRES_MCP = 'https://dane.mojaserowarnia.pl/mcp';
 const FORMULARZ_CLAUDE =
   'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Moja%20Serowarnia&connectorUrl=';
 
+// Siec Meta (Facebook). Po publikacji posta Meta otwiera link swoimi skanerami:
+// bezglowy Chrome z kompletem naglowkow przegladarki i z fbclid, kilkanascie
+// razy w kilka sekund. Logi Workers z 21.10.2026: 28 z 28 klikniec fb-pasza
+// i fb-serowar przyszlo z ASN 32934 (USA). Naglowki ich nie odroznia, siec tak:
+// czlowiek klika z sieci swojego operatora, takze w aplikacji Facebooka.
+// Decyzja Marka 21.10.2026: nie odrzucac, tylko zapisywac w osobnym wierszu,
+// zeby bylo widac, czy trafi sie tam kiedys ktos prawdziwy.
+const SIEC_META = [32934, 63293];
+
 /** Znacznik posta z ?z=. Te same reguly czyszczenia co zrodloZeSciezki() w serwisie. */
 export function znacznikLinku(url) {
   return (url.searchParams.get('z') || '').toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 60) || 'link';
@@ -60,6 +69,7 @@ export async function zapiszKlikniecieLinku(request, z, env, botPodgladu) {
     if (botPodgladu || rozpoznajBota(ua) || NARZEDZIE.test(ua) || WLASNE.test(ua)) return;
     if (new URL(request.url).hostname.endsWith('.workers.dev')) return;
     if (await ktoZListy(request.headers.get('cf-connecting-ip'))) return;
+    const zrodlo = SIEC_META.includes(request.cf?.asn) ? `${z} (skaner Meta)` : z;
 
     const zapis = await fetch(`${env.SUPABASE_URL}/rest/v1/llm_queries`, {
       method: 'POST',
@@ -69,7 +79,7 @@ export async function zapiszKlikniecieLinku(request, z, env, botPodgladu) {
         'content-type': 'application/json',
         prefer: 'return=minimal',
       },
-      body: JSON.stringify({ query: 'link', model: 'lacznik-claude', source: z, is_custom: false }),
+      body: JSON.stringify({ query: 'link', model: 'lacznik-claude', source: zrodlo, is_custom: false }),
     });
     if (!zapis.ok) {
       console.error('lacznik-claude: zapis odrzucony', zapis.status, (await zapis.text()).slice(0, 300));
