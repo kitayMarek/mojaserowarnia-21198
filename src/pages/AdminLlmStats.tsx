@@ -55,14 +55,16 @@ export default function AdminLlmStats() {
 
   // Od 21.10.2026 w tej samej tabeli sa klikniecia przyciskow „Dodaj do Claude”
   // (model "lacznik-claude", query = menu / przycisk / kopiuj, source = strona).
+  // query "link" zapisuje worker: klikniecie krotkiego linku /claude/dodaj?z=...
+  // prosto do formularza Claude (worker/lacznik-claude.js), source = znacznik posta.
   // Licza sie osobno, zeby nie udawaly pytan z dawnego widgetu „Zapytaj AI”.
   const lacznik = useMemo(() => {
     const wiersze = (rows ?? []).filter((r) => r.model === "lacznik-claude");
-    const wgStrony = new Map<string, { razem: number; menu: number; przycisk: number; kopiuj: number }>();
+    const wgStrony = new Map<string, { razem: number; menu: number; przycisk: number; kopiuj: number; link: number }>();
     for (const r of wiersze) {
-      const w = wgStrony.get(r.source) ?? { razem: 0, menu: 0, przycisk: 0, kopiuj: 0 };
+      const w = wgStrony.get(r.source) ?? { razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0 };
       w.razem += 1;
-      if (r.query === "menu" || r.query === "przycisk" || r.query === "kopiuj") w[r.query] += 1;
+      if (r.query === "menu" || r.query === "przycisk" || r.query === "kopiuj" || r.query === "link") w[r.query] += 1;
       wgStrony.set(r.source, w);
     }
     return {
@@ -174,7 +176,8 @@ export default function AdminLlmStats() {
         <CardHeader>
           <CardTitle>Łącznik Claude: kliknięcia według strony</CardTitle>
           <CardDescription>
-            Przyciski „Dodaj do Claude”: menu boczne, przycisk na stronie, kopiowanie adresu. To zamiar, nie
+            Przyciski „Dodaj do Claude”: menu boczne, przycisk na stronie, kopiowanie adresu, link z posta
+            (/claude/dodaj?z=..., wiersz = znacznik posta). To zamiar, nie
             podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
             {lacznik.razem}
           </CardDescription>
@@ -189,12 +192,13 @@ export default function AdminLlmStats() {
                   <TableHead className="text-right">Menu</TableHead>
                   <TableHead className="text-right">Przycisk</TableHead>
                   <TableHead className="text-right">Kopiuj adres</TableHead>
+                  <TableHead className="text-right">Link z posta</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {lacznik.strony.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                    <TableCell colSpan={6} className="text-center text-muted-foreground">
                       Jeszcze nikt nie kliknął.
                     </TableCell>
                   </TableRow>
@@ -206,6 +210,7 @@ export default function AdminLlmStats() {
                       <TableCell className="text-right">{w.menu}</TableCell>
                       <TableCell className="text-right">{w.przycisk}</TableCell>
                       <TableCell className="text-right">{w.kopiuj}</TableCell>
+                      <TableCell className="text-right">{w.link}</TableCell>
                     </TableRow>
                   ))
                 )}

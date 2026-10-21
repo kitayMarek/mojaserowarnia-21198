@@ -6,7 +6,9 @@
  *  1. Kliknięcie: wiersz w llm_queries (model "lacznik-claude", query = rodzaj
  *     przycisku, source = strona albo znacznik z krótkiego linku /claude?z=...).
  *     Ta sama tabela co dawne „Zapytaj AI”, więc /admin/statystyki-llm
- *     pokazuje to od razu.
+ *     pokazuje to od razu. Rodzaj "link" zapisuje worker, nie ta strona:
+ *     krótki link /claude/dodaj?z=... prosto do formularza (worker/lacznik-claude.js
+ *     ma kopię ADRES_MCP i adresu formularza; przy zmianie poprawić oba).
  *  2. Podłączenie: adres łącznika niesie znacznik strony (?z=/baza-kultur).
  *     Serwer MCP zapisuje go przy każdym wywołaniu w magazyn_wywolania.zrodlo,
  *     więc widać, które strony dały prawdziwe podłączenia, a nie tylko kliknięcia.

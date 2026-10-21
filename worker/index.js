@@ -20,6 +20,7 @@ import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
 import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
 import { kontraktBotow, SCIEZKA_KONTRAKTU, WLASNY_ODCZYT } from './kontrakt-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
+import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku } from './lacznik-claude.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -377,8 +378,17 @@ Disallow: /
     //       dany post, a licznik wejsc pokaze samo wejscie z linku. Bez znacznika
     //       "link". 302, nie 301: to link kampanii, cel moze sie zmienic.
     if (bezUkosnika === '/claude') {
-      const z = (url.searchParams.get('z') || '').toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 60) || 'link';
-      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}`, 302);
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${znacznikLinku(url)}`, 302);
+    }
+
+    // 1a1c) /claude/dodaj?z=... -> od razu formularz lacznika w Claude.ai, bez
+    //       strony z instrukcja. Klikniecie czlowieka liczy sie w llm_queries
+    //       (query "link"). Opis i powody: worker/lacznik-claude.js.
+    if (bezUkosnika === '/claude/dodaj') {
+      const z = znacznikLinku(url);
+      const ua = request.headers.get('user-agent') || '';
+      ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua)));
+      return Response.redirect(formularzClaude(z), 302);
     }
 
     // 1a-) STARE ADRESY .html, które miały przekierowanie w public/_redirects.

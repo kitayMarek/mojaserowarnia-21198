@@ -27,12 +27,13 @@ import { rozpoznajBota, ktoZListy, zrodloOdpowiedzi } from './wizyty-botow.js';
 // licznika botów. "bot" łapie Twitterbota, LinkedInBota, Slackbota, TelegramBota
 // i resztę. Celowo BEZ samych nazw aplikacji (LinkedIn, Twitter, Pinterest):
 // ich wbudowane przeglądarki niosą ludzi, a nie pobieracze podglądu.
-const NARZEDZIE =
+// Uzywane tez przez worker/lacznik-claude.js (klikniecia /claude/dodaj).
+export const NARZEDZIE =
   /bot\b|crawl|spider|slurp|headless|lighthouse|python|curl|wget|facebookexternalhit|whatsapp|skypeuripreview|vkshare|embedly|ptst|gtmetrix|axios|node-fetch|go-http-client/i;
 
 // Te same znaczniki co w bazodanowej funkcji ruch_wlasny(). Przy zmianie listy
 // zajrzeć w obie.
-const WLASNE = /test-marek|test-agrojelonki|Agrojelonki-Test/i;
+export const WLASNE = /test-marek|test-agrojelonki|Agrojelonki-Test/i;
 
 // Jedna nazwa zamiast kilku domen tego samego serwisu. Licznik przyjść zapisywał
 // Facebooka pod czterema nazwami (facebook.com, l., lm., m.).
