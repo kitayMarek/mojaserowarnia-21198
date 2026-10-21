@@ -41,6 +41,7 @@ export const ZMIANY_METODY = [
   { data: '2026-09-10', opis: 'Przyjścia: zapisywany każdy zewnętrzny odsyłacz, wcześniej tylko modele językowe' },
   { data: '2026-09-14', opis: 'Ścieżki /@fs/ i /proc/ dostają 404 zamiast strony aplikacji z kodem 200' },
   { data: '2026-09-15', opis: 'Przyjścia: www.bing.com jako Bing, a nie Copilot. Bez przekierowań 3xx, wstępnych pobrań, zasobów w tle i wejść z sygnałem GPC' },
+  { data: '2026-10-21', opis: 'Przyjścia: utm_source=magazyn (linki z serwera MCP bazy kultur) jako źródło Magazyn' },
 ];
 
 function json(dane, status, dodatkowe = {}) {

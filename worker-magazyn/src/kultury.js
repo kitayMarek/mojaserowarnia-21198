@@ -23,9 +23,8 @@ import { grupujPoSkladzie, rozbijSklad, czyLacinska, ladnyGatunek } from '../../
 
 const BAZA = 'https://mojaserowarnia.pl';
 
-// Znacznik w linkach, po ktorym licznik wejsc rozpozna przyjscie z magazynu.
-// Dzis zrodloOdpowiedzi() w worker/wizyty-botow.js go nie zna; dopisanie jednej
-// linii czeka na osobna zgode Marka (plan, punkt "Pomiar").
+// Znacznik w linkach, po ktorym licznik wejsc rozpozna przyjscie z magazynu:
+// zrodloOdpowiedzi() w worker/wizyty-botow.js zapisuje je jako "Magazyn" (od 21.10.2026).
 const ZNACZNIK = 'utm_source=magazyn';
 
 export const CYTUJ_JAKO = 'Moja Serowarnia, baza kultur bakteryjnych do sera (https://mojaserowarnia.pl/baza-kultur)';

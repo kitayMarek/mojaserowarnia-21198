@@ -495,6 +495,10 @@ export function zrodloOdpowiedzi(request, url) {
     // wiadomo, ilu z odbiorcow faktycznie weszlo — a to jest jedyna liczba,
     // ktora mowi, czy ten kanal cokolwiek robi.
     if (utm === 'list') return 'Lista';
+    // Linki z odpowiedzi serwera MCP bazy kultur (dane.mojaserowarnia.pl,
+    // worker-magazyn/). Od 21.10.2026. Stoi przed modelami, bo model, ktory
+    // cytuje magazyn, moze dokleic wlasny znacznik; get() bierze pierwszy.
+    if (utm === 'magazyn') return 'Magazyn';
     if (utm.includes('chatgpt') || utm.includes('openai')) return 'ChatGPT';
     if (utm.includes('perplexity')) return 'Perplexity';
     if (utm.includes('copilot')) return 'Copilot';
