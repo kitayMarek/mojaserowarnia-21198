@@ -546,6 +546,23 @@ Disallow: /
           naglowki.set('content-type', 'application/trafficadvice+json');
           return new Response(plik.body, { status: 200, headers: naglowki });
         }
+        // Od 21.10.2026 dwa pliki dla serwera MCP (dane.mojaserowarnia.pl):
+        // katalog AI (SEP-2127) wskazuje klientom karte serwera, a plik klucza
+        // potwierdza rejestrowi MCP, ze nazwa pl.mojaserowarnia/* jest nasza.
+        // Katalog ma wlasny typ tresci i otwarty CORS wedlug specyfikacji;
+        // plik klucza nie ma rozszerzenia, wiec typ trzeba podac recznie.
+        if (url.pathname === '/.well-known/ai-catalog.json' || url.pathname === '/.well-known/mcp-registry-auth') {
+          const naglowki = new Headers(plik.headers);
+          if (url.pathname.endsWith('.json')) {
+            naglowki.set('content-type', 'application/ai-catalog+json; charset=utf-8');
+            naglowki.set('access-control-allow-origin', '*');
+            naglowki.set('access-control-allow-methods', 'GET');
+            naglowki.set('cache-control', 'public, max-age=3600');
+          } else {
+            naglowki.set('content-type', 'text/plain; charset=utf-8');
+          }
+          return new Response(plik.body, { status: 200, headers: naglowki });
+        }
         return plik;
       }
       return odpowiedzZ(await zasob(env, url.origin, '/404.html'), 404, adresTestowy);

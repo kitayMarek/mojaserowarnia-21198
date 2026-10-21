@@ -105,6 +105,15 @@ export async function opisWywolania(request, env) {
   };
 }
 
+/** Pobranie karty serwera albo katalogu AI: zwykly GET, wiec bez tresci JSON-RPC. */
+export async function opisPobrania(request, env, nazwa) {
+  return {
+    narzedzie: nazwa,
+    klient: kubelekKlienta(request.headers.get('user-agent')),
+    wlasne: await ruchWlasny(request, env),
+  };
+}
+
 export async function zliczWywolanie(env, opis, status) {
   if (!opis) return;
   const wpis = {

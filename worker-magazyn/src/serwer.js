@@ -12,7 +12,8 @@ import { z } from 'zod';
 import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } from './kultury.js';
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
 
-const WERSJA = '0.2.0';
+export const WERSJA = '0.2.0';
+export const TYTUL = 'Moja Serowarnia: baza kultur i kalkulator pasz';
 
 const INSTRUKCJE = `Baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
@@ -36,7 +37,7 @@ export function zbudujSerwer() {
   const serwer = new McpServer(
     {
       name: 'mojaserowarnia-baza-kultur',
-      title: 'Moja Serowarnia: baza kultur i kalkulator pasz',
+      title: TYTUL,
       version: WERSJA,
       websiteUrl: 'https://mojaserowarnia.pl/baza-kultur',
     },

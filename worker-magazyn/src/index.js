@@ -19,8 +19,9 @@
 
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { zbudujSerwer } from './serwer.js';
-import { opisWywolania, zliczWywolanie } from './pomiar.js';
+import { opisWywolania, opisPobrania, zliczWywolanie } from './pomiar.js';
 import { oBazie } from './kultury.js';
+import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkrywania } from './odkrywanie.js';
 
 const SCIEZKA_MCP = '/mcp';
 
@@ -183,6 +184,24 @@ export default {
 
     if (url.pathname === '/' && (request.method === 'GET' || request.method === 'HEAD')) {
       return html(stronaOpisu(url.origin));
+    }
+
+    // Karta serwera i katalog AI (odkrywanie.js). Liczone w pomiarze jako
+    // "(karta)" i "(katalog)", zeby bylo widac, czy ktos w ogole po nie siega.
+    if (url.pathname === SCIEZKA_KARTY || url.pathname === SCIEZKA_KATALOGU) {
+      const karta = url.pathname === SCIEZKA_KARTY;
+      if (!(await wLimicie(env, request))) {
+        return tekst('Za dużo zapytań. Spróbuj ponownie za minutę.\n', 429, { 'retry-after': '60' });
+      }
+      const odpowiedz = await odpowiedzOdkrywania(
+        request,
+        karta ? kartaSerwera() : katalogAi(),
+        karta ? 'application/mcp-server-card+json' : 'application/ai-catalog+json',
+      );
+      if (request.method === 'GET') {
+        ctx.waitUntil(zliczWywolanie(env, await opisPobrania(request, env, karta ? '(karta)' : '(katalog)'), odpowiedz.status));
+      }
+      return odpowiedz;
     }
 
     if (url.pathname !== SCIEZKA_MCP) {
