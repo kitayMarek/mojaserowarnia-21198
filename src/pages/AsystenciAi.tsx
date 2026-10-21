@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Copy, ExternalLink, Plug } from "lucide-react";
 import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
+import { ADRES_MCP, adresLacznika, linkClaude, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
 
 /**
  * Jak podłączyć serwer MCP serwisu (worker-magazyn/, dane.mojaserowarnia.pl/mcp)
@@ -33,12 +34,9 @@ import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
  * Treść 1:1 z mirrorem public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
 
-const ADRES_MCP = "https://dane.mojaserowarnia.pl/mcp";
-const LINK_CLAUDE =
-  "https://claude.ai/customize/connectors?modal=add-custom-connector" +
-  "&connectorName=Moja%20Serowarnia&connectorUrl=" +
-  encodeURIComponent(ADRES_MCP);
-const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${ADRES_MCP}`;
+// Adresy i pomiar w src/lib/lacznikClaude.ts. Polecenie dla Claude Code ma
+// znacznik "claude-code", zeby serwer MCP odroznil te podlaczenia.
+const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
 
 const PYTANIA = [
   "Zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy.",
@@ -68,9 +66,16 @@ const AsystenciAi = () => {
   const [skopiowanoPolecenie, setSkopiowanoPolecenie] = useState(false);
   const pole = useRef<HTMLInputElement>(null);
   const polecenie = useRef<HTMLElement>(null);
+  // Strona, z ktorej ktos przyszedl przyciskiem „Dodaj do Claude” w menu bocznym
+  // (Navigation.tsx przekazuje ja w stanie nawigacji). Idzie do adresu lacznika
+  // jako znacznik, wiec serwer MCP pokaze, skad przyszlo podlaczenie.
+  const location = useLocation();
+  const stan = location.state as { z?: unknown } | null;
+  const zrodlo = zrodloZeSciezki(typeof stan?.z === "string" ? stan.z : "/asystenci-ai");
+  const adres = adresLacznika(zrodlo);
 
   const kopiuj = async () => {
-    if (await kopiujTekst(ADRES_MCP, () => pole.current?.select())) {
+    if (await kopiujTekst(adres, () => pole.current?.select())) {
       setSkopiowano(true);
       setTimeout(() => setSkopiowano(false), 2500);
     }
@@ -134,11 +139,12 @@ const AsystenciAi = () => {
                   <div>
                     <Button asChild size="lg" className="w-full sm:w-auto">
                       <a
-                        href={LINK_CLAUDE}
+                        href={linkClaude(zrodlo)}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
                         onClick={() => {
                           zdarzenieLacznikAi("polacz_claude");
+                          zapiszKlikniecieLacznika("/asystenci-ai", "przycisk");
                           // Bez czekania: karta otwiera się zwykłym kliknięciem w link.
                           void kopiuj();
                         }}
@@ -164,7 +170,7 @@ const AsystenciAi = () => {
                         ref={pole}
                         type="text"
                         readOnly
-                        value={ADRES_MCP}
+                        value={adres}
                         onFocus={(e) => e.currentTarget.select()}
                         className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 font-mono text-sm"
                       />
@@ -173,6 +179,7 @@ const AsystenciAi = () => {
                         variant="outline"
                         onClick={() => {
                           zdarzenieLacznikAi("kopiuj_adres");
+                          zapiszKlikniecieLacznika("/asystenci-ai", "kopiuj");
                           void kopiuj();
                         }}
                         className="shrink-0"

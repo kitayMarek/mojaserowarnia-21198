@@ -53,8 +53,26 @@ export default function AdminLlmStats() {
     },
   });
 
+  // Od 21.10.2026 w tej samej tabeli sa klikniecia przyciskow „Dodaj do Claude”
+  // (model "lacznik-claude", query = menu / przycisk / kopiuj, source = strona).
+  // Licza sie osobno, zeby nie udawaly pytan z dawnego widgetu „Zapytaj AI”.
+  const lacznik = useMemo(() => {
+    const wiersze = (rows ?? []).filter((r) => r.model === "lacznik-claude");
+    const wgStrony = new Map<string, { razem: number; menu: number; przycisk: number; kopiuj: number }>();
+    for (const r of wiersze) {
+      const w = wgStrony.get(r.source) ?? { razem: 0, menu: 0, przycisk: 0, kopiuj: 0 };
+      w.razem += 1;
+      if (r.query === "menu" || r.query === "przycisk" || r.query === "kopiuj") w[r.query] += 1;
+      wgStrony.set(r.source, w);
+    }
+    return {
+      razem: wiersze.length,
+      strony: Array.from(wgStrony.entries()).map(([strona, v]) => ({ strona, ...v })).sort((a, b) => b.razem - a.razem),
+    };
+  }, [rows]);
+
   const stats = useMemo(() => {
-    const list = rows ?? [];
+    const list = (rows ?? []).filter((r) => r.model !== "lacznik-claude");
     const byModel: Record<string, number> = { claude: 0, perplexity: 0, chatgpt: 0 };
     const byQuery = new Map<string, { total: number; claude: number; perplexity: number; chatgpt: number }>();
     let custom = 0;
@@ -150,6 +168,52 @@ export default function AdminLlmStats() {
           </Card>
         ))}
       </div>
+
+      {/* Łącznik Claude: klikniecia przyciskow wedlug strony */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Łącznik Claude: kliknięcia według strony</CardTitle>
+          <CardDescription>
+            Przyciski „Dodaj do Claude”: menu boczne, przycisk na stronie, kopiowanie adresu. To zamiar, nie
+            podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
+            {lacznik.razem}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Strona</TableHead>
+                  <TableHead className="text-right">Razem</TableHead>
+                  <TableHead className="text-right">Menu</TableHead>
+                  <TableHead className="text-right">Przycisk</TableHead>
+                  <TableHead className="text-right">Kopiuj adres</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {lacznik.strony.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                      Jeszcze nikt nie kliknął.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  lacznik.strony.map((w) => (
+                    <TableRow key={w.strona}>
+                      <TableCell className="font-mono text-sm">{w.strona}</TableCell>
+                      <TableCell className="text-right font-semibold">{w.razem}</TableCell>
+                      <TableCell className="text-right">{w.menu}</TableCell>
+                      <TableCell className="text-right">{w.przycisk}</TableCell>
+                      <TableCell className="text-right">{w.kopiuj}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Najczęstsze pytania */}
       <Card>

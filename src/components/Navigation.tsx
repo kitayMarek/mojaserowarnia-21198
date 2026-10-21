@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Menu, X, Search, User, LogOut, ChevronDown, List } from "lucide-react";
+import { Menu, X, Search, User, LogOut, ChevronDown, List, Plug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import SearchCommand from "@/components/SearchCommand";
 import SpisTresci from "@/components/SpisTresci";
 import { COLORS, navItems, type NavItem } from "@/components/navItems";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
 
 const Znak = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 46 26" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden="true">
@@ -34,6 +35,7 @@ const Navigation = () => {
   const [openGroups, setOpenGroups] = useState<string[]>([]);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleGroup = (label: string) =>
     setOpenGroups((prev) => (prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]));
@@ -145,8 +147,25 @@ const Navigation = () => {
           )}
         </nav>
 
-        {/* Dół: szukaj + motyw + konto */}
+        {/* Dół: łącznik Claude + szukaj + motyw + konto */}
         <div className="shrink-0 border-t border-border p-2.5 space-y-2">
+          {/* „Dodaj do Claude” na każdej stronie (decyzja Marka 21.10.2026). Prowadzi
+              do /asystenci-ai z instrukcją i przyciskiem; strona, z której ktoś
+              kliknął, idzie w stanie nawigacji jako znacznik adresu łącznika, a samo
+              kliknięcie trafia do llm_queries (rodzaj "menu"). Patrz lacznikClaude.ts. */}
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2 font-medium"
+            onClick={() => {
+              const zrodlo = zrodloZeSciezki(location.pathname);
+              zapiszKlikniecieLacznika(zrodlo, "menu");
+              closeMobile();
+              navigate("/asystenci-ai", { state: { z: zrodlo } });
+            }}
+          >
+            <Plug className="h-4 w-4 text-[#D97757]" aria-hidden="true" />
+            Dodaj do Claude
+          </Button>
           <div className="hidden lg:flex items-center gap-2">
             <Button
               variant="outline"

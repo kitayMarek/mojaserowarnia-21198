@@ -24,7 +24,7 @@ import CenaKultury from "@/components/CenaKultury";
 import WykresSvg from "@/components/WykresSvg";
 import { pojemnosci, typy } from "@/generated/wykresySvg";
 import { trackShopClick } from "@/utils/trackShopClick";
-import { AskLLMSelect } from "@/components/AskLLMSelect";
+import PrzyciskDodajDoClaude from "@/components/PrzyciskDodajDoClaude";
 
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 
@@ -329,6 +329,7 @@ const BazaKultur = () => {
                     Porównaj Kultury
                   </Link>
                 </Button>
+                <PrzyciskDodajDoClaude zrodlo="/baza-kultur" />
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input type="text" placeholder="Szukaj nazwy, składu lub zastosowania..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
@@ -360,18 +361,10 @@ const BazaKultur = () => {
                 </Button>
               </div>
 
-              {/* Widget "Zapytaj AI" — kontekstowe pytania do Claude / Perplexity / ChatGPT */}
-              <div className="mt-4">
-                <p className="text-xs text-muted-foreground mb-1">
-                  Nie wiesz jaką kulturę wybrać? Zapytaj AI z gotowym kontekstem bazy:
-                </p>
-                <AskLLMSelect source="baza-kultur" />
-                <p className="text-xs text-muted-foreground mt-2">
-                  Używasz Claude?{" "}
-                  <Link to="/asystenci-ai" className="underline">Podłącz bazę jako łącznik</Link>{" "}
-                  i pytaj o kultury w rozmowie, z ceną za litr mleka.
-                </p>
-              </div>
+              {/* "Zapytaj AI" (gotowe pytania do Claude / Perplexity / ChatGPT) usuniete
+                  21.10.2026, decyzja Marka: prawie nieuzywane (ok. 20 klikniec od czerwca),
+                  a lacznik MCP daje modelowi cala baze zamiast linku do strony.
+                  Historia klikniec zostaje w llm_queries i /admin/statystyki-llm. */}
             </div>
           </div>
         </section>

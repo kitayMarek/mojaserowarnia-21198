@@ -2,7 +2,7 @@
  * Pomiar wywolan serwera MCP: sumy dzienne w tabeli magazyn_wywolania.
  *
  * CO ZAPISUJEMY: dzien (UTC), narzedzie, kubelek klienta, kod odpowiedzi,
- * czy to ruch wlasny. Nic wiecej.
+ * czy to ruch wlasny i znacznik strony z adresu lacznika (?z=). Nic wiecej.
  * CZEGO NIE ZAPISUJEMY: adresu IP, User-Agenta, godziny ani tresci zapytania.
  * Tresc zapytania bywa danymi osobowymi, a kubelek klienta wystarcza, zeby
  * odpowiedziec na jedyne pytanie testu: czy ktos to podlacza i czym.
@@ -41,6 +41,14 @@ async function znacznikPasuje(podany, wlasciwy) {
   let roznica = 0;
   for (let i = 0; i < x.length; i++) roznica |= x[i] ^ y[i];
   return roznica === 0;
+}
+
+// Znacznik strony z adresu lacznika (?z=/baza-kultur), dopisywany przez
+// przyciski „Dodaj do Claude” w serwisie (src/lib/lacznikClaude.ts). Mowi,
+// ktora strona dala podlaczenie. Te same reguly czyszczenia co w serwisie.
+function zrodloZAdresu(request) {
+  const z = new URL(request.url).searchParams.get('z') || '';
+  return z.toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 60);
 }
 
 async function ruchWlasny(request, env) {
@@ -83,6 +91,7 @@ export async function opisWywolania(request, env) {
       narzedzie: '(zla tresc)',
       klient: kubelekKlienta(request.headers.get('user-agent')),
       wlasne: await ruchWlasny(request, env),
+      zrodlo: zrodloZAdresu(request),
     };
   }
   if (Array.isArray(wiadomosc)) wiadomosc = wiadomosc[0];
@@ -102,6 +111,7 @@ export async function opisWywolania(request, env) {
     narzedzie,
     klient: kubelekKlienta(nazwaKlienta, ua),
     wlasne: await ruchWlasny(request, env),
+    zrodlo: zrodloZAdresu(request),
   };
 }
 
@@ -111,6 +121,7 @@ export async function opisPobrania(request, env, nazwa) {
     narzedzie: nazwa,
     klient: kubelekKlienta(request.headers.get('user-agent')),
     wlasne: await ruchWlasny(request, env),
+    zrodlo: zrodloZAdresu(request),
   };
 }
 
@@ -121,6 +132,8 @@ export async function zliczWywolanie(env, opis, status) {
     _klient: opis.klient,
     _status: status,
     _wlasne: Boolean(opis.wlasne),
+    // Wymaga migracji 20261021210000_lacznik_claude_pomiar.sql (piaty argument funkcji).
+    _zrodlo: opis.zrodlo || '',
   };
 
   // Lokalnie (wrangler dev) i przed nadaniem sekretu: tylko wpis w logu, zeby
