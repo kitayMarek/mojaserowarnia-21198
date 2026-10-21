@@ -14,6 +14,11 @@ import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
+import { NORMY_DROBIU, TYPY_DROBIU } from "@/data/normyDrobiu";
+import {
+  bladNormy, kategoriaWiekowa, maxStraczkowe, maWartosci, dobierzProporcje,
+  najtanszaMieszanka, generujSugestie as sugestieDoMieszanki, sprawdzNorme,
+} from "@/lib/bilansPaszy";
 
 
 interface PrzykladowySkladnik {
@@ -81,59 +86,10 @@ const KalkulatorPasz = () => {
     { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }
   ]);
 
-  const normy: Record<string, any[]> = {
-    'kury-nioski-lekkie': [
-      { okres: 'Zarodowe', em: 11.7, bialko: 17.5, ca: 3.6, p: 0.55, tluszcz: 3.0, wlokno: 4.5, na: 0.16, k: 0.55, mg: 0.045, mn: 100, zn: 80, se: 0.30, fe: 60, i: 1.0 },
-      { okres: '1-6 tygodni', em: 11.5, bialko: 18.0, ca: 1.0, p: 0.65, tluszcz: 3.0, wlokno: 4.0, na: 0.15 },
-      { okres: '7-14 tygodni', em: 11.3, bialko: 15.0, ca: 1.0, p: 0.55, tluszcz: 3.0, wlokno: 5.0, na: 0.15 },
-      { okres: '15-20 tygodni', em: 11.0, bialko: 14.0, ca: 2.0, p: 0.50, tluszcz: 2.5, wlokno: 6.0, na: 0.15 },
-      { okres: 'Niesienie (do 45%)', em: 11.5, bialko: 17.0, ca: 3.5, p: 0.50, tluszcz: 2.5, wlokno: 5.0, na: 0.16 },
-      { okres: 'Niesienie (powyżej 45%)', em: 11.5, bialko: 16.0, ca: 3.8, p: 0.48, tluszcz: 2.5, wlokno: 5.0, na: 0.16 }
-    ],
-    'kury-nioski-ciezkie': [
-      { okres: 'Zarodowe', em: 11.7, bialko: 17.5, ca: 3.6, p: 0.55, tluszcz: 3.0, wlokno: 4.5, na: 0.16, k: 0.55, mg: 0.045, mn: 100, zn: 80, se: 0.30, fe: 60, i: 1.0 },
-      { okres: '1-6 tygodni', em: 11.5, bialko: 19.0, ca: 1.0, p: 0.70, tluszcz: 3.0, wlokno: 4.0, na: 0.15 },
-      { okres: '7-14 tygodni', em: 11.3, bialko: 16.0, ca: 1.0, p: 0.60, tluszcz: 3.0, wlokno: 5.0, na: 0.15 },
-      { okres: '15-20 tygodni', em: 11.0, bialko: 14.5, ca: 2.0, p: 0.55, tluszcz: 2.5, wlokno: 6.0, na: 0.15 },
-      { okres: 'Niesienie (do 45%)', em: 11.5, bialko: 17.5, ca: 3.5, p: 0.55, tluszcz: 2.5, wlokno: 5.0, na: 0.16 },
-      { okres: 'Niesienie (powyżej 45%)', em: 11.5, bialko: 16.5, ca: 3.8, p: 0.50, tluszcz: 2.5, wlokno: 5.0, na: 0.16 }
-    ],
-    'brojlery': [
-      { okres: 'Zarodowe', em: 12.0, bialko: 18.5, ca: 3.2, p: 0.50, tluszcz: 3.5, wlokno: 4.0, na: 0.16, k: 0.50, mg: 0.042, mn: 95, zn: 75, se: 0.28, fe: 55, i: 0.9 },
-      { okres: '1-3 tygodnie (starter)', em: 12.5, bialko: 21.0, ca: 1.0, p: 0.70, tluszcz: 3.0, wlokno: 3.5, na: 0.16 },
-      { okres: '4-6 tygodni (grower)', em: 13.0, bialko: 19.0, ca: 0.9, p: 0.65, tluszcz: 4.0, wlokno: 4.0, na: 0.15 },
-      { okres: 'Powyżej 6 tygodni (finisher)', em: 13.2, bialko: 17.0, ca: 0.9, p: 0.60, tluszcz: 5.0, wlokno: 4.5, na: 0.15 }
-    ],
-    'kaczki': [
-      { okres: 'Zarodowe', em: 11.5, bialko: 18.0, ca: 3.4, p: 0.52, tluszcz: 3.2, wlokno: 4.2, na: 0.15, k: 0.52, mg: 0.044, mn: 98, zn: 78, se: 0.29, fe: 58, i: 0.95 },
-      { okres: '1-3 tygodnie', em: 11.7, bialko: 20.0, ca: 0.9, p: 0.65, tluszcz: 3.0, wlokno: 4.0, na: 0.15 },
-      { okres: '4-7 tygodni', em: 11.7, bialko: 16.0, ca: 0.9, p: 0.60, tluszcz: 3.0, wlokno: 5.0, na: 0.15 },
-      { okres: 'Powyżej 7 tygodni', em: 11.3, bialko: 15.0, ca: 0.9, p: 0.55, tluszcz: 3.0, wlokno: 6.0, na: 0.15 }
-    ],
-    'gesi': [
-      { okres: 'Zarodowe', em: 11.3, bialko: 17.0, ca: 3.3, p: 0.54, tluszcz: 3.0, wlokno: 4.5, na: 0.15, k: 0.50, mg: 0.043, mn: 96, zn: 76, se: 0.28, fe: 57, i: 0.92 },
-      { okres: '1-4 tygodnie', em: 11.5, bialko: 20.0, ca: 1.0, p: 0.70, tluszcz: 3.0, wlokno: 4.0, na: 0.15 },
-      { okres: '5-8 tygodni', em: 11.3, bialko: 16.0, ca: 0.9, p: 0.60, tluszcz: 3.0, wlokno: 5.0, na: 0.15 },
-      { okres: 'Powyżej 8 tygodni', em: 10.5, bialko: 14.0, ca: 0.9, p: 0.55, tluszcz: 2.5, wlokno: 8.0, na: 0.15 }
-    ],
-    'indyki': [
-      { okres: 'Zarodowe', em: 11.8, bialko: 19.0, ca: 3.5, p: 0.58, tluszcz: 3.3, wlokno: 4.0, na: 0.16, k: 0.58, mg: 0.048, mn: 105, zn: 85, se: 0.32, fe: 62, i: 1.1 },
-      { okres: '1-4 tygodnie', em: 11.9, bialko: 28.0, ca: 1.2, p: 0.80, tluszcz: 3.5, wlokno: 3.5, na: 0.16 },
-      { okres: '5-8 tygodni', em: 12.1, bialko: 24.0, ca: 1.1, p: 0.70, tluszcz: 4.0, wlokno: 4.0, na: 0.16 },
-      { okres: '9-12 tygodni', em: 12.3, bialko: 20.0, ca: 1.0, p: 0.65, tluszcz: 4.5, wlokno: 4.5, na: 0.15 },
-      { okres: '13-16 tygodni', em: 12.5, bialko: 17.0, ca: 1.0, p: 0.60, tluszcz: 5.0, wlokno: 5.0, na: 0.15 },
-      { okres: 'Powyżej 16 tygodni', em: 12.1, bialko: 14.0, ca: 1.0, p: 0.55, tluszcz: 4.5, wlokno: 6.0, na: 0.15 }
-    ]
-  };
+  // Normy i lista gatunkow: src/data/normyDrobiu.ts (wspolne ze serwerem MCP).
+  const normy = NORMY_DROBIU;
 
-  const typyDrobiu = [
-    { value: 'kury-nioski-lekkie', label: '🐔 Kury nioski - lekkie' },
-    { value: 'kury-nioski-ciezkie', label: '🐔 Kury nioski - ciężkie' },
-    { value: 'brojlery', label: '🍗 Brojlery (kurczęta mięsne)' },
-    { value: 'kaczki', label: '🦆 Kaczki' },
-    { value: 'gesi', label: '🦢 Gęsi' },
-    { value: 'indyki', label: '🦃 Indyki' }
-  ];
+  const typyDrobiu = TYPY_DROBIU;
 
   const domyslneSkladniki: PrzykladowySkladnik[] = [
     { nazwa: 'Pszenica', em: 13.5, bialko: 12.0, ca: 0.05, p: 0.35, wlokno: 2.5, na: 0.02, k: 0.45, mg: 0.13, mn: 40, zn: 30, se: 0.05, fe: 45, i: 0.08 },
@@ -405,139 +361,22 @@ const KalkulatorPasz = () => {
     });
   };
 
-  const obliczBladNormy = (testoweSkladniki: any[]) => {
-    const oblicz = (pole: string) => {
-      return testoweSkladniki.reduce((suma: number, s: any) => {
-        const procent = s.procent;
-        const wartosc = parseFloat(s[pole]) || 0;
-        return suma + (procent * wartosc / 100);
-      }, 0);
-    };
-
-    if (!aktualnaNorma) return Infinity;
-
-    const em = oblicz('em');
-    const bialko = oblicz('bialko');
-    const ca = oblicz('ca');
-    const p = oblicz('p');
-
-    const bladEm = Math.pow((em - aktualnaNorma.em) / aktualnaNorma.em, 2);
-    const bladBialko = Math.pow((bialko - aktualnaNorma.bialko) / aktualnaNorma.bialko, 2);
-    const bladCa = Math.pow((ca - aktualnaNorma.ca) / aktualnaNorma.ca, 2);
-    const bladP = Math.pow((p - aktualnaNorma.p) / aktualnaNorma.p, 2);
-
-    return bladEm + bladBialko + bladCa + bladP;
-  };
-
-  const okreslKategorieWiekowa = () => {
-    if (!okres) return null;
-    
-    const okresLower = okres.toLowerCase();
-    
-    if (okresLower.includes('zarodowe')) {
-      return 'zarodowe';
-    }
-    
-    if (okresLower.includes('1-3') || okresLower.includes('1-4') || okresLower.includes('1-6') || okresLower.includes('starter')) {
-      return 'młode';
-    }
-    
-    if (okresLower.includes('4-6') || okresLower.includes('4-7') || okresLower.includes('5-8') || 
-        okresLower.includes('7-14') || okresLower.includes('9-12') || okresLower.includes('13-16') ||
-        okresLower.includes('15-20') || okresLower.includes('grower')) {
-      return 'rosnące';
-    }
-    
-    if (okresLower.includes('niesienie') || okresLower.includes('powyżej') || okresLower.includes('finisher')) {
-      return 'dorosłe';
-    }
-    
-    return null;
-  };
-
-  const pobierzMaxStraczkowe = () => {
-    const kategoria = okreslKategorieWiekowa();
-    switch(kategoria) {
-      case 'młode': return 5;
-      case 'rosnące': return 10;
-      case 'dorosłe': return 20;
-      default: return 20;
-    }
-  };
+  // Algorytm doboru, ocena i sugestie: src/lib/bilansPaszy.ts (wspolne ze serwerem MCP).
+  const obliczBladNormy = (testoweSkladniki: any[]) => bladNormy(testoweSkladniki, aktualnaNorma);
+  const okreslKategorieWiekowa = () => kategoriaWiekowa(okres);
+  const pobierzMaxStraczkowe = () => maxStraczkowe(okres);
 
   const przeliczOptymalneProporcje = () => {
     if (!aktualnaNorma) return;
 
-    const aktywneSkladniki = skladniki.filter(s => 
-      s.nazwa && (
-        parseFloat(s.em as string) > 0 || 
-        parseFloat(s.bialko as string) > 0 || 
-        parseFloat(s.ca as string) > 0 || 
-        parseFloat(s.p as string) > 0 ||
-        parseFloat(s.na as string) > 0 ||
-        parseFloat(s.k as string) > 0 ||
-        parseFloat(s.mg as string) > 0 ||
-        parseFloat(s.mn as string) > 0 ||
-        parseFloat(s.zn as string) > 0 ||
-        parseFloat(s.se as string) > 0 ||
-        parseFloat(s.fe as string) > 0 ||
-        parseFloat(s.i as string) > 0
-      )
-    );
+    const aktywneSkladniki = skladniki.filter(s => s.nazwa && maWartosci(s));
 
     if (aktywneSkladniki.length < 2) {
       alert('Dodaj co najmniej 2 składniki z wartościami odżywczymi aby móc przeliczyć optymalne proporcje.');
       return;
     }
 
-    const maxStraczkowe = pobierzMaxStraczkowe();
-
-    let najlepszeSkladniki = aktywneSkladniki.map(s => ({
-      ...s,
-      procent: 100 / aktywneSkladniki.length
-    }));
-    
-    najlepszeSkladniki.forEach((s) => {
-      if (s.nazwa === 'Groch' || s.nazwa === 'Bobik') {
-        if ((s.procent as number) > maxStraczkowe) {
-          s.procent = maxStraczkowe;
-        }
-      }
-    });
-    
-    let suma = najlepszeSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
-    najlepszeSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
-    
-    let najlepszyBlad = obliczBladNormy(najlepszeSkladniki);
-
-    for (let iteracja = 0; iteracja < 1000; iteracja++) {
-      const testoweSkladniki = najlepszeSkladniki.map(s => ({...s}));
-      
-      const idx1 = Math.floor(Math.random() * testoweSkladniki.length);
-      let idx2 = Math.floor(Math.random() * testoweSkladniki.length);
-      while (idx2 === idx1 && testoweSkladniki.length > 1) {
-        idx2 = Math.floor(Math.random() * testoweSkladniki.length);
-      }
-
-      const zmiana = (Math.random() * 20 - 10);
-      testoweSkladniki[idx1].procent = Math.max(0.1, Math.min(99, (testoweSkladniki[idx1].procent as number) + zmiana));
-      testoweSkladniki[idx2].procent = Math.max(0.1, Math.min(99, (testoweSkladniki[idx2].procent as number) - zmiana));
-
-      testoweSkladniki.forEach(s => {
-        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && (s.procent as number) > maxStraczkowe) {
-          s.procent = maxStraczkowe;
-        }
-      });
-
-      suma = testoweSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
-      testoweSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
-
-      const blad = obliczBladNormy(testoweSkladniki);
-      if (blad < najlepszyBlad) {
-        najlepszyBlad = blad;
-        najlepszeSkladniki = testoweSkladniki;
-      }
-    }
+    const najlepszeSkladniki = dobierzProporcje(aktywneSkladniki, aktualnaNorma, okres);
 
     const noweSkladniki = skladniki.map(s => {
       const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
@@ -572,113 +411,14 @@ const KalkulatorPasz = () => {
       return;
     }
 
-    const aktywneSkladniki = skladniki.filter(s => 
-      s.nazwa && 
-      (
-        parseFloat(s.em as string) > 0 || 
-        parseFloat(s.bialko as string) > 0 || 
-        parseFloat(s.ca as string) > 0 || 
-        parseFloat(s.p as string) > 0 ||
-        parseFloat(s.na as string) > 0 ||
-        parseFloat(s.k as string) > 0 ||
-        parseFloat(s.mg as string) > 0 ||
-        parseFloat(s.mn as string) > 0 ||
-        parseFloat(s.zn as string) > 0 ||
-        parseFloat(s.se as string) > 0 ||
-        parseFloat(s.fe as string) > 0 ||
-        parseFloat(s.i as string) > 0
-      ) &&
-      parseFloat(s.cena) > 0
-    );
+    const aktywneSkladniki = skladniki.filter(s => s.nazwa && maWartosci(s) && parseFloat(s.cena) > 0);
 
     if (aktywneSkladniki.length < 2) {
       alert('Dodaj co najmniej 2 składniki z wartościami odżywczymi i cenami.');
       return;
     }
 
-    const maxStraczkowe = pobierzMaxStraczkowe();
-
-    const obliczKosztMieszanki = (testoweSkladniki: any[]) => {
-      return testoweSkladniki.reduce((suma, s) => {
-        return suma + ((s.procent as number) * parseFloat(s.cena) / 100);
-      }, 0);
-    };
-
-    const obliczFunkcjeCelu = (testoweSkladniki: any[]) => {
-      const koszt = obliczKosztMieszanki(testoweSkladniki);
-      const bladNormy = obliczBladNormy(testoweSkladniki);
-      
-      return koszt * 0.3 + bladNormy * 100;
-    };
-
-    let najlepszeSkladniki = aktywneSkladniki.map(s => ({
-      ...s,
-      procent: 100 / aktywneSkladniki.length
-    }));
-    
-    najlepszeSkladniki.forEach((s) => {
-      if (s.nazwa === 'Groch' || s.nazwa === 'Bobik') {
-        if ((s.procent as number) > maxStraczkowe) {
-          s.procent = maxStraczkowe;
-        }
-      }
-    });
-    
-    let suma = najlepszeSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
-    najlepszeSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
-    
-    let najlepszyWynik = obliczFunkcjeCelu(najlepszeSkladniki);
-
-    for (let iteracja = 0; iteracja < 2000; iteracja++) {
-      const testoweSkladniki = najlepszeSkladniki.map(s => ({...s}));
-      
-      const wybierzSkladnik = () => {
-        const rand = Math.random();
-        if (rand < 0.7) {
-          const posortowane = testoweSkladniki
-            .map((s, idx) => ({s, idx, cena: parseFloat(s.cena)}))
-            .sort((a, b) => a.cena - b.cena);
-          const top3 = posortowane.slice(0, Math.min(3, posortowane.length));
-          return top3[Math.floor(Math.random() * top3.length)].idx;
-        }
-        return Math.floor(Math.random() * testoweSkladniki.length);
-      };
-      
-      const idx1 = wybierzSkladnik();
-      let idx2 = wybierzSkladnik();
-      while (idx2 === idx1 && testoweSkladniki.length > 1) {
-        idx2 = wybierzSkladnik();
-      }
-
-      const cena1 = parseFloat(testoweSkladniki[idx1].cena);
-      const cena2 = parseFloat(testoweSkladniki[idx2].cena);
-      
-      let zmiana = (Math.random() * 15 - 5);
-      if (cena1 < cena2) {
-        zmiana = Math.abs(zmiana);
-      } else {
-        zmiana = -Math.abs(zmiana);
-      }
-      
-      testoweSkladniki[idx1].procent = Math.max(0.5, Math.min(95, (testoweSkladniki[idx1].procent as number) + zmiana));
-      testoweSkladniki[idx2].procent = Math.max(0.5, Math.min(95, (testoweSkladniki[idx2].procent as number) - zmiana));
-
-      testoweSkladniki.forEach(s => {
-        if ((s.nazwa === 'Groch' || s.nazwa === 'Bobik') && (s.procent as number) > maxStraczkowe) {
-          s.procent = maxStraczkowe;
-        }
-      });
-
-      suma = testoweSkladniki.reduce((s, sk) => s + (sk.procent as number), 0);
-      testoweSkladniki.forEach(sk => sk.procent = ((sk.procent as number) / suma) * 100);
-
-      const wynik = obliczFunkcjeCelu(testoweSkladniki);
-      
-      if (wynik < najlepszyWynik) {
-        najlepszyWynik = wynik;
-        najlepszeSkladniki = testoweSkladniki;
-      }
-    }
+    const najlepszeSkladniki = najtanszaMieszanka(aktywneSkladniki, aktualnaNorma, okres);
 
     const noweSkladniki = skladniki.map(s => {
       const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
@@ -711,116 +451,8 @@ const KalkulatorPasz = () => {
     }, 100);
   };
 
-  const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) => {
-    const sugestie: string[] = [];
-    
-    const oblicz = (pole: string) => {
-      return skladnikiDoSprawdzenia.reduce((suma, s) => {
-        const procent = parseFloat(s.procent as string) || 0;
-        const wartosc = parseFloat((s as any)[pole] as string) || 0;
-        return suma + (procent * wartosc / 100);
-      }, 0);
-    };
-
-    const em = oblicz('em');
-    const bialko = oblicz('bialko');
-    const ca = oblicz('ca');
-    const p = oblicz('p');
-
-    const maZboza = skladnikiDoSprawdzenia.some(s => 
-      ['Pszenica', 'Kukurydza', 'Jęczmień', 'Owies'].includes(s.nazwa)
-    );
-    const maSrute = skladnikiDoSprawdzenia.some(s => 
-      ['Śruta sojowa', 'Śruta rzepakowa', 'Śruta słonecznikowa'].includes(s.nazwa)
-    );
-    const maBialko = skladnikiDoSprawdzenia.some(s => 
-      ['Śruta sojowa', 'Śruta rzepakowa', 'Śruta słonecznikowa', 'Groch', 'Bobik'].includes(s.nazwa)
-    );
-    const maKrede = skladnikiDoSprawdzenia.some(s => s.nazwa === 'Kreda pastewna');
-    const maFosforan = skladnikiDoSprawdzenia.some(s => s.nazwa === 'Fosforan wapnia');
-    const maOlej = skladnikiDoSprawdzenia.some(s => s.nazwa === 'Olej roślinny');
-
-    const maxStraczkowe = pobierzMaxStraczkowe();
-    const groch = skladnikiDoSprawdzenia.find(s => s.nazwa === 'Groch');
-    const bobik = skladnikiDoSprawdzenia.find(s => s.nazwa === 'Bobik');
-    const sumaStraczkowych = (parseFloat(groch?.procent as string) || 0) + (parseFloat(bobik?.procent as string) || 0);
-    
-    if (sumaStraczkowych > maxStraczkowe) {
-      const kategoria = okreslKategorieWiekowa();
-      let opis = '';
-      if (kategoria === 'młode') opis = ' (młode ptaki - do 6 tygodni)';
-      else if (kategoria === 'rosnące') opis = ' (ptaki rosnące - 7-20 tygodni)';
-      else opis = ' (ptaki dorosłe)';
-      
-      sugestie.push(`⚠️ ZA DUŻO ROŚLIN STRĄCZKOWYCH:\n→ Suma grochu i bobiku wynosi ${sumaStraczkowych.toFixed(1)}%\n→ Maksimum dla tego wieku: ${maxStraczkowe}%${opis}\n→ Zmniejsz udział grochu/bobiku - nadmiar może powodować problemy trawienne!`);
-    }
-
-    if (sprawdzNorme(em, aktualnaNorma.em, 0.05) === 'za-nisko') {
-      if (!maZboza) {
-        sugestie.push('⚡ ENERGIA ZA NISKA:\n→ Dodaj zboża (kukurydza, pszenica, owies) - są głównym źródłem energii');
-      } else if (!maOlej) {
-        sugestie.push('⚡ ENERGIA ZA NISKA:\n→ Rozważ dodanie oleju roślinnego (1-2%) - szybko podniesie energię\n→ Lub zwiększ udział kukurydzy (najwyższa energia)\n→ Ziemniaki gotowane też są dobrym źródłem energii');
-      } else {
-        sugestie.push('⚡ ENERGIA ZA NISKA:\n→ Zwiększ udział kukurydzy, ziemniaków lub oleju roślinnego\n→ Zmniejsz udział otrębów i owsa (mają mniej energii)');
-      }
-    } else if (sprawdzNorme(em, aktualnaNorma.em, 0.05) === 'za-wysoko') {
-      sugestie.push('⚡ ENERGIA ZA WYSOKA:\n→ Zmniejsz udział kukurydzy, ziemniaków lub oleju\n→ Zwiększ udział otrębów pszennych, owsa lub jęczmienia');
-    }
-
-    if (sprawdzNorme(bialko, aktualnaNorma.bialko, 0.05) === 'za-nisko') {
-      if (!maBialko) {
-        sugestie.push('🥜 BIAŁKO ZA NISKIE:\n→ KONIECZNIE dodaj źródło białka:\n  • Śruta sojowa (~46% białka) - najlepsze źródło\n  • Śruta słonecznikowa (~32% białka)\n  • Bobik (~27% białka) - dobra polska alternatywa\n  • Groch (~23% białka)\n⚠️ UWAGA: Groch i bobik - max ' + maxStraczkowe + '% łącznie dla tego wieku!');
-      } else if (!maSrute) {
-        sugestie.push('🥜 BIAŁKO ZA NISKIE:\n→ Zwiększ udział grochu lub bobiku (max ' + maxStraczkowe + '% łącznie!)\n→ Lub dodaj śrutę (sojową, rzepakową, słonecznikową) - mają więcej białka');
-      } else {
-        sugestie.push('🥜 BIAŁKO ZA NISKIE:\n→ Zwiększ udział śruty lub roślin strączkowych\n→ Zmniejsz udział zbóż\n⚠️ Pamiętaj: Groch + Bobik max ' + maxStraczkowe + '% łącznie!');
-      }
-    } else if (sprawdzNorme(bialko, aktualnaNorma.bialko, 0.05) === 'za-wysoko') {
-      sugestie.push('🥜 BIAŁKO ZA WYSOKIE:\n→ Zmniejsz udział śruty lub roślin strączkowych\n→ Zwiększ udział zbóż (pszenica, kukurydza, owies)');
-    }
-
-    if (sprawdzNorme(ca, aktualnaNorma.ca, 0.1) === 'za-nisko') {
-      if (!maKrede) {
-        sugestie.push('🦴 WAPŃ ZA NISKI:\n→ KONIECZNIE dodaj kredę pastewną (2-4%)\n→ Bez wapnia kury nie będą miały mocnych skorupek!\n→ Kreda ma 38% wapnia');
-      } else {
-        sugestie.push('🦴 WAPŃ ZA NISKI:\n→ Zwiększ udział kredy pastewnej\n→ Dla kur niosek to bardzo ważne!');
-      }
-    } else if (sprawdzNorme(ca, aktualnaNorma.ca, 0.1) === 'za-wysoko') {
-      sugestie.push('🦴 WAPŃ ZA WYSOKI:\n→ Zmniejsz udział kredy pastewnej\n→ Nadmiar wapnia może zaburzać wchłanianie innych składników');
-    }
-
-    if (sprawdzNorme(p, aktualnaNorma.p, 0.1) === 'za-nisko') {
-      if (!maFosforan) {
-        sugestie.push('⚗️ FOSFOR ZA NISKI:\n→ Dodaj fosforan wapnia (1-2%)\n→ Fosfor jest kluczowy dla metabolizmu i kości\n→ Fosforan ma 18% fosforu i 24% wapnia');
-      } else {
-        sugestie.push('⚗️ FOSFOR ZA NISKI:\n→ Zwiększ udział fosforanu wapnia\n→ Możesz też zwiększyć śrutę - zawiera fosfor');
-      }
-    } else if (sprawdzNorme(p, aktualnaNorma.p, 0.1) === 'za-wysoko') {
-      sugestie.push('⚗️ FOSFOR ZA WYSOKI:\n→ Zmniejsz udział fosforanu wapnia\n→ Nadmiar fosforu obciąża nerki');
-    }
-
-    if (sugestie.length > 0) {
-      const brakujace: string[] = [];
-      if (!maZboza) brakujace.push('zboża (pszenica/kukurydza/owies)');
-      if (!maBialko) brakujace.push('źródło białka (śruta/groch/bobik)');
-      if (!maKrede && aktualnaNorma.ca > 1.5) brakujace.push('kreda pastewna');
-      if (!maFosforan) brakujace.push('fosforan wapnia');
-      
-      if (brakujace.length > 0) {
-        sugestie.push('📋 BRAKUJĄCE SKŁADNIKI:\n→ ' + brakujace.join('\n→ '));
-      }
-    }
-
-    return sugestie;
-  };
-
-  const sprawdzNorme = (wartosc: number, norma: number, tolerancja = 0.1) => {
-    const min = norma * (1 - tolerancja);
-    const max = norma * (1 + tolerancja);
-    if (wartosc < min) return 'za-nisko';
-    if (wartosc > max) return 'za-wysoko';
-    return 'ok';
-  };
+  const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) =>
+    sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, okres);
 
   const znajdzBogateSkladniki = (mikroskładnik: 'na' | 'k' | 'mg' | 'mn' | 'zn' | 'se' | 'fe' | 'i') => {
     // Sortuj składniki według zawartości danego mikroskładnika (malejąco)

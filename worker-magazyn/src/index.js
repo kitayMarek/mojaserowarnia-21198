@@ -94,7 +94,7 @@ function stronaOpisu(origin) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Serwer MCP bazy kultur | Moja Serowarnia</title>
+<title>Serwer MCP Moja Serowarnia</title>
 <style>
   :root { --tlo: #fbf8f3; --tekst: #2b2620; --slabszy: #6b6257; --akcent: #b45309; --ramka: #e7dfd3; --kod: #f3ede4; }
   @media (prefers-color-scheme: dark) {
@@ -113,9 +113,9 @@ function stronaOpisu(origin) {
 </head>
 <body>
 <main>
-  <h1>Serwer MCP bazy kultur bakteryjnych</h1>
+  <h1>Serwer MCP: baza kultur i kalkulator pasz</h1>
   <p class="podpis">Moja Serowarnia, wersja testowa</p>
-  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude czy ChatGPT. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów: skład, zastosowanie, temperaturę pracy, cenę i cenę za litr mleka.</p>
+  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude czy ChatGPT. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i liczy mieszanki paszowe dla drobiu według tych samych norm co kalkulator pasz na stronie.</p>
 
   <h2>Adres do wklejenia</h2>
   <code class="adres">${adres}</code>
@@ -124,7 +124,7 @@ function stronaOpisu(origin) {
   <ol>
     <li>Ustawienia, Łączniki, Dodaj własny łącznik.</li>
     <li>Wklej adres z ramki wyżej. Logowanie ani klucz nie są potrzebne.</li>
-    <li>Zapytaj na przykład: „jaka kultura do camemberta i czym ją zastąpić”.</li>
+    <li>Zapytaj na przykład: „jaka kultura do camemberta i czym ją zastąpić” albo „zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy”.</li>
   </ol>
   <p>W ChatGPT własne łączniki działają w trybie dewelopera na planach płatnych. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
 
@@ -134,9 +134,13 @@ function stronaOpisu(origin) {
     <li><code>kultura</code>: pełna karta jednej kultury po nazwie z opakowania.</li>
     <li><code>zamienniki</code>: kultury o tym samym składzie gatunkowym.</li>
     <li><code>o_bazie</code>: co jest w bazie i jak cytować.</li>
+    <li><code>skladniki_paszy</code>: 124 surowce paszowe z energią, białkiem, minerałami i aminokwasami.</li>
+    <li><code>normy_drobiu</code>: normy dla kur niosek, brojlerów, kaczek, gęsi i indyków.</li>
+    <li><code>policz_mieszanke</code>: skład podanej mieszanki wobec normy, czego za mało i za dużo.</li>
+    <li><code>dobierz_proporcje</code>: proporcje z podanych surowców pod normę albo najtańsza mieszanka.</li>
   </ul>
 
-  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę. Ceny ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur Moja Serowarnia</a>, licencja CC BY 4.0.</small></p>
+  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę. Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0.</small></p>
 </main>
 </body>
 </html>

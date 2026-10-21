@@ -1,5 +1,6 @@
 /**
- * Serwer MCP bazy kultur: cztery narzedzia tylko do odczytu.
+ * Serwer MCP serwisu: baza kultur (cztery narzedzia) i kalkulator pasz dla
+ * drobiu (cztery narzedzia, od 0.2.0). Wszystkie tylko do odczytu.
  *
  * Opisy narzedzi sa po polsku, bo czytaja je modele odpowiadajace polskim
  * serowarom. Nazwy narzedzi i pol sa ASCII (D12 z pliku golebia), etykiety
@@ -9,13 +10,16 @@
 import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } from './kultury.js';
+import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
 
-const WERSJA = '0.1.1';
+const WERSJA = '0.2.0';
 
 const INSTRUKCJE = `Baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
 Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia albo ceny_sprawdzone_od. Nie nazywaj ich aktualnymi i przypomnij, że przed zakupem trzeba sprawdzić cenę w sklepie.
-Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.`;
+Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.
+
+Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.`;
 
 // Wszystkie narzedzia tylko czytaja migawke wkompilowana w Workera.
 const TYLKO_ODCZYT = { readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false };
@@ -32,7 +36,7 @@ export function zbudujSerwer() {
   const serwer = new McpServer(
     {
       name: 'mojaserowarnia-baza-kultur',
-      title: 'Moja Serowarnia: baza kultur bakteryjnych',
+      title: 'Moja Serowarnia: baza kultur i kalkulator pasz',
       version: WERSJA,
       websiteUrl: 'https://mojaserowarnia.pl/baza-kultur',
     },
@@ -99,6 +103,82 @@ export function zbudujSerwer() {
       annotations: TYLKO_ODCZYT,
     },
     async () => wynik(oBazie()),
+  );
+
+  // ── Kalkulator pasz dla drobiu (worker-magazyn/src/pasze.js) ─────────────
+
+  const SKLADNIKI_WEJSCIE = z.array(z.object({
+    nazwa: z.string().min(1).max(80).describe('Nazwa surowca, najlepiej dokładnie jak w skladniki_paszy, np. "Pszenica", "Śruta sojowa", "Kreda pastewna"'),
+    cena: z.number().positive().max(1000).optional().describe('Cena w zł za kg, potrzebna do kosztu i do celu "najtaniej"'),
+  }));
+
+  serwer.registerTool(
+    'skladniki_paszy',
+    {
+      title: 'Surowce paszowe',
+      description:
+        'Wyszukuje surowce paszowe z bazy 124 pozycji (zboża, śruty, strączkowe, dodatki mineralne, premiksy, gotowe mieszanki) z energią, białkiem, Ca, P, włóknem, tłuszczem i aminokwasami. Bez zapytania zwraca listę kategorii. Przy jednym trafieniu albo z pelny=true podaje pełny skład.',
+      inputSchema: z.object({
+        zapytanie: z.string().max(80).optional().describe('Nazwa albo jej początek, np. "pszenica", "śruta", "fosforan"'),
+        kategoria: z.enum(KATEGORIE_SUROWCOW).optional().describe('Tylko surowce z tej kategorii'),
+        pelny: z.boolean().optional().describe('true = pełny skład każdego surowca (minerały, aminokwasy, witaminy)'),
+        limit: z.number().int().min(1).max(40).optional().describe('Ile surowców zwrócić, domyślnie 15'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(skladnikiPaszy(args)),
+  );
+
+  serwer.registerTool(
+    'normy_drobiu',
+    {
+      title: 'Normy żywieniowe drobiu',
+      description:
+        'Normy żywieniowe dla 6 grup drobiu i ich okresów: energia, białko, Ca, P, włókno, sód, a dla stad zarodowych także K, Mg i mikroelementy. Bez parametrów zwraca listę gatunków i okresów.',
+      inputSchema: z.object({
+        drob: z.enum(GATUNKI).optional().describe('Gatunek, np. kury-nioski-lekkie, brojlery'),
+        okres: z.string().max(60).optional().describe('Okres albo jego fragment, np. "powyżej 45", "starter", "1-6 tygodni"'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(normyDrobiu(args)),
+  );
+
+  serwer.registerTool(
+    'policz_mieszanke',
+    {
+      title: 'Policz mieszankę',
+      description:
+        'Liczy skład mieszanki z podanych surowców i udziałów (w %) i porównuje z normą dla gatunku i okresu: co jest w normie, co za nisko, co za wysoko, koszt za kg (gdy są ceny) i sugestie, czego dodać. Udziały sumujące się do innej liczby niż 100 przelicza proporcjonalnie.',
+      inputSchema: z.object({
+        drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
+        okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),
+        skladniki: z.array(z.object({
+          nazwa: z.string().min(1).max(80),
+          procent: z.number().min(0).max(100).describe('Udział w mieszance w %'),
+          cena: z.number().positive().max(1000).optional().describe('Cena w zł za kg'),
+        })).min(1).max(25),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(policzMieszanke(args)),
+  );
+
+  serwer.registerTool(
+    'dobierz_proporcje',
+    {
+      title: 'Dobierz proporcje mieszanki',
+      description:
+        'Z podanych surowców dobiera proporcje pod normę dla gatunku i okresu, tym samym algorytmem co kalkulator pasz na mojaserowarnia.pl (cel "normy"), albo szuka najtańszej mieszanki bliskiej normie (cel "najtaniej", wymaga cen). Dobiera pod energię, białko, wapń i fosfor; resztę parametrów liczy i ocenia. Zwraca proporcje, wynik wobec normy, czego brakuje i sugestie.',
+      inputSchema: z.object({
+        drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
+        okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),
+        skladniki: SKLADNIKI_WEJSCIE.min(2).max(15).describe('Surowce do użycia, bez udziałów'),
+        cel: z.enum(['normy', 'najtaniej']).optional().describe('normy (domyślnie) albo najtaniej'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(dobierzProporcjeMieszanki(args)),
   );
 
   return serwer;
