@@ -19,6 +19,37 @@ const KLUCZ_KLIENTA = 'io.modelcontextprotocol/clientInfo';
 // Te same znaczniki ruchu wlasnego co w worker/wejscia-ludzi.js.
 const WLASNE = /test-marek|test-agrojelonki|Agrojelonki-Test/i;
 
+// Ruch wlasny z czatow. Lacznik w Claude.ai nie pozwala dopisac naglowka ani
+// zmienic User-Agenta, wiec znacznik test-marek nie ma jak dojsc. Marek dodaje
+// wiec lacznik pod adresem z parametrem: /mcp?wlasne=<sekret WLASNY_ZNACZNIK>.
+// Sekret, a nie stala w kodzie, bo repo jest publiczne: kazdy moglby inaczej
+// ukryc swoje wywolania w statystyce. To nie jest klucz dostepu, tylko etykieta
+// do pomiaru: serwer odpowiada tak samo z parametrem i bez niego.
+const PARAMETR_WLASNY = 'wlasne';
+
+// Porownanie w stalym czasie, jak kluczPasuje() w worker/kontrakt-botow.js.
+async function znacznikPasuje(podany, wlasciwy) {
+  const kod = new TextEncoder();
+  const [a, b] = await Promise.all(
+    [podany, wlasciwy].map((t) => crypto.subtle.digest('SHA-256', kod.encode(t))),
+  );
+  if (typeof crypto.subtle.timingSafeEqual === 'function') {
+    return crypto.subtle.timingSafeEqual(a, b);
+  }
+  const x = new Uint8Array(a);
+  const y = new Uint8Array(b);
+  let roznica = 0;
+  for (let i = 0; i < x.length; i++) roznica |= x[i] ^ y[i];
+  return roznica === 0;
+}
+
+async function ruchWlasny(request, env) {
+  if (WLASNE.test(request.headers.get('user-agent') || '')) return true;
+  const podany = new URL(request.url).searchParams.get(PARAMETR_WLASNY);
+  if (!podany || !env?.WLASNY_ZNACZNIK) return false;
+  return znacznikPasuje(podany, env.WLASNY_ZNACZNIK);
+}
+
 // Kubelki klientow. Kolejnosc ma znaczenie: Inspector bywa uruchamiany
 // z przegladarki, wiec musi stac przed ogolnymi wzorcami.
 const KLIENCI = [
@@ -42,13 +73,17 @@ function kubelekKlienta(...teksty) {
  * Czego dotyczy zadanie: jedno spojrzenie w tresc JSON-RPC, na kopii, zanim
  * oryginal pojdzie do serwera MCP. null = nie liczymy (powiadomienia, ping).
  */
-export async function opisWywolania(request) {
+export async function opisWywolania(request, env) {
   if (request.method !== 'POST') return null;
   let wiadomosc;
   try {
     wiadomosc = await request.clone().json();
   } catch {
-    return { narzedzie: '(zla tresc)', klient: kubelekKlienta(request.headers.get('user-agent')) };
+    return {
+      narzedzie: '(zla tresc)',
+      klient: kubelekKlienta(request.headers.get('user-agent')),
+      wlasne: await ruchWlasny(request, env),
+    };
   }
   if (Array.isArray(wiadomosc)) wiadomosc = wiadomosc[0];
   const metoda = wiadomosc?.method;
@@ -66,7 +101,7 @@ export async function opisWywolania(request) {
   return {
     narzedzie,
     klient: kubelekKlienta(nazwaKlienta, ua),
-    wlasne: WLASNE.test(ua),
+    wlasne: await ruchWlasny(request, env),
   };
 }
 

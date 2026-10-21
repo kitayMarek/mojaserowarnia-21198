@@ -197,7 +197,7 @@ export default {
       return new Response(null, { status: 204, headers: { ...CORS, ...NAGLOWKI_WSPOLNE } });
     }
 
-    const opis = await opisWywolania(request);
+    const opis = await opisWywolania(request, env);
 
     if (!(await wLimicie(env, request))) {
       ctx.waitUntil(zliczWywolanie(env, opis, 429));
