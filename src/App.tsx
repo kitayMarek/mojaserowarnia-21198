@@ -89,6 +89,7 @@ const KulturyMezofilne = lazy(() => import("./pages/KulturyMezofilne"));
 const KulturyTermofilne = lazy(() => import("./pages/KulturyTermofilne"));
 const KulturyJogurtowe = lazy(() => import("./pages/KulturyJogurtowe"));
 const KulturaStrona = lazy(() => import("./pages/KulturaStrona"));
+const FloraDanica = lazy(() => import("./pages/FloraDanica"));
 const SymulatorSera = lazy(() => import("./pages/SymulatorSera"));
 const SeryWege = lazy(() => import("./pages/SeryWege"));
 const WoskowanieSera = lazy(() => import("./pages/WoskowanieSera"));
@@ -143,6 +144,8 @@ const App = () => (
             <Route path="/kultury/mezofilne" element={<KulturyMezofilne />} />
             <Route path="/kultury/termofilne" element={<KulturyTermofilne />} />
             <Route path="/kultury/jogurtowe" element={<KulturyJogurtowe />} />
+            {/* Kultura spoza sklepow z bazy: dane z karty producenta, nie z tabeli cultures. */}
+            <Route path="/kultury/flora-danica" element={<FloraDanica />} />
             {/* Dynamiczna PO statycznych: /kultury/mezofilne i spolka musza wygrac. */}
             <Route path="/kultury/:slug" element={<KulturaStrona />} />
             <Route path="/symulator-sera" element={<SymulatorSera />} />

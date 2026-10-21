@@ -254,7 +254,7 @@ const RecipeDetails = () => {
                     <tr key={idx} className="border-b border-border hover:bg-secondary/10">
                       <td className="p-3">
                         <Link 
-                          to={`/baza-kultur?q=${encodeURIComponent(culture.searchQuery)}`}
+                          to={culture.strona ?? `/baza-kultur?q=${encodeURIComponent(culture.searchQuery)}`}
                           className="font-semibold text-primary hover:text-accent hover:underline"
                         >
                           {culture.name}

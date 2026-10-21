@@ -36,6 +36,8 @@ export interface CultureSubstitute {
   dosage: string;
   notes: string;
   searchQuery: string; // Query to use for /baza-kultur?q=
+  /** Własna strona kultury. Gdy jest, link idzie tam, a nie do wyszukiwarki bazy. */
+  strona?: string;
 }
 
 export interface RecipeStep {
@@ -252,7 +254,8 @@ export const recipesData: Recipe[] = [
         shop: "Artiser.pl",
         dosage: "wg producenta",
         notes: "Mezofilna z bakteriami gazotwórczymi (Leuconostoc) — wspiera drobne oczka.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "MM 100 / MM 101",
@@ -1190,7 +1193,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowar.pl",
         dosage: "~0,5 g na 15 L",
         notes: "Klasyczna kultura do Goudy z produkcją CO₂.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "MM / MM-100",
@@ -1771,7 +1775,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowar.pl",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Klasyczna kultura duńska, alternatywa dla MM.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "Penicillium candidum",
@@ -2234,7 +2239,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowar.pl",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Alternatywa dla MM.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "Lipaza",
@@ -3054,7 +3060,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowar.pl",
         dosage: "wg producenta",
         notes: "Daje łagodniejszy, bardziej maślany profil — wariant domowy.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "ALPHA 10 / ALPHA 12 (alternatywa mezofilna)",
@@ -3186,7 +3193,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowar.pl",
         dosage: "wg producenta",
         notes: "Klasyczna mezofilna — delikatny, maślany profil pod mytą skórkę.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "BLC / Brevibacterium linens",
@@ -3334,7 +3342,8 @@ export const recipesData: Recipe[] = [
         shop: "Serowarnia, sklepy serowarskie",
         dosage: "1/8 łyżeczki na 8 L mleka",
         notes: "Daje twaróg o pełniejszym, lekko maślanym aromacie. Najpopularniejszy wybór do twarogu.",
-        searchQuery: "Flora Danica"
+        searchQuery: "Flora Danica",
+        strona: "/kultury/flora-danica"
       },
       {
         name: "CHN-19",

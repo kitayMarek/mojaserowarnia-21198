@@ -104,6 +104,34 @@ export function rozbijSklad(sklad: string): string[] {
   return Array.from(out).sort();
 }
 
+/**
+ * Typ LD: trzy podgatunki Lactococcus lactis (lactis, cremoris, biovar diacetylactis)
+ * plus Leuconostoc, i nic poza tym.
+ *
+ * PO CO OSOBNA REGUŁA OBOK grupujPoSkladzie: producent Flora Danica podaje sam rodzaj
+ * „Leuconostoc", bez gatunku, a sklepy zapisują ten sam skład na kilka sposobów
+ * („diacetilactis" w Lactic.pl, „Leuconostoc spp." w GAP). Dokładne porównanie
+ * składu nie złapałoby wtedy żadnego zamiennika. Ta reguła porównuje po rodzaju.
+ *
+ * Bliźniak: typ_ld() w scripts/gen-kultury-strony.py. Zmiana tu = zmiana tam.
+ */
+function rodzajLD(s: string): string {
+  if (s.startsWith("ln.")) return "leuconostoc";
+  if (s.startsWith("l.")) {
+    if (/diacet[iy]lactis/.test(s)) return "diacetylactis";
+    if (/cremoris/.test(s)) return "cremoris";
+    if (/lactis$/.test(s)) return "lactis";
+  }
+  return "inne";
+}
+
+export function czyTypLD(sklad: string): boolean {
+  const szczepy = rozbijSklad(sklad);
+  if (szczepy.length === 0 || !szczepy.every(czyLacinska)) return false;
+  const rodzaje = new Set(szczepy.map(rodzajLD));
+  return rodzaje.size === 4 && !rodzaje.has("inne");
+}
+
 function idZeSzczepow(szczepy: string[]): string {
   return szczepy
     .join("-")

@@ -276,6 +276,15 @@ export const metaStron: Record<string, MetaStrony> = {
       "Emmental, emmentaler i ementaler to ten sam szwajcarski ser z dziurami. Skąd dziury, jak go jeść, czym zastąpić, czy ma laktozę i czy można w ciąży.",
     mirror: "sery/emmental.html",
   },
+  "/kultury/flora-danica": {
+    // Kultura, ktora czaty wymieniaja jako pierwsza na pytanie o kultury do sera
+    // (test w Claude 21.10.2026), a ktorej nie sprzedaje zaden sklep z bazy.
+    // Tresc strony: src/data/floraDanica.ts. Mirror generuje gen-kultury-strony.py.
+    title: "Flora Danica: skład, dawka i czym ją zastąpić w Polsce",
+    description:
+      "Flora Danica (Chr. Hansen): mezofilna kultura LD z CO₂ do goudy i camemberta. Skład i dawka wg producenta, gdzie kupić w Polsce i czym ją zastąpić.",
+    mirror: "kultury/flora-danica.html",
+  },
   "/sery/camembert": {
     // Strona O SERZE, osobna od przepisu. Slowa z zapytan z Search Console
     // (15.09.2026): "camembert" 175 wyswietlen i 0 klikniec, do tego ogon

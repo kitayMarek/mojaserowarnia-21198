@@ -44,7 +44,20 @@ BAZA = "https://mojaserowarnia.pl"
 # Nazwy plików, które już są w public/kultury/ i NIE są stronami kultur.
 # Nadpisanie któregoś skasowałoby istniejący mirror.
 ZAJETE = {"baza.html", "do-caciotta.html", "do-twarogu.html",
-          "jogurtowe.html", "mezofilne.html", "termofilne.html"}
+          "jogurtowe.html", "mezofilne.html", "termofilne.html",
+          "flora-danica.html"}
+
+# Flora Danica nie ma oferty w zadnym sklepie z bazy, wiec jej strona idzie
+# z karty producenta (src/data/floraDanica.ts), a zamienniki z bazy po typie LD.
+FLORA = os.path.join(ROOT, "src", "data", "floraDanica.ts")
+PRZEPISY = os.path.join(ROOT, "src", "data", "recipesData.ts")
+
+# Tytul i opis bierzemy z metaStron.ts tym samym czytnikiem, ktory potem
+# dosyla je do mirrorow, zeby obie warstwy nie mialy dwoch wersji tytulu.
+_spec_seo = importlib.util.spec_from_file_location(
+    "sync_seo", os.path.join(os.path.dirname(os.path.abspath(__file__)), "sync-seo-mirrory.py"))
+seo = importlib.util.module_from_spec(_spec_seo)
+_spec_seo.loader.exec_module(seo)
 
 
 def adres_kultury(nazwa):
@@ -200,6 +213,162 @@ def strona(k, grupa, wszystkie):
     return "".join(c)
 
 
+def typ_ld(sklad):
+    """Blizniak czyTypLD() z src/lib/grupyKultur.ts. Zmiana tu = zmiana tam.
+
+    Trzy podgatunki Lactococcus lactis plus Leuconostoc, nic wiecej. Porownanie
+    po rodzaju, bo producent Flora Danica nie podaje gatunku Leuconostoc.
+    """
+    szczepy = zam.rozbij_sklad(sklad)
+    if not szczepy or not all(zam.czy_lacinska(s) for s in szczepy):
+        return False
+
+    def rodzaj(s):
+        if s.startswith("ln."):
+            return "leuconostoc"
+        if s.startswith("l."):
+            if re.search(r"diacet[iy]lactis", s):
+                return "diacetylactis"
+            if "cremoris" in s:
+                return "cremoris"
+            if s.endswith("lactis"):
+                return "lactis"
+        return "inne"
+
+    rodzaje = {rodzaj(s) for s in szczepy}
+    return len(rodzaje) == 4 and "inne" not in rodzaje
+
+
+def pozycje_ma(n):
+    """Blizniak pozycjeMa() z src/pages/FloraDanica.tsx."""
+    if n == 1:
+        return "1 pozycja ma"
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return "%d pozycje mają" % n
+    return "%d pozycji ma" % n
+
+
+def wczytaj_flora():
+    t = io.open(FLORA, encoding="utf-8").read()
+    d = dict(re.findall(r'^  (\w+): "([^"]*)",?$', t, re.M))
+    for pole in ("sklad", "sprawdzoneSklepy"):
+        blok = re.search(r"^  %s: \[(.*?)\]" % pole, t, re.M | re.S).group(1)
+        d[pole] = re.findall(r'"([^"]*)"', blok)
+    d["zrodla"] = re.findall(r'tytul: "([^"]*)",\s*url: "([^"]*)"', t)
+    d["adres"] = re.search(r'ADRES_FLORA_DANICA = "([^"]+)"', t).group(1)
+    return d
+
+
+def przepisy_z(adres):
+    """[(id, nazwa)] przepisow, ktore w tabeli kultur linkuja na `adres` (pole strona)."""
+    t = io.open(PRZEPISY, encoding="utf-8").read()
+    out = []
+    for blok in re.split(r"\n  \{\n", t)[1:]:
+        if 'strona: "%s"' % adres not in blok:
+            continue
+        rid = re.search(r'\n?    id: "([^"]+)"', blok)
+        nazwa = re.search(r'\n    name: "([^"]+)"', blok)
+        if rid and nazwa:
+            out.append((rid.group(1), nazwa.group(1)))
+    return out
+
+
+def strona_flora_danica(rek):
+    """Mirror /kultury/flora-danica. Uklad jak strona(), tresc z floraDanica.ts."""
+    e = zam.esc
+    fd = wczytaj_flora()
+    meta = [p for p in seo.wczytaj_seo() if p[0] == fd["adres"]]
+    if not meta:
+        raise SystemExit("brak wpisu %s w src/data/metaStron.ts" % fd["adres"])
+    tytul, opis = meta[0][2], meta[0][3]
+    url = BAZA + fd["adres"]
+
+    zamienniki = sorted(
+        (k for k in rek if typ_ld(k.get("composition", ""))),
+        key=lambda k: (za_litr(k.get("cena"), k.get("litry")) is None,
+                       za_litr(k.get("cena"), k.get("litry")) or 0, k["name"].lower()))
+    koszty = [za_litr(k.get("cena"), k.get("litry")) for k in zamienniki]
+    najtanszy = next((x for x in koszty if x is not None), None)
+
+    c = []
+    c.append("""<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>%s</title>
+  <meta name="description" content="%s" />
+  <link rel="canonical" href="%s" />
+  <meta property="og:title" content="%s" />
+  <meta property="og:description" content="%s" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="%s" />
+</head>
+<body>
+<h1>%s</h1>
+<p>%s · %s</p>
+<p>%s</p>
+""" % (e(tytul), e(opis), url, e(tytul), e(opis), url,
+       e(fd["nazwa"]), e(fd["typ"]), e(fd["producent"]), e(fd["wstep"])))
+
+    c.append("<h2>Gdzie kupić w Polsce</h2>\n")
+    c.append("<p>W żadnym z pięciu sklepów, które śledzimy (%s), Flora Danica nie jest "
+             "w ofercie. Sprawdzone %s.</p>\n" % (e(", ".join(fd["sprawdzoneSklepy"])), e(fd["sprawdzono"])))
+    c.append("<p>Dlatego nie podajemy ceny ani kosztu litra: nie ma ich z czego policzyć. "
+             "%s</p>\n" % e(fd["opakowanie"]))
+
+    c.append("<h2>Czym ją zastąpić</h2>\n")
+    if not zamienniki:
+        c.append("<p>W naszej bazie żadna kultura nie ma tego samego typu składu. To nie znaczy, "
+                 "że zamiennika nie ma, znaczy, że my go nie mamy.</p>\n")
+    else:
+        c.append("<p>W bazie %s ten sam typ składu LD: trzy podgatunki Lactococcus lactis "
+                 "i Leuconostoc, bez innych bakterii.%s</p>\n" % (
+                     pozycje_ma(len(zamienniki)),
+                     (" Najtańsza wychodzi <strong>%s zł za litr</strong> mleka." % zl(najtanszy))
+                     if najtanszy is not None else ""))
+        c.append("<table>\n<thead><tr><th>Nazwa</th><th>Sklep</th><th>Za litr</th>"
+                 "<th>Zastosowanie</th></tr></thead>\n<tbody>\n")
+        for k, kx in zip(zamienniki, koszty):
+            c.append('<tr><td><a href="%s/kultury/%s">%s</a></td><td>%s</td>'
+                     "<td>%s</td><td>%s</td></tr>\n" % (
+                         BAZA, adres_kultury(k["name"]), e(k["name"]), e(k.get("shop", "")),
+                         ("%s zł/L" % zl(kx)) if kx is not None else "nieznany",
+                         e(k.get("application", ""))))
+        c.append("</tbody>\n</table>\n")
+        c.append("<p><strong>Ten sam typ składu to nie to samo, co ten sam produkt.</strong> "
+                 "Producenci dobierają konkretne szczepy i ich proporcje, a tego żadna tabela "
+                 "nie pokazuje. Przy Flora Danica dochodzi jeszcze jedno: producent nie podaje "
+                 "gatunku Leuconostoc, więc porównujemy po rodzaju. Przed zamianą porównaj "
+                 "zastosowanie, nie tylko skład.</p>\n")
+
+    c.append("<h2>Co jest w środku</h2>\n")
+    c.append("<ul>\n%s</ul>\n" % "".join("<li><em>%s</em></li>\n" % e(s) for s in fd["sklad"]))
+    c.append("<p>%s</p>\n" % e(fd["skladUwaga"]))
+    c.append("<p><strong>Do czego (wg producenta):</strong> %s</p>\n" % e(fd["zastosowanie"]))
+    c.append("<p><strong>Temperatura pracy:</strong> %s</p>\n" % e(fd["temperatura"]))
+    c.append("<p><strong>Dawkowanie wg producenta:</strong> %s</p>\n" % e(fd["dawka"]))
+    c.append("<p><strong>Przechowywanie:</strong> %s</p>\n" % e(fd["przechowywanie"]))
+
+    przepisy = przepisy_z(fd["adres"])
+    if przepisy:
+        c.append("<h2>Przepisy, w których występuje</h2>\n<ul>\n")
+        c.append("".join('<li><a href="%s/przepisy/%s">%s</a></li>\n' % (BAZA, rid, e(n))
+                         for rid, n in przepisy))
+        c.append("</ul>\n")
+
+    c.append("<h2>Źródła</h2>\n<ul>\n")
+    c.append("".join('<li><a href="%s">%s</a></li>\n' % (e(u), e(t)) for t, u in fd["zrodla"]))
+    c.append("</ul>\n")
+
+    c.append('<p><a href="%s/kultury/mezofilne">Kultury mezofilne</a> · '
+             '<a href="%s/baza-kultur">Cała baza kultur</a> · '
+             '<a href="%s/zamienniki-kultur">Wszystkie grupy zamienników</a> · '
+             '<a href="%s/porownywarka-kultur">Porównywarka</a></p>\n'
+             "</body>\n</html>\n" % (BAZA, BAZA, BAZA, BAZA))
+    return "".join(c), len(zamienniki)
+
+
 def main():
     rek = wczytaj_pelne()
     grupy = zam.grupuj(rek)
@@ -235,7 +404,11 @@ def main():
         io.open(os.path.join(KATALOG, plik), "w", encoding="utf-8", newline="").write(html)
         zapisane += 1
 
+    html, ile = strona_flora_danica(rek)
+    io.open(os.path.join(KATALOG, "flora-danica.html"), "w", encoding="utf-8", newline="").write(html)
+
     print("zapisano stron: %d" % zapisane)
+    print("flora-danica.html: %d zamiennik(ów) typu LD" % ile)
     if kolizje:
         print("ta sama nazwa w kilku sklepach (jeden plik): %d — %s"
               % (len(kolizje), ", ".join(sorted(set(kolizje))[:8])))

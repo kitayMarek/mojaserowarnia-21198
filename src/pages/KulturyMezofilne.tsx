@@ -56,7 +56,7 @@ const KulturyMezofilne = () => (
         <tr><th>Kultura</th><th>Typ / zastosowanie</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Flora Danica</strong></td><td>mezofilna LD (z CO₂) — gouda, sery z drobnymi oczkami</td></tr>
+        <tr><td><strong><Link to="/kultury/flora-danica">Flora Danica</Link></strong></td><td>mezofilna LD (z CO₂) — gouda, sery z drobnymi oczkami</td></tr>
         <tr><td><strong>Choozit MA 4001</strong></td><td>uniwersalna mezofilna — sery świeże i półtwarde</td></tr>
         <tr><td><strong>MM / MM-100</strong></td><td>mezofilna — sery holenderskie</td></tr>
         <tr><td><strong>ALPHA 10 / ALPHA 12</strong></td><td>mezofilna — twaróg, zsiadłe mleko, sery miękkie (25–32°C)</td></tr>
@@ -86,7 +86,7 @@ const KulturyMezofilne = () => (
     <h3>Co to kultury mezofilne?</h3>
     <p>Bakterie mlekowe pracujące w 25–35°C, do serów świeżych i półtwardych.</p>
     <h3>Jakie bakterie mezofilne do sera?</h3>
-    <p>Flora Danica, MA 4001, MM-100, ALPHA 10/12, MSE/MSO.</p>
+    <p><Link to="/kultury/flora-danica">Flora Danica</Link>, MA 4001, MM-100, ALPHA 10/12, MSE/MSO.</p>
     <h3>Ile dodać?</h3>
     <p>Ułamek grama LYO na kilka–kilkanaście litrów mleka, wg producenta.</p>
   </KulturaGuideLayout>
