@@ -27,7 +27,10 @@ const BAZA = 'https://mojaserowarnia.pl';
 // zrodloOdpowiedzi() w worker/wizyty-botow.js zapisuje je jako "Magazyn" (od 21.10.2026).
 const ZNACZNIK = 'utm_source=magazyn';
 
-export const CYTUJ_JAKO = 'Moja Serowarnia, baza kultur bakteryjnych do sera (https://mojaserowarnia.pl/baza-kultur)';
+// Ze znacznikiem, bo w pierwszym tescie w Claude.ai (21.10.2026) model podal
+// wlasnie ten link, a nie url poszczegolnych kultur. Bez znacznika wejscie
+// z cytowania liczyloby sie pod claude.ai, a nie jako "Magazyn".
+export const CYTUJ_JAKO = `Moja Serowarnia, baza kultur bakteryjnych do sera (https://mojaserowarnia.pl/baza-kultur?${ZNACZNIK})`;
 export const LICENCJA = 'CC BY 4.0: cytując, podaj źródło z linkiem';
 
 export const TYPY = [...new Set(culturesData.map((k) => k.type))].sort((a, b) => a.localeCompare(b, 'pl'));
