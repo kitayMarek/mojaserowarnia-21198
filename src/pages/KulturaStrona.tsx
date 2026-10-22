@@ -22,7 +22,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import BuyButton from "@/components/BuyButton";
-import CenaKultury from "@/components/CenaKultury";
 import { useCultures, useCultureDetail } from "@/hooks/useCultures";
 import { useMetaStrony } from "@/hooks/useMetaStrony";
 import { adresKultury, znajdzKulture, zaLitr } from "@/lib/adresKultury";
@@ -112,198 +111,288 @@ const KulturaStrona = () => {
 
   const szczepy = grupa?.szczepy ?? [];
 
+  // Wiersze tabeli zamienników. Pierwszy to ta kultura jako punkt odniesienia
+  // (pomysł z brewing.net: oryginał w pierwszym wierszu, zamienniki pod nim),
+  // dzięki temu różnica przy każdym zamienniku ma się do czego odnieść wzrokiem.
+  const wiersze = [{ k: kultura, koszt: mojKoszt, ta: true }, ...zamienniki.map((z) => ({ ...z, ta: false }))];
+  const najwiekszyKoszt = Math.max(...wiersze.map((w) => w.koszt ?? 0));
+  const najtanszy = tansze[0] ?? null;
+  const zmianaCeny =
+    typeof kultura.pricePrevious === "number" && typeof kultura.price_numeric === "number"
+      ? kultura.price_numeric - kultura.pricePrevious
+      : null;
+
+  /** Różnica kosztu litra względem tej kultury, we wspólnej precyzji z ceną. */
+  const opisRoznicy = (koszt: number | null) => {
+    if (mojKoszt == null || koszt == null) return null;
+    const roznica = koszt - mojKoszt;
+    // Wspolna precyzja dla obu liczb w wierszu.
+    const m = miejsca(Math.min(mojKoszt, koszt));
+    // Roznica ponizej polowy ostatniego miejsca to ta sama cena.
+    // Bez tego identyczne oferty pokazywaly sie jako "+0,000 zl/L".
+    if (Math.abs(roznica) < 0.5 * 10 ** -m) return { tekst: "tyle samo", taniej: false };
+    return { tekst: `${roznica < 0 ? "−" : "+"}${zl(Math.abs(roznica), m)} zł/L`, taniej: roznica < 0 };
+  };
+
+  // Szeroki układ z panelem bocznym i tekst 16 px zamiast wąskiej kolumny 768 px z tekstem 14 px
+  // (porównanie kart z zamiennikami, 22.10.2026: brewing.net i Captain Brew mają 1140 px,
+  // kluczowe dane w osobnym bloku, tekst 16-18 px). Na telefonie panel z ceną idzie pierwszy.
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <PageBreadcrumbs
-          items={[
-            { label: "Baza kultur", href: "/baza-kultur" },
-            { label: kultura.name },
-          ]}
-        />
+      <PageBreadcrumbs
+        items={[
+          { label: "Baza kultur", href: "/baza-kultur" },
+          { label: kultura.name },
+        ]}
+      />
 
-        <h1 className="text-3xl md:text-4xl font-display font-bold mt-4 mb-2">{kultura.name}</h1>
-        <p className="text-muted-foreground mb-8">
-          {[kultura.type, kultura.temperature, kultura.manufacturer].filter(Boolean).join(" · ")}
-        </p>
+      <main className="pt-20">
+        <div className="container mx-auto px-4 pb-12 max-w-6xl">
+          <header className="mb-6">
+            <h1 className="text-3xl md:text-5xl font-display font-bold mb-2">{kultura.name}</h1>
+            <p className="text-lg text-muted-foreground">
+              {[kultura.type, kultura.temperature, kultura.manufacturer].filter(Boolean).join(" · ")}
+            </p>
+          </header>
 
-        {/* ── ILE NAPRAWDĘ KOSZTUJE ─────────────────────────────────────── */}
-        <section className="mb-10">
-          <h2 className="text-xl font-display font-bold mb-3">Ile naprawdę kosztuje</h2>
-          <div className="rounded-lg border border-border p-4">
-            <CenaKultury
-              cena={kultura.price}
-              cenaLiczbowo={kultura.price_numeric}
-              cenaPoprzednia={kultura.pricePrevious}
-              litry={kultura.packLiters}
-            />
-            <div className="mt-3 flex flex-wrap gap-3 items-center">
-              <BuyButton
-                productUrl={kultura.productUrl}
-                shopUrl={kultura.shopUrl}
-                shopName={kultura.shop}
-                cultureName={kultura.name}
-              />
-              {kultura.doseLabel && (
-                <span className="text-sm text-muted-foreground">
-                  Dawkowanie wg sklepu: {kultura.doseLabel}
-                </span>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] items-start lg:grid-rows-[auto_1fr]">
+            {/* ── CENA ──────────────────────────────────────────────────────────── */}
+            {/* Kolejność w kodzie = kolejność na telefonie: cena, zamienniki, dane. Na komputerze
+                cena i dane stoją w prawej kolumnie, zamienniki zajmują lewą na całą wysokość. */}
+            <section className="rounded-xl border border-border bg-card p-5 lg:col-start-2 lg:row-start-1">
+              <h2 className="text-sm uppercase tracking-wide text-muted-foreground mb-2">Ile naprawdę kosztuje</h2>
+              <div className="text-3xl font-semibold tabular-nums">{kultura.price || "?"}</div>
+              {mojKoszt != null ? (
+                <p className="mt-1 text-base">
+                  opakowanie na {kultura.packLiters} L mleka,{" "}
+                  <strong className="tabular-nums">{zl(mojKoszt)} zł za litr</strong>
+                </p>
+              ) : (
+                <p className="mt-1 text-base text-muted-foreground">
+                  Sklep nie podaje, na ile litrów mleka starcza opakowanie.
+                </p>
               )}
-            </div>
-          </div>
+              {zmianaCeny !== null && Math.abs(zmianaCeny) > 0.005 && (
+                <p className={`mt-1 text-sm ${zmianaCeny > 0 ? "text-red-700 dark:text-red-400" : "text-green-700 dark:text-green-400"}`}>
+                  {zmianaCeny > 0 ? "↑" : "↓"} wcześniej {zl(kultura.pricePrevious as number, 2)} zł
+                </p>
+              )}
+              <div className="mt-4">
+                <BuyButton
+                  productUrl={kultura.productUrl}
+                  shopUrl={kultura.shopUrl}
+                  shopName={kultura.shop}
+                  cultureName={kultura.name}
+                />
+              </div>
+              {inneSklepy.length > 0 && (
+                <p className="text-sm mt-3">
+                  Ta sama nazwa jest też w:{" "}
+                  {inneSklepy.map((k, i) => (
+                    <span key={k.id}>
+                      {i > 0 && ", "}
+                      {k.shop}
+                      {k.price ? ` (${k.price})` : ""}
+                    </span>
+                  ))}
+                  .
+                </p>
+              )}
+              {priceHistory.length > 1 && (
+                <p className="text-sm text-muted-foreground mt-3">
+                  Cenę sprawdzaliśmy {priceHistory.length} razy. Najstarszy zapis:{" "}
+                  {new Date(priceHistory[priceHistory.length - 1].recorded_at).toLocaleDateString("pl-PL")}
+                  {priceHistory[priceHistory.length - 1].price_numeric != null &&
+                    `, wtedy ${zl(priceHistory[priceHistory.length - 1].price_numeric!, 2)} zł`}
+                  .
+                </p>
+              )}
+            </section>
 
-          {priceHistory.length > 1 && (
-            <p className="text-sm text-muted-foreground mt-3">
-              Cenę sprawdzaliśmy {priceHistory.length} razy. Najstarszy zapis:{" "}
-              {new Date(priceHistory[priceHistory.length - 1].recorded_at).toLocaleDateString("pl-PL")}
-              {priceHistory[priceHistory.length - 1].price_numeric != null &&
-                ` — wtedy ${zl(priceHistory[priceHistory.length - 1].price_numeric!)} zł`}
-              .
-            </p>
-          )}
+            <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2 space-y-10 text-base">
+              {/* ── CZYM ZASTĄPIĆ ─────────────────────────────────────────────── */}
+              <section>
+                <h2 className="text-2xl font-display font-bold mb-3">Czym ją zastąpić</h2>
 
-          {inneSklepy.length > 0 && (
-            <p className="text-sm mt-3">
-              Ta sama nazwa jest też w:{" "}
-              {inneSklepy.map((k, i) => (
-                <span key={k.id}>
-                  {i > 0 && ", "}
-                  {k.shop}
-                  {k.price ? ` (${k.price})` : ""}
-                </span>
-              ))}
-              .
-            </p>
-          )}
-        </section>
-
-        {/* ── CZYM ZASTĄPIĆ ─────────────────────────────────────────────── */}
-        <section className="mb-10">
-          <h2 className="text-xl font-display font-bold mb-3">Czym ją zastąpić</h2>
-
-          {zamienniki.length === 0 ? (
-            <p className="text-muted-foreground">
-              W naszej bazie żadna inna kultura nie ma tego samego składu szczepowego.
-              To nie znaczy, że zamiennika nie ma — znaczy, że my go nie mamy.
-            </p>
-          ) : (
-            <>
-              <p className="text-muted-foreground mb-4">
-                {/* Bez wlasnego kosztu litra NIE WOLNO napisac "zadna nie jest tansza" —
-                    to zdanie brzmi jak wynik porownania, a porownania nie bylo.
-                    Dotyczy 27 z 188 pozycji, ktorym sklep nie podaje pojemnosci. */}
-                {mojKoszt == null ? (
-                  <>
-                    Sklep nie podaje, na ile litrów mleka starcza to opakowanie, więc kosztu
-                    litra <strong>nie da się policzyć</strong> — a bez niego porównanie cen nie
-                    ma sensu. Poniżej pozycje o tym samym składzie razem z ich kosztem litra;
-                    porównaj je z ceną na opakowaniu, które masz w ręku.
-                  </>
-                ) : tansze.length > 0 ? (
-                  <>
-                    <strong>{tansze.length}</strong>{" "}
-                    {tansze.length === 1 ? "pozycja jest tańsza" : "pozycje są tańsze"} za litr
-                    mleka przy tym samym składzie.
-                  </>
+                {zamienniki.length === 0 ? (
+                  <p className="text-muted-foreground">
+                    W naszej bazie żadna inna kultura nie ma tego samego składu szczepowego.
+                    To nie znaczy, że zamiennika nie ma — znaczy, że my go nie mamy.
+                  </p>
                 ) : (
                   <>
-                    Ten sam skład ma {zamienniki.length}{" "}
-                    {zamienniki.length === 1 ? "inna pozycja" : "innych pozycji"} — żadna nie
-                    wychodzi taniej za litr.
+                    {/* Odpowiedź w jednym zdaniu, zanim ktoś zacznie czytać tabelę
+                        (brewing.net, Captain Brew). Bez wlasnego kosztu litra NIE WOLNO
+                        napisac "zadna nie jest tansza": to zdanie brzmi jak wynik porownania,
+                        a porownania nie bylo. Dotyczy 27 z 188 pozycji bez pojemnosci. */}
+                    <p className="text-lg mb-4">
+                      {mojKoszt == null ? (
+                        <>
+                          Sklep nie podaje, na ile litrów mleka starcza to opakowanie, więc kosztu
+                          litra <strong>nie da się policzyć</strong>. Niżej {zamienniki.length}{" "}
+                          {zamienniki.length === 1 ? "pozycja" : "pozycji"} o tym samym składzie z ich
+                          kosztem litra: porównaj je z ceną na opakowaniu, które masz w ręku.
+                        </>
+                      ) : najtanszy ? (
+                        <>
+                          Najtańszy zamiennik o tym samym składzie to{" "}
+                          <Link to={`/kultury/${adresKultury(najtanszy.k.name)}`} className="font-semibold underline">
+                            {najtanszy.k.name}
+                          </Link>{" "}
+                          ({najtanszy.k.shop}): <strong>{zl(najtanszy.koszt as number)} zł za litr</strong>, o{" "}
+                          {zl(mojKoszt - (najtanszy.koszt as number), miejsca(najtanszy.koszt as number))} zł mniej
+                          niż {kultura.name}.
+                          {tansze.length > 1 && ` Tańszych za litr jest ${tansze.length}.`}
+                        </>
+                      ) : (
+                        <>
+                          Ten sam skład ma {zamienniki.length}{" "}
+                          {zamienniki.length === 1 ? "inna pozycja" : "innych pozycji"}, ale żadna nie
+                          wychodzi taniej za litr niż {kultura.name}.
+                        </>
+                      )}
+                    </p>
+
+                    {/* Komputer: tabela z tą kulturą w pierwszym wierszu */}
+                    <div className="hidden md:block overflow-x-auto rounded-xl border border-border">
+                      <table className="w-full text-base">
+                        <thead className="bg-muted/50 text-sm text-muted-foreground">
+                          <tr>
+                            <th className="text-left font-medium px-4 py-3">Kultura</th>
+                            <th className="text-left font-medium px-4 py-3">Sklep</th>
+                            <th className="text-left font-medium px-4 py-3 w-56">Koszt litra mleka</th>
+                            <th className="text-right font-medium px-4 py-3">Różnica</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {wiersze.map(({ k, koszt, ta }) => {
+                            const r = ta ? null : opisRoznicy(koszt);
+                            return (
+                              <tr key={`${k.name}-${k.shop}`} className={`border-t border-border align-top ${ta ? "bg-primary/5" : ""}`}>
+                                <td className="px-4 py-3">
+                                  {ta ? (
+                                    <span className="font-semibold">{k.name} <span className="text-sm font-normal text-muted-foreground">(ta kultura)</span></span>
+                                  ) : (
+                                    <Link to={`/kultury/${adresKultury(k.name)}`} className="font-semibold underline">{k.name}</Link>
+                                  )}
+                                  {k.application && <div className="text-sm text-muted-foreground mt-1">{k.application}</div>}
+                                </td>
+                                <td className="px-4 py-3 whitespace-nowrap">{k.shop}</td>
+                                <td className="px-4 py-3">
+                                  {koszt != null ? (
+                                    <>
+                                      <div className="tabular-nums font-medium">{zl(koszt)} zł/L</div>
+                                      <div className="mt-1 h-1.5 rounded bg-muted" aria-hidden="true">
+                                        <div className={`h-1.5 rounded ${ta ? "bg-primary" : "bg-primary/50"}`} style={{ width: `${Math.max(4, (koszt / najwiekszyKoszt) * 100)}%` }} />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <span className="text-muted-foreground">nieznany</span>
+                                  )}
+                                </td>
+                                <td className={`px-4 py-3 text-right tabular-nums whitespace-nowrap ${r?.taniej ? "text-emerald-700 dark:text-emerald-400 font-semibold" : "text-muted-foreground"}`}>
+                                  {ta ? "" : r ? r.tekst : "–"}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Telefon: karty, koszt litra duży i po prawej */}
+                    <ul className="md:hidden space-y-3">
+                      {wiersze.map(({ k, koszt, ta }) => {
+                        const r = ta ? null : opisRoznicy(koszt);
+                        return (
+                          <li key={`${k.name}-${k.shop}`} className={`rounded-xl border p-4 ${ta ? "border-primary/40 bg-primary/5" : "border-border"}`}>
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0">
+                                {ta ? (
+                                  <span className="font-semibold text-lg">{k.name}</span>
+                                ) : (
+                                  <Link to={`/kultury/${adresKultury(k.name)}`} className="font-semibold text-lg underline">{k.name}</Link>
+                                )}
+                                <div className="text-sm text-muted-foreground">{ta ? `ta kultura · ${k.shop}` : k.shop}</div>
+                              </div>
+                              <div className="text-right shrink-0">
+                                <div className="tabular-nums font-semibold text-lg">{koszt != null ? `${zl(koszt)} zł/L` : "?"}</div>
+                                {r && (
+                                  <div className={`text-sm tabular-nums ${r.taniej ? "text-emerald-700 dark:text-emerald-400 font-semibold" : "text-muted-foreground"}`}>{r.tekst}</div>
+                                )}
+                              </div>
+                            </div>
+                            {k.application && <p className="text-sm text-muted-foreground mt-2">{k.application}</p>}
+                          </li>
+                        );
+                      })}
+                    </ul>
+
+                    <p className="text-sm text-muted-foreground mt-4">
+                      <strong>Ten sam skład to nie to samo, co ten sam produkt.</strong> Producenci
+                      dobierają konkretne szczepy w obrębie gatunku i ich proporcje, a tego żadna tabela
+                      nie pokazuje. Widać to po przeznaczeniu, dlatego przed zamianą porównaj też, do
+                      czego jest dana kultura, a nie tylko skład.
+                    </p>
                   </>
                 )}
-              </p>
+              </section>
 
-              <ul className="space-y-2">
-                {zamienniki.map(({ k, koszt }) => {
-                  const roznica = mojKoszt != null && koszt != null ? koszt - mojKoszt : null;
-                  // Wspolna precyzja dla obu liczb w wierszu.
-                  const m = miejsca(Math.min(mojKoszt ?? Infinity, koszt ?? Infinity));
-                  // Roznica ponizej polowy ostatniego miejsca to ta sama cena.
-                  // Bez tego identyczne oferty pokazywaly sie jako "+0,000 zl/L".
-                  const tyleSamo = roznica != null && Math.abs(roznica) < 0.5 * 10 ** -m;
-                  return (
-                    <li
-                      key={`${k.name}-${k.shop}`}
-                      className="rounded-lg border border-border p-3 flex flex-wrap gap-x-4 gap-y-1 items-baseline"
-                    >
-                      <Link to={`/kultury/${adresKultury(k.name)}`} className="font-medium underline">
-                        {k.name}
-                      </Link>
-                      <span className="text-sm text-muted-foreground">{k.shop}</span>
-                      <span className="text-sm tabular-nums">
-                        {koszt != null ? `${zl(koszt, m)} zł/L` : "cena za litr nieznana"}
-                      </span>
-                      {roznica != null && (
-                        <span
-                          className={`text-sm tabular-nums ${
-                            !tyleSamo && roznica < 0 ? "text-emerald-700" : "text-muted-foreground"
-                          }`}
-                        >
-                          {tyleSamo
-                            ? "tyle samo"
-                            : `${roznica < 0 ? "−" : "+"}${zl(Math.abs(roznica), m)} zł/L`}
-                        </span>
-                      )}
-                      {k.application && (
-                        <span className="text-sm text-muted-foreground basis-full">
-                          {k.application}
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
+              {/* ── CO TO WŁAŚCIWIE JEST ──────────────────────────────────────── */}
+              <section>
+                <h2 className="text-2xl font-display font-bold mb-3">Co jest w środku</h2>
+                {szczepy.length > 0 ? (
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    {szczepy.map((s) => (
+                      <li key={s}>
+                        <em>{ladnyGatunek(s)}</em>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted-foreground mb-4">{kultura.composition || "Sklep nie podaje składu."}</p>
+                )}
+                {kultura.strainRatio && (
+                  <p>
+                    Proporcja szczepów: <strong>{kultura.strainRatio}</strong>. To rzadka informacja
+                    i to ona rozstrzyga o zamienności w obrębie tego samego składu.
+                  </p>
+                )}
+              </section>
 
-              <p className="text-sm text-muted-foreground mt-4">
-                <strong>Ten sam skład to nie to samo, co ten sam produkt.</strong> Producenci
-                dobierają konkretne szczepy w obrębie gatunku i ich proporcje, a tego żadna tabela
-                nie pokazuje. Widać to po przeznaczeniu — dlatego przed zamianą porównaj kolumnę
-                „zastosowanie", a nie tylko skład.
-              </p>
-            </>
-          )}
-        </section>
+            </div>
 
-        {/* ── CO TO WŁAŚCIWIE JEST ──────────────────────────────────────── */}
-        <section className="mb-10">
-          <h2 className="text-xl font-display font-bold mb-3">Co jest w środku</h2>
-          {szczepy.length > 0 ? (
-            <ul className="list-disc pl-5 space-y-1 mb-4">
-              {szczepy.map((s) => (
-                <li key={s}>
-                  <em>{ladnyGatunek(s)}</em>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-muted-foreground mb-4">{kultura.composition || "Sklep nie podaje składu."}</p>
-          )}
-          {kultura.strainRatio && (
-            <p className="mb-2">
-              Proporcja szczepów: <strong>{kultura.strainRatio}</strong> — to rzadka informacja
-              i to ona rozstrzyga o zamienności w obrębie tego samego składu.
-            </p>
-          )}
-          {kultura.application && (
-            <p className="mb-2">
-              <strong>Do czego:</strong> {kultura.application}
-            </p>
-          )}
-          {kultura.temperature && (
-            <p>
-              <strong>Temperatura pracy:</strong> {kultura.temperature}
-            </p>
-          )}
-        </section>
+            {/* ── NAJWAŻNIEJSZE DANE ─────────────────────────────────────────── */}
+            <section className="rounded-xl border border-border bg-card p-5 lg:col-start-2 lg:row-start-2">
+              <h2 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Najważniejsze</h2>
+              <dl className="space-y-3 text-base">
+                {kultura.type && (
+                  <div><dt className="text-sm text-muted-foreground">Typ</dt><dd className="font-medium">{kultura.type}</dd></div>
+                )}
+                {kultura.temperature && (
+                  <div><dt className="text-sm text-muted-foreground">Temperatura pracy</dt><dd className="font-medium">{kultura.temperature}</dd></div>
+                )}
+                {kultura.doseLabel && (
+                  <div><dt className="text-sm text-muted-foreground">Dawkowanie wg sklepu</dt><dd className="font-medium">{kultura.doseLabel}</dd></div>
+                )}
+                {kultura.manufacturer && (
+                  <div><dt className="text-sm text-muted-foreground">Producent</dt><dd className="font-medium">{kultura.manufacturer}</dd></div>
+                )}
+                {kultura.application && (
+                  <div><dt className="text-sm text-muted-foreground">Do czego</dt><dd>{kultura.application}</dd></div>
+                )}
+              </dl>
+            </section>
 
-        <nav className="flex flex-wrap gap-4 text-sm border-t border-border pt-6">
-          <Link to="/baza-kultur" className="underline">Cała baza kultur</Link>
-          <Link to="/porownywarka-kultur" className="underline">Porównaj kilka naraz</Link>
-          <Link to="/zamienniki-kultur" className="underline">Wszystkie grupy zamienników</Link>
-        </nav>
-      </div>
+            <nav className="flex flex-wrap gap-4 border-t border-border pt-6 lg:col-span-2">
+              <Link to="/baza-kultur" className="underline">Cała baza kultur</Link>
+              <Link to="/porownywarka-kultur" className="underline">Porównaj kilka naraz</Link>
+              <Link to="/zamienniki-kultur" className="underline">Wszystkie grupy zamienników</Link>
+            </nav>
+          </div>
+        </div>
+      </main>
       <Footer />
     </div>
   );
