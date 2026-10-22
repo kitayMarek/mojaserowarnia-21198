@@ -36,7 +36,8 @@ const PageBreadcrumbs = ({ items, baseUrl = "https://mojaserowarnia.pl" }: PageB
     <>
       <BreadcrumbSchema items={schemaItems} />
       
-      <div className="container mx-auto px-4 py-4 pt-24 lg:pt-6">
+      {/* okruszki-strony: znacznik dla reguły w index.css, która zdejmuje drugi odstęp z <main> pod spodem */}
+      <div className="okruszki-strony container mx-auto px-4 py-4 pt-24 lg:pt-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

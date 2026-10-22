@@ -249,3 +249,17 @@ All colors MUST be HSL.
 @media (prefers-reduced-motion: reduce) {
   [id^="rhd-"]:target { animation: none; background-color: hsl(var(--primary) / 0.1); }
 }
+
+/* Odstęp pod okruszkami (benchmark „porządek i telefon”, 22.10.2026).
+   PageBreadcrumbs już omija pasek przyklejony na komórkach (pt-24), a strony
+   stawiają zaraz pod nim <main> z drugim odstępem na ten sam pasek: pt-20,
+   pt-16, mt-16, pt-28. Wychodziło ok. 80 px pustego miejsca między okruszkami
+   a treścią na ok. 50 stronach, na telefonie i na komputerze (tytuł przepisu
+   dopiero na 643 px przy ekranie 844 px). Jedna reguła zamiast poprawiania
+   każdej strony osobno. Selektor ma wyższą specyficzność niż klasy Tailwinda,
+   więc wygrywa bez !important. */
+.okruszki-strony + main,
+.okruszki-strony + div.pt-20 {
+  margin-top: 0;
+  padding-top: 0.5rem;
+}

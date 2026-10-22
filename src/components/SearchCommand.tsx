@@ -103,7 +103,9 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
   const categorizedResults = getItemsByCategory(results);
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange}>
+    // shouldFilter={false}: szukamy sami (searchItems). Domyślny filtr cmdk porównywał frazę
+    // z identyfikatorem pozycji i chował wyniki: na „mozarela” zostawało samo „+38 więcej kultur”.
+    <CommandDialog open={open} onOpenChange={onOpenChange} shouldFilter={false}>
       <CommandInput
         placeholder="Szukaj kultur, przepisów, poradników..."
         value={query}
@@ -126,7 +128,26 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
           <CommandEmpty>
             <div className="py-6 text-center text-sm">
               <p className="text-muted-foreground mb-2">Nie znaleziono wyników dla "{query}"</p>
-              <p className="text-xs text-muted-foreground">Spróbuj innej frazy lub mniej słów</p>
+              <p className="text-xs text-muted-foreground mb-4">Spróbuj innej frazy lub mniej słów albo zajrzyj tutaj:</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { href: "/przepisy", label: "Przepisy na sery" },
+                  { href: "/baza-kultur", label: "Baza kultur" },
+                ].map((link) => (
+                  <button
+                    key={link.href}
+                    type="button"
+                    onClick={() => {
+                      onOpenChange(false);
+                      setQuery("");
+                      navigate(link.href);
+                    }}
+                    className="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-muted"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </CommandEmpty>
         )}

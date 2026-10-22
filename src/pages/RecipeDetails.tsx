@@ -114,10 +114,13 @@ const RecipeDetails = () => {
       ]} />
       
       <main className="flex-1 pt-20">
-        <article className="container mx-auto px-4 py-12 max-w-5xl">
-          <Button 
-            variant="ghost" 
-            className="mb-6"
+        {/* Na telefonie tytuł ma być w pierwszym ekranie (benchmark 22.10.2026: był na 643 px
+            przy ekranie 844 px): mniejszy odstęp nad artykułem, bez „Wróć do przepisów”,
+            które dubluje okruszki, tytuł przed znaczkami i niższe zdjęcie. */}
+        <article className="container mx-auto px-4 pt-4 pb-12 lg:py-12 max-w-5xl">
+          <Button
+            variant="ghost"
+            className="mb-6 hidden lg:inline-flex"
             onClick={() => navigate("/przepisy")}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -126,14 +129,18 @@ const RecipeDetails = () => {
 
           {/* Header with image */}
           <div className="bg-card rounded-xl border border-border overflow-hidden mb-8">
-            <div className="aspect-video overflow-hidden">
-              <img 
-                src={recipe.image} 
+            <div className="aspect-[2/1] sm:aspect-video overflow-hidden">
+              <img
+                src={recipe.image}
                 alt={recipe.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="p-8">
+            <div className="p-5 sm:p-8">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+                {recipe.name}
+              </h1>
+
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <Badge className="text-base px-4 py-1">{recipe.difficulty}</Badge>
                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -145,11 +152,7 @@ const RecipeDetails = () => {
                   <span>{recipe.yield}</span>
                 </div>
               </div>
-              
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-                {recipe.name}
-              </h1>
-              
+
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                 {recipe.description}
               </p>

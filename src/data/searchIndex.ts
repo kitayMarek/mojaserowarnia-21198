@@ -302,39 +302,57 @@ export const searchIndex: SearchItem[] = [
   ...kontaktItems,
 ];
 
+// Małe litery bez polskich znaków: na telefonie ludzie często piszą „twarog”, „kultury do sera zoltego”.
+// „ł” nie rozkłada się w NFD, stąd osobna zamiana.
+function bezOgonkow(tekst: string): string {
+  return tekst.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l");
+}
+
+// Odległość edycyjna z limitem: przerywa, gdy w całym wierszu przekroczy `limit`.
+function odlegloscEdycji(a: string, b: string, limit: number): number {
+  if (Math.abs(a.length - b.length) > limit) return limit + 1;
+  let poprzedni = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const biezacy = [i];
+    let minimum = i;
+    for (let j = 1; j <= b.length; j++) {
+      const koszt = a[i - 1] === b[j - 1] ? 0 : 1;
+      biezacy[j] = Math.min(poprzedni[j] + 1, biezacy[j - 1] + 1, poprzedni[j - 1] + koszt);
+      minimum = Math.min(minimum, biezacy[j]);
+    }
+    if (minimum > limit) return limit + 1;
+    poprzedni = biezacy;
+  }
+  return poprzedni[b.length];
+}
+
 // Search function with fuzzy matching
 export function searchItems(query: string, limit = 50): SearchItem[] {
   if (!query.trim()) return [];
 
-  const lowerQuery = query.toLowerCase().trim();
+  const lowerQuery = bezOgonkow(query.trim());
   const words = lowerQuery.split(/\s+/);
 
   const results = searchIndex
     .map((item) => {
       let score = 0;
-      const searchText = [
-        item.title,
-        item.description,
-        item.category,
-        ...item.keywords,
-        item.shop || "",
-        item.type || "",
-      ]
-        .join(" ")
-        .toLowerCase();
+      const title = bezOgonkow(item.title);
+      const searchText = bezOgonkow(
+        [item.title, item.description, item.category, ...item.keywords, item.shop || "", item.type || ""].join(" ")
+      );
 
       // Exact title match - highest priority
-      if (item.title.toLowerCase() === lowerQuery) {
+      if (title === lowerQuery) {
         score += 1000;
       }
 
       // Title starts with query
-      if (item.title.toLowerCase().startsWith(lowerQuery)) {
+      if (title.startsWith(lowerQuery)) {
         score += 500;
       }
 
       // Title contains query
-      if (item.title.toLowerCase().includes(lowerQuery)) {
+      if (title.includes(lowerQuery)) {
         score += 200;
       }
 
@@ -344,26 +362,16 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
         score += 100;
       }
 
-      // Featured item bonus - high priority
-      if (item.featured) {
-        score += 300;
-      }
-
-      // Category bonus - prioritize tools
-      if (item.category === "narzedzia") {
-        score += 150;
-      }
-
       // Individual word matches
       words.forEach((word) => {
         if (searchText.includes(word)) {
           score += 10;
         }
         // Shop/type match bonus
-        if (item.shop?.toLowerCase().includes(word)) {
+        if (item.shop && bezOgonkow(item.shop).includes(word)) {
           score += 30;
         }
-        if (item.type?.toLowerCase().includes(word)) {
+        if (item.type && bezOgonkow(item.type).includes(word)) {
           score += 30;
         }
         // Category match bonus
@@ -372,11 +380,27 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
         }
       });
 
-      // Fuzzy match for typos
+      // Literówki („mozarela”): każde słowo od 4 liter musi być blisko jakiegoś słowa z tytułu
+      // albo słów kluczowych. Tylko tytuł i słowa kluczowe, bez opisów: dawne dopasowanie
+      // „litery po kolei w całym tekście” trafiało w długie opisy kultur przy każdej frazie.
       if (score === 0) {
-        const fuzzyScore = fuzzyMatch(searchText, lowerQuery);
-        if (fuzzyScore > 0.5) {
-          score += Math.floor(fuzzyScore * 50);
+        const slowaPozycji = bezOgonkow([item.title, ...item.keywords].join(" ")).split(/[^a-z0-9]+/);
+        const dlugie = words.filter((word) => word.length >= 4);
+        const blisko = (word: string) =>
+          slowaPozycji.some((slowo) => odlegloscEdycji(word, slowo, word.length >= 7 ? 2 : 1) <= (word.length >= 7 ? 2 : 1));
+        if (dlugie.length > 0 && dlugie.every(blisko)) {
+          score += 40;
+        }
+      }
+
+      // Premie tylko dla pozycji, które pasują do frazy. Wcześniej wyróżnione pozycje
+      // i narzędzia dostawały punkty przy każdej frazie, więc nigdy nie było „brak wyników”.
+      if (score > 0) {
+        if (item.featured) {
+          score += 300;
+        }
+        if (item.category === "narzedzia") {
+          score += 150;
         }
       }
 
@@ -388,21 +412,6 @@ export function searchItems(query: string, limit = 50): SearchItem[] {
     .map(({ item }) => item);
 
   return results;
-}
-
-// Simple fuzzy matching algorithm
-function fuzzyMatch(text: string, query: string): number {
-  let queryIndex = 0;
-  let matchCount = 0;
-
-  for (let i = 0; i < text.length && queryIndex < query.length; i++) {
-    if (text[i] === query[queryIndex]) {
-      matchCount++;
-      queryIndex++;
-    }
-  }
-
-  return matchCount / query.length;
 }
 
 // Get items by category for display
