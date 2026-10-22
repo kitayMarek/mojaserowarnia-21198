@@ -10,7 +10,9 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
 import { Link } from "react-router-dom";
-import { AlertCircle, CheckCircle, Info, Plug } from 'lucide-react';
+import { AlertCircle, CheckCircle, Info, Plug, Wheat } from 'lucide-react';
+import PageHeader from "@/components/PageHeader";
+// Już nie na stronie (tytuł był w niej wtopiony), ale zostaje jako og:image do podglądów linków.
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
@@ -588,30 +590,24 @@ const KalkulatorPasz = () => {
         { label: "Narzędzia", href: "/narzedzia" },
         { label: "Kalkulator Pasz" }
       ]} />
-      <div
-        className="relative min-h-[400px] flex items-center justify-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${kalkulatorPaszHeader})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <div className="container mx-auto px-4 py-16 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
-            Kalkulator Pasz dla Drobiu
-          </h1>
-          <p className="text-xl md:text-2xl" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-            Zbilansuj paszę dla swoich ptaków zgodnie z normami żywieniowymi
-          </p>
+      {/* Wspólny PageHeader zamiast zdjęcia 400 px (benchmark „porządek i telefon”, 22.10.2026).
+          Tytuł był trzy razy: napis wtopiony w grafikę (po angielsku „Poultry Feed Calculator”),
+          H1 na zdjęciu i nagłówek karty; formularz zaczynał się dopiero ok. 550 px od góry telefonu. */}
+      <div className="px-4 md:px-8 pt-2">
+        <div className="max-w-6xl mx-auto">
+          <PageHeader
+            icon={Wheat}
+            color="amber"
+            title="Kalkulator Pasz dla Drobiu"
+            subtitle="Zbilansuj paszę dla kur niosek, brojlerów, kaczek, gęsi i indyków zgodnie z normami: energia, białko, wapń, fosfor i aminokwasy."
+          />
         </div>
       </div>
 
       <div className="min-h-screen bg-background p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
           <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
-            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-foreground">🦅 Kalkulator Pasz dla Drobiu</h2>
+            <div className="mb-6">
               <PodpowiedzZapisu />
             </div>
 

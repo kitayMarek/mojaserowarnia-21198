@@ -250,11 +250,15 @@ const App = () => (
           declineButtonText="Odrzuć"
           enableDeclineButton
           cookieName="moja-serowarnia-consent"
+          // Niski baner (benchmark „porządek i telefon”, 22.10.2026): na telefonie zajmował
+          // 227 px, czyli ponad ćwierć ekranu. Krótszy tekst i mniejsze marginesy niż domyślne
+          // 15 px wokół treści i każdego przycisku.
           style={{
             background: "rgba(0, 0, 0, 0.95)",
-            padding: "10px 20px",
+            padding: "4px 16px",
             alignItems: "center",
           }}
+          contentStyle={{ margin: "8px 0", flex: "1 0 280px" }}
           buttonStyle={{
             background: "#F59E0B",
             color: "white",
@@ -264,6 +268,7 @@ const App = () => (
             fontWeight: "600",
             cursor: "pointer",
             border: "none",
+            margin: "4px 0 8px 12px",
           }}
           declineButtonStyle={{
             background: "transparent",
@@ -274,6 +279,7 @@ const App = () => (
             padding: "12px 24px",
             fontWeight: "600",
             cursor: "pointer",
+            margin: "4px 0 8px 0",
           }}
           expires={365}
           onAccept={() => {
@@ -286,12 +292,13 @@ const App = () => (
           }}
         >
           <div className="text-sm text-white">
-            Za Twoją zgodą używamy Google Analytics, żeby wiedzieć, które treści są czytane. Bez zgody nie ładujemy go wcale. Treści mają charakter informacyjny, weryfikuj dane u producenta.{" "}
+            {/* Zdanie „Treści mają charakter informacyjny…” przeniesione do stopki: nie dotyczy zgód. */}
+            Google Analytics tylko za Twoją zgodą. Bez niej nie ładujemy go wcale.{" "}
             <a
               href="/nota-prawna#cookies"
               className="underline text-amber-400 hover:text-amber-300 transition-colors"
             >
-              Nota Prawna i Polityka Cookies
+              Polityka cookies
             </a>
           </div>
         </CookieConsent>

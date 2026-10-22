@@ -114,6 +114,11 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-accent-foreground/10">
+          {/* Przeniesione z banera zgód (22.10.2026), żeby baner mówił tylko o zgodzie. */}
+          <p className="text-sm text-accent-foreground/70 text-center md:text-left mb-4">
+            Treści mają charakter informacyjny. Dawki, skład i przechowywanie zawsze sprawdzaj u producenta (
+            <a href="/nota-prawna" className="underline hover:text-primary transition-colors">nota prawna</a>).
+          </p>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-accent-foreground/70">
             <p>© 2025 Moja Serowarnia. Wszelkie prawa zastrzeżone.</p>
             <p>Stworzone z pasją dla polskich serowarów 🇵🇱</p>
