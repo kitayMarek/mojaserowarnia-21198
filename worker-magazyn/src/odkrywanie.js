@@ -25,7 +25,7 @@ export const NAZWA_W_REJESTRZE = 'pl.mojaserowarnia/baza-kultur';
 
 // Do 100 znakow: tyle przyjmuje rejestr MCP, a opis ma byc ten sam wszedzie.
 export const OPIS =
-  'Baza kultur do sera z polskich sklepów (skład, ceny, zamienniki) i kalkulator pasz dla drobiu.';
+  'Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.';
 
 const ADRES_SERWERA = 'https://dane.mojaserowarnia.pl/mcp';
 

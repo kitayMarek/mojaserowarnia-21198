@@ -332,6 +332,27 @@ export function zamiennikiKultury({ nazwa }) {
   };
 }
 
+/**
+ * Kultura wskazana w przepisie, dopasowana do bazy: link do karty i oferty od
+ * najtańszej za litr. Przepisy piszą nazwy po ludzku ("TA / TA-61",
+ * "MA 4001 lub MA 11"), więc przy braku trafienia próbujemy każdej części
+ * osobno. null, gdy żadna nie pasuje do jednej kultury (np. "Kwas cytrynowy").
+ */
+export function kulturaZPrzepisu(nazwa) {
+  const proby = [nazwa, ...(nazwa || '').split(/\s*(?:\/|,|\blub\b|\balbo\b)\s*/i)].filter((p) => p && p.trim());
+  for (const proba of proby) {
+    const k = znajdz(proba.trim());
+    if (!k) continue;
+    const adres = adresKultury(k.name);
+    return {
+      nazwa_w_bazie: k.name,
+      url: url(k.name),
+      oferty: culturesData.filter((x) => adresKultury(x.name) === adres).sort(poCenieZaLitr).slice(0, 3).map(oferta),
+    };
+  }
+  return null;
+}
+
 export function oBazie() {
   const zLitrami = culturesData.filter((k) => k.packLiters != null && k.price_numeric != null).length;
   return {

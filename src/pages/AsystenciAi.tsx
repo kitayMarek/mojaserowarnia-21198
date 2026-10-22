@@ -39,6 +39,7 @@ import { ADRES_MCP, adresLacznika, linkClaude, zapiszKlikniecieLacznika, zrodloZ
 const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
 
 const PYTANIA = [
+  "Jak zrobić mozzarellę w domu i gdzie kupię do niej kulturę?",
   "Zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy.",
   "Jaka kultura do camemberta i czym ją zastąpić?",
   "Która kultura mezofilna wychodzi najtaniej w przeliczeniu na litr mleka?",
@@ -259,6 +260,21 @@ const AsystenciAi = () => {
                         mleka, z zastrzeżeniem, że ten sam skład nie znaczy ten sam produkt.
                       </li>
                       <li>Przy każdej kulturze daje link do jej karty w serwisie.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">
+                      <Link to="/przepisy" className="underline">Przepisy na sery</Link>
+                    </h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        Podaje pełny przepis z serwisu: mleko, kultura, podpuszczka, dawki, kroki z temperaturami
+                        i czasami, solenie i dojrzewanie.
+                      </li>
+                      <li>
+                        Do kultur z przepisu dobiera oferty z bazy: sklep, cenę i cenę za litr mleka, a do tego inne
+                        kultury, które sklepy opisują jako pasujące do tego sera.
+                      </li>
                     </ul>
                   </div>
                   <div>

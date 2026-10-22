@@ -52,6 +52,11 @@ if (!existsSync(resolve(MAGAZYN, "node_modules", "@modelcontextprotocol", "serve
   if (inst.status !== 0) stop("npm ci w worker-magazyn/ sie nie udalo.");
 }
 
+// Przepisy z src/data/recipesData.ts (od 0.3.0): swiezy eksport przed kazdym
+// wdrozeniem, zeby serwer mial te same przepisy co strona.
+const eksport = spawnSync(process.execPath, ["scripts/eksport-przepisow-magazyn.mjs"], { stdio: "inherit" });
+if (eksport.status !== 0) stop("eksport przepisow (scripts/eksport-przepisow-magazyn.mjs) sie nie udal.");
+
 console.log("\nWdrazam worker-magazyn (dane.mojaserowarnia.pl)...\n");
 const wynik = spawnSync("npx", ["wrangler", "deploy", "-c", "worker-magazyn/wrangler.jsonc"], {
   stdio: "inherit",

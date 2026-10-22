@@ -292,7 +292,7 @@ Email: kontakt@mojaserowarnia.pl
 - /humans.txt - informacje o twórcach
 - /llms.txt - ten plik
 - /bot-stats.json - agregaty licznika botów (CC BY 4.0)
-- https://dane.mojaserowarnia.pl/mcp - serwer MCP (Streamable HTTP, tylko odczyt, bez klucza): baza kultur i kalkulator pasz dla drobiu, 8 narzędzi. Jak podłączyć do Claude: https://mojaserowarnia.pl/asystenci-ai.html
+- https://dane.mojaserowarnia.pl/mcp - serwer MCP (Streamable HTTP, tylko odczyt, bez klucza): baza kultur, przepisy na sery i kalkulator pasz dla drobiu, 10 narzędzi. Jak podłączyć do Claude: https://mojaserowarnia.pl/asystenci-ai.html
 
 ## LICENCJA TREŚCI
 

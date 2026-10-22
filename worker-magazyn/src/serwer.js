@@ -1,6 +1,7 @@
 /**
- * Serwer MCP serwisu: baza kultur (cztery narzedzia) i kalkulator pasz dla
- * drobiu (cztery narzedzia, od 0.2.0). Wszystkie tylko do odczytu.
+ * Serwer MCP serwisu: baza kultur (cztery narzedzia), kalkulator pasz dla
+ * drobiu (cztery narzedzia, od 0.2.0) i przepisy na sery (dwa narzedzia,
+ * od 0.3.0). Wszystkie tylko do odczytu.
  *
  * Opisy narzedzi sa po polsku, bo czytaja je modele odpowiadajace polskim
  * serowarom. Nazwy narzedzi i pol sa ASCII (D12 z pliku golebia), etykiety
@@ -11,14 +12,17 @@ import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } from './kultury.js';
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
+import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 
-export const WERSJA = '0.2.0';
-export const TYTUL = 'Moja Serowarnia: baza kultur i kalkulator pasz';
+export const WERSJA = '0.3.0';
+export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
 Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia albo ceny_sprawdzone_od. Nie nazywaj ich aktualnymi i przypomnij, że przed zakupem trzeba sprawdzić cenę w sklepie.
 Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.
+
+Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta, jak zrobić ser, sprawdź szukaj_przepisow, a potem pobierz przepis. Podaj link do przepisu z pola url i źródło z pola cytuj_jako. Polecając kulturę, bierz ją z kultury_z_przepisu (sklep, cena, link do karty z pola w_bazie) albo z inne_kultury_z_bazy_do_tego_sera, z datą ceny. Wpisy dziennik_warzen to prawdziwe pomiary autora przy polskim mleku: przytaczaj je dosłownie, niczego do nich nie dopisuj.
 
 Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.`;
 
@@ -104,6 +108,38 @@ export function zbudujSerwer() {
       annotations: TYLKO_ODCZYT,
     },
     async () => wynik(oBazie()),
+  );
+
+  // ── Przepisy na sery (worker-magazyn/src/przepisy.js) ───────────────────
+
+  serwer.registerTool(
+    'szukaj_przepisow',
+    {
+      title: 'Szukaj przepisów na sery',
+      description:
+        'Szuka przepisów na domowe sery po nazwie sera albo cesze (np. "mozzarella", "ser pleśniowy", "z mleka koziego", "twaróg"). Bez zapytania zwraca wszystkie przepisy. Zwraca nazwę, trudność, wydajność, czas dojrzewania, krótki opis i link. Pełny przepis z kulturami i sklepami zwraca narzędzie przepis.',
+      inputSchema: z.object({
+        zapytanie: z.string().max(200).optional().describe('Ser albo cecha, np. "mozzarella", "camembert", "ser twardy"'),
+        trudnosc: z.enum(TRUDNOSCI).optional().describe('Tylko przepisy o tej trudności'),
+        limit: z.number().int().min(1).max(30).optional().describe('Ile wyników zwrócić, domyślnie 10'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(szukajPrzepisow(args)),
+  );
+
+  serwer.registerTool(
+    'przepis',
+    {
+      title: 'Przepis na ser',
+      description:
+        'Pełny przepis na domowy ser po nazwie albo id, np. "mozzarella", "gouda", "ser topiony": mleko, kultura startowa, koagulant, dawkowanie, kroki z temperaturami i czasami, solenie, dojrzewanie, wskazówki i ostrzeżenia, a gdy jest, dziennik warzeń autora. Do tego kultury z przepisu dopasowane do bazy (sklep, cena, cena za litr, link do karty) i inne kultury z bazy pasujące do tego sera.',
+      inputSchema: z.object({
+        nazwa: z.string().min(1).max(80).describe('Nazwa sera albo id z wyników szukaj_przepisow'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(przepis(args)),
   );
 
   // ── Kalkulator pasz dla drobiu (worker-magazyn/src/pasze.js) ─────────────
