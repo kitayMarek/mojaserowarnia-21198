@@ -1487,8 +1487,10 @@ const KalkulatorPasz = () => {
               <p className="flex items-start gap-2">
                 <Plug size={16} className="mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>W Claude:</strong> ten sam kalkulator możesz podłączyć do Claude i układać paszę w rozmowie.{' '}
-                  <Link to="/asystenci-ai" className="underline">Jak podłączyć</Link>
+                  <strong>W Claude i ChatGPT:</strong> ten sam kalkulator możesz podłączyć do asystenta AI i układać paszę w rozmowie.{' '}
+                  <Link to="/asystenci-ai" state={{ z: '/kalkulator-pasz' }} className="underline">Jak podłączyć w Claude</Link>
+                  {' · '}
+                  <Link to="/asystenci-ai#chatgpt" state={{ z: '/kalkulator-pasz' }} className="underline">w ChatGPT</Link>
                 </span>
               </p>
             </div>

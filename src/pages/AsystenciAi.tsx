@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -8,7 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Copy, ExternalLink, Plug } from "lucide-react";
 import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
-import { ADRES_MCP, adresLacznika, linkClaude, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
+import {
+  ADRES_MCP,
+  WTYCZKI_CHATGPT,
+  adresLacznika,
+  linkClaude,
+  zapiszKlikniecieLacznika,
+  zrodloZeSciezki,
+} from "@/lib/lacznikClaude";
 
 /**
  * Jak podłączyć serwer MCP serwisu (worker-magazyn/, dane.mojaserowarnia.pl/mcp)
@@ -30,6 +37,13 @@ import { ADRES_MCP, adresLacznika, linkClaude, zapiszKlikniecieLacznika, zrodloZ
  *
  * Linki do serwisu z ?utm_source=magazyn są tylko w odpowiedziach serwera MCP,
  * nie tutaj: ta strona to zwykłe wejście, a znacznik liczy ruch z czatów.
+ *
+ * SEKCJA #chatgpt (23.10.2026): ChatGPT nie ma linku do formularza z wpisanym
+ * adresem, więc tam przycisk kopiuje adres i otwiera stronę wtyczek, a kroki
+ * są wypisane. Etykiety z polskiej wersji ChatGPT (zrzuty Marka, 23.10.2026).
+ * Wtyczka z paczki ZIP nie zastąpi tego łącznika: ChatGPT bierze z niej tylko
+ * umiejętność, a serwer musi być aplikacją (plan pasz w Claude Docs).
+ * Krótki link z posta: mojaserowarnia.pl/chatgpt?z=... (worker/index.js).
  *
  * Treść 1:1 z mirrorem public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
@@ -65,7 +79,9 @@ async function kopiujTekst(tekst: string, zaznacz: () => void): Promise<boolean>
 const AsystenciAi = () => {
   const [skopiowano, setSkopiowano] = useState(false);
   const [skopiowanoPolecenie, setSkopiowanoPolecenie] = useState(false);
+  const [skopiowanoGpt, setSkopiowanoGpt] = useState(false);
   const pole = useRef<HTMLInputElement>(null);
+  const poleGpt = useRef<HTMLInputElement>(null);
   const polecenie = useRef<HTMLElement>(null);
   // Strona, z ktorej ktos przyszedl przyciskiem „Dodaj do Claude” w menu bocznym
   // (Navigation.tsx przekazuje ja w stanie nawigacji). Idzie do adresu lacznika
@@ -84,6 +100,21 @@ const AsystenciAi = () => {
       setTimeout(() => setSkopiowano(false), 2500);
     }
   };
+
+  const kopiujGpt = async () => {
+    if (await kopiujTekst(adres, () => poleGpt.current?.select())) {
+      setSkopiowanoGpt(true);
+      setTimeout(() => setSkopiowanoGpt(false), 2500);
+    }
+  };
+
+  // Przycisk w menu i krótki link /chatgpt prowadzą na #chatgpt. Router sam nie
+  // przewija do kotwicy, a karta jest daleko pod „Jak podłączyć w Claude”.
+  useEffect(() => {
+    if (location.hash !== "#chatgpt") return;
+    const t = setTimeout(() => document.getElementById("chatgpt")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    return () => clearTimeout(t);
+  }, [location.hash]);
 
   const kopiujPolecenie = async () => {
     const zaznacz = () => {
@@ -236,6 +267,97 @@ const AsystenciAi = () => {
                 </CardContent>
               </Card>
 
+              {/* ── JAK PODŁĄCZYĆ W CHATGPT ───────────────────────────────── */}
+              <Card id="chatgpt" className="scroll-mt-24">
+                <CardHeader>
+                  <CardTitle>Jak podłączyć w ChatGPT</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 text-sm leading-relaxed">
+                  <p>
+                    ChatGPT nie ma linku, który sam wpisze adres, więc trzeba go wkleić. To kilka kliknięć i robi się
+                    to raz.
+                  </p>
+
+                  <div>
+                    <label htmlFor="adres-mcp-chatgpt" className="block font-medium mb-1">
+                      Adres serwera
+                    </label>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input
+                        id="adres-mcp-chatgpt"
+                        ref={poleGpt}
+                        type="text"
+                        readOnly
+                        value={adres}
+                        onFocus={(e) => e.currentTarget.select()}
+                        className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 font-mono text-sm"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          zdarzenieLacznikAi("kopiuj_adres");
+                          zapiszKlikniecieLacznika(zrodlo, "kopiuj", "chatgpt");
+                          void kopiujGpt();
+                        }}
+                        className="shrink-0"
+                      >
+                        {skopiowanoGpt ? (
+                          <Check className="h-4 w-4" aria-hidden="true" />
+                        ) : (
+                          <Copy className="h-4 w-4" aria-hidden="true" />
+                        )}
+                        {skopiowanoGpt ? "Skopiowano" : "Kopiuj"}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Button asChild size="lg" className="w-full sm:w-auto bg-[#10A37F] hover:bg-[#0e8f6f] text-white">
+                      <a
+                        href={WTYCZKI_CHATGPT}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        onClick={() => {
+                          zdarzenieLacznikAi("polacz_chatgpt");
+                          zapiszKlikniecieLacznika(zrodlo, "przycisk", "chatgpt");
+                          void kopiujGpt();
+                        }}
+                      >
+                        Otwórz wtyczki w ChatGPT
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                    <p className="text-muted-foreground mt-2" aria-live="polite">
+                      {skopiowanoGpt
+                        ? "Adres jest w schowku. W ChatGPT wklej go w pole adresu serwera."
+                        : "Przycisk skopiuje adres i otworzy w nowej karcie stronę wtyczek ChatGPT."}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="font-medium mb-1">W ChatGPT</p>
+                    <ol className="list-decimal pl-5 space-y-1">
+                      <li>
+                        Na stronie <strong>Wtyczki</strong> kliknij <strong>Dodaj</strong>, potem{" "}
+                        <strong>Dodaj niestandardowy serwer MCP</strong>.
+                      </li>
+                      <li>Wpisz nazwę „Moja Serowarnia” i wklej adres (Ctrl+V).</li>
+                      <li>Uwierzytelnianie: wybierz brak. Potwierdź ostrzeżenie i utwórz wtyczkę.</li>
+                      <li>
+                        Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Moja Serowarnia, żeby ją
+                        zainstalować. Potem pytaj w zwykłej rozmowie.
+                      </li>
+                    </ol>
+                    <p className="text-muted-foreground mt-2">
+                      Jeśli nie widzisz opcji „Dodaj niestandardowy serwer MCP”, Twój plan ChatGPT jej nie obsługuje.
+                      Na kontach firmowych włącza ją administrator. Tak dodana wtyczka jest dostępna też w aplikacji
+                      ChatGPT na telefonie.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* ── CO POTRAFI ────────────────────────────────────────────── */}
               <Card>
                 <CardHeader>
@@ -338,10 +460,10 @@ const AsystenciAi = () => {
                 </CardContent>
               </Card>
 
-              {/* ── CHATGPT I INNE ────────────────────────────────────────── */}
+              {/* ── CLAUDE CODE I INNE ─────────────────────────────────────── */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Claude Code, ChatGPT i inne programy</CardTitle>
+                  <CardTitle>Claude Code i inne programy</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm leading-relaxed">
                   <p>W Claude Code, czyli Claude w terminalu, wystarczy jedno polecenie:</p>
@@ -358,10 +480,6 @@ const AsystenciAi = () => {
                       {skopiowanoPolecenie ? "Skopiowano" : "Kopiuj"}
                     </Button>
                   </div>
-                  <p>
-                    W ChatGPT własny serwer MCP dodasz tylko w trybie dewelopera (Developer mode), który jest
-                    dostępny na płatnych planach. Adres jest ten sam.
-                  </p>
                   <p>
                     Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres:{" "}
                     <code className="font-mono">{ADRES_MCP}</code>.

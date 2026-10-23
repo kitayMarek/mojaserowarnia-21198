@@ -166,6 +166,21 @@ const Navigation = () => {
             <Plug className="h-4 w-4 text-[#D97757]" aria-hidden="true" />
             Dodaj do Claude
           </Button>
+          {/* „Dodaj do ChatGPT” (23.10.2026): ta sama strona, sekcja #chatgpt, bo ChatGPT
+              nie ma linku do formularza z wpisanym adresem. Pomiar "lacznik-chatgpt". */}
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2 font-medium"
+            onClick={() => {
+              const zrodlo = zrodloZeSciezki(location.pathname);
+              zapiszKlikniecieLacznika(zrodlo, "menu", "chatgpt");
+              closeMobile();
+              navigate("/asystenci-ai#chatgpt", { state: { z: zrodlo } });
+            }}
+          >
+            <Plug className="h-4 w-4 text-[#10A37F]" aria-hidden="true" />
+            Dodaj do ChatGPT
+          </Button>
           <div className="hidden lg:flex items-center gap-2">
             <Button
               variant="outline"

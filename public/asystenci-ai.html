@@ -87,6 +87,21 @@
     <p class="uwaga" style="margin-bottom:0">Własne łączniki działają na każdym planie Claude, także darmowym, na którym można dodać jeden. W planach Team i Enterprise dodaje je właściciel organizacji, a pozostali tylko je włączają. Łącznik dodany w przeglądarce działa też w aplikacji Claude na telefonie.</p>
   </div>
 
+  <div class="card" id="chatgpt">
+    <h2 style="margin-top:0;border:0">Jak podłączyć w ChatGPT</h2>
+    <p>ChatGPT nie ma linku, który sam wpisze adres, więc trzeba go wkleić. To kilka kliknięć i robi się to raz.</p>
+    <p><strong>Adres serwera:</strong> <code>https://dane.mojaserowarnia.pl/mcp</code></p>
+    <p><a class="przycisk" href="https://chatgpt.com/plugins" rel="nofollow noopener">Otwórz wtyczki w ChatGPT</a></p>
+    <h3>W ChatGPT</h3>
+    <ol>
+      <li>Na stronie <strong>Wtyczki</strong> kliknij <strong>Dodaj</strong>, potem <strong>Dodaj niestandardowy serwer MCP</strong>.</li>
+      <li>Wpisz nazwę „Moja Serowarnia” i wklej adres (Ctrl+V).</li>
+      <li>Uwierzytelnianie: wybierz brak. Potwierdź ostrzeżenie i utwórz wtyczkę.</li>
+      <li>Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Moja Serowarnia, żeby ją zainstalować. Potem pytaj w zwykłej rozmowie.</li>
+    </ol>
+    <p class="uwaga" style="margin-bottom:0">Jeśli nie widzisz opcji „Dodaj niestandardowy serwer MCP”, Twój plan ChatGPT jej nie obsługuje. Na kontach firmowych włącza ją administrator. Tak dodana wtyczka jest dostępna też w aplikacji ChatGPT na telefonie.</p>
+  </div>
+
   <h2>Co potrafi</h2>
   <h3><a href="https://mojaserowarnia.pl/baza-kultur">Baza kultur do sera</a></h3>
   <ul>
@@ -127,10 +142,9 @@
     <li>Dane są na licencji CC BY 4.0: można je cytować z podaniem źródła.</li>
   </ul>
 
-  <h2>Claude Code, ChatGPT i inne programy</h2>
+  <h2>Claude Code i inne programy</h2>
   <p>W Claude Code, czyli Claude w terminalu, wystarczy jedno polecenie:</p>
   <pre><code>claude mcp add --transport http serowarnia https://dane.mojaserowarnia.pl/mcp</code></pre>
-  <p>W ChatGPT własny serwer MCP dodasz tylko w trybie dewelopera (Developer mode), który jest dostępny na płatnych planach. Adres jest ten sam.</p>
   <p>Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres: <code>https://dane.mojaserowarnia.pl/mcp</code>.</p>
 
   <h2>Zobacz też</h2>

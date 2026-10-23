@@ -391,6 +391,17 @@ Disallow: /
       return Response.redirect(formularzClaude(z), 302);
     }
 
+    // 1a1d) /chatgpt?z=... -> sekcja ChatGPT na /asystenci-ai (23.10.2026). ChatGPT
+    //       nie ma linku do formularza z wpisanym adresem, wiec jest jeden krotki
+    //       link, a nie dwa jak w Claude. Klikniecie czlowieka liczy sie jak
+    //       /claude/dodaj, tylko z modelem "lacznik-chatgpt".
+    if (bezUkosnika === '/chatgpt') {
+      const z = znacznikLinku(url);
+      const ua = request.headers.get('user-agent') || '';
+      ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua), 'lacznik-chatgpt'));
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#chatgpt`, 302);
+    }
+
     // 1a-) STARE ADRESY .html, które miały przekierowanie w public/_redirects.
     //      Od 8.09.2026 "/*.html" jest w run_worker_first (wrangler.jsonc), więc
     //      każde żądanie .html trafia najpierw tutaj i warstwa _redirects go już

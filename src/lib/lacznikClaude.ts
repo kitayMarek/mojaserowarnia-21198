@@ -39,15 +39,28 @@ export function linkClaude(zrodlo?: string): string {
   );
 }
 
-export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj";
+/**
+ * Strona wtyczek w ChatGPT. Od 23.10.2026 przycisk „Dodaj do ChatGPT”: ChatGPT
+ * nie ma linku, który otwiera formularz z wpisanym adresem (jak Claude), więc
+ * przycisk kopiuje adres i otwiera tę stronę, a kroki są na /asystenci-ai#chatgpt.
+ * Ręcznie dodany serwer MCP zachowuje ?z= w adresie (sprawdzone na łączniku
+ * Marka z ?wlasne=), więc pomiar podłączeń działa jak w Claude.
+ */
+export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
 
-/** Zapis kliknięcia bez czekania: błąd bazy nie może zablokować przejścia do Claude. */
-export function zapiszKlikniecieLacznika(strona: string, rodzaj: RodzajKlikniecia): void {
+export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj";
+export type Asystent = "claude" | "chatgpt";
+
+/**
+ * Zapis kliknięcia bez czekania: błąd bazy nie może zablokować przejścia do asystenta.
+ * Model "lacznik-claude" albo "lacznik-chatgpt", żeby panel admina rozdzielił oba przyciski.
+ */
+export function zapiszKlikniecieLacznika(strona: string, rodzaj: RodzajKlikniecia, asystent: Asystent = "claude"): void {
   try {
     // @ts-ignore - llm_queries moze nie byc w wygenerowanych typach
     supabase
       .from("llm_queries")
-      .insert({ query: rodzaj, model: "lacznik-claude", source: strona, is_custom: false })
+      .insert({ query: rodzaj, model: `lacznik-${asystent}`, source: strona, is_custom: false })
       .then(() => {}, () => {});
   } catch {
     /* cicho */

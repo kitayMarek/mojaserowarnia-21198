@@ -135,23 +135,28 @@ export default function AdminLlmStats() {
   // query "link" zapisuje worker: klikniecie krotkiego linku /claude/dodaj?z=...
   // prosto do formularza Claude (worker/lacznik-claude.js), source = znacznik posta.
   // Licza sie osobno, zeby nie udawaly pytan z dawnego widgetu „Zapytaj AI”.
+  // Od 23.10.2026 takze "lacznik-chatgpt": przyciski „Dodaj do ChatGPT” i krotki
+  // link /chatgpt?z=... (query "link"), osobny wiersz na asystenta i strone.
   const lacznik = useMemo(() => {
-    const wiersze = (rows ?? []).filter((r) => r.model === "lacznik-claude");
-    const wgStrony = new Map<string, { razem: number; menu: number; przycisk: number; kopiuj: number; link: number }>();
+    const wiersze = (rows ?? []).filter((r) => r.model.startsWith("lacznik-"));
+    type Wiersz = { asystent: string; strona: string; razem: number; menu: number; przycisk: number; kopiuj: number; link: number };
+    const wgStrony = new Map<string, Wiersz>();
     for (const r of wiersze) {
-      const w = wgStrony.get(r.source) ?? { razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0 };
+      const asystent = r.model === "lacznik-chatgpt" ? "ChatGPT" : "Claude";
+      const klucz = `${asystent}|${r.source}`;
+      const w = wgStrony.get(klucz) ?? { asystent, strona: r.source, razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0 };
       w.razem += 1;
       if (r.query === "menu" || r.query === "przycisk" || r.query === "kopiuj" || r.query === "link") w[r.query] += 1;
-      wgStrony.set(r.source, w);
+      wgStrony.set(klucz, w);
     }
     return {
       razem: wiersze.length,
-      strony: Array.from(wgStrony.entries()).map(([strona, v]) => ({ strona, ...v })).sort((a, b) => b.razem - a.razem),
+      strony: Array.from(wgStrony.values()).sort((a, b) => b.razem - a.razem),
     };
   }, [rows]);
 
   const stats = useMemo(() => {
-    const list = (rows ?? []).filter((r) => r.model !== "lacznik-claude");
+    const list = (rows ?? []).filter((r) => !r.model.startsWith("lacznik-"));
     const byModel: Record<string, number> = { claude: 0, perplexity: 0, chatgpt: 0 };
     const byQuery = new Map<string, { total: number; claude: number; perplexity: number; chatgpt: number }>();
     let custom = 0;
@@ -335,13 +340,13 @@ export default function AdminLlmStats() {
         ))}
       </div>
 
-      {/* Łącznik Claude: klikniecia przyciskow wedlug strony */}
+      {/* Łączniki Claude i ChatGPT: klikniecia przyciskow wedlug strony */}
       <Card>
         <CardHeader>
-          <CardTitle>Łącznik Claude: kliknięcia według strony</CardTitle>
+          <CardTitle>Łączniki Claude i ChatGPT: kliknięcia według strony</CardTitle>
           <CardDescription>
-            Przyciski „Dodaj do Claude”: menu boczne, przycisk na stronie, kopiowanie adresu, link z posta
-            (/claude/dodaj?z=..., wiersz = znacznik posta). To zamiar, nie
+            Przyciski „Dodaj do Claude” i „Dodaj do ChatGPT”: menu boczne, przycisk na stronie, kopiowanie adresu,
+            link z posta (/claude/dodaj?z=... albo /chatgpt?z=..., wiersz = znacznik posta). To zamiar, nie
             podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
             {lacznik.razem}
           </CardDescription>
@@ -351,6 +356,7 @@ export default function AdminLlmStats() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Asystent</TableHead>
                   <TableHead>Strona</TableHead>
                   <TableHead className="text-right">Razem</TableHead>
                   <TableHead className="text-right">Menu</TableHead>
@@ -362,13 +368,14 @@ export default function AdminLlmStats() {
               <TableBody>
                 {lacznik.strony.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    <TableCell colSpan={7} className="text-center text-muted-foreground">
                       Jeszcze nikt nie kliknął.
                     </TableCell>
                   </TableRow>
                 ) : (
                   lacznik.strony.map((w) => (
-                    <TableRow key={w.strona}>
+                    <TableRow key={`${w.asystent}|${w.strona}`}>
+                      <TableCell>{w.asystent}</TableCell>
                       <TableCell className="font-mono text-sm">{w.strona}</TableCell>
                       <TableCell className="text-right font-semibold">{w.razem}</TableCell>
                       <TableCell className="text-right">{w.menu}</TableCell>

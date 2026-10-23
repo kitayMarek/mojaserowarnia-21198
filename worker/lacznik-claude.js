@@ -3,6 +3,8 @@
  *
  *   /claude?z=fb-grupa        -> strona z instrukcja /asystenci-ai (regula 1a1b)
  *   /claude/dodaj?z=fb-grupa  -> od razu formularz „Dodaj lacznik” w Claude.ai
+ *   /chatgpt?z=fb-grupa       -> /asystenci-ai?z=...#chatgpt (23.10.2026; ChatGPT nie ma
+ *                                formularza z wpisanym adresem, wiec link prowadzi do krokow)
  *
  * PO CO DRUGI LINK (21.10.2026, prosba Marka): w poscie na grupie czlowiek ma
  * byc jak najblizej celu. Ten link pomija strone z instrukcja i otwiera
@@ -55,7 +57,7 @@ export function formularzClaude(z) {
  * (worker/wejscia-ludzi.js). Odpadaja tez wstepne pobrania: przegladarka
  * Facebooka potrafi pobrac link z posta, zanim ktokolwiek go kliknie.
  */
-export async function zapiszKlikniecieLinku(request, z, env, botPodgladu) {
+export async function zapiszKlikniecieLinku(request, z, env, botPodgladu, model = 'lacznik-claude') {
   try {
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return;
     if (request.method !== 'GET') return;
@@ -79,7 +81,7 @@ export async function zapiszKlikniecieLinku(request, z, env, botPodgladu) {
         'content-type': 'application/json',
         prefer: 'return=minimal',
       },
-      body: JSON.stringify({ query: 'link', model: 'lacznik-claude', source: zrodlo, is_custom: false }),
+      body: JSON.stringify({ query: 'link', model, source: zrodlo, is_custom: false }),
     });
     if (!zapis.ok) {
       console.error('lacznik-claude: zapis odrzucony', zapis.status, (await zapis.text()).slice(0, 300));
