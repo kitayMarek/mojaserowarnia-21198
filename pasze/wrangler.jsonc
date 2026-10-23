@@ -1,0 +1,37 @@
+{
+  // ===========================================================================
+  //  mojapasza.com: strony pasz wydzielone z Mojej Serowarni (23.10.2026).
+  //  Osobny Worker, osobne wdrożenie: `npm run deploy:pasze` (tylko z głównego
+  //  katalogu repozytorium). Wdrożenie nie rusza mojaserowarnia.pl ani
+  //  dane.mojaserowarnia.pl. Ścieżki niżej są względem tego pliku (pasze/).
+  // ===========================================================================
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "mojapasza",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Aplikacja ma własny router (/, /bydlo, /poradnik, /auth), więc każdy
+    // adres bez pliku dostaje index.html. Mirrorów dla botów jeszcze tu nie ma;
+    // gdy dojdą, trzeba będzie przejść na "none" jak w Serowarni.
+    "not_found_handling": "single-page-application",
+    // Worker dostaje każde żądanie przed plikami, żeby dopisać noindex
+    // i przekierować www (pasze/worker/index.js).
+    "run_worker_first": true
+  },
+
+  // Domena kupiona przez Marka w Cloudflare 23.10.2026; strefa jest na tym
+  // samym koncie, rekordów nie było, więc wrangler sam założy oba adresy.
+  "routes": [
+    { "pattern": "mojapasza.com", "custom_domain": true },
+    { "pattern": "www.mojapasza.com", "custom_domain": true }
+  ],
+
+  // Bez adresów *.workers.dev: nie chcemy drugiej kopii serwisu pod innym adresem.
+  "workers_dev": false,
+  "preview_urls": false,
+
+  "observability": { "enabled": true }
+}
