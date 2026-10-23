@@ -293,6 +293,14 @@ export const metaStron: Record<string, MetaStrony> = {
       "Podłącz bazę kultur do sera i kalkulator pasz dla drobiu do Claude jako łącznik (serwer MCP). Bez konta i klucza: przycisk, adres i przykładowe pytania.",
     mirror: "asystenci-ai.html",
   },
+  "/warunki-mcp": {
+    // Warunki korzystania z serwera MCP (23.10.2026), pole „Terms of service”
+    // w zgloszeniu lacznika do Perplexity.
+    title: "Warunki korzystania z serwera MCP Mojej Serowarni",
+    description:
+      "Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, limity zapytań, prywatność i kontakt.",
+    mirror: "warunki-mcp.html",
+  },
   "/sery/camembert": {
     // Strona O SERZE, osobna od przepisu. Slowa z zapytan z Search Console
     // (15.09.2026): "camembert" 175 wyswietlen i 0 klikniec, do tego ogon

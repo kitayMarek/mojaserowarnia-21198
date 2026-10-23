@@ -85,6 +85,7 @@ const AutomatyzacjaSocialMedia = lazy(() => import("./pages/AutomatyzacjaSocialM
 const Slownik = lazy(() => import("./pages/Slownik"));
 const BotyAi = lazy(() => import("./pages/BotyAi"));
 const AsystenciAi = lazy(() => import("./pages/AsystenciAi"));
+const WarunkiMcp = lazy(() => import("./pages/WarunkiMcp"));
 const MojeListy = lazy(() => import("./pages/MojeListy"));
 const KulturyMezofilne = lazy(() => import("./pages/KulturyMezofilne"));
 const KulturyTermofilne = lazy(() => import("./pages/KulturyTermofilne"));
@@ -219,6 +220,7 @@ const App = () => (
             <Route path="/slownik" element={<Slownik />} />
             <Route path="/boty-ai" element={<BotyAi />} />
             <Route path="/asystenci-ai" element={<AsystenciAi />} />
+            <Route path="/warunki-mcp" element={<WarunkiMcp />} />
             </Route>
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />

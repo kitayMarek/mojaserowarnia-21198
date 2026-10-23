@@ -521,6 +521,9 @@ const AsystenciAi = () => {
                     </li>
                     <li>Wynik paszowy to obliczenie na danych wzorcowych, nie porada lekarza weterynarii.</li>
                     <li>Dane są na licencji CC BY 4.0: można je cytować z podaniem źródła.</li>
+                    <li>
+                      Pełne zasady: <Link to="/warunki-mcp" className="underline">warunki korzystania z serwera MCP</Link>.
+                    </li>
                   </ul>
                 </CardContent>
               </Card>

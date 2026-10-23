@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
@@ -19,6 +20,22 @@ const NotaPrawna = () => {
       metaDescription.setAttribute('content', 'Warunki korzystania z serwisu Moja Serowa Przystań. Informacje o odpowiedzialności, aktualności danych i weryfikacji informacji o kulturach bakteryjnych.');
     }
   }, []);
+
+  // Linki do sekcji (#cookies, #serwer-mcp z /warunki-mcp i ze zgłoszeń łącznika).
+  // Router sam nie przewija do kotwicy przy wejściu z zewnątrz; drugi skok po
+  // chwili, bo treść nad sekcją jeszcze się układa (jak w AsystenciAi).
+  const location = useLocation();
+  useEffect(() => {
+    const cel = location.hash.slice(1);
+    if (!cel) return;
+    const skocz = () => document.getElementById(cel)?.scrollIntoView({ block: "start" });
+    const t1 = setTimeout(skocz, 50);
+    const t2 = setTimeout(skocz, 700);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [location.hash]);
 
   // Zgodę trzeba móc wycofać tak samo łatwo, jak się ją daje. Usunięcie ciasteczka
   // banera sprawia, że po przeładowaniu baner pojawia się znowu.
@@ -131,7 +148,7 @@ const NotaPrawna = () => {
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Poprzez formularz kontaktowy dostępny w serwisie</li>
-                <li>E-mail: kontakt@mojaserowaprzystań.pl</li>
+                <li>E-mail: admin@mojaserowarnia.pl</li>
               </ul>
               <p>
                 Dokładamy wszelkich starań, aby bezzwłocznie weryfikować i aktualizować zgłoszone informacje.
@@ -175,6 +192,37 @@ const NotaPrawna = () => {
             </CardContent>
           </Card>
 
+          <Card className="mb-6 scroll-mt-24" id="serwer-mcp">
+            <CardHeader>
+              <CardTitle>Serwer MCP dla asystentów AI</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-muted-foreground">
+              <p>
+                Serwer <code>https://dane.mojaserowarnia.pl/mcp</code> udostępnia asystentom AI (Claude, ChatGPT,
+                Perplexity i innym) nasz kalkulator pasz, przepisy i bazę kultur. Działa bez konta i klucza, tylko do
+                odczytu.
+              </p>
+              <p>
+                <strong>Przy każdym zapytaniu serwer zwiększa sumę dnia:</strong> dzień, nazwa narzędzia, rodzaj
+                programu (np. Claude, ChatGPT, Perplexity), kod odpowiedzi, czy to ruch własny serwisu i znacznik
+                źródła z adresu łącznika (np. strona, z której go dodano). Nie zapisuje adresu IP, podpisu programu,
+                godziny ani treści pytań i odpowiedzi.
+              </p>
+              <p>
+                Limit zapytań liczy się na skrócie adresu IP, który istnieje tylko w liczniku limitu i nie trafia do
+                żadnej bazy. Zapytania obsługuje Cloudflare, a sumy przechowujemy w bazie Supabase.
+              </p>
+              <p>
+                Kliknięcie przycisku „Dodaj do Claude”, „Dodaj do ChatGPT” albo „Dodaj do Perplexity” zapisujemy
+                jako jeden wiersz: rodzaj przycisku, strona i czas, bez adresu IP i bez danych o osobie.
+              </p>
+              <p>
+                Zasady korzystania z serwera: <a href="/warunki-mcp" className="underline">warunki korzystania z
+                serwera MCP</a>.
+              </p>
+            </CardContent>
+          </Card>
+
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Zgodność z RODO</CardTitle>
@@ -201,7 +249,7 @@ const NotaPrawna = () => {
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 15 września 2026</p>
+            <p>Ostatnia aktualizacja: 23 października 2026</p>
           </div>
 
           {/* See Also Section */}
