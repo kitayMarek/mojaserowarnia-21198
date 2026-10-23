@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, Download, Loader2, MessageSquare } from "lucide-react";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 import { pl } from "date-fns/locale";
 
 interface LlmRow {
@@ -17,6 +17,21 @@ interface LlmRow {
   is_custom: boolean;
   created_at: string;
 }
+
+// Sumy dzienne z serwera MCP (worker-magazyn/src/pomiar.js), dzien w UTC.
+interface WywolanieRow {
+  dzien: string;
+  narzedzie: string;
+  klient: string;
+  status: number;
+  wlasne: boolean;
+  zrodlo: string;
+  wywolan: number;
+}
+
+// Wiersze techniczne: polaczenie, lista narzedzi, katalog, zla tresc i sondy
+// weryfikatorow. Prawie zawsze to skanery katalogow MCP, nie ludzie.
+const techniczne = (narzedzie: string) => narzedzie.startsWith("(") || narzedzie.startsWith("__verifymcp");
 
 const MODEL_LABELS: Record<string, string> = {
   claude: "Claude",
@@ -52,6 +67,68 @@ export default function AdminLlmStats() {
       return (data ?? []) as LlmRow[];
     },
   });
+
+  const [pokazTechniczne, setPokazTechniczne] = useState(false);
+
+  const { data: wywolania } = useQuery({
+    queryKey: ["magazynWywolania"],
+    queryFn: async () => {
+      // magazyn_wywolania nie ma w wygenerowanych typach (jak feed_ingredients w AdminFeedIngredients)
+      const { data, error } = await (supabase as any)
+        .from("magazyn_wywolania")
+        .select("dzien, narzedzie, klient, status, wlasne, zrodlo, wywolan")
+        .order("dzien", { ascending: false })
+        .limit(5000);
+
+      if (error) {
+        console.error("Error fetching magazyn_wywolania:", error);
+        throw error;
+      }
+      return (data ?? []) as WywolanieRow[];
+    },
+  });
+
+  const mcp = useMemo(() => {
+    const wiersze = wywolania ?? [];
+    const granica = format(subDays(new Date(), 6), "yyyy-MM-dd");
+    const suma = { narzedziaCudze: 0, narzedziaWlasne: 0, polaczeniaCudze: 0 };
+    const klienci = new Map<string, number>();
+    for (const w of wiersze) {
+      if (w.dzien < granica) continue;
+      if (techniczne(w.narzedzie)) {
+        if (!w.wlasne && w.narzedzie === "(polaczenie)") suma.polaczeniaCudze += w.wywolan;
+        continue;
+      }
+      if (w.wlasne) {
+        suma.narzedziaWlasne += w.wywolan;
+      } else {
+        suma.narzedziaCudze += w.wywolan;
+        klienci.set(w.klient, (klienci.get(w.klient) ?? 0) + w.wywolan);
+      }
+    }
+
+    // Kody odpowiedzi sumujemy w jednym wierszu, bledy (4xx, 5xx) liczymy osobno.
+    const grupy = new Map<string, Omit<WywolanieRow, "status"> & { bledy: number }>();
+    for (const w of wiersze) {
+      if (!pokazTechniczne && techniczne(w.narzedzie)) continue;
+      const narzedzie = w.narzedzie.startsWith("__verifymcp") ? "(sonda weryfikatora)" : w.narzedzie;
+      const klucz = [w.dzien, w.klient, narzedzie, w.zrodlo, w.wlasne].join("|");
+      const g = grupy.get(klucz) ?? {
+        dzien: w.dzien, klient: w.klient, narzedzie, zrodlo: w.zrodlo, wlasne: w.wlasne, wywolan: 0, bledy: 0,
+      };
+      g.wywolan += w.wywolan;
+      if (w.status >= 400) g.bledy += w.wywolan;
+      grupy.set(klucz, g);
+    }
+
+    return {
+      suma,
+      klienci: Array.from(klienci.entries()).sort((a, b) => b[1] - a[1]),
+      tabela: Array.from(grupy.values())
+        .sort((a, b) => b.dzien.localeCompare(a.dzien) || b.wywolan - a.wywolan)
+        .slice(0, 200),
+    };
+  }, [wywolania, pokazTechniczne]);
 
   // Od 21.10.2026 w tej samej tabeli sa klikniecia przyciskow „Dodaj do Claude”
   // (model "lacznik-claude", query = menu / przycisk / kopiuj, source = strona).
@@ -142,6 +219,93 @@ export default function AdminLlmStats() {
           </Button>
         </div>
       </div>
+
+      {/* Serwer MCP: wywolania (dane.mojaserowarnia.pl) */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Serwer MCP: wywołania</CardTitle>
+          <CardDescription>
+            Sumy dzienne z dane.mojaserowarnia.pl, dzień liczony w UTC. „Własne” to Twoje testy: łącznik ze
+            znacznikiem własnym albo test-marek. Połączenia i listy narzędzi to w większości skanery katalogów
+            MCP, dlatego są domyślnie ukryte.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-4">
+            <div className="rounded-md border p-3">
+              <div className="text-sm text-muted-foreground">Narzędzia, cudze (7 dni)</div>
+              <div className="text-2xl font-bold">{mcp.suma.narzedziaCudze}</div>
+            </div>
+            <div className="rounded-md border p-3">
+              <div className="text-sm text-muted-foreground">Narzędzia, własne (7 dni)</div>
+              <div className="text-2xl font-bold">{mcp.suma.narzedziaWlasne}</div>
+            </div>
+            <div className="rounded-md border p-3">
+              <div className="text-sm text-muted-foreground">Połączenia, cudze (7 dni)</div>
+              <div className="text-2xl font-bold">{mcp.suma.polaczeniaCudze}</div>
+            </div>
+            <div className="rounded-md border p-3">
+              <div className="text-sm text-muted-foreground">Kto używał narzędzi (7 dni)</div>
+              <div className="text-sm font-medium">
+                {mcp.klienci.length === 0
+                  ? "nikt spoza nas"
+                  : mcp.klienci.map(([klient, n]) => `${klient} ${n}`).join(" · ")}
+              </div>
+            </div>
+          </div>
+
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={pokazTechniczne}
+              onChange={(e) => setPokazTechniczne(e.target.checked)}
+            />
+            Pokaż połączenia, listy narzędzi i sondy
+          </label>
+
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Dzień</TableHead>
+                  <TableHead>Klient</TableHead>
+                  <TableHead>Narzędzie</TableHead>
+                  <TableHead>Źródło</TableHead>
+                  <TableHead>Kto</TableHead>
+                  <TableHead className="text-right">Wywołania</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mcp.tabela.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center text-muted-foreground">
+                      Brak wywołań narzędzi.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  mcp.tabela.map((w) => (
+                    <TableRow key={`${w.dzien}|${w.klient}|${w.narzedzie}|${w.zrodlo}|${w.wlasne}`}>
+                      <TableCell className="whitespace-nowrap text-sm">{w.dzien}</TableCell>
+                      <TableCell>{w.klient}</TableCell>
+                      <TableCell className="font-mono text-sm">{w.narzedzie}</TableCell>
+                      <TableCell className="font-mono text-sm text-muted-foreground">{w.zrodlo || "brak"}</TableCell>
+                      <TableCell>
+                        <Badge variant={w.wlasne ? "outline" : "secondary"}>{w.wlasne ? "własne" : "cudze"}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {w.wywolan}
+                        {w.bledy > 0 && (
+                          <span className="ml-1 text-xs font-normal text-muted-foreground">(błędy: {w.bledy})</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Karty zbiorcze */}
       <div className="grid gap-4 md:grid-cols-4">
