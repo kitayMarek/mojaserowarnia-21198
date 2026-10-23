@@ -17,7 +17,9 @@ import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 export const WERSJA = '0.3.0';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
-const INSTRUKCJE = `Baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
+const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
+
+Baza kultur bakteryjnych do sera: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
 Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia albo ceny_sprawdzone_od. Nie nazywaj ich aktualnymi i przypomnij, że przed zakupem trzeba sprawdzić cenę w sklepie.
 Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.
@@ -40,10 +42,10 @@ function wynik(dane) {
 export function zbudujSerwer() {
   const serwer = new McpServer(
     {
-      name: 'mojaserowarnia-baza-kultur',
+      name: 'mojaserowarnia',
       title: TYTUL,
       version: WERSJA,
-      websiteUrl: 'https://mojaserowarnia.pl/baza-kultur',
+      websiteUrl: 'https://mojaserowarnia.pl/asystenci-ai',
     },
     { instructions: INSTRUKCJE },
   );
