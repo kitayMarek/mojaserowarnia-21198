@@ -395,11 +395,13 @@ Disallow: /
     //       nie ma linku do formularza z wpisanym adresem, wiec jest jeden krotki
     //       link, a nie dwa jak w Claude. Klikniecie czlowieka liczy sie jak
     //       /claude/dodaj, tylko z modelem "lacznik-chatgpt".
-    if (bezUkosnika === '/chatgpt') {
+    //       Tak samo /perplexity?z=... -> sekcja #perplexity (link do umiejetnosci).
+    if (bezUkosnika === '/chatgpt' || bezUkosnika === '/perplexity') {
+      const asystent = bezUkosnika.slice(1);
       const z = znacznikLinku(url);
       const ua = request.headers.get('user-agent') || '';
-      ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua), 'lacznik-chatgpt'));
-      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#chatgpt`, 302);
+      ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua), `lacznik-${asystent}`));
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#${asystent}`, 302);
     }
 
     // 1a-) STARE ADRESY .html, które miały przekierowanie w public/_redirects.

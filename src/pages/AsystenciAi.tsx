@@ -10,6 +10,7 @@ import { Check, Copy, ExternalLink, Plug } from "lucide-react";
 import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
 import {
   ADRES_MCP,
+  UMIEJETNOSC_PERPLEXITY,
   WTYCZKI_CHATGPT,
   adresLacznika,
   linkClaude,
@@ -44,6 +45,11 @@ import {
  * Wtyczka z paczki ZIP nie zastąpi tego łącznika: ChatGPT bierze z niej tylko
  * umiejętność, a serwer musi być aplikacją (plan pasz w Claude Docs).
  * Krótki link z posta: mojaserowarnia.pl/chatgpt?z=... (worker/index.js).
+ *
+ * SEKCJA #perplexity (23.10.2026): w Perplexity Computer nie ma łącznika do
+ * dodania z adresu; jest udostępniona umiejętność z adresem serwera w treści.
+ * Zalogowany użytkownik importuje ją z jej strony („…”, Importuj kopię, Zapisz).
+ * Krótki link: mojaserowarnia.pl/perplexity?z=...
  *
  * Treść 1:1 z mirrorem public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
@@ -108,13 +114,14 @@ const AsystenciAi = () => {
     }
   };
 
-  // Przycisk w menu i krótki link /chatgpt prowadzą na #chatgpt. Router sam nie
-  // przewija do kotwicy, a karta jest daleko pod „Jak podłączyć w Claude”.
+  // Przyciski w menu i krótkie linki /chatgpt, /perplexity prowadzą na kotwice.
+  // Router sam nie przewija do kotwicy, a karty są daleko pod „Jak podłączyć w Claude”.
   // Drugi skok po chwili: na produkcji (23.10.2026) treść nad kartą jeszcze się
   // przesuwała po pierwszym, przez co strona kończyła 350 px za nisko.
   useEffect(() => {
-    if (location.hash !== "#chatgpt") return;
-    const skocz = () => document.getElementById("chatgpt")?.scrollIntoView({ block: "start" });
+    const cel = location.hash.slice(1);
+    if (cel !== "chatgpt" && cel !== "perplexity") return;
+    const skocz = () => document.getElementById(cel)?.scrollIntoView({ block: "start" });
     const t1 = setTimeout(skocz, 50);
     const t2 = setTimeout(skocz, 700);
     return () => {
@@ -360,6 +367,57 @@ const AsystenciAi = () => {
                       Jeśli nie widzisz opcji „Dodaj niestandardowy serwer MCP”, Twój plan ChatGPT jej nie obsługuje.
                       Na kontach firmowych włącza ją administrator. Tak dodana wtyczka jest dostępna też w aplikacji
                       ChatGPT na telefonie.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* ── JAK PODŁĄCZYĆ W PERPLEXITY ────────────────────────────── */}
+              <Card id="perplexity" className="scroll-mt-24">
+                <CardHeader>
+                  <CardTitle>Jak podłączyć w Perplexity</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 text-sm leading-relaxed">
+                  <p>
+                    W Perplexity dodajesz umiejętność „moja-serowarnia”. Mówi ona Perplexity, kiedy i jak sięgać do
+                    naszego kalkulatora pasz, przepisów i bazy kultur. Działa także na darmowym planie.
+                  </p>
+
+                  <div>
+                    <Button asChild size="lg" className="w-full sm:w-auto bg-[#20808D] hover:bg-[#1a6b76] text-white">
+                      <a
+                        href={UMIEJETNOSC_PERPLEXITY}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        onClick={() => {
+                          zdarzenieLacznikAi("polacz_perplexity");
+                          zapiszKlikniecieLacznika(zrodlo, "przycisk", "perplexity");
+                        }}
+                      >
+                        Otwórz umiejętność w Perplexity
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </div>
+
+                  <div>
+                    <p className="font-medium mb-1">W Perplexity</p>
+                    <ol className="list-decimal pl-5 space-y-1">
+                      <li>Zaloguj się w Perplexity, jeśli strona o to poprosi.</li>
+                      <li>
+                        W oknie umiejętności kliknij <strong>…</strong> w prawym górnym rogu i wybierz{" "}
+                        <strong>Importuj kopię</strong>.
+                      </li>
+                      <li>
+                        Perplexity pokaże treść umiejętności do sprawdzenia. Kliknij <strong>Zapisz</strong>.
+                      </li>
+                      <li>
+                        Pytaj w trybie <strong>Computer</strong>, na przykład „ułóż paszę dla niosek z pszenicy i
+                        kukurydzy”.
+                      </li>
+                    </ol>
+                    <p className="text-muted-foreground mt-2">
+                      Umiejętność działa w trybie Computer. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci.
                     </p>
                   </div>
                 </CardContent>

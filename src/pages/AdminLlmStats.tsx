@@ -135,14 +135,15 @@ export default function AdminLlmStats() {
   // query "link" zapisuje worker: klikniecie krotkiego linku /claude/dodaj?z=...
   // prosto do formularza Claude (worker/lacznik-claude.js), source = znacznik posta.
   // Licza sie osobno, zeby nie udawaly pytan z dawnego widgetu „Zapytaj AI”.
-  // Od 23.10.2026 takze "lacznik-chatgpt": przyciski „Dodaj do ChatGPT” i krotki
-  // link /chatgpt?z=... (query "link"), osobny wiersz na asystenta i strone.
+  // Od 23.10.2026 takze "lacznik-chatgpt" i "lacznik-perplexity": przyciski „Dodaj
+  // do ...” i krotkie linki /chatgpt?z=..., /perplexity?z=... (query "link"),
+  // osobny wiersz na asystenta i strone.
   const lacznik = useMemo(() => {
     const wiersze = (rows ?? []).filter((r) => r.model.startsWith("lacznik-"));
     type Wiersz = { asystent: string; strona: string; razem: number; menu: number; przycisk: number; kopiuj: number; link: number };
     const wgStrony = new Map<string, Wiersz>();
     for (const r of wiersze) {
-      const asystent = r.model === "lacznik-chatgpt" ? "ChatGPT" : "Claude";
+      const asystent = r.model === "lacznik-chatgpt" ? "ChatGPT" : r.model === "lacznik-perplexity" ? "Perplexity" : "Claude";
       const klucz = `${asystent}|${r.source}`;
       const w = wgStrony.get(klucz) ?? { asystent, strona: r.source, razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0 };
       w.razem += 1;
@@ -343,10 +344,11 @@ export default function AdminLlmStats() {
       {/* Łączniki Claude i ChatGPT: klikniecia przyciskow wedlug strony */}
       <Card>
         <CardHeader>
-          <CardTitle>Łączniki Claude i ChatGPT: kliknięcia według strony</CardTitle>
+          <CardTitle>Łączniki Claude, ChatGPT i Perplexity: kliknięcia według strony</CardTitle>
           <CardDescription>
-            Przyciski „Dodaj do Claude” i „Dodaj do ChatGPT”: menu boczne, przycisk na stronie, kopiowanie adresu,
-            link z posta (/claude/dodaj?z=... albo /chatgpt?z=..., wiersz = znacznik posta). To zamiar, nie
+            Przyciski „Dodaj do Claude”, „Dodaj do ChatGPT” i „Dodaj do Perplexity”: menu boczne, przycisk na stronie,
+            kopiowanie adresu, link z posta (/claude/dodaj?z=..., /chatgpt?z=..., /perplexity?z=..., wiersz = znacznik
+            posta). To zamiar, nie
             podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
             {lacznik.razem}
           </CardDescription>

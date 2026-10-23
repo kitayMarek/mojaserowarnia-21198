@@ -5,6 +5,7 @@
  *   /claude/dodaj?z=fb-grupa  -> od razu formularz „Dodaj lacznik” w Claude.ai
  *   /chatgpt?z=fb-grupa       -> /asystenci-ai?z=...#chatgpt (23.10.2026; ChatGPT nie ma
  *                                formularza z wpisanym adresem, wiec link prowadzi do krokow)
+ *   /perplexity?z=fb-grupa    -> /asystenci-ai?z=...#perplexity (link do umiejetnosci w Perplexity)
  *
  * PO CO DRUGI LINK (21.10.2026, prosba Marka): w poscie na grupie czlowiek ma
  * byc jak najblizej celu. Ten link pomija strone z instrukcja i otwiera

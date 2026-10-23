@@ -26,6 +26,7 @@ import { pojemnosci, typy } from "@/generated/wykresySvg";
 import { trackShopClick } from "@/utils/trackShopClick";
 import PrzyciskDodajDoClaude from "@/components/PrzyciskDodajDoClaude";
 import PrzyciskDodajDoChatGPT from "@/components/PrzyciskDodajDoChatGPT";
+import PrzyciskDodajDoPerplexity from "@/components/PrzyciskDodajDoPerplexity";
 
 type SortField = 'name' | 'type' | 'shop' | 'price' | 'temperature';
 
@@ -332,6 +333,7 @@ const BazaKultur = () => {
                 </Button>
                 <PrzyciskDodajDoClaude zrodlo="/baza-kultur" />
                 <PrzyciskDodajDoChatGPT zrodlo="/baza-kultur" />
+                <PrzyciskDodajDoPerplexity zrodlo="/baza-kultur" />
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input type="text" placeholder="Szukaj nazwy, składu lub zastosowania..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />

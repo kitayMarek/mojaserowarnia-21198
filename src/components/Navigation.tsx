@@ -181,6 +181,21 @@ const Navigation = () => {
             <Plug className="h-4 w-4 text-[#10A37F]" aria-hidden="true" />
             Dodaj do ChatGPT
           </Button>
+          {/* „Dodaj do Perplexity” (23.10.2026): sekcja #perplexity z linkiem do
+              udostępnionej umiejętności. Pomiar "lacznik-perplexity". */}
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2 font-medium"
+            onClick={() => {
+              const zrodlo = zrodloZeSciezki(location.pathname);
+              zapiszKlikniecieLacznika(zrodlo, "menu", "perplexity");
+              closeMobile();
+              navigate("/asystenci-ai#perplexity", { state: { z: zrodlo } });
+            }}
+          >
+            <Plug className="h-4 w-4 text-[#20808D]" aria-hidden="true" />
+            Dodaj do Perplexity
+          </Button>
           <div className="hidden lg:flex items-center gap-2">
             <Button
               variant="outline"

@@ -48,12 +48,22 @@ export function linkClaude(zrodlo?: string): string {
  */
 export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
 
+/**
+ * Umiejętność „moja-serowarnia” udostępniona w Perplexity („każdy, kto ma link”).
+ * Zalogowany użytkownik importuje ją z tej strony: „…”, Importuj kopię, Zapisz
+ * (sprawdzone 23.10.2026 na darmowym koncie). Działa w trybie Computer: model
+ * sam łączy się z serwerem pod adresem z umiejętności (?z=perplexity), więc
+ * wywołania widać w magazyn_wywolania ze źródłem "perplexity".
+ * Treść umiejętności: ProjektyLLm/wtyczki/perplexity/SKILL.md (poza repo).
+ */
+export const UMIEJETNOSC_PERPLEXITY = "https://www.perplexity.ai/computer/skills/7v8vkYCPTiSxnjTByyQ0GA";
+
 export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj";
-export type Asystent = "claude" | "chatgpt";
+export type Asystent = "claude" | "chatgpt" | "perplexity";
 
 /**
  * Zapis kliknięcia bez czekania: błąd bazy nie może zablokować przejścia do asystenta.
- * Model "lacznik-claude" albo "lacznik-chatgpt", żeby panel admina rozdzielił oba przyciski.
+ * Model "lacznik-claude", "lacznik-chatgpt" albo "lacznik-perplexity", żeby panel admina rozdzielił przyciski.
  */
 export function zapiszKlikniecieLacznika(strona: string, rodzaj: RodzajKlikniecia, asystent: Asystent = "claude"): void {
   try {
