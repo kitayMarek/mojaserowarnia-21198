@@ -133,6 +133,8 @@ const OBSZARY_PROJEKTU = new Set([
   'public', 'scripts', 'src', 'supabase', 'worker',
   // Serwer MCP bazy kultur (dane.mojaserowarnia.pl), dopisany 21.10.2026.
   'worker-magazyn',
+  // Serwis mojapasza.com (strony pasz wydzielone z Serowarni), dopisany 23.10.2026.
+  'pasze',
 ]);
 const KORZEN_WOLNO = new Set([
   '.env.deploy.przyklad', '.gitattributes', '.gitignore', '.npmrc', '.nvmrc',

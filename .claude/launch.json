@@ -12,6 +12,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["wrangler", "dev", "-c", "worker-magazyn/wrangler.jsonc", "--port", "8788"],
       "port": 8788
+    },
+    {
+      "name": "pasze-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:pasze"],
+      "port": 8090
     }
   ]
 }

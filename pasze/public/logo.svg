@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Moja Pasza</title>
+  <g transform="translate(256 262) scale(0.86) translate(-256 -262)">
+  <polygon points="112,320 256,392 256,488 112,416" fill="#3B434B" stroke="#1A1E22" stroke-width="7" stroke-linejoin="round"/>
+  <polygon points="256,392 400,320 400,416 256,488" fill="#2A3036" stroke="#1A1E22" stroke-width="7" stroke-linejoin="round"/>
+  <polygon points="256,248 400,320 256,392 112,320" fill="#56606A" stroke="#1A1E22" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M132 350 L196 382 L196 432" fill="none" stroke="#2FD27A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="196" cy="444" r="7" fill="#2FD27A"/>
+  <path d="M132 384 L168 402" fill="none" stroke="#25B5C8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="178" cy="407" r="7" fill="none" stroke="#25B5C8" stroke-width="5"/>
+  <path d="M380 350 L316 382 L316 432" fill="none" stroke="#25B5C8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="316" cy="444" r="7" fill="#25B5C8"/>
+  <path d="M380 384 L344 402" fill="none" stroke="#2FD27A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="334" cy="407" r="7" fill="none" stroke="#2FD27A" stroke-width="5"/>
+  <path d="M226 320 L168 320" fill="none" stroke="#C27C45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="156" cy="320" r="7" fill="none" stroke="#C27C45" stroke-width="5"/>
+  <path d="M286 320 L344 320" fill="none" stroke="#C27C45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="356" cy="320" r="7" fill="none" stroke="#C27C45" stroke-width="5"/>
+  <circle cx="256" cy="318" r="46" fill="#2FD27A" opacity="0.28"/>
+  <polygon points="256,292 286,307 256,322 226,307" fill="#BFF5D6" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="226,307 256,322 256,350 226,335" fill="#2FD27A" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="256,322 286,307 286,335 256,350" fill="#1FA85E" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M256 296 L256 92" fill="none" stroke="#C27C45" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 182 L204 130" fill="none" stroke="#C27C45" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 182 L308 130" fill="none" stroke="#C27C45" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 262 L222 228 L178 228" fill="none" stroke="#C27C45" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 262 L290 228 L334 228" fill="none" stroke="#C27C45" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 216 L230 190" fill="none" stroke="#C27C45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="224" cy="184" r="8" fill="none" stroke="#C27C45" stroke-width="5"/>
+  <path d="M256 216 L282 190" fill="none" stroke="#C27C45" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="288" cy="184" r="8" fill="none" stroke="#C27C45" stroke-width="5"/>
+  <polygon points="256.0,94.0 278.0,62.1 256.0,18.0 234.0,62.1" fill="#C27C45" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/><path d="M256.0 94.0 L256.0 18.0" stroke="#8E5530" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="204.0,130.0 197.4,95.1 154.5,80.5 169.1,123.4" fill="#C27C45" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/><path d="M204.0 130.0 L154.5 80.5" stroke="#8E5530" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="308.0,130.0 342.9,123.4 357.5,80.5 314.6,95.1" fill="#C27C45" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/><path d="M308.0 130.0 L357.5 80.5" stroke="#8E5530" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="178.0,228.0 163.5,197.7 120.8,195.0 144.5,230.6" fill="#C27C45" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/><path d="M178.0 228.0 L120.8 195.0" stroke="#8E5530" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="334.0,228.0 367.5,230.6 391.2,195.0 348.5,197.7" fill="#C27C45" stroke="#1A1E22" stroke-width="5" stroke-linejoin="round"/><path d="M334.0 228.0 L391.2 195.0" stroke="#8E5530" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>
