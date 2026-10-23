@@ -14,7 +14,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 
-export const WERSJA = '0.3.0';
+export const WERSJA = '0.4.0';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
@@ -26,7 +26,7 @@ Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrz
 
 Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta, jak zrobić ser, sprawdź szukaj_przepisow, a potem pobierz przepis. Podaj link do przepisu z pola url i źródło z pola cytuj_jako. Polecając kulturę, bierz ją z kultury_z_przepisu (sklep, cena, link do karty z pola w_bazie) albo z inne_kultury_z_bazy_do_tego_sera, z datą ceny. Wpisy dziennik_warzen to prawdziwe pomiary autora przy polskim mleku: przytaczaj je dosłownie, niczego do nich nie dopisuj.
 
-Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.`;
+Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; domyślne maksima z normy_drobiu (maks_udzial_proc) są już wliczone. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.`;
 
 // Wszystkie narzedzia tylko czytaja migawke wkompilowana w Workera.
 const TYLKO_ODCZYT = { readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false };
@@ -149,7 +149,15 @@ export function zbudujSerwer() {
   const SKLADNIKI_WEJSCIE = z.array(z.object({
     nazwa: z.string().min(1).max(80).describe('Nazwa surowca, najlepiej dokładnie jak w skladniki_paszy, np. "Pszenica", "Śruta sojowa", "Kreda pastewna"'),
     cena: z.number().positive().max(1000).optional().describe('Cena w zł za kg, potrzebna do kosztu i do celu "najtaniej"'),
+    min_procent: z.number().min(0).max(100).optional().describe('Najmniejszy udział tego surowca w %, np. 40, gdy ma być głównym składnikiem'),
+    max_procent: z.number().min(0.1).max(100).optional().describe('Największy udział w %; zastępuje domyślne maksimum (np. kukurydza 60%)'),
   }));
+
+  // Zapotrzebowanie stada (od 0.4.0): wynik dostaje pole zapotrzebowanie z kg na dzień, tydzień i 30 dni.
+  const STADO = z.object({
+    sztuk: z.number().int().min(1).max(100000).describe('Liczba ptaków'),
+    dawka_g: z.number().min(5).max(400).optional().describe('Pasza na sztukę dziennie w g; bez niej typowa z poradnika rasy, jeśli jest dla tego okresu'),
+  }).optional().describe('Podaj, gdy pytanie dotyczy ilości paszy dla stada');
 
   serwer.registerTool(
     'skladniki_paszy',
@@ -173,7 +181,7 @@ export function zbudujSerwer() {
     {
       title: 'Normy żywieniowe drobiu',
       description:
-        'Normy żywieniowe dla 6 grup drobiu i ich okresów: energia, białko, Ca, P, włókno, sód, a dla stad zarodowych także K, Mg i mikroelementy. Bez parametrów zwraca listę gatunków i okresów.',
+        'Normy żywieniowe dla 6 grup drobiu i ich okresów: energia, białko, Ca, P, włókno, sód, a dla stad zarodowych także K, Mg i mikroelementy. Z okresem podaje też zalecane maksymalne udziały surowców i, dla niosek w nieśności, typową dzienną dawkę paszy na sztukę ze źródłem. Bez parametrów zwraca listę gatunków i okresów.',
       inputSchema: z.object({
         drob: z.enum(GATUNKI).optional().describe('Gatunek, np. kury-nioski-lekkie, brojlery'),
         okres: z.string().max(60).optional().describe('Okres albo jego fragment, np. "powyżej 45", "starter", "1-6 tygodni"'),
@@ -188,7 +196,7 @@ export function zbudujSerwer() {
     {
       title: 'Policz mieszankę',
       description:
-        'Liczy skład mieszanki z podanych surowców i udziałów (w %) i porównuje z normą dla gatunku i okresu: co jest w normie, co za nisko, co za wysoko, koszt za kg (gdy są ceny) i sugestie, czego dodać. Udziały sumujące się do innej liczby niż 100 przelicza proporcjonalnie.',
+        'Liczy skład mieszanki z podanych surowców i udziałów (w %) i porównuje z normą dla gatunku i okresu: co jest w normie, co za nisko, co za wysoko, koszt za kg (gdy są ceny) i sugestie, czego dodać. Udziały sumujące się do innej liczby niż 100 przelicza proporcjonalnie. Z parametrem stado liczy też, ile paszy i każdego surowca zje stado dziennie, tygodniowo i przez 30 dni.',
       inputSchema: z.object({
         drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
         okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),
@@ -197,6 +205,7 @@ export function zbudujSerwer() {
           procent: z.number().min(0).max(100).describe('Udział w mieszance w %'),
           cena: z.number().positive().max(1000).optional().describe('Cena w zł za kg'),
         })).min(1).max(25),
+        stado: STADO,
       }),
       annotations: TYLKO_ODCZYT,
     },
@@ -208,12 +217,13 @@ export function zbudujSerwer() {
     {
       title: 'Dobierz proporcje mieszanki',
       description:
-        'Z podanych surowców dobiera proporcje pod normę dla gatunku i okresu, tym samym algorytmem co kalkulator pasz na mojaserowarnia.pl (cel "normy"), albo szuka najtańszej mieszanki bliskiej normie (cel "najtaniej", wymaga cen). Dobiera pod energię, białko, wapń i fosfor; resztę parametrów liczy i ocenia. Zwraca proporcje, wynik wobec normy, czego brakuje i sugestie.',
+        'Z podanych surowców dobiera proporcje pod normę dla gatunku i okresu, tym samym algorytmem co kalkulator pasz na mojaserowarnia.pl (cel "normy"), albo szuka najtańszej mieszanki bliskiej normie (cel "najtaniej", wymaga cen). Dobiera pod energię, białko, wapń i fosfor; resztę parametrów liczy i ocenia. Każdy surowiec trzyma się zalecanego maksimum (np. kukurydza 60%, pszenica 50%), a min_procent i max_procent przy składniku pozwalają ustawić własne granice. Zwraca proporcje, wynik wobec normy, czego brakuje, sugestie i surowce, które doszły do limitu; z parametrem stado także kg paszy i surowców na dzień, tydzień i 30 dni.',
       inputSchema: z.object({
         drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
         okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),
         skladniki: SKLADNIKI_WEJSCIE.min(2).max(15).describe('Surowce do użycia, bez udziałów'),
         cel: z.enum(['normy', 'najtaniej']).optional().describe('normy (domyślnie) albo najtaniej'),
+        stado: STADO,
       }),
       annotations: TYLKO_ODCZYT,
     },

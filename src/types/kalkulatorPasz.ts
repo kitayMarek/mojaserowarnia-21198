@@ -23,6 +23,9 @@ export interface Skladnik {
   se: string | number;
   fe: string | number;
   i: string | number;
+  /** Granice udziału w % (od 24.10.2026). Puste max = zalecane maksimum z bilansPaszy.ts. */
+  min?: string;
+  max?: string;
 }
 
 /**

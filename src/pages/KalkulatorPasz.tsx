@@ -17,10 +17,11 @@ import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients, feedCategories } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
-import { NORMY_DROBIU, TYPY_DROBIU } from "@/data/normyDrobiu";
+import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from "@/data/normyDrobiu";
 import {
   bladNormy, kategoriaWiekowa, maxStraczkowe, maWartosci, dobierzProporcje,
   najtanszaMieszanka, generujSugestie as sugestieDoMieszanki, sprawdzNorme,
+  bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
 } from "@/lib/bilansPaszy";
 
 
@@ -88,6 +89,10 @@ const KalkulatorPasz = () => {
   const [skladniki, setSkladniki] = useState<Skladnik[]>([
     { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }
   ]);
+  // Limity udziału i zapotrzebowanie stada (od 24.10.2026, logika w bilansPaszy.ts).
+  const [pokazLimity, setPokazLimity] = useState(false);
+  const [sztuk, setSztuk] = useState('');
+  const [dawkaG, setDawkaG] = useState('');
 
   // Normy i lista gatunkow: src/data/normyDrobiu.ts (wspolne ze serwerem MCP).
   const normy = NORMY_DROBIU;
@@ -156,6 +161,9 @@ const KalkulatorPasz = () => {
       return;
     }
 
+    const naMiesiac = (procent: number) =>
+      stado ? { 'Na 30 dni (kg)': (stado.miesiecznieKg * procent / 100).toFixed(2) } : {};
+
     const rows = skladniki.filter(s => parseFloat(s.procent as string) > 0).map(s => ({
       'Składnik': s.nazwa,
       'Udział (%)': parseFloat(s.procent as string).toFixed(2),
@@ -163,7 +171,8 @@ const KalkulatorPasz = () => {
       'Białko (%)': s.bialko,
       'Ca (%)': s.ca,
       'P (%)': s.p,
-      'Cena (zł/kg)': s.cena || '-'
+      'Cena (zł/kg)': s.cena || '-',
+      ...naMiesiac(parseFloat(s.procent as string)),
     }));
 
     rows.push({
@@ -173,7 +182,8 @@ const KalkulatorPasz = () => {
       'Białko (%)': obliczCalkowita('bialko').toFixed(2),
       'Ca (%)': obliczCalkowita('ca').toFixed(2),
       'P (%)': obliczCalkowita('p').toFixed(2),
-      'Cena (zł/kg)': obliczKoszt().toFixed(2)
+      'Cena (zł/kg)': obliczKoszt().toFixed(2),
+      ...naMiesiac(100),
     });
 
     const header = Object.keys(rows[0]).join(';');
@@ -269,6 +279,17 @@ const KalkulatorPasz = () => {
 
     if (obliczKoszt() > 0) {
       txt += `\nKoszt mieszanki:      ${obliczKoszt().toFixed(2)} zł/kg\n`;
+    }
+
+    if (stado) {
+      txt += '\n───────────────────────────────────────────────\n';
+      txt += 'ZAPOTRZEBOWANIE STADA:\n';
+      txt += '───────────────────────────────────────────────\n\n';
+      txt += `${sztukLiczba} szt. × ${formatKg(dawkaLiczba)} g dziennie\n`;
+      txt += `Dziennie: ${formatKg(stado.dziennieKg)} kg, tygodniowo: ${formatKg(stado.tygodniowoKg)} kg, 30 dni: ${formatKg(stado.miesiecznieKg)} kg\n\n`;
+      stado.skladniki.forEach(s => {
+        txt += `• ${s.nazwa.padEnd(25)} ${formatKg(s.miesiecznieKg).padStart(8)} kg na 30 dni\n`;
+      });
     }
 
     txt += '\n═══════════════════════════════════════════════\n';
@@ -369,6 +390,14 @@ const KalkulatorPasz = () => {
   const okreslKategorieWiekowa = () => kategoriaWiekowa(okres);
   const pobierzMaxStraczkowe = () => maxStraczkowe(okres);
 
+  // Dopisek do komunikatu po doborze: które składniki zatrzymał limit udziału.
+  const opisOsiagnietychLimitow = (pozycje: Skladnik[]) => {
+    const osiagniete = osiagnieteLimity(pozycje, okres);
+    return osiagniete.length
+      ? `\n\n📏 Doszły do limitu udziału: ${osiagniete.map(o => `${o.nazwa} (${o.max}%)`).join(', ')}. Limity zmienisz przyciskiem „Limity udziału”.`
+      : '';
+  };
+
   const przeliczOptymalneProporcje = () => {
     if (!aktualnaNorma) return;
 
@@ -379,7 +408,14 @@ const KalkulatorPasz = () => {
       return;
     }
 
+    const sprzeczne = bladLimitow(aktywneSkladniki, okres);
+    if (sprzeczne) {
+      alert(`Nie da się dobrać proporcji z tymi limitami.\n\n${sprzeczne}`);
+      return;
+    }
+
     const najlepszeSkladniki = dobierzProporcje(aktywneSkladniki, aktualnaNorma, okres);
+    const dopisek = opisOsiagnietychLimitow(najlepszeSkladniki);
 
     const noweSkladniki = skladniki.map(s => {
       const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
@@ -398,11 +434,11 @@ const KalkulatorPasz = () => {
       const sugestie = generujSugestie(noweSkladniki);
       if (sugestie.length > 0) {
         const komunikat = 'Proporcje zostały przeliczone, ale niektóre parametry są poza normą.\n\n' +
-          '🔧 SUGESTIE POPRAWEK:\n\n' + 
+          '🔧 SUGESTIE POPRAWEK:\n\n' +
           sugestie.join('\n\n');
-        alert(komunikat);
+        alert(komunikat + dopisek);
       } else {
-        alert('✅ Świetnie! Proporcje zostały przeliczone i wszystkie parametry są w normie!');
+        alert('✅ Świetnie! Proporcje zostały przeliczone i wszystkie parametry są w normie!' + dopisek);
       }
     }, 100);
   };
@@ -421,7 +457,14 @@ const KalkulatorPasz = () => {
       return;
     }
 
+    const sprzeczne = bladLimitow(aktywneSkladniki, okres);
+    if (sprzeczne) {
+      alert(`Nie da się dobrać mieszanki z tymi limitami.\n\n${sprzeczne}`);
+      return;
+    }
+
     const najlepszeSkladniki = najtanszaMieszanka(aktywneSkladniki, aktualnaNorma, okres);
+    const dopisek = opisOsiagnietychLimitow(najlepszeSkladniki);
 
     const noweSkladniki = skladniki.map(s => {
       const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
@@ -449,8 +492,8 @@ const KalkulatorPasz = () => {
       } else {
         komunikat += '✅ Wszystkie parametry żywieniowe są w normie!';
       }
-      
-      alert(komunikat);
+
+      alert(komunikat + dopisek);
     }, 100);
   };
 
@@ -512,6 +555,26 @@ const KalkulatorPasz = () => {
   };
 
   const sumaProcentow = skladniki.reduce((suma, s) => suma + (parseFloat(s.procent as string) || 0), 0);
+
+  // Zapotrzebowanie stada: liczy się dopiero dla gotowej mieszanki (suma 100%).
+  // Bez własnej dawki bierzemy typową z poradnika rasy, jeśli jest dla tego okresu.
+  const typowaDawka = dawkaTypowa(drob, okres);
+  const sztukLiczba = parseInt(sztuk, 10) || 0;
+  const dawkaLiczba = parseFloat(dawkaG) || typowaDawka?.g || 0;
+  const mieszankaGotowa = Math.abs(sumaProcentow - 100) < 0.1;
+  const stado = sztukLiczba > 0 && dawkaLiczba > 0 && mieszankaGotowa
+    ? zapotrzebowanieStada(skladniki.filter(s => s.nazwa), { sztuk: sztukLiczba, dawkaG: dawkaLiczba })
+    : null;
+  const formatKg = (kg: number) => kg.toLocaleString('pl-PL', { maximumFractionDigits: kg < 10 ? 2 : 1 });
+
+  // Zalecane maksimum jako podpowiedź w pustym polu Max.
+  const zalecaneMax = (s: Skladnik) => {
+    const max = graniceUdzialu({ ...s, max: '' }, okres)[1];
+    return max < 100 ? String(max) : '';
+  };
+  const wlasneLimity = skladniki
+    .filter(s => s.nazwa && (s.min || s.max))
+    .map(s => `${s.nazwa}${s.min ? ` od ${s.min}%` : ''}${s.max ? ` do ${s.max}%` : ''}`);
 
   const zalogujAdmin = () => {
     if (inputHaslo === 'admin2024') {
@@ -795,7 +858,15 @@ const KalkulatorPasz = () => {
             <div className="mb-4">
               <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
                 <h3 className="text-lg font-semibold text-foreground">Składniki paszy:</h3>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setPokazLimity(!pokazLimity)}
+                    aria-pressed={pokazLimity}
+                    className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors"
+                    title="Najmniejszy i największy udział każdego składnika przy doborze proporcji"
+                  >
+                    📏 {pokazLimity ? 'Ukryj limity' : 'Limity udziału'}
+                  </button>
                   <button
                     onClick={() => setZaproponujOpen(true)}
                     className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors"
@@ -818,6 +889,12 @@ const KalkulatorPasz = () => {
                     <tr>
                       <th className="p-2 text-left text-muted-foreground">Składnik</th>
                       <th className="p-2 text-muted-foreground">Udział (%)</th>
+                      {pokazLimity && (
+                        <>
+                          <th className="p-2 text-muted-foreground" title="Najmniejszy udział składnika">Min (%)</th>
+                          <th className="p-2 text-muted-foreground" title="Największy udział; puste pole = zalecane maksimum">Max (%)</th>
+                        </>
+                      )}
                       <th className="p-2 text-muted-foreground">EM (MJ/kg)</th>
                       <th className="p-2 text-muted-foreground">Białko (%)</th>
                       <th className="p-2 text-muted-foreground">Ca (%)</th>
@@ -846,6 +923,35 @@ const KalkulatorPasz = () => {
                             className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
                           />
                         </td>
+                        {pokazLimity && (
+                          <>
+                            <td className="p-2">
+                              <input
+                                type="number"
+                                step="1"
+                                min="0"
+                                max="100"
+                                value={skladnik.min ?? ''}
+                                onChange={(e) => aktualizujSkladnik(idx, 'min', e.target.value)}
+                                aria-label={`Minimalny udział: ${skladnik.nazwa || 'składnik'}`}
+                                className="w-16 p-2 border border-input bg-background text-foreground rounded text-center"
+                              />
+                            </td>
+                            <td className="p-2">
+                              <input
+                                type="number"
+                                step="1"
+                                min="0"
+                                max="100"
+                                value={skladnik.max ?? ''}
+                                onChange={(e) => aktualizujSkladnik(idx, 'max', e.target.value)}
+                                placeholder={zalecaneMax(skladnik)}
+                                aria-label={`Maksymalny udział: ${skladnik.nazwa || 'składnik'}`}
+                                className="w-16 p-2 border border-input bg-background text-foreground rounded text-center"
+                              />
+                            </td>
+                          </>
+                        )}
                         <td className="p-2">
                           <input
                             type="number"
@@ -914,6 +1020,15 @@ const KalkulatorPasz = () => {
                   </tbody>
                 </table>
               </div>
+              {pokazLimity && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Puste pole Max oznacza zalecane maksimum (szare liczby, np. kukurydza 60%, pszenica 50%, groch i bobik zależnie od wieku ptaków).
+                  Min przydaje się, gdy składnik ma być główny, np. własna pszenica od 40%.
+                </p>
+              )}
+              {!pokazLimity && wlasneLimity.length > 0 && (
+                <p className="text-xs text-muted-foreground mt-2">📏 Obowiązują Twoje limity: {wlasneLimity.join(', ')}.</p>
+              )}
             </div>
 
             <div className="mb-6 p-4 bg-muted border border-border rounded-lg">
@@ -1471,6 +1586,99 @@ const KalkulatorPasz = () => {
               </div>
             </div>
 
+            {/* Zapotrzebowanie stada (od 24.10.2026): sztuki × dawka -> kg paszy i każdego składnika. */}
+            <div className="mb-6 p-4 bg-muted border border-border rounded-lg">
+              <h3 className="font-bold text-foreground mb-3">🐔 Ile paszy dla stada</h3>
+              <div className="flex flex-wrap gap-4 items-end mb-2">
+                <label className="text-sm">
+                  <span className="block font-semibold mb-1">Liczba ptaków</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputMode="numeric"
+                    value={sztuk}
+                    onChange={(e) => setSztuk(e.target.value)}
+                    placeholder="np. 10"
+                    className="w-28 p-2 border border-input bg-background text-foreground rounded text-center"
+                  />
+                </label>
+                <label className="text-sm">
+                  <span className="block font-semibold mb-1">Dawka (g na ptaka dziennie)</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputMode="decimal"
+                    value={dawkaG}
+                    onChange={(e) => setDawkaG(e.target.value)}
+                    placeholder={typowaDawka ? String(typowaDawka.g) : 'g'}
+                    className="w-28 p-2 border border-input bg-background text-foreground rounded text-center"
+                  />
+                </label>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                {typowaDawka ? (
+                  <>
+                    {dawkaG ? 'Liczę z Twojej dawki. ' : `Przyjęto typową dawkę ${typowaDawka.g} g. `}
+                    Poradnik {typowaDawka.zrodlo}: {formatKg(typowaDawka.od)}–{formatKg(typowaDawka.do)} g.{' '}
+                    <a href={typowaDawka.url} target="_blank" rel="noopener noreferrer" className="underline">Źródło (PDF)</a>
+                  </>
+                ) : (
+                  'Wpisz, ile paszy zjada jeden ptak dziennie. Dla tego gatunku i okresu nie podajemy typowej dawki, bo zależy mocno od wieku i masy ptaków.'
+                )}
+              </p>
+              {stado ? (
+                <>
+                  <div className="grid grid-cols-3 gap-2 mb-3 text-center">
+                    {[
+                      { etykieta: 'Dziennie', kg: stado.dziennieKg },
+                      { etykieta: 'Tygodniowo', kg: stado.tygodniowoKg },
+                      { etykieta: '30 dni', kg: stado.miesiecznieKg },
+                    ].map(({ etykieta, kg }) => (
+                      <div key={etykieta} className="p-2 bg-background border border-border rounded">
+                        <div className="text-xs text-muted-foreground">{etykieta}</div>
+                        <div className="font-bold text-lg">{formatKg(kg)} kg</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="text-muted-foreground">
+                          <th className="p-1 text-left">Składnik</th>
+                          <th className="p-1 text-right">Dziennie (kg)</th>
+                          <th className="p-1 text-right">Tydzień (kg)</th>
+                          <th className="p-1 text-right">30 dni (kg)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {stado.skladniki.map((s) => (
+                          <tr key={s.nazwa} className="border-t border-border">
+                            <td className="p-1">{s.nazwa}</td>
+                            <td className="p-1 text-right">{formatKg(s.dziennieKg)}</td>
+                            <td className="p-1 text-right">{formatKg(s.tygodniowoKg)}</td>
+                            <td className="p-1 text-right font-semibold">{formatKg(s.miesiecznieKg)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {obliczKoszt() > 0 && czyCenyWypelnione() && (
+                    <p className="mt-3 text-sm">
+                      💰 Koszt paszy na 30 dni: <strong>{(obliczKoszt() * stado.miesiecznieKg).toFixed(2)} zł</strong>
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  {!mieszankaGotowa
+                    ? 'Wynik pokaże się, gdy udziały składników sumują się do 100%.'
+                    : sztukLiczba > 0 ? 'Podaj dawkę paszy na ptaka.' : 'Podaj liczbę ptaków.'}
+                </p>
+              )}
+            </div>
+
             <div className="text-sm text-gray-600 space-y-2">
               <p className="flex items-start gap-2">
                 <Info size={16} className="mt-0.5 flex-shrink-0" />
@@ -1481,7 +1689,7 @@ const KalkulatorPasz = () => {
               <p className="flex items-start gap-2">
                 <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
                 <span>
-                  <strong>Ważne:</strong> Optymalizacja uwzględnia ograniczenia dla roślin strączkowych (groch, bobik) w zależności od wieku ptaków.
+                  <strong>Ważne:</strong> Optymalizacja trzyma się zalecanych maksymalnych udziałów (np. kukurydza 60%, pszenica 50%, owies 35%) i ograniczeń dla roślin strączkowych (groch, bobik) zależnie od wieku ptaków. Własne granice ustawisz przyciskiem „Limity udziału”.
                 </span>
               </p>
               <p className="flex items-start gap-2">

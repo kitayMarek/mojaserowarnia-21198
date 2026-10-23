@@ -82,3 +82,40 @@ export const TYPY_DROBIU: { value: string; label: string }[] = [
   { value: 'gesi', label: '🦢 Gęsi' },
   { value: 'indyki', label: '🦃 Indyki' }
 ];
+
+/**
+ * Typowa dzienna dawka paszy na sztukę, w g: podpowiedź do zapotrzebowania stada
+ * (od 24.10.2026). Książka „Normy żywieniowe” jej nie podaje, więc decyzją Marka
+ * bierzemy ją z poradników ras, i tylko tam, gdzie poradnik ma liczbę dla okresu.
+ * Dla pozostałych okresów pola nie wypełniamy: użytkownik wpisuje dawkę sam.
+ *
+ * Liczby to środek przedziału „Average Daily Feed Consumption (19–100 weeks)”
+ * z przewodników Hy-Line dla chowu alternatywnego (ściółka, wybieg), bo tak
+ * trzyma kury większość małych gospodarstw. W klatkach kury jedzą mniej.
+ * Sprawdzone 24.10.2026 w PDF-ach pod adresami niżej.
+ */
+export interface DawkaTypowa {
+  g: number;
+  od: number;
+  do: number;
+  zrodlo: string;
+  url: string;
+}
+
+const HY_LINE_W80 = {
+  g: 111, od: 109.4, do: 113.3,
+  zrodlo: 'Hy-Line W-80, chów alternatywny, średnio 19–100 tydzień',
+  url: 'https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/W-80/W-80%20Alt/80%20ALT%20STD%20ENG.pdf',
+};
+const HY_LINE_BROWN = {
+  g: 118, od: 115.7, do: 120.6,
+  zrodlo: 'Hy-Line Brown, chów alternatywny, średnio 19–100 tydzień',
+  url: 'https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/Brown%20Alt/BRN%20ALT%20STD%20ENG.pdf',
+};
+
+export const DAWKI_DROBIU: Record<string, Record<string, DawkaTypowa>> = {
+  'kury-nioski-lekkie': { 'Niesienie (do 45%)': HY_LINE_W80, 'Niesienie (powyżej 45%)': HY_LINE_W80 },
+  'kury-nioski-ciezkie': { 'Niesienie (do 45%)': HY_LINE_BROWN, 'Niesienie (powyżej 45%)': HY_LINE_BROWN },
+};
+
+export const dawkaTypowa = (drob: string, okres: string): DawkaTypowa | null => DAWKI_DROBIU[drob]?.[okres] ?? null;

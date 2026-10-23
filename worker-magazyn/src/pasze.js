@@ -13,10 +13,11 @@
  */
 
 import { feedIngredients, feedCategories } from '../../src/data/feedIngredients.ts';
-import { NORMY_DROBIU, TYPY_DROBIU } from '../../src/data/normyDrobiu.ts';
+import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import {
   POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maxStraczkowe,
   dobierzProporcje, najtanszaMieszanka, kosztMieszanki, generujSugestie,
+  MAKS_UDZIAL, bladLimitow, osiagnieteLimity, zapotrzebowanieStada,
 } from '../../src/lib/bilansPaszy.ts';
 
 const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
@@ -116,7 +117,7 @@ function rozwiazSkladniki(wejscie) {
       problemy.push({ podano: w.nazwa, problem: blad, kandydaci: kandydaci ?? [] });
       continue;
     }
-    pozycje.push({ ...surowiec, procent: w.procent ?? 0, cena: w.cena ?? '' });
+    pozycje.push({ ...surowiec, procent: w.procent ?? 0, cena: w.cena ?? '', min: w.min_procent ?? '', max: w.max_procent ?? '' });
   }
   return { pozycje, problemy };
 }
@@ -147,7 +148,38 @@ function ocenaMieszanki(pozycje, norma) {
   return { poza_norma, w_normie, bez_normy };
 }
 
-function raport(pozycje, norma, drob, uwagi = []) {
+/**
+ * Ile paszy zje stado i ile każdego składnika kupić (od 0.4.0). Dawka z wejścia,
+ * a bez niej typowa z poradnika rasy (src/data/normyDrobiu.ts), jeśli jest dla
+ * tego okresu; inaczej prosimy model o dawkę zamiast zgadywać.
+ */
+function zapotrzebowanie(pozycje, drob, okres, stado) {
+  if (!stado) return {};
+  const typowa = dawkaTypowa(drob, okres);
+  const dawkaG = stado.dawka_g ?? typowa?.g;
+  if (!dawkaG) {
+    return { zapotrzebowanie: { problem: 'brak dawki: podaj stado.dawka_g (g paszy na sztukę dziennie), dla tego okresu nie mamy typowej wartości z poradnika rasy' } };
+  }
+  const z = zapotrzebowanieStada(pozycje, { sztuk: stado.sztuk, dawkaG });
+  return {
+    zapotrzebowanie: {
+      sztuk: stado.sztuk,
+      dawka_g_na_sztuke: dawkaG,
+      dawka_zrodlo: stado.dawka_g != null ? 'podana w pytaniu' : `${typowa.zrodlo} (${typowa.od}–${typowa.do} g), ${typowa.url}`,
+      dziennie_kg: zaokr(z.dziennieKg, 2),
+      tygodniowo_kg: zaokr(z.tygodniowoKg, 2),
+      miesiecznie_30_dni_kg: zaokr(z.miesiecznieKg, 1),
+      skladniki: z.skladniki.map((s) => ({
+        nazwa: s.nazwa,
+        dziennie_kg: zaokr(s.dziennieKg, 3),
+        tygodniowo_kg: zaokr(s.tygodniowoKg, 2),
+        miesiecznie_30_dni_kg: zaokr(s.miesiecznieKg, 2),
+      })),
+    },
+  };
+}
+
+function raport(pozycje, norma, drob, uwagi = [], stado = null) {
   const wszystkieZCena = pozycje.every((s) => parseFloat(s.cena) > 0);
   const { poza_norma, w_normie, bez_normy } = ocenaMieszanki(pozycje, norma);
   return {
@@ -162,6 +194,7 @@ function raport(pozycje, norma, drob, uwagi = []) {
     koszt_zl_kg: wszystkieZCena ? zaokr(kosztMieszanki(pozycje)) : null,
     sugestie: generujSugestie(pozycje, norma, norma.okres),
     limit_straczkowych_proc: maxStraczkowe(norma.okres),
+    ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
     uwagi,
     ...stopka(),
   };
@@ -210,10 +243,18 @@ export function normyDrobiu({ drob, okres }) {
   }
   const { norma, blad, dostepne_okresy } = znajdzNorme(drob, okres);
   if (!norma) return bladWejscia({ problem: blad, dostepne_okresy });
-  return { gatunek: etykietaGatunku(drob), drob, norma, ...stopka() };
+  const typowa = dawkaTypowa(drob, norma.okres);
+  return {
+    gatunek: etykietaGatunku(drob),
+    drob,
+    norma,
+    ...(typowa ? { dawka_typowa_g_na_sztuke: { g: typowa.g, zakres: `${typowa.od}–${typowa.do}`, zrodlo: typowa.zrodlo, url: typowa.url } } : {}),
+    maks_udzial_proc: MAKS_UDZIAL,
+    ...stopka(),
+  };
 }
 
-export function policzMieszanke({ drob, okres, skladniki }) {
+export function policzMieszanke({ drob, okres, skladniki, stado }) {
   const { norma, blad, dostepne_okresy } = znajdzNorme(drob, okres);
   if (!norma) return bladWejscia({ problem: blad, dostepne_okresy });
 
@@ -229,7 +270,7 @@ export function policzMieszanke({ drob, okres, skladniki }) {
     pozycje.forEach((p) => { p.procent = ((parseFloat(p.procent) || 0) / suma) * 100; });
     uwagi.push(`Udziały sumowały się do ${zaokr(suma, 1)}%, przeliczyłem je proporcjonalnie na 100%.`);
   }
-  return raport(pozycje, norma, drob, uwagi);
+  return raport(pozycje, norma, drob, uwagi, stado);
 }
 
 /** Generator z ziarnem (mulberry32): powtarzalny wynik dla tego samego pytania. */
@@ -252,7 +293,7 @@ function ziarnoZ(tekst) {
 
 const PODEJSC = 5;
 
-export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy' }) {
+export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy', stado }) {
   const { norma, blad, dostepne_okresy } = znajdzNorme(drob, okres);
   if (!norma) return bladWejscia({ problem: blad, dostepne_okresy });
 
@@ -264,8 +305,12 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   if (cel === 'najtaniej' && !pozycje.every((p) => parseFloat(p.cena) > 0)) {
     return bladWejscia({ problem: 'cel "najtaniej" wymaga ceny (zł/kg) przy każdym składniku' });
   }
+  const sprzeczne = bladLimitow(pozycje, norma.okres);
+  if (sprzeczne) {
+    return bladWejscia({ problem: 'limity udziałów są sprzeczne', szczegoly: sprzeczne, maks_udzial_proc: MAKS_UDZIAL });
+  }
 
-  const ziarno = ziarnoZ(JSON.stringify([drob, norma.okres, cel, pozycje.map((p) => [p.nazwa, p.cena])]));
+  const ziarno = ziarnoZ(JSON.stringify([drob, norma.okres, cel, pozycje.map((p) => [p.nazwa, p.cena, p.min, p.max])]));
   const wynikCelu = (m) => (cel === 'najtaniej' ? kosztMieszanki(m) * 0.3 + bladNormy(m, norma) * 100 : bladNormy(m, norma));
   let najlepsza = null;
   for (let n = 0; n < PODEJSC; n++) {
@@ -281,10 +326,14 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
 
   const uwagi = [
     'Algorytm dobiera proporcje pod energię, białko, wapń i fosfor. Pozostałe parametry są policzone i ocenione, ale nie są dobierane.',
-    `Groch i bobik przycinane do ${maxStraczkowe(norma.okres)}% łącznie dla tego wieku.`,
+    `Każdy składnik trzyma się zalecanego maksymalnego udziału (pole maks_udzial_proc w normy_drobiu, np. kukurydza 60%, pszenica 50%), groch i bobik do ${maxStraczkowe(norma.okres)}% dla tego wieku. Własne limity: min_procent i max_procent przy składniku.`,
   ];
+  const osiagniete = osiagnieteLimity(najlepsza, norma.okres);
+  if (osiagniete.length) {
+    uwagi.push(`Doszły do swojego maksimum: ${osiagniete.map((o) => `${o.nazwa} (${o.max}%)`).join(', ')}. Bez tego limitu algorytm dałby ich więcej.`);
+  }
   if (najlepsza.some((p) => p.procent < 0.5)) {
     uwagi.push('Składnik z udziałem poniżej 0,5% algorytm praktycznie odrzucił; można go pominąć.');
   }
-  return { cel, ...raport(najlepsza, norma, drob, uwagi) };
+  return { cel, ...raport(najlepsza, norma, drob, uwagi, stado) };
 }

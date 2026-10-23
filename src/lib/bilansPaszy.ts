@@ -13,10 +13,16 @@
 
 import type { NormaDrobiu } from "../data/normyDrobiu";
 
-/** Wiersz mieszanki. Pola bywają stringiem, bo na stronie pochodzą z formularza. */
+/**
+ * Wiersz mieszanki. Pola bywają stringiem, bo na stronie pochodzą z formularza.
+ * `min` i `max` to limity udziału w % wpisane przez użytkownika (od 24.10.2026);
+ * puste znaczy „bez własnego limitu”, wtedy działa domyślne maksimum (MAKS_UDZIAL).
+ */
 export interface PozycjaMieszanki {
   nazwa: string;
   procent: string | number;
+  min?: string | number;
+  max?: string | number;
 }
 
 /** Parametry, dla których normy mają wartości. Tłuszczu nie liczy ani strona, ani MCP. */
@@ -91,6 +97,101 @@ export function maxStraczkowe(okres: string): number {
 
 const STRACZKOWE = new Set(["Groch", "Bobik"]);
 
+/**
+ * Najwyższy zalecany udział surowca w mieszance dla drobiu, w %. Z arkusza Marka
+ * „Normy żywieniowe do GPT.xls”, zakładka „Maxi” (udział optymalny i maksymalny),
+ * decyzja Marka 24.10.2026: domyślne maksima w doborze. Odmiany „+enzym” jak
+ * zwykłe ziarno. Własny limit w wierszu (pole max) zastępuje tę wartość.
+ *
+ * PO CO: bez limitów dobór przy swobodnym wyborze dawał prawie samą kukurydzę
+ * (Perplexity zbudował na naszych danych kalkulator i musiał to obchodzić
+ * suwakiem, 23.10.2026).
+ */
+export const MAKS_UDZIAL: Record<string, number> = {
+  Kukurydza: 60,
+  Pszenica: 50, "Pszenica+enzym": 50,
+  "Jęczmień": 50, "Jęczmień+enzym": 50,
+  "Pszenżyto": 40, "Pszenżyto+enzym": 40,
+  "Żyto": 40,
+  Owies: 35,
+  Bobik: 25, Groch: 25,
+  Peluszka: 20,
+  "Łubin żółty": 17,
+  "Rzepak 00": 15,
+  "Łubin niebieski wąskolistny": 10,
+};
+
+/**
+ * Granice udziału jednego wiersza: [min, max] w %. Max to własny limit z wiersza,
+ * a bez niego najmniejsze z: MAKS_UDZIAL i limitu grochu i bobiku dla wieku.
+ */
+export function graniceUdzialu(s: PozycjaMieszanki, okres: string): [number, number] {
+  const wlasnyMin = liczba(s.min);
+  const wlasnyMax = liczba(s.max);
+  let max = 100;
+  if (wlasnyMax > 0) {
+    max = wlasnyMax;
+  } else {
+    if (MAKS_UDZIAL[s.nazwa] != null) max = Math.min(max, MAKS_UDZIAL[s.nazwa]);
+    if (STRACZKOWE.has(s.nazwa)) max = Math.min(max, maxStraczkowe(okres));
+  }
+  return [Math.max(0, Math.min(wlasnyMin, 100)), Math.min(100, max)];
+}
+
+/**
+ * Czy z tych limitów da się ułożyć 100%. Zwraca opis problemu albo null.
+ * Wołać przed doborem: przy sprzecznych limitach algorytm dałby wynik,
+ * który ich nie spełnia, a użytkownik by tego nie zauważył.
+ */
+export function bladLimitow(pozycje: PozycjaMieszanki[], okres: string): string | null {
+  const granice = pozycje.map((s) => graniceUdzialu(s, okres));
+  const i = granice.findIndex((g) => g[0] > g[1]);
+  if (i >= 0) {
+    const wlasne = String(pozycje[i].max ?? "").trim() !== "";
+    return `${pozycje[i].nazwa}: minimum ${granice[i][0]}% jest większe niż ${wlasne ? "maksimum" : "zalecane maksimum"} ${granice[i][1]}%.${wlasne ? "" : " Jeśli chcesz więcej, wpisz własne maksimum."}`;
+  }
+  const sumaMin = granice.reduce((a, g) => a + g[0], 0);
+  if (sumaMin > 100.05) return `Minimalne udziały sumują się do ${sumaMin.toFixed(1)}%, a mieszanka ma 100%. Obniż któreś minimum.`;
+  const sumaMax = granice.reduce((a, g) => a + g[1], 0);
+  if (sumaMax < 99.95) {
+    const ograniczone = pozycje
+      .map((s, i) => ({ nazwa: s.nazwa, max: granice[i][1] }))
+      .filter((g) => g.max < 100)
+      .slice(0, 3)
+      .map((g) => `${g.nazwa} do ${g.max}%`)
+      .join(", ");
+    return `Z tymi limitami składniki dają najwyżej ${sumaMax.toFixed(1)}% mieszanki. Dodaj składnik albo podnieś któryś limit (${ograniczone}).`;
+  }
+  return null;
+}
+
+/** Składniki, które w wyniku doszły do swojego maksimum (z dokładnością do 0,1 pkt proc.). */
+export function osiagnieteLimity(pozycje: PozycjaMieszanki[], okres: string): { nazwa: string; max: number }[] {
+  return pozycje
+    .map((s) => ({ nazwa: s.nazwa, procent: liczba(s.procent), max: graniceUdzialu(s, okres)[1] }))
+    .filter((s) => s.max < 100 && s.procent >= s.max - 0.1)
+    .map(({ nazwa, max }) => ({ nazwa, max }));
+}
+
+/**
+ * Sprowadza udziały do granic i do sumy 100%: przycina do [min, max], a różnicę
+ * rozkłada proporcjonalnie na wiersze, które mają jeszcze luz. Kilka przejść,
+ * bo rozłożenie może przepchnąć kolejny wiersz za jego granicę.
+ */
+function wGranicach(pozycje: { procent: number }[], granice: [number, number][]): void {
+  for (let krok = 0; krok < 50; krok++) {
+    pozycje.forEach((s, i) => { s.procent = Math.min(granice[i][1], Math.max(granice[i][0], s.procent)); });
+    const roznica = 100 - pozycje.reduce((a, s) => a + s.procent, 0);
+    if (Math.abs(roznica) < 1e-6) return;
+    const wolne = pozycje
+      .map((_, i) => i)
+      .filter((i) => (roznica > 0 ? pozycje[i].procent < granice[i][1] - 1e-9 : pozycje[i].procent > granice[i][0] + 1e-9));
+    if (wolne.length === 0) return;
+    const suma = wolne.reduce((a, i) => a + pozycje[i].procent, 0);
+    wolne.forEach((i) => { pozycje[i].procent += roznica * (suma > 0 ? pozycje[i].procent / suma : 1 / wolne.length); });
+  }
+}
+
 /** Czy wiersz ma choć jedną wartość odżywczą; bez tego algorytm nie ma czym ruszać. */
 export function maWartosci(s: PozycjaMieszanki): boolean {
   return ["em", "bialko", "ca", "p", "na", "k", "mg", "mn", "zn", "se", "fe", "i"].some((p) => liczba(pole(s, p)) > 0);
@@ -98,23 +199,19 @@ export function maWartosci(s: PozycjaMieszanki): boolean {
 
 type ZProcentem<T> = T & { procent: number };
 
-function startowe<T extends PozycjaMieszanki>(pozycje: T[], max: number): ZProcentem<T>[] {
+function startowe<T extends PozycjaMieszanki>(pozycje: T[], granice: [number, number][]): ZProcentem<T>[] {
   const out = pozycje.map((s) => ({ ...s, procent: 100 / pozycje.length }));
-  out.forEach((s) => { if (STRACZKOWE.has(s.nazwa) && s.procent > max) s.procent = max; });
-  normalizuj(out);
+  wGranicach(out, granice);
   return out;
-}
-
-function normalizuj(pozycje: { procent: number }[]): void {
-  const suma = pozycje.reduce((s, sk) => s + sk.procent, 0);
-  pozycje.forEach((sk) => { sk.procent = (sk.procent / suma) * 100; });
 }
 
 /**
  * „Przelicz optymalne proporcje": losowe przesuwanie udziałów między parami
- * składników, zostaje zmiana, która zmniejsza bladNormy. Groch i bobik
- * przycinane do limitu wieku. `losuj` do podmiany: MCP podaje generator
- * z ziarnem, żeby to samo pytanie dawało tę samą odpowiedź.
+ * składników, zostaje zmiana, która zmniejsza bladNormy. Każdy wiersz trzyma
+ * się swoich granic (graniceUdzialu: własne min/max, MAKS_UDZIAL, groch i bobik
+ * wg wieku). Przy sprzecznych limitach wynik ich nie spełni, dlatego najpierw
+ * bladLimitow. `losuj` do podmiany: MCP podaje generator z ziarnem, żeby to
+ * samo pytanie dawało tę samą odpowiedź.
  */
 export function dobierzProporcje<T extends PozycjaMieszanki>(
   pozycje: T[],
@@ -123,8 +220,8 @@ export function dobierzProporcje<T extends PozycjaMieszanki>(
   losuj: () => number = Math.random,
   iteracje = 1000,
 ): ZProcentem<T>[] {
-  const max = maxStraczkowe(okres);
-  let najlepsze = startowe(pozycje, max);
+  const granice = pozycje.map((s) => graniceUdzialu(s, okres));
+  let najlepsze = startowe(pozycje, granice);
   let najlepszyBlad = bladNormy(najlepsze, norma);
 
   for (let n = 0; n < iteracje; n++) {
@@ -136,8 +233,7 @@ export function dobierzProporcje<T extends PozycjaMieszanki>(
     const zmiana = losuj() * 20 - 10;
     test[i1].procent = Math.max(0.1, Math.min(99, test[i1].procent + zmiana));
     test[i2].procent = Math.max(0.1, Math.min(99, test[i2].procent - zmiana));
-    test.forEach((s) => { if (STRACZKOWE.has(s.nazwa) && s.procent > max) s.procent = max; });
-    normalizuj(test);
+    wGranicach(test, granice);
 
     const blad = bladNormy(test, norma);
     if (blad < najlepszyBlad) {
@@ -164,11 +260,11 @@ export function najtanszaMieszanka<T extends PozycjaMieszanki>(
   losuj: () => number = Math.random,
   iteracje = 2000,
 ): ZProcentem<T>[] {
-  const max = maxStraczkowe(okres);
+  const granice = pozycje.map((s) => graniceUdzialu(s, okres));
   const cel = (test: PozycjaMieszanki[]) => kosztMieszanki(test) * 0.3 + bladNormy(test, norma) * 100;
   const cena = (s: PozycjaMieszanki) => parseFloat(pole(s, "cena") as string);
 
-  let najlepsze = startowe(pozycje, max);
+  let najlepsze = startowe(pozycje, granice);
   let najlepszyWynik = cel(najlepsze);
 
   for (let n = 0; n < iteracje; n++) {
@@ -191,8 +287,7 @@ export function najtanszaMieszanka<T extends PozycjaMieszanki>(
     zmiana = cena(test[i1]) < cena(test[i2]) ? Math.abs(zmiana) : -Math.abs(zmiana);
     test[i1].procent = Math.max(0.5, Math.min(95, test[i1].procent + zmiana));
     test[i2].procent = Math.max(0.5, Math.min(95, test[i2].procent - zmiana));
-    test.forEach((s) => { if (STRACZKOWE.has(s.nazwa) && s.procent > max) s.procent = max; });
-    normalizuj(test);
+    wGranicach(test, granice);
 
     const wynik = cel(test);
     if (wynik < najlepszyWynik) {
@@ -241,6 +336,14 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
       : kategoria === "rosnące" ? " (ptaki rosnące - 7-20 tygodni)"
       : " (ptaki dorosłe)";
     sugestie.push(`⚠️ ZA DUŻO ROŚLIN STRĄCZKOWYCH:\n→ Suma grochu i bobiku wynosi ${sumaStraczkowych.toFixed(1)}%\n→ Maksimum dla tego wieku: ${max}%${opis}\n→ Zmniejsz udział grochu/bobiku - nadmiar może powodować problemy trawienne!`);
+  }
+
+  // Zalecane maksimum z arkusza „Maxi” (groch i bobik mają własną regułę wyżej).
+  for (const s of pozycje) {
+    const maks = MAKS_UDZIAL[s.nazwa];
+    if (maks != null && !STRACZKOWE.has(s.nazwa) && liczba(s.procent) > maks + 0.05) {
+      sugestie.push(`⚠️ ${s.nazwa.toUpperCase()} POWYŻEJ ZALECANEGO UDZIAŁU:\n→ W mieszance ${liczba(s.procent).toFixed(1)}%, zalecane najwyżej ${maks}%\n→ Zastąp część innym zbożem albo źródłem białka`);
+    }
   }
 
   const ocenaEm = sprawdzNorme(em, norma.em, 0.05);
@@ -301,4 +404,39 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
   }
 
   return sugestie;
+}
+
+/** Stado do policzenia zapotrzebowania: liczba ptaków i dawka paszy w g na sztukę dziennie. */
+export interface Stado {
+  sztuk: number;
+  dawkaG: number;
+}
+
+export interface ZapotrzebowanieSkladnika {
+  nazwa: string;
+  procent: number;
+  dziennieKg: number;
+  tygodniowoKg: number;
+  miesiecznieKg: number;
+}
+
+/**
+ * Ile paszy zje stado i ile każdego składnika na to trzeba (od 24.10.2026).
+ * Miesiąc = 30 dni. Bez zaokrągleń: zaokrągla dopiero strona albo MCP.
+ */
+export function zapotrzebowanieStada(pozycje: PozycjaMieszanki[], stado: Stado) {
+  const dziennieKg = (Math.max(0, stado.sztuk) * Math.max(0, stado.dawkaG)) / 1000;
+  const skladniki: ZapotrzebowanieSkladnika[] = pozycje
+    .filter((s) => liczba(s.procent) > 0)
+    .map((s) => {
+      const udzial = liczba(s.procent) / 100;
+      return {
+        nazwa: s.nazwa,
+        procent: liczba(s.procent),
+        dziennieKg: dziennieKg * udzial,
+        tygodniowoKg: dziennieKg * udzial * 7,
+        miesiecznieKg: dziennieKg * udzial * 30,
+      };
+    });
+  return { dziennieKg, tygodniowoKg: dziennieKg * 7, miesiecznieKg: dziennieKg * 30, skladniki };
 }
