@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import ScrollToTop from "@/components/ScrollToTop";
 import DoSerowarni from "./powloka/DoSerowarni";
+import Tytuly from "./powloka/Tytuly";
 
 // Te same strony co w Serowarni; nagłówek, stopkę i okruszki podmienia vite.config.ts.
 const KalkulatorPasz = lazy(() => import("@/pages/KalkulatorPasz"));
@@ -32,6 +33,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <Tytuly />
           <AuthProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
