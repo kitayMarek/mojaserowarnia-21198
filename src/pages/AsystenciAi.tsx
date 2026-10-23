@@ -110,10 +110,17 @@ const AsystenciAi = () => {
 
   // Przycisk w menu i krótki link /chatgpt prowadzą na #chatgpt. Router sam nie
   // przewija do kotwicy, a karta jest daleko pod „Jak podłączyć w Claude”.
+  // Drugi skok po chwili: na produkcji (23.10.2026) treść nad kartą jeszcze się
+  // przesuwała po pierwszym, przez co strona kończyła 350 px za nisko.
   useEffect(() => {
     if (location.hash !== "#chatgpt") return;
-    const t = setTimeout(() => document.getElementById("chatgpt")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
-    return () => clearTimeout(t);
+    const skocz = () => document.getElementById("chatgpt")?.scrollIntoView({ block: "start" });
+    const t1 = setTimeout(skocz, 50);
+    const t2 = setTimeout(skocz, 700);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [location.hash]);
 
   const kopiujPolecenie = async () => {
