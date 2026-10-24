@@ -64,6 +64,39 @@ const createRecipeSearchItems = (): SearchItem[] => {
 
 // Poradniki
 const poradnikiItems: SearchItem[] = [
+  // Strony o paszach i asystenci AI (24.10.2026): z nowej strony głównej szuka się ich wprost.
+  {
+    id: "kury-nie-niosa",
+    title: "Kury nie niosą jajek? Najczęstsze przyczyny",
+    description: "Jesień i pierzenie, za mało białka i wapnia, sama pszenica, resztki z kuchni. Prosto, z liczbami i źródłami.",
+    category: "poradniki",
+    href: "/pasze/kury-nie-niosa",
+    keywords: ["kury", "nie niosą", "nioski", "jajka", "jesień", "pierzenie", "wapń", "białko"],
+  },
+  {
+    id: "resztki-z-kuchni",
+    title: "Resztki z kuchni dla kur",
+    description: "Chleb, makaron i obiad dla kur: co, ile i czego unikać, i co mówią przepisy.",
+    category: "poradniki",
+    href: "/pasze/resztki-z-kuchni",
+    keywords: ["resztki", "kuchnia", "chleb", "makaron", "kury", "zlewki", "obierki"],
+  },
+  {
+    id: "udzial-surowcow",
+    title: "Ile jakiego surowca w paszy dla drobiu",
+    description: "Górne granice zbóż, grochu, bobiku i rzepaku dla każdej grupy ptaków, ze źródłami.",
+    category: "poradniki",
+    href: "/pasze/udzial-surowcow",
+    keywords: ["pasza", "groch", "bobik", "pszenica", "jęczmień", "rzepak", "udział", "limit", "drób"],
+  },
+  {
+    id: "asystenci-ai",
+    title: "Podłącz serwis do swojego czatu (ChatGPT, Claude, Perplexity)",
+    description: "Gotowy tekst dla czatu: przeprowadzi przez podłączenie bazy kultur i kalkulatora pasz.",
+    category: "narzedzia",
+    href: "/asystenci-ai",
+    keywords: ["chatgpt", "claude", "perplexity", "asystent", "ai", "czat", "łącznik", "mcp", "wtyczka"],
+  },
   {
     id: "poradnik-serowarzy",
     title: "Poradnik dla serowarów",

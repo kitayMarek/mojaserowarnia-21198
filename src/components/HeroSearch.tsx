@@ -30,7 +30,14 @@ const popularSearches = [
   { label: "Kultury mezofilne", query: "mezofilne" },
 ];
 
-const HeroSearch = () => {
+/**
+ * `className` i `poleClassName` (od 24.10.2026): nowa strona główna stawia pole po lewej,
+ * z ramką zamiast cienia. Bez nich wygląd jak dawniej (wyśrodkowane, zaokrąglone).
+ */
+const HeroSearch = ({
+  className = "max-w-xl mx-auto",
+  poleClassName = "rounded-full bg-white/95 backdrop-blur-sm border-0 shadow-xl",
+}: { className?: string; poleClassName?: string } = {}) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchItem[]>([]);
@@ -122,7 +129,7 @@ const HeroSearch = () => {
   };
 
   return (
-    <div className="relative w-full max-w-xl mx-auto">
+    <div className={cn("relative w-full", className)}>
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <input
@@ -133,7 +140,8 @@ const HeroSearch = () => {
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
           placeholder="Szukaj kultur, przepisów, narzędzi..."
-          className="w-full h-12 pl-12 pr-4 rounded-full bg-white/95 backdrop-blur-sm border-0 shadow-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+          aria-label="Szukaj w serwisie"
+          className={cn("w-full h-12 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all", poleClassName)}
         />
       </div>
 
