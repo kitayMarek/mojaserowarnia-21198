@@ -28,6 +28,14 @@ const TYTULY: Record<string, { tytul: string; opis: string }> = {
     tytul: "Pasze i żywienie zwierząt w gospodarstwie | Moja Pasza",
     opis: "Normy żywieniowe drobiu, dodatki do paszy (olej, muszle, grit, metionina) i bezpieczne wykorzystanie serwatki w żywieniu zwierząt.",
   },
+  "/poradnik/udzial-surowcow": {
+    tytul: "Ile jakiego surowca w paszy dla drobiu | Moja Pasza",
+    opis: "Najwyższe zalecane udziały zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
+  },
+  "/poradnik/kury-nie-niosa": {
+    tytul: "Kury nie niosą jajek? Najczęstsze przyczyny | Moja Pasza",
+    opis: "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
+  },
   "/auth": {
     tytul: "Logowanie | Moja Pasza",
     opis: "Zaloguj się, żeby zapisywać mieszanki z kalkulatora paszy.",

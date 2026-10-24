@@ -15,6 +15,8 @@ import Tytuly from "./powloka/Tytuly";
 const KalkulatorPasz = lazy(() => import("@/pages/KalkulatorPasz"));
 const KalkulatorPaszBydlo = lazy(() => import("@/pages/KalkulatorPaszBydlo"));
 const PaszeHub = lazy(() => import("@/pages/PaszeHub"));
+const UdzialSurowcow = lazy(() => import("@/pages/UdzialSurowcow"));
+const KuryNieNiosa = lazy(() => import("@/pages/KuryNieNiosa"));
 const Auth = lazy(() => import("@/pages/Auth"));
 
 const queryClient = new QueryClient();
@@ -40,10 +42,14 @@ const App = () => (
                 <Route path="/" element={<KalkulatorPasz />} />
                 <Route path="/bydlo" element={<KalkulatorPaszBydlo />} />
                 <Route path="/poradnik" element={<PaszeHub />} />
+                <Route path="/poradnik/udzial-surowcow" element={<UdzialSurowcow />} />
+                <Route path="/poradnik/kury-nie-niosa" element={<KuryNieNiosa />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/kalkulator-pasz" element={<Na cel="/" />} />
                 <Route path="/kalkulator-pasz-bydlo" element={<Na cel="/bydlo" />} />
                 <Route path="/pasze" element={<Na cel="/poradnik" />} />
+                <Route path="/pasze/udzial-surowcow" element={<Na cel="/poradnik/udzial-surowcow" />} />
+                <Route path="/pasze/kury-nie-niosa" element={<Na cel="/poradnik/kury-nie-niosa" />} />
                 {/* Wszystko inne to linki do treści Serowarni (serwatka, prawo, poradniki). */}
                 <Route path="*" element={<DoSerowarni />} />
               </Routes>

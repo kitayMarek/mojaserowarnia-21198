@@ -96,6 +96,19 @@ const PaszeHub = () => {
     },
   ];
 
+  // Od 24.10.2026: dwie podstrony dla przydomowych hodowców drobiu.
+  const porady = [
+    {
+      title: "Kury nie niosą jajek?",
+      description: "Dajesz dobre jedzenie, a jajek nie ma. Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica, resztki z kuchni. Co zrobić.",
+      href: "/pasze/kury-nie-niosa",
+    },
+    {
+      title: "Ile jakiego surowca w paszy",
+      description: "Górne granice zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
+      href: "/pasze/udzial-surowcow",
+    },
+  ];
   const krowy = [
     {
       icon: <Milk className="w-10 h-10" />,
@@ -258,6 +271,21 @@ const PaszeHub = () => {
                 </p>
               </CardContent>
             </Card>
+
+            <div className="grid md:grid-cols-2 gap-4 mt-6">
+              {porady.map((p) => (
+                <Link key={p.href} to={p.href} className="group block h-full">
+                  <Card className="h-full transition-colors border-2 hover:border-primary">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors">{p.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="leading-relaxed">{p.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
 
             {/* DLACZEGO */}
             <h2 className="text-2xl font-bold mt-12 mb-2">Cztery dodatki, które amatorzy pomijają</h2>

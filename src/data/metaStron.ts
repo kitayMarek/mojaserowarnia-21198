@@ -167,6 +167,20 @@ export const metaStron: Record<string, MetaStrony> = {
       "Żywienie zwierząt w gospodarstwie: normy drobiu (nioski 16–18% białka, 3,8–4,2% wapnia), po co olej, muszle ostryg, metionina i grit, oraz co zrobić z serwatką i nieudanym serem.",
     mirror: "pasze.html",
   },
+  "/pasze/udzial-surowcow": {
+    // Od 24.10.2026. Dane i źródła: src/data/udzialySurowcow.ts (wspólne z kalkulatorem i MCP).
+    title: "Ile jakiego surowca w paszy dla drobiu",
+    description:
+      "Najwyższe zalecane udziały zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
+    mirror: "pasze/udzial-surowcow.html",
+  },
+  "/pasze/kury-nie-niosa": {
+    // Od 24.10.2026. Pytanie z grup o kurach; treść: src/data/kuryNieNiosa.ts.
+    title: "Kury nie niosą jajek? Najczęstsze przyczyny",
+    description:
+      "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
+    mirror: "pasze/kury-nie-niosa.html",
+  },
   "/poradniki": {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: Helmet (tytul), Helmet (opis).
     title: "Poradniki serowara | Start",

@@ -15,12 +15,49 @@
 import { feedIngredients, feedCategories } from '../../src/data/feedIngredients.ts';
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import {
-  POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maxStraczkowe,
+  POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maksUdzialu,
   dobierzProporcje, najtanszaMieszanka, kosztMieszanki, generujSugestie,
-  MAKS_UDZIAL, bladLimitow, osiagnieteLimity, zapotrzebowanieStada,
+  bladLimitow, osiagnieteLimity, zapotrzebowanieStada,
 } from '../../src/lib/bilansPaszy.ts';
+import { UDZIALY_SUROWCOW, GRUPY_PTAKOW, grupaPtakow, zalecenieUdzialu, udzialSurowca } from '../../src/data/udzialySurowcow.ts';
 
 const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
+const ADRES_UDZIALOW = 'https://mojaserowarnia.pl/pasze/udzial-surowcow?utm_source=magazyn';
+
+/**
+ * Zalecane udziały surowców dla grupy ptaków (od 0.5.0), z powodem i tym, co
+ * jeszcze niepewne. Źródło liczb: src/data/udzialySurowcow.ts, to samo co
+ * podstrona i kalkulator.
+ */
+function zaleceniaUdzialow(drob, okres) {
+  const grupa = grupaPtakow(drob, okres);
+  return {
+    grupa: grupa ? GRUPY_PTAKOW[grupa] : null,
+    surowce: UDZIALY_SUROWCOW.flatMap((u) => {
+      const z = zalecenieUdzialu(u.nazwy[0], grupa);
+      if (!z) return [];
+      return [{
+        surowiec: u.surowiec,
+        nazwy_w_bazie: u.nazwy,
+        maks_proc: z.maks,
+        ...(z.maksZEnzymem != null ? { maks_z_enzymem_proc: z.maksZEnzymem } : {}),
+        ...(z.zalecane ? { zalecane_proc: z.zalecane } : {}),
+        powod: u.powod,
+        ...(u.doPotwierdzenia ? { do_potwierdzenia: u.doPotwierdzenia } : {}),
+      }];
+    }),
+    strona: ADRES_UDZIALOW,
+  };
+}
+
+/** Składniki ponad zalecane maksimum, z ryzykiem dla zdrowia ptaków. */
+function ponadZalecenia(pozycje, ptaki) {
+  return pozycje.flatMap((s) => {
+    const maks = maksUdzialu(s.nazwa, ptaki);
+    if (maks == null || !(parseFloat(s.procent) > maks + 0.05)) return [];
+    return [{ nazwa: s.nazwa, procent: zaokr(parseFloat(s.procent), 1), zalecane_maks_proc: maks, ryzyko: udzialSurowca(s.nazwa)?.ostrzezenie }];
+  });
+}
 
 export const GATUNKI = Object.keys(NORMY_DROBIU);
 export const KATEGORIE_SUROWCOW = feedCategories;
@@ -182,6 +219,8 @@ function zapotrzebowanie(pozycje, drob, okres, stado) {
 function raport(pozycje, norma, drob, uwagi = [], stado = null) {
   const wszystkieZCena = pozycje.every((s) => parseFloat(s.cena) > 0);
   const { poza_norma, w_normie, bez_normy } = ocenaMieszanki(pozycje, norma);
+  const ptaki = { drob, okres: norma.okres };
+  const ponad = ponadZalecenia(pozycje, ptaki);
   return {
     gatunek: etykietaGatunku(drob),
     okres: norma.okres,
@@ -192,8 +231,8 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
     w_normie,
     bez_normy,
     koszt_zl_kg: wszystkieZCena ? zaokr(kosztMieszanki(pozycje)) : null,
-    sugestie: generujSugestie(pozycje, norma, norma.okres),
-    limit_straczkowych_proc: maxStraczkowe(norma.okres),
+    sugestie: generujSugestie(pozycje, norma, ptaki),
+    ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
     uwagi,
     ...stopka(),
@@ -249,7 +288,7 @@ export function normyDrobiu({ drob, okres }) {
     drob,
     norma,
     ...(typowa ? { dawka_typowa_g_na_sztuke: { g: typowa.g, zakres: `${typowa.od}–${typowa.do}`, zrodlo: typowa.zrodlo, url: typowa.url } } : {}),
-    maks_udzial_proc: MAKS_UDZIAL,
+    zalecane_udzialy: zaleceniaUdzialow(drob, norma.okres),
     ...stopka(),
   };
 }
@@ -305,9 +344,15 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   if (cel === 'najtaniej' && !pozycje.every((p) => parseFloat(p.cena) > 0)) {
     return bladWejscia({ problem: 'cel "najtaniej" wymaga ceny (zł/kg) przy każdym składniku' });
   }
-  const sprzeczne = bladLimitow(pozycje, norma.okres);
+  const ptaki = { drob, okres: norma.okres };
+  const sprzeczne = bladLimitow(pozycje, ptaki);
   if (sprzeczne) {
-    return bladWejscia({ problem: 'limity udziałów są sprzeczne', szczegoly: sprzeczne, maks_udzial_proc: MAKS_UDZIAL });
+    return bladWejscia({
+      problem: 'limity udziałów są sprzeczne',
+      szczegoly: sprzeczne,
+      podpowiedz: 'Dawkę premiksu, soli albo innego dodatku podaj jako min_procent i max_procent o tej samej wartości (dawka z etykiety). Sól bez dawki dostaje 0,3%.',
+      zalecane_maks_proc: Object.fromEntries(pozycje.map((p) => [p.nazwa, maksUdzialu(p.nazwa, ptaki)])),
+    });
   }
 
   const ziarno = ziarnoZ(JSON.stringify([drob, norma.okres, cel, pozycje.map((p) => [p.nazwa, p.cena, p.min, p.max])]));
@@ -316,8 +361,8 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   for (let n = 0; n < PODEJSC; n++) {
     const losuj = generator(ziarno + n);
     const m = cel === 'najtaniej'
-      ? najtanszaMieszanka(pozycje, norma, norma.okres, losuj)
-      : dobierzProporcje(pozycje, norma, norma.okres, losuj);
+      ? najtanszaMieszanka(pozycje, norma, ptaki, losuj)
+      : dobierzProporcje(pozycje, norma, ptaki, losuj);
     if (!najlepsza || wynikCelu(m) < wynikCelu(najlepsza)) najlepsza = m;
   }
 
@@ -326,9 +371,9 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
 
   const uwagi = [
     'Algorytm dobiera proporcje pod energię, białko, wapń i fosfor. Pozostałe parametry są policzone i ocenione, ale nie są dobierane.',
-    `Każdy składnik trzyma się zalecanego maksymalnego udziału (pole maks_udzial_proc w normy_drobiu, np. kukurydza 60%, pszenica 50%), groch i bobik do ${maxStraczkowe(norma.okres)}% dla tego wieku. Własne limity: min_procent i max_procent przy składniku.`,
+    `Każdy składnik trzyma się zalecanego maksymalnego udziału dla tego gatunku i wieku (lista z powodami: normy_drobiu, pole zalecane_udzialy; źródła: ${ADRES_UDZIALOW}). Własne limity: min_procent i max_procent przy składniku; ponad zalecane maksimum wynik ma pole ponad_zalecany_udzial z ryzykiem dla zdrowia ptaków.`,
   ];
-  const osiagniete = osiagnieteLimity(najlepsza, norma.okres);
+  const osiagniete = osiagnieteLimity(najlepsza, ptaki);
   if (osiagniete.length) {
     uwagi.push(`Doszły do swojego maksimum: ${osiagniete.map((o) => `${o.nazwa} (${o.max}%)`).join(', ')}. Bez tego limitu algorytm dałby ich więcej.`);
   }
