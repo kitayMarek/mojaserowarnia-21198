@@ -381,7 +381,8 @@ export function opisJednegoSkladnika(j: JedenSkladnik): {
   return {
     gotowe: j.gotowe.length
       ? "Gotowe z naszej bazy: " + j.gotowe.map((g) => g.nazwa
-        + (g.oferta ? ` (od ${cenaPL(g.oferta.cenaZaKg)} zł/kg w ${g.oferta.sklep}, cena z ${g.oferta.sprawdzono})` : "")
+        // Cena za opakowanie, nie za kg: kamień do dziobania kupuje się na wiaderka.
+        + (g.oferta ? ` (${cenaPL(g.oferta.cenaZl)} zł za ${String(g.oferta.opakowanieKg).replace(".", ",")} kg w ${g.oferta.sklep}, cena z ${g.oferta.sprawdzono})` : "")
         + (g.partner ? ", partner serwisu" : "")).join("; ") + "."
       : null,
     sklad: braki

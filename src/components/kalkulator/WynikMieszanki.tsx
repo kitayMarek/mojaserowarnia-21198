@@ -175,7 +175,7 @@ function RamkaJednegoSkladnika({ j, onPokazKarte }: { j: JedenSkladnik; onPokazK
                 {g.nazwa}
               </button>
               {g.oferta && (
-                <span className="text-muted-foreground"> · od {liczbaPL(g.oferta.cenaZaKg, 2)} zł/kg w {g.oferta.sklep}, cena z {g.oferta.sprawdzono}</span>
+                <span className="text-muted-foreground"> · {liczbaPL(g.oferta.cenaZl, 2)} zł za {liczbaPL(g.oferta.opakowanieKg, 1)} kg w {g.oferta.sklep}, cena z {g.oferta.sprawdzono}</span>
               )}
               {g.partner && <span className="text-muted-foreground"> · partner serwisu</span>}
             </li>

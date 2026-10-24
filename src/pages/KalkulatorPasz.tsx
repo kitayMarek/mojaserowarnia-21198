@@ -31,7 +31,7 @@ import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from "@/data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/data/udzialySurowcow";
-import { cenaZaKg, najtanszaOferta } from "@/data/dodatkiPaszowe";
+import { KATEGORIA_OSOBNE_KARMIDLO, cenaZaKg, najtanszaOferta } from "@/data/dodatkiPaszowe";
 import { OPIS_GMO, opisEko, znacznikiSurowca } from "@/data/gmoEkoSurowcow";
 import {
   maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki, jedenSkladnik,
@@ -163,6 +163,12 @@ const KalkulatorPasz = () => {
   const bazaUzupelnien = useMemo(
     () => przykladoweSkladniki.map(p => ({ ...p, ...(dodatkiPoNazwie.get(p.nazwa) ?? {}), procent: 0 })),
     [przykladoweSkladniki, dodatkiPoNazwie],
+  );
+  // Ramka „Pasza z jednego składnika” proponuje też mieszanki do osobnego karmidła, których
+  // nie ma na liście składników (useFeedIngredients je odfiltrowuje).
+  const bazaKarmidla = useMemo(
+    () => [...bazaUzupelnien, ...dodatki.filter(d => d.kategoria === KATEGORIA_OSOBNE_KARMIDLO).map(d => ({ ...d, procent: 0 }))],
+    [bazaUzupelnien, dodatki],
   );
   // Karta produktu i lista bazy dodatków (od 24.10.2026).
   const [kartaProduktu, setKartaProduktu] = useState<string | null>(null);
@@ -960,7 +966,7 @@ const KalkulatorPasz = () => {
                 dawkaG={dawkaLiczba}
                 onDodajSkladnik={dodajSkladnikZSugestii}
                 onPokazKarte={pokazKarteProduktu}
-                jedenSkladnik={aktualnaNorma ? jedenSkladnik(skladniki, aktualnaNorma, ptaki, bazaUzupelnien) : null}
+                jedenSkladnik={aktualnaNorma ? jedenSkladnik(skladniki, aktualnaNorma, ptaki, bazaKarmidla) : null}
                 pelnySklad={
                   // Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
                   // nie z kart składników.

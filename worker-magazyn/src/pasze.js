@@ -16,19 +16,21 @@
 
 import { feedIngredients as SUROWCE_PASZ, feedCategories } from '../../src/data/feedIngredients.ts';
 import { SKLADNIKI_Z_KUCHNI, KATEGORIA_Z_KUCHNI } from '../../src/data/skladnikiZKuchni.ts';
-import { DODATKI_PASZOWE, adresOferty, cenaZaKg, najtanszaOferta } from '../../src/data/dodatkiPaszowe.ts';
+import { DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, adresOferty, cenaZaKg, najtanszaOferta } from '../../src/data/dodatkiPaszowe.ts';
 import { OPIS_GMO, opisEko, znacznikiSurowca } from '../../src/data/gmoEkoSurowcow.ts';
 
 // Surowce paszowe, produkty z bazy dodatków (od 0.8.0: kreda z worka, premiks, koncentrat)
 // i produkty z kuchni (od 0.7.0, skład przybliżony z tabel żywności), żeby można było
 // policzyć mieszankę z konkretnym produktem albo z resztkami. Kalkulator na stronie ma te same.
 const feedIngredients = [...SUROWCE_PASZ, ...DODATKI_PASZOWE, ...SKLADNIKI_Z_KUCHNI];
+// Do mieszanki bez mieszanek do osobnego karmidła (kamień do dziobania): tych nie wsypuje się do paszy.
+const DO_MIESZANKI = feedIngredients.filter((s) => s.kategoria !== KATEGORIA_OSOBNE_KARMIDLO);
 const PRODUKTY = new Set(DODATKI_PASZOWE.map((d) => d.nazwa));
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import {
   POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maksUdzialu,
   dobierzProporcje, najtanszaMieszanka, kosztMieszanki, generujSugestie,
-  bladLimitow, osiagnieteLimity, zapotrzebowanieStada, uzupelnienia,
+  bladLimitow, osiagnieteLimity, zapotrzebowanieStada, uzupelnienia, kosztNaPtakaMiesiecznie,
 } from '../../src/lib/bilansPaszy.ts';
 import { UDZIALY_SUROWCOW, GRUPY_PTAKOW, grupaPtakow, zalecenieUdzialu, udzialSurowca } from '../../src/data/udzialySurowcow.ts';
 
@@ -106,6 +108,40 @@ export function ofertaDlaModelu(o) {
   };
 }
 
+/**
+ * Gdzie kupić składniki mieszanki (od 0.8.3). Czat podawał listę zakupów bez cen i sklepów,
+ * choć baza je ma (uwaga z rozmowy Marka o odpowiedzi Perplexity, 24.10.2026). Dla każdego
+ * składnika: ten sam produkt albo produkty z jego `odpowiednik` (kreda z worka do „Kreda
+ * pastewna”), najwyżej 2, od najtańszej za kg. Premiksów ogólnych nie podmieniamy produktem,
+ * bo mają inne dawki. Pole partner nie wchodzi do sortowania.
+ */
+function gdzieKupic(pozycje, dawkaG = 0) {
+  return pozycje.flatMap((s) => {
+    const udzial = parseFloat(s.procent) || 0;
+    if (udzial <= 0) return [];
+    const oferty = DODATKI_PASZOWE
+      .filter((d) => d.nazwa === s.nazwa || d.odpowiednik === s.nazwa)
+      .flatMap((d) => {
+        const o = najtanszaOferta(d.oferty);
+        return o ? [{ d, o }] : [];
+      })
+      .sort((a, b) => cenaZaKg(a.o) - cenaZaKg(b.o))
+      .slice(0, 2);
+    if (!oferty.length) return [];
+    return [{
+      skladnik: s.nazwa,
+      procent: zaokr(udzial, 1),
+      oferty: oferty.map(({ d, o }) => ({
+        produkt: d.nazwa,
+        producent: d.producent,
+        ...ofertaDlaModelu(o),
+        ...(dawkaG > 0 ? { koszt_na_ptaka_30_dni_zl: zaokr(kosztNaPtakaMiesiecznie(udzial, dawkaG, cenaZaKg(o)), 2) } : {}),
+        ...(d.partner ? { partner_serwisu: true } : {}),
+      })),
+    }];
+  });
+}
+
 /** Składniki ponad zalecane maksimum, z ryzykiem dla zdrowia ptaków. */
 function ponadZalecenia(pozycje, ptaki) {
   return pozycje.flatMap((s) => {
@@ -175,11 +211,11 @@ const etykietaGatunku = (drob) =>
 function znajdzSurowiec(nazwa) {
   const szukane = normalizuj(nazwa);
   if (!szukane) return { blad: 'pusta nazwa' };
-  const dokladny = feedIngredients.find((s) => normalizuj(s.nazwa) === szukane);
+  const dokladny = DO_MIESZANKI.find((s) => normalizuj(s.nazwa) === szukane);
   if (dokladny) return { surowiec: dokladny };
-  const poczatek = feedIngredients.filter((s) => normalizuj(s.nazwa).startsWith(szukane));
+  const poczatek = DO_MIESZANKI.filter((s) => normalizuj(s.nazwa).startsWith(szukane));
   if (poczatek.length === 1) return { surowiec: poczatek[0] };
-  const fragment = feedIngredients.filter((s) => normalizuj(s.nazwa).includes(szukane));
+  const fragment = DO_MIESZANKI.filter((s) => normalizuj(s.nazwa).includes(szukane));
   if (fragment.length === 1) return { surowiec: fragment[0] };
   const kandydaci = (poczatek.length ? poczatek : fragment).slice(0, 8).map((s) => s.nazwa);
   return { blad: kandydaci.length ? 'kilka pasujących surowców' : 'brak takiego surowca', kandydaci };
@@ -293,6 +329,7 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
     // Baza z produktami: ramka jednego składnika proponuje z niej gotowe mieszanki do osobnego karmidła.
     sugestie: generujSugestie(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 }))),
     ...(uzup.length ? { uzupelnienia: uzup } : {}),
+    ...(() => { const g = gdzieKupic(pozycje, dawkaG); return g.length ? { gdzie_kupic: g } : {}; })(),
     ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
     uwagi,

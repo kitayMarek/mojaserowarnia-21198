@@ -3,7 +3,7 @@
   "name": "pl.mojaserowarnia/baza-kultur",
   "title": "Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz",
   "description": "Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "websiteUrl": "https://mojaserowarnia.pl/asystenci-ai",
   "remotes": [
     {

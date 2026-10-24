@@ -19,7 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { feedIngredients, feedCategories, type FeedIngredient } from "@/data/feedIngredients";
 import { SKLADNIKI_Z_KUCHNI } from "@/data/skladnikiZKuchni";
 import {
-  DODATKI_PASZOWE, dodatekPoNazwie, opisDawki,
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, dodatekPoNazwie, opisDawki,
   type DodatekPaszowy, type Gatunek, type Gmo, type OfertaDodatku, type ZrodloSkladu,
 } from "@/data/dodatkiPaszowe";
 
@@ -135,11 +135,13 @@ export function useFeedIngredients() {
     const mapped = rows.map(mapRow);
     // Produkty z kuchni (od 24.10.2026) zawsze na końcu listy: nie ma ich w bazie Supabase,
     // bo to nie pasza, tylko punkt odniesienia dla małych hodowców (src/data/skladnikiZKuchni.ts).
+    // Mieszanki do osobnego karmidła (kamień do dziobania) nie wchodzą do paszy, więc nie ma
+    // ich na liście składników; są w bazie dodatków i w ramce „Pasza z jednego składnika”.
     return [
       ...(hasBaza ? mapped : [...feedIngredients, ...mapped]),
       ...(hasDodatki ? [] : DODATKI_PASZOWE),
       ...SKLADNIKI_Z_KUCHNI,
-    ];
+    ].filter((s) => s.kategoria !== KATEGORIA_OSOBNE_KARMIDLO);
   }, [rows]);
 
   // Kategorie w kolejności z pliku, plus ewentualne nowe z bazy — tylko te, które mają składniki.
