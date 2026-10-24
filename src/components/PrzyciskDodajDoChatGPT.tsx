@@ -25,7 +25,7 @@ const PrzyciskDodajDoChatGPT = ({ zrodlo, className = "" }: { zrodlo: string; cl
         toast({
           title: "Adres skopiowany, otwieramy ChatGPT",
           description:
-            "Kliknij tam Dodaj, potem Dodaj niestandardowy serwer MCP. Wklej adres, wybierz brak uwierzytelniania i zainstaluj wtyczkę.",
+            "Kliknij tam Dodaj w prawym górnym rogu, potem Dodaj niestandardowy serwer MCP. Wklej adres, wybierz brak uwierzytelniania i zainstaluj wtyczkę.",
         });
       }}
     >

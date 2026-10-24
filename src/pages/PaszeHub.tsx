@@ -7,6 +7,7 @@ import PageHeader from "@/components/PageHeader";
 import ReactionButton from "@/components/ReactionButton";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
 import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
 
@@ -238,6 +239,8 @@ const PaszeHub = () => {
                 </Link>
               ))}
             </div>
+
+            <PodlaczWSwoimCzacie sciezka="/pasze" className="mt-8" />
 
             {/* NORMY */}
             <h2 className="text-2xl font-bold mt-12 mb-4">Normy żywieniowe drobiu</h2>

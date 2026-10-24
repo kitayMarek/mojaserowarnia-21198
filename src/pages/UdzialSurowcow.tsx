@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
 import TLDRSection from "@/components/TLDRSection";
+import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
 import SeeAlso from "@/components/SeeAlso";
 import ReactionButton from "@/components/ReactionButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -86,6 +87,8 @@ const UdzialSurowcow = () => {
                 Kalkulator pasz sam trzyma się tych granic, a gdy ustawisz więcej, pokaże ostrzeżenie.
               </p>
             </TLDRSection>
+
+            <PodlaczWSwoimCzacie sciezka="/pasze/udzial-surowcow" className="mb-2" />
 
             <h2 className="text-2xl font-bold mt-10 mb-3">Dla jakich ptaków?</h2>
             <div className="flex flex-wrap gap-2 mb-5" role="tablist" aria-label="Grupa ptaków">

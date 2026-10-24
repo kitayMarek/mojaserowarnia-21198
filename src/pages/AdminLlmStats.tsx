@@ -138,16 +138,23 @@ export default function AdminLlmStats() {
   // Od 23.10.2026 takze "lacznik-chatgpt" i "lacznik-perplexity": przyciski „Dodaj
   // do ...” i krotkie linki /chatgpt?z=..., /perplexity?z=... (query "link"),
   // osobny wiersz na asystenta i strone.
+  // Od 24.10.2026 "prompt-otworz" i "prompt-kopiuj": ramka „Podlacz w swoim czacie”
+  // (src/components/PodlaczWSwoimCzacie.tsx), kolumna Prompt = otwarcia / kopiowania.
   const lacznik = useMemo(() => {
     const wiersze = (rows ?? []).filter((r) => r.model.startsWith("lacznik-"));
-    type Wiersz = { asystent: string; strona: string; razem: number; menu: number; przycisk: number; kopiuj: number; link: number };
+    type Wiersz = {
+      asystent: string; strona: string; razem: number; menu: number; przycisk: number; kopiuj: number; link: number;
+      promptOtworz: number; promptKopiuj: number;
+    };
     const wgStrony = new Map<string, Wiersz>();
     for (const r of wiersze) {
       const asystent = r.model === "lacznik-chatgpt" ? "ChatGPT" : r.model === "lacznik-perplexity" ? "Perplexity" : "Claude";
       const klucz = `${asystent}|${r.source}`;
-      const w = wgStrony.get(klucz) ?? { asystent, strona: r.source, razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0 };
+      const w = wgStrony.get(klucz) ?? { asystent, strona: r.source, razem: 0, menu: 0, przycisk: 0, kopiuj: 0, link: 0, promptOtworz: 0, promptKopiuj: 0 };
       w.razem += 1;
       if (r.query === "menu" || r.query === "przycisk" || r.query === "kopiuj" || r.query === "link") w[r.query] += 1;
+      else if (r.query === "prompt-otworz") w.promptOtworz += 1;
+      else if (r.query === "prompt-kopiuj") w.promptKopiuj += 1;
       wgStrony.set(klucz, w);
     }
     return {
@@ -348,7 +355,7 @@ export default function AdminLlmStats() {
           <CardDescription>
             Przyciski „Dodaj do Claude”, „Dodaj do ChatGPT” i „Dodaj do Perplexity”: menu boczne, przycisk na stronie,
             kopiowanie adresu, link z posta (/claude/dodaj?z=..., /chatgpt?z=..., /perplexity?z=..., wiersz = znacznik
-            posta). To zamiar, nie
+            posta), ramka z gotowym tekstem dla czatu (Prompt: otwarcia / kopiowania). To zamiar, nie
             podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
             {lacznik.razem}
           </CardDescription>
@@ -365,12 +372,15 @@ export default function AdminLlmStats() {
                   <TableHead className="text-right">Przycisk</TableHead>
                   <TableHead className="text-right">Kopiuj adres</TableHead>
                   <TableHead className="text-right">Link z posta</TableHead>
+                  <TableHead className="text-right" title="Ramka „Podłącz w swoim czacie”: otwarcie czatu z tekstem / samo kopiowanie">
+                    Prompt
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {lacznik.strony.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center text-muted-foreground">
+                    <TableCell colSpan={8} className="text-center text-muted-foreground">
                       Jeszcze nikt nie kliknął.
                     </TableCell>
                   </TableRow>
@@ -384,6 +394,7 @@ export default function AdminLlmStats() {
                       <TableCell className="text-right">{w.przycisk}</TableCell>
                       <TableCell className="text-right">{w.kopiuj}</TableCell>
                       <TableCell className="text-right">{w.link}</TableCell>
+                      <TableCell className="text-right">{w.promptOtworz} / {w.promptKopiuj}</TableCell>
                     </TableRow>
                   ))
                 )}

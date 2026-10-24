@@ -7,6 +7,7 @@ import BazaDodatkow from '@/components/kalkulator/BazaDodatkow';
 import KoncentratZeZbozemSekcja from '@/components/kalkulator/KoncentratZeZbozem';
 import WynikMieszanki from '@/components/kalkulator/WynikMieszanki';
 import ZapisaneReceptury, { PodpowiedzZapisu } from '@/components/kalkulator/ZapisaneReceptury';
+import PodlaczWSwoimCzacie from '@/components/PodlaczWSwoimCzacie';
 import {
   Komunikat, PARAMETRY, Sekcja, liczbaPL, zJednostka,
   type KomunikatKalkulatora, type PoleParametru,
@@ -21,7 +22,7 @@ import ReactionButton from "@/components/ReactionButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, Package, Plug, Plus, Target, Wheat } from 'lucide-react';
+import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, MessagesSquare, Package, Plus, Target, Wheat } from 'lucide-react';
 import PageHeader from "@/components/PageHeader";
 // Już nie na stronie (tytuł był w niej wtopiony), ale zostaje jako og:image do podglądów linków.
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
@@ -728,6 +729,25 @@ const KalkulatorPasz = () => {
           <div className="mb-4">
             <PodpowiedzZapisu />
           </div>
+          {/* Odnośnik do ramki „Podłącz w swoim czacie” na dole (decyzja Marka 24.10.2026:
+              jak najszybciej pokazać, że to samo policzy czat użytkownika). Przewijanie
+              ręczne, bo zwykły #hash zmieniłby adres i trasę. */}
+          <p className="mb-4 flex items-start gap-2 text-sm text-muted-foreground">
+            <MessagesSquare size={16} className="mt-0.5 flex-shrink-0 text-primary" aria-hidden="true" />
+            <span>
+              Wolisz liczyć w rozmowie?{' '}
+              <a
+                href="#w-swoim-czacie"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('w-swoim-czacie')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="font-semibold text-primary underline"
+              >
+                Podłącz ten kalkulator do swojego ChatGPT, Claude albo Perplexity
+              </a>
+            </span>
+          </p>
 
           <div
             className="flex flex-col gap-4 xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start xl:gap-6"
@@ -998,6 +1018,8 @@ const KalkulatorPasz = () => {
                 </p>
               </Sekcja>
 
+              <PodlaczWSwoimCzacie sciezka="/kalkulator-pasz" />
+
               <section className="px-1 text-sm text-muted-foreground">
                 <h2 className="mb-2.5 text-lg text-foreground">Dobrze wiedzieć</h2>
                 <ul className="space-y-2">
@@ -1010,17 +1032,6 @@ const KalkulatorPasz = () => {
                     <span>
                       Dobór trzyma się zalecanych udziałów surowców dla gatunku i wieku ptaków (np. jęczmień u młodych do 10%, groch i bobik mniej u piskląt). Własne granice ustawisz w „Skład i limity” przy składniku; po przekroczeniu zalecenia pokażę ostrzeżenie.{' '}
                       <Link to="/pasze/udzial-surowcow" className="underline">Skąd te granice</Link>
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Plug size={16} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
-                    <span>
-                      <strong className="text-foreground">W Claude, ChatGPT i Perplexity:</strong> ten sam kalkulator możesz podłączyć do asystenta AI i układać paszę w rozmowie.{' '}
-                      <Link to="/asystenci-ai" state={{ z: '/kalkulator-pasz' }} className="underline">Jak podłączyć w Claude</Link>
-                      {' · '}
-                      <Link to="/asystenci-ai#chatgpt" state={{ z: '/kalkulator-pasz' }} className="underline">w ChatGPT</Link>
-                      {' · '}
-                      <Link to="/asystenci-ai#perplexity" state={{ z: '/kalkulator-pasz' }} className="underline">w Perplexity</Link>
                     </span>
                   </li>
                 </ul>

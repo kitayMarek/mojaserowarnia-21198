@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
+import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Copy, ExternalLink, Plug } from "lucide-react";
@@ -50,6 +51,9 @@ import {
  * dodania z adresu; jest udostępniona umiejętność z adresem serwera w treści.
  * Zalogowany użytkownik importuje ją z jej strony („…”, Importuj kopię, Zapisz).
  * Krótki link: mojaserowarnia.pl/perplexity?z=...
+ *
+ * RAMKA „NIECH TWÓJ CZAT SAM CIĘ PRZEPROWADZI” (24.10.2026): gotowe teksty dla
+ * trzech czatów nad instrukcjami (src/components/PodlaczWSwoimCzacie.tsx).
  *
  * Treść 1:1 z mirrorem public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
@@ -177,6 +181,8 @@ const AsystenciAi = () => {
               mleka, a paszę dla drobiu układa z Twoich surowców pod normę. Nie trzeba zakładać konta ani
               podawać klucza.
             </p>
+
+            <PodlaczWSwoimCzacie sciezka={zrodlo} temat="ogolny" className="mb-6" />
 
             <div className="space-y-6">
               {/* ── JAK PODŁĄCZYĆ ─────────────────────────────────────────── */}
@@ -353,8 +359,8 @@ const AsystenciAi = () => {
                     <p className="font-medium mb-1">W ChatGPT</p>
                     <ol className="list-decimal pl-5 space-y-1">
                       <li>
-                        Na stronie <strong>Wtyczki</strong> kliknij <strong>Dodaj</strong>, potem{" "}
-                        <strong>Dodaj niestandardowy serwer MCP</strong>.
+                        Na stronie <strong>Wtyczki</strong> kliknij <strong>Dodaj</strong> w prawym górnym rogu
+                        (obok koła zębatego), potem <strong>Dodaj niestandardowy serwer MCP</strong>.
                       </li>
                       <li>Wpisz nazwę „Moja Serowarnia” i wklej adres (Ctrl+V).</li>
                       <li>Uwierzytelnianie: wybierz brak. Potwierdź ostrzeżenie i utwórz wtyczkę.</li>

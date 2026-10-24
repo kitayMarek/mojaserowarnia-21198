@@ -68,3 +68,13 @@ export function zdarzenieMieszankaEksport(kalkulator: string, format: string): v
 export function zdarzenieLacznikAi(akcja: 'polacz_claude' | 'polacz_chatgpt' | 'polacz_perplexity' | 'kopiuj_adres'): void {
   wyslij('lacznik_ai', { akcja });
 }
+
+/**
+ * Ramka „Podłącz w swoim czacie” (od 24.10.2026): otwarcie czatu z tekstem, samo
+ * kopiowanie tekstu albo przycisk formularza/umiejętności w tej ramce. Też zamiar.
+ */
+export function zdarzeniePromptCzatu(
+  asystent: 'chatgpt' | 'claude' | 'perplexity', akcja: 'otworz' | 'kopiuj' | 'formularz' | 'umiejetnosc',
+): void {
+  wyslij('prompt_czatu', { asystent, akcja });
+}

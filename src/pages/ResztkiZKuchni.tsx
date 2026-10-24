@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
 import TLDRSection from "@/components/TLDRSection";
+import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
 import SeeAlso from "@/components/SeeAlso";
 import ReactionButton from "@/components/ReactionButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -99,6 +100,8 @@ const ResztkiZKuchni = () => {
                 <li>Przepisy UE traktują kury od jajek jak zwierzęta gospodarskie i <strong>zakazują karmienia ich odpadami z kuchni</strong>.</li>
               </ul>
             </TLDRSection>
+
+            <PodlaczWSwoimCzacie sciezka="/pasze/resztki-z-kuchni" className="mb-2" />
 
             {SEKCJE_RESZTEK.map((s) => (
               <section key={s.id} id={s.id} className="mt-10">

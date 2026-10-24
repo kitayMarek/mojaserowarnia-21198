@@ -58,7 +58,8 @@ export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
  */
 export const UMIEJETNOSC_PERPLEXITY = "https://www.perplexity.ai/computer/skills/7v8vkYCPTiSxnjTByyQ0GA";
 
-export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj";
+/** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). */
+export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj";
 export type Asystent = "claude" | "chatgpt" | "perplexity";
 
 /**
