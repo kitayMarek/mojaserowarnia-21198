@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, Wheat } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { NormaDrobiu } from "@/data/normyDrobiu";
-import { sprawdzNorme, type Uzupelnienie } from "@/lib/bilansPaszy";
+import { opisJednegoSkladnika, sprawdzNorme, type JedenSkladnik, type Uzupelnienie } from "@/lib/bilansPaszy";
 import {
   Komunikat, OPIS_OCENY, PARAMETRY, Sekcja, klasyOceny, liczbaPL, zJednostka,
   type KomunikatKalkulatora, type PoleParametru,
@@ -151,9 +151,46 @@ function WierszNormy({
   );
 }
 
+/**
+ * Pasza z jednego składnika (prośba Marka 24.10.2026): czego brakuje, zachęta do innych
+ * składników i osobne karmidło z mieszanką mineralno-witaminową. Treść z bilansPaszy.ts,
+ * ta sama co w polu sugestie serwera MCP.
+ */
+function RamkaJednegoSkladnika({ j, onPokazKarte }: { j: JedenSkladnik; onPokazKarte: (nazwa: string) => void }) {
+  const o = opisJednegoSkladnika(j);
+  return (
+    <div className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed dark:border-amber-700 dark:bg-amber-950/40">
+      <p className="mb-1.5 flex items-center gap-2 font-semibold">
+        <Wheat className="h-4 w-4 shrink-0 text-amber-700 dark:text-amber-400" aria-hidden="true" />
+        Pasza z jednego składnika
+      </p>
+      <p>{o.sklad}</p>
+      <p className="mt-1.5">{o.inne}</p>
+      <p className="mt-1.5 font-medium">{o.karmidlo}</p>
+      {j.gotowe.length > 0 && (
+        <ul className="mt-1 space-y-1">
+          {j.gotowe.map((g) => (
+            <li key={g.nazwa}>
+              <button type="button" onClick={() => onPokazKarte(g.nazwa)} className="text-left font-medium text-primary underline">
+                {g.nazwa}
+              </button>
+              {g.oferta && (
+                <span className="text-muted-foreground"> · od {liczbaPL(g.oferta.cenaZaKg, 2)} zł/kg w {g.oferta.sklep}, cena z {g.oferta.sprawdzono}</span>
+              )}
+              {g.partner && <span className="text-muted-foreground"> · partner serwisu</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mt-1">{o.sposob}</p>
+      {o.bialko && <p className="mt-1.5 text-muted-foreground">{o.bialko}</p>}
+    </div>
+  );
+}
+
 export default function WynikMieszanki({
   norma, zawartosc, sumaProcentow, koszt, cenyKompletne, mieszankaGotowa,
-  komunikat, onZamknijKomunikat, propozycjeW, dawkaG, onDodajSkladnik, onPokazKarte, pelnySklad,
+  komunikat, onZamknijKomunikat, propozycjeW, dawkaG, onDodajSkladnik, onPokazKarte, pelnySklad, jedenSkladnik,
 }: {
   norma: NormaDrobiu | null | undefined;
   zawartosc: (pole: string) => number;
@@ -171,6 +208,8 @@ export default function WynikMieszanki({
   /** Otwiera kartę produktu z bazy dodatków (propozycje z producentem). */
   onPokazKarte: (nazwa: string) => void;
   pelnySklad: ReactNode;
+  /** W mieszance jest tylko jeden składnik z udziałem (bilansPaszy.ts, jedenSkladnik). */
+  jedenSkladnik?: JedenSkladnik | null;
 }) {
   const brakuje = 100 - sumaProcentow;
 
@@ -212,6 +251,7 @@ export default function WynikMieszanki({
 
       {norma && sumaProcentow > 0 ? (
         <>
+          {jedenSkladnik && <RamkaJednegoSkladnika j={jedenSkladnik} onPokazKarte={onPokazKarte} />}
           <p className="mb-0.5 mt-4 text-sm font-semibold text-muted-foreground">Mieszanka a norma (na 1 kg)</p>
           {PARAMETRY.filter(({ pole }) => norma[pole]).map((p) => (
             <WierszNormy

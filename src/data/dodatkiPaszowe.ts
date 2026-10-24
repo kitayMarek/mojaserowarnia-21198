@@ -24,6 +24,14 @@
 
 import { feedIngredients, type FeedIngredient } from "./feedIngredients.ts";
 
+/**
+ * Mieszanki do osobnego karmidła (wiaderka mineralne, grit z minerałami i witaminami):
+ * nie wchodzą do mieszanki, więc „czym uzupełnić” ich nie podpowiada, a proponuje je
+ * ramka „Pasza z jednego składnika” (bilansPaszy.ts, prośba Marka 24.10.2026). Produkt
+ * w tej kategorii dodany do bazy pokaże się tam sam. Na 24.10.2026 nie ma jeszcze żadnego.
+ */
+export const KATEGORIA_OSOBNE_KARMIDLO = "Mieszanki do osobnego karmidła";
+
 /** Dla kogo według etykiety. Te same wartości co CHECK w migracji 20261024150000. */
 export type Gatunek = "nioski" | "odchow" | "brojlery" | "kaczki" | "gesi" | "indyki";
 

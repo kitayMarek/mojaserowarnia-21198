@@ -25,7 +25,7 @@ const DisclaimerModal = () => {
       <div className="w-full max-w-lg max-h-[85vh] sm:max-h-[80vh] overflow-y-auto bg-background border rounded-lg shadow-lg">
         <div className="p-3 sm:p-5 space-y-2.5 sm:space-y-3">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-sm sm:text-base">Witaj w Mojej Serowej Przystani!</h3>
+            <h3 className="font-semibold text-sm sm:text-base">Witaj w Mojej Serowarni!</h3>
             <Button 
               variant="ghost" 
               size="icon"

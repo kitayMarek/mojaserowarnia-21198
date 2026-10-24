@@ -38,7 +38,7 @@ const Footer = () => {
         { label: "Kontakt", href: "/kontakt" },
         { label: "Nota prawna", href: "/nota-prawna" },
         { label: "Współpraca", href: "#wspolpraca" },
-        { label: "Polityka prywatności", href: "#prywatnosc" },
+        { label: "Polityka prywatności", href: "/nota-prawna#prywatnosc" },
       ],
     },
   ];

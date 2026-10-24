@@ -1,5 +1,5 @@
 /**
- * dane.mojaserowarnia.pl: serwer MCP bazy kultur ("magazyn"), wersja testowa.
+ * dane.mojaserowarnia.pl: serwer MCP bazy kultur, przepisów i kalkulatora pasz ("magazyn").
  *
  * ROWNOLEGLY DO SERWISU. Osobny Worker, osobna subdomena, osobne wdrozenie.
  * worker/index.js obsluguje tylko mojaserowarnia.pl i www, wiec tutaj nie
@@ -18,7 +18,7 @@
  */
 
 import { createMcpHandler } from '@modelcontextprotocol/server';
-import { zbudujSerwer } from './serwer.js';
+import { WERSJA, listaNarzedzi, zbudujSerwer } from './serwer.js';
 import { opisWywolania, opisPobrania, zliczWywolanie } from './pomiar.js';
 import { oBazie } from './kultury.js';
 import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkrywania } from './odkrywanie.js';
@@ -123,9 +123,9 @@ function stronaOpisu(origin) {
 </head>
 <body>
 <main>
-  <h1>Serwer MCP: baza kultur i kalkulator pasz</h1>
-  <p class="podpis">Moja Serowarnia, wersja testowa</p>
-  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude czy ChatGPT. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i liczy mieszanki paszowe dla drobiu według tych samych norm co kalkulator pasz na stronie.</p>
+  <h1>Serwer MCP: kultury, przepisy na sery i kalkulator pasz</h1>
+  <p class="podpis">Moja Serowarnia, wersja ${WERSJA}</p>
+  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude, ChatGPT czy Perplexity. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i przepisy na sery, liczy mieszanki paszowe dla drobiu według tych samych norm co kalkulator pasz na stronie i podpowiada dodatki paszowe z cenami ze sklepów.</p>
 
   <h2>Adres do wklejenia</h2>
   <code class="adres">${adres}</code>
@@ -140,21 +140,21 @@ function stronaOpisu(origin) {
   <p>Krok po kroku: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn">mojaserowarnia.pl/asystenci-ai</a>.</p>
   <p>W Claude Code (Claude w terminalu) jedno polecenie:</p>
   <code class="adres">claude mcp add --transport http serowarnia https://dane.mojaserowarnia.pl${SCIEZKA_MCP}</code>
-  <p>W ChatGPT własne łączniki działają w trybie dewelopera na planach płatnych. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
+  <h2>Jak podłączyć w ChatGPT</h2>
+  <ol>
+    <li>Otwórz <a href="https://chatgpt.com/plugins" rel="nofollow noopener">wtyczki w ChatGPT</a> i kliknij Dodaj w prawym górnym rogu (obok koła zębatego), potem Dodaj niestandardowy serwer MCP.</li>
+    <li>Wpisz nazwę „Moja Serowarnia”, wklej adres z ramki wyżej, uwierzytelnianie: brak. Potwierdź ostrzeżenie i utwórz wtyczkę.</li>
+    <li>Na liście Osobiste kliknij + przy Moja Serowarnia, potem pytaj w zwykłej rozmowie.</li>
+  </ol>
+  <p>U nas zadziałało też na darmowym koncie. Jeśli nie widzisz opcji niestandardowego serwera MCP, Twój plan ChatGPT jej nie ma.</p>
+  <p>W Perplexity dodaj umiejętność „moja-serowarnia” i pytaj w trybie Computer: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn#perplexity">instrukcja</a>. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
 
   <h2>Co potrafi</h2>
   <ul>
-    <li><code>szukaj_kultur</code>: kultury do danego sera albo zastosowania, z filtrem typu, temperatury i sklepu, także od najtańszej za litr mleka.</li>
-    <li><code>kultura</code>: pełna karta jednej kultury po nazwie z opakowania.</li>
-    <li><code>zamienniki</code>: kultury o tym samym składzie gatunkowym.</li>
-    <li><code>o_bazie</code>: co jest w bazie i jak cytować.</li>
-    <li><code>skladniki_paszy</code>: 124 surowce paszowe z energią, białkiem, minerałami i aminokwasami.</li>
-    <li><code>normy_drobiu</code>: normy dla kur niosek, brojlerów, kaczek, gęsi i indyków.</li>
-    <li><code>policz_mieszanke</code>: skład podanej mieszanki wobec normy, czego za mało i za dużo.</li>
-    <li><code>dobierz_proporcje</code>: proporcje z podanych surowców pod normę albo najtańsza mieszanka.</li>
+${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`).join('\n')}
   </ul>
 
-  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę. Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0.</small></p>
+  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę. Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
 </main>
 </body>
 </html>

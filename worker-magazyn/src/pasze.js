@@ -290,7 +290,8 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
     w_normie,
     bez_normy,
     koszt_zl_kg: wszystkieZCena ? zaokr(kosztMieszanki(pozycje)) : null,
-    sugestie: generujSugestie(pozycje, norma, ptaki),
+    // Baza z produktami: ramka jednego składnika proponuje z niej gotowe mieszanki do osobnego karmidła.
+    sugestie: generujSugestie(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 }))),
     ...(uzup.length ? { uzupelnienia: uzup } : {}),
     ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
@@ -410,7 +411,14 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   if (problemy.length) {
     return bladWejscia({ problem: 'nie rozpoznałem części składników', skladniki_do_poprawy: problemy, podpowiedz: 'Użyj skladniki_paszy, żeby znaleźć dokładną nazwę.' });
   }
-  if (pozycje.length < 2) return bladWejscia({ problem: 'potrzeba co najmniej 2 składników' });
+  if (pozycje.length === 0) return bladWejscia({ problem: 'potrzeba co najmniej 2 składników' });
+  // Jeden składnik (np. sama pszenica, bo tylko ją ktoś ma): nie ma czego dobierać, więc liczymy
+  // go jako 100% mieszanki. Sugestie mówią wtedy, czego brakuje, i podpowiadają osobne karmidło
+  // z mieszanką mineralno-witaminową (prośba Marka 24.10.2026). Wcześniej był tu błąd.
+  if (pozycje.length === 1) {
+    pozycje[0].procent = 100;
+    return raport(pozycje, norma, drob, ['Z jednego składnika nie ma czego dobierać: policzyłem go jako 100% mieszanki. W sugestiach jest, czego brakuje i jak to uzupełnić.'], stado);
+  }
   if (cel === 'najtaniej' && !pozycje.every((p) => parseFloat(p.cena) > 0)) {
     return bladWejscia({ problem: 'cel "najtaniej" wymaga ceny (zł/kg) przy każdym składniku' });
   }

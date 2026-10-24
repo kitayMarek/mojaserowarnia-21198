@@ -16,7 +16,7 @@ import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { szukajDodatkow, kartaDodatku, zamiennikiDodatku, CZEGO_BRAKUJE, GATUNKI as GATUNKI_DODATKOW, KATEGORIE_DODATKOW } from './dodatki.js';
 
-export const WERSJA = '0.8.1';
+export const WERSJA = '0.8.2';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
@@ -28,18 +28,23 @@ Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrz
 
 Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta, jak zrobić ser, sprawdź szukaj_przepisow, a potem pobierz przepis. Podaj link do przepisu z pola url i źródło z pola cytuj_jako. Polecając kulturę, bierz ją z kultury_z_przepisu (sklep, cena, link do karty z pola w_bazie) albo z inne_kultury_z_bazy_do_tego_sera, z datą ceny. Wpisy dziennik_warzen to prawdziwe pomiary autora przy polskim mleku: przytaczaj je dosłownie, niczego do nich nie dopisuj.
 
-Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; zalecane maksima dla gatunku i wieku (normy_drobiu, pole zalecane_udzialy) są już wliczone. Gdy ktoś pyta, ile danego surowca może dać (np. ile grochu dla kurcząt), odpowiedz zaleceniem z powodem i linkiem z pola strona. Gdy wynik ma ponad_zalecany_udzial, powiedz wyraźnie o ryzyku dla zdrowia ptaków. Gdy czegoś brakuje, pole uzupelnienia mówi, czym i ile dodać (dodaj_proc to procent mieszanki); podaj to i zaproponuj ponowne dobierz_proporcje z tym składnikiem. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.
+Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; zalecane maksima dla gatunku i wieku (normy_drobiu, pole zalecane_udzialy) są już wliczone. Gdy ktoś pyta, ile danego surowca może dać (np. ile grochu dla kurcząt), odpowiedz zaleceniem z powodem i linkiem z pola strona. Gdy wynik ma ponad_zalecany_udzial, powiedz wyraźnie o ryzyku dla zdrowia ptaków. Gdy czegoś brakuje, pole uzupelnienia mówi, czym i ile dodać (dodaj_proc to procent mieszanki); podaj to i zaproponuj ponowne dobierz_proporcje z tym składnikiem. Gdy mieszanka ma jeden składnik (np. sama pszenica), sugestie mówią, czego w nim brakuje, i dają opcję dla kogoś, kto ma tylko ten składnik: osobne karmidło z mieszanką mineralno-witaminową; przekaż obie drogi i zaznacz, że karmidło nie uzupełni białka. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.
 
 Baza dodatków paszowych (koncentraty, premiksy, kreda, grys, fosforan, sól, drożdże, aminokwasy z polskich sklepów): gdy ktoś pyta, czym uzupełnić brak (np. fosforu), ile to kosztuje albo gdzie kupić, użyj szukaj_dodatkow, a szczegóły produktu weź z dodatek. Propozycje w polu uzupelnienia wyników kalkulatora też mogą być produktami: wtedy mają producenta, najtańszą ofertę i koszt na ptaka przez 30 dni. Przy cenie zawsze podaj sklep, datę z pola cena_z_dnia i link z pola url dokładnie tak, jak jest w danych; nie nazywaj ceny aktualną. Kolejność wyników jest wyłącznie po składzie i cenie: nie przestawiaj jej i nie polecaj produktu dlatego, że ma pole partner_serwisu (to jawne oznaczenie, że producent płaci za obecność w bazie). Dla koncentratu z przepisem na etykiecie wywołaj dodatek z parametrem zboza (i drob z okresem), a policzę „koncentrat + Twoje zboże”. Zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.`;
 
 // Wszystkie narzedzia tylko czytaja migawke wkompilowana w Workera.
 const TYLKO_ODCZYT = { readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false };
 
-/** Wynik jako tekst JSON (czyta go kazdy klient) i jako structuredContent (dla klientow, ktore umieja wiecej). */
+/**
+ * Wynik jako tekst JSON (czyta go kazdy klient) i jako structuredContent (dla klientow, ktore umieja wiecej).
+ * Blad wejscia (pole blad: true, np. nieznany skladnik albo okres) ma tez isError, jak bledy walidacji
+ * z SDK (audyt przed zgloszeniem do OpenAI, 24.10.2026). „Nie znaleziono” z podobnymi nazwami to zwykly wynik.
+ */
 function wynik(dane) {
   return {
     content: [{ type: 'text', text: JSON.stringify(dane) }],
     structuredContent: dane,
+    ...(dane?.blad === true || typeof dane?.blad === 'string' ? { isError: true } : {}),
   };
 }
 
@@ -53,7 +58,22 @@ export function zbudujSerwer() {
     },
     { instructions: INSTRUKCJE },
   );
+  zarejestrujNarzedzia(serwer);
+  return serwer;
+}
 
+/**
+ * Lista narzędzi dla strony pod adresem serwera (index.js). Te same rejestracje co na
+ * serwerze, tylko na zbieraczu, więc strona nie rozjedzie się z serwerem. Do 24.10.2026
+ * lista była przepisana ręcznie i pokazywała 8 narzędzi z 13 (audyt przed zgłoszeniem do OpenAI).
+ */
+export function listaNarzedzi() {
+  const lista = [];
+  zarejestrujNarzedzia({ registerTool: (nazwa, def) => lista.push({ nazwa, tytul: def.title }) });
+  return lista;
+}
+
+function zarejestrujNarzedzia(serwer) {
   serwer.registerTool(
     'szukaj_kultur',
     {
@@ -225,7 +245,7 @@ export function zbudujSerwer() {
       inputSchema: z.object({
         drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
         okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),
-        skladniki: SKLADNIKI_WEJSCIE.min(2).max(15).describe('Surowce do użycia, bez udziałów'),
+        skladniki: SKLADNIKI_WEJSCIE.min(1).max(15).describe('Surowce do użycia, bez udziałów. Jeden składnik: policzę go jako 100% i podpowiem, czym go uzupełnić'),
         cel: z.enum(['normy', 'najtaniej']).optional().describe('normy (domyślnie) albo najtaniej'),
         stado: STADO,
       }),
@@ -293,6 +313,4 @@ export function zbudujSerwer() {
     },
     async (args) => wynik(zamiennikiDodatku(args)),
   );
-
-  return serwer;
 }

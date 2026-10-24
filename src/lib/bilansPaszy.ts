@@ -15,7 +15,7 @@ import type { NormaDrobiu } from "../data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, udzialSurowca, zalecenieUdzialu } from "../data/udzialySurowcow.ts";
 import { KATEGORIA_Z_KUCHNI } from "../data/skladnikiZKuchni.ts";
 import {
-  cenaZaKg, dodatekPoNazwie, najtanszaOferta, przepisZeStosowania,
+  KATEGORIA_OSOBNE_KARMIDLO, cenaZaKg, dodatekPoNazwie, najtanszaOferta, przepisZeStosowania,
   type OfertaDodatku, type PrzepisKoncentratu,
 } from "../data/dodatkiPaszowe.ts";
 
@@ -309,8 +309,106 @@ const ZBOZA = ["Pszenica", "Kukurydza", "Jęczmień", "Owies"];
 // rzepakowa 00” i podobne (poprawka 24.10.2026, wcześniej łapała tylko sojową).
 const STRACZKOWE_BIALKO = ["Groch", "Bobik", "Peluszka", "Soja", "Łubin żółty", "Łubin niebieski wąskolistny"];
 
-export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu, ptaki: Ptaki): string[] {
+/**
+ * PASZA Z JEDNEGO SKŁADNIKA (prośba Marka 24.10.2026). Ktoś może mieć tylko pszenicę.
+ * Wtedy pokazujemy, czego w niej brakuje, zachęcamy do innych składników i dajemy
+ * opcję: osobne karmidło z mieszanką mineralno-witaminową, gotową albo zrobioną
+ * samemu (sposób Marka: żwirek, kreda i premiks w wiaderku w kurniku albo na wybiegu).
+ * Ta sama treść idzie do kalkulatora (ramka w wyniku) i do MCP (pole sugestie).
+ */
+export interface JedenSkladnik {
+  nazwa: string;
+  /** Główne parametry poniżej normy, z procentem normy. */
+  braki: { pole: PoleNormy; procentNormy: number }[];
+  nioski: boolean;
+  /**
+   * Gotowe mieszanki do osobnego karmidła z bazy dodatków (kategoria KATEGORIA_OSOBNE_KARMIDLO),
+   * dla tego gatunku, najwyżej 2, od najtańszej za kg. Partner nie zmienia kolejności.
+   */
+  gotowe: { nazwa: string; producent?: string; oferta?: OfertaDodatku & { cenaZaKg: number }; partner?: boolean }[];
+}
+
+/** Gatunek z etykiety dodatku (Gatunek w dodatkiPaszowe.ts) dla gatunku i okresu z norm. */
+function gatunekEtykiety(drob: string | undefined, okres: string): string | null {
+  if (!drob) return null;
+  if (drob.startsWith("kury-nioski")) return grupaPtakow(drob, okres) === "nioski" ? "nioski" : "odchow";
+  return drob === "gesi" || drob === "kaczki" || drob === "indyki" || drob === "brojlery" ? drob : null;
+}
+
+const DOPELNIACZ: Partial<Record<PoleNormy, string>> = {
+  em: "energii", bialko: "białka", ca: "wapnia", p: "fosforu", wlokno: "włókna", na: "sodu",
+};
+
+/** Jedyny składnik z udziałem w mieszance albo null, gdy jest ich więcej (lub żaden). */
+export function jedenSkladnik(
+  pozycje: PozycjaMieszanki[], norma: NormaDrobiu, ptaki: Ptaki, baza: SurowiecDoUzupelnien[] = [],
+): JedenSkladnik | null {
+  const zUdzialem = pozycje.filter((s) => liczba(s.procent) > 0);
+  if (zUdzialem.length !== 1) return null;
+  const sam = [{ ...zUdzialem[0], procent: 100 }];
+  const braki = (Object.keys(DOPELNIACZ) as PoleNormy[]).flatMap((pole) => {
+    const n = (norma as unknown as Record<string, number | undefined>)[pole];
+    if (!n) return [];
+    const w = zawartosc(sam, pole);
+    return sprawdzNorme(w, n, TOLERANCJE[pole]) === "za-nisko" ? [{ pole, procentNormy: Math.round((100 * w) / n) }] : [];
+  });
+  const { drob, okres } = rozloz(ptaki);
+  const gatunek = gatunekEtykiety(drob, okres);
+  const gotowe = baza
+    .filter((s) => s.kategoria === KATEGORIA_OSOBNE_KARMIDLO
+      && (!s.gatunki?.length || (gatunek != null && s.gatunki.includes(gatunek))))
+    .map((s) => {
+      const o = najtanszaOferta(s.oferty);
+      return {
+        nazwa: s.nazwa,
+        ...(s.producent ? { producent: s.producent } : {}),
+        ...(o ? { oferta: { ...o, cenaZaKg: cenaZaKg(o) } } : {}),
+        ...(s.partner ? { partner: true } : {}),
+      };
+    })
+    // Od najtańszej za kg, bez ceny na końcu; pole partner nie wchodzi do sortowania.
+    .sort((a, b) => (a.oferta?.cenaZaKg ?? Infinity) - (b.oferta?.cenaZaKg ?? Infinity) || a.nazwa.localeCompare(b.nazwa, "pl"))
+    .slice(0, 2);
+  return { nazwa: zUdzialem[0].nazwa, braki, nioski: grupaPtakow(drob, okres) === "nioski", gotowe };
+}
+
+/** Akapity podpowiedzi dla paszy z jednego składnika (bez emotek i strzałek, każdy klient je obuduje). */
+export function opisJednegoSkladnika(j: JedenSkladnik): {
+  sklad: string; inne: string; karmidlo: string; gotowe: string | null; sposob: string; bialko: string | null;
+} {
+  const braki = j.braki.map((b) => `${DOPELNIACZ[b.pole]} (${b.procentNormy}% normy)`).join(", ");
+  const cenaPL = (n: number) => n.toFixed(2).replace(".", ",");
+  return {
+    gotowe: j.gotowe.length
+      ? "Gotowe z naszej bazy: " + j.gotowe.map((g) => g.nazwa
+        + (g.oferta ? ` (od ${cenaPL(g.oferta.cenaZaKg)} zł/kg w ${g.oferta.sklep}, cena z ${g.oferta.sprawdzono})` : "")
+        + (g.partner ? ", partner serwisu" : "")).join("; ") + "."
+      : null,
+    sklad: braki
+      ? `W mieszance jest tylko „${j.nazwa}”. Za mało w niej ${braki}.`
+      : `W mieszance jest tylko „${j.nazwa}”. Główne parametry są w normie, ale witamin i mikroelementów jeden składnik zwykle nie da.`,
+    inne: "Najlepiej dodaj inne składniki: źródło białka (śruta, groch, bobik) i dodatki mineralne. Jeden składnik rzadko ma wszystko, czego ptak potrzebuje, a braki widać potem w nieśności, skorupkach i wzroście. Propozycje są przy brakach w wyniku.",
+    karmidlo: "Masz tylko ten jeden składnik? Postaw obok w osobnym karmidle mieszankę mineralno-witaminową: gotową z worka dla drobiu albo zrobioną samemu.",
+    sposob: "Sposób autora serwisu: drobny żwirek wymieszany z kredą pastewną i premiksem witaminowym albo mineralno-witaminowym, w wiaderku w kurniku albo na wybiegu. "
+      + (j.nioski
+        ? "Nioski same biorą z niego tyle wapnia, ile potrzebują na skorupki."
+        : "Ptakom, które nie niosą, daj w nim mniej kredy: nadmiar wapnia szkodzi ich nerkom."),
+    bialko: j.braki.some((b) => b.pole === "bialko")
+      ? "Osobne karmidło nie uzupełni białka. Bez niego kury niosą mniej, a młode ptaki wolniej rosną."
+      : null,
+  };
+}
+
+/** `baza`: surowce i produkty, z których ramka jednego składnika weźmie gotowe mieszanki do karmidła. */
+export function generujSugestie(
+  pozycje: PozycjaMieszanki[], norma: NormaDrobiu, ptaki: Ptaki, baza: SurowiecDoUzupelnien[] = [],
+): string[] {
   const sugestie: string[] = [];
+  const jeden = jedenSkladnik(pozycje, norma, ptaki, baza);
+  if (jeden) {
+    const o = opisJednegoSkladnika(jeden);
+    sugestie.push(`🌾 PASZA Z JEDNEGO SKŁADNIKA:\n→ ${[o.sklad, o.inne, o.karmidlo, o.gotowe, o.sposob, o.bialko].filter(Boolean).join("\n→ ")}`);
+  }
   const em = zawartosc(pozycje, "em");
   const bialko = zawartosc(pozycje, "bialko");
   const ca = zawartosc(pozycje, "ca");
@@ -370,7 +468,9 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
   const ocenaCa = sprawdzNorme(ca, norma.ca, 0.1);
   if (ocenaCa === "za-nisko") {
     if (!maKrede) {
-      sugestie.push("🦴 WAPŃ ZA NISKI:\n→ KONIECZNIE dodaj kredę pastewną (2-4%)\n→ Bez wapnia kury nie będą miały mocnych skorupek!\n→ Kreda ma 38% wapnia");
+      // Bez liczb w tekście: ile dodać, liczą propozycje uzupełnienia. Do 24.10.2026 stało tu
+      // „kreda 2–4%”, a propozycja obok podawała 9,9% (audyt przed zgłoszeniem do OpenAI).
+      sugestie.push("🦴 WAPŃ ZA NISKI:\n→ KONIECZNIE dodaj kredę pastewną albo mielone muszle\n→ Ile dokładnie, podaję w propozycjach uzupełnienia przy wapniu\n→ Bez wapnia kury nie będą miały mocnych skorupek!");
     } else {
       sugestie.push("🦴 WAPŃ ZA NISKI:\n→ Zwiększ udział kredy pastewnej\n→ Dla kur niosek to bardzo ważne!");
     }
@@ -390,7 +490,7 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
   const ocenaP = sprawdzNorme(p, norma.p, 0.1);
   if (ocenaP === "za-nisko") {
     if (!maFosforan) {
-      sugestie.push("⚗️ FOSFOR ZA NISKI:\n→ Dodaj fosforan wapnia, np. dwuwapniowy (1-2%)\n→ Fosfor jest kluczowy dla metabolizmu i kości");
+      sugestie.push("⚗️ FOSFOR ZA NISKI:\n→ Dodaj fosforan wapnia, np. jedno- albo dwuwapniowy\n→ Ile dokładnie, podaję w propozycjach uzupełnienia przy fosforze\n→ Fosfor jest kluczowy dla metabolizmu i kości");
     } else {
       sugestie.push("⚗️ FOSFOR ZA NISKI:\n→ Zwiększ udział fosforanu\n→ Możesz też zwiększyć śrutę - zawiera fosfor");
     }
@@ -452,6 +552,8 @@ export type SurowiecDoUzupelnien = PozycjaMieszanki & {
   dawkaProcDo?: number | null;
   /** Dawka z etykiety w g na sztukę dziennie (gdy etykieta nie podaje %). */
   dawkaGDziennie?: number | null;
+  /** Dla kogo według etykiety (Gatunek w dodatkiPaszowe.ts); pusta lista = dla drobiu ogólnie. */
+  gatunki?: string[];
 };
 
 /**
@@ -466,7 +568,8 @@ export const kosztNaPtakaMiesiecznie = (procent: number, dawkaG: number, cenaKgZ
 // Koncentraty i gotowe mieszanki to nie dodatki, tylko inna pasza.
 const NIE_PODPOWIADAJ = /^(Mączka (mięsn|kostna|z krwi|z piór|KAMBAS)|Superkoncentrat|Koncentrat)/;
 // Produktów z kuchni też nie: to nie dodatek, tylko to, co hodowca i tak daje.
-const KATEGORIE_POMIJANE = new Set(["Gotowe mieszanki (pełnoporcjowe)", "Koncentraty", KATEGORIA_Z_KUCHNI]);
+// Mieszanki do osobnego karmidła nie wchodzą do paszy: proponuje je ramka „Pasza z jednego składnika”.
+const KATEGORIE_POMIJANE = new Set(["Gotowe mieszanki (pełnoporcjowe)", "Koncentraty", KATEGORIA_Z_KUCHNI, KATEGORIA_OSOBNE_KARMIDLO]);
 // Więcej niż tyle procent jednego surowca to już przebudowa mieszanki, a nie
 // uzupełnienie. Dla minerałów mniej: inaczej na brak sodu wychodziła serwatka w proszku 23%.
 const MAKS_UZUPELNIENIA = 25;

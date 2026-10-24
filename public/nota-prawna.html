@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nota prawna — charakter informacji i wyłączenie odpowiedzialności</title>
-  <meta name="description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów i zgodność z RODO." />
+  <meta name="description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów, prywatność i okresy przechowywania danych." />
   <link rel="canonical" href="https://mojaserowarnia.pl/nota-prawna" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="Nota prawna" />
-  <meta property="og:description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów i zgodność z RODO." />
+  <meta property="og:description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów, prywatność i okresy przechowywania danych." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mojaserowarnia.pl/nota-prawna" />
   <meta property="og:site_name" content="Moja Serowarnia" />
@@ -17,16 +17,16 @@
   <meta property="og:image" content="https://mojaserowarnia.pl/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Nota prawna" />
-  <meta name="twitter:description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów i zgodność z RODO." />
+  <meta name="twitter:description" content="Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów, prywatność i okresy przechowywania danych." />
   <meta name="twitter:image" content="https://mojaserowarnia.pl/og-image.jpg" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-24",
     "name": "Nota prawna",
-    "description": "Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów i zgodność z RODO.",
+    "description": "Charakter informacji publikowanych w serwisie, wyłączenie odpowiedzialności, własność intelektualna, pliki cookie i liczenie wejść, zgłaszanie błędów, prywatność i okresy przechowywania danych.",
     "inLanguage": "pl-PL",
     "url": "https://mojaserowarnia.pl/nota-prawna",
     "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl" }
@@ -80,16 +80,28 @@
 <p>Serwer <code>https://dane.mojaserowarnia.pl/mcp</code> udostępnia asystentom AI (Claude, ChatGPT, Perplexity i innym) nasz kalkulator pasz, przepisy i bazę kultur. Działa bez konta i klucza, tylko do odczytu.</p>
 <p><strong>Przy każdym zapytaniu serwer zwiększa sumę dnia:</strong> dzień, nazwa narzędzia, rodzaj programu (np. Claude, ChatGPT, Perplexity), kod odpowiedzi, czy to ruch własny serwisu i znacznik źródła z adresu łącznika (np. strona, z której go dodano). Nie zapisuje adresu IP, podpisu programu, godziny ani treści pytań i odpowiedzi.</p>
 <p>Limit zapytań liczy się na skrócie adresu IP, który istnieje tylko w liczniku limitu i nie trafia do żadnej bazy. Zapytania obsługuje Cloudflare, a sumy przechowujemy w bazie Supabase.</p>
-<p>Kliknięcie przycisku „Dodaj do Claude”, „Dodaj do ChatGPT” albo „Dodaj do Perplexity” zapisujemy jako jeden wiersz: rodzaj przycisku, strona i czas, bez adresu IP i bez danych o osobie.</p>
+<p>Kliknięcie przycisku „Dodaj do Claude”, „Dodaj do ChatGPT” albo „Dodaj do Perplexity”, a także przycisku w ramce z gotowym tekstem dla czatu, zapisujemy jako jeden wiersz: rodzaj przycisku, strona i czas, bez adresu IP i bez danych o osobie. Jak długo to przechowujemy, piszemy niżej w części <a href="#prywatnosc">Prywatność</a>.</p>
 <p>Zasady korzystania z serwera: <a href="https://mojaserowarnia.pl/warunki-mcp">warunki korzystania z serwera MCP</a>.</p>
 
-<h2>Zgodność z RODO</h2>
-<p>Dane osobowe przetwarzane są zgodnie z obowiązującymi przepisami o ochronie danych osobowych.</p>
+<h2 id="prywatnosc">Prywatność: jak długo przechowujemy dane i Twoje prawa</h2>
+<p>Dane osobowe przetwarzamy zgodnie z RODO. Przechowujemy je w bazie Supabase, a stronę i serwer MCP obsługuje Cloudflare. W sprawach danych pisz na admin@mojaserowarnia.pl.</p>
+<p><strong>Jak długo przechowujemy:</strong></p>
+<ul>
+  <li>sumy dzienne wejść na strony i wywołań serwera MCP: bez limitu czasu, bo nie ma w nich adresu IP ani niczego, co wskazuje osobę,</li>
+  <li>kliknięcia przycisków „Dodaj do Claude”, „Dodaj do ChatGPT”, „Dodaj do Perplexity” i ramki z gotowym tekstem dla czatu: 24 miesiące,</li>
+  <li>kliknięcia w linki do sklepów: 12 miesięcy, a podpis przeglądarki usuwamy z nich po 3 miesiącach,</li>
+  <li>wizyty robotów wyszukiwarek i asystentów AI: 12 miesięcy,</li>
+  <li>zapisy chroniące formularz kontaktowy przed nadużyciami: 24 godziny,</li>
+  <li>konto, zapisane mieszanki i inne dane, które sam wpisujesz: do usunięcia konta,</li>
+  <li>ciasteczko z decyzją w sprawie plików cookie: rok.</li>
+</ul>
+<p><strong>Twoje prawa:</strong> możesz zobaczyć swoje dane, poprawić je, przenieść albo usunąć. Po zalogowaniu w <a href="https://mojaserowarnia.pl/ustawienia">ustawieniach konta</a> pobierzesz swoje dane i usuniesz konto razem z nimi. W pozostałych sprawach napisz na admin@mojaserowarnia.pl. Możesz też złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych.</p>
+<p><strong>Asystenci AI:</strong> serwer MCP nie wymaga konta i nie dostaje treści Twoich rozmów, tylko zapytania, które asystent do niego wyśle. Rozmowy przechowuje dostawca Twojego asystenta (np. OpenAI, Anthropic, Perplexity) według swoich zasad.</p>
 
 <h2>Akceptacja warunków</h2>
 <p>Korzystając z serwisu, akceptujesz powyższe warunki i zobowiązujesz się do weryfikacji wszystkich informacji przed ich praktycznym zastosowaniem.</p>
 
-<p>Ostatnia aktualizacja: 23 października 2026.</p>
+<p>Ostatnia aktualizacja: 24 października 2026.</p>
 
 <h2>Powiązane strony</h2>
 <ul>

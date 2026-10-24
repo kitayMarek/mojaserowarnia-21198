@@ -13,11 +13,11 @@ import PageHeader from "@/components/PageHeader";
 
 const NotaPrawna = () => {
   useEffect(() => {
-    document.title = "Nota Prawna - Moja Serowa Przystań";
+    document.title = "Nota Prawna - Moja Serowarnia";
 
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Warunki korzystania z serwisu Moja Serowa Przystań. Informacje o odpowiedzialności, aktualności danych i weryfikacji informacji o kulturach bakteryjnych.');
+      metaDescription.setAttribute('content', 'Warunki korzystania z serwisu Moja Serowarnia. Informacje o odpowiedzialności, aktualności danych i weryfikacji informacji o kulturach bakteryjnych.');
     }
   }, []);
 
@@ -84,7 +84,7 @@ const NotaPrawna = () => {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground">
               <p>
-                „Moja Serowa Przystań" udostępnia informacje o kulturach bakteryjnych, przepisach i narzędziach w celach <strong>informacyjno-edukacyjnych</strong>. Dokładamy starań o rzetelność przedstawianych treści, jednak należy mieć na uwadze następujące ograniczenia:
+                „Moja Serowarnia” udostępnia informacje o kulturach bakteryjnych, przepisach i narzędziach w celach <strong>informacyjno-edukacyjnych</strong>. Dokładamy starań o rzetelność przedstawianych treści, jednak należy mieć na uwadze następujące ograniczenia:
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
@@ -213,8 +213,10 @@ const NotaPrawna = () => {
                 żadnej bazy. Zapytania obsługuje Cloudflare, a sumy przechowujemy w bazie Supabase.
               </p>
               <p>
-                Kliknięcie przycisku „Dodaj do Claude”, „Dodaj do ChatGPT” albo „Dodaj do Perplexity” zapisujemy
-                jako jeden wiersz: rodzaj przycisku, strona i czas, bez adresu IP i bez danych o osobie.
+                Kliknięcie przycisku „Dodaj do Claude”, „Dodaj do ChatGPT” albo „Dodaj do Perplexity”, a także
+                przycisku w ramce z gotowym tekstem dla czatu, zapisujemy jako jeden wiersz: rodzaj przycisku,
+                strona i czas, bez adresu IP i bez danych o osobie. Jak długo to przechowujemy, piszemy niżej
+                w części <a href="#prywatnosc" className="underline">Prywatność</a>.
               </p>
               <p>
                 Zasady korzystania z serwera: <a href="/warunki-mcp" className="underline">warunki korzystania z
@@ -223,16 +225,41 @@ const NotaPrawna = () => {
             </CardContent>
           </Card>
 
-          <Card className="mb-6">
+          <Card className="mb-6 scroll-mt-24" id="prywatnosc">
             <CardHeader>
-              <CardTitle>Zgodność z RODO</CardTitle>
+              <CardTitle>Prywatność: jak długo przechowujemy dane i Twoje prawa</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground">
               <p>
-                Jeśli korzystasz z funkcji wymagających rejestracji lub podajesz dane osobowe (np. email przy kontakcie), Twoje dane są przetwarzane zgodnie z Rozporządzeniem o Ochronie Danych Osobowych (RODO).
+                Dane osobowe przetwarzamy zgodnie z RODO. Przechowujemy je w bazie Supabase, a stronę i serwer MCP
+                obsługuje Cloudflare. W sprawach danych pisz na admin@mojaserowarnia.pl.
+              </p>
+              <p><strong>Jak długo przechowujemy:</strong></p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>
+                  sumy dzienne wejść na strony i wywołań serwera MCP: bez limitu czasu, bo nie ma w nich adresu IP
+                  ani niczego, co wskazuje osobę,
+                </li>
+                <li>
+                  kliknięcia przycisków „Dodaj do Claude”, „Dodaj do ChatGPT”, „Dodaj do Perplexity” i ramki z
+                  gotowym tekstem dla czatu: 24 miesiące,
+                </li>
+                <li>kliknięcia w linki do sklepów: 12 miesięcy, a podpis przeglądarki usuwamy z nich po 3 miesiącach,</li>
+                <li>wizyty robotów wyszukiwarek i asystentów AI: 12 miesięcy,</li>
+                <li>zapisy chroniące formularz kontaktowy przed nadużyciami: 24 godziny,</li>
+                <li>konto, zapisane mieszanki i inne dane, które sam wpisujesz: do usunięcia konta,</li>
+                <li>ciasteczko z decyzją w sprawie plików cookie: rok.</li>
+              </ul>
+              <p>
+                <strong>Twoje prawa:</strong> możesz zobaczyć swoje dane, poprawić je, przenieść albo usunąć. Po
+                zalogowaniu w <a href="/ustawienia" className="underline">ustawieniach konta</a> pobierzesz swoje dane
+                i usuniesz konto razem z nimi. W pozostałych sprawach napisz na admin@mojaserowarnia.pl. Możesz też
+                złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych.
               </p>
               <p>
-                Więcej informacji znajdziesz w naszej Polityce Prywatności.
+                <strong>Asystenci AI:</strong> serwer MCP nie wymaga konta i nie dostaje treści Twoich rozmów, tylko
+                zapytania, które asystent do niego wyśle. Rozmowy przechowuje dostawca Twojego asystenta (np. OpenAI,
+                Anthropic, Perplexity) według swoich zasad.
               </p>
             </CardContent>
           </Card>
@@ -243,13 +270,13 @@ const NotaPrawna = () => {
             </CardHeader>
             <CardContent className="text-muted-foreground">
               <p>
-                <strong>Korzystając z serwisu „Moja Serowa Przystań", akceptujesz powyższe warunki i zobowiązujesz się do weryfikacji wszystkich informacji przed ich praktycznym zastosowaniem.</strong>
+                <strong>Korzystając z serwisu „Moja Serowarnia”, akceptujesz powyższe warunki i zobowiązujesz się do weryfikacji wszystkich informacji przed ich praktycznym zastosowaniem.</strong>
               </p>
             </CardContent>
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 23 października 2026</p>
+            <p>Ostatnia aktualizacja: 24 października 2026</p>
           </div>
 
           {/* See Also Section */}

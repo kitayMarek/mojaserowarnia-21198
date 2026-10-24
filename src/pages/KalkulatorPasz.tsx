@@ -34,7 +34,7 @@ import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/d
 import { cenaZaKg, najtanszaOferta } from "@/data/dodatkiPaszowe";
 import { OPIS_GMO, opisEko, znacznikiSurowca } from "@/data/gmoEkoSurowcow";
 import {
-  maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki,
+  maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki, jedenSkladnik,
   sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
   uzupelnienia, type Uzupelnienie,
 } from "@/lib/bilansPaszy";
@@ -481,7 +481,9 @@ const KalkulatorPasz = () => {
     const aktywneSkladniki = skladniki.filter(s => s.nazwa && maWartosci(s));
 
     if (aktywneSkladniki.length < 2) {
-      pokazBlad('Za mało składników', 'Dodaj co najmniej 2 składniki z wartościami odżywczymi, żeby przeliczyć proporcje.');
+      pokazBlad('Za mało składników', aktywneSkladniki.length === 1
+        ? 'Z jednego składnika nie ma czego dobierać. Wpisz mu 100%, a w wyniku pokażę, czego w nim brakuje i jak to uzupełnić, także osobnym karmidłem z minerałami.'
+        : 'Dodaj co najmniej 2 składniki z wartościami odżywczymi, żeby przeliczyć proporcje.');
       return;
     }
 
@@ -546,7 +548,7 @@ const KalkulatorPasz = () => {
   };
 
   const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) =>
-    sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, ptaki);
+    sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, ptaki, bazaUzupelnien);
 
   // Czym uzupełnić brak parametru (od 24.10.2026): ile dodać i czy nie wypchnie
   // innego parametru ponad normę. Do 24.10 były to po prostu trzy surowce
@@ -958,6 +960,7 @@ const KalkulatorPasz = () => {
                 dawkaG={dawkaLiczba}
                 onDodajSkladnik={dodajSkladnikZSugestii}
                 onPokazKarte={pokazKarteProduktu}
+                jedenSkladnik={aktualnaNorma ? jedenSkladnik(skladniki, aktualnaNorma, ptaki, bazaUzupelnien) : null}
                 pelnySklad={
                   // Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
                   // nie z kart składników.

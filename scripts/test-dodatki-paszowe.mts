@@ -8,12 +8,13 @@ import assert from "node:assert/strict";
 import { feedIngredients } from "../src/data/feedIngredients.ts";
 import { NORMY_DROBIU } from "../src/data/normyDrobiu.ts";
 import {
-  DODATKI_PASZOWE, adresOferty, cenaZaKg, dawkaEtykiety, najtanszaOferta, przepisZeStosowania,
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, adresOferty, cenaZaKg, dawkaEtykiety, najtanszaOferta, przepisZeStosowania,
 } from "../src/data/dodatkiPaszowe.ts";
 import { ZNACZNIKI_SUROWCOW, znacznikiSurowca } from "../src/data/gmoEkoSurowcow.ts";
 import { dawkaDomyslna, udzialSurowca } from "../src/data/udzialySurowcow.ts";
 import {
-  dobierzProporcje, generujSugestie, graniceUdzialu, koncentratZeZbozem, kosztNaPtakaMiesiecznie, najtanszaMieszanka,
+  dobierzProporcje, generujSugestie, graniceUdzialu, jedenSkladnik, koncentratZeZbozem, kosztNaPtakaMiesiecznie, najtanszaMieszanka,
+  opisJednegoSkladnika,
   uzupelnienia, zawartosc,
 } from "../src/lib/bilansPaszy.ts";
 
@@ -219,6 +220,38 @@ test("premiks już w swojej dawce nie dostaje propozycji „więcej o dawkę”"
   for (const pole of ["ca", "p", "na"] as const) {
     assert.ok(!uzupelnienia(m, nioski, ptakiNioski, bazaUzupelnien, pole, 40, 118).some((x) => x.nazwa === premiks), pole);
   }
+});
+
+// Audyt przed zgłoszeniem do OpenAI i prośba Marka (24.10.2026).
+test("pasza z jednego składnika: braki, zachęta, osobne karmidło; bez sztywnych ilości kredy", () => {
+  const sama = [wiersz("Pszenica", 100)];
+  const j = jedenSkladnik(sama, nioski, ptakiNioski)!;
+  assert.equal(j.nazwa, "Pszenica");
+  assert.ok(j.nioski && j.braki.some((b) => b.pole === "bialko") && j.braki.some((b) => b.pole === "ca"), JSON.stringify(j));
+  const s = generujSugestie(sama, nioski, ptakiNioski);
+  assert.ok(s[0].startsWith("🌾 PASZA Z JEDNEGO SKŁADNIKA"), s[0]);
+  assert.ok(s[0].includes("osobnym karmidle") && s[0].includes("żwirek") && s[0].includes("nie uzupełni białka"), s[0]);
+  assert.ok(!s.join("\n").includes("2-4%") && !s.join("\n").includes("(1-2%)"), "sztywne ilości wróciły");
+  // Brojler: mniej kredy w karmidle.
+  const odchow = NORMY_DROBIU["brojlery"].find((n) => n.okres !== "Zarodowe")!;
+  const b = jedenSkladnik(sama, odchow, { drob: "brojlery", okres: odchow.okres })!;
+  assert.ok(!b.nioski && opisJednegoSkladnika(b).sposob.includes("mniej kredy"));
+  // Dwa składniki: zwykłe sugestie, bez ramki.
+  assert.equal(jedenSkladnik([wiersz("Pszenica", 80), wiersz("Śruta sojowa", 20)], nioski, ptakiNioski), null);
+  console.log("  jeden składnik:", opisJednegoSkladnika(j).sklad);
+});
+
+test("wiaderko mineralne dodane do bazy: ramka jednego składnika je proponuje, „czym uzupełnić” nie", () => {
+  const oferta = (cenaZl: number) => [{ sklep: "Sklep testowy", url: "https://example.com/w", cenaZl, opakowanieKg: 10, sprawdzono: "2026-10-24" }];
+  const wiaderko = (nazwa: string, cenaZl: number, gatunki: string[], partner = false) => ({
+    ...surowiec("Kreda pastewna"), nazwa, kategoria: KATEGORIA_OSOBNE_KARMIDLO, procent: 0, gatunki, oferty: oferta(cenaZl), producent: "Test", partner,
+  });
+  const baza = [...bazaUzupelnien, wiaderko("Wiaderko A", 90, []), wiaderko("Wiaderko B", 50, ["nioski"], true), wiaderko("Wiaderko C", 30, ["brojlery"]), wiaderko("Wiaderko D", 70, [])];
+  const j = jedenSkladnik([wiersz("Pszenica", 100)], nioski, ptakiNioski, baza)!;
+  // Najwyżej 2, od najtańszej za kg, tylko dla niosek albo dla drobiu ogólnie; partner nie przestawia.
+  assert.deepEqual(j.gotowe.map((g) => g.nazwa), ["Wiaderko B", "Wiaderko D"]);
+  assert.ok(generujSugestie([wiersz("Pszenica", 100)], nioski, ptakiNioski, baza)[0].includes("Gotowe z naszej bazy: Wiaderko B"));
+  assert.ok(!uzupelnienia([wiersz("Pszenica", 100)], nioski, ptakiNioski, baza, "ca", 40, 118).some((u) => u.nazwa.startsWith("Wiaderko")));
 });
 
 // ── Koncentrat + Twoje zboże ──────────────────────────────────────────────
