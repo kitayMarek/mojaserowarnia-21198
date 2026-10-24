@@ -281,7 +281,7 @@ const WPISY: Wpis[] = [
     uwagi: "Producent nie publikuje składu, tu z etykiety przepisanej przez trzy sklepy. Jeden sklep (worek 25 kg) podaje inne liczby: P 6,7%, lizyna 1,9%, metionina 4,97%; do sprawdzenia na worku. Etykieta podaje też witaminę K3 80 mg/kg i betainę 3100 mg/kg. Nie mylić z wersją ekologiczną Dolmix DN RE.",
     oferty: [
       { sklep: "Pan Hodowca", url: "https://www.panhodowca.pl/dolmix-dn-10-kg-witamina-dla-niosek-dolfos-id-126", cenaZl: 67.0, opakowanieKg: 10, sprawdzono: D },
-      { sklep: "Farm Pet Garden", url: "https://farmpetgarden.pl/produkt/witaminy-dla-kur-niosek-dolmix-dn-dolfos-10kg", cenaZl: 68.0, opakowanieKg: 10, sprawdzono: D },
+      { sklep: "Farm Pet Garden", url: "https://farmpetgarden.pl/produkt/witaminy-dla-kur-dolmix-dn-dolfos-10kg/", cenaZl: 68.0, opakowanieKg: 10, sprawdzono: D },
     ],
   },
   {
@@ -320,25 +320,24 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "Ca 37,6% to średnia, producent gwarantuje co najmniej 37%. Węglan wapnia jest na liście pasz mineralnych dopuszczonych w produkcji ekologicznej (rozp. wykonawcze (UE) 2021/1165, załącznik III).",
     oferty: [
-      { sklep: "AgroRatajczak", url: "https://sklep.agroratajczak.pl/kreda-pastewna-vivamax-0-4-1-2mm-gruboziarnista-weglan-wapnia-holcim-25kg-p-164.html", cenaZl: 15.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "AgroRatajczak", url: "https://sklep.agroratajczak.pl/kreda-pastewna-vivamax-0-4-1-2mm-25kg-p-164.html", cenaZl: 15.0, opakowanieKg: 25, sprawdzono: D },
       { sklep: "Rolmat", url: "https://sklep.rolmat.pl/Kreda-Pastewna-VivaMax-0,4-1,2-25kg", cenaZl: 23.0, opakowanieKg: 25, sprawdzono: D },
     ],
   },
   {
     nazwa: "Grys wapienny Mikros (Mikrop)", kategoria: "Dodatki mineralne", odpowiednik: "Kreda pastewna",
     producent: "Mikrop Čebín (Czechy)", gatunki: ["nioski", "kaczki", "gesi", "indyki"],
-    ca: 36,
+    ca: 35,
     dawkowanie: "Do woli (ad libitum), dodawany do ziarna i paszy",
     skladSurowcowy: "Węglan wapnia (wapień kruszony), frakcja ok. 1–2 mm.",
     gmo: "nie", dopuszczalneEko: true,
     zrodloSkladu: "etykieta",
-    zrodlo: "https://www.huka.pl/pasza-mineralna-mikros-grys-wapienny-dla-drobiu-i-golebi-3kg/",
+    zrodlo: "https://agrofortel.pl/micros-wapno-grys-3kg",
     urlProducenta: "https://www.mikrop.cz/produkt/vapenny-grit~p528",
     zweryfikowano: D,
-    uwagi: "Ca co najmniej 36% z etykiety przepisanej przez sklepy; strona producenta procentu nie podaje. Na opakowaniu oznaczenie ekologiczne CZ-BIO-002.",
+    uwagi: "Sklep podaje „zawartość węglanu wapnia ok. 35%”; w wapieniu węglanu jest ponad 90%, więc chodzi o wapń (Ca) i tak to przyjęto. Strona producenta procentu nie podaje. Na opakowaniu oznaczenie ekologiczne CZ-BIO-002.",
     oferty: [
       { sklep: "Agrofortel", url: "https://agrofortel.pl/micros-wapno-grys-3kg", cenaZl: 12.04, opakowanieKg: 3, sprawdzono: D },
-      { sklep: "Huka", url: "https://www.huka.pl/pasza-mineralna-mikros-grys-wapienny-dla-drobiu-i-golebi-3kg/", cenaZl: 18.17, opakowanieKg: 3, sprawdzono: D },
     ],
   },
   {
@@ -403,7 +402,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "Etykieta podaje białko 44% i popiół 7%; pozostałe wartości przyjęte jak dla „Drożdże piwne” z tabel. Dawka w kalkulatorze to górna dawka dla kur (6 g na 10 sztuk dziennie). Nie mylić z granulowaną wersją Mikrop (drożdże ze śrutą, ok. 25% białka).",
     oferty: [
-      { sklep: "Ketris", url: "https://www.ketris.pl/drozdze-piwowarskie-25kg_z10013/", cenaZl: 251.62, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "Ketris", url: "https://www.ketris.pl/drozdze-piwowarskie-25kg_z10013/", cenaZl: 281.77, opakowanieKg: 25, sprawdzono: D },
     ],
   },
   {
