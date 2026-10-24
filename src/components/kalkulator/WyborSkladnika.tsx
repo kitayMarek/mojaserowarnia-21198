@@ -80,10 +80,13 @@ export default function WyborSkladnika({
   wartosc,
   pozycje,
   onZmiana,
+  className,
 }: {
   wartosc: string;
   pozycje: PozycjaDoWyboru[];
   onZmiana: (nazwa: string) => void;
+  /** Klasy przycisku otwierającego listę, np. wysokość w karcie składnika. */
+  className?: string;
 }) {
   const [otwarty, setOtwarty] = useState(false);
   const [fraza, setFraza] = useState("");
@@ -127,10 +130,10 @@ export default function WyborSkladnika({
           variant="outline"
           role="combobox"
           aria-expanded={otwarty}
-          className="w-full min-w-[190px] justify-between bg-background font-normal"
+          className={cn("w-full min-w-[190px] justify-between bg-background font-normal", className)}
         >
           <span className={cn("truncate", !wartosc && "text-muted-foreground")}>
-            {wartosc || "— wybierz składnik —"}
+            {wartosc || "Wybierz składnik"}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

@@ -96,7 +96,7 @@ export default function ZapisaneReceptury({
     return (
       <div
         id="zapis-mieszanki"
-        className="mt-6 scroll-mt-24 rounded-lg border-2 border-primary/40 bg-primary/5 p-4"
+        className="scroll-mt-24 rounded-lg border border-primary/30 bg-primary/5 p-3.5"
       >
         {/* Na telefonie przycisk idzie pod tekst: w jednym wierszu tekst ściskał się do kolumny po dwa słowa. */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -127,7 +127,7 @@ export default function ZapisaneReceptury({
   }
 
   return (
-    <div id="zapis-mieszanki" className="mt-6 scroll-mt-24 rounded-lg border border-border bg-card p-4">
+    <div id="zapis-mieszanki" className="scroll-mt-24 rounded-lg border border-border bg-background/60 p-3.5">
       <h3 className="mb-3 flex items-center gap-2 font-semibold">
         <FolderOpen className="h-4 w-4 text-primary" />
         Twoje receptury

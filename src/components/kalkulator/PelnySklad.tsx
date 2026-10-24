@@ -66,6 +66,7 @@ export default function PelnySklad({
   baza: FeedIngredient[];
   normaTluszczu?: number;
 }) {
+  const [otwarty, setOtwarty] = useState(false);
   const [rozwiniete, setRozwiniete] = useState(false);
 
   const { sumy, poza, udzialObjety } = useMemo(() => {
@@ -110,105 +111,127 @@ export default function PelnySklad({
   const tluszcz = wartosc("tluszcz");
   const tluszczOk = normaTluszczu ? tluszcz >= normaTluszczu * 0.85 : true;
 
+  // Od 24.10.2026 cała sekcja jest zwinięta pod jednym przyciskiem: na telefonie
+  // stała wcześniej w środku podsumowania i odsuwała przyciski doboru o ekran w dół.
   return (
-    <div className="mt-4 rounded-lg border border-border bg-card p-4">
-      <h4 className="mb-3 font-semibold">Pełny skład mieszanki</h4>
-
-      {poza.length > 0 && (
-        <p className="mb-3 flex items-start gap-2 rounded-md bg-amber-50 p-2 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <span>
-            Poniższe liczby pomijają {poza.length === 1 ? "składnik" : "składniki"}{" "}
-            <strong>{poza.join(", ")}</strong> — nie ma {poza.length === 1 ? "go" : "ich"} w bazie,
-            więc nie znamy {poza.length === 1 ? "jego" : "ich"} profilu. Wyliczenie obejmuje{" "}
-            {udzialObjety.toFixed(1)}% mieszanki.
-          </span>
-        </p>
-      )}
-
-      <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
-        <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            Aminokwasy krytyczne
-          </p>
-          {AMINOKWASY_KLUCZOWE.map(([pole, etykieta]) => (
-            <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka="%" miejsca={3} />
-          ))}
-        </div>
-
-        <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            Skład podstawowy
-          </p>
-          <div className="flex items-baseline justify-between gap-3 border-b border-border/60 py-1">
-            <span className="text-sm text-muted-foreground">Tłuszcz surowy</span>
-            <span className="whitespace-nowrap font-medium tabular-nums">
-              <span className={normaTluszczu ? (tluszczOk ? "text-green-600" : "text-red-600") : ""}>
-                {tluszcz.toFixed(2)}
-              </span>{" "}
-              <span className="text-xs text-muted-foreground">
-                %{normaTluszczu ? ` · norma ${normaTluszczu}%` : ""}
-              </span>
-            </span>
-          </div>
-          {SKLAD.map(([pole, etykieta, jednostka]) => (
-            <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka={jednostka} />
-          ))}
-        </div>
-      </div>
-
+    <div className="border-t border-border pt-1">
       <button
         type="button"
-        onClick={() => setRozwiniete((x) => !x)}
-        className="mt-3 flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-        aria-expanded={rozwiniete}
+        onClick={() => setOtwarty((x) => !x)}
+        aria-expanded={otwarty}
+        className="flex w-full items-center gap-2 py-2.5 text-left"
       >
-        <ChevronDown className={`h-4 w-4 transition-transform ${rozwiniete ? "rotate-180" : ""}`} />
-        {rozwiniete ? "Zwiń pełny profil" : "Pokaż witaminy i pozostałe aminokwasy"}
+        <span className="min-w-0 flex-1">
+          <span className="block font-semibold">Aminokwasy, tłuszcz i witaminy</span>
+          {!otwarty && (
+            <span className="block text-xs text-muted-foreground">
+              Lizyna, metionina z cystyną, treonina, tryptofan, tłuszcz surowy
+              {normaTluszczu ? ` (norma ${String(normaTluszczu).replace(".", ",")}%)` : ""}, witaminy
+            </span>
+          )}
+        </span>
+        <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${otwarty ? "rotate-180" : ""}`} />
       </button>
 
-      {rozwiniete && (
-        <div className="mt-3 grid gap-x-8 gap-y-1 border-t border-border pt-3 sm:grid-cols-2">
-          {jest(WITAMINY) && (
+      {otwarty && (
+        <div className="pb-1 pt-1">
+          {poza.length > 0 && (
+            <p className="mb-3 flex items-start gap-2 rounded-md bg-amber-50 p-2 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              <span>
+                Poniższe liczby pomijają {poza.length === 1 ? "składnik" : "składniki"}{" "}
+                <strong>{poza.join(", ")}</strong>: nie ma {poza.length === 1 ? "go" : "ich"} w bazie,
+                więc nie znamy {poza.length === 1 ? "jego" : "ich"} profilu. Wyliczenie obejmuje{" "}
+                {udzialObjety.toFixed(1)}% mieszanki.
+              </span>
+            </p>
+          )}
+
+          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
             <div>
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Witaminy (w 1 kg mieszanki)
+                Aminokwasy krytyczne
               </p>
-              {WITAMINY.map(([pole, etykieta, jednostka]) => (
+              {AMINOKWASY_KLUCZOWE.map(([pole, etykieta]) => (
+                <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka="%" miejsca={3} />
+              ))}
+            </div>
+
+            <div>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Skład podstawowy
+              </p>
+              <div className="flex items-baseline justify-between gap-3 border-b border-border/60 py-1">
+                <span className="text-sm text-muted-foreground">Tłuszcz surowy</span>
+                <span className="whitespace-nowrap font-medium tabular-nums">
+                  <span className={normaTluszczu ? (tluszczOk ? "text-green-700 dark:text-green-400" : "text-orange-800 dark:text-orange-300") : ""}>
+                    {tluszcz.toFixed(2)}
+                  </span>{" "}
+                  <span className="text-xs text-muted-foreground">
+                    %{normaTluszczu ? ` · norma ${normaTluszczu}%` : ""}
+                  </span>
+                </span>
+              </div>
+              {SKLAD.map(([pole, etykieta, jednostka]) => (
                 <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka={jednostka} />
               ))}
             </div>
-          )}
-          <div>
-            {jest(AMINOKWASY_POZOSTALE) && (
-              <>
-                <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Pozostałe aminokwasy
-                </p>
-                {AMINOKWASY_POZOSTALE.map(([pole, etykieta]) => (
-                  <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka="%" miejsca={3} />
-                ))}
-              </>
-            )}
-            {jest(MINERALNE) && (
-              <>
-                <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Mineralne rozszerzone
-                </p>
-                {MINERALNE.map(([pole, etykieta, jednostka]) => (
-                  <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka={jednostka} miejsca={3} />
-                ))}
-              </>
-            )}
           </div>
+
+          <button
+            type="button"
+            onClick={() => setRozwiniete((x) => !x)}
+            className="mt-3 flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+            aria-expanded={rozwiniete}
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${rozwiniete ? "rotate-180" : ""}`} />
+            {rozwiniete ? "Zwiń pełny profil" : "Pokaż witaminy i pozostałe aminokwasy"}
+          </button>
+
+          {rozwiniete && (
+            <div className="mt-3 grid gap-x-8 gap-y-1 border-t border-border pt-3 sm:grid-cols-2">
+              {jest(WITAMINY) && (
+                <div>
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Witaminy (w 1 kg mieszanki)
+                  </p>
+                  {WITAMINY.map(([pole, etykieta, jednostka]) => (
+                    <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka={jednostka} />
+                  ))}
+                </div>
+              )}
+              <div>
+                {jest(AMINOKWASY_POZOSTALE) && (
+                  <>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      Pozostałe aminokwasy
+                    </p>
+                    {AMINOKWASY_POZOSTALE.map(([pole, etykieta]) => (
+                      <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka="%" miejsca={3} />
+                    ))}
+                  </>
+                )}
+                {jest(MINERALNE) && (
+                  <>
+                    <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      Mineralne rozszerzone
+                    </p>
+                    {MINERALNE.map(([pole, etykieta, jednostka]) => (
+                      <Pozycja key={pole} etykieta={etykieta} pole={pole} jednostka={jednostka} miejsca={3} />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            Skład dodatków paszowych i premiksów bywa różny w zależności od partii i producenta,
+            sprawdź etykietę swojego opakowania. Jeśli zauważysz rozbieżność, zgłoś ją przez
+            „Zaproponuj składnik".
+          </p>
         </div>
       )}
-
-      <p className="mt-3 text-xs text-muted-foreground">
-        Skład dodatków paszowych i premiksów bywa różny w zależności od partii i producenta —
-        sprawdź etykietę swojego opakowania. Jeśli zauważysz rozbieżność, zgłoś ją przyciskiem
-        „Zaproponuj składnik".
-      </p>
     </div>
   );
 }

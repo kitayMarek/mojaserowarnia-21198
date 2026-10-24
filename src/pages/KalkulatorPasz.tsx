@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import WyborSkladnika from '@/components/kalkulator/WyborSkladnika';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import KartaSkladnika, { SZER_CENA, SZER_PRZYCISKI, SZER_UDZIAL } from '@/components/kalkulator/KartaSkladnika';
 import PelnySklad from '@/components/kalkulator/PelnySklad';
+import StadoKarta from '@/components/kalkulator/StadoKarta';
+import WynikMieszanki from '@/components/kalkulator/WynikMieszanki';
 import ZapisaneReceptury, { PodpowiedzZapisu } from '@/components/kalkulator/ZapisaneReceptury';
+import {
+  Komunikat, PARAMETRY, Sekcja, liczbaPL, zJednostka,
+  type KomunikatKalkulatora, type PoleParametru,
+} from '@/components/kalkulator/wspolne';
 import { zdarzenieMieszankaEksport } from '@/lib/zdarzeniaGa4';
 import { otworzWTalkToFarm, dwaMiejsca, OPIS_TALKTOFARM } from '@/lib/talkToFarm';
 import type { Skladnik, ZapisanaMieszanka } from '@/types/kalkulatorPasz';
@@ -9,21 +15,37 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ReactionButton from "@/components/ReactionButton";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { AlertCircle, CheckCircle, Info, Plug, Wheat } from 'lucide-react';
+import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, Plug, Plus, Target, Wheat } from 'lucide-react';
 import PageHeader from "@/components/PageHeader";
 // Już nie na stronie (tytuł był w niej wtopiony), ale zostaje jako og:image do podglądów linków.
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
-import { feedIngredients, feedCategories } from "@/data/feedIngredients";
+import { feedIngredients } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from "@/data/normyDrobiu";
+import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/data/udzialySurowcow";
 import {
-  bladNormy, kategoriaWiekowa, maxStraczkowe, maWartosci, dobierzProporcje,
-  najtanszaMieszanka, generujSugestie as sugestieDoMieszanki, sprawdzNorme,
-  bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
+  maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki,
+  sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
 } from "@/lib/bilansPaszy";
 
+/*
+ * Wygląd przebudowany 24.10.2026 (Marek: „liczy dobrze, ale wygląda strasznie”).
+ * 75% wejść to telefony, a tabela na 9–11 kolumn przewijała się tam w bok.
+ * Teraz pięć kroków: ptaki, składniki (karty), wynik, stado, zapis. Od 1280 px wynik
+ * stoi w prawej kolumnie i przesuwa się razem z ekranem; niżej jest pasek na dole
+ * ekranu z sumą, kosztem i liczbą parametrów poza normą.
+ *
+ * Logika doboru, oceny norm, limity i stado: src/lib/bilansPaszy.ts (wspólne
+ * z serwerem MCP). Ta strona tylko zbiera dane i pokazuje wynik.
+ *
+ * Usunięty przy przebudowie: panel administratora bazy surowców. Nic go nie otwierało,
+ * a hasło stało wpisane w kodzie publicznego repozytorium. Baza żyje w pliku danych
+ * i w zgłoszeniach przez „Zaproponuj składnik”.
+ */
 
 interface PrzykladowySkladnik {
   nazwa: string;
@@ -42,6 +64,20 @@ interface PrzykladowySkladnik {
   fe?: number;
   i?: number;
 }
+
+type KomunikatNaStronie = KomunikatKalkulatora & { miejsce: 'akcje' | 'wynik' };
+
+const PUSTY_WIERSZ: Skladnik = { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' };
+
+const odmiana = (n: number, [jeden, kilka, wiele]: [string, string, string]) => {
+  if (n === 1) return jeden;
+  const j = n % 10, d = n % 100;
+  return j >= 2 && j <= 4 && (d < 12 || d > 14) ? kilka : wiele;
+};
+
+const KLASA_WYBORU =
+  "h-11 w-full rounded-md border border-input bg-background px-3 text-base text-foreground " +
+  "focus:outline-none focus:ring-2 focus:ring-ring";
 
 const KalkulatorPasz = () => {
   useEffect(() => {
@@ -86,38 +122,17 @@ const KalkulatorPasz = () => {
 
   const [drob, setDrob] = useState('kury-nioski-lekkie');
   const [okres, setOkres] = useState('');
-  const [skladniki, setSkladniki] = useState<Skladnik[]>([
-    { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }
-  ]);
-  // Limity udziału i zapotrzebowanie stada (od 24.10.2026, logika w bilansPaszy.ts).
-  const [pokazLimity, setPokazLimity] = useState(false);
+  const [skladniki, setSkladniki] = useState<Skladnik[]>([{ ...PUSTY_WIERSZ }]);
+  // Zapotrzebowanie stada (od 24.10.2026, logika w bilansPaszy.ts).
   const [sztuk, setSztuk] = useState('');
   const [dawkaG, setDawkaG] = useState('');
+  // Komunikaty zamiast alert(): błędy pod przyciskami, wynik doboru nad wynikiem.
+  const [komunikat, setKomunikat] = useState<KomunikatNaStronie | null>(null);
 
   // Normy i lista gatunkow: src/data/normyDrobiu.ts (wspolne ze serwerem MCP).
   const normy = NORMY_DROBIU;
 
   const typyDrobiu = TYPY_DROBIU;
-
-  const domyslneSkladniki: PrzykladowySkladnik[] = [
-    { nazwa: 'Pszenica', em: 13.5, bialko: 12.0, ca: 0.05, p: 0.35, wlokno: 2.5, na: 0.02, k: 0.45, mg: 0.13, mn: 40, zn: 30, se: 0.05, fe: 45, i: 0.08 },
-    { nazwa: 'Kukurydza', em: 14.5, bialko: 8.5, ca: 0.02, p: 0.28, wlokno: 2.0, na: 0.01, k: 0.35, mg: 0.12, mn: 6, zn: 20, se: 0.03, fe: 25, i: 0.05 },
-    { nazwa: 'Jęczmień', em: 12.5, bialko: 11.0, ca: 0.08, p: 0.38, wlokno: 5.0, na: 0.02, k: 0.50, mg: 0.12, mn: 15, zn: 25, se: 0.04, fe: 35, i: 0.06 },
-    { nazwa: 'Owies', em: 11.0, bialko: 11.0, ca: 0.08, p: 0.35, wlokno: 10.0, na: 0.02, k: 0.43, mg: 0.14, mn: 45, zn: 32, se: 0.06, fe: 48, i: 0.07 },
-    { nazwa: 'Groch', em: 12.5, bialko: 23.0, ca: 0.10, p: 0.40, wlokno: 5.5, na: 0.02, k: 1.00, mg: 0.13, mn: 12, zn: 35, se: 0.08, fe: 50, i: 0.09 },
-    { nazwa: 'Bobik', em: 12.0, bialko: 27.0, ca: 0.15, p: 0.45, wlokno: 8.0, na: 0.03, k: 1.10, mg: 0.15, mn: 14, zn: 38, se: 0.09, fe: 55, i: 0.10 },
-    { nazwa: 'Ziemniaki gotowane', em: 13.5, bialko: 9.0, ca: 0.01, p: 0.20, wlokno: 1.8, na: 0.01, k: 0.42, mg: 0.02, mn: 3, zn: 3, se: 0.01, fe: 8, i: 0.02 },
-    { nazwa: 'Śruta słonecznikowa', em: 10.5, bialko: 32.0, ca: 0.25, p: 0.70, wlokno: 25.0, na: 0.03, k: 0.95, mg: 0.35, mn: 30, zn: 50, se: 0.70, fe: 70, i: 0.12 },
-    { nazwa: 'Śruta sojowa', em: 9.5, bialko: 46.0, ca: 0.30, p: 0.65, wlokno: 6.0, na: 0.02, k: 2.00, mg: 0.28, mn: 25, zn: 45, se: 0.12, fe: 90, i: 0.15 },
-    { nazwa: 'Śruta rzepakowa', em: 8.5, bialko: 34.0, ca: 0.70, p: 1.10, wlokno: 12.0, na: 0.03, k: 1.20, mg: 0.40, mn: 50, zn: 60, se: 1.10, fe: 150, i: 0.20 },
-    { nazwa: 'Otręby pszenne', em: 8.0, bialko: 16.0, ca: 0.12, p: 1.20, wlokno: 42.0, na: 0.02, k: 1.15, mg: 0.50, mn: 120, zn: 70, se: 0.30, fe: 140, i: 0.08 },
-    { nazwa: 'Kreda pastewna', em: 0, bialko: 0, ca: 38.0, p: 0.01, wlokno: 0, na: 0.10, k: 0.01, mg: 0.50, mn: 5, zn: 3, se: 0.01, fe: 10, i: 0.02 },
-    { nazwa: 'Fosforan wapnia', em: 0, bialko: 0, ca: 24.0, p: 18.0, wlokno: 0, na: 0.30, k: 0.02, mg: 0.20, mn: 8, zn: 10, se: 0.02, fe: 15, i: 0.03 },
-    { nazwa: 'Sól kamienna', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 39.0, k: 0.01, mg: 0.01, mn: 0, zn: 0, se: 0, fe: 0, i: 0.01 },
-    { nazwa: 'Dolmix Capri', em: 2.5, bialko: 7.0, ca: 12.0, p: 5.0, wlokno: 1.5, na: 0.25, k: 0.30, mg: 0.45, mn: 1200, zn: 800, se: 8.0, fe: 600, i: 15 },
-    { nazwa: 'Premiks witaminowy', em: 0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0.10, mn: 8000, zn: 6000, se: 30, fe: 5000, i: 100 },
-    { nazwa: 'Olej roślinny', em: 37.0, bialko: 0, ca: 0, p: 0, wlokno: 0, na: 0, k: 0, mg: 0, mn: 0, zn: 0, se: 0, fe: 0, i: 0 }
-  ];
 
   // Baza surowców: 124 pozycje z pliku danych (źródło: XLS Marka, scripts/gen-feed-ingredients.py).
   // Poprzednio: 17 zaszytych + edycja przez localStorage (atrapa admina).
@@ -125,31 +140,24 @@ const KalkulatorPasz = () => {
 
   const [przykladoweSkladniki, setPrzykladoweSkladniki] = useState<PrzykladowySkladnik[]>(wczytajSkladniki());
   // baza z pliku (124) + zatwierdzone zgłoszenia userów z Supabase
-  const { ingredients: feedMerged, categories: pickerKategorie } = useFeedIngredients();
+  const { ingredients: feedMerged } = useFeedIngredients();
   useEffect(() => { setPrzykladoweSkladniki(feedMerged); }, [feedMerged]);
 
   // Plaska lista dla wyszukiwarki skladnikow. Liczona raz - wczesniej lista opcji
   // powstawala od nowa dla KAZDEGO wiersza przy KAZDYM nacisnieciu klawisza
   // w dowolnym z szesnastu pol liczbowych, co dawalo najgorszy INP w serwisie.
   const pozycjeDoWyboru = useMemo(
-    () => przykladoweSkladniki.map(p => ({ nazwa: p.nazwa, kategoria: p.kategoria })),
+    () => przykladoweSkladniki.map(p => ({ nazwa: p.nazwa, kategoria: p.kategoria ?? '' })),
     [przykladoweSkladniki],
   );
   const [zaproponujOpen, setZaproponujOpen] = useState(false);
-  const [panelAdmin, setPanelAdmin] = useState(false);
-  const [zalogowanyAdmin, setZalogowanyAdmin] = useState(false);
-  const [edytowanySkladnik, setEdytowanySkladnik] = useState<any>(null);
-  const [pokazModalHaslo, setPokazModalHaslo] = useState(false);
-  const [inputHaslo, setInputHaslo] = useState('');
-  const [pokazModalUsun, setPokazModalUsun] = useState(false);
-  const [skladnikDoUsuniecia, setSkladnikDoUsuniecia] = useState<string | null>(null);
-  const [pokazModalPrzywroc, setPokazModalPrzywroc] = useState(false);
   const [pokazModalEksport, setPokazModalEksport] = useState(false);
   const [eksportTresc, setEksportTresc] = useState('');
   const [eksportTyp, setEksportTyp] = useState('csv');
+  const [skopiowano, setSkopiowano] = useState(false);
 
-  const obliczKoszt = () => {
-    return skladniki.reduce((suma, s) => {
+  const obliczKoszt = (lista: Skladnik[] = skladniki) => {
+    return lista.reduce((suma, s) => {
       const procent = parseFloat(s.procent as string) || 0;
       const cena = parseFloat(s.cena) || 0;
       return suma + (procent * cena / 100);
@@ -188,8 +196,8 @@ const KalkulatorPasz = () => {
 
     const header = Object.keys(rows[0]).join(';');
     const body = rows.map(r => Object.values(r).join(';')).join('\n');
-    const csvContent = '\ufeff' + header + '\n' + body;
-    
+    const csvContent = '﻿' + header + '\n' + body;
+
     try {
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -207,6 +215,7 @@ const KalkulatorPasz = () => {
     } catch (e) {
       setEksportTresc(csvContent);
       setEksportTyp('csv');
+      setSkopiowano(false);
       setPokazModalEksport(true);
     }
   };
@@ -313,15 +322,9 @@ const KalkulatorPasz = () => {
     } catch (e) {
       setEksportTresc(txt);
       setEksportTyp('txt');
+      setSkopiowano(false);
       setPokazModalEksport(true);
     }
-  };
-
-  // Do 13.09.2026 zapisywało to też localStorage 'adminSkladniki', którego nic nie
-  // odczytywało (pozostałość po "atrapie admina"). Pamięć przeglądarki bez celu wyleciała
-  // przy porządkowaniu zgód.
-  const zapiszSkladniki = (noweSkladniki: PrzykladowySkladnik[]) => {
-    setPrzykladoweSkladniki(noweSkladniki);
   };
 
   const wczytajRecepture = (mieszanka: ZapisanaMieszanka) => {
@@ -330,46 +333,55 @@ const KalkulatorPasz = () => {
     setDrob(mieszanka.drob);
     setOkres(mieszanka.okres);
     setSkladniki(mieszanka.pozycje);
+    setKomunikat(null);
   };
 
   const aktualnaNorma = okres ? normy[drob]?.find((n: any) => n.okres === okres) : null;
+  // Gatunek i okres razem: od 24.10.2026 limity udziałów zależą od grupy ptaków
+  // (kaczki i gęsi mają własne), a nie od samego okresu.
+  const ptaki = useMemo(() => ({ drob, okres }), [drob, okres]);
+  const grupa = grupaPtakow(drob, okres);
 
   const dodajSkladnik = () => {
-    setSkladniki([...skladniki, { nazwa: '', procent: '', em: '', bialko: '', ca: '', p: '', wlokno: '', cena: '', na: '', k: '', mg: '', mn: '', zn: '', se: '', fe: '', i: '' }]);
+    setKomunikat(null);
+    setSkladniki(poprzednie => [...poprzednie, { ...PUSTY_WIERSZ }]);
   };
 
-  const usunSkladnik = (index: number) => {
-    setSkladniki(skladniki.filter((_, i) => i !== index));
-  };
+  const usunSkladnik = useCallback((index: number) => {
+    setKomunikat(null);
+    setSkladniki(poprzednie => poprzednie.filter((_, i) => i !== index));
+  }, []);
 
-  const aktualizujSkladnik = (index: number, pole: string, wartosc: string | number) => {
-    const noweSkladniki = [...skladniki];
-    (noweSkladniki[index] as any)[pole] = wartosc;
-    
-    if (pole === 'nazwa') {
-      const przyklad = przykladoweSkladniki.find(p => p.nazwa === wartosc);
-      if (przyklad) {
-        noweSkladniki[index].em = przyklad.em;
-        noweSkladniki[index].bialko = przyklad.bialko;
-        noweSkladniki[index].ca = przyklad.ca;
-        noweSkladniki[index].p = przyklad.p;
-        noweSkladniki[index].wlokno = przyklad.wlokno || 0;
-        noweSkladniki[index].na = przyklad.na || 0;
-        noweSkladniki[index].k = przyklad.k || 0;
-        noweSkladniki[index].mg = przyklad.mg || 0;
-        noweSkladniki[index].mn = przyklad.mn || 0;
-        noweSkladniki[index].zn = przyklad.zn || 0;
-        noweSkladniki[index].se = przyklad.se || 0;
-        noweSkladniki[index].fe = przyklad.fe || 0;
-        noweSkladniki[index].i = przyklad.i || 0;
+  // Wiersz podmieniany na NOWY obiekt (karty są w memo i inaczej by się nie odświeżyły).
+  const aktualizujSkladnik = useCallback((index: number, pole: string, wartosc: string | number) => {
+    setKomunikat(null);
+    setSkladniki(poprzednie => poprzednie.map((s, i) => {
+      if (i !== index) return s;
+      const nowy = { ...s, [pole]: wartosc } as Skladnik;
+      if (pole === 'nazwa') {
+        const przyklad = przykladoweSkladniki.find(p => p.nazwa === wartosc);
+        if (przyklad) {
+          nowy.em = przyklad.em;
+          nowy.bialko = przyklad.bialko;
+          nowy.ca = przyklad.ca;
+          nowy.p = przyklad.p;
+          nowy.wlokno = przyklad.wlokno || 0;
+          nowy.na = przyklad.na || 0;
+          nowy.k = przyklad.k || 0;
+          nowy.mg = przyklad.mg || 0;
+          nowy.mn = przyklad.mn || 0;
+          nowy.zn = przyklad.zn || 0;
+          nowy.se = przyklad.se || 0;
+          nowy.fe = przyklad.fe || 0;
+          nowy.i = przyklad.i || 0;
+        }
       }
-    }
-    
-    setSkladniki(noweSkladniki);
-  };
+      return nowy;
+    }));
+  }, [przykladoweSkladniki]);
 
-  const obliczCalkowita = (pole: string) => {
-    return skladniki.reduce((suma, s) => {
+  const obliczCalkowita = (pole: string, lista: Skladnik[] = skladniki) => {
+    return lista.reduce((suma, s) => {
       const procent = parseFloat(s.procent as string) || 0;
       const wartosc = parseFloat((s as any)[pole] as string) || 0;
       return suma + (procent * wartosc / 100);
@@ -385,18 +397,62 @@ const KalkulatorPasz = () => {
     });
   };
 
-  // Algorytm doboru, ocena i sugestie: src/lib/bilansPaszy.ts (wspolne ze serwerem MCP).
-  const obliczBladNormy = (testoweSkladniki: any[]) => bladNormy(testoweSkladniki, aktualnaNorma);
-  const okreslKategorieWiekowa = () => kategoriaWiekowa(okres);
-  const pobierzMaxStraczkowe = () => maxStraczkowe(okres);
+  // Parametry z normy poza nią (te same tolerancje co w wyniku).
+  const parametryPozaNorma = (lista: Skladnik[] = skladniki) => aktualnaNorma
+    ? PARAMETRY.filter(({ pole, tol }) => aktualnaNorma[pole]
+        && sprawdzNorme(obliczCalkowita(pole, lista), aktualnaNorma[pole] as number, tol) !== 'ok')
+    : [];
+
+  const pokazBlad = (tytul: string, tresc: string) =>
+    setKomunikat({ rodzaj: 'blad', tytul, tresc, miejsce: 'akcje' });
+
+  // Po doborze strona sama przewija do wyniku (tylko gdy wynik nie stoi obok, czyli poniżej 1280 px).
+  const wynikRef = useRef<HTMLDivElement>(null);
+  const przewinDoWyniku = useRef(false);
+  const pokazWynik = (k: KomunikatKalkulatora) => {
+    przewinDoWyniku.current = true;
+    setKomunikat({ ...k, miejsce: 'wynik' });
+  };
+  useEffect(() => {
+    if (!przewinDoWyniku.current) return;
+    przewinDoWyniku.current = false;
+    if (window.matchMedia('(min-width: 1280px)').matches) return;
+    wynikRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [komunikat]);
 
   // Dopisek do komunikatu po doborze: które składniki zatrzymał limit udziału.
   const opisOsiagnietychLimitow = (pozycje: Skladnik[]) => {
-    const osiagniete = osiagnieteLimity(pozycje, okres);
+    const osiagniete = osiagnieteLimity(pozycje, ptaki);
     return osiagniete.length
-      ? `\n\n📏 Doszły do limitu udziału: ${osiagniete.map(o => `${o.nazwa} (${o.max}%)`).join(', ')}. Limity zmienisz przyciskiem „Limity udziału”.`
+      ? `Doszły do limitu udziału: ${osiagniete.map(o => `${o.nazwa} (${o.max}%)`).join(', ')}. Limity zmienisz w „Skład i limity” przy składniku.`
       : '';
   };
+
+  // Udziały po doborze z jednym miejscem po przecinku, tak żeby suma wyszła równo 100.
+  // Samo toFixed(1) przy każdym składniku dawało czasem 99,9%: mieszanka nie była wtedy
+  // „gotowa”, więc znikało stado i blokował się eksport. Resztę dostaje największy składnik,
+  // który po niej zostaje w swoich granicach (inaczej np. kukurydza 60,1% dawała ostrzeżenie).
+  const doJednegoMiejsca = (pozycje: Skladnik[]) => {
+    const zaokr = pozycje.map(p => Math.round(Number(p.procent) * 10) / 10);
+    const reszta = Math.round((100 - zaokr.reduce((a, b) => a + b, 0)) * 10) / 10;
+    if (reszta !== 0 && zaokr.length > 0) {
+      const wszystkie = zaokr.map((_, i) => i);
+      const wGranicach = wszystkie.filter(i => {
+        const [min, max] = graniceUdzialu(pozycje[i], ptaki);
+        return zaokr[i] + reszta >= min - 1e-9 && zaokr[i] + reszta <= max + 1e-9;
+      });
+      const i = (wGranicach.length ? wGranicach : wszystkie).reduce((a, b) => (zaokr[b] > zaokr[a] ? b : a));
+      zaokr[i] = Math.round((zaokr[i] + reszta) * 10) / 10;
+    }
+    const wynik = new Map<string, string>();
+    pozycje.forEach((p, i) => { if (!wynik.has(p.nazwa)) wynik.set(p.nazwa, zaokr[i].toFixed(1)); });
+    return wynik;
+  };
+
+  const wPozostalych = (lista: Skladnik[]) =>
+    parametryPozaNorma(lista).some(({ pole }) => !['em', 'bialko', 'ca', 'p'].includes(pole))
+      ? ' Włókna i minerałów dobór nie ustawia: sprawdź je w wyniku.'
+      : '';
 
   const przeliczOptymalneProporcje = () => {
     if (!aktualnaNorma) return;
@@ -404,126 +460,89 @@ const KalkulatorPasz = () => {
     const aktywneSkladniki = skladniki.filter(s => s.nazwa && maWartosci(s));
 
     if (aktywneSkladniki.length < 2) {
-      alert('Dodaj co najmniej 2 składniki z wartościami odżywczymi aby móc przeliczyć optymalne proporcje.');
+      pokazBlad('Za mało składników', 'Dodaj co najmniej 2 składniki z wartościami odżywczymi, żeby przeliczyć proporcje.');
       return;
     }
 
-    const sprzeczne = bladLimitow(aktywneSkladniki, okres);
+    const sprzeczne = bladLimitow(aktywneSkladniki, ptaki);
     if (sprzeczne) {
-      alert(`Nie da się dobrać proporcji z tymi limitami.\n\n${sprzeczne}`);
+      pokazBlad('Nie da się dobrać proporcji', sprzeczne);
       return;
     }
 
-    const najlepszeSkladniki = dobierzProporcje(aktywneSkladniki, aktualnaNorma, okres);
+    const najlepszeSkladniki = dobierzProporcje(aktywneSkladniki, aktualnaNorma, ptaki);
     const dopisek = opisOsiagnietychLimitow(najlepszeSkladniki);
 
-    const noweSkladniki = skladniki.map(s => {
-      const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
-      if (znaleziony) {
-        return {
-          ...s,
-          procent: (znaleziony.procent as number).toFixed(1)
-        };
-      }
-      return s;
-    });
+    const udzialy = doJednegoMiejsca(najlepszeSkladniki);
+    const noweSkladniki = skladniki.map(s => udzialy.has(s.nazwa) ? { ...s, procent: udzialy.get(s.nazwa)! } : s);
 
     setSkladniki(noweSkladniki);
 
-    setTimeout(() => {
-      const sugestie = generujSugestie(noweSkladniki);
-      if (sugestie.length > 0) {
-        const komunikat = 'Proporcje zostały przeliczone, ale niektóre parametry są poza normą.\n\n' +
-          '🔧 SUGESTIE POPRAWEK:\n\n' +
-          sugestie.join('\n\n');
-        alert(komunikat + dopisek);
-      } else {
-        alert('✅ Świetnie! Proporcje zostały przeliczone i wszystkie parametry są w normie!' + dopisek);
-      }
-    }, 100);
+    const sugestie = generujSugestie(noweSkladniki);
+    pokazWynik(sugestie.length > 0
+      ? { rodzaj: 'uwaga', tytul: 'Proporcje przeliczone, ale część parametrów jest poza normą', sugestie, dopisek }
+      : { rodzaj: 'ok', tytul: 'Proporcje dobrane', tresc: 'Energia, białko, wapń i fosfor są w normie.' + wPozostalych(noweSkladniki), dopisek });
   };
 
   const przeliczNajtanszaMieszanke = () => {
     if (!aktualnaNorma) return;
     if (!czyCenyWypelnione()) {
-      alert('Najpierw uzupełnij ceny wszystkich składników!');
+      pokazBlad('Brakuje cen', 'Najpierw uzupełnij ceny wszystkich składników z udziałem.');
       return;
     }
 
     const aktywneSkladniki = skladniki.filter(s => s.nazwa && maWartosci(s) && parseFloat(s.cena) > 0);
 
     if (aktywneSkladniki.length < 2) {
-      alert('Dodaj co najmniej 2 składniki z wartościami odżywczymi i cenami.');
+      pokazBlad('Za mało składników z ceną', 'Dodaj co najmniej 2 składniki z wartościami odżywczymi i cenami.');
       return;
     }
 
-    const sprzeczne = bladLimitow(aktywneSkladniki, okres);
+    const sprzeczne = bladLimitow(aktywneSkladniki, ptaki);
     if (sprzeczne) {
-      alert(`Nie da się dobrać mieszanki z tymi limitami.\n\n${sprzeczne}`);
+      pokazBlad('Nie da się policzyć najtańszej mieszanki', sprzeczne);
       return;
     }
 
-    const najlepszeSkladniki = najtanszaMieszanka(aktywneSkladniki, aktualnaNorma, okres);
+    const najlepszeSkladniki = najtanszaMieszanka(aktywneSkladniki, aktualnaNorma, ptaki);
     const dopisek = opisOsiagnietychLimitow(najlepszeSkladniki);
 
-    const noweSkladniki = skladniki.map(s => {
-      const znaleziony = najlepszeSkladniki.find(ns => ns.nazwa === s.nazwa);
-      if (znaleziony) {
-        return {
-          ...s,
-          procent: (znaleziony.procent as number).toFixed(1)
-        };
-      }
-      return s;
-    });
+    const udzialy = doJednegoMiejsca(najlepszeSkladniki);
+    const noweSkladniki = skladniki.map(s => udzialy.has(s.nazwa) ? { ...s, procent: udzialy.get(s.nazwa)! } : s);
 
     setSkladniki(noweSkladniki);
 
-    setTimeout(() => {
-      const sugestie = generujSugestie(noweSkladniki);
-      const koszt = obliczKoszt();
-      
-      let komunikat = `💰 Znaleziono najtańszą mieszankę!\n\nKoszt: ${koszt.toFixed(2)} zł/kg\n\n`;
-      
-      if (sugestie.length > 0) {
-        komunikat += '⚠️ UWAGA - niektóre parametry są poza normą:\n\n' + 
-          sugestie.join('\n\n') + 
-          '\n\n💡 Aby poprawić normy żywieniowe, użyj przycisku "Przelicz optymalne proporcje".';
-      } else {
-        komunikat += '✅ Wszystkie parametry żywieniowe są w normie!';
-      }
-
-      alert(komunikat + dopisek);
-    }, 100);
+    // Koszt z NOWYCH proporcji. Do 24.10.2026 komunikat brał go ze stanu sprzed
+    // przeliczenia i pokazywał koszt starej mieszanki.
+    const sugestie = generujSugestie(noweSkladniki);
+    const tytul = `Najtańsza mieszanka: ${liczbaPL(obliczKoszt(noweSkladniki), 2)} zł/kg`;
+    pokazWynik(sugestie.length > 0
+      ? {
+          rodzaj: 'uwaga', tytul, tresc: 'Niektóre parametry są poza normą:', sugestie,
+          dopisek: ['Aby poprawić normy, użyj przycisku „Dobierz proporcje do normy”.', dopisek].filter(Boolean).join(' '),
+        }
+      : { rodzaj: 'ok', tytul, tresc: 'Energia, białko, wapń i fosfor są w normie.' + wPozostalych(noweSkladniki), dopisek });
   };
 
   const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) =>
-    sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, okres);
+    sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, ptaki);
 
-  const znajdzBogateSkladniki = (mikroskładnik: 'na' | 'k' | 'mg' | 'mn' | 'zn' | 'se' | 'fe' | 'i') => {
-    // Sortuj składniki według zawartości danego mikroskładnika (malejąco)
-    const posortowane = [...przykladoweSkladniki]
-      .filter(s => {
-        const wartosc = s[mikroskładnik] || 0;
-        return typeof wartosc === 'number' && wartosc > 0;
-      })
-      .sort((a, b) => {
-        const wartoscA = (a[mikroskładnik] as number) || 0;
-        const wartoscB = (b[mikroskładnik] as number) || 0;
-        return wartoscB - wartoscA;
-      });
-
-    // Weź top 3 najbogatsze źródła
-    return posortowane.slice(0, 3);
-  };
+  // Trzy surowce z bazy najbogatsze w dany składnik (przyciski „dodaj” przy ostrzeżeniu).
+  const znajdzBogateSkladniki = (pole: PoleParametru) =>
+    przykladoweSkladniki
+      .map(s => ({ nazwa: s.nazwa, wartosc: (s[pole as keyof PrzykladowySkladnik] as number) || 0 }))
+      .filter(s => typeof s.wartosc === 'number' && s.wartosc > 0)
+      .sort((a, b) => b.wartosc - a.wartosc)
+      .slice(0, 3);
 
   const dodajSkladnikZSugestii = (nazwaSkladnika: string) => {
     const przyklad = przykladoweSkladniki.find(p => p.nazwa === nazwaSkladnika);
     if (!przyklad) return;
+    setKomunikat(null);
 
     // Znajdź pierwszy pusty wiersz lub dodaj nowy
     const pustyIndex = skladniki.findIndex(s => !s.nazwa || s.nazwa === '');
-    
+
     const nowySkladnik: Skladnik = {
       nazwa: przyklad.nazwa,
       procent: '',
@@ -567,84 +586,51 @@ const KalkulatorPasz = () => {
     : null;
   const formatKg = (kg: number) => kg.toLocaleString('pl-PL', { maximumFractionDigits: kg < 10 ? 2 : 1 });
 
-  // Zalecane maksimum jako podpowiedź w pustym polu Max.
-  const zalecaneMax = (s: Skladnik) => {
-    const max = graniceUdzialu({ ...s, max: '' }, okres)[1];
-    return max < 100 ? String(max) : '';
+  // Zalecany udział surowca dla tych ptaków (src/data/udzialySurowcow.ts), do karty składnika.
+  // Odmiana „+enzym” ma już maksimum z enzymem, więc bez drugiego „z enzymem do …”.
+  const zalecenieDla = (nazwa: string) => {
+    const z = nazwa ? zalecenieUdzialu(nazwa, grupa) : null;
+    if (!z) return null;
+    return {
+      opis: opisZalecenia(nazwa.includes('+enzym') ? { maks: z.maks, zalecane: z.zalecane } : z),
+      maks: z.maks,
+      powod: z.wpis.powod,
+      ostrzezenie: z.wpis.ostrzezenie,
+      stala: !!z.wpis.stalaDawka,
+      domyslna: dawkaDomyslna(nazwa),
+    };
   };
   const wlasneLimity = skladniki
     .filter(s => s.nazwa && (s.min || s.max))
     .map(s => `${s.nazwa}${s.min ? ` od ${s.min}%` : ''}${s.max ? ` do ${s.max}%` : ''}`);
 
-  const zalogujAdmin = () => {
-    if (inputHaslo === 'admin2024') {
-      setZalogowanyAdmin(true);
-      setPanelAdmin(true);
-      setPokazModalHaslo(false);
-      setInputHaslo('');
-    } else {
-      setInputHaslo('');
-    }
-  };
+  const koszt = obliczKoszt();
+  const cenyKompletne = czyCenyWypelnione();
+  const pozaNorma = sumaProcentow > 0 ? parametryPozaNorma().length : 0;
+  const brakDo100 = 100 - sumaProcentow;
 
-  const wylogujAdmin = () => {
-    setZalogowanyAdmin(false);
-    setPanelAdmin(false);
-    setEdytowanySkladnik(null);
-  };
-
-  const dodajNowySkladnik = () => {
-    const nowySkladnik = {
-      nazwa: 'Nowy składnik',
-      kategoria: 'Inne',
-      em: 0,
-      bialko: 0,
-      ca: 0,
-      p: 0,
-      wlokno: 0,
-      na: 0,
-      k: 0,
-      mg: 0,
-      mn: 0,
-      zn: 0,
-      se: 0,
-      fe: 0,
-      i: 0
+  // Pasek na dole ekranu (telefon i tablet): widać go, dopóki wynik jest niżej niż ekran.
+  // Chowa się przy wpisywaniu (klawiatura) i gdy na dole stoi baner zgody na analitykę.
+  const [wynikPonizej, setWynikPonizej] = useState(false);
+  const [piszeWPolu, setPiszeWPolu] = useState(false);
+  useEffect(() => {
+    const sprawdz = () => {
+      const el = wynikRef.current;
+      if (!el) return;
+      const baner = document.querySelector('.CookieConsent');
+      setWynikPonizej(el.getBoundingClientRect().top > window.innerHeight - 40 && !baner);
     };
-    zapiszSkladniki([...przykladoweSkladniki, nowySkladnik]);
-  };
+    sprawdz();
+    window.addEventListener('scroll', sprawdz, { passive: true });
+    window.addEventListener('resize', sprawdz);
+    return () => {
+      window.removeEventListener('scroll', sprawdz);
+      window.removeEventListener('resize', sprawdz);
+    };
+  }, []);
+  const pasekWidoczny = wynikPonizej && !piszeWPolu && skladniki.some(s => s.nazwa);
 
-  const usunSkladnikZBazy = (nazwa: string) => {
-    setSkladnikDoUsuniecia(nazwa);
-    setPokazModalUsun(true);
-  };
-
-  const potwierdzUsuniecie = () => {
-    if (skladnikDoUsuniecia) {
-      zapiszSkladniki(przykladoweSkladniki.filter(s => s.nazwa !== skladnikDoUsuniecia));
-    }
-    setPokazModalUsun(false);
-    setSkladnikDoUsuniecia(null);
-  };
-
-  const zapiszEdycjeSkladnika = () => {
-    if (!edytowanySkladnik) return;
-    
-    const noweSkladniki = przykladoweSkladniki.map(s => 
-      s.nazwa === edytowanySkladnik.staraNazwa ? edytowanySkladnik : s
-    );
-    zapiszSkladniki(noweSkladniki);
-    setEdytowanySkladnik(null);
-  };
-
-  const przywrocDomyslne = () => {
-    setPokazModalPrzywroc(true);
-  };
-
-  const potwierdzPrzywrocenie = () => {
-    zapiszSkladniki(domyslneSkladniki);
-    setPokazModalPrzywroc(false);
-  };
+  const gotoweDoEksportu = mieszankaGotowa && !!aktualnaNorma;
 
   return (
     <>
@@ -667,1341 +653,365 @@ const KalkulatorPasz = () => {
         </div>
       </div>
 
-      <div className="min-h-screen bg-background p-4 md:p-8">
+      <div className="min-h-screen bg-background px-4 pb-8 pt-1 md:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-lg shadow-lg p-6 mb-6">
-            <div className="mb-6">
-              <PodpowiedzZapisu />
-            </div>
-
-            {/* Panel Admina */}
-            {panelAdmin && zalogowanyAdmin && (
-              <div className="mb-8 p-6 bg-secondary/20 border-2 border-secondary rounded-lg">
-                <h3 className="text-xl font-bold text-foreground mb-4">⚙️ Panel Administratora - Zarządzanie Składnikami</h3>
-                
-                <div className="flex gap-3 mb-4">
-                  <button
-                    onClick={dodajNowySkladnik}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    ➕ Dodaj Nowy Składnik
-                  </button>
-                  <button
-                    onClick={przywrocDomyslne}
-                    className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-                  >
-                    🔄 Przywróć Domyślne
-                  </button>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-secondary">
-                      <tr>
-                        <th className="p-2 text-left text-secondary-foreground">Nazwa</th>
-                        <th className="p-2 text-secondary-foreground">EM</th>
-                        <th className="p-2 text-secondary-foreground">Białko</th>
-                        <th className="p-2 text-secondary-foreground">Ca</th>
-                        <th className="p-2 text-secondary-foreground">P</th>
-                        <th className="p-2 text-secondary-foreground">Włókno</th>
-                        <th className="p-2 text-secondary-foreground">Na</th>
-                        <th className="p-2 text-secondary-foreground">K</th>
-                        <th className="p-2 text-secondary-foreground">Mg</th>
-                        <th className="p-2 text-secondary-foreground">Mn</th>
-                        <th className="p-2 text-secondary-foreground">Zn</th>
-                        <th className="p-2 text-secondary-foreground">Se</th>
-                        <th className="p-2 text-secondary-foreground">Fe</th>
-                        <th className="p-2 text-secondary-foreground">I</th>
-                        <th className="p-2 text-secondary-foreground">Akcje</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {przykladoweSkladniki.map((skladnik, idx) => (
-                        <tr key={idx} className="border-b hover:bg-purple-100">
-                          <td className="p-2 font-medium">{skladnik.nazwa}</td>
-                          <td className="p-2 text-center">{skladnik.em}</td>
-                          <td className="p-2 text-center">{skladnik.bialko}</td>
-                          <td className="p-2 text-center">{skladnik.ca}</td>
-                          <td className="p-2 text-center">{skladnik.p}</td>
-                          <td className="p-2 text-center">{skladnik.wlokno || 0}</td>
-                          <td className="p-2 text-center">{skladnik.na || 0}</td>
-                          <td className="p-2 text-center">{skladnik.k || 0}</td>
-                          <td className="p-2 text-center">{skladnik.mg || 0}</td>
-                          <td className="p-2 text-center">{skladnik.mn || 0}</td>
-                          <td className="p-2 text-center">{skladnik.zn || 0}</td>
-                          <td className="p-2 text-center">{skladnik.se || 0}</td>
-                          <td className="p-2 text-center">{skladnik.fe || 0}</td>
-                          <td className="p-2 text-center">{skladnik.i || 0}</td>
-                          <td className="p-2">
-                            <div className="flex gap-1">
-                              <button
-                                onClick={() => setEdytowanySkladnik({...skladnik, staraNazwa: skladnik.nazwa})}
-                                className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                              >
-                                ✏️
-                              </button>
-                              <button
-                                onClick={() => usunSkladnikZBazy(skladnik.nazwa)}
-                                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                              >
-                                🗑️
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Rodzaj drobiu:
-                </label>
-                <select
-                  value={drob}
-                  onChange={(e) => {
-                    setDrob(e.target.value);
-                    setOkres('');
-                  }}
-                  className="w-full p-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
-                >
-                  {typyDrobiu.map(typ => (
-                    <option key={typ.value} value={typ.value}>{typ.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Okres życia / Wiek:
-                </label>
-                <select
-                  value={okres}
-                  onChange={(e) => setOkres(e.target.value)}
-                  className="w-full p-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
-                >
-                  <option value="">-- Wybierz okres --</option>
-                  {normy[drob]?.map((norma, idx) => (
-                    <option key={idx} value={norma.okres}>{norma.okres}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {aktualnaNorma && (
-              <div className="mb-6 p-4 bg-accent/20 border border-accent rounded-lg">
-                <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
-                  <Info size={20} />
-                  Normy żywieniowe dla wybranego okresu:
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                  <div>
-                    <span className="font-semibold">EM:</span> {aktualnaNorma.em} MJ/kg
-                  </div>
-                  <div>
-                    <span className="font-semibold">Białko:</span> {aktualnaNorma.bialko}%
-                  </div>
-                  <div>
-                    <span className="font-semibold">Ca:</span> {aktualnaNorma.ca}%
-                  </div>
-                  <div>
-                    <span className="font-semibold">P:</span> {aktualnaNorma.p}%
-                  </div>
-                  {aktualnaNorma.na && (
-                    <div>
-                      <span className="font-semibold">Na:</span> {aktualnaNorma.na}%
-                    </div>
-                  )}
-                  {aktualnaNorma.k && (
-                    <div>
-                      <span className="font-semibold">K:</span> {aktualnaNorma.k}%
-                    </div>
-                  )}
-                  {aktualnaNorma.mg && (
-                    <div>
-                      <span className="font-semibold">Mg:</span> {aktualnaNorma.mg}%
-                    </div>
-                  )}
-                  {aktualnaNorma.mn && (
-                    <div>
-                      <span className="font-semibold">Mn:</span> {aktualnaNorma.mn} mg/kg
-                    </div>
-                  )}
-                  {aktualnaNorma.zn && (
-                    <div>
-                      <span className="font-semibold">Zn:</span> {aktualnaNorma.zn} mg/kg
-                    </div>
-                  )}
-                  {aktualnaNorma.se && (
-                    <div>
-                      <span className="font-semibold">Se:</span> {aktualnaNorma.se} mg/kg
-                    </div>
-                  )}
-                  {aktualnaNorma.fe && (
-                    <div>
-                      <span className="font-semibold">Fe:</span> {aktualnaNorma.fe} mg/kg
-                    </div>
-                  )}
-                  {aktualnaNorma.i && (
-                    <div>
-                      <span className="font-semibold">I:</span> {aktualnaNorma.i} mg/kg
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            <div className="mb-4">
-              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
-                <h3 className="text-lg font-semibold text-foreground">Składniki paszy:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => setPokazLimity(!pokazLimity)}
-                    aria-pressed={pokazLimity}
-                    className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors"
-                    title="Najmniejszy i największy udział każdego składnika przy doborze proporcji"
-                  >
-                    📏 {pokazLimity ? 'Ukryj limity' : 'Limity udziału'}
-                  </button>
-                  <button
-                    onClick={() => setZaproponujOpen(true)}
-                    className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-colors"
-                    title="Zgłoś nowy składnik do wspólnej bazy (np. kupiony dodatek)"
-                  >
-                    ➕ Zaproponuj składnik
-                  </button>
-                  <button
-                    onClick={dodajSkladnik}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    + Dodaj wiersz
-                  </button>
-                </div>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-muted">
-                    <tr>
-                      <th className="p-2 text-left text-muted-foreground">Składnik</th>
-                      <th className="p-2 text-muted-foreground">Udział (%)</th>
-                      {pokazLimity && (
-                        <>
-                          <th className="p-2 text-muted-foreground" title="Najmniejszy udział składnika">Min (%)</th>
-                          <th className="p-2 text-muted-foreground" title="Największy udział; puste pole = zalecane maksimum">Max (%)</th>
-                        </>
-                      )}
-                      <th className="p-2 text-muted-foreground">EM (MJ/kg)</th>
-                      <th className="p-2 text-muted-foreground">Białko (%)</th>
-                      <th className="p-2 text-muted-foreground">Ca (%)</th>
-                      <th className="p-2 text-muted-foreground">P (%)</th>
-                      <th className="p-2 text-muted-foreground">Włókno (%)</th>
-                      <th className="p-2 text-muted-foreground">Cena (zł/kg)</th>
-                      <th className="p-2 text-muted-foreground">Akcje</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {skladniki.map((skladnik, idx) => (
-                      <tr key={idx} className="border-b border-border">
-                        <td className="p-2">
-                          <WyborSkladnika
-                            wartosc={skladnik.nazwa}
-                            pozycje={pozycjeDoWyboru}
-                            onZmiana={(nazwa) => aktualizujSkladnik(idx, 'nazwa', nazwa)}
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={skladnik.procent}
-                            onChange={(e) => aktualizujSkladnik(idx, 'procent', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        {pokazLimity && (
-                          <>
-                            <td className="p-2">
-                              <input
-                                type="number"
-                                step="1"
-                                min="0"
-                                max="100"
-                                value={skladnik.min ?? ''}
-                                onChange={(e) => aktualizujSkladnik(idx, 'min', e.target.value)}
-                                aria-label={`Minimalny udział: ${skladnik.nazwa || 'składnik'}`}
-                                className="w-16 p-2 border border-input bg-background text-foreground rounded text-center"
-                              />
-                            </td>
-                            <td className="p-2">
-                              <input
-                                type="number"
-                                step="1"
-                                min="0"
-                                max="100"
-                                value={skladnik.max ?? ''}
-                                onChange={(e) => aktualizujSkladnik(idx, 'max', e.target.value)}
-                                placeholder={zalecaneMax(skladnik)}
-                                aria-label={`Maksymalny udział: ${skladnik.nazwa || 'składnik'}`}
-                                className="w-16 p-2 border border-input bg-background text-foreground rounded text-center"
-                              />
-                            </td>
-                          </>
-                        )}
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={skladnik.em}
-                            onChange={(e) => aktualizujSkladnik(idx, 'em', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={skladnik.bialko}
-                            onChange={(e) => aktualizujSkladnik(idx, 'bialko', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={skladnik.ca}
-                            onChange={(e) => aktualizujSkladnik(idx, 'ca', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={skladnik.p}
-                            onChange={(e) => aktualizujSkladnik(idx, 'p', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={skladnik.wlokno}
-                            onChange={(e) => aktualizujSkladnik(idx, 'wlokno', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={skladnik.cena}
-                            onChange={(e) => aktualizujSkladnik(idx, 'cena', e.target.value)}
-                            className="w-20 p-2 border border-input bg-background text-foreground rounded text-center"
-                            placeholder="0.00"
-                          />
-                        </td>
-                        <td className="p-2">
-                          <button
-                            onClick={() => usunSkladnik(idx)}
-                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                          >
-                            ✕
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {pokazLimity && (
-                <p className="text-xs text-muted-foreground mt-2">
-                  Puste pole Max oznacza zalecane maksimum (szare liczby, np. kukurydza 60%, pszenica 50%, groch i bobik zależnie od wieku ptaków).
-                  Min przydaje się, gdy składnik ma być główny, np. własna pszenica od 40%.
-                </p>
-              )}
-              {!pokazLimity && wlasneLimity.length > 0 && (
-                <p className="text-xs text-muted-foreground mt-2">📏 Obowiązują Twoje limity: {wlasneLimity.join(', ')}.</p>
-              )}
-            </div>
-
-            <div className="mb-6 p-4 bg-muted border border-border rounded-lg">
-              <h3 className="font-bold text-foreground mb-3">📊 Podsumowanie mieszanki:</h3>
-
-              <div className="mb-3">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-semibold">Suma udziałów:</span>
-                  <span className={`font-bold ${Math.abs(sumaProcentow - 100) < 0.1 ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
-                    {sumaProcentow.toFixed(1)}%
-                  </span>
-                </div>
-                {Math.abs(sumaProcentow - 100) > 0.1 && (
-                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 text-sm">
-                    <AlertCircle size={16} />
-                    <span>Suma udziałów powinna wynosić 100%</span>
-                  </div>
-                )}
-              </div>
-
-              {aktualnaNorma && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div>
-                    <div className="text-sm font-semibold">Energia (EM):</div>
-                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('em'), aktualnaNorma.em, 0.05) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                      {obliczCalkowita('em').toFixed(2)} MJ/kg
-                    </div>
-                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.em}</div>
-                  </div>
-                  
-                  <div>
-                    <div className="text-sm font-semibold">Białko:</div>
-                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('bialko'), aktualnaNorma.bialko, 0.05) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                      {obliczCalkowita('bialko').toFixed(2)}%
-                    </div>
-                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.bialko}%</div>
-                  </div>
-                  
-                  <div>
-                    <div className="text-sm font-semibold">Wapń (Ca):</div>
-                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('ca'), aktualnaNorma.ca, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                      {obliczCalkowita('ca').toFixed(2)}%
-                    </div>
-                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.ca}%</div>
-                  </div>
-                  
-                  <div>
-                    <div className="text-sm font-semibold">Fosfor (P):</div>
-                    <div className={`font-bold ${sprawdzNorme(obliczCalkowita('p'), aktualnaNorma.p, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                      {obliczCalkowita('p').toFixed(2)}%
-                    </div>
-                    <div className="text-xs text-gray-500">norma: {aktualnaNorma.p}%</div>
-                  </div>
-
-                  {aktualnaNorma.wlokno && (
-                    <div>
-                      <div className="text-sm font-semibold">Włókno:</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('wlokno').toFixed(2)}%
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.wlokno}%</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.na && (
-                    <div>
-                      <div className="text-sm font-semibold">Sód (Na):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('na').toFixed(2)}%
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.na}%</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.k && (
-                    <div>
-                      <div className="text-sm font-semibold">Potas (K):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('k').toFixed(2)}%
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.k}%</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.mg && (
-                    <div>
-                      <div className="text-sm font-semibold">Magnez (Mg):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('mg').toFixed(3)}%
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.mg}%</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.mn && (
-                    <div>
-                      <div className="text-sm font-semibold">Mangan (Mn):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('mn').toFixed(1)} mg/kg
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.mn} mg/kg</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.zn && (
-                    <div>
-                      <div className="text-sm font-semibold">Cynk (Zn):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('zn').toFixed(1)} mg/kg
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.zn} mg/kg</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.se && (
-                    <div>
-                      <div className="text-sm font-semibold">Selen (Se):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.1) === 'ok' ? 'text-green-600' : 'text-red-600'}`}>
-                        {obliczCalkowita('se').toFixed(2)} mg/kg
-                      </div>
-                      <div className="text-xs text-gray-500">norma: {aktualnaNorma.se} mg/kg</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.fe && (
-                    <div>
-                      <div className="text-sm font-semibold">Żelazo (Fe):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.1) === 'ok' ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
-                        {obliczCalkowita('fe').toFixed(1)} mg/kg
-                      </div>
-                      <div className="text-xs text-muted-foreground">norma: {aktualnaNorma.fe} mg/kg</div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.i && (
-                    <div>
-                      <div className="text-sm font-semibold">Jod (I):</div>
-                      <div className={`font-bold ${sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.1) === 'ok' ? 'text-green-600 dark:text-green-400' : 'text-destructive'}`}>
-                        {obliczCalkowita('i').toFixed(2)} mg/kg
-                      </div>
-                      <div className="text-xs text-muted-foreground">norma: {aktualnaNorma.i} mg/kg</div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
-                  nie z wierszy tabeli — tabela zostaje bez zmian. */}
-              <PelnySklad
-                wiersze={skladniki}
-                baza={feedMerged}
-                normaTluszczu={aktualnaNorma?.tluszcz}
-              />
-
-              {obliczKoszt() > 0 && (
-                <div className="mt-4 pt-4 border-t border-border">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-lg">💰 Koszt mieszanki:</span>
-                    <span className="font-bold text-xl text-green-600 dark:text-green-400">{obliczKoszt().toFixed(2)} zł/kg</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Ostrzeżenia dla mikroskładników poza normą */}
-              {aktualnaNorma && Math.abs(sumaProcentow - 100) < 0.1 && (
-                <div className="mt-4 pt-4 border-t border-border space-y-2">
-                  {aktualnaNorma.wlokno && sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg border ${
-                      sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
-                        ? 'bg-destructive/10 border-destructive/30' 
-                        : 'bg-amber-100 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
-                    }`}>
-                      <div className="flex items-start gap-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-600 dark:text-amber-400'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-900 dark:text-amber-200'
-                        }`}>
-                          <strong>Włókno:</strong> {obliczCalkowita('wlokno').toFixed(2)}% 
-                          {sprawdzNorme(obliczCalkowita('wlokno'), aktualnaNorma.wlokno, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.wlokno}%, brakuje ${(aktualnaNorma.wlokno - obliczCalkowita('wlokno')).toFixed(2)}%)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.wlokno}%, nadmiar ${(obliczCalkowita('wlokno') - aktualnaNorma.wlokno).toFixed(2)}%)`
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {aktualnaNorma.na && sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg border ${
-                      sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
-                        ? 'bg-destructive/10 border-destructive/30' 
-                        : 'bg-amber-100 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-600 dark:text-amber-400'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' ? 'text-destructive' : 'text-amber-900 dark:text-amber-200'
-                        }`}>
-                          <strong>Sód (Na):</strong> {obliczCalkowita('na').toFixed(3)}% 
-                          {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.na}%, brakuje ${(aktualnaNorma.na - obliczCalkowita('na')).toFixed(3)}%)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.na}%, nadmiar ${(obliczCalkowita('na') - aktualnaNorma.na).toFixed(3)}%)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('na'), aktualnaNorma.na, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-muted-foreground bg-muted/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('na').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.na || 0).toFixed(2)}% Na)
-                              {idx < znajdzBogateSkladniki('na').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.k && sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Potas (K):</strong> {obliczCalkowita('k').toFixed(3)}% 
-                          {sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.k}%, brakuje ${(aktualnaNorma.k - obliczCalkowita('k')).toFixed(3)}%)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.k}%, nadmiar ${(obliczCalkowita('k') - aktualnaNorma.k).toFixed(3)}%)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('k'), aktualnaNorma.k, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('k').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.k || 0).toFixed(2)}% K)
-                              {idx < znajdzBogateSkladniki('k').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.mg && sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Magnez (Mg):</strong> {obliczCalkowita('mg').toFixed(3)}% 
-                          {sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.mg}%, brakuje ${(aktualnaNorma.mg - obliczCalkowita('mg')).toFixed(3)}%)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.mg}%, nadmiar ${(obliczCalkowita('mg') - aktualnaNorma.mg).toFixed(3)}%)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('mg'), aktualnaNorma.mg, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('mg').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.mg || 0).toFixed(2)}% Mg)
-                              {idx < znajdzBogateSkladniki('mg').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.mn && sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Mangan (Mn):</strong> {obliczCalkowita('mn').toFixed(1)} mg/kg 
-                          {sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.mn} mg/kg, brakuje ${(aktualnaNorma.mn - obliczCalkowita('mn')).toFixed(1)} mg/kg)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.mn} mg/kg, nadmiar ${(obliczCalkowita('mn') - aktualnaNorma.mn).toFixed(1)} mg/kg)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('mn'), aktualnaNorma.mn, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('mn').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.mn || 0).toFixed(0)} mg/kg Mn)
-                              {idx < znajdzBogateSkladniki('mn').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.zn && sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Cynk (Zn):</strong> {obliczCalkowita('zn').toFixed(1)} mg/kg 
-                          {sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.zn} mg/kg, brakuje ${(aktualnaNorma.zn - obliczCalkowita('zn')).toFixed(1)} mg/kg)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.zn} mg/kg, nadmiar ${(obliczCalkowita('zn') - aktualnaNorma.zn).toFixed(1)} mg/kg)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('zn'), aktualnaNorma.zn, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('zn').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.zn || 0).toFixed(0)} mg/kg Zn)
-                              {idx < znajdzBogateSkladniki('zn').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.se && sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Selen (Se):</strong> {obliczCalkowita('se').toFixed(2)} mg/kg 
-                          {sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.se} mg/kg, brakuje ${(aktualnaNorma.se - obliczCalkowita('se')).toFixed(2)} mg/kg)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.se} mg/kg, nadmiar ${(obliczCalkowita('se') - aktualnaNorma.se).toFixed(2)} mg/kg)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('se'), aktualnaNorma.se, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('se').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.se || 0).toFixed(2)} mg/kg Se)
-                              {idx < znajdzBogateSkladniki('se').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.fe && sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Żelazo (Fe):</strong> {obliczCalkowita('fe').toFixed(1)} mg/kg 
-                          {sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.fe} mg/kg, brakuje ${(aktualnaNorma.fe - obliczCalkowita('fe')).toFixed(1)} mg/kg)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.fe} mg/kg, nadmiar ${(obliczCalkowita('fe') - aktualnaNorma.fe).toFixed(1)} mg/kg)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('fe'), aktualnaNorma.fe, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('fe').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.fe || 0).toFixed(0)} mg/kg Fe)
-                              {idx < znajdzBogateSkladniki('fe').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {aktualnaNorma.i && sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) !== 'ok' && (
-                    <div className={`p-3 rounded-lg ${
-                      sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' 
-                        ? 'bg-red-50 border border-red-200' 
-                        : 'bg-amber-50 border border-amber-200'
-                    }`}>
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle size={18} className={`mt-0.5 flex-shrink-0 ${
-                          sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' ? 'text-red-600' : 'text-amber-600'
-                        }`} />
-                        <div className={`text-sm ${
-                          sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' ? 'text-red-800' : 'text-amber-800'
-                        }`}>
-                          <strong>Jod (I):</strong> {obliczCalkowita('i').toFixed(2)} mg/kg 
-                          {sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' 
-                            ? ` - za mało! (norma: ${aktualnaNorma.i} mg/kg, brakuje ${(aktualnaNorma.i - obliczCalkowita('i')).toFixed(2)} mg/kg)`
-                            : ` - za dużo! (norma: ${aktualnaNorma.i} mg/kg, nadmiar ${(obliczCalkowita('i') - aktualnaNorma.i).toFixed(2)} mg/kg)`
-                          }
-                        </div>
-                      </div>
-                      {sprawdzNorme(obliczCalkowita('i'), aktualnaNorma.i, 0.15) === 'za-nisko' && (
-                        <div className="ml-6 text-xs text-gray-700 bg-white/50 p-2 rounded">
-                          💡 <strong>Sugestie:</strong> Dodaj więcej{' '}
-                          {znajdzBogateSkladniki('i').map((s, idx) => (
-                            <span key={idx}>
-                              <button
-                                onClick={() => dodajSkladnikZSugestii(s.nazwa)}
-                                className="font-bold text-primary hover:text-primary/80 hover:underline cursor-pointer transition-colors"
-                              >
-                                {s.nazwa}
-                              </button>
-                              {' '}({(s.i || 0).toFixed(2)} mg/kg I)
-                              {idx < znajdzBogateSkladniki('i').length - 1 ? ', ' : ''}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-wrap gap-3 mb-6">
-              <button
-                onClick={przeliczOptymalneProporcje}
-                disabled={!aktualnaNorma}
-                className="flex-1 min-w-[200px] px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
-              >
-                🎯 Przelicz optymalne proporcje
-              </button>
-              
-              <button
-                onClick={przeliczNajtanszaMieszanke}
-                disabled={!aktualnaNorma || !czyCenyWypelnione()}
-                className="flex-1 min-w-[200px] px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
-              >
-                💰 Najtańsza mieszanka
-              </button>
-              
-              <button
-                onClick={exportCSV}
-                disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
-                className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
-              >
-                📊 Eksport CSV
-              </button>
-              
-              <button
-                onClick={exportTXT}
-                disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
-                className="px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
-              >
-                📄 Eksport TXT
-              </button>
-
-              <div className="flex flex-col gap-1 max-w-[260px]">
-                <button
-                  onClick={zapiszWTalkToFarm}
-                  disabled={Math.abs(sumaProcentow - 100) > 0.1 || !aktualnaNorma}
-                  className="px-4 py-3 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold"
-                >
-                  🚜 Zapisz w TalkToFarm
-                </button>
-                <span className="text-xs text-gray-500">{OPIS_TALKTOFARM}</span>
-              </div>
-            </div>
-
-            {/* Zapotrzebowanie stada (od 24.10.2026): sztuki × dawka -> kg paszy i każdego składnika. */}
-            <div className="mb-6 p-4 bg-muted border border-border rounded-lg">
-              <h3 className="font-bold text-foreground mb-3">🐔 Ile paszy dla stada</h3>
-              <div className="flex flex-wrap gap-4 items-end mb-2">
-                <label className="text-sm">
-                  <span className="block font-semibold mb-1">Liczba ptaków</span>
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    inputMode="numeric"
-                    value={sztuk}
-                    onChange={(e) => setSztuk(e.target.value)}
-                    placeholder="np. 10"
-                    className="w-28 p-2 border border-input bg-background text-foreground rounded text-center"
-                  />
-                </label>
-                <label className="text-sm">
-                  <span className="block font-semibold mb-1">Dawka (g na ptaka dziennie)</span>
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    inputMode="decimal"
-                    value={dawkaG}
-                    onChange={(e) => setDawkaG(e.target.value)}
-                    placeholder={typowaDawka ? String(typowaDawka.g) : 'g'}
-                    className="w-28 p-2 border border-input bg-background text-foreground rounded text-center"
-                  />
-                </label>
-              </div>
-              <p className="text-xs text-muted-foreground mb-3">
-                {typowaDawka ? (
-                  <>
-                    {dawkaG ? 'Liczę z Twojej dawki. ' : `Przyjęto typową dawkę ${typowaDawka.g} g. `}
-                    Poradnik {typowaDawka.zrodlo}: {formatKg(typowaDawka.od)}–{formatKg(typowaDawka.do)} g.{' '}
-                    <a href={typowaDawka.url} target="_blank" rel="noopener noreferrer" className="underline">Źródło (PDF)</a>
-                  </>
-                ) : (
-                  'Wpisz, ile paszy zjada jeden ptak dziennie. Dla tego gatunku i okresu nie podajemy typowej dawki, bo zależy mocno od wieku i masy ptaków.'
-                )}
-              </p>
-              {stado ? (
-                <>
-                  <div className="grid grid-cols-3 gap-2 mb-3 text-center">
-                    {[
-                      { etykieta: 'Dziennie', kg: stado.dziennieKg },
-                      { etykieta: 'Tygodniowo', kg: stado.tygodniowoKg },
-                      { etykieta: '30 dni', kg: stado.miesiecznieKg },
-                    ].map(({ etykieta, kg }) => (
-                      <div key={etykieta} className="p-2 bg-background border border-border rounded">
-                        <div className="text-xs text-muted-foreground">{etykieta}</div>
-                        <div className="font-bold text-lg">{formatKg(kg)} kg</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="text-muted-foreground">
-                          <th className="p-1 text-left">Składnik</th>
-                          <th className="p-1 text-right">Dziennie (kg)</th>
-                          <th className="p-1 text-right">Tydzień (kg)</th>
-                          <th className="p-1 text-right">30 dni (kg)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {stado.skladniki.map((s) => (
-                          <tr key={s.nazwa} className="border-t border-border">
-                            <td className="p-1">{s.nazwa}</td>
-                            <td className="p-1 text-right">{formatKg(s.dziennieKg)}</td>
-                            <td className="p-1 text-right">{formatKg(s.tygodniowoKg)}</td>
-                            <td className="p-1 text-right font-semibold">{formatKg(s.miesiecznieKg)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  {obliczKoszt() > 0 && czyCenyWypelnione() && (
-                    <p className="mt-3 text-sm">
-                      💰 Koszt paszy na 30 dni: <strong>{(obliczKoszt() * stado.miesiecznieKg).toFixed(2)} zł</strong>
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  {!mieszankaGotowa
-                    ? 'Wynik pokaże się, gdy udziały składników sumują się do 100%.'
-                    : sztukLiczba > 0 ? 'Podaj dawkę paszy na ptaka.' : 'Podaj liczbę ptaków.'}
-                </p>
-              )}
-            </div>
-
-            <div className="text-sm text-gray-600 space-y-2">
-              <p className="flex items-start gap-2">
-                <Info size={16} className="mt-0.5 flex-shrink-0" />
-                <span>
-                  <strong>Wskazówka:</strong> Po wybraniu składnika z listy, wartości odżywcze uzupełnią się automatycznie.
-                </span>
-              </p>
-              <p className="flex items-start gap-2">
-                <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
-                <span>
-                  <strong>Ważne:</strong> Optymalizacja trzyma się zalecanych maksymalnych udziałów (np. kukurydza 60%, pszenica 50%, owies 35%) i ograniczeń dla roślin strączkowych (groch, bobik) zależnie od wieku ptaków. Własne granice ustawisz przyciskiem „Limity udziału”.
-                </span>
-              </p>
-              <p className="flex items-start gap-2">
-                <Plug size={16} className="mt-0.5 flex-shrink-0" />
-                <span>
-                  <strong>W Claude, ChatGPT i Perplexity:</strong> ten sam kalkulator możesz podłączyć do asystenta AI i układać paszę w rozmowie.{' '}
-                  <Link to="/asystenci-ai" state={{ z: '/kalkulator-pasz' }} className="underline">Jak podłączyć w Claude</Link>
-                  {' · '}
-                  <Link to="/asystenci-ai#chatgpt" state={{ z: '/kalkulator-pasz' }} className="underline">w ChatGPT</Link>
-                  {' · '}
-                  <Link to="/asystenci-ai#perplexity" state={{ z: '/kalkulator-pasz' }} className="underline">w Perplexity</Link>
-                </span>
-              </p>
-            </div>
-
-            <ZapisaneReceptury
-              drob={drob}
-              okres={okres}
-              normaEtykieta={okres ? `${typyDrobiu.find(t => t.value === drob)?.label ?? drob} — ${okres}` : 'bez wybranej normy'}
-              skladniki={skladniki}
-              onWczytaj={wczytajRecepture}
-            />
+          <div className="mb-4">
+            <PodpowiedzZapisu />
           </div>
 
-          <div className="text-center mb-6">
+          <div
+            className="flex flex-col gap-4 xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start xl:gap-6"
+            onFocus={(e) => setPiszeWPolu(e.target instanceof HTMLInputElement)}
+            onBlur={() => setPiszeWPolu(false)}
+          >
+            <div className="flex min-w-0 flex-col gap-4 xl:col-start-1 xl:row-start-1">
+              <Sekcja nr={1} tytul="Dla jakich ptaków">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-semibold">Gatunek</span>
+                    <select
+                      value={drob}
+                      onChange={(e) => {
+                        setDrob(e.target.value);
+                        setOkres('');
+                        setKomunikat(null);
+                      }}
+                      className={KLASA_WYBORU}
+                    >
+                      {typyDrobiu.map(typ => (
+                        <option key={typ.value} value={typ.value}>{typ.label.replace(/^[^\p{L}]+/u, '')}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-semibold">Okres</span>
+                    <select
+                      value={okres}
+                      onChange={(e) => {
+                        setOkres(e.target.value);
+                        setKomunikat(null);
+                      }}
+                      className={KLASA_WYBORU}
+                    >
+                      <option value="">Wybierz okres</option>
+                      {normy[drob]?.map((norma, idx) => (
+                        <option key={idx} value={norma.okres}>{norma.okres}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                {aktualnaNorma ? (
+                  <div className="mt-4">
+                    <p className="mb-2 text-sm font-semibold text-muted-foreground">Norma na 1 kg paszy</p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {PARAMETRY.filter(({ pole }) => aktualnaNorma[pole]).map(({ pole, skrot, jedn }) => (
+                        <li key={pole} className="rounded-full bg-muted px-2.5 py-1 text-sm text-muted-foreground">
+                          {skrot} <strong className="text-foreground">{zJednostka(liczbaPL(aktualnaNorma[pole] as number), jedn)}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="mt-3 text-sm text-muted-foreground">Wybierz okres, a pokażę normę i porównam z nią mieszankę.</p>
+                )}
+              </Sekcja>
+
+              <Sekcja
+                nr={2}
+                tytul="Składniki"
+                prawa={skladniki.length > 0 && (
+                  <span className="text-sm text-muted-foreground">
+                    {skladniki.length} {odmiana(skladniki.length, ['pozycja', 'pozycje', 'pozycji'])}
+                  </span>
+                )}
+              >
+                {skladniki.length > 0 && (
+                  <div className="mb-1.5 hidden items-center gap-2 px-[11px] text-xs font-semibold text-muted-foreground sm:flex">
+                    <span className="flex-1">Składnik</span>
+                    <span className={cn(SZER_UDZIAL, 'pr-2.5 text-right')}>Udział</span>
+                    <span className={cn(SZER_CENA, 'pr-2.5 text-right')}>Cena</span>
+                    <span className={SZER_PRZYCISKI} aria-hidden="true" />
+                  </div>
+                )}
+                <div className="space-y-2">
+                  {skladniki.map((skladnik, idx) => {
+                    const z = zalecenieDla(skladnik.nazwa);
+                    return (
+                      <KartaSkladnika
+                        key={idx}
+                        skladnik={skladnik}
+                        idx={idx}
+                        pozycje={pozycjeDoWyboru}
+                        zalecenie={z?.opis ?? null}
+                        zalecaneMaks={z?.maks ?? null}
+                        powod={z?.powod ?? ''}
+                        ostrzezenie={z?.ostrzezenie ?? ''}
+                        stalaDawka={z?.stala ?? false}
+                        dawkaDomyslna={z?.domyslna ?? 0}
+                        onZmiana={aktualizujSkladnik}
+                        onUsun={usunSkladnik}
+                      />
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={dodajSkladnik}
+                  className="mt-2.5 flex h-11 w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-primary/40 text-base font-semibold text-primary hover:border-primary hover:bg-primary/5"
+                >
+                  <Plus className="h-5 w-5" aria-hidden="true" />
+                  Dodaj składnik
+                </button>
+                <p className="mt-2 text-center text-sm">
+                  <button
+                    type="button"
+                    onClick={() => setZaproponujOpen(true)}
+                    className="text-primary underline-offset-4 hover:underline"
+                    title="Zgłoś nowy składnik do wspólnej bazy (np. kupiony dodatek)"
+                  >
+                    Nie ma go na liście? Zaproponuj składnik
+                  </button>
+                </p>
+                {wlasneLimity.length > 0 && (
+                  <p className="mt-2 text-xs text-muted-foreground">Obowiązują Twoje limity: {wlasneLimity.join(', ')}.</p>
+                )}
+
+                <div className="mt-5 border-t border-border pt-4">
+                  <div className="mb-2 flex items-baseline justify-between gap-3">
+                    <span className="font-semibold">Suma udziałów</span>
+                    <span className={cn('font-bold tabular-nums',
+                      mieszankaGotowa ? 'text-green-700 dark:text-green-400' : sumaProcentow > 100 ? 'text-orange-800 dark:text-orange-300' : 'text-foreground')}>
+                      {liczbaPL(sumaProcentow, 1)}%
+                    </span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-muted" aria-hidden="true">
+                    <div
+                      className={cn('h-full rounded-full',
+                        mieszankaGotowa ? 'bg-green-600 dark:bg-green-500' : sumaProcentow > 100 ? 'bg-orange-600' : 'bg-primary')}
+                      style={{ width: `${Math.min(100, sumaProcentow)}%` }}
+                    />
+                  </div>
+                  <p className="mt-1.5 text-sm text-muted-foreground">
+                    {mieszankaGotowa
+                      ? 'Gotowe do liczenia.'
+                      : sumaProcentow === 0
+                        ? 'Wpisz udziały albo kliknij „Dobierz proporcje do normy”, a kalkulator ułoży je sam.'
+                        : brakDo100 > 0
+                          ? `Brakuje ${liczbaPL(brakDo100, 1)}% do 100%.`
+                          : `Za dużo o ${liczbaPL(-brakDo100, 1)}%. Suma udziałów powinna wynosić 100%.`}
+                  </p>
+
+                  <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                    <Button
+                      type="button"
+                      onClick={przeliczOptymalneProporcje}
+                      disabled={!aktualnaNorma}
+                      className="h-12 text-base font-semibold [&_svg]:size-5"
+                    >
+                      <Target aria-hidden="true" />
+                      Dobierz proporcje do normy
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={przeliczNajtanszaMieszanke}
+                      disabled={!aktualnaNorma || !cenyKompletne}
+                      className="h-12 border-2 border-primary text-base font-semibold text-primary [&_svg]:size-5"
+                    >
+                      <Coins aria-hidden="true" />
+                      Najtańsza mieszanka
+                    </Button>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {!aktualnaNorma
+                      ? 'Najpierw wybierz okres w kroku 1.'
+                      : !cenyKompletne
+                        ? 'Najtańszą mieszankę policzę, gdy wpiszesz ceny wszystkich składników z udziałem.'
+                        : 'Dobór ustawia energię, białko, wapń i fosfor. Trzyma się zalecanych limitów udziału.'}
+                  </p>
+                  {komunikat?.miejsce === 'akcje' && (
+                    <div className="mt-3">
+                      <Komunikat komunikat={komunikat} onZamknij={() => setKomunikat(null)} />
+                    </div>
+                  )}
+                </div>
+              </Sekcja>
+            </div>
+
+            <div
+              ref={wynikRef}
+              id="wynik"
+              className="min-w-0 scroll-mt-20 xl:sticky xl:top-4 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:max-h-[calc(100vh-2rem)] xl:overflow-y-auto"
+            >
+              <WynikMieszanki
+                norma={aktualnaNorma}
+                zawartosc={(pole) => obliczCalkowita(pole)}
+                sumaProcentow={sumaProcentow}
+                koszt={koszt}
+                cenyKompletne={cenyKompletne}
+                mieszankaGotowa={mieszankaGotowa}
+                komunikat={komunikat?.miejsce === 'wynik' ? komunikat : null}
+                onZamknijKomunikat={() => setKomunikat(null)}
+                bogateW={znajdzBogateSkladniki}
+                onDodajSkladnik={dodajSkladnikZSugestii}
+                pelnySklad={
+                  // Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
+                  // nie z kart składników.
+                  <PelnySklad
+                    wiersze={skladniki}
+                    baza={feedMerged}
+                    normaTluszczu={aktualnaNorma?.tluszcz}
+                  />
+                }
+              />
+            </div>
+
+            <div className="flex min-w-0 flex-col gap-4 xl:col-start-1 xl:row-start-2">
+              <StadoKarta
+                sztuk={sztuk}
+                setSztuk={setSztuk}
+                dawkaG={dawkaG}
+                setDawkaG={setDawkaG}
+                typowaDawka={typowaDawka}
+                stado={stado}
+                mieszankaGotowa={mieszankaGotowa}
+                sztukLiczba={sztukLiczba}
+                kosztNaKg={koszt > 0 && cenyKompletne ? koszt : 0}
+                formatKg={formatKg}
+              />
+
+              <Sekcja nr={5} tytul="Zapisz i wyślij">
+                <ZapisaneReceptury
+                  drob={drob}
+                  okres={okres}
+                  normaEtykieta={okres ? `${typyDrobiu.find(t => t.value === drob)?.label ?? drob} — ${okres}` : 'bez wybranej normy'}
+                  skladniki={skladniki}
+                  onWczytaj={wczytajRecepture}
+                />
+
+                <p className="mb-2 mt-4 text-sm font-semibold">Pobierz recepturę</p>
+                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+                  <Button type="button" variant="outline" onClick={exportCSV} disabled={!gotoweDoEksportu}
+                    className="h-11 border-primary/60 text-primary">
+                    <Download aria-hidden="true" />
+                    Arkusz CSV
+                  </Button>
+                  <Button type="button" variant="outline" onClick={exportTXT} disabled={!gotoweDoEksportu}
+                    className="h-11 border-primary/60 text-primary">
+                    <Download aria-hidden="true" />
+                    Tekst TXT
+                  </Button>
+                  <Button type="button" variant="outline" onClick={zapiszWTalkToFarm} disabled={!gotoweDoEksportu}
+                    className="col-span-2 h-11 border-primary/60 text-primary">
+                    <ExternalLink aria-hidden="true" />
+                    Zapisz w TalkToFarm
+                  </Button>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {gotoweDoEksportu
+                    ? OPIS_TALKTOFARM
+                    : 'Pobierzesz i wyślesz recepturę, gdy wybierzesz okres, a udziały złożą się na 100%.'}
+                </p>
+              </Sekcja>
+
+              <section className="px-1 text-sm text-muted-foreground">
+                <h2 className="mb-2.5 text-lg text-foreground">Dobrze wiedzieć</h2>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Info size={16} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <span>Po wybraniu składnika z listy wartości odżywcze uzupełnią się same.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <AlertCircle size={16} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <span>
+                      Dobór trzyma się zalecanych udziałów surowców dla gatunku i wieku ptaków (np. jęczmień u młodych do 10%, groch i bobik mniej u piskląt). Własne granice ustawisz w „Skład i limity” przy składniku; po przekroczeniu zalecenia pokażę ostrzeżenie.{' '}
+                      <Link to="/pasze/udzial-surowcow" className="underline">Skąd te granice</Link>
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Plug size={16} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <span>
+                      <strong className="text-foreground">W Claude, ChatGPT i Perplexity:</strong> ten sam kalkulator możesz podłączyć do asystenta AI i układać paszę w rozmowie.{' '}
+                      <Link to="/asystenci-ai" state={{ z: '/kalkulator-pasz' }} className="underline">Jak podłączyć w Claude</Link>
+                      {' · '}
+                      <Link to="/asystenci-ai#chatgpt" state={{ z: '/kalkulator-pasz' }} className="underline">w ChatGPT</Link>
+                      {' · '}
+                      <Link to="/asystenci-ai#perplexity" state={{ z: '/kalkulator-pasz' }} className="underline">w Perplexity</Link>
+                    </span>
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
             <ReactionButton contentId="kalkulator-pasz" contentType="tool" />
           </div>
         </div>
       </div>
 
-      {/* Modal hasło admina */}
-      {pokazModalHaslo && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">🔐 Panel Administratora</h3>
-            <p className="text-sm text-gray-600 mb-4">Wprowadź hasło dostępu:</p>
-            <input
-              type="password"
-              value={inputHaslo}
-              onChange={(e) => setInputHaslo(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && zalogujAdmin()}
-              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-              placeholder="Hasło"
-              autoFocus
-            />
-            <div className="flex gap-3">
-              <button
-                onClick={zalogujAdmin}
-                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-              >
-                Zaloguj
-              </button>
-              <button
-                onClick={() => {
-                  setPokazModalHaslo(false);
-                  setInputHaslo('');
-                }}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Anuluj
-              </button>
+      {/* Pasek z wynikiem na dole ekranu, poniżej 1280 px (wyżej wynik stoi obok). */}
+      {pasekWidoczny && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-foreground text-background shadow-[0_-4px_16px_rgba(0,0,0,0.15)] xl:hidden">
+          <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2.5">
+            <div className="min-w-0 flex-1 leading-tight">
+              <div className="font-bold tabular-nums">
+                {liczbaPL(sumaProcentow, 1)}%{koszt > 0 && ` · ${liczbaPL(koszt, 2)} zł/kg`}
+              </div>
+              <div className="truncate text-sm opacity-80">
+                {!aktualnaNorma
+                  ? 'wybierz okres w kroku 1'
+                  : !mieszankaGotowa
+                    ? brakDo100 > 0 ? `brakuje ${liczbaPL(brakDo100, 1)}% do 100%` : `za dużo o ${liczbaPL(-brakDo100, 1)}%`
+                    : pozaNorma > 0
+                      ? `${pozaNorma} ${odmiana(pozaNorma, ['parametr', 'parametry', 'parametrów'])} poza normą`
+                      : 'wszystko w normie'}
+              </div>
             </div>
+            <button
+              type="button"
+              onClick={() => wynikRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="flex h-11 shrink-0 items-center gap-1.5 rounded-md border border-background/60 px-3.5 font-semibold hover:bg-background/10"
+            >
+              Wynik
+              <ArrowDown className="h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
         </div>
       )}
 
-      {/* Modal edycji składnika */}
-      {edytowanySkladnik && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full my-8">
-            <h3 className="text-xl font-bold mb-4">✏️ Edytuj składnik</h3>
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Nazwa:</label>
-                <input
-                  type="text"
-                  value={edytowanySkladnik.nazwa}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, nazwa: e.target.value})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">EM (MJ/kg):</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={edytowanySkladnik.em}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, em: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Białko (%):</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={edytowanySkladnik.bialko}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, bialko: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Ca (%):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.ca}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, ca: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">P (%):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.p}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, p: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Włókno (%):</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={edytowanySkladnik.wlokno || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, wlokno: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Na (%):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.na || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, na: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">K (%):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.k || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, k: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Mg (%):</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={edytowanySkladnik.mg || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, mg: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Mn (mg/kg):</label>
-                <input
-                  type="number"
-                  step="1"
-                  value={edytowanySkladnik.mn || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, mn: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Zn (mg/kg):</label>
-                <input
-                  type="number"
-                  step="1"
-                  value={edytowanySkladnik.zn || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, zn: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Se (mg/kg):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.se || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, se: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Fe (mg/kg):</label>
-                <input
-                  type="number"
-                  step="1"
-                  value={edytowanySkladnik.fe || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, fe: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">I (mg/kg):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={edytowanySkladnik.i || 0}
-                  onChange={(e) => setEdytowanySkladnik({...edytowanySkladnik, i: parseFloat(e.target.value) || 0})}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={zapiszEdycjeSkladnika}
-                className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-              >
-                💾 Zapisz
-              </button>
-              <button
-                onClick={() => setEdytowanySkladnik(null)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Anuluj
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal potwierdzenia usunięcia */}
-      {pokazModalUsun && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">⚠️ Potwierdzenie usunięcia</h3>
-            <p className="mb-4">Czy na pewno chcesz usunąć składnik <strong>{skladnikDoUsuniecia}</strong>?</p>
-            <div className="flex gap-3">
-              <button
-                onClick={potwierdzUsuniecie}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Usuń
-              </button>
-              <button
-                onClick={() => {
-                  setPokazModalUsun(false);
-                  setSkladnikDoUsuniecia(null);
-                }}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Anuluj
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal potwierdzenia przywrócenia */}
-      {pokazModalPrzywroc && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">🔄 Przywrócenie domyślnych</h3>
-            <p className="mb-4">Czy na pewno chcesz przywrócić domyślną listę składników? Wszystkie Twoje zmiany zostaną utracone.</p>
-            <div className="flex gap-3">
-              <button
-                onClick={potwierdzPrzywrocenie}
-                className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
-              >
-                Przywróć
-              </button>
-              <button
-                onClick={() => setPokazModalPrzywroc(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Anuluj
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal eksportu */}
+      {/* Zapasowe okno eksportu: gdy przeglądarka nie pozwoli pobrać pliku. */}
       {pokazModalEksport && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4">📋 Eksport {eksportTyp.toUpperCase()}</h3>
-            <p className="text-sm text-gray-600 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-card p-6 text-card-foreground">
+            <h3 className="mb-4 text-xl font-bold">Eksport {eksportTyp.toUpperCase()}</h3>
+            <p className="mb-4 text-sm text-muted-foreground">
               Skopiuj poniższą treść i zapisz w pliku .{eksportTyp}
             </p>
             <textarea
               value={eksportTresc}
               readOnly
-              className="w-full h-96 p-3 border border-gray-300 rounded-lg font-mono text-sm"
+              className="h-96 w-full rounded-lg border border-input bg-background p-3 font-mono text-sm"
               onClick={(e) => e.currentTarget.select()}
             />
-            <div className="flex gap-3 mt-4">
-              <button
+            <div className="mt-4 flex gap-3">
+              <Button
+                type="button"
+                className="flex-1"
                 onClick={() => {
                   navigator.clipboard.writeText(eksportTresc)
-                    .then(() => zdarzenieMieszankaEksport('drob', eksportTyp));
-                  alert('Skopiowano do schowka!');
+                    .then(() => {
+                      setSkopiowano(true);
+                      zdarzenieMieszankaEksport('drob', eksportTyp);
+                    });
                 }}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
-                📋 Kopiuj do schowka
-              </button>
-              <button
-                onClick={() => setPokazModalEksport(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
+                {skopiowano ? 'Skopiowano' : 'Kopiuj do schowka'}
+              </Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setPokazModalEksport(false)}>
                 Zamknij
-              </button>
+              </Button>
             </div>
           </div>
         </div>
