@@ -1,4 +1,4 @@
-import { Facebook, Youtube, Instagram, Mail } from "lucide-react";
+import { Facebook, Mail } from "lucide-react";
 
 const Footer = () => {
   const footerSections = [
@@ -34,20 +34,22 @@ const Footer = () => {
     {
       title: "O projekcie",
       links: [
-        { label: "O portalu", href: "#o-nas" },
+        // Bez „O portalu” i „Współpraca”: prowadziły do kotwic, których nie ma na żadnej stronie
+        // (audyt przed zgłoszeniem do OpenAI, 24.10.2026).
         { label: "Kontakt", href: "/kontakt" },
+        { label: "Asystenci AI", href: "/asystenci-ai" },
         { label: "Nota prawna", href: "/nota-prawna" },
-        { label: "Współpraca", href: "#wspolpraca" },
         { label: "Polityka prywatności", href: "/nota-prawna#prywatnosc" },
+        { label: "Warunki serwera MCP", href: "/warunki-mcp" },
       ],
     },
   ];
 
+  // Tylko prawdziwe adresy: profil z sameAs w index.html i formularz kontaktu. YouTube i Instagram
+  // prowadziły do „#”, bo serwis takich profili nie ma.
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Youtube, href: "#", label: "YouTube" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Mail, href: "#", label: "Email" },
+    { icon: Facebook, href: "https://www.facebook.com/serowar.warminski", label: "Facebook", zewnetrzny: true },
+    { icon: Mail, href: "/kontakt", label: "Napisz do nas", zewnetrzny: false },
   ];
 
   return (
@@ -71,7 +73,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm text-accent-foreground/80 mb-6 leading-relaxed">
-              Twoje centrum wiedzy o serowarstwie. Profesjonalny portal dla polskich serowarów.
+              Wiedza o serowarstwie domowym i zagrodowym: kultury, przepisy, kalkulator pasz i prawo dla małych gospodarstw.
             </p>
             
             {/* Social Links */}
@@ -83,6 +85,7 @@ const Footer = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
+                    {...(social.zewnetrzny ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="w-10 h-10 border border-accent-foreground/20 hover:bg-primary hover:border-primary flex items-center justify-center transition-colors group"
                   >
                     <Icon className="h-5 w-5 text-accent-foreground group-hover:text-primary-foreground transition-colors" />
