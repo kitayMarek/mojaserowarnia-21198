@@ -378,7 +378,8 @@ Disallow: /
     //       dany post, a licznik wejsc pokaze samo wejscie z linku. Bez znacznika
     //       "link". 302, nie 301: to link kampanii, cel moze sie zmienic.
     if (bezUkosnika === '/claude') {
-      return Response.redirect(`${url.origin}/asystenci-ai?z=${znacznikLinku(url)}`, 302);
+      // #claude od 24.10.2026: nowa strona domyślnie pokazuje ChatGPT, kotwica wybiera Claude.
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${znacznikLinku(url)}#claude`, 302);
     }
 
     // 1a1c) /claude/dodaj?z=... -> od razu formularz lacznika w Claude.ai, bez

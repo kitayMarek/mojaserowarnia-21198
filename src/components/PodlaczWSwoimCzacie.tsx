@@ -42,7 +42,7 @@ const CO_PODLACZYSZ: Record<TematPromptu, string> = {
 
 const KOTWICA_INSTRUKCJI: Record<Asystent, string> = {
   chatgpt: "/asystenci-ai#chatgpt",
-  claude: "/asystenci-ai",
+  claude: "/asystenci-ai#claude",
   perplexity: "/asystenci-ai#perplexity",
 };
 

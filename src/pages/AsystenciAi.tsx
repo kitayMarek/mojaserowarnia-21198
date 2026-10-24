@@ -1,14 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
-import PageHeader from "@/components/PageHeader";
-import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, ExternalLink, Plug } from "lucide-react";
-import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
+import { Check, Copy, ExternalLink } from "lucide-react";
+import { zdarzenieLacznikAi, zdarzeniePromptCzatu } from "@/lib/zdarzeniaGa4";
 import {
   ADRES_MCP,
   UMIEJETNOSC_PERPLEXITY,
@@ -17,558 +14,557 @@ import {
   linkClaude,
   zapiszKlikniecieLacznika,
   zrodloZeSciezki,
+  type Asystent,
 } from "@/lib/lacznikClaude";
+import { adresZPromptu, linkZPromptem, promptPodlaczenia } from "@/lib/promptyCzatow";
 
 /**
  * Jak podłączyć serwer MCP serwisu (worker-magazyn/, dane.mojaserowarnia.pl/mcp)
- * do Claude: baza kultur i kalkulator pasz dla drobiu jako łącznik.
+ * do ChatGPT, Claude albo Perplexity.
  *
- * PRZYCISK „POŁĄCZ Z CLAUDE” KOPIUJE ADRES I OTWIERA ŁĄCZNIKI, a instrukcja
- * zakłada, że pola trzeba wypełnić ręcznie. Link ma nieoficjalne parametry
- * (modal, connectorName, connectorUrl), ale nie wolno na nich polegać:
- * 21.10.2026 otwarty w zwykłej karcie Chrome Marka dawał okno „Add custom
- * connector” z wpisaną nazwą i adresem (plus ostrzeżenie o linku z zewnątrz),
- * a kliknięty przez Marka z aplikacji Claude przechodził na
- * /customize/connectors/yours?open_in_browser=1 i gubił parametry, więc
- * pokazywał same łączniki. Gorszy przypadek to i tak strona łączników, dlatego
- * parametry zostają, a obietnicy „jednego kliknięcia” na stronie nie ma.
+ * UKŁAD WEDŁUG MAKIETY D (decyzja Marka 24.10.2026, kanwa „Strona główna: makiety”).
+ * Wcześniej strona miała ponad 6 ekranów, tytuł „…w Claude”, a pod ramką z gotowym
+ * tekstem trzy osobne instrukcje: każdy widział naraz dwie drogi dla trzech czatów.
+ * Teraz krok 1 to wybór czatu, a niżej tylko jego droga: gotowy tekst (czat sam
+ * przeprowadza) albo kroki z adresem. Porównanie odpowiedzi bez łącznika i z nim
+ * pochodzi z dwóch prawdziwych rozmów Marka w Perplexity (24.10.2026).
  *
- * Nazwy przycisków w krokach są z angielskiej wersji Claude.ai (21.10.2026),
- * plany i ograniczenia z support.claude.com („About custom integrations using
- * remote MCP”).
+ * KOTWICE: #chatgpt, #claude, #perplexity wybierają czat i przewijają do kroku 2.
+ * Prowadzą tu menu boczne (Navigation.tsx), strona główna, ramka „Podłącz w swoim
+ * czacie” i krótkie linki z postów (/chatgpt?z=, /perplexity?z=, /claude?z= w
+ * worker/index.js). Bez kotwicy domyślnie ChatGPT, bo jest najpopularniejszy.
  *
- * Linki do serwisu z ?utm_source=magazyn są tylko w odpowiedziach serwera MCP,
- * nie tutaj: ta strona to zwykłe wejście, a znacznik liczy ruch z czatów.
+ * KROKI: polskie etykiety ChatGPT (zrzuty Marka 23.10.2026), angielskie Claude.ai
+ * (21.10.2026), polskie Perplexity (23.10.2026). Zmiana kroków tu = zmiana promptów
+ * w src/lib/promptyCzatow.ts.
  *
- * SEKCJA #chatgpt (23.10.2026): ChatGPT nie ma linku do formularza z wpisanym
- * adresem, więc tam przycisk kopiuje adres i otwiera stronę wtyczek, a kroki
- * są wypisane. Etykiety z polskiej wersji ChatGPT (zrzuty Marka, 23.10.2026).
- * Wtyczka z paczki ZIP nie zastąpi tego łącznika: ChatGPT bierze z niej tylko
- * umiejętność, a serwer musi być aplikacją (plan pasz w Claude Docs).
- * Krótki link z posta: mojaserowarnia.pl/chatgpt?z=... (worker/index.js).
- *
- * SEKCJA #perplexity (23.10.2026): w Perplexity Computer nie ma łącznika do
- * dodania z adresu; jest udostępniona umiejętność z adresem serwera w treści.
- * Zalogowany użytkownik importuje ją z jej strony („…”, Importuj kopię, Zapisz).
- * Krótki link: mojaserowarnia.pl/perplexity?z=...
- *
- * RAMKA „NIECH TWÓJ CZAT SAM CIĘ PRZEPROWADZI” (24.10.2026): gotowe teksty dla
- * trzech czatów nad instrukcjami (src/components/PodlaczWSwoimCzacie.tsx).
- *
- * Treść 1:1 z mirrorem public/asystenci-ai.html, tytuł i opis w metaStron.ts.
+ * Treść odpowiada mirrorowi public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
 
-// Adresy i pomiar w src/lib/lacznikClaude.ts. Polecenie dla Claude Code ma
-// znacznik "claude-code", zeby serwer MCP odroznil te podlaczenia.
-const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
+const CZATY: { id: Asystent; nazwa: string; podpis: string; kolor: string }[] = [
+  { id: "chatgpt", nazwa: "ChatGPT", podpis: "Najpopularniejszy", kolor: "bg-[#10A37F] hover:bg-[#0e8f6f]" },
+  { id: "claude", nazwa: "Claude", podpis: "Jedno kliknięcie", kolor: "bg-[#D97757] hover:bg-[#c4664a]" },
+  { id: "perplexity", nazwa: "Perplexity", podpis: "Tryb Computer", kolor: "bg-[#20808D] hover:bg-[#1a6b76]" },
+];
+
+const czyCzat = (x: string): x is Asystent => x === "chatgpt" || x === "claude" || x === "perplexity";
 
 const PYTANIA = [
+  "Ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej.",
+  "Moje kury nie niosą. Co robię źle?",
   "Jak zrobić mozzarellę w domu i gdzie kupię do niej kulturę?",
-  "Zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy.",
   "Jaka kultura do camemberta i czym ją zastąpić?",
   "Która kultura mezofilna wychodzi najtaniej w przeliczeniu na litr mleka?",
-  "Mam przepis z Choozit MA 4001. Co ma ten sam skład i gdzie to kupię?",
-  "Policz mieszankę dla brojlerów: 60% kukurydzy, 30% śruty sojowej, 10% pszenicy. Czego brakuje?",
 ];
+
+// Polecenie dla Claude Code ma znacznik "claude-code", żeby serwer MCP odróżnił te podłączenia.
+const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
 
 /**
  * Kopiuje tekst do schowka. Schowek bywa zablokowany (stara przeglądarka, okno
- * osadzone, brak zgody): wtedy zaznaczamy tekst na stronie i próbujemy starszej
- * metody; jeśli i ta zawiedzie, tekst zostaje zaznaczony do skopiowania ręcznie.
+ * osadzone, brak zgody): wtedy zaznaczamy tekst na stronie i próbujemy starszej metody.
  */
-async function kopiujTekst(tekst: string, zaznacz: () => void): Promise<boolean> {
+async function kopiujTekst(tekst: string, zaznacz?: () => void): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(tekst);
     return true;
   } catch {
-    zaznacz();
-    return document.execCommand("copy");
+    zaznacz?.();
+    try {
+      return document.execCommand("copy");
+    } catch {
+      return false;
+    }
   }
 }
 
+/** Przycisk „Kopiuj” z chwilowym „Skopiowano”. */
+const PrzyciskKopiuj = ({ tekst, etykieta = "Kopiuj", onKopiuj, className = "" }: {
+  tekst: string; etykieta?: string; onKopiuj?: () => void; className?: string;
+}) => {
+  const [ok, setOk] = useState(false);
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      className={`shrink-0 ${className}`}
+      onClick={async () => {
+        onKopiuj?.();
+        if (await kopiujTekst(tekst)) {
+          setOk(true);
+          setTimeout(() => setOk(false), 2500);
+        }
+      }}
+    >
+      {ok ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+      {ok ? "Skopiowano" : etykieta}
+    </Button>
+  );
+};
+
+const NaglowekKroku = ({ nr, tytul, id }: { nr: number; tytul: string; id?: string }) => (
+  <div className="flex flex-col gap-1">
+    <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Krok {nr}</p>
+    <h2 id={id} className="font-display text-3xl text-foreground md:text-[2.1rem]">{tytul}</h2>
+  </div>
+);
+
 const AsystenciAi = () => {
-  const [skopiowano, setSkopiowano] = useState(false);
-  const [skopiowanoPolecenie, setSkopiowanoPolecenie] = useState(false);
-  const [skopiowanoGpt, setSkopiowanoGpt] = useState(false);
-  const pole = useRef<HTMLInputElement>(null);
-  const poleGpt = useRef<HTMLInputElement>(null);
-  const polecenie = useRef<HTMLElement>(null);
-  // Strona, z ktorej ktos przyszedl przyciskiem „Dodaj do Claude” w menu bocznym
-  // (Navigation.tsx przekazuje ja w stanie nawigacji). Idzie do adresu lacznika
-  // jako znacznik, wiec serwer MCP pokaze, skad przyszlo podlaczenie.
   const location = useLocation();
+  // Strona, z której ktoś przyszedł (menu boczne przekazuje ją w stanie nawigacji) albo
+  // znacznik z krótkiego linku (?z=fb-grupa). Idzie do adresu łącznika jako znacznik,
+  // więc serwer MCP pokaże, skąd przyszło podłączenie.
   const stan = location.state as { z?: unknown } | null;
-  // Albo z adresu: krotki link mojaserowarnia.pl/claude?z=fb-grupa przekierowuje
-  // tu z ?z= (worker/index.js, regula 1a1b), np. z posta w grupie na Facebooku.
   const zAdresu = new URLSearchParams(location.search).get("z");
   const zrodlo = zrodloZeSciezki(typeof stan?.z === "string" ? stan.z : zAdresu ?? "/asystenci-ai");
   const adres = adresLacznika(zrodlo);
 
-  const kopiuj = async () => {
-    if (await kopiujTekst(adres, () => pole.current?.select())) {
-      setSkopiowano(true);
-      setTimeout(() => setSkopiowano(false), 2500);
-    }
-  };
+  const zKotwicy = location.hash.slice(1);
+  const [czat, setCzat] = useState<Asystent>(czyCzat(zKotwicy) ? zKotwicy : "chatgpt");
+  const [skopiowano, setSkopiowano] = useState<"tekst" | "adres" | null>(null);
+  const krok2 = useRef<HTMLElement>(null);
+  const tekstPromptu = useRef<HTMLPreElement>(null);
 
-  const kopiujGpt = async () => {
-    if (await kopiujTekst(adres, () => poleGpt.current?.select())) {
-      setSkopiowanoGpt(true);
-      setTimeout(() => setSkopiowanoGpt(false), 2500);
-    }
-  };
-
-  // Przyciski w menu i krótkie linki /chatgpt, /perplexity prowadzą na kotwice.
-  // Router sam nie przewija do kotwicy, a karty są daleko pod „Jak podłączyć w Claude”.
-  // Drugi skok po chwili: na produkcji (23.10.2026) treść nad kartą jeszcze się
-  // przesuwała po pierwszym, przez co strona kończyła 350 px za nisko.
+  // Kotwica wybiera czat i przewija do kroku 2. Drugi skok po chwili: treść nad
+  // nim jeszcze się układa (na produkcji 23.10.2026 strona kończyła 350 px za nisko).
   useEffect(() => {
-    const cel = location.hash.slice(1);
-    if (cel !== "chatgpt" && cel !== "perplexity") return;
-    const skocz = () => document.getElementById(cel)?.scrollIntoView({ block: "start" });
+    if (!czyCzat(zKotwicy)) return;
+    setCzat(zKotwicy);
+    const skocz = () => krok2.current?.scrollIntoView({ block: "start" });
     const t1 = setTimeout(skocz, 50);
     const t2 = setTimeout(skocz, 700);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
     };
-  }, [location.hash]);
+  }, [zKotwicy]);
 
-  const kopiujPolecenie = async () => {
+  const wybierz = (id: Asystent) => {
+    setCzat(id);
+    setSkopiowano(null);
+    // Kotwica w adresie, żeby link skopiowany z paska otwierał ten sam czat. Bez routera: bez przewijania.
+    window.history.replaceState(window.history.state, "", `${location.pathname}${location.search}#${id}`);
+  };
+
+  const wybrany = CZATY.find((c) => c.id === czat)!;
+  const prompt = promptPodlaczenia(czat, "ogolny", zrodlo);
+  const otworzKopiujeAdres = czat !== "perplexity";
+
+  const kopiuj = async (co: "tekst" | "adres") => {
     const zaznacz = () => {
-      if (polecenie.current) window.getSelection()?.selectAllChildren(polecenie.current);
+      if (co === "tekst" && tekstPromptu.current) window.getSelection()?.selectAllChildren(tekstPromptu.current);
     };
-    if (await kopiujTekst(POLECENIE_CLAUDE_CODE, zaznacz)) {
-      setSkopiowanoPolecenie(true);
-      setTimeout(() => setSkopiowanoPolecenie(false), 2500);
+    if (await kopiujTekst(co === "tekst" ? prompt : adresZPromptu(czat, zrodlo), zaznacz)) {
+      setSkopiowano(co);
+      setTimeout(() => setSkopiowano(null), 6000);
     }
+  };
+
+  const linkZew = (href: string, tresc: ReactNode, onClick?: () => void) => (
+    <a href={href} target="_blank" rel="noopener noreferrer nofollow" onClick={onClick} className="font-semibold text-primary underline">
+      {tresc}
+    </a>
+  );
+
+  const KROKI: Record<Asystent, { kroki: ReactNode[]; uwaga: string }> = {
+    chatgpt: {
+      kroki: [
+        <>
+          Otwórz {linkZew(WTYCZKI_CHATGPT, "wtyczki w ChatGPT", () => {
+            zdarzenieLacznikAi("polacz_chatgpt");
+            zapiszKlikniecieLacznika(zrodlo, "przycisk", "chatgpt");
+          })}{" "}
+          i kliknij <strong>Dodaj</strong> w prawym górnym rogu, obok koła zębatego.
+        </>,
+        <>Wybierz <strong>Dodaj niestandardowy serwer MCP</strong>.</>,
+        <>Nazwa: <strong>Moja Serowarnia</strong>. Wklej adres poniżej, uwierzytelnianie: <strong>brak</strong>. Potwierdź ostrzeżenie i utwórz wtyczkę.</>,
+        <>Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Moja Serowarnia. Potem pytaj w zwykłej rozmowie.</>,
+      ],
+      uwaga:
+        "U nas zadziałało też na darmowym koncie. Jeśli nie widzisz opcji niestandardowego serwera MCP, Twój plan jej nie ma; na kontach firmowych włącza ją administrator. Wtyczka działa też w aplikacji na telefonie.",
+    },
+    claude: {
+      kroki: [
+        <>
+          Kliknij {linkZew(linkClaude(zrodlo), "Dodaj do Claude", () => {
+            zdarzenieLacznikAi("polacz_claude");
+            zapiszKlikniecieLacznika(zrodlo, "przycisk");
+            void kopiujTekst(adres);
+          })}
+          : otworzy się formularz z wpisaną nazwą i adresem. Gdyby był pusty, wejdź w <strong>Customize</strong>,
+          zakładka <strong>Connectors</strong>, <strong>+ Add</strong>, <strong>Add custom connector</strong> i wklej adres.
+        </>,
+        <>
+          Claude pokaże żółte ostrzeżenie o łączniku z linku: to zwykły komunikat. Sprawdź, że adres zaczyna się od
+          dane.mojaserowarnia.pl, kliknij <strong>Continue</strong>, potem <strong>Add</strong>.
+        </>,
+        <>W rozmowie kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Moja Serowarnia.</>,
+      ],
+      uwaga:
+        "Własne łączniki działają na każdym planie Claude, także darmowym (jeden łącznik). W planach Team i Enterprise dodaje je właściciel organizacji. Nazwy przycisków podajemy jak w angielskiej wersji Claude; łącznik działa też w aplikacji na telefonie.",
+    },
+    perplexity: {
+      kroki: [
+        <>
+          Otwórz {linkZew(UMIEJETNOSC_PERPLEXITY, "umiejętność moja-serowarnia", () => {
+            zdarzenieLacznikAi("polacz_perplexity");
+            zapiszKlikniecieLacznika(zrodlo, "przycisk", "perplexity");
+          })}{" "}
+          i zaloguj się, jeśli strona o to poprosi.
+        </>,
+        <>Kliknij <strong>…</strong> w prawym górnym rogu i wybierz <strong>Importuj kopię</strong>, potem <strong>Zapisz</strong>.</>,
+        <>Pytaj w trybie <strong>Computer</strong>, na przykład „ułóż paszę dla niosek z pszenicy i kukurydzy”.</>,
+      ],
+      uwaga: "Działa także na darmowym planie. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci, bez naszych danych.",
+    },
   };
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Baza kultur i kalkulator pasz w Claude: jak podłączyć",
+    headline: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude i Perplexity",
     description:
-      "Jak dodać serwer MCP Mojej Serowarni do Claude jako łącznik: baza kultur bakteryjnych do sera i kalkulator pasz dla drobiu w rozmowie z asystentem AI.",
+      "Jak podłączyć kalkulator pasz, bazę kultur do sera i przepisy Mojej Serowarni do ChatGPT, Claude albo Perplexity (serwer MCP), bez konta i klucza.",
     inLanguage: "pl",
     url: "https://mojaserowarnia.pl/asystenci-ai",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-21",
-    dateModified: "2026-10-21",
+    dateModified: "2026-10-24",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
+
+  const kartaStyl = "flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-card p-6";
 
   return (
     <div className="min-h-screen bg-background">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-
       <Navigation />
       <PageBreadcrumbs items={[{ label: "Narzędzia", href: "/narzedzia" }, { label: "Asystenci AI" }]} />
 
       <main className="pt-20">
-        <div className="container mx-auto px-4 pt-2 md:pt-4">
-          <div className="max-w-3xl mx-auto">
-            <PageHeader
-              icon={Plug}
-              color="violet"
-              title="Baza kultur i kalkulator pasz w Claude"
-              subtitle="Podłącz nasze dane do Claude jako łącznik. Pytasz w rozmowie, a Claude sprawdza w bazie i liczy naszym kalkulatorem, zamiast odpowiadać z pamięci."
-            />
+        <div className="container mx-auto flex max-w-5xl flex-col gap-12 px-4 pb-16 pt-2 sm:px-6 md:gap-14 md:pt-4">
+          {/* ── Nagłówek ─────────────────────────────────────────────── */}
+          <section className="grid items-center gap-8 lg:grid-cols-[1.1fr_1fr]">
+            <div className="flex min-w-0 flex-col gap-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Asystenci AI</p>
+              <h1 className="font-display text-[clamp(2.2rem,5.5vw,3.3rem)] leading-[1.08] text-foreground">
+                Moja Serowarnia w Twoim czacie
+              </h1>
+              <p className="text-lg leading-relaxed text-foreground/80">
+                Podłącz nasz kalkulator pasz, bazę kultur i przepisy do ChatGPT, Claude albo Perplexity. Pytasz jak
+                zwykle, a czat liczy i sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                {/* Na telefonie krok 1 jest prawie dwa ekrany niżej (przykład i porównanie). */}
+                <a
+                  href="#krok-1"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("krok-1")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="inline-flex min-h-[46px] items-center rounded-lg bg-primary px-5 font-bold text-primary-foreground no-underline hover:bg-primary/90"
+                >
+                  Podłącz teraz ↓
+                </a>
+                <span className="text-sm text-muted-foreground">Robisz to raz, zajmuje kilka minut.</span>
+              </div>
+            </div>
+            <figure className="flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-card p-5" aria-label="Przykład rozmowy z czatem">
+              <figcaption className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Tak to wygląda w rozmowie</figcaption>
+              <p className="max-w-[85%] self-end rounded-2xl rounded-br-sm bg-muted px-4 py-3 text-[15px] leading-relaxed">
+                Ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej.
+              </p>
+              <p className="max-w-[92%] rounded-2xl rounded-bl-sm border border-border bg-background px-4 py-3 text-[15px] leading-relaxed">
+                Kalkulator Mojej Serowarni dobrał: pszenica 60%, kukurydza 22,5%, śruta sojowa 17,5%. Najpoważniejszy
+                brak to wapń: dodaj około 10% kredy pastewnej. Na miesiąc kupisz około 33 kg paszy.
+              </p>
+            </figure>
+          </section>
 
-            <p className="mt-6 mb-8 leading-relaxed">
-              Bez łącznika model pisze o kulturach z tego, co zapamiętał, często o takich, których w Polsce nie
-              kupisz. Z łącznikiem sprawdza, co jest w polskich sklepach i ile kosztuje w przeliczeniu na litr
-              mleka, a paszę dla drobiu układa z Twoich surowców pod normę. Nie trzeba zakładać konta ani
-              podawać klucza.
+          {/* ── Porównanie ───────────────────────────────────────────── */}
+          <section className="flex flex-col gap-4" aria-labelledby="porownanie">
+            <h2 id="porownanie" className="font-display text-3xl text-foreground md:text-[2.1rem]">Ta sama prośba, dwie odpowiedzi</h2>
+            <p className="leading-relaxed text-foreground/80">
+              Zapytaliśmy Perplexity: „Potrzebuję dobrej paszy dla kur niosek. Mam pszenicę, owies i bobik. Co
+              powinienem jeszcze dokupić?”
             </p>
+            <div className="grid gap-5 md:grid-cols-2">
+              <div className={kartaStyl}>
+                <h3 className="font-display text-2xl text-foreground">Bez łącznika</h3>
+                <p className="italic leading-relaxed text-foreground/80">„Według moich szacunków ok. 16% białka i ok. 3–3,5% wapnia.”</p>
+                <ul className="list-disc space-y-1 pl-5 leading-relaxed text-foreground/80">
+                  <li>szacunek z 20 artykułów, bez sprawdzenia normy</li>
+                  <li>receptura z kukurydzą, której pytający nie ma</li>
+                  <li>premiks „np. Polfamix”, bez sklepu i ceny</li>
+                </ul>
+              </div>
+              <div className={`${kartaStyl} border-[3px] border-primary`}>
+                <h3 className="font-display text-2xl text-primary">Z łącznikiem Moja Serowarnia</h3>
+                <p className="italic leading-relaxed text-foreground/80">
+                  „Policzyłem mieszankę kalkulatorem pasz: białko 16%, wapń 3,77%, fosfor 0,48%, w normie.”
+                </p>
+                <ul className="list-disc space-y-1 pl-5 leading-relaxed text-foreground/80">
+                  <li>receptura z Twoich zbóż, w limitach bobiku i owsa</li>
+                  <li>mówi, czego wciąż brakuje: sodu i włókna</li>
+                  <li>konkretne produkty z polskich sklepów, z uwagą, że koncentrat ma mało wapnia</li>
+                </ul>
+              </div>
+            </div>
+          </section>
 
-            <PodlaczWSwoimCzacie sciezka={zrodlo} temat="ogolny" className="mb-6" />
+          {/* ── Krok 1: wybór czatu ─────────────────────────────────── */}
+          <section id="krok-1" className="flex scroll-mt-24 flex-col gap-4" aria-labelledby="wybor-czatu">
+            <NaglowekKroku nr={1} tytul="Jakiego czatu używasz?" id="wybor-czatu" />
+            <div className="grid gap-3 sm:grid-cols-3">
+              {CZATY.map((c) => {
+                const aktywny = c.id === czat;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    aria-pressed={aktywny}
+                    onClick={() => wybierz(c.id)}
+                    className={`flex min-h-[84px] flex-col items-start justify-center gap-1 rounded-2xl border-2 px-5 py-4 text-left transition-colors ${
+                      aktywny ? "border-primary bg-card" : "border-border bg-transparent hover:border-primary/60"
+                    }`}
+                  >
+                    <span className="font-display text-2xl text-foreground">{c.nazwa}</span>
+                    <span className="text-sm text-muted-foreground">{c.podpis}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
 
-            <div className="space-y-6">
-              {/* ── JAK PODŁĄCZYĆ ─────────────────────────────────────────── */}
-              <Card className="border-primary/40 bg-primary/5">
-                <CardHeader>
-                  <CardTitle>Jak podłączyć w Claude</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm leading-relaxed">
-                  <div>
-                    <Button asChild size="lg" className="w-full sm:w-auto">
-                      <a
-                        href={linkClaude(zrodlo)}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        onClick={() => {
-                          zdarzenieLacznikAi("polacz_claude");
-                          zapiszKlikniecieLacznika(zrodlo, "przycisk");
-                          // Bez czekania: karta otwiera się zwykłym kliknięciem w link.
-                          void kopiuj();
-                        }}
-                      >
-                        Połącz z Claude
-                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                      </a>
-                    </Button>
-                    <p className="text-muted-foreground mt-2" aria-live="polite">
-                      {skopiowano
-                        ? "Adres jest w schowku. W karcie Claude wklej go w pole MCP server URL."
-                        : "Przycisk otworzy w nowej karcie Claude z wpisaną nazwą i adresem. Claude pokaże przy tym żółte ostrzeżenie, że łącznik przyszedł z linku z zewnątrz: to zwykły komunikat przy każdym takim łączniku. Sprawdź, że adres zaczyna się od https://dane.mojaserowarnia.pl/mcp, i kliknij Continue."}
-                    </p>
-                  </div>
+          {/* ── Krok 2: podłączenie wybranego czatu ─────────────────── */}
+          <section ref={krok2} id="podlacz" className="flex scroll-mt-24 flex-col gap-4" aria-labelledby="podlacz-tytul">
+            {/* Stare kotwice z postów i menu: puste znaczniki, żeby #chatgpt itd. miały cel w HTML. */}
+            <span id="chatgpt" className="sr-only" aria-hidden="true" />
+            <span id="claude" className="sr-only" aria-hidden="true" />
+            <span id="perplexity" className="sr-only" aria-hidden="true" />
+            <NaglowekKroku nr={2} tytul={`Podłącz w ${wybrany.nazwa}`} id="podlacz-tytul" />
+            <div className="grid items-stretch gap-5 lg:grid-cols-[1.1fr_1fr]">
+              {/* Najprościej: czat sam przeprowadza (ten sam tekst co w ramce „Podłącz w swoim czacie”). */}
+              <div className="flex min-w-0 flex-col gap-3.5 rounded-2xl border-2 border-primary bg-card p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Najprościej</p>
+                <h3 className="font-display text-[1.75rem] leading-tight text-foreground">Niech {wybrany.nazwa} Cię przeprowadzi</h3>
+                <p className="leading-relaxed text-foreground/80">
+                  Otworzysz {wybrany.nazwa} z gotowym tekstem. Czat poprowadzi Cię krok po kroku, a na koniec policzy
+                  próbną paszę.
+                </p>
+                <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                  <Button asChild className={`h-12 font-semibold text-white ${wybrany.kolor}`}>
+                    <a
+                      href={linkZPromptem(czat, prompt)}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      onClick={() => {
+                        zapiszKlikniecieLacznika(zrodlo, "prompt-otworz", czat);
+                        zdarzeniePromptCzatu(czat, "otworz");
+                        void kopiuj(otworzKopiujeAdres ? "adres" : "tekst");
+                      }}
+                    >
+                      Otwórz {wybrany.nazwa} z gotowym tekstem
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-12"
+                    onClick={() => {
+                      zapiszKlikniecieLacznika(zrodlo, "prompt-kopiuj", czat);
+                      zdarzeniePromptCzatu(czat, "kopiuj");
+                      void kopiuj("tekst");
+                    }}
+                  >
+                    {skopiowano === "tekst" ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+                    {skopiowano === "tekst" ? "Skopiowano" : "Kopiuj tekst"}
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground" aria-live="polite">
+                  {skopiowano === "adres"
+                    ? `Adres serwera jest w schowku: wklej go (Ctrl+V), gdy ${wybrany.nazwa} o niego poprosi. Gdyby pole w czacie zostało puste, wróć tu i kliknij Kopiuj tekst.`
+                    : skopiowano === "tekst"
+                      ? `Tekst jest w schowku. Jeśli pole w ${wybrany.nazwa} jest puste, wklej go (Ctrl+V) i wyślij.`
+                      : otworzKopiujeAdres
+                        ? "Przycisk skopiuje też adres serwera: wkleisz go, gdy czat o niego poprosi."
+                        : "Perplexity bierze adres z umiejętności, nic nie trzeba wklejać."}
+                </p>
+                {czat === "claude" && (
+                  <p className="border-t border-border pt-3 text-[15px]">
+                    Albo jeszcze szybciej:{" "}
+                    {linkZew(linkClaude(zrodlo), "Dodaj do Claude jednym kliknięciem", () => {
+                      zdarzeniePromptCzatu("claude", "formularz");
+                      zapiszKlikniecieLacznika(zrodlo, "przycisk", "claude");
+                      void kopiujTekst(adres);
+                    })}
+                  </p>
+                )}
+                {czat === "perplexity" && (
+                  <p className="border-t border-border pt-3 text-[15px]">
+                    Albo jeszcze szybciej:{" "}
+                    {linkZew(UMIEJETNOSC_PERPLEXITY, "otwórz umiejętność w Perplexity", () => {
+                      zdarzeniePromptCzatu("perplexity", "umiejetnosc");
+                      zapiszKlikniecieLacznika(zrodlo, "przycisk", "perplexity");
+                    })}
+                  </p>
+                )}
+                <details className="text-sm">
+                  <summary className="cursor-pointer text-muted-foreground underline underline-offset-2">Zobacz tekst, który dostanie czat</summary>
+                  <pre
+                    ref={tekstPromptu}
+                    className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap break-words rounded-md border border-border bg-background px-3 py-2 font-sans text-[13px] leading-snug"
+                  >
+                    {prompt}
+                  </pre>
+                </details>
+              </div>
 
-                  <div>
-                    <label htmlFor="adres-mcp" className="block font-medium mb-1">
-                      Adres serwera
-                    </label>
-                    <div className="flex flex-col sm:flex-row gap-2">
+              {/* Wolisz sam: kroki i adres. */}
+              <div className="flex min-w-0 flex-col gap-3.5 rounded-2xl border border-border bg-card p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Wolisz sam?</p>
+                <h3 className="font-display text-[1.75rem] leading-tight text-foreground">
+                  {KROKI[czat].kroki.length} kroki
+                </h3>
+                <ol className="flex flex-col gap-3">
+                  {KROKI[czat].kroki.map((k, i) => (
+                    <li key={i} className="flex items-start gap-3 text-[15px] leading-relaxed">
+                      <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold" aria-hidden="true">
+                        {i + 1}
+                      </span>
+                      <span>{k}</span>
+                    </li>
+                  ))}
+                </ol>
+                {czat !== "perplexity" && (
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="adres-mcp" className="text-sm font-bold">Adres serwera</label>
+                    <div className="flex gap-2">
                       <input
                         id="adres-mcp"
-                        ref={pole}
                         type="text"
                         readOnly
                         value={adres}
                         onFocus={(e) => e.currentTarget.select()}
                         className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 font-mono text-sm"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
+                      <PrzyciskKopiuj
+                        tekst={adres}
+                        onKopiuj={() => {
                           zdarzenieLacznikAi("kopiuj_adres");
-                          zapiszKlikniecieLacznika(zrodlo, "kopiuj");
-                          void kopiuj();
+                          zapiszKlikniecieLacznika(zrodlo, "kopiuj", czat);
                         }}
-                        className="shrink-0"
-                      >
-                        {skopiowano ? (
-                          <Check className="h-4 w-4" aria-hidden="true" />
-                        ) : (
-                          <Copy className="h-4 w-4" aria-hidden="true" />
-                        )}
-                        {skopiowano ? "Skopiowano" : "Kopiuj"}
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="font-medium mb-1">W Claude.ai</p>
-                    <ol className="list-decimal pl-5 space-y-1">
-                      <li>
-                        Na stronie łączników kliknij <strong>+ Add</strong>, potem <strong>Add custom connector</strong>.
-                        Gdyby się nie otworzyła, znajdziesz ją w menu po lewej: <strong>Customize</strong>, zakładka{" "}
-                        <strong>Connectors</strong>.
-                      </li>
-                      <li>
-                        W polu <strong>Name</strong> wpisz „Moja Serowarnia”, w polu <strong>MCP server URL</strong>{" "}
-                        wklej adres (Ctrl+V).
-                      </li>
-                      <li>
-                        Kliknij <strong>Continue</strong>, a potem <strong>Add</strong>. Logowanie ani klucz nie są
-                        potrzebne.
-                      </li>
-                    </ol>
-                    <p className="text-muted-foreground mt-2">
-                      Zwykle Claude od razu pokazuje okno z wpisaną nazwą i adresem oraz żółtym ostrzeżeniem, że
-                      łącznik przyszedł z linku z zewnątrz. Claude pokazuje je przy każdym łączniku dodawanym z
-                      linku, więc nie oznacza problemu. Sprawdź, czy adres zaczyna się od
-                      https://dane.mojaserowarnia.pl/mcp, i kliknij Continue. Nazwy przycisków podajemy tak, jak
-                      wyglądają w angielskiej wersji Claude.
-                    </p>
-                  </div>
-
-                  <p>
-                    <strong>W rozmowie:</strong> jeśli Claude nie sięga do łącznika, kliknij <strong>+</strong>{" "}
-                    pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Moja Serowarnia.
-                  </p>
-                  <p className="text-muted-foreground">
-                    Własne łączniki działają na każdym planie Claude, także darmowym, na którym można dodać jeden.
-                    W planach Team i Enterprise dodaje je właściciel organizacji, a pozostali tylko je włączają.
-                    Łącznik dodany w przeglądarce działa też w aplikacji Claude na telefonie.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* ── JAK PODŁĄCZYĆ W CHATGPT ───────────────────────────────── */}
-              <Card id="chatgpt" className="scroll-mt-24">
-                <CardHeader>
-                  <CardTitle>Jak podłączyć w ChatGPT</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm leading-relaxed">
-                  <p>
-                    ChatGPT nie ma linku, który sam wpisze adres, więc trzeba go wkleić. To kilka kliknięć i robi się
-                    to raz.
-                  </p>
-
-                  <div>
-                    <label htmlFor="adres-mcp-chatgpt" className="block font-medium mb-1">
-                      Adres serwera
-                    </label>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <input
-                        id="adres-mcp-chatgpt"
-                        ref={poleGpt}
-                        type="text"
-                        readOnly
-                        value={adres}
-                        onFocus={(e) => e.currentTarget.select()}
-                        className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 font-mono text-sm"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          zdarzenieLacznikAi("kopiuj_adres");
-                          zapiszKlikniecieLacznika(zrodlo, "kopiuj", "chatgpt");
-                          void kopiujGpt();
-                        }}
-                        className="shrink-0"
-                      >
-                        {skopiowanoGpt ? (
-                          <Check className="h-4 w-4" aria-hidden="true" />
-                        ) : (
-                          <Copy className="h-4 w-4" aria-hidden="true" />
-                        )}
-                        {skopiowanoGpt ? "Skopiowano" : "Kopiuj"}
-                      </Button>
                     </div>
                   </div>
+                )}
+                <p className="text-sm text-muted-foreground">{KROKI[czat].uwaga}</p>
+              </div>
+            </div>
+          </section>
 
-                  <div>
-                    <Button asChild size="lg" className="w-full sm:w-auto bg-[#10A37F] hover:bg-[#0e8f6f] text-white">
-                      <a
-                        href={WTYCZKI_CHATGPT}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        onClick={() => {
-                          zdarzenieLacznikAi("polacz_chatgpt");
-                          zapiszKlikniecieLacznika(zrodlo, "przycisk", "chatgpt");
-                          void kopiujGpt();
-                        }}
-                      >
-                        Otwórz wtyczki w ChatGPT
-                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                      </a>
-                    </Button>
-                    <p className="text-muted-foreground mt-2" aria-live="polite">
-                      {skopiowanoGpt
-                        ? "Adres jest w schowku. W ChatGPT wklej go w pole adresu serwera."
-                        : "Przycisk skopiuje adres i otworzy w nowej karcie stronę wtyczek ChatGPT."}
-                    </p>
-                  </div>
+          {/* ── Krok 3: sprawdzenie ─────────────────────────────────── */}
+          <section className="flex flex-col gap-4" aria-labelledby="sprawdz">
+            <NaglowekKroku nr={3} tytul="Sprawdź, czy działa" id="sprawdz" />
+            <p className="leading-relaxed text-foreground/80">Zapytaj na przykład tak. Kliknięcie kopiuje pytanie.</p>
+            <div className="flex flex-wrap gap-2.5">
+              {PYTANIA.map((p) => (
+                <PrzyciskKopiuj
+                  key={p}
+                  tekst={p}
+                  etykieta={`„${p}”`}
+                  className="h-auto min-h-[46px] whitespace-normal rounded-xl px-4 py-2.5 text-left font-normal"
+                />
+              ))}
+            </div>
+          </section>
 
-                  <div>
-                    <p className="font-medium mb-1">W ChatGPT</p>
-                    <ol className="list-decimal pl-5 space-y-1">
-                      <li>
-                        Na stronie <strong>Wtyczki</strong> kliknij <strong>Dodaj</strong> w prawym górnym rogu
-                        (obok koła zębatego), potem <strong>Dodaj niestandardowy serwer MCP</strong>.
-                      </li>
-                      <li>Wpisz nazwę „Moja Serowarnia” i wklej adres (Ctrl+V).</li>
-                      <li>Uwierzytelnianie: wybierz brak. Potwierdź ostrzeżenie i utwórz wtyczkę.</li>
-                      <li>
-                        Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Moja Serowarnia, żeby ją
-                        zainstalować. Potem pytaj w zwykłej rozmowie.
-                      </li>
-                    </ol>
-                    <p className="text-muted-foreground mt-2">
-                      Jeśli nie widzisz opcji „Dodaj niestandardowy serwer MCP”, Twój plan ChatGPT jej nie obsługuje.
-                      Na kontach firmowych włącza ją administrator. Tak dodana wtyczka jest dostępna też w aplikacji
-                      ChatGPT na telefonie.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* ── JAK PODŁĄCZYĆ W PERPLEXITY ────────────────────────────── */}
-              <Card id="perplexity" className="scroll-mt-24">
-                <CardHeader>
-                  <CardTitle>Jak podłączyć w Perplexity</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm leading-relaxed">
-                  <p>
-                    W Perplexity dodajesz umiejętność „moja-serowarnia”. Mówi ona Perplexity, kiedy i jak sięgać do
-                    naszego kalkulatora pasz, przepisów i bazy kultur. Działa także na darmowym planie.
-                  </p>
-
-                  <div>
-                    <Button asChild size="lg" className="w-full sm:w-auto bg-[#20808D] hover:bg-[#1a6b76] text-white">
-                      <a
-                        href={UMIEJETNOSC_PERPLEXITY}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        onClick={() => {
-                          zdarzenieLacznikAi("polacz_perplexity");
-                          zapiszKlikniecieLacznika(zrodlo, "przycisk", "perplexity");
-                        }}
-                      >
-                        Otwórz umiejętność w Perplexity
-                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                      </a>
-                    </Button>
-                  </div>
-
-                  <div>
-                    <p className="font-medium mb-1">W Perplexity</p>
-                    <ol className="list-decimal pl-5 space-y-1">
-                      <li>Zaloguj się w Perplexity, jeśli strona o to poprosi.</li>
-                      <li>
-                        W oknie umiejętności kliknij <strong>…</strong> w prawym górnym rogu i wybierz{" "}
-                        <strong>Importuj kopię</strong>.
-                      </li>
-                      <li>
-                        Perplexity pokaże treść umiejętności do sprawdzenia. Kliknij <strong>Zapisz</strong>.
-                      </li>
-                      <li>
-                        Pytaj w trybie <strong>Computer</strong>, na przykład „ułóż paszę dla niosek z pszenicy i
-                        kukurydzy”.
-                      </li>
-                    </ol>
-                    <p className="text-muted-foreground mt-2">
-                      Umiejętność działa w trybie Computer. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* ── CO POTRAFI ────────────────────────────────────────────── */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Co potrafi</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm leading-relaxed">
-                  <div>
-                    <h3 className="font-semibold mb-1">
-                      <Link to="/baza-kultur" className="underline">Baza kultur do sera</Link>
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                      <li>
-                        Szuka kultur do sera, jogurtu, kefiru i twarogu po nazwie sera albo zastosowaniu, z filtrem
-                        typu, temperatury pracy i sklepu.
-                      </li>
-                      <li>
-                        Podaje kartę kultury: skład, zastosowanie, temperaturę, dawkowanie, ceny w sklepach i cenę
-                        za litr mleka.
-                      </li>
-                      <li>
-                        Znajduje kultury o tym samym składzie gatunkowym, od najtańszej w przeliczeniu na litr
-                        mleka, z zastrzeżeniem, że ten sam skład nie znaczy ten sam produkt.
-                      </li>
-                      <li>Przy każdej kulturze daje link do jej karty w serwisie.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">
-                      <Link to="/przepisy" className="underline">Przepisy na sery</Link>
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                      <li>
-                        Podaje pełny przepis z serwisu: mleko, kultura, podpuszczka, dawki, kroki z temperaturami
-                        i czasami, solenie i dojrzewanie.
-                      </li>
-                      <li>
-                        Do kultur z przepisu dobiera oferty z bazy: sklep, cenę i cenę za litr mleka, a do tego inne
-                        kultury, które sklepy opisują jako pasujące do tego sera.
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">
-                      <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz dla drobiu</Link>
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                      <li>
-                        Zna ponad 120 surowców paszowych (zboża, śruty, strączkowe, dodatki mineralne, premiksy)
-                        i normy dla kur niosek, brojlerów, kaczek, gęsi i indyków.
-                      </li>
-                      <li>
-                        Dobiera proporcje z Twoich surowców tym samym algorytmem co kalkulator na stronie, a gdy
-                        podasz ceny, szuka najtańszej mieszanki bliskiej normie.
-                      </li>
-                      <li>Liczy gotową mieszankę i pokazuje, co wychodzi poza normę i czego dodać.</li>
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* ── PRZYKŁADOWE PYTANIA ───────────────────────────────────── */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>O co można zapytać</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm leading-relaxed">
-                  <ul className="space-y-2">
-                    {PYTANIA.map((p) => (
-                      <li key={p} className="rounded-md border border-border bg-background px-3 py-2">
-                        „{p}”
-                      </li>
-                    ))}
+          {/* ── Gdy czegoś brakuje ──────────────────────────────────── */}
+          <section className="flex flex-col border-t border-border pt-6" aria-labelledby="pytania">
+            <h2 id="pytania" className="mb-2 font-display text-[1.75rem] text-foreground">Gdy czegoś brakuje</h2>
+            {[
+              {
+                pytanie: "Co potrafi czat z naszymi danymi?",
+                odpowiedz: (
+                  <ul className="list-disc space-y-1.5 pl-5">
+                    <li>
+                      <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz</Link>: zna ponad 120 surowców i normy dla
+                      kur niosek, brojlerów, kaczek, gęsi i indyków. Dobiera proporcje z Twoich surowców, podpowiada, czym
+                      uzupełnić braki, z cenami ze sklepów, i liczy, ile paszy kupić dla stada.
+                    </li>
+                    <li>
+                      <Link to="/baza-kultur" className="underline">Baza kultur</Link>: kultury do sera, jogurtu i twarogu z
+                      polskich sklepów, z ceną za litr mleka i zamiennikami o tym samym składzie.
+                    </li>
+                    <li>
+                      <Link to="/przepisy" className="underline">Przepisy na sery</Link>: pełny przepis z temperaturami i czasami
+                      oraz kultury do kupienia.
+                    </li>
                   </ul>
-                </CardContent>
-              </Card>
-
-              {/* ── CO WARTO WIEDZIEĆ ─────────────────────────────────────── */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Co warto wiedzieć</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm leading-relaxed">
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>
-                      Serwer tylko odczytuje dane. Nie widzi Twoich rozmów, dostaje wyłącznie zapytania, które Claude
-                      do niego wyśle.
-                    </li>
+                ),
+              },
+              {
+                pytanie: "Nie widzę opcji dodania serwera",
+                odpowiedz: (
+                  <p>
+                    W ChatGPT opcja „Dodaj niestandardowy serwer MCP” zależy od planu, a na kontach firmowych włącza ją
+                    administrator. W Claude własne łączniki działają na każdym planie, na darmowym jeden. W Perplexity
+                    umiejętność dodasz na każdym planie, także darmowym.
+                  </p>
+                ),
+              },
+              {
+                pytanie: "Czat nie sięga do naszych danych",
+                odpowiedz: (
+                  <p>
+                    W Claude kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz
+                    Moja Serowarnia. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki. W Perplexity pytaj w trybie
+                    <strong> Computer</strong>.
+                  </p>
+                ),
+              },
+              {
+                pytanie: "Prywatność i limity",
+                odpowiedz: (
+                  <ul className="list-disc space-y-1.5 pl-5">
+                    <li>Serwer tylko odczytuje nasze dane. Nie widzi Twoich rozmów, dostaje wyłącznie zapytania, które czat do niego wyśle.</li>
                     <li>Bez konta i bez klucza, do 30 zapytań na minutę.</li>
-                    <li>
-                      Liczymy tylko, ile razy dziennie użyto każdego narzędzia i z jakiego programu (Claude,
-                      ChatGPT i inne). Bez adresu IP i bez treści pytań.
-                    </li>
-                    <li>
-                      Ceny kultur pochodzą ze stron sklepów i każda ma datę sprawdzenia. Przed zakupem sprawdź cenę
-                      w sklepie.
-                    </li>
-                    <li>Wynik paszowy to obliczenie na danych wzorcowych, nie porada lekarza weterynarii.</li>
+                    <li>Liczymy tylko, ile razy dziennie użyto każdego narzędzia i z jakiego programu. Bez adresu IP i bez treści pytań.</li>
+                    <li>Ceny pochodzą ze stron sklepów i mają datę sprawdzenia. Wynik paszowy to obliczenie, nie porada lekarza weterynarii.</li>
                     <li>Dane są na licencji CC BY 4.0: można je cytować z podaniem źródła.</li>
                     <li>
-                      Pełne zasady: <Link to="/warunki-mcp" className="underline">warunki korzystania z serwera MCP</Link>.
+                      Pełne zasady: <Link to="/nota-prawna#serwer-mcp" className="underline">prywatność</Link> i{" "}
+                      <Link to="/warunki-mcp" className="underline">warunki korzystania z serwera MCP</Link>.
                     </li>
                   </ul>
-                </CardContent>
-              </Card>
-
-              {/* ── CLAUDE CODE I INNE ─────────────────────────────────────── */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Claude Code i inne programy</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm leading-relaxed">
-                  <p>W Claude Code, czyli Claude w terminalu, wystarczy jedno polecenie:</p>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all rounded-md border border-border bg-background px-3 py-2 font-mono text-sm">
-                      <code ref={polecenie}>{POLECENIE_CLAUDE_CODE}</code>
-                    </pre>
-                    <Button type="button" variant="outline" onClick={() => void kopiujPolecenie()} className="shrink-0">
-                      {skopiowanoPolecenie ? (
-                        <Check className="h-4 w-4" aria-hidden="true" />
-                      ) : (
-                        <Copy className="h-4 w-4" aria-hidden="true" />
-                      )}
-                      {skopiowanoPolecenie ? "Skopiowano" : "Kopiuj"}
-                    </Button>
+                ),
+              },
+              {
+                pytanie: "Claude Code, Cursor i inne programy",
+                odpowiedz: (
+                  <div className="flex flex-col gap-2.5">
+                    <p>W Claude Code, czyli Claude w terminalu, wystarczy jedno polecenie:</p>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all rounded-md border border-border bg-background px-3 py-2 font-mono text-sm">
+                        <code>{POLECENIE_CLAUDE_CODE}</code>
+                      </pre>
+                      <PrzyciskKopiuj tekst={POLECENIE_CLAUDE_CODE} />
+                    </div>
+                    <p>
+                      Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres:{" "}
+                      <code className="font-mono">{ADRES_MCP}</code>.
+                    </p>
                   </div>
-                  <p>
-                    Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres:{" "}
-                    <code className="font-mono">{ADRES_MCP}</code>.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <nav className="flex flex-wrap gap-4 text-sm border-t border-border pt-6 mt-10 mb-12">
-              <Link to="/baza-kultur" className="underline">Baza kultur</Link>
-              <Link to="/zamienniki-kultur" className="underline">Zamienniki kultur</Link>
-              <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz dla drobiu</Link>
-              <Link to="/narzedzia" className="underline">Wszystkie narzędzia</Link>
-            </nav>
-          </div>
+                ),
+              },
+            ].map((p) => (
+              <details key={p.pytanie} className="group border-b border-border/70 py-3.5">
+                <summary className="flex min-h-[44px] cursor-pointer items-center text-[17px] font-bold text-foreground">{p.pytanie}</summary>
+                <div className="pt-2 text-[15px] leading-relaxed text-foreground/80">{p.odpowiedz}</div>
+              </details>
+            ))}
+          </section>
         </div>
       </main>
 

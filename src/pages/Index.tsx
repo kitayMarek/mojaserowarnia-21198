@@ -74,7 +74,7 @@ const DRZWI = [
 
 const CZATY = [
   { nazwa: "ChatGPT", href: "/asystenci-ai#chatgpt" },
-  { nazwa: "Claude", href: "/asystenci-ai" },
+  { nazwa: "Claude", href: "/asystenci-ai#claude" },
   { nazwa: "Perplexity", href: "/asystenci-ai#perplexity" },
 ];
 

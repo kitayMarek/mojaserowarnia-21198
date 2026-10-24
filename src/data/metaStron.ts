@@ -307,11 +307,12 @@ export const metaStron: Record<string, MetaStrony> = {
     mirror: "kultury/flora-danica.html",
   },
   "/asystenci-ai": {
-    // Jak podlaczyc serwer MCP (dane.mojaserowarnia.pl/mcp) do Claude jako lacznik.
+    // Jak podlaczyc serwer MCP (dane.mojaserowarnia.pl/mcp) do ChatGPT, Claude albo Perplexity.
     // Strona dla ludzi, ktorzy chca pytac czat o kultury i pasze na naszych danych.
-    title: "Baza kultur i kalkulator pasz w Claude: jak podłączyć",
+    // Od 24.10.2026 uklad z wyborem czatu (makieta D), wczesniej tytul mowil tylko o Claude.
+    title: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude, Perplexity",
     description:
-      "Podłącz bazę kultur do sera i kalkulator pasz dla drobiu do Claude jako łącznik (serwer MCP). Bez konta i klucza: przycisk, adres i przykładowe pytania.",
+      "Podłącz kalkulator pasz, bazę kultur do sera i przepisy do ChatGPT, Claude albo Perplexity (serwer MCP). Bez konta i klucza: gotowy tekst dla czatu, kroki i adres.",
     mirror: "asystenci-ai.html",
   },
   "/warunki-mcp": {

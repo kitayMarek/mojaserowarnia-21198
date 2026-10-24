@@ -160,7 +160,7 @@ const Navigation = () => {
               const zrodlo = zrodloZeSciezki(location.pathname);
               zapiszKlikniecieLacznika(zrodlo, "menu");
               closeMobile();
-              navigate("/asystenci-ai", { state: { z: zrodlo } });
+              navigate("/asystenci-ai#claude", { state: { z: zrodlo } });
             }}
           >
             <Plug className="h-4 w-4 text-[#D97757]" aria-hidden="true" />
