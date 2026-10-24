@@ -16,12 +16,40 @@ import {
  * widać, jak daleko mieszanka jest od normy (norma w środku paska, ciemniejsze
  * pole to tolerancja). Ostrzeżenie z brakującą ilością i przyciski „dodaj składnik”
  * stoją pod swoim parametrem, a nie w osobnej liście niżej.
+ *
+ * Od 24.10.2026 propozycje biorą też produkty z bazy dodatków: pod przyciskami stoi
+ * najtańsza oferta z datą ceny, koszt na ptaka przez 30 dni i link do karty produktu.
  */
 
 const SKALA = 2; // pasek sięga do dwukrotności normy, więc norma wypada w połowie
 
+/** Koszt i gdzie kupić pod propozycją produktu z bazy dodatków (od 24.10.2026). */
+function KosztPropozycji({ u, dawkaG, onPokazKarte }: { u: Uzupelnienie; dawkaG: number; onPokazKarte: (nazwa: string) => void }) {
+  if (!u.producent) return null;
+  const sprawdzono = u.oferta ? new Date(`${u.oferta.sprawdzono}T12:00:00`).toLocaleDateString("pl-PL") : "";
+  return (
+    <li>
+      <strong className="font-semibold text-foreground">{u.nazwa}</strong>
+      {u.partner && <span className="ml-1 rounded bg-muted px-1 py-0.5 text-[11px]" title="Producent płaci za obecność w bazie, nie za miejsce na liście">partner</span>}
+      {": "}
+      {u.oferta ? (
+        <>
+          od {liczbaPL(u.oferta.cenaZaKg, 2)} zł/kg w sklepie {u.oferta.sklep} (cena z {sprawdzono})
+          {u.kosztNaPtakaMiesiecznieZl != null
+            ? `, ok. ${liczbaPL(u.kosztNaPtakaMiesiecznieZl, 2)} zł na ptaka przez 30 dni`
+            : u.kosztNaKgPaszyZl != null && `, ${liczbaPL(u.kosztNaKgPaszyZl, 3)} zł na kg paszy${dawkaG > 0 ? "" : " (wpisz dawkę paszy w kroku 4, a policzę na ptaka)"}`}
+        </>
+      ) : "ceny w sklepach nie znaleźliśmy"}
+      {". "}
+      <button type="button" onClick={() => onPokazKarte(u.nazwa)} className="font-semibold text-primary underline-offset-4 hover:underline">
+        Karta produktu
+      </button>
+    </li>
+  );
+}
+
 function WierszNormy({
-  nazwa, jedn, miejsca, tol, wartosc, norma, ostrzezenie, mieszankaGotowa, propozycjeUzupelnien, dawkaG, onDodaj,
+  nazwa, jedn, miejsca, tol, wartosc, norma, ostrzezenie, mieszankaGotowa, propozycjeUzupelnien, dawkaG, onDodaj, onPokazKarte,
 }: {
   nazwa: string;
   jedn: string;
@@ -35,6 +63,7 @@ function WierszNormy({
   /** Dawka paszy na ptaka dziennie (g); z nią przycisk pokazuje też gramy na sztukę. */
   dawkaG: number;
   onDodaj: (nazwa: string, procent?: number) => void;
+  onPokazKarte: (nazwa: string) => void;
 }) {
   const ocena = sprawdzNorme(wartosc, norma, tol);
   // Ostrzeżenie słowami: jak przed przebudową, z tolerancją 0,15 i tylko przy sumie 100%.
@@ -100,6 +129,11 @@ function WierszNormy({
           ))}
         </div>
       )}
+      {propozycje.some((s) => s.producent) && (
+        <ul className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+          {propozycje.map((s) => <KosztPropozycji key={s.nazwa} u={s} dawkaG={dawkaG} onPokazKarte={onPokazKarte} />)}
+        </ul>
+      )}
       {propozycje.some((s) => s.przekroczy.length > 0 || !s.domyka) && (
         <ul className="mt-1 space-y-0.5 text-xs text-muted-foreground">
           {propozycje.filter((s) => s.przekroczy.length > 0 || !s.domyka).map((s) => (
@@ -119,7 +153,7 @@ function WierszNormy({
 
 export default function WynikMieszanki({
   norma, zawartosc, sumaProcentow, koszt, cenyKompletne, mieszankaGotowa,
-  komunikat, onZamknijKomunikat, propozycjeW, dawkaG, onDodajSkladnik, pelnySklad,
+  komunikat, onZamknijKomunikat, propozycjeW, dawkaG, onDodajSkladnik, onPokazKarte, pelnySklad,
 }: {
   norma: NormaDrobiu | null | undefined;
   zawartosc: (pole: string) => number;
@@ -134,6 +168,8 @@ export default function WynikMieszanki({
   /** Dawka paszy na ptaka dziennie w g (0 = nieznana). */
   dawkaG: number;
   onDodajSkladnik: (nazwa: string, procent?: number) => void;
+  /** Otwiera kartę produktu z bazy dodatków (propozycje z producentem). */
+  onPokazKarte: (nazwa: string) => void;
   pelnySklad: ReactNode;
 }) {
   const brakuje = 100 - sumaProcentow;
@@ -191,6 +227,7 @@ export default function WynikMieszanki({
               propozycjeUzupelnien={() => propozycjeW(p.pole)}
               dawkaG={dawkaG}
               onDodaj={onDodajSkladnik}
+              onPokazKarte={onPokazKarte}
             />
           ))}
         </>

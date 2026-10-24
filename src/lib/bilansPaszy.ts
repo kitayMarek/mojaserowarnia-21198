@@ -14,6 +14,10 @@
 import type { NormaDrobiu } from "../data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, udzialSurowca, zalecenieUdzialu } from "../data/udzialySurowcow.ts";
 import { KATEGORIA_Z_KUCHNI } from "../data/skladnikiZKuchni.ts";
+import {
+  cenaZaKg, dodatekPoNazwie, najtanszaOferta, przepisZeStosowania,
+  type OfertaDodatku, type PrzepisKoncentratu,
+} from "../data/dodatkiPaszowe.ts";
 
 /**
  * Wiersz mieszanki. Pola bywają stringiem, bo na stronie pochodzą z formularza.
@@ -312,10 +316,14 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
   const ca = zawartosc(pozycje, "ca");
   const p = zawartosc(pozycje, "p");
 
-  const ma = (nazwy: string[]) => pozycje.some((s) => nazwy.includes(s.nazwa));
+  // Produkt z bazy dodatków liczy się jak jego surowiec wzorcowy (kreda z worka to kreda).
+  const ma = (nazwy: string[]) =>
+    pozycje.some((s) => nazwy.includes(s.nazwa) || nazwy.includes(dodatekPoNazwie(s.nazwa)?.odpowiednik ?? ""));
   const maZboza = ma(ZBOZA);
   const maSrute = pozycje.some((s) => s.nazwa.startsWith("Śruta"));
-  const maBialko = maSrute || ma(STRACZKOWE_BIALKO);
+  // Koncentrat białkowy (np. Rolpol 30%) to źródło białka, nie trzeba do niego dokupować śruty.
+  const maKoncentrat = pozycje.some((s) => dodatekPoNazwie(s.nazwa)?.kategoria === "Koncentraty");
+  const maBialko = maSrute || maKoncentrat || ma(STRACZKOWE_BIALKO);
   const maKrede = ma(["Kreda pastewna"]);
   const maFosforan = pozycje.some((s) => s.nazwa.startsWith("Fosforan"));
   const maOlej = pozycje.some((s) => s.nazwa.startsWith("Olej"));
@@ -420,7 +428,38 @@ export interface Uzupelnienie {
   juzJest: boolean;
   /** Parametry, które po dodaniu wyjdą ponad normę. */
   przekroczy: { pole: PoleNormy; wynik: number; norma: number }[];
+  /** Produkt z bazy dodatków (od 24.10.2026): producent z etykiety. Brak = surowiec wzorcowy bez marki. */
+  producent?: string;
+  /** Najtańsza za kg oferta produktu. */
+  oferta?: OfertaDodatku & { cenaZaKg: number };
+  /** Ile dodatek kosztuje w 1 kg mieszanki, zł. null bez ceny. */
+  kosztNaKgPaszyZl: number | null;
+  /** Ile kosztuje na jednego ptaka przez 30 dni, zł. null bez ceny albo bez dawki paszy. */
+  kosztNaPtakaMiesiecznieZl: number | null;
+  /** Producent płaci za obecność w bazie. Tylko do jawnego oznaczenia: na kolejność nie wpływa. */
+  partner?: boolean;
 }
+
+/** Surowiec albo produkt, z którego propozycje „czym uzupełnić” mogą wybierać. */
+export type SurowiecDoUzupelnien = PozycjaMieszanki & {
+  kategoria?: string;
+  producent?: string;
+  oferty?: OfertaDodatku[];
+  partner?: boolean;
+  /** Surowiec wzorcowy tego samego rodzaju (src/data/dodatkiPaszowe.ts). */
+  odpowiednik?: string;
+  dawkaProcOd?: number | null;
+  dawkaProcDo?: number | null;
+  /** Dawka z etykiety w g na sztukę dziennie (gdy etykieta nie podaje %). */
+  dawkaGDziennie?: number | null;
+};
+
+/**
+ * Koszt dodatku na ptaka przez 30 dni: udział × dawka paszy na ptaka × 30 dni × cena za kg.
+ * Ta sama liczba na stronie i w MCP.
+ */
+export const kosztNaPtakaMiesiecznie = (procent: number, dawkaG: number, cenaKgZl: number): number =>
+  (procent / 100) * (dawkaG / 1000) * 30 * cenaKgZl;
 
 // Przetworzone białko zwierzęce ma ograniczenia prawne w żywieniu zwierząt
 // gospodarskich (rozp. 999/2001), więc go nie podpowiadamy, nawet jeśli jest w bazie.
@@ -436,21 +475,38 @@ const MINERALY = new Set<PoleNormy>(["ca", "p", "na", "k", "mg", "mn", "zn", "se
 // Pasze zwierzęce (mączka rybna) wolno, ale drożej i z ryzykiem zapachu jaj: dalej w kolejce.
 const KATEGORIA_ZWIERZECA = "Pasze pochodzenia zwierzęcego";
 
+type Kandydat = Uzupelnienie & { kara: number; rodzaj: string };
+
+/** Tańsze wyżej; bez ceny na końcu (nie wiemy, ile kosztuje, więc nie udajemy, że tanio). */
+const poKoszcie = (a: Kandydat, b: Kandydat) =>
+  (a.kosztNaKgPaszyZl ?? Infinity) - (b.kosztNaKgPaszyZl ?? Infinity);
+
 /**
- * Do dwóch propozycji, czym uzupełnić brak parametru `parametr`, z bazy surowców.
- * Dwie, nie więcej (decyzja Marka 24.10.2026): przy długiej liście wygląda to jak nasza
- * rekomendacja, a z czasem, gdy w bazie będzie więcej firm, wybór i tak się poszerzy.
- * Kolejność: najpierw te, które nie wypchną innego parametru ponad normę ani
- * udziału ponad zalecane maksimum, potem najmniejsza potrzebna ilość. Premiksy
- * i dodatki w stałej dawce tylko z dawką znaną z nazwy albo z pliku udziałów.
+ * Do dwóch propozycji, czym uzupełnić brak parametru `parametr`, z bazy surowców
+ * i produktów z bazy dodatków. Dwie, nie więcej (decyzja Marka 24.10.2026): przy
+ * długiej liście wygląda to jak nasza rekomendacja, a z czasem, gdy w bazie będzie
+ * więcej firm, wybór i tak się poszerzy.
+ *
+ * Kolejność WYŁĄCZNIE po wartościach odżywczych i cenie, nigdy po polu `partner`:
+ * 1. najpierw te, które nie wypchną innego parametru ponad normę ani udziału ponad
+ *    zalecane maksimum (kara), 2. potem najmniejsza potrzebna ilość (z dokładnością
+ *    do 10%), 3. potem koszt w 1 kg mieszanki; bez ceny za tymi z ceną.
+ * Z jednego rodzaju (kreda z kilku worków i „Kreda pastewna” z tabel) zostaje jedna
+ * pozycja: to, co już jest w mieszance, a inaczej najtańsza w przeliczeniu na kg
+ * mieszanki. Dzięki temu dwa miejsca to dwa różne rodzaje, a nie dwie kredy.
+ *
+ * Premiksy i dodatki w stałej dawce tylko w dawce z etykiety albo znanej z nazwy;
+ * pozostałe produkty najwyżej w górnej dawce z etykiety.
+ * `dawkaG` (pasza na ptaka dziennie, g) daje koszt na ptaka przez 30 dni.
  */
 export function uzupelnienia(
   pozycje: PozycjaMieszanki[],
   norma: NormaDrobiu,
   ptaki: Ptaki,
-  baza: (PozycjaMieszanki & { kategoria?: string })[],
+  baza: SurowiecDoUzupelnien[],
   parametr: PoleNormy,
   ile = 2,
+  dawkaG = 0,
 ): Uzupelnienie[] {
   const cel = (norma as unknown as Record<string, number | undefined>)[parametr];
   const obecnie = zawartosc(pozycje, parametr);
@@ -464,8 +520,9 @@ export function uzupelnienia(
       return n ? sprawdzNorme(zawartosc(m, p), n, TOLERANCJE[p]) : "ok";
     });
   const przed = oceny(naliczone);
+  const limit = MINERALY.has(parametr) ? MAKS_UZUPELNIENIA_MINERALU : MAKS_UZUPELNIENIA;
 
-  const propozycje: (Uzupelnienie & { kara: number })[] = [];
+  const propozycje: Kandydat[] = [];
   for (const s of baza) {
     const v = liczba(pole(s, parametr));
     if (v <= cel || NIE_PODPOWIADAJ.test(s.nazwa) || KATEGORIE_POMIJANE.has(s.kategoria ?? "")) continue;
@@ -476,12 +533,23 @@ export function uzupelnienia(
     // dawkę w doborze, ale przy uzupełnianiu to właśnie jej ilość się zmienia.
     const stala = udzialSurowca(s.nazwa)?.stalaDawka === true;
     let x: number;
+    let wDawceEtykiety = stala;
     if (stala) {
       x = dawkaDomyslna(s.nazwa);
       if (!x) continue;
     } else {
       x = (100 * (cel - obecnie)) / (v - obecnie);
-      if (x > (MINERALY.has(parametr) ? MAKS_UZUPELNIENIA_MINERALU : MAKS_UZUPELNIENIA)) continue;
+      // Produkt z dawką z etykiety: nie więcej niż jej górna granica, nawet gdy wtedy nie
+      // domknie braku. Dawka w g na sztukę liczy się na % przy znanej dawce paszy, a bez niej
+      // produktu nie proponujemy, bo nie wiemy, czy ilość zmieści się w etykiecie.
+      // Dolnej granicy nie wymuszamy: surowiec w mniejszej ilości niż „od” niczemu nie szkodzi.
+      let doo = s.dawkaProcDo ?? s.dawkaProcOd ?? null;
+      if (doo == null && s.dawkaGDziennie != null) {
+        if (!(dawkaG > 0)) continue;
+        doo = (100 * s.dawkaGDziennie) / dawkaG;
+      }
+      if (doo != null && x > doo) { x = doo; wDawceEtykiety = true; }
+      if (x > limit) continue;
     }
 
     // Mieszanka po dodaniu: dotychczasowe składniki razem na (100 - x)%, nowy na x%.
@@ -494,20 +562,140 @@ export function uzupelnienia(
         ? [{ pole: p, wynik: zawartosc(po, p), norma: (norma as unknown as Record<string, number>)[p] }]
         : []);
     const ponadMaks = maks != null && x > maks + 0.05;
+    const domyka = zawartosc(po, parametr) >= cel * 0.999;
+
+    const najtansza = najtanszaOferta(s.oferty);
+    const cenaKg = najtansza ? cenaZaKg(najtansza) : null;
     propozycje.push({
-      nazwa: s.nazwa, wartosc: v, dodajProc: x,
-      domyka: zawartosc(po, parametr) >= cel * 0.999,
-      juzJest, przekroczy,
-      kara: przekroczy.length + (ponadMaks ? 10 : 0) + (stala && zawartosc(po, parametr) < cel * 0.999 ? 1 : 0)
+      nazwa: s.nazwa, wartosc: v, dodajProc: x, domyka, juzJest, przekroczy,
+      ...(s.producent ? { producent: s.producent } : {}),
+      ...(najtansza && cenaKg != null ? { oferta: { ...najtansza, cenaZaKg: cenaKg } } : {}),
+      kosztNaKgPaszyZl: cenaKg != null ? (x / 100) * cenaKg : null,
+      kosztNaPtakaMiesiecznieZl: cenaKg != null && dawkaG > 0 ? kosztNaPtakaMiesiecznie(x, dawkaG, cenaKg) : null,
+      ...(s.partner ? { partner: true } : {}),
+      rodzaj: s.odpowiednik ?? s.nazwa,
+      kara: przekroczy.length + (ponadMaks ? 10 : 0) + (wDawceEtykiety && !domyka ? 1 : 0)
         + (s.kategoria === KATEGORIA_ZWIERZECA ? 0.5 : 0)
         // To, co już jest w mieszance, wygrywa z równie dobrym nowym surowcem: łatwiej dosypać niż kupić.
         - (juzJest ? 0.3 : 0),
     });
   }
-  return propozycje
-    .sort((a, b) => a.kara - b.kara || a.dodajProc - b.dodajProc)
+
+  // Jeden przedstawiciel rodzaju: najmniejsza kara, potem najtańszy, potem najmniej potrzeba.
+  const lepszyWRodzaju = (a: Kandydat, b: Kandydat) => a.kara - b.kara || poKoszcie(a, b) || a.dodajProc - b.dodajProc;
+  const rodzaje = new Map<string, Kandydat>();
+  for (const k of propozycje) {
+    const obecny = rodzaje.get(k.rodzaj);
+    if (!obecny || lepszyWRodzaju(k, obecny) < 0) rodzaje.set(k.rodzaj, k);
+  }
+  // Potrzebna ilość liczona od najmniejszej przy tej samej karze, w krokach co 10%: kreda
+  // z 37,6% wapnia i muszle z 38% to dla hodowcy ta sama ilość (8,6% i 8,5% mieszanki),
+  // więc o kolejności decyduje wtedy cena. Krok od najmniejszej, a nie stałe progi: przy
+  // stałych progach dwie prawie równe ilości potrafiły wpaść po dwóch stronach granicy.
+  const wybrane = [...rodzaje.values()];
+  const najmniej = new Map<number, number>();
+  for (const k of wybrane) najmniej.set(k.kara, Math.min(najmniej.get(k.kara) ?? Infinity, k.dodajProc));
+  const krokIlosci = (k: Kandydat) => Math.floor(Math.log(k.dodajProc / najmniej.get(k.kara)!) / Math.log(1.1) + 1e-9);
+  return wybrane
+    .sort((a, b) => a.kara - b.kara || krokIlosci(a) - krokIlosci(b) || poKoszcie(a, b) || a.dodajProc - b.dodajProc)
     .slice(0, ile)
-    .map(({ kara: _kara, ...u }) => u);
+    .map(({ kara: _kara, rodzaj: _rodzaj, ...u }) => u);
+}
+
+// ── Koncentrat + Twoje zboże (od 24.10.2026) ────────────────────────────────
+
+// Zboża, które etykiety koncentratów nazywają „śrutami zbożowymi”. Gryka to nie zboże.
+const ZBOZE = /^(Pszenica|Pszenżyto|Jęczmień|Kukurydza|Owies|Żyto|Mąka (jęczmienna|kukurydziana) pastewna|mąka pszenna pastewna)/;
+
+export const czyZboze = (nazwa: string) => ZBOZE.test(nazwa);
+
+export interface UdzialyKoncentratu {
+  /** Udział koncentratu w %. */
+  koncentrat: number;
+  /** Pozostałe dodatki z przepisu (śruta sojowa, kreda), w %. */
+  inne: { nazwa: string; tekst: string; procent: number }[];
+  /** Zboża użytkownika w jego proporcjach, razem tyle, ile zostaje do 100%. */
+  zboza: { nazwa: string; procent: number }[];
+  /** Cała mieszanka w kształcie wierszy, do oceny i do wstawienia do kalkulatora. */
+  mieszanka: (PozycjaMieszanki & { procent: number })[];
+}
+
+export interface KoncentratZeZbozem {
+  przepis: PrzepisKoncentratu;
+  /** Proporcje z etykiety, ze zbożami użytkownika. */
+  zEtykiety: UdzialyKoncentratu;
+  /** Białko mieszanki ze zbożami użytkownika przy udziale z etykiety. */
+  bialkoZEtykiety: number;
+  /**
+   * Udział koncentratu, przy którym białko mieszanki dochodzi do normy z TYMI zbożami
+   * (kukurydza ma mniej białka niż pszenica, więc koncentratu trzeba więcej). null bez
+   * normy albo gdy koncentrat nie ma więcej białka niż zboża.
+   */
+  doNormyBialka: UdzialyKoncentratu | null;
+  /** Dodatki z przepisu, których nie ma w bazie surowców (nie wnoszą nic do bilansu). */
+  nierozpoznane: string[];
+}
+
+/**
+ * „Koncentrat + Twoje zboże”: dla koncentratu z przepisem w polu `stosowanie` liczy
+ * mieszankę ze zbożami, które użytkownik ma w mieszance (w jego proporcjach; bez
+ * udziałów po równo), i udział koncentratu potrzebny do normy białka przy tych zbożach.
+ * Dodatki z przepisu (śruta sojowa, kreda) w dolnej dawce z etykiety. null, gdy
+ * produkt nie ma przepisu albo w mieszance nie ma zbóż.
+ */
+export function koncentratZeZbozem(
+  koncentrat: PozycjaMieszanki & { stosowanie?: string | null },
+  pozycje: PozycjaMieszanki[],
+  baza: PozycjaMieszanki[],
+  norma?: NormaDrobiu | null,
+): KoncentratZeZbozem | null {
+  const przepis = przepisZeStosowania(koncentrat.stosowanie);
+  if (!przepis) return null;
+  const zboza = pozycje.filter((s) => s.nazwa && czyZboze(s.nazwa));
+  if (!zboza.length) return null;
+  const sumaZboz = zboza.reduce((a, s) => a + liczba(s.procent), 0);
+  const udzialZboza = (s: PozycjaMieszanki) => (sumaZboz > 0 ? liczba(s.procent) / sumaZboz : 1 / zboza.length);
+
+  const wBazie = (nazwa: string) => baza.find((b) => b.nazwa === nazwa);
+  const inne = przepis.inne.map((d) => ({ ...d, wiersz: d.nazwa ? wBazie(d.nazwa) : undefined }));
+  const sumaInnych = inne.reduce((a, d) => a + d.od, 0);
+
+  const uloz = (c: number): UdzialyKoncentratu => {
+    const naZboza = Math.max(0, 100 - c - sumaInnych);
+    const z = zboza.map((s) => ({ ...s, procent: naZboza * udzialZboza(s) }));
+    const dosypki = inne.map((d) => ({ nazwa: d.wiersz?.nazwa ?? d.tekst, tekst: d.tekst, procent: d.od }));
+    return {
+      koncentrat: c,
+      inne: dosypki,
+      zboza: z.map((s) => ({ nazwa: s.nazwa, procent: s.procent })),
+      mieszanka: [
+        { ...koncentrat, procent: c },
+        ...inne.filter((d) => d.wiersz).map((d) => ({ ...d.wiersz!, procent: d.od })),
+        ...z,
+      ],
+    };
+  };
+
+  const zEtykiety = uloz(przepis.koncentrat);
+  let doNormyBialka: UdzialyKoncentratu | null = null;
+  if (norma?.bialko) {
+    // Białko liniowo zależy od udziału koncentratu c (reszta do 100% to zboża):
+    // 100 × norma = c × Bk + Σ dosypek + (100 − c − dosypki) × Bz.
+    const bk = liczba(pole(koncentrat, "bialko"));
+    const bz = zboza.reduce((a, s) => a + udzialZboza(s) * liczba(pole(s, "bialko")), 0);
+    const bInne = inne.reduce((a, d) => a + d.od * (d.wiersz ? liczba(pole(d.wiersz, "bialko")) : 0), 0);
+    if (bk > bz) {
+      const c = (100 * norma.bialko - bInne - (100 - sumaInnych) * bz) / (bk - bz);
+      if (c > 0 && c < 100 - sumaInnych) doNormyBialka = uloz(c);
+    }
+  }
+  return {
+    przepis,
+    zEtykiety,
+    bialkoZEtykiety: zawartosc(zEtykiety.mieszanka, "bialko"),
+    doNormyBialka,
+    nierozpoznane: inne.filter((d) => !d.wiersz).map((d) => d.tekst),
+  };
 }
 
 /** Stado do policzenia zapotrzebowania: liczba ptaków i dawka paszy w g na sztukę dziennie. */

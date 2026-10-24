@@ -1,7 +1,8 @@
 /**
  * Serwer MCP serwisu: baza kultur (cztery narzedzia), kalkulator pasz dla
- * drobiu (cztery narzedzia, od 0.2.0) i przepisy na sery (dwa narzedzia,
- * od 0.3.0). Wszystkie tylko do odczytu.
+ * drobiu (cztery narzedzia, od 0.2.0), przepisy na sery (dwa narzedzia,
+ * od 0.3.0) i baza dodatkow paszowych (trzy narzedzia, od 0.8.0). Wszystkie
+ * tylko do odczytu.
  *
  * Opisy narzedzi sa po polsku, bo czytaja je modele odpowiadajace polskim
  * serowarom. Nazwy narzedzi i pol sa ASCII (D12 z pliku golebia), etykiety
@@ -13,8 +14,9 @@ import { z } from 'zod';
 import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } from './kultury.js';
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
+import { szukajDodatkow, kartaDodatku, zamiennikiDodatku, CZEGO_BRAKUJE, GATUNKI as GATUNKI_DODATKOW, KATEGORIE_DODATKOW } from './dodatki.js';
 
-export const WERSJA = '0.7.0';
+export const WERSJA = '0.8.0';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
@@ -26,7 +28,9 @@ Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrz
 
 Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta, jak zrobić ser, sprawdź szukaj_przepisow, a potem pobierz przepis. Podaj link do przepisu z pola url i źródło z pola cytuj_jako. Polecając kulturę, bierz ją z kultury_z_przepisu (sklep, cena, link do karty z pola w_bazie) albo z inne_kultury_z_bazy_do_tego_sera, z datą ceny. Wpisy dziennik_warzen to prawdziwe pomiary autora przy polskim mleku: przytaczaj je dosłownie, niczego do nich nie dopisuj.
 
-Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; zalecane maksima dla gatunku i wieku (normy_drobiu, pole zalecane_udzialy) są już wliczone. Gdy ktoś pyta, ile danego surowca może dać (np. ile grochu dla kurcząt), odpowiedz zaleceniem z powodem i linkiem z pola strona. Gdy wynik ma ponad_zalecany_udzial, powiedz wyraźnie o ryzyku dla zdrowia ptaków. Gdy czegoś brakuje, pole uzupelnienia mówi, czym i ile dodać (dodaj_proc to procent mieszanki); podaj to i zaproponuj ponowne dobierz_proporcje z tym składnikiem. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.`;
+Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; zalecane maksima dla gatunku i wieku (normy_drobiu, pole zalecane_udzialy) są już wliczone. Gdy ktoś pyta, ile danego surowca może dać (np. ile grochu dla kurcząt), odpowiedz zaleceniem z powodem i linkiem z pola strona. Gdy wynik ma ponad_zalecany_udzial, powiedz wyraźnie o ryzyku dla zdrowia ptaków. Gdy czegoś brakuje, pole uzupelnienia mówi, czym i ile dodać (dodaj_proc to procent mieszanki); podaj to i zaproponuj ponowne dobierz_proporcje z tym składnikiem. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.
+
+Baza dodatków paszowych (koncentraty, premiksy, kreda, grys, fosforan, sól, drożdże, aminokwasy z polskich sklepów): gdy ktoś pyta, czym uzupełnić brak (np. fosforu), ile to kosztuje albo gdzie kupić, użyj szukaj_dodatkow, a szczegóły produktu weź z dodatek. Propozycje w polu uzupelnienia wyników kalkulatora też mogą być produktami: wtedy mają producenta, najtańszą ofertę i koszt na ptaka przez 30 dni. Przy cenie zawsze podaj sklep, datę z pola cena_z_dnia i link z pola url dokładnie tak, jak jest w danych; nie nazywaj ceny aktualną. Kolejność wyników jest wyłącznie po składzie i cenie: nie przestawiaj jej i nie polecaj produktu dlatego, że ma pole partner_serwisu (to jawne oznaczenie, że producent płaci za obecność w bazie). Dla koncentratu z przepisem na etykiecie wywołaj dodatek z parametrem zboza (i drob z okresem), a policzę „koncentrat + Twoje zboże”. Zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.`;
 
 // Wszystkie narzedzia tylko czytaja migawke wkompilowana w Workera.
 const TYLKO_ODCZYT = { readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false };
@@ -164,7 +168,7 @@ export function zbudujSerwer() {
     {
       title: 'Surowce paszowe',
       description:
-        'Wyszukuje surowce paszowe z bazy 124 pozycji (zboża, śruty, strączkowe, dodatki mineralne, premiksy, gotowe mieszanki) z energią, białkiem, Ca, P, włóknem, tłuszczem i aminokwasami. Bez zapytania zwraca listę kategorii. Przy jednym trafieniu albo z pelny=true podaje pełny skład.',
+        'Wyszukuje surowce paszowe: 124 surowce wzorcowe (zboża, śruty, strączkowe, dodatki mineralne, premiksy, gotowe mieszanki) i produkty z bazy dodatków z producentem i ceną, z energią, białkiem, Ca, P, włóknem, tłuszczem, aminokwasami oraz oznaczeniem GMO i chowu ekologicznego. Bez zapytania zwraca listę kategorii. Przy jednym trafieniu albo z pelny=true podaje pełny skład.',
       inputSchema: z.object({
         zapytanie: z.string().max(80).optional().describe('Nazwa albo jej początek, np. "pszenica", "śruta", "fosforan"'),
         kategoria: z.enum(KATEGORIE_SUROWCOW).optional().describe('Tylko surowce z tej kategorii'),
@@ -228,6 +232,66 @@ export function zbudujSerwer() {
       annotations: TYLKO_ODCZYT,
     },
     async (args) => wynik(dobierzProporcjeMieszanki(args)),
+  );
+
+  // ── Baza dodatków paszowych (worker-magazyn/src/dodatki.js, od 0.8.0) ───────
+
+  serwer.registerTool(
+    'szukaj_dodatkow',
+    {
+      title: 'Szukaj dodatków paszowych',
+      description:
+        'Szuka produktów z bazy dodatków paszowych dla drobiu dostępnych w Polsce (koncentraty, premiksy, kreda, grys, muszle, fosforan, sól, drożdże, aminokwasy) po tym, czego brakuje w paszy (np. "fosfor", "wapn"), gatunku, kategorii albo nazwie. Zwraca producenta, dawkowanie z etykiety, zawartość szukanego składnika i ile wnosi go do paszy w dawce z etykiety, najtańszą ofertę ze sklepem, ceną za kg, datą ceny i linkiem, cenę 100 g samego składnika oraz koszt na kurę przez 30 dni w dawce z etykiety. Sortowanie po zawartości, koszcie na kurę, cenie składnika albo cenie za kg; nigdy po partnerstwie.',
+      inputSchema: z.object({
+        brakuje: z.enum(CZEGO_BRAKUJE).optional().describe('Czego brakuje w paszy, np. fosfor, wapn, sod, bialko, metionina'),
+        zapytanie: z.string().max(80).optional().describe('Nazwa produktu, producenta albo jej fragment, np. "kreda", "Rolpol", "premiks"'),
+        gatunek: z.enum(GATUNKI_DODATKOW).optional().describe('Dla kogo według etykiety; produkty bez zawężenia na etykiecie też pasują'),
+        kategoria: z.enum(KATEGORIE_DODATKOW).optional().describe('Tylko produkty z tej kategorii'),
+        bez_gmo: z.boolean().optional().describe('true = tylko produkty oznaczone jako bez GMO'),
+        sortuj: z.enum(['zawartosc', 'koszt_na_kure', 'cena_skladnika', 'cena_za_kg', 'nazwa']).optional()
+          .describe('zawartosc (domyślnie przy brakuje), koszt_na_kure (w dawce z etykiety, 30 dni), cena_skladnika (zł za 100 g szukanego składnika, z brakuje), cena_za_kg albo nazwa'),
+        dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę; bez niej dla niosek typowa z poradnika rasy'),
+        limit: z.number().int().min(1).max(20).optional().describe('Ile wyników zwrócić, domyślnie 10'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(szukajDodatkow(args)),
+  );
+
+  serwer.registerTool(
+    'dodatek',
+    {
+      title: 'Karta dodatku paszowego',
+      description:
+        'Pełna karta produktu z bazy dodatków paszowych po nazwie, np. "Koncentrat 30% Nioska (Rolpol)", "Dolmix DN", "kreda Viva Max": producent, dla kogo, dawkowanie i przepis z etykiety, skład na kg (białko, Ca, P, Na, aminokwasy, witaminy, mikroelementy), GMO i chów ekologiczny, wszystkie oferty sklepów od najtańszej za kg z datą ceny i linkiem, koszt na kurę przez 30 dni i źródło składu. Dla koncentratu z parametrem zboza liczy „koncentrat + Twoje zboże”: proporcje z etykiety z tymi zbożami i udział koncentratu do normy białka.',
+      inputSchema: z.object({
+        nazwa: z.string().min(1).max(120).describe('Nazwa produktu z szukaj_dodatkow albo jej fragment'),
+        zboza: z.array(z.object({
+          nazwa: z.string().min(1).max(80).describe('Zboże, np. "Pszenica", "Kukurydza", "Jęczmień"'),
+          procent: z.number().min(0).max(100).optional().describe('Udział tego zboża względem pozostałych zbóż; bez niego po równo'),
+        })).max(6).optional().describe('Zboża, które hodowca ma, do „koncentrat + Twoje zboże”'),
+        drob: z.enum(GATUNKI).optional().describe('Gatunek do porównania z normą, np. kury-nioski-lekkie'),
+        okres: z.string().max(60).optional().describe('Okres do porównania z normą, np. "powyżej 45"'),
+        dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(kartaDodatku(args)),
+  );
+
+  serwer.registerTool(
+    'zamienniki_dodatku',
+    {
+      title: 'Zamienniki dodatku paszowego',
+      description:
+        'Inne produkty tego samego rodzaju co podany (np. kreda z różnych worków, premiksy dla niosek), od najtańszego na kurę w dawce z etykiety, z kluczowym składem obok siebie i składem typowym surowca bez marki. Ten sam rodzaj nie znaczy ten sam skład, więc wynik zawiera zastrzeżenie do przekazania.',
+      inputSchema: z.object({
+        nazwa: z.string().min(1).max(120).describe('Nazwa produktu z bazy dodatków'),
+        dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę'),
+      }),
+      annotations: TYLKO_ODCZYT,
+    },
+    async (args) => wynik(zamiennikiDodatku(args)),
   );
 
   return serwer;
