@@ -4,6 +4,7 @@
  *
  *   public/pasze/udzial-surowcow.html  <-  src/data/udzialySurowcow.ts
  *   public/pasze/kury-nie-niosa.html   <-  src/data/kuryNieNiosa.ts
+ *   public/pasze/resztki-z-kuchni.html <-  src/data/resztkiZKuchni.ts
  *
  * Tytuł i opis z src/data/metaStron.ts. Uruchomić po każdej zmianie danych:
  *
@@ -21,6 +22,7 @@ import {
   opisZalecenia, pytaniaUdzialow, zalecenieGrupy, type GrupaPtakow,
 } from "../src/data/udzialySurowcow.ts";
 import { PSZENICA_WOBEC_NORMY, PYTANIA_PORAD, SEKCJE_PORAD, ZRODLA_PORAD } from "../src/data/kuryNieNiosa.ts";
+import { CZY_MOZNA, PYTANIA_RESZTEK, RESZTKI_WOBEC_NORMY, SEKCJE_RESZTEK, ZRODLA_RESZTEK } from "../src/data/resztkiZKuchni.ts";
 
 const BAZA = "https://mojaserowarnia.pl";
 const DATA_PORAD = "2026-10-24";
@@ -174,7 +176,46 @@ const porady = `  <p class="lead">Najczęstsze pytanie w grupach o kurach. Krót
   </div>
 ${SEKCJE_PORAD.map((s) => `
   <h2 id="${s.id}">${h(s.tytul)}</h2>
-${s.akapity.map((a) => `  <p>${h(a)}</p>`).join("\n")}${s.punkty ? `\n  <ul>\n${s.punkty.map((p) => `    <li>${h(p)}</li>`).join("\n")}\n  </ul>` : ""}${s.id === "pszenica" ? `\n  <p>Sprawdź własną mieszankę w <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz</a>: pokaże, czego brakuje, i policzy, ile paszy kupić dla Twojego stada na miesiąc.</p>` : ""}${s.id === "co-robic" ? `\n  <p>Ile grochu, bobiku, jęczmienia czy rzepaku można dać w paszy, opisujemy na stronie <a href="${BAZA}/pasze/udzial-surowcow">Ile jakiego surowca w paszy dla drobiu</a>.</p>` : ""}${s.zrodla.length ? `\n  <p class="male">Źródło: ${s.zrodla.map((k) => link(ZRODLA_PORAD[k])).join("; ")}</p>` : ""}`).join("\n")}
+${s.akapity.map((a) => `  <p>${h(a)}</p>`).join("\n")}${s.punkty ? `\n  <ul>\n${s.punkty.map((p) => `    <li>${h(p)}</li>`).join("\n")}\n  </ul>` : ""}${s.id === "pszenica" ? `\n  <p>Sprawdź własną mieszankę w <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz</a>: pokaże, czego brakuje, i policzy, ile paszy kupić dla Twojego stada na miesiąc.</p>` : ""}${s.id === "resztki" ? `\n  <p>Co z kuchni kurom szkodzi i co mówią przepisy: <a href="${BAZA}/pasze/resztki-z-kuchni">Resztki z kuchni dla kur</a>.</p>` : ""}${s.id === "co-robic" ? `\n  <p>Ile grochu, bobiku, jęczmienia czy rzepaku można dać w paszy, opisujemy na stronie <a href="${BAZA}/pasze/udzial-surowcow">Ile jakiego surowca w paszy dla drobiu</a>.</p>` : ""}${s.zrodla.length ? `\n  <p class="male">Źródło: ${s.zrodla.map((k) => link(ZRODLA_PORAD[k])).join("; ")}</p>` : ""}`).join("\n")}
+
+  <p class="note">Porady są ogólne. Gdy kura jest osowiała, chudnie albo ma biegunkę, skonsultuj się z lekarzem weterynarii.</p>
+`;
+
+// ── /pasze/resztki-z-kuchni ──────────────────────────────────────────────────
+const lp = (n: number, m = 2) => n.toLocaleString("pl-PL", { maximumFractionDigits: m });
+const R = RESZTKI_WOBEC_NORMY;
+const resztki = `  <p class="lead">Mało kto ma kury, które nigdy nie dostały resztek. Ta strona nie zakazuje, tylko mówi uczciwie: co z kuchni kurom szkodzi, ile można dać i dlaczego przepisy w ogóle o tym mówią.</p>
+
+  <div class="key">
+    <ul>
+      <li>Resztki to dodatek: <strong>tyle, ile kury zjedzą w 15–20 minut</strong>, a podstawą jest pasza dla niosek.</li>
+      <li><strong>Chleb jest słony</strong>: ma około ${lp(R.produkty[2].na)}–${lp(R.produkty[3].na)}% sodu, mniej więcej trzy razy więcej, niż powinno być w paszy.</li>
+      <li><strong>Nie dawaj</strong> spleśniałego, zielonych obierek ziemniaków, surowej fasoli, awokado, czekolady, kawy, alkoholu ani resztek mięsa.</li>
+      <li>Przepisy UE traktują kury od jajek jak zwierzęta gospodarskie i <strong>zakazują karmienia ich odpadami z kuchni</strong>.</li>
+    </ul>
+  </div>
+${SEKCJE_RESZTEK.map((s) => `
+  <h2 id="${s.id}">${h(s.tytul)}</h2>
+${s.akapity.map((a) => `  <p>${h(a)}</p>`).join("\n")}${s.id === "darmowe" ? `
+  <table>
+    <thead><tr><th>Co</th><th>Białko</th><th>Wapń</th><th>Sód</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Potrzeba nioski (norma paszy)</strong></td><td>${lp(R.normaBialko, 1)}%</td><td>${lp(R.normaCa, 1)}%</td><td>${lp(R.normaNa)}%</td></tr>
+${R.produkty.map((p) => `      <tr><td>${h(p.nazwa)}</td><td>${lp(p.bialko, 1)}%</td><td>${lp(p.ca, 3)}%</td><td>${lp(p.na, 3)}%</td></tr>`).join("\n")}
+    </tbody>
+  </table>
+  <p class="male">Produkty w takiej postaci, w jakiej trafiają do kur (z wodą). Skład przybliżony z tabel żywności dla ludzi.</p>` : ""}${s.zrodla.length ? `\n  <p class="male">Źródło: ${s.zrodla.map((k) => link(ZRODLA_RESZTEK[k])).join("; ")}</p>` : ""}`).join("\n")}
+
+  <h2>Czy kury mogą jeść…?</h2>
+  <table>
+    <thead><tr><th>Co</th><th>Werdykt</th><th>Dlaczego</th></tr></thead>
+    <tbody>
+${CZY_MOZNA.map((c) => `      <tr><td>${h(c.co)}</td><td><strong>${h(c.werdykt)}</strong></td><td>${h(c.dlaczego)}</td></tr>`).join("\n")}
+    </tbody>
+  </table>
+  <p class="male">Źródło: ${["uf2026", "merck", "ue1069"].map((k) => link(ZRODLA_RESZTEK[k])).join("; ")}</p>
+
+  <p>W <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz</a> są produkty z kuchni (makaron, chleb, ryż, ziemniaki, kapusta, jabłka). Wpisz, ile ich dajesz, a zobaczysz, jak spada białko i wapń i ile soli dochodzi. Zobacz też: <a href="${BAZA}/pasze/kury-nie-niosa">Kury nie niosą jajek?</a></p>
 
   <p class="note">Porady są ogólne. Gdy kura jest osowiała, chudnie albo ma biegunkę, skonsultuj się z lekarzem weterynarii.</p>
 `;
@@ -184,4 +225,6 @@ writeFileSync("public/pasze/udzial-surowcow.html",
   strona("/pasze/udzial-surowcow", "Udział surowców", "Ile jakiego surowca w paszy dla drobiu", STAN_UDZIALOW, pytaniaUdzialow(), udzialy));
 writeFileSync("public/pasze/kury-nie-niosa.html",
   strona("/pasze/kury-nie-niosa", "Kury nie niosą", "Daję kurom dobre jedzenie, a one nie niosą. Dlaczego?", DATA_PORAD, PYTANIA_PORAD, porady));
-console.log("Zapisane: public/pasze/udzial-surowcow.html, public/pasze/kury-nie-niosa.html");
+writeFileSync("public/pasze/resztki-z-kuchni.html",
+  strona("/pasze/resztki-z-kuchni", "Resztki z kuchni", "Resztki z obiadu, chleb i makaron dla kur: co, ile i czego unikać", DATA_PORAD, PYTANIA_RESZTEK, resztki));
+console.log("Zapisane: public/pasze/udzial-surowcow.html, public/pasze/kury-nie-niosa.html, public/pasze/resztki-z-kuchni.html");

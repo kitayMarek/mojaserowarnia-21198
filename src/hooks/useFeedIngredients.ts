@@ -11,6 +11,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { feedIngredients, feedCategories, type FeedIngredient } from "@/data/feedIngredients";
+import { SKLADNIKI_Z_KUCHNI } from "@/data/skladnikiZKuchni";
 
 const num = (v: unknown): number => (v == null || v === "" ? 0 : Number(v) || 0);
 
@@ -56,7 +57,9 @@ export function useFeedIngredients() {
   const ingredients = useMemo<FeedIngredient[]>(() => {
     const hasBaza = rows.some((r) => r.source === "baza");
     const mapped = rows.map(mapRow);
-    return hasBaza ? mapped : [...feedIngredients, ...mapped];
+    // Produkty z kuchni (od 24.10.2026) zawsze na końcu listy: nie ma ich w bazie Supabase,
+    // bo to nie pasza, tylko punkt odniesienia dla małych hodowców (src/data/skladnikiZKuchni.ts).
+    return [...(hasBaza ? mapped : [...feedIngredients, ...mapped]), ...SKLADNIKI_Z_KUCHNI];
   }, [rows]);
 
   // Kategorie w kolejności z pliku, plus ewentualne nowe z bazy — tylko te, które mają składniki.

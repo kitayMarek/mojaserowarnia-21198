@@ -14,7 +14,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 
-export const WERSJA = '0.6.0';
+export const WERSJA = '0.7.0';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.

@@ -12,7 +12,12 @@
  * odpowiedz, a model nie dostaje innego wyniku przy kazdym wywolaniu.
  */
 
-import { feedIngredients, feedCategories } from '../../src/data/feedIngredients.ts';
+import { feedIngredients as SUROWCE_PASZ, feedCategories } from '../../src/data/feedIngredients.ts';
+import { SKLADNIKI_Z_KUCHNI, KATEGORIA_Z_KUCHNI } from '../../src/data/skladnikiZKuchni.ts';
+
+// Surowce paszowe plus produkty z kuchni (od 0.7.0, skład przybliżony z tabel żywności),
+// żeby można było policzyć mieszankę z resztkami. Kalkulator na stronie ma te same.
+const feedIngredients = [...SUROWCE_PASZ, ...SKLADNIKI_Z_KUCHNI];
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import {
   POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maksUdzialu,
@@ -85,7 +90,7 @@ function ponadZalecenia(pozycje, ptaki) {
 }
 
 export const GATUNKI = Object.keys(NORMY_DROBIU);
-export const KATEGORIE_SUROWCOW = feedCategories;
+export const KATEGORIE_SUROWCOW = [...feedCategories, KATEGORIA_Z_KUCHNI];
 
 const stopka = () => ({
   zrodlo: `Moja Serowarnia, kalkulator pasz dla drobiu (${ADRES_KALKULATORA})`,

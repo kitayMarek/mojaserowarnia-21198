@@ -100,6 +100,7 @@ const SolenieSera = lazy(() => import("./pages/SolenieSera"));
 const PaszeHub = lazy(() => import("./pages/PaszeHub"));
 const UdzialSurowcow = lazy(() => import("./pages/UdzialSurowcow"));
 const KuryNieNiosa = lazy(() => import("./pages/KuryNieNiosa"));
+const ResztkiZKuchni = lazy(() => import("./pages/ResztkiZKuchni"));
 const SerwatkaDlaZwierzat = lazy(() => import("./pages/SerwatkaDlaZwierzat"));
 const NieudanySer = lazy(() => import("./pages/NieudanySer"));
 const MlekoDoSera = lazy(() => import("./pages/MlekoDoSera"));
@@ -176,6 +177,7 @@ const App = () => (
           <Route path="/pasze" element={<PaszeHub />} />
           <Route path="/pasze/udzial-surowcow" element={<UdzialSurowcow />} />
           <Route path="/pasze/kury-nie-niosa" element={<KuryNieNiosa />} />
+          <Route path="/pasze/resztki-z-kuchni" element={<ResztkiZKuchni />} />
           <Route path="/serwatka-dla-zwierzat" element={<SerwatkaDlaZwierzat />} />
           <Route path="/nieudany-ser" element={<NieudanySer />} />
           <Route path="/mleko-do-sera" element={<MlekoDoSera />} />

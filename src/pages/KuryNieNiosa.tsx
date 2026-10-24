@@ -98,6 +98,12 @@ const KuryNieNiosa = () => {
                     czego brakuje, i policzy, ile paszy kupić dla Twojego stada na miesiąc.
                   </p>
                 )}
+                {s.id === "resztki" && (
+                  <p className="text-sm mt-2">
+                    Co z kuchni kurom szkodzi i co mówią przepisy:{" "}
+                    <Link to="/pasze/resztki-z-kuchni" className="text-primary underline">Resztki z kuchni dla kur</Link>.
+                  </p>
+                )}
                 {s.id === "co-robic" && (
                   <p className="text-sm mt-3">
                     Ile grochu, bobiku, jęczmienia czy rzepaku można dać w paszy, opisujemy na stronie{" "}

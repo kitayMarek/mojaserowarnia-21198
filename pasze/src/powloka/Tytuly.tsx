@@ -36,6 +36,10 @@ const TYTULY: Record<string, { tytul: string; opis: string }> = {
     tytul: "Kury nie niosą jajek? Najczęstsze przyczyny | Moja Pasza",
     opis: "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
   },
+  "/poradnik/resztki-z-kuchni": {
+    tytul: "Resztki z kuchni dla kur: co wolno i ile | Moja Pasza",
+    opis: "Chleb, makaron, obierki, talerz po obiedzie. Ile resztek mogą dostać kury, co im szkodzi (sól, pleśń, awokado, surowa fasola) i co mówią przepisy.",
+  },
   "/auth": {
     tytul: "Logowanie | Moja Pasza",
     opis: "Zaloguj się, żeby zapisywać mieszanki z kalkulatora paszy.",

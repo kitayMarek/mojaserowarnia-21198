@@ -13,6 +13,7 @@
 
 import type { NormaDrobiu } from "../data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, udzialSurowca, zalecenieUdzialu } from "../data/udzialySurowcow.ts";
+import { KATEGORIA_Z_KUCHNI } from "../data/skladnikiZKuchni.ts";
 
 /**
  * Wiersz mieszanki. Pola bywają stringiem, bo na stronie pochodzą z formularza.
@@ -425,7 +426,8 @@ export interface Uzupelnienie {
 // gospodarskich (rozp. 999/2001), więc go nie podpowiadamy, nawet jeśli jest w bazie.
 // Koncentraty i gotowe mieszanki to nie dodatki, tylko inna pasza.
 const NIE_PODPOWIADAJ = /^(Mączka (mięsn|kostna|z krwi|z piór|KAMBAS)|Superkoncentrat|Koncentrat)/;
-const KATEGORIE_POMIJANE = new Set(["Gotowe mieszanki (pełnoporcjowe)", "Koncentraty"]);
+// Produktów z kuchni też nie: to nie dodatek, tylko to, co hodowca i tak daje.
+const KATEGORIE_POMIJANE = new Set(["Gotowe mieszanki (pełnoporcjowe)", "Koncentraty", KATEGORIA_Z_KUCHNI]);
 // Więcej niż tyle procent jednego surowca to już przebudowa mieszanki, a nie
 // uzupełnienie. Dla minerałów mniej: inaczej na brak sodu wychodziła serwatka w proszku 23%.
 const MAKS_UZUPELNIENIA = 25;

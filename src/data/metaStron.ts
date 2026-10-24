@@ -181,6 +181,13 @@ export const metaStron: Record<string, MetaStrony> = {
       "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
     mirror: "pasze/kury-nie-niosa.html",
   },
+  "/pasze/resztki-z-kuchni": {
+    // Od 24.10.2026, dla małych hodowców; treść: src/data/resztkiZKuchni.ts.
+    title: "Resztki z kuchni dla kur: co wolno, ile i czego unikać",
+    description:
+      "Chleb, makaron, obierki, talerz po obiedzie. Ile resztek mogą dostać kury, co im szkodzi (sól, pleśń, awokado, surowa fasola) i co mówią przepisy.",
+    mirror: "pasze/resztki-z-kuchni.html",
+  },
   "/poradniki": {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: Helmet (tytul), Helmet (opis).
     title: "Poradniki serowara | Start",

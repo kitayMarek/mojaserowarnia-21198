@@ -104,6 +104,11 @@ const PaszeHub = () => {
       href: "/pasze/kury-nie-niosa",
     },
     {
+      title: "Resztki z kuchni dla kur",
+      description: "Chleb, makaron, talerz po obiedzie: ile można dać, co szkodzi (sól, pleśń, awokado, surowa fasola) i co mówią przepisy.",
+      href: "/pasze/resztki-z-kuchni",
+    },
+    {
       title: "Ile jakiego surowca w paszy",
       description: "Górne granice zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
       href: "/pasze/udzial-surowcow",
