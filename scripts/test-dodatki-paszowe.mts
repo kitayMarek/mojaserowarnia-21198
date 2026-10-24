@@ -13,7 +13,8 @@ import {
 import { ZNACZNIKI_SUROWCOW, znacznikiSurowca } from "../src/data/gmoEkoSurowcow.ts";
 import { dawkaDomyslna, udzialSurowca } from "../src/data/udzialySurowcow.ts";
 import {
-  generujSugestie, graniceUdzialu, koncentratZeZbozem, kosztNaPtakaMiesiecznie, uzupelnienia, zawartosc,
+  dobierzProporcje, generujSugestie, graniceUdzialu, koncentratZeZbozem, kosztNaPtakaMiesiecznie, najtanszaMieszanka,
+  uzupelnienia, zawartosc,
 } from "../src/lib/bilansPaszy.ts";
 
 let testow = 0;
@@ -112,6 +113,34 @@ test("kreda z worka ma limit „Kreda pastewna”, DL-metionina wymaga dawki", (
   assert.equal(dawkaEtykiety(surowiec("Muszle ostryg OYTA 2 (Algavita)") as never), 3.5);
 });
 
+// Recenzja Codex do PR #1 (24.10.2026): dobór dawał 29% drożdży Leiber przy etykiecie 3–5%.
+test("dobór i najtańsza mieszanka trzymają górną dawkę z etykiety każdego produktu", () => {
+  const brojlery = { drob: "brojlery", okres: NORMY_DROBIU["brojlery"][0].okres };
+  for (const d of DODATKI_PASZOWE) {
+    const etykieta = d.dawkaProcDo ?? d.dawkaProcOd;
+    if (etykieta == null) continue;
+    for (const ptaki of [ptakiNioski, brojlery]) {
+      const [, maks] = graniceUdzialu({ nazwa: d.nazwa, procent: "" }, ptaki);
+      assert.ok(maks <= etykieta, `${d.nazwa}: granica ${maks}% ponad etykietę ${etykieta}% (${ptaki.drob})`);
+    }
+  }
+  const leiber = "Drożdże piwne Brewers Yeast S (Leiber)";
+  const m = [wiersz("Pszenica", 0), wiersz(leiber, 0), wiersz("Kreda pastewna", 0), wiersz("Fosforan dwuwapniowy", 0)];
+  let r = 7;
+  const losuj = () => ((r = (r * 16807) % 2147483647) / 2147483647);
+  for (const wynik of [dobierzProporcje(m, nioski, ptakiNioski, losuj), najtanszaMieszanka(m.map((s) => ({ ...s, cena: 1 })), nioski, ptakiNioski, losuj)]) {
+    const udzial = Number(wynik.find((s) => s.nazwa === leiber)!.procent);
+    assert.ok(udzial <= 5.0001, `drożdże Leiber ${udzial}% przy etykiecie do 5%`);
+  }
+  // Muszle OYTA: granica muszli (12%) obcięta do etykiety, ostrzeżenie zostaje z wpisu muszli.
+  assert.equal(graniceUdzialu({ nazwa: "Muszle ostryg OYTA 2 (Algavita)", procent: "" }, ptakiNioski)[1], 4);
+  assert.equal(udzialSurowca("Muszle ostryg OYTA 2 (Algavita)")?.ostrzezenie, udzialSurowca("Muszle mielone")?.ostrzezenie);
+});
+
+test("soja bez GMO: zalecenie sprzedawcy 10–20% nie jest granicą (brojlery potrzebują więcej)", () => {
+  assert.equal(graniceUdzialu({ nazwa: "Śruta sojowa bez GMO (Market-Rolniczy)", procent: "" }, { drob: "brojlery", okres: NORMY_DROBIU["brojlery"][0].okres })[1], 100);
+});
+
 test("sugestie widzą kredę z worka i koncentrat jako źródło białka", () => {
   const m = [wiersz("Pszenica", 62), wiersz("Koncentrat 30% Nioska (Rolpol)", 30), wiersz("Kreda pastewna Viva Max (Polcalc)", 8)];
   const s = generujSugestie(m, nioski, ptakiNioski).join("\n");
@@ -172,6 +201,24 @@ test("dawka w g na sztukę: bez dawki paszy produktu nie proponujemy, z nią naj
   assert.equal(uzupelnienia(m, nioski, ptakiNioski, drozdze, "bialko", 2, 0).length, 0);
   const [u] = uzupelnienia(m, nioski, ptakiNioski, drozdze, "bialko", 2, 118);
   assert.ok(u && Math.abs(u.dodajProc - (100 * 0.6) / 118) < 1e-9 && !u.domyka);
+});
+
+// Recenzja Codex do PR #1: dawka z etykiety dotyczy sumy, nie samej dokładki.
+test("produkt już w mieszance: propozycja razem z tym, co jest, nie przekracza etykiety", () => {
+  const oyta = "Muszle ostryg OYTA 2 (Algavita)";
+  const tylkoOyta = bazaUzupelnien.filter((s) => s.nazwa === oyta);
+  const m = (udzial: number) => [wiersz("Pszenica", 60), wiersz("Kukurydza", 25 - udzial), wiersz("Śruta sojowa", 15), wiersz(oyta, udzial)];
+  const [u] = uzupelnienia(m(3.5), nioski, ptakiNioski, tylkoOyta, "ca", 2, 118);
+  assert.ok(u && u.juzJest && 3.5 + u.dodajProc <= 4.0001, JSON.stringify(u));
+  assert.equal(uzupelnienia(m(4), nioski, ptakiNioski, tylkoOyta, "ca", 2, 118).length, 0);
+});
+
+test("premiks już w swojej dawce nie dostaje propozycji „więcej o dawkę”", () => {
+  const premiks = "Polfamix Nioska Extra (Trouw Nutrition)";
+  const m = [wiersz("Pszenica", 70), wiersz("Śruta sojowa", 22), wiersz("Kreda pastewna", 4), wiersz(premiks, 4)];
+  for (const pole of ["ca", "p", "na"] as const) {
+    assert.ok(!uzupelnienia(m, nioski, ptakiNioski, bazaUzupelnien, pole, 40, 118).some((x) => x.nazwa === premiks), pole);
+  }
 });
 
 // ── Koncentrat + Twoje zboże ──────────────────────────────────────────────

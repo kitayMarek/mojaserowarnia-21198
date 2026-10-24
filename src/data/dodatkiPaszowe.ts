@@ -426,7 +426,9 @@ const WPISY: Wpis[] = [
     nazwa: "Śruta sojowa bez GMO (Market-Rolniczy)", kategoria: "Produkty uboczne, śruty i oleje", odpowiednik: "Śruta sojowa", uzupelnijZ: "Śruta sojowa",
     producent: "nie podano (sprzedawca: Market-Rolniczy, Poznań)", gatunki: [],
     bialko: 46, tluszcz: 1.6, wlokno: 3.5,
-    dawkaProcDo: 20,
+    // Bez dawkaProcDo: sprzedawca podaje 10–20% dla wszystkich gatunków naraz, a od 24.10.2026
+    // górna dawka z etykiety jest granicą doboru (udzialySurowcow.ts). Brojler w starterze
+    // potrzebuje więcej soi, więc taka granica psułaby mu mieszankę. Zwykła śruta sojowa też jej nie ma.
     dawkowanie: "10–20% mieszanki (bez podziału na gatunki)",
     skladSurowcowy: "Śruta sojowa poekstrakcyjna bez GMO, worek 20 kg.",
     gmo: "nie", dopuszczalneEko: null,

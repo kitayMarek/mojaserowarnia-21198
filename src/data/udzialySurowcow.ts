@@ -371,20 +371,53 @@ const PO_NAZWIE = new Map(UDZIALY_SUROWCOW.flatMap((u) => u.nazwy.map((n) => [n,
 // dodatek w stałej dawce z dawką na etykiecie ma limit równy tej dawce: ogólne 3% dla
 // premiksów odrzuciłoby premiks 4% z jego własną etykietą. Do `nazwy` ich nie dopisujemy,
 // bo te listy pokazuje podstrona /pasze/udzial-surowcow.
+//
+// GÓRNA DAWKA Z ETYKIETY OBOWIĄZUJE ZAWSZE (recenzja Codex do PR #1, poprawka 24.10.2026).
+// Wcześniej produkt bez wpisu wzorcowego (drożdże Leiber, koncentraty Rolpol) nie miał
+// żadnej granicy, a z wpisem bez stałej dawki brał tylko granicę surowca (muszle OYTA 12%
+// zamiast 4%). Dobór dawał wtedy 29% drożdży przy etykiecie 3–5%. Teraz granica to
+// mniejsza z liczb: zalecenie surowca dla grupy ptaków i dawka z etykiety.
+const GRUPY = Object.keys(GRUPY_PTAKOW) as GrupaPtakow[];
+const procentPL = (n: number) => String(n).replace(".", ",");
 for (const d of DODATKI_PASZOWE) {
+  if (PO_NAZWIE.has(d.nazwa)) continue;
   const wzor = PO_NAZWIE.get(d.odpowiednik ?? d.limityJak ?? (d.kategoria === "Premiksy" ? "Premiks IF-W" : ""));
-  if (!wzor || PO_NAZWIE.has(d.nazwa)) continue;
   const zEtykiety = d.dawkaProcDo ?? d.dawkaProcOd;
-  PO_NAZWIE.set(d.nazwa, wzor.stalaDawka === true && zEtykiety != null
-    ? {
-        ...wzor,
-        surowiec: d.nazwa,
-        nazwy: [d.nazwa],
-        grupy: Object.fromEntries(Object.keys(wzor.grupy).map((g) => [g, { maks: zEtykiety }])),
-        powod: `Dawka z etykiety producenta: ${String(zEtykiety).replace(".", ",")}% mieszanki.`,
-        doPotwierdzenia: undefined,
-      }
-    : wzor);
+  if (zEtykiety == null) {
+    if (wzor) PO_NAZWIE.set(d.nazwa, wzor);
+    continue;
+  }
+  const powodEtykiety = `Dawka z etykiety producenta: ${procentPL(zEtykiety)}% mieszanki.`;
+  if (wzor?.stalaDawka === true) {
+    PO_NAZWIE.set(d.nazwa, {
+      ...wzor,
+      surowiec: d.nazwa,
+      nazwy: [d.nazwa],
+      grupy: Object.fromEntries(Object.keys(wzor.grupy).map((g) => [g, { maks: zEtykiety }])),
+      powod: powodEtykiety,
+      doPotwierdzenia: undefined,
+    });
+  } else if (wzor) {
+    // Grupa bez własnej liczby (źródła milczą, a kaczki i gęsi biorą wtedy rosnące) też dostaje etykietę.
+    const grupy = Object.fromEntries(GRUPY.map((g) => {
+      const z = zalecenieGrupy(wzor, g)?.z;
+      if (z && z.maks <= zEtykiety && (z.maksZEnzymem ?? 0) <= zEtykiety) return [g, z];
+      return [g, {
+        maks: Math.min(z?.maks ?? zEtykiety, zEtykiety),
+        ...(z?.maksZEnzymem != null ? { maksZEnzymem: Math.min(z.maksZEnzymem, zEtykiety) } : {}),
+      }];
+    }));
+    PO_NAZWIE.set(d.nazwa, { ...wzor, surowiec: d.nazwa, nazwy: [d.nazwa], grupy, powod: `${wzor.powod} ${powodEtykiety}` });
+  } else {
+    PO_NAZWIE.set(d.nazwa, {
+      surowiec: d.nazwa,
+      nazwy: [d.nazwa],
+      grupy: Object.fromEntries(GRUPY.map((g) => [g, { maks: zEtykiety }])),
+      powod: powodEtykiety,
+      ostrzezenie: "Więcej, niż podaje etykieta producenta: sprawdź dawkowanie na worku albo zapytaj producenta.",
+      zrodla: ["wyliczone"],
+    });
+  }
 }
 
 /** Wpis dla surowca z bazy kalkulatora albo undefined, gdy surowiec nie ma ograniczeń. */

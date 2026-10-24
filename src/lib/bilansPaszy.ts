@@ -532,9 +532,17 @@ export function uzupelnienia(
     // Premiks w stałej dawce: liczymy, co da w dawce z etykiety. Sól też ma stałą
     // dawkę w doborze, ale przy uzupełnianiu to właśnie jej ilość się zmienia.
     const stala = udzialSurowca(s.nazwa)?.stalaDawka === true;
+    // Udział surowca, który już jest w mieszance. Strona dosypuje propozycję do jego wiersza,
+    // więc dawka z etykiety i zalecane maksimum dotyczą sumy, nie samej dokładki (recenzja
+    // Codex do PR #1: przy 3,5% muszli OYTA proponowało jeszcze 4%, razem 7,5% przy etykiecie 4%).
+    const obecny = naliczone.find((p) => p.nazwa === s.nazwa);
+    const juzJest = !!obecny;
+    const obecnyUdzial = obecny ? (100 * liczba(obecny.procent)) / suma : 0;
     let x: number;
     let wDawceEtykiety = stala;
     if (stala) {
+      // Premiks już jest w swojej dawce: „więcej o całą dawkę” to podwójny premiks.
+      if (juzJest) continue;
       x = dawkaDomyslna(s.nazwa);
       if (!x) continue;
     } else {
@@ -548,20 +556,23 @@ export function uzupelnienia(
         if (!(dawkaG > 0)) continue;
         doo = (100 * s.dawkaGDziennie) / dawkaG;
       }
-      if (doo != null && x > doo) { x = doo; wDawceEtykiety = true; }
+      if (doo != null) {
+        const zostalo = doo - obecnyUdzial;
+        if (zostalo <= 0.05) continue;
+        if (x > zostalo) { x = zostalo; wDawceEtykiety = true; }
+      }
       if (x > limit) continue;
     }
 
     // Mieszanka po dodaniu: dotychczasowe składniki razem na (100 - x)%, nowy na x%.
     const skala = (100 - x) / suma;
-    const juzJest = naliczone.some((p) => p.nazwa === s.nazwa);
     const po = [...naliczone.map((p) => ({ ...p, procent: liczba(p.procent) * skala })), { ...s, procent: x }];
     const wynikPo = oceny(po);
     const przekroczy = POLA_NORM.flatMap((p, i) =>
       wynikPo[i] === "za-wysoko" && przed[i] !== "za-wysoko"
         ? [{ pole: p, wynik: zawartosc(po, p), norma: (norma as unknown as Record<string, number>)[p] }]
         : []);
-    const ponadMaks = maks != null && x > maks + 0.05;
+    const ponadMaks = maks != null && obecnyUdzial + x > maks + 0.05;
     const domyka = zawartosc(po, parametr) >= cel * 0.999;
 
     const najtansza = najtanszaOferta(s.oferty);
