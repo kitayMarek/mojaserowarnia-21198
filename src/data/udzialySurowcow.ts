@@ -17,6 +17,8 @@
  * groch i bobik 25% także dla piskląt).
  */
 
+import { DODATKI_PASZOWE, dawkaEtykiety, dodatekPoNazwie } from "./dodatkiPaszowe.ts";
+
 /** Grupy, dla których źródła podają osobne limity. */
 export type GrupaPtakow = "mlode" | "rosnace" | "nioski" | "wodne";
 
@@ -364,6 +366,27 @@ export const UDZIALY_SUROWCOW: UdzialSurowca[] = [
 
 const PO_NAZWIE = new Map(UDZIALY_SUROWCOW.flatMap((u) => u.nazwy.map((n) => [n, u] as const)));
 
+// Produkty z bazy dodatków (od 24.10.2026) dostają limit swojego surowca wzorcowego:
+// kreda z worka ten sam co „Kreda pastewna”, sól ten sam co „Sól kuchenna”. Premiks albo
+// dodatek w stałej dawce z dawką na etykiecie ma limit równy tej dawce: ogólne 3% dla
+// premiksów odrzuciłoby premiks 4% z jego własną etykietą. Do `nazwy` ich nie dopisujemy,
+// bo te listy pokazuje podstrona /pasze/udzial-surowcow.
+for (const d of DODATKI_PASZOWE) {
+  const wzor = PO_NAZWIE.get(d.odpowiednik ?? d.limityJak ?? (d.kategoria === "Premiksy" ? "Premiks IF-W" : ""));
+  if (!wzor || PO_NAZWIE.has(d.nazwa)) continue;
+  const zEtykiety = d.dawkaProcDo ?? d.dawkaProcOd;
+  PO_NAZWIE.set(d.nazwa, wzor.stalaDawka === true && zEtykiety != null
+    ? {
+        ...wzor,
+        surowiec: d.nazwa,
+        nazwy: [d.nazwa],
+        grupy: Object.fromEntries(Object.keys(wzor.grupy).map((g) => [g, { maks: zEtykiety }])),
+        powod: `Dawka z etykiety producenta: ${String(zEtykiety).replace(".", ",")}% mieszanki.`,
+        doPotwierdzenia: undefined,
+      }
+    : wzor);
+}
+
 /** Wpis dla surowca z bazy kalkulatora albo undefined, gdy surowiec nie ma ograniczeń. */
 export const udzialSurowca = (nazwa: string): UdzialSurowca | undefined => PO_NAZWIE.get(nazwa);
 
@@ -386,12 +409,15 @@ export function zalecenieUdzialu(nazwa: string, grupa: GrupaPtakow | null): (Zal
 }
 
 /**
- * Dawka dodatku w stałej dawce, gdy w wierszu nic nie wpisano: z pliku (sól)
- * albo z nazwy premiksu („Premiks 2,5% KW-1” -> 2,5). 0 = trzeba ją podać.
+ * Dawka dodatku w stałej dawce, gdy w wierszu nic nie wpisano: z etykiety produktu
+ * z bazy dodatków, z pliku (sól) albo z nazwy premiksu („Premiks 2,5% KW-1” -> 2,5).
+ * 0 = trzeba ją podać.
  */
 export function dawkaDomyslna(nazwa: string): number {
   const wpis = udzialSurowca(nazwa);
   if (!wpis?.stalaDawka) return 0;
+  const produkt = dodatekPoNazwie(nazwa);
+  if (produkt && dawkaEtykiety(produkt) > 0) return dawkaEtykiety(produkt);
   if (typeof wpis.stalaDawka === "number") return wpis.stalaDawka;
   const z = nazwa.match(/^Premi(?:ks|x) (\d+(?:[.,]\d+)?)/);
   return z ? parseFloat(z[1].replace(",", ".")) : 0;

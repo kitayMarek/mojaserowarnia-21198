@@ -4,8 +4,10 @@
  *
  * TE SAME LICZBY I TEN SAM ALGORYTM CO NA STRONIE. Surowce: migawka
  * src/data/feedIngredients.ts (124 pozycje z arkusza Marka, z ktorego powstala
- * tez tabela feed_ingredients). Normy: src/data/normyDrobiu.ts. Ocena, dobor
- * i sugestie: src/lib/bilansPaszy.ts, z ktorego korzysta src/pages/KalkulatorPasz.tsx.
+ * tez tabela feed_ingredients) i od 0.8.0 produkty z bazy dodatkow
+ * (src/data/dodatkiPaszowe.ts: sklad z etykiety, oferty sklepow). Normy:
+ * src/data/normyDrobiu.ts. Ocena, dobor i sugestie: src/lib/bilansPaszy.ts,
+ * z ktorego korzysta src/pages/KalkulatorPasz.tsx.
  *
  * Jedyna roznica wobec strony: dobor proporcji uzywa generatora z ziarnem
  * zamiast Math.random i robi kilka podejsc. To samo pytanie daje wtedy te sama
@@ -14,10 +16,14 @@
 
 import { feedIngredients as SUROWCE_PASZ, feedCategories } from '../../src/data/feedIngredients.ts';
 import { SKLADNIKI_Z_KUCHNI, KATEGORIA_Z_KUCHNI } from '../../src/data/skladnikiZKuchni.ts';
+import { DODATKI_PASZOWE, adresOferty, cenaZaKg, najtanszaOferta } from '../../src/data/dodatkiPaszowe.ts';
+import { OPIS_GMO, opisEko, znacznikiSurowca } from '../../src/data/gmoEkoSurowcow.ts';
 
-// Surowce paszowe plus produkty z kuchni (od 0.7.0, skład przybliżony z tabel żywności),
-// żeby można było policzyć mieszankę z resztkami. Kalkulator na stronie ma te same.
-const feedIngredients = [...SUROWCE_PASZ, ...SKLADNIKI_Z_KUCHNI];
+// Surowce paszowe, produkty z bazy dodatków (od 0.8.0: kreda z worka, premiks, koncentrat)
+// i produkty z kuchni (od 0.7.0, skład przybliżony z tabel żywności), żeby można było
+// policzyć mieszankę z konkretnym produktem albo z resztkami. Kalkulator na stronie ma te same.
+const feedIngredients = [...SUROWCE_PASZ, ...DODATKI_PASZOWE, ...SKLADNIKI_Z_KUCHNI];
+const PRODUKTY = new Set(DODATKI_PASZOWE.map((d) => d.nazwa));
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import {
   POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maksUdzialu,
@@ -58,13 +64,16 @@ function zaleceniaUdzialow(drob, okres) {
 /**
  * Czym uzupełnić parametry poniżej normy (od 0.6.0): do dwóch surowców z bazy,
  * ile ich dodać do mieszanki i co przy tym wyjdzie ponad normę. Ta sama funkcja
- * co przyciski „Czym uzupełnić” w kalkulatorze na stronie.
+ * co przyciski „Czym uzupełnić” w kalkulatorze na stronie. Od 0.8.0 także produkty
+ * z bazy dodatków: producent, najtańsza oferta z datą ceny i koszt na ptaka przez
+ * 30 dni (udział × dawka paszy × 30 dni × cena za kg). Kolejność tylko po składzie
+ * i cenie; partner jest jawnie oznaczony, ale na nią nie wpływa.
  */
-function uzupelnieniaBrakow(pozycje, norma, ptaki) {
+function uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG = 0) {
   const wynik = [];
   for (const pole of POLA_NORM) {
     if (norma[pole] == null || sprawdzNorme(zawartosc(pozycje, pole), norma[pole], TOLERANCJE[pole]) !== 'za-nisko') continue;
-    const propozycje = uzupelnienia(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 })), pole);
+    const propozycje = uzupelnienia(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 })), pole, 2, dawkaG);
     if (!propozycje.length) continue;
     wynik.push({
       parametr: PARAMETRY[pole][0],
@@ -74,10 +83,27 @@ function uzupelnieniaBrakow(pozycje, norma, ptaki) {
         ...(u.juzJest ? { juz_w_mieszance: true } : {}),
         ...(u.domyka ? {} : { nie_domyka: 'w dawce z etykiety nie wyrówna braku' }),
         ...(u.przekroczy.length ? { przekroczy_norme: u.przekroczy.map((p) => PARAMETRY[p.pole][0]) } : {}),
+        ...(u.producent ? { producent: u.producent, karta: 'narzędzie dodatek z tą nazwą' } : {}),
+        ...(u.oferta ? { najtansza_oferta: ofertaDlaModelu(u.oferta) } : {}),
+        ...(u.kosztNaPtakaMiesiecznieZl != null ? { koszt_na_ptaka_30_dni_zl: zaokr(u.kosztNaPtakaMiesiecznieZl, 2) } : {}),
+        ...(u.kosztNaKgPaszyZl != null ? { koszt_w_kg_paszy_zl: zaokr(u.kosztNaKgPaszyZl, 3) } : {}),
+        ...(u.partner ? { partner_serwisu: true } : {}),
       })),
     });
   }
   return wynik;
+}
+
+/** Oferta sklepu w odpowiedzi MCP: link ze znacznikiem, cena za kg i data ceny. */
+export function ofertaDlaModelu(o) {
+  return {
+    sklep: o.sklep,
+    cena_zl: o.cenaZl,
+    opakowanie_kg: o.opakowanieKg,
+    cena_za_kg_zl: zaokr(cenaZaKg(o), 2),
+    cena_z_dnia: o.sprawdzono,
+    url: adresOferty(o.url),
+  };
 }
 
 /** Składniki ponad zalecane maksimum, z ryzykiem dla zdrowia ptaków. */
@@ -126,9 +152,9 @@ const BEZ_NORMY = {
   thr: ['Treonina', '%'],
 };
 
-const zaokr = (x, miejsc = 2) => (x == null ? null : Math.round(x * 10 ** miejsc) / 10 ** miejsc);
+export const zaokr = (x, miejsc = 2) => (x == null ? null : Math.round(x * 10 ** miejsc) / 10 ** miejsc);
 
-function normalizuj(tekst) {
+export function normalizuj(tekst) {
   return (tekst || '')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
@@ -160,7 +186,7 @@ function znajdzSurowiec(nazwa) {
 }
 
 /** Okres po nazwie: dokladnie albo jedyny, ktorego nazwa zawiera podany tekst. */
-function znajdzNorme(drob, okres) {
+export function znajdzNorme(drob, okres) {
   const okresy = NORMY_DROBIU[drob] ?? [];
   const szukane = normalizuj(okres);
   const dokladna = okresy.find((n) => normalizuj(n.okres) === szukane);
@@ -251,7 +277,9 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
   const { poza_norma, w_normie, bez_normy } = ocenaMieszanki(pozycje, norma);
   const ptaki = { drob, okres: norma.okres };
   const ponad = ponadZalecenia(pozycje, ptaki);
-  const uzup = uzupelnieniaBrakow(pozycje, norma, ptaki);
+  // Dawka paszy do kosztu na ptaka: ze stada, a bez niej typowa z poradnika rasy (nioski).
+  const dawkaG = stado?.dawka_g ?? dawkaTypowa(drob, norma.okres)?.g ?? 0;
+  const uzup = uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG);
   return {
     gatunek: etykietaGatunku(drob),
     okres: norma.okres,
@@ -285,11 +313,21 @@ export function skladnikiPaszy({ zapytanie, kategoria, pelny = false, limit = 15
     (!kategoria || s.kategoria === kategoria) &&
     slowa.every((w) => normalizuj(s.nazwa).split(' ').some((x) => x.startsWith(w)) || normalizuj(s.kategoria).includes(w)));
   const pokaz = trafione.slice(0, limit).map((s) => {
+    // GMO i eko (od 0.8.0): produkt z etykiety, surowiec wzorcowy z src/data/gmoEkoSurowcow.ts.
+    const znaczniki = PRODUKTY.has(s.nazwa) ? s : znacznikiSurowca(s.nazwa);
+    const najtansza = PRODUKTY.has(s.nazwa) ? najtanszaOferta(s.oferty) : null;
     const podstawa = {
       nazwa: s.nazwa, kategoria: s.kategoria,
       em_mj_kg: s.em, bialko_proc: s.bialko, ca_proc: s.ca, p_proc: s.p, wlokno_proc: s.wlokno,
       tluszcz_proc: s.tluszcz, lizyna_proc: s.lys, metionina_proc: s.met,
+      gmo: OPIS_GMO[znaczniki.gmo], eko: opisEko(znaczniki.dopuszczalneEko),
+      ...(PRODUKTY.has(s.nazwa) ? { producent: s.producent, najtansza_oferta: najtansza ? ofertaDlaModelu(najtansza) : null, karta: 'narzędzie dodatek' } : {}),
     };
+    if (PRODUKTY.has(s.nazwa)) {
+      // Pełny skład produktu bez pól karty (oferty, uwagi): te zwraca narzędzie dodatek.
+      const { oferty: _o, uwagi: _u, zrodlo: _z, ...sklad } = s;
+      return pelny || trafione.length === 1 ? { ...podstawa, sklad_pelny: sklad } : podstawa;
+    }
     return pelny || trafione.length === 1 ? { ...podstawa, sklad_pelny: s } : podstawa;
   });
   return {

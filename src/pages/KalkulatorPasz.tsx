@@ -2,6 +2,9 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import KartaSkladnika, { SZER_CENA, SZER_PRZYCISKI, SZER_UDZIAL } from '@/components/kalkulator/KartaSkladnika';
 import PelnySklad from '@/components/kalkulator/PelnySklad';
 import StadoKarta from '@/components/kalkulator/StadoKarta';
+import KartaProduktu from '@/components/kalkulator/KartaProduktu';
+import BazaDodatkow from '@/components/kalkulator/BazaDodatkow';
+import KoncentratZeZbozemSekcja from '@/components/kalkulator/KoncentratZeZbozem';
 import WynikMieszanki from '@/components/kalkulator/WynikMieszanki';
 import ZapisaneReceptury, { PodpowiedzZapisu } from '@/components/kalkulator/ZapisaneReceptury';
 import {
@@ -18,7 +21,7 @@ import ReactionButton from "@/components/ReactionButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, Plug, Plus, Target, Wheat } from 'lucide-react';
+import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, Package, Plug, Plus, Target, Wheat } from 'lucide-react';
 import PageHeader from "@/components/PageHeader";
 // Już nie na stronie (tytuł był w niej wtopiony), ale zostaje jako og:image do podglądów linków.
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
@@ -27,6 +30,8 @@ import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from "@/data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/data/udzialySurowcow";
+import { cenaZaKg, najtanszaOferta } from "@/data/dodatkiPaszowe";
+import { OPIS_GMO, opisEko, znacznikiSurowca } from "@/data/gmoEkoSurowcow";
 import {
   maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki,
   sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
@@ -140,8 +145,9 @@ const KalkulatorPasz = () => {
   const wczytajSkladniki = (): PrzykladowySkladnik[] => feedIngredients;
 
   const [przykladoweSkladniki, setPrzykladoweSkladniki] = useState<PrzykladowySkladnik[]>(wczytajSkladniki());
-  // baza z pliku (124) + zatwierdzone zgłoszenia userów z Supabase
-  const { ingredients: feedMerged } = useFeedIngredients();
+  // baza z pliku (124) + zatwierdzone zgłoszenia userów z Supabase + produkty z bazy dodatków
+  const { ingredients: feedMerged, dodatki } = useFeedIngredients();
+  const dodatkiPoNazwie = useMemo(() => new Map(dodatki.map(d => [d.nazwa, d])), [dodatki]);
   useEffect(() => { setPrzykladoweSkladniki(feedMerged); }, [feedMerged]);
 
   // Plaska lista dla wyszukiwarki skladnikow. Liczona raz - wczesniej lista opcji
@@ -152,10 +158,18 @@ const KalkulatorPasz = () => {
     [przykladoweSkladniki],
   );
   // Baza surowców w kształcie wiersza mieszanki, dla propozycji „czym uzupełnić”.
+  // Produkty z bazy dodatków niosą do tego producenta, oferty, odpowiednik i dawkę z etykiety.
   const bazaUzupelnien = useMemo(
-    () => przykladoweSkladniki.map(p => ({ ...p, procent: 0 })),
-    [przykladoweSkladniki],
+    () => przykladoweSkladniki.map(p => ({ ...p, ...(dodatkiPoNazwie.get(p.nazwa) ?? {}), procent: 0 })),
+    [przykladoweSkladniki, dodatkiPoNazwie],
   );
+  // Karta produktu i lista bazy dodatków (od 24.10.2026).
+  const [kartaProduktu, setKartaProduktu] = useState<string | null>(null);
+  const [bazaDodatkowOtwarta, setBazaDodatkowOtwarta] = useState(false);
+  const pokazKarteProduktu = useCallback((nazwa: string) => {
+    setBazaDodatkowOtwarta(false);
+    setKartaProduktu(nazwa);
+  }, []);
   const [zaproponujOpen, setZaproponujOpen] = useState(false);
   const [pokazModalEksport, setPokazModalEksport] = useState(false);
   const [eksportTresc, setEksportTresc] = useState('');
@@ -537,8 +551,55 @@ const KalkulatorPasz = () => {
   // innego parametru ponad normę. Do 24.10 były to po prostu trzy surowce
   // najbogatsze w dany składnik, bez ilości. Logika w bilansPaszy.ts, to samo
   // zwraca serwer MCP w polu uzupelnienia.
+  // Z dawką paszy na ptaka (krok 4 albo typowa z poradnika rasy) także koszt na ptaka przez 30 dni.
   const propozycjeUzupelnien = (pole: PoleParametru): Uzupelnienie[] =>
-    aktualnaNorma ? uzupelnienia(skladniki, aktualnaNorma, ptaki, bazaUzupelnien, pole) : [];
+    aktualnaNorma ? uzupelnienia(skladniki, aktualnaNorma, ptaki, bazaUzupelnien, pole, 2, dawkaLiczba) : [];
+
+  // Wiersz mieszanki z surowca z bazy. Produkt z bazy dodatków dostaje cenę z najtańszej oferty.
+  const wierszZBazy = (przyklad: PrzykladowySkladnik, procent: string): Skladnik => {
+    const oferta = najtanszaOferta(dodatkiPoNazwie.get(przyklad.nazwa)?.oferty);
+    return {
+      nazwa: przyklad.nazwa,
+      procent,
+      em: przyklad.em,
+      bialko: przyklad.bialko,
+      ca: przyklad.ca,
+      p: przyklad.p,
+      wlokno: przyklad.wlokno || 0,
+      cena: oferta ? cenaZaKg(oferta).toFixed(2) : '',
+      na: przyklad.na || 0,
+      k: przyklad.k || 0,
+      mg: przyklad.mg || 0,
+      mn: przyklad.mn || 0,
+      zn: przyklad.zn || 0,
+      se: przyklad.se || 0,
+      fe: przyklad.fe || 0,
+      i: przyklad.i || 0
+    };
+  };
+
+  // „Koncentrat + Twoje zboże”: mieszanka z karty koncentratu zastępuje obecną. Zboża
+  // zostają ze swoimi cenami; resztę koncentrat zastępuje, więc mówimy, co wypadło.
+  const wstawMieszankeKoncentratu = (mieszanka: { nazwa: string; procent: number }[], opis: string) => {
+    const nowe = mieszanka.flatMap(({ nazwa, procent }) => {
+      const przyklad = przykladoweSkladniki.find(p => p.nazwa === nazwa);
+      if (!przyklad) return [];
+      const byl = skladniki.find(s => s.nazwa === nazwa);
+      const w = wierszZBazy(przyklad, '');
+      return [{ ...w, cena: byl?.cena || w.cena, procent }];
+    });
+    const udzialy = doJednegoMiejsca(nowe);
+    const usuniete = skladniki.filter(s => s.nazwa && !nowe.some(n => n.nazwa === s.nazwa)).map(s => s.nazwa);
+    setSkladniki(nowe.map(n => ({ ...n, procent: udzialy.get(n.nazwa) ?? String(n.procent) })));
+    setKartaProduktu(null);
+    pokazWynik({
+      rodzaj: 'ok',
+      tytul: `Wstawiono: ${opis}`,
+      tresc: usuniete.length
+        ? `Koncentrat zastępuje pozostałe składniki, więc wypadły: ${usuniete.join(', ')}.`
+        : 'Sprawdź wynik: energię, białko, wapń i fosfor.',
+    });
+  };
 
   const dodajSkladnikZSugestii = (nazwaSkladnika: string, procent?: number) => {
     const przyklad = przykladoweSkladniki.find(p => p.nazwa === nazwaSkladnika);
@@ -560,24 +621,7 @@ const KalkulatorPasz = () => {
     // Znajdź pierwszy pusty wiersz lub dodaj nowy
     const pustyIndex = skladniki.findIndex(s => !s.nazwa || s.nazwa === '');
 
-    const nowySkladnik: Skladnik = {
-      nazwa: przyklad.nazwa,
-      procent: ilosc != null ? String(ilosc) : '',
-      em: przyklad.em,
-      bialko: przyklad.bialko,
-      ca: przyklad.ca,
-      p: przyklad.p,
-      wlokno: przyklad.wlokno || 0,
-      cena: '',
-      na: przyklad.na || 0,
-      k: przyklad.k || 0,
-      mg: przyklad.mg || 0,
-      mn: przyklad.mn || 0,
-      zn: przyklad.zn || 0,
-      se: przyklad.se || 0,
-      fe: przyklad.fe || 0,
-      i: przyklad.i || 0
-    };
+    const nowySkladnik = wierszZBazy(przyklad, ilosc != null ? String(ilosc) : '');
 
     if (pustyIndex !== -1) {
       // Zastąp pusty wiersz
@@ -619,6 +663,12 @@ const KalkulatorPasz = () => {
       stala: !!z.wpis.stalaDawka,
       domyslna: dawkaDomyslna(nazwa),
     };
+  };
+  // GMO i chów ekologiczny do „Skład i limity”: produkt z etykiety, surowiec z mapy (src/data/gmoEkoSurowcow.ts).
+  const znacznikiDla = (nazwa: string) => {
+    if (!nazwa) return '';
+    const z = dodatkiPoNazwie.get(nazwa) ?? znacznikiSurowca(nazwa);
+    return `${OPIS_GMO[z.gmo]} · ${opisEko(z.dopuszczalneEko)}`;
   };
   const wlasneLimity = skladniki
     .filter(s => s.nazwa && (s.min || s.max))
@@ -768,6 +818,9 @@ const KalkulatorPasz = () => {
                         ostrzezenie={z?.ostrzezenie ?? ''}
                         stalaDawka={z?.stala ?? false}
                         dawkaDomyslna={z?.domyslna ?? 0}
+                        znaczniki={znacznikiDla(skladnik.nazwa)}
+                        produkt={dodatkiPoNazwie.has(skladnik.nazwa)}
+                        onKartaProduktu={pokazKarteProduktu}
                         onZmiana={aktualizujSkladnik}
                         onUsun={usunSkladnik}
                       />
@@ -782,6 +835,14 @@ const KalkulatorPasz = () => {
                 >
                   <Plus className="h-5 w-5" aria-hidden="true" />
                   Dodaj składnik
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBazaDodatkowOtwarta(true)}
+                  className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:border-primary hover:bg-primary/5"
+                >
+                  <Package className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                  Koncentraty, premiksy i dodatki z etykietą i ceną ({dodatki.length})
                 </button>
                 <p className="mt-2 text-center text-sm">
                   <button
@@ -876,6 +937,7 @@ const KalkulatorPasz = () => {
                 propozycjeW={propozycjeUzupelnien}
                 dawkaG={dawkaLiczba}
                 onDodajSkladnik={dodajSkladnikZSugestii}
+                onPokazKarte={pokazKarteProduktu}
                 pelnySklad={
                   // Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,
                   // nie z kart składników.
@@ -1039,6 +1101,27 @@ const KalkulatorPasz = () => {
       )}
 
       {zaproponujOpen && <ZaproponujSkladnikDialog onClose={() => setZaproponujOpen(false)} />}
+
+      <BazaDodatkow
+        otwarta={bazaDodatkowOtwarta}
+        onZamknij={() => setBazaDodatkowOtwarta(false)}
+        dodatki={dodatki}
+        onWybierz={pokazKarteProduktu}
+      />
+      <KartaProduktu
+        dodatek={kartaProduktu ? dodatkiPoNazwie.get(kartaProduktu) ?? null : null}
+        onZamknij={() => setKartaProduktu(null)}
+        onDodaj={dodajSkladnikZSugestii}
+        koncentrat={kartaProduktu && dodatkiPoNazwie.get(kartaProduktu) && (
+          <KoncentratZeZbozemSekcja
+            koncentrat={dodatkiPoNazwie.get(kartaProduktu)!}
+            pozycje={skladniki}
+            baza={bazaUzupelnien}
+            norma={aktualnaNorma}
+            onWstaw={wstawMieszankeKoncentratu}
+          />
+        )}
+      />
 
       <Footer />
     </>

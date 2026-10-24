@@ -61,7 +61,8 @@ const WARTOSCI: Array<{ pole: keyof Skladnik; etykieta: string; krok: string }> 
 ];
 
 function KartaSkladnika({
-  skladnik, idx, pozycje, zalecenie, zalecaneMaks, powod, ostrzezenie, stalaDawka, dawkaDomyslna, onZmiana, onUsun,
+  skladnik, idx, pozycje, zalecenie, zalecaneMaks, powod, ostrzezenie, stalaDawka, dawkaDomyslna,
+  znaczniki, produkt, onKartaProduktu, onZmiana, onUsun,
 }: {
   skladnik: Skladnik;
   idx: number;
@@ -77,6 +78,11 @@ function KartaSkladnika({
   stalaDawka: boolean;
   /** Dawka przyjmowana bez wpisu (sól 0,3%, premiks z nazwy); 0 = trzeba wpisać z etykiety. */
   dawkaDomyslna: number;
+  /** GMO i chów ekologiczny słowami (od 24.10.2026), np. „bez GMO · eko: nie oceniano”. */
+  znaczniki: string;
+  /** Składnik to produkt z bazy dodatków: ma kartę z producentem i ofertami. */
+  produkt: boolean;
+  onKartaProduktu: (nazwa: string) => void;
   onZmiana: (idx: number, pole: string, wartosc: string) => void;
   onUsun: (idx: number) => void;
 }) {
@@ -178,6 +184,19 @@ function KartaSkladnika({
                 Skąd te granice?
               </Link>
             </div>
+          )}
+          {(produkt || znaczniki) && (
+            <p className="mb-2 text-xs text-muted-foreground">
+              {znaczniki}
+              {produkt && (
+                <>
+                  {znaczniki && " · "}
+                  <button type="button" onClick={() => onKartaProduktu(skladnik.nazwa)} className="font-semibold text-primary underline-offset-4 hover:underline">
+                    Karta produktu: skład z etykiety i ceny
+                  </button>
+                </>
+              )}
+            </p>
           )}
           <p className="mb-2 text-xs text-muted-foreground">
             Wartości z bazy surowców. Zmiana działa tylko w tej mieszance.
