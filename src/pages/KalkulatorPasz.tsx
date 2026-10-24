@@ -30,6 +30,7 @@ import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/d
 import {
   maWartosci, dobierzProporcje, najtanszaMieszanka, generujSugestie as sugestieDoMieszanki,
   sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
+  uzupelnienia, type Uzupelnienie,
 } from "@/lib/bilansPaszy";
 
 /*
@@ -148,6 +149,11 @@ const KalkulatorPasz = () => {
   // w dowolnym z szesnastu pol liczbowych, co dawalo najgorszy INP w serwisie.
   const pozycjeDoWyboru = useMemo(
     () => przykladoweSkladniki.map(p => ({ nazwa: p.nazwa, kategoria: p.kategoria ?? '' })),
+    [przykladoweSkladniki],
+  );
+  // Baza surowców w kształcie wiersza mieszanki, dla propozycji „czym uzupełnić”.
+  const bazaUzupelnien = useMemo(
+    () => przykladoweSkladniki.map(p => ({ ...p, procent: 0 })),
     [przykladoweSkladniki],
   );
   const [zaproponujOpen, setZaproponujOpen] = useState(false);
@@ -527,25 +533,36 @@ const KalkulatorPasz = () => {
   const generujSugestie = (skladnikiDoSprawdzenia: Skladnik[]) =>
     sugestieDoMieszanki(skladnikiDoSprawdzenia, aktualnaNorma, ptaki);
 
-  // Trzy surowce z bazy najbogatsze w dany składnik (przyciski „dodaj” przy ostrzeżeniu).
-  const znajdzBogateSkladniki = (pole: PoleParametru) =>
-    przykladoweSkladniki
-      .map(s => ({ nazwa: s.nazwa, wartosc: (s[pole as keyof PrzykladowySkladnik] as number) || 0 }))
-      .filter(s => typeof s.wartosc === 'number' && s.wartosc > 0)
-      .sort((a, b) => b.wartosc - a.wartosc)
-      .slice(0, 3);
+  // Czym uzupełnić brak parametru (od 24.10.2026): ile dodać i czy nie wypchnie
+  // innego parametru ponad normę. Do 24.10 były to po prostu trzy surowce
+  // najbogatsze w dany składnik, bez ilości. Logika w bilansPaszy.ts, to samo
+  // zwraca serwer MCP w polu uzupelnienia.
+  const propozycjeUzupelnien = (pole: PoleParametru): Uzupelnienie[] =>
+    aktualnaNorma ? uzupelnienia(skladniki, aktualnaNorma, ptaki, bazaUzupelnien, pole) : [];
 
-  const dodajSkladnikZSugestii = (nazwaSkladnika: string) => {
+  const dodajSkladnikZSugestii = (nazwaSkladnika: string, procent?: number) => {
     const przyklad = przykladoweSkladniki.find(p => p.nazwa === nazwaSkladnika);
     if (!przyklad) return;
     setKomunikat(null);
+    const ilosc = procent != null ? Math.round(procent * 100) / 100 : null;
+
+    // Surowiec już jest w mieszance: zwiększamy jego udział (nowy obiekt wiersza, bo karta jest w memo).
+    const istniejacy = ilosc != null ? skladniki.findIndex(s => s.nazwa === nazwaSkladnika) : -1;
+    if (istniejacy !== -1 && ilosc != null) {
+      const noweSkladniki = [...skladniki];
+      const wiersz = noweSkladniki[istniejacy];
+      noweSkladniki[istniejacy] = { ...wiersz, procent: String(Math.round(((parseFloat(wiersz.procent as string) || 0) + ilosc) * 100) / 100) };
+      setSkladniki(noweSkladniki);
+      pokazWynik({ rodzaj: 'ok', tytul: `Zwiększono: ${nazwaSkladnika} o ${String(ilosc).replace('.', ',')}%`, tresc: 'Suma przekracza teraz 100%. Kliknij „Dobierz proporcje do normy”, a resztę wyrównam.' });
+      return;
+    }
 
     // Znajdź pierwszy pusty wiersz lub dodaj nowy
     const pustyIndex = skladniki.findIndex(s => !s.nazwa || s.nazwa === '');
 
     const nowySkladnik: Skladnik = {
       nazwa: przyklad.nazwa,
-      procent: '',
+      procent: ilosc != null ? String(ilosc) : '',
       em: przyklad.em,
       bialko: przyklad.bialko,
       ca: przyklad.ca,
@@ -570,6 +587,9 @@ const KalkulatorPasz = () => {
     } else {
       // Dodaj nowy wiersz
       setSkladniki([...skladniki, nowySkladnik]);
+    }
+    if (ilosc != null) {
+      pokazWynik({ rodzaj: 'ok', tytul: `Dodano: ${nazwaSkladnika}, ${String(ilosc).replace('.', ',')}%`, tresc: 'Suma przekracza teraz 100%. Kliknij „Dobierz proporcje do normy”, a resztę wyrównam.' });
     }
   };
 
@@ -853,7 +873,8 @@ const KalkulatorPasz = () => {
                 mieszankaGotowa={mieszankaGotowa}
                 komunikat={komunikat?.miejsce === 'wynik' ? komunikat : null}
                 onZamknijKomunikat={() => setKomunikat(null)}
-                bogateW={znajdzBogateSkladniki}
+                propozycjeW={propozycjeUzupelnien}
+                dawkaG={dawkaLiczba}
                 onDodajSkladnik={dodajSkladnikZSugestii}
                 pelnySklad={
                   // Aminokwasy, witaminy i skład rozszerzony. Liczone z bazy surowców,

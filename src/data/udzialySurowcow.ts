@@ -313,11 +313,11 @@ export const UDZIALY_SUROWCOW: UdzialSurowca[] = [
   {
     surowiec: "Kreda, muszle, skorupy jaj",
     nazwy: ["Kreda pastewna", "Muszle mielone", "Skorupy jaj"],
-    grupy: { mlode: { maks: 3 }, rosnace: { maks: 3 }, nioski: { maks: 10 }, wodne: { maks: 3 } },
+    grupy: { mlode: { maks: 3 }, rosnace: { maks: 3 }, nioski: { maks: 12 }, wodne: { maks: 3 } },
     powod: "Źródło wapnia. Nioska potrzebuje 3,5–4% wapnia w paszy, ptaki, które nie niosą, około 1%. Nadmiar u młodych ptaków niszczy nerki.",
     ostrzezenie: "Za dużo kredy dla tych ptaków: nadmiar wapnia u ptaków, które nie niosą, niszczy nerki (dna moczanowa).",
     zrodla: ["hyline-dna", "wyliczone"],
-    doPotwierdzenia: "Maksimum wyliczone z normy wapnia (kreda ma ok. 36–38% wapnia).",
+    doPotwierdzenia: "Maksimum wyliczone z normy wapnia (kreda ma ok. 36–38% wapnia, nioska przy normie 3,8% potrzebuje jej ok. 10,5%).",
   },
   {
     surowiec: "Fosforany paszowe",

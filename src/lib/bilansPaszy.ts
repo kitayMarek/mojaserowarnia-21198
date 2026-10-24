@@ -401,6 +401,113 @@ export function generujSugestie(pozycje: PozycjaMieszanki[], norma: NormaDrobiu,
   return sugestie;
 }
 
+/**
+ * Propozycja uzupełnienia braku (od 24.10.2026): czym i ile dodać, żeby parametr
+ * doszedł do normy. Liczone na sucho, bez doboru: surowiec dochodzi w `dodajProc`,
+ * a reszta mieszanki maleje proporcjonalnie. To szacunek do decyzji, dokładne
+ * proporcje i tak wyrówna dobór.
+ */
+export interface Uzupelnienie {
+  nazwa: string;
+  /** Zawartość parametru w surowcu (w jednostkach normy). */
+  wartosc: number;
+  /** Ile dodać, % mieszanki (dla premiksu w stałej dawce: jego dawka z etykiety). */
+  dodajProc: number;
+  /** Czy przy tej ilości parametr dochodzi do normy (premiks w swojej dawce może nie domknąć). */
+  domyka: boolean;
+  /** Surowiec już jest w mieszance, propozycja to zwiększenie jego udziału. */
+  juzJest: boolean;
+  /** Parametry, które po dodaniu wyjdą ponad normę. */
+  przekroczy: { pole: PoleNormy; wynik: number; norma: number }[];
+}
+
+// Przetworzone białko zwierzęce ma ograniczenia prawne w żywieniu zwierząt
+// gospodarskich (rozp. 999/2001), więc go nie podpowiadamy, nawet jeśli jest w bazie.
+// Koncentraty i gotowe mieszanki to nie dodatki, tylko inna pasza.
+const NIE_PODPOWIADAJ = /^(Mączka (mięsn|kostna|z krwi|z piór|KAMBAS)|Superkoncentrat|Koncentrat)/;
+const KATEGORIE_POMIJANE = new Set(["Gotowe mieszanki (pełnoporcjowe)", "Koncentraty"]);
+// Więcej niż tyle procent jednego surowca to już przebudowa mieszanki, a nie
+// uzupełnienie. Dla minerałów mniej: inaczej na brak sodu wychodziła serwatka w proszku 23%.
+const MAKS_UZUPELNIENIA = 25;
+const MAKS_UZUPELNIENIA_MINERALU = 12;
+const MINERALY = new Set<PoleNormy>(["ca", "p", "na", "k", "mg", "mn", "zn", "se", "fe", "i"]);
+// Pasze zwierzęce (mączka rybna) wolno, ale drożej i z ryzykiem zapachu jaj: dalej w kolejce.
+const KATEGORIA_ZWIERZECA = "Pasze pochodzenia zwierzęcego";
+
+/**
+ * Do dwóch propozycji, czym uzupełnić brak parametru `parametr`, z bazy surowców.
+ * Dwie, nie więcej (decyzja Marka 24.10.2026): przy długiej liście wygląda to jak nasza
+ * rekomendacja, a z czasem, gdy w bazie będzie więcej firm, wybór i tak się poszerzy.
+ * Kolejność: najpierw te, które nie wypchną innego parametru ponad normę ani
+ * udziału ponad zalecane maksimum, potem najmniejsza potrzebna ilość. Premiksy
+ * i dodatki w stałej dawce tylko z dawką znaną z nazwy albo z pliku udziałów.
+ */
+export function uzupelnienia(
+  pozycje: PozycjaMieszanki[],
+  norma: NormaDrobiu,
+  ptaki: Ptaki,
+  baza: (PozycjaMieszanki & { kategoria?: string })[],
+  parametr: PoleNormy,
+  ile = 2,
+): Uzupelnienie[] {
+  const cel = (norma as unknown as Record<string, number | undefined>)[parametr];
+  const obecnie = zawartosc(pozycje, parametr);
+  if (!cel || obecnie >= cel) return [];
+  const naliczone = pozycje.filter((s) => liczba(s.procent) > 0);
+  const suma = naliczone.reduce((a, s) => a + liczba(s.procent), 0);
+  if (suma <= 0) return [];
+  const oceny = (m: PozycjaMieszanki[]) =>
+    POLA_NORM.map((p) => {
+      const n = (norma as unknown as Record<string, number | undefined>)[p];
+      return n ? sprawdzNorme(zawartosc(m, p), n, TOLERANCJE[p]) : "ok";
+    });
+  const przed = oceny(naliczone);
+
+  const propozycje: (Uzupelnienie & { kara: number })[] = [];
+  for (const s of baza) {
+    const v = liczba(pole(s, parametr));
+    if (v <= cel || NIE_PODPOWIADAJ.test(s.nazwa) || KATEGORIE_POMIJANE.has(s.kategoria ?? "")) continue;
+    const maks = maksUdzialu(s.nazwa, ptaki);
+    if (maks === 0) continue;
+
+    // Premiks w stałej dawce: liczymy, co da w dawce z etykiety. Sól też ma stałą
+    // dawkę w doborze, ale przy uzupełnianiu to właśnie jej ilość się zmienia.
+    const stala = udzialSurowca(s.nazwa)?.stalaDawka === true;
+    let x: number;
+    if (stala) {
+      x = dawkaDomyslna(s.nazwa);
+      if (!x) continue;
+    } else {
+      x = (100 * (cel - obecnie)) / (v - obecnie);
+      if (x > (MINERALY.has(parametr) ? MAKS_UZUPELNIENIA_MINERALU : MAKS_UZUPELNIENIA)) continue;
+    }
+
+    // Mieszanka po dodaniu: dotychczasowe składniki razem na (100 - x)%, nowy na x%.
+    const skala = (100 - x) / suma;
+    const juzJest = naliczone.some((p) => p.nazwa === s.nazwa);
+    const po = [...naliczone.map((p) => ({ ...p, procent: liczba(p.procent) * skala })), { ...s, procent: x }];
+    const wynikPo = oceny(po);
+    const przekroczy = POLA_NORM.flatMap((p, i) =>
+      wynikPo[i] === "za-wysoko" && przed[i] !== "za-wysoko"
+        ? [{ pole: p, wynik: zawartosc(po, p), norma: (norma as unknown as Record<string, number>)[p] }]
+        : []);
+    const ponadMaks = maks != null && x > maks + 0.05;
+    propozycje.push({
+      nazwa: s.nazwa, wartosc: v, dodajProc: x,
+      domyka: zawartosc(po, parametr) >= cel * 0.999,
+      juzJest, przekroczy,
+      kara: przekroczy.length + (ponadMaks ? 10 : 0) + (stala && zawartosc(po, parametr) < cel * 0.999 ? 1 : 0)
+        + (s.kategoria === KATEGORIA_ZWIERZECA ? 0.5 : 0)
+        // To, co już jest w mieszance, wygrywa z równie dobrym nowym surowcem: łatwiej dosypać niż kupić.
+        - (juzJest ? 0.3 : 0),
+    });
+  }
+  return propozycje
+    .sort((a, b) => a.kara - b.kara || a.dodajProc - b.dodajProc)
+    .slice(0, ile)
+    .map(({ kara: _kara, ...u }) => u);
+}
+
 /** Stado do policzenia zapotrzebowania: liczba ptaków i dawka paszy w g na sztukę dziennie. */
 export interface Stado {
   sztuk: number;

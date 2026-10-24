@@ -36,9 +36,11 @@ export const PARAMETRY: Array<{
   ostrzezenie?: { miejsca: number; podpowiedz?: { miejsca: number; dopisek: string } };
 }> = [
   { pole: "em", nazwa: "Energia (EM)", skrot: "EM", jedn: "MJ/kg", miejsca: 2, tol: 0.05 },
-  { pole: "bialko", nazwa: "Białko", skrot: "białko", jedn: "%", miejsca: 2, tol: 0.05 },
-  { pole: "ca", nazwa: "Wapń (Ca)", skrot: "Ca", jedn: "%", miejsca: 2, tol: 0.1 },
-  { pole: "p", nazwa: "Fosfor (P)", skrot: "P", jedn: "%", miejsca: 2, tol: 0.1 },
+  // Białko, wapń i fosfor dobiera algorytm, ale gdy w mieszance nie ma ich źródła
+  // (np. kredy), dobór nic nie poradzi: od 24.10.2026 też dostają propozycje uzupełnienia.
+  { pole: "bialko", nazwa: "Białko", skrot: "białko", jedn: "%", miejsca: 2, tol: 0.05, ostrzezenie: { miejsca: 2, podpowiedz: { miejsca: 1, dopisek: "% białka" } } },
+  { pole: "ca", nazwa: "Wapń (Ca)", skrot: "Ca", jedn: "%", miejsca: 2, tol: 0.1, ostrzezenie: { miejsca: 2, podpowiedz: { miejsca: 1, dopisek: "% Ca" } } },
+  { pole: "p", nazwa: "Fosfor (P)", skrot: "P", jedn: "%", miejsca: 2, tol: 0.1, ostrzezenie: { miejsca: 2, podpowiedz: { miejsca: 1, dopisek: "% P" } } },
   { pole: "wlokno", nazwa: "Włókno", skrot: "włókno", jedn: "%", miejsca: 2, tol: 0.15, ostrzezenie: { miejsca: 2 } },
   { pole: "na", nazwa: "Sód (Na)", skrot: "Na", jedn: "%", miejsca: 2, tol: 0.1, ostrzezenie: { miejsca: 3, podpowiedz: { miejsca: 2, dopisek: "% Na" } } },
   { pole: "k", nazwa: "Potas (K)", skrot: "K", jedn: "%", miejsca: 2, tol: 0.1, ostrzezenie: { miejsca: 3, podpowiedz: { miejsca: 2, dopisek: "% K" } } },

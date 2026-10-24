@@ -17,7 +17,7 @@ import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from '../../src/data/normyDrob
 import {
   POLA_NORM, TOLERANCJE, zawartosc, sprawdzNorme, bladNormy, maksUdzialu,
   dobierzProporcje, najtanszaMieszanka, kosztMieszanki, generujSugestie,
-  bladLimitow, osiagnieteLimity, zapotrzebowanieStada,
+  bladLimitow, osiagnieteLimity, zapotrzebowanieStada, uzupelnienia,
 } from '../../src/lib/bilansPaszy.ts';
 import { UDZIALY_SUROWCOW, GRUPY_PTAKOW, grupaPtakow, zalecenieUdzialu, udzialSurowca } from '../../src/data/udzialySurowcow.ts';
 
@@ -48,6 +48,31 @@ function zaleceniaUdzialow(drob, okres) {
     }),
     strona: ADRES_UDZIALOW,
   };
+}
+
+/**
+ * Czym uzupełnić parametry poniżej normy (od 0.6.0): do dwóch surowców z bazy,
+ * ile ich dodać do mieszanki i co przy tym wyjdzie ponad normę. Ta sama funkcja
+ * co przyciski „Czym uzupełnić” w kalkulatorze na stronie.
+ */
+function uzupelnieniaBrakow(pozycje, norma, ptaki) {
+  const wynik = [];
+  for (const pole of POLA_NORM) {
+    if (norma[pole] == null || sprawdzNorme(zawartosc(pozycje, pole), norma[pole], TOLERANCJE[pole]) !== 'za-nisko') continue;
+    const propozycje = uzupelnienia(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 })), pole);
+    if (!propozycje.length) continue;
+    wynik.push({
+      parametr: PARAMETRY[pole][0],
+      propozycje: propozycje.map((u) => ({
+        nazwa: u.nazwa,
+        dodaj_proc: zaokr(u.dodajProc, u.dodajProc < 1 ? 2 : 1),
+        ...(u.juzJest ? { juz_w_mieszance: true } : {}),
+        ...(u.domyka ? {} : { nie_domyka: 'w dawce z etykiety nie wyrówna braku' }),
+        ...(u.przekroczy.length ? { przekroczy_norme: u.przekroczy.map((p) => PARAMETRY[p.pole][0]) } : {}),
+      })),
+    });
+  }
+  return wynik;
 }
 
 /** Składniki ponad zalecane maksimum, z ryzykiem dla zdrowia ptaków. */
@@ -221,6 +246,7 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
   const { poza_norma, w_normie, bez_normy } = ocenaMieszanki(pozycje, norma);
   const ptaki = { drob, okres: norma.okres };
   const ponad = ponadZalecenia(pozycje, ptaki);
+  const uzup = uzupelnieniaBrakow(pozycje, norma, ptaki);
   return {
     gatunek: etykietaGatunku(drob),
     okres: norma.okres,
@@ -232,6 +258,7 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
     bez_normy,
     koszt_zl_kg: wszystkieZCena ? zaokr(kosztMieszanki(pozycje)) : null,
     sugestie: generujSugestie(pozycje, norma, ptaki),
+    ...(uzup.length ? { uzupelnienia: uzup } : {}),
     ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
     uwagi,

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { NormaDrobiu } from "@/data/normyDrobiu";
-import { sprawdzNorme } from "@/lib/bilansPaszy";
+import { sprawdzNorme, type Uzupelnienie } from "@/lib/bilansPaszy";
 import {
   Komunikat, OPIS_OCENY, PARAMETRY, Sekcja, klasyOceny, liczbaPL, zJednostka,
   type KomunikatKalkulatora, type PoleParametru,
@@ -21,7 +21,7 @@ import {
 const SKALA = 2; // pasek sięga do dwukrotności normy, więc norma wypada w połowie
 
 function WierszNormy({
-  nazwa, jedn, miejsca, tol, wartosc, norma, ostrzezenie, mieszankaGotowa, bogate, onDodaj,
+  nazwa, jedn, miejsca, tol, wartosc, norma, ostrzezenie, mieszankaGotowa, propozycjeUzupelnien, dawkaG, onDodaj,
 }: {
   nazwa: string;
   jedn: string;
@@ -31,15 +31,18 @@ function WierszNormy({
   norma: number;
   ostrzezenie?: (typeof PARAMETRY)[number]["ostrzezenie"];
   mieszankaGotowa: boolean;
-  bogate: () => { nazwa: string; wartosc: number }[];
-  onDodaj: (nazwa: string) => void;
+  propozycjeUzupelnien: () => Uzupelnienie[];
+  /** Dawka paszy na ptaka dziennie (g); z nią przycisk pokazuje też gramy na sztukę. */
+  dawkaG: number;
+  onDodaj: (nazwa: string, procent?: number) => void;
 }) {
   const ocena = sprawdzNorme(wartosc, norma, tol);
   // Ostrzeżenie słowami: jak przed przebudową, z tolerancją 0,15 i tylko przy sumie 100%.
   const ocenaOstrzezenia = ostrzezenie && mieszankaGotowa ? sprawdzNorme(wartosc, norma, 0.15) : "ok";
   const roznica = Math.abs(norma - wartosc);
   const podpowiedz = ostrzezenie?.podpowiedz;
-  const propozycje = ocenaOstrzezenia === "za-nisko" && podpowiedz ? bogate() : [];
+  const propozycje = ocenaOstrzezenia === "za-nisko" && podpowiedz ? propozycjeUzupelnien() : [];
+  const nazwaParametru = (pole: string) => PARAMETRY.find((p) => p.pole === pole)?.nazwa.replace(/ \(.*\)$/, "").toLowerCase() ?? pole;
   const pozycja = Math.min(100, Math.max(0, (wartosc / (norma * SKALA)) * 100));
 
   return (
@@ -74,7 +77,7 @@ function WierszNormy({
           {ocenaOstrzezenia === "za-nisko"
             ? `Brakuje ${zJednostka(liczbaPL(roznica, ostrzezenie.miejsca), jedn)} do normy.`
             : `Za dużo o ${zJednostka(liczbaPL(roznica, ostrzezenie.miejsca), jedn)}.`}
-          {propozycje.length > 0 && " Dodaj więcej:"}
+          {propozycje.length > 0 && " Czym uzupełnić (ile dodać do mieszanki):"}
         </p>
       )}
       {propozycje.length > 0 && podpowiedz && (
@@ -83,17 +86,32 @@ function WierszNormy({
             <button
               key={s.nazwa}
               type="button"
-              onClick={() => onDodaj(s.nazwa)}
+              onClick={() => onDodaj(s.nazwa, s.dodajProc)}
+              title={`${s.nazwa}: ${liczbaPL(s.wartosc, podpowiedz.miejsca)}${podpowiedz.dopisek}`}
               className="inline-flex min-h-9 items-center gap-1 rounded-full border border-border bg-background px-2.5 py-1 text-left text-xs font-semibold text-primary hover:border-primary hover:bg-primary/10"
             >
               <Plus className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
               {s.nazwa}
               <span className="font-normal text-muted-foreground">
-                {liczbaPL(s.wartosc, podpowiedz.miejsca)}{podpowiedz.dopisek}
+                {s.juzJest ? "więcej o " : ""}{liczbaPL(s.dodajProc, s.dodajProc < 1 ? 2 : 1)}%
+                {dawkaG > 0 && ` · ${liczbaPL((s.dodajProc * dawkaG) / 100, 1)} g/ptaka dziennie`}
               </span>
             </button>
           ))}
         </div>
+      )}
+      {propozycje.some((s) => s.przekroczy.length > 0 || !s.domyka) && (
+        <ul className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+          {propozycje.filter((s) => s.przekroczy.length > 0 || !s.domyka).map((s) => (
+            <li key={s.nazwa}>
+              {s.nazwa}:{" "}
+              {[
+                !s.domyka ? "w dawce z etykiety nie domknie braku" : "",
+                s.przekroczy.length > 0 ? `podniesie ${s.przekroczy.map((p) => nazwaParametru(p.pole)).join(" i ")} ponad normę` : "",
+              ].filter(Boolean).join(", ")}.
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
@@ -101,7 +119,7 @@ function WierszNormy({
 
 export default function WynikMieszanki({
   norma, zawartosc, sumaProcentow, koszt, cenyKompletne, mieszankaGotowa,
-  komunikat, onZamknijKomunikat, bogateW, onDodajSkladnik, pelnySklad,
+  komunikat, onZamknijKomunikat, propozycjeW, dawkaG, onDodajSkladnik, pelnySklad,
 }: {
   norma: NormaDrobiu | null | undefined;
   zawartosc: (pole: string) => number;
@@ -111,9 +129,11 @@ export default function WynikMieszanki({
   mieszankaGotowa: boolean;
   komunikat: KomunikatKalkulatora | null;
   onZamknijKomunikat: () => void;
-  /** Trzy surowce z bazy najbogatsze w dany składnik, do przycisków „dodaj”. */
-  bogateW: (pole: PoleParametru) => { nazwa: string; wartosc: number }[];
-  onDodajSkladnik: (nazwa: string) => void;
+  /** Czym uzupełnić brak parametru: surowiec, ile dodać, co przy tym przekroczy (bilansPaszy.ts). */
+  propozycjeW: (pole: PoleParametru) => Uzupelnienie[];
+  /** Dawka paszy na ptaka dziennie w g (0 = nieznana). */
+  dawkaG: number;
+  onDodajSkladnik: (nazwa: string, procent?: number) => void;
   pelnySklad: ReactNode;
 }) {
   const brakuje = 100 - sumaProcentow;
@@ -168,7 +188,8 @@ export default function WynikMieszanki({
               norma={norma[p.pole] as number}
               ostrzezenie={p.ostrzezenie}
               mieszankaGotowa={mieszankaGotowa}
-              bogate={() => bogateW(p.pole)}
+              propozycjeUzupelnien={() => propozycjeW(p.pole)}
+              dawkaG={dawkaG}
               onDodaj={onDodajSkladnik}
             />
           ))}
