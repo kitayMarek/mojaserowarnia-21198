@@ -268,8 +268,11 @@ const WPISY: Wpis[] = [
     zrodlo: "https://e-pasze.pl/produkt/mieszanka-witaminowo-mineralna-dla-drobiu-4kg-drobmix-nioska-4/",
     urlProducenta: "https://e-pasze.pl/produkt/mieszanka-witaminowo-mineralna-dla-drobiu-4kg-drobmix-nioska-4/",
     zweryfikowano: D,
-    uwagi: "Etykieta podaje wartości w g/kg (Ca 325 g, P 11,9 g, Na 19 g), tu przeliczone na %. Wiaderko 4 kg. Ceny znaleźliśmy tylko na stronach z nieaktualnego odczytu wyszukiwarki, więc ich nie podajemy.",
-    oferty: [],
+    uwagi: "Etykieta podaje wartości w g/kg (Ca 325 g, P 11,9 g, Na 19 g), tu przeliczone na %. Wiaderko 4 kg.",
+    oferty: [
+      { sklep: "Rolnet", url: "https://rolnet.pl/Witaminy-dla-kur-Drobmix-NIOSKA-4-4-kg-premiks-dla-kur-niosek-i-kurczat-p4151", cenaZl: 30.0, opakowanieKg: 4, sprawdzono: D },
+      { sklep: "e-pasze.pl", url: "https://e-pasze.pl/produkt/mieszanka-witaminowo-mineralna-dla-drobiu-4kg-drobmix-nioska-4/", cenaZl: 32.0, opakowanieKg: 4, sprawdzono: D },
+    ],
   },
   {
     nazwa: "Dolmix DN (Dolfos)", kategoria: "Premiksy",
@@ -377,6 +380,20 @@ const WPISY: Wpis[] = [
     uwagi: "P co najmniej 22,7%, Ca co najmniej 16% (strona sklepu). Producenta sklep nie podaje. Dla chowu ekologicznego potrzebny fosforan odfluorowany: sprawdź u sprzedawcy.",
     oferty: [
       { sklep: "Lagrico", url: "https://lagrico.pl/fosforan-jednowapniowy-paszowy-worek-25kg,id760.html", cenaZl: 139.0, opakowanieKg: 25, sprawdzono: D },
+    ],
+  },
+  {
+    nazwa: "Fosforan dwuwapniowy paszowy (Galvet)", kategoria: "Dodatki mineralne", odpowiednik: "Fosforan dwuwapniowy", uzupelnijZ: "Fosforan dwuwapniowy",
+    producent: "nie podano (sprzedawca: Galvet, Sowin)", gatunki: [],
+    dawkowanie: "Sklep nie podaje dawki; ilość dobiera się do normy fosforu (zwykle 1–2% mieszanki)",
+    skladSurowcowy: "Fosforan dwuwapniowy paszowy CaHPO4, worek 25 kg.",
+    gmo: "nie", dopuszczalneEko: null,
+    zrodloSkladu: "norma",
+    zrodlo: "https://sklep-galvet.pl/fosforan-dwuwapniowy-25kg-paszowy-worek-p-20723.html",
+    zweryfikowano: D,
+    uwagi: "Sklep nie podaje składu ani producenta, więc wartości są typowe dla fosforanu dwuwapniowego paszowego (P ok. 18%, Ca ok. 24%): przed zakupem sprawdź etykietę na worku. Dla chowu ekologicznego potrzebny fosforan odfluorowany: sprawdź u sprzedawcy.",
+    oferty: [
+      { sklep: "Galvet", url: "https://sklep-galvet.pl/fosforan-dwuwapniowy-25kg-paszowy-worek-p-20723.html", cenaZl: 230.63, opakowanieKg: 25, sprawdzono: D },
     ],
   },
   {
