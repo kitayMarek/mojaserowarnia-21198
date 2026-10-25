@@ -320,7 +320,7 @@ export const metaStron: Record<string, MetaStrony> = {
     // w zgloszeniu lacznika do Perplexity.
     title: "Warunki korzystania z serwera MCP Mojej Serowarni",
     description:
-      "Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, limity zapytań, prywatność i kontakt.",
+      "Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, zasady i instrukcja dla własnych aplikacji, limity zapytań, prywatność i kontakt.",
     mirror: "warunki-mcp.html",
   },
   "/sery/camembert": {

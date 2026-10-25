@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Warunki korzystania z serwera MCP Mojej Serowarni</title>
-  <meta name="description" content="Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, limity zapytań, prywatność i kontakt." />
+  <meta name="description" content="Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, zasady i instrukcja dla własnych aplikacji, limity zapytań, prywatność i kontakt." />
   <link rel="canonical" href="https://mojaserowarnia.pl/warunki-mcp" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="Warunki korzystania z serwera MCP Mojej Serowarni" />
-  <meta property="og:description" content="Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, limity zapytań, prywatność i kontakt." />
+  <meta property="og:description" content="Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, zasady i instrukcja dla własnych aplikacji, limity zapytań, prywatność i kontakt." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mojaserowarnia.pl/warunki-mcp" />
   <meta property="og:site_name" content="Moja Serowarnia" />
@@ -21,9 +21,9 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "datePublished": "2026-10-23",
-    "dateModified": "2026-10-23",
+    "dateModified": "2026-10-25",
     "name": "Warunki korzystania z serwera MCP Mojej Serowarni",
-    "description": "Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, limity zapytań, prywatność i kontakt.",
+    "description": "Zasady korzystania z serwera MCP Mojej Serowarni: bezpłatny dostęp tylko do odczytu, licencja CC BY 4.0, zasady i instrukcja dla własnych aplikacji, limity zapytań, prywatność i kontakt.",
     "inLanguage": "pl",
     "url": "https://mojaserowarnia.pl/warunki-mcp",
     "publisher": { "@type": "Organization", "name": "Moja Serowarnia", "url": "https://mojaserowarnia.pl/" }
@@ -69,7 +69,7 @@
   <h2>Charakter danych</h2>
   <ul>
     <li>Wyniki kalkulatora pasz to obliczenie na wzorcowych wartościach pokarmowych surowców, a nie analiza Twojej partii paszy. Nie są poradą lekarza weterynarii.</li>
-    <li>Ceny kultur pochodzą ze stron sklepów z dnia podanego w odpowiedzi. Przed zakupem sprawdź aktualną cenę i opis w sklepie.</li>
+    <li>Ceny kultur i dodatków paszowych pochodzą ze stron sklepów z dnia podanego w odpowiedzi. Przed zakupem sprawdź aktualną cenę i opis w sklepie.</li>
     <li>Ten sam skład gatunkowy kultury nie oznacza tego samego produktu. Zamienniki traktuj jako punkt wyjścia, nie gwarancję tego samego wyniku.</li>
     <li>Odpowiedź asystenta AI układa model, a nie my. Za dobór dawek, surowców i parametrów produkcji odpowiadasz sam, tak jak opisuje <a href="https://mojaserowarnia.pl/nota-prawna">nota prawna</a>.</li>
   </ul>
@@ -80,6 +80,41 @@
     <li>Nie wolno obchodzić limitów, przeciążać serwera ani podszywać się pod Moją Serowarnię.</li>
     <li>Zautomatyzowane pobieranie całej bazy zamiast pytań asystenta uzgodnij z nami przez <a href="https://mojaserowarnia.pl/kontakt">kontakt</a>.</li>
   </ul>
+
+  <h2 id="aplikacje">Własne aplikacje na naszym serwerze</h2>
+  <p>Możesz zbudować na serwerze własną aplikację, stronę albo asystenta, na przykład doradcę żywienia drobiu, kalkulator na stronie sklepu albo listę zakupów. Nie potrzebujesz naszej zgody, także przy użyciu komercyjnym. Wystarczy, że przestrzegasz tych zasad:</p>
+  <ul>
+    <li>Przy wyniku pokaż źródło z linkiem, tak jak podaje je serwer (pola <code>zrodlo</code> albo <code>cytuj_jako</code>).</li>
+    <li>Nie usuwaj zastrzeżeń z odpowiedzi (pole <code>zastrzezenie</code>): wynik paszowy to obliczenie na danych wzorcowych, a nie porada lekarza weterynarii, a zamiennik to nie ten sam produkt.</li>
+    <li>Przy cenie pokaż sklep i datę ceny (<code>cena_z_dnia</code>) i nie nazywaj jej aktualną. Linki do sklepów zostaw takie, jakie przychodzą.</li>
+    <li>Jeśli pokazujesz produkty, nie ukrywaj oznaczenia <code>partner_serwisu</code>. Kolejność ofert u nas zależy tylko od składu i ceny.</li>
+    <li>Dopisz do adresu serwera znacznik aplikacji, np. <code>?z=app-twoja-nazwa</code> (małe litery, cyfry i myślnik). Dzięki niemu wiemy, kto korzysta z serwera, i możemy uprzedzić o zmianach, jeśli zostawisz nam kontakt.</li>
+    <li>Nie przedstawiaj aplikacji jako produktu Mojej Serowarni. Możesz napisać, że korzysta z naszych danych i obliczeń.</li>
+    <li>Gdy aplikacja potrzebuje więcej niż 30 zapytań na minutę, <a href="https://mojaserowarnia.pl/kontakt">napisz do nas</a>: ustalimy wyższy limit.</li>
+  </ul>
+  <p>Dane możesz też skopiować, bo są na licencji CC BY 4.0. Obliczenia (dobór proporcji, ocena mieszanki, oferty sklepów) to jednak usługa naszego serwera i korzystasz z niej na zasadach z tej strony.</p>
+
+  <h2 id="dla-tworcow">Instrukcja dla twórców aplikacji</h2>
+  <p>Serwer mówi protokołem MCP (Streamable HTTP, JSON-RPC 2.0), bez logowania i bez sesji. Możesz użyć oficjalnego SDK MCP (np. TypeScript albo Python) albo zwykłych zapytań HTTP:</p>
+  <ul>
+    <li>zapytania <code>POST</code> na <code>https://dane.mojaserowarnia.pl/mcp?z=app-twoja-nazwa</code>;</li>
+    <li>nagłówki <code>Content-Type: application/json</code> oraz <code>Accept: application/json, text/event-stream</code> (bez obu typów serwer odpowie błędem 406);</li>
+    <li><code>tools/list</code> zwraca narzędzia z opisami i schematami parametrów, <code>tools/call</code> z polami <code>name</code> i <code>arguments</code> wywołuje narzędzie;</li>
+    <li>odpowiedź przychodzi jako wiersz <code>data: {...}</code>; wynik narzędzia jest w <code>result.content[0].text</code> (JSON) i w <code>result.structuredContent</code>.</li>
+  </ul>
+  <p>Przykład: proporcje paszy dla kur niosek z czterech surowców.</p>
+  <pre><code>curl -s "https://dane.mojaserowarnia.pl/mcp?z=app-twoja-nazwa" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"dobierz_proporcje","arguments":{"drob":"kury-nioski-lekkie","okres":"Niesienie (powyżej 45%)","skladniki":[{"nazwa":"Pszenica"},{"nazwa":"Kukurydza"},{"nazwa":"Śruta sojowa"},{"nazwa":"Kreda pastewna"}]}}}'</code></pre>
+  <p>Narzędzia:</p>
+  <ul>
+    <li>pasze: <code>skladniki_paszy</code>, <code>normy_drobiu</code>, <code>policz_mieszanke</code>, <code>dobierz_proporcje</code>;</li>
+    <li>dodatki paszowe i sklepy: <code>szukaj_dodatkow</code>, <code>dodatek</code>, <code>zamienniki_dodatku</code>;</li>
+    <li>sery: <code>szukaj_przepisow</code>, <code>przepis</code>;</li>
+    <li>kultury bakteryjne: <code>szukaj_kultur</code>, <code>kultura</code>, <code>zamienniki</code>, <code>o_bazie</code>.</li>
+  </ul>
+  <p>Opis serwera dla programów: <code>https://dane.mojaserowarnia.pl/mcp/server-card</code>. Pytania techniczne: <a href="https://mojaserowarnia.pl/kontakt">kontakt</a>.</p>
 
   <h2>Dostępność i zmiany</h2>
   <p>Serwer działa bez przerw planowanych, ale bez gwarancji ciągłej dostępności. To bezpłatna usługa niewielkiego serwisu.</p>
@@ -95,9 +130,10 @@
     <h2 style="margin-top:0;border:0">Summary in English</h2>
     <p>The MCP server at <code>https://dane.mojaserowarnia.pl/mcp</code> is run by Moja Serowarnia (mojaserowarnia.pl). It is free, read-only and needs no account or key. Data is licensed CC BY 4.0; please cite the source with a link, as given in each response.</p>
     <p>Feed results are calculations on reference values, not veterinary advice; culture prices are dated snapshots. Limits: 30 requests per minute per IP and 600 per minute in total (HTTP 429 with Retry-After: 60). Do not circumvent limits or overload the server. No uptime guarantee; tool removals or address changes are announced at least 30 days in advance on /asystenci-ai.</p>
+    <p>Building your own app on the server is allowed, also commercially: show the source link and the disclaimers from each response, keep price dates and the partner label, add <code>?z=app-your-name</code> to the server URL and contact us if you need more than 30 requests per minute. Technical notes are in the section “Instrukcja dla twórców aplikacji” above.</p>
     <p style="margin-bottom:0">Privacy: no request content, IP addresses or timestamps are stored, only daily usage counts (see /nota-prawna#serwer-mcp). Contact: admin@mojaserowarnia.pl.</p>
   </div>
 </div>
-  <p class="aktualizacja">Obowiązuje od <time datetime="2026-10-23">23 października 2026</time>.</p>
+  <p class="aktualizacja">Obowiązuje od <time datetime="2026-10-23">23 października 2026</time>. Ostatnia zmiana: <time datetime="2026-10-25">25 października 2026</time> (zasady dla aplikacji).</p>
 </body>
 </html>

@@ -558,6 +558,18 @@ const AsystenciAi = () => {
                   </div>
                 ),
               },
+              {
+                pytanie: "Budujesz własną aplikację?",
+                odpowiedz: (
+                  <p>
+                    Możesz oprzeć ją na naszym serwerze, także komercyjnie: kalkulator na stronie sklepu, doradcę
+                    żywienia drobiu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty
+                    cen oraz dopisać do adresu znacznik <code className="font-mono">?z=app-twoja-nazwa</code>. Zasady i
+                    instrukcję techniczną opisujemy w{" "}
+                    <Link to="/warunki-mcp#aplikacje" className="underline">warunkach korzystania z serwera</Link>.
+                  </p>
+                ),
+              },
             ].map((p) => (
               <details key={p.pytanie} className="group border-b border-border/70 py-3.5">
                 <summary className="flex min-h-[44px] cursor-pointer items-center text-[17px] font-bold text-foreground">{p.pytanie}</summary>
