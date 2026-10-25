@@ -564,7 +564,8 @@ const AsystenciAi = () => {
                   <p>
                     Możesz oprzeć ją na naszym serwerze, także komercyjnie: kalkulator na stronie sklepu, doradcę
                     żywienia drobiu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty
-                    cen oraz dopisać do adresu znacznik <code className="font-mono">?z=app-twoja-nazwa</code>. Zasady i
+                    cen oraz dopisać do adresu znacznik <code className="font-mono">?z=app-twoja-nazwa</code>. Gdy 30 zapytań na
+                    minutę nie wystarczy, dostaniesz od nas darmowy klucz z limitem 300. Zasady i
                     instrukcję techniczną opisujemy w{" "}
                     <Link to="/warunki-mcp#aplikacje" className="underline">warunkach korzystania z serwera</Link>.
                   </p>

@@ -32,9 +32,14 @@
   // Licznik jest liczony osobno w kazdej lokalizacji Cloudflare i celowo
   // "przepuszczalny", wiec to hamulec, nie ksiegowosc. namespace_id musi byc
   // unikalny w koncie; glowny worker nie ma zadnych limitow.
+  // LIMIT_KLUCZ (od 25.10.2026): 300 na minute dla aplikacji z kluczem
+  //   (klucz = nazwa aplikacji), zamiast LIMIT_ADRES; LIMIT_CALOSC dalej obowiazuje.
+  //   Klucze siedza w sekrecie KLUCZE_APLIKACJI (JSON {"klucz": "nazwa-aplikacji"}),
+  //   bo repo jest publiczne; dodaje je scripts/klucz-aplikacji.mjs.
   "ratelimits": [
     { "name": "LIMIT_ADRES", "namespace_id": "1101", "simple": { "limit": 30, "period": 60 } },
-    { "name": "LIMIT_CALOSC", "namespace_id": "1102", "simple": { "limit": 600, "period": 60 } }
+    { "name": "LIMIT_CALOSC", "namespace_id": "1102", "simple": { "limit": 600, "period": 60 } },
+    { "name": "LIMIT_KLUCZ", "namespace_id": "1103", "simple": { "limit": 300, "period": 60 } }
   ],
 
   // Adres projektu Supabase do pomiaru (worker-magazyn/src/pomiar.js). Nie jest

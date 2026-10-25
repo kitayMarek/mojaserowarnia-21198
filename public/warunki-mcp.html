@@ -76,7 +76,7 @@
 
   <h2>Limity i zasady</h2>
   <ul>
-    <li>Do 30 zapytań na minutę z jednego adresu i do 600 na minutę łącznie. Po przekroczeniu serwer odpowiada kodem 429 i nagłówkiem <code>Retry-After: 60</code>.</li>
+    <li>Do 30 zapytań na minutę z jednego adresu, aplikacja z kluczem do 300, a wszyscy razem do 600 na minutę. Po przekroczeniu serwer odpowiada kodem 429 i nagłówkiem <code>Retry-After: 60</code>.</li>
     <li>Nie wolno obchodzić limitów, przeciążać serwera ani podszywać się pod Moją Serowarnię.</li>
     <li>Zautomatyzowane pobieranie całej bazy zamiast pytań asystenta uzgodnij z nami przez <a href="https://mojaserowarnia.pl/kontakt">kontakt</a>.</li>
   </ul>
@@ -90,7 +90,7 @@
     <li>Jeśli pokazujesz produkty, nie ukrywaj oznaczenia <code>partner_serwisu</code>. Kolejność ofert u nas zależy tylko od składu i ceny.</li>
     <li>Dopisz do adresu serwera znacznik aplikacji, np. <code>?z=app-twoja-nazwa</code> (małe litery, cyfry i myślnik). Dzięki niemu wiemy, kto korzysta z serwera, i możemy uprzedzić o zmianach, jeśli zostawisz nam kontakt.</li>
     <li>Nie przedstawiaj aplikacji jako produktu Mojej Serowarni. Możesz napisać, że korzysta z naszych danych i obliczeń.</li>
-    <li>Gdy aplikacja potrzebuje więcej niż 30 zapytań na minutę, <a href="https://mojaserowarnia.pl/kontakt">napisz do nas</a>: ustalimy wyższy limit.</li>
+    <li>Aplikacja pyta ze swojego serwera, czyli z jednego adresu dla wszystkich użytkowników, więc 30 zapytań na minutę szybko się kończy. Dlatego dajemy za darmo klucz aplikacji z limitem 300 zapytań na minutę: <a href="https://mojaserowarnia.pl/kontakt">napisz do nas</a> i podaj nazwę aplikacji. Przy jeszcze większym ruchu ustalimy warunki indywidualnie.</li>
   </ul>
   <p>Dane możesz też skopiować, bo są na licencji CC BY 4.0. Obliczenia (dobór proporcji, ocena mieszanki, oferty sklepów) to jednak usługa naszego serwera i korzystasz z niej na zasadach z tej strony.</p>
 
@@ -100,6 +100,7 @@
     <li>zapytania <code>POST</code> na <code>https://dane.mojaserowarnia.pl/mcp?z=app-twoja-nazwa</code>;</li>
     <li>nagłówki <code>Content-Type: application/json</code> oraz <code>Accept: application/json, text/event-stream</code> (bez obu typów serwer odpowie błędem 406);</li>
     <li><code>tools/list</code> zwraca narzędzia z opisami i schematami parametrów, <code>tools/call</code> z polami <code>name</code> i <code>arguments</code> wywołuje narzędzie;</li>
+    <li>z kluczem aplikacji: nagłówek <code>Authorization: Bearer &lt;klucz&gt;</code> albo parametr <code>?klucz=</code> w adresie, gdy program nie pozwala dopisać nagłówka; bieżący limit podaje nagłówek odpowiedzi <code>x-limit-na-minute</code>;</li>
     <li>odpowiedź przychodzi jako wiersz <code>data: {...}</code>; wynik narzędzia jest w <code>result.content[0].text</code> (JSON) i w <code>result.structuredContent</code>.</li>
   </ul>
   <p>Przykład: proporcje paszy dla kur niosek z czterech surowców.</p>
@@ -130,10 +131,10 @@
     <h2 style="margin-top:0;border:0">Summary in English</h2>
     <p>The MCP server at <code>https://dane.mojaserowarnia.pl/mcp</code> is run by Moja Serowarnia (mojaserowarnia.pl). It is free, read-only and needs no account or key. Data is licensed CC BY 4.0; please cite the source with a link, as given in each response.</p>
     <p>Feed results are calculations on reference values, not veterinary advice; culture prices are dated snapshots. Limits: 30 requests per minute per IP and 600 per minute in total (HTTP 429 with Retry-After: 60). Do not circumvent limits or overload the server. No uptime guarantee; tool removals or address changes are announced at least 30 days in advance on /asystenci-ai.</p>
-    <p>Building your own app on the server is allowed, also commercially: show the source link and the disclaimers from each response, keep price dates and the partner label, add <code>?z=app-your-name</code> to the server URL and contact us if you need more than 30 requests per minute. Technical notes are in the section “Instrukcja dla twórców aplikacji” above.</p>
+    <p>Building your own app on the server is allowed, also commercially: show the source link and the disclaimers from each response, keep price dates and the partner label, add <code>?z=app-your-name</code> to the server URL; apps get a free key with 300 requests per minute on request (send it as <code>Authorization: Bearer</code>). Contact us if you need more. Technical notes are in the section “Instrukcja dla twórców aplikacji” above.</p>
     <p style="margin-bottom:0">Privacy: no request content, IP addresses or timestamps are stored, only daily usage counts (see /nota-prawna#serwer-mcp). Contact: admin@mojaserowarnia.pl.</p>
   </div>
 </div>
-  <p class="aktualizacja">Obowiązuje od <time datetime="2026-10-23">23 października 2026</time>. Ostatnia zmiana: <time datetime="2026-10-25">25 października 2026</time> (zasady dla aplikacji).</p>
+  <p class="aktualizacja">Obowiązuje od <time datetime="2026-10-23">23 października 2026</time>. Ostatnia zmiana: <time datetime="2026-10-25">25 października 2026</time> (zasady dla aplikacji, darmowe klucze aplikacji).</p>
 </body>
 </html>

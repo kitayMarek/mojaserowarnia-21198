@@ -133,8 +133,9 @@ const WarunkiMcp = () => {
                 <CardContent className="space-y-3">
                   <ul className="list-disc pl-5 space-y-2">
                     <li>
-                      Do 30 zapytań na minutę z jednego adresu i do 600 na minutę łącznie. Po przekroczeniu serwer
-                      odpowiada kodem 429 i nagłówkiem <code className="font-mono">Retry-After: 60</code>.
+                      Do 30 zapytań na minutę z jednego adresu, aplikacja z kluczem do 300, a wszyscy razem do 600 na
+                      minutę. Po przekroczeniu serwer odpowiada kodem 429 i nagłówkiem{" "}
+                      <code className="font-mono">Retry-After: 60</code>.
                     </li>
                     <li>
                       Nie wolno obchodzić limitów, przeciążać serwera ani podszywać się pod Moją Serowarnię.
@@ -185,8 +186,10 @@ const WarunkiMcp = () => {
                       danych i obliczeń.
                     </li>
                     <li>
-                      Gdy aplikacja potrzebuje więcej niż 30 zapytań na minutę, <Link to="/kontakt" className="underline">napisz
-                      do nas</Link>: ustalimy wyższy limit.
+                      Aplikacja pyta ze swojego serwera, czyli z jednego adresu dla wszystkich użytkowników, więc 30
+                      zapytań na minutę szybko się kończy. Dlatego dajemy za darmo klucz aplikacji z limitem 300 zapytań na
+                      minutę: <Link to="/kontakt" className="underline">napisz do nas</Link> i podaj nazwę aplikacji.
+                      Przy jeszcze większym ruchu ustalimy warunki indywidualnie.
                     </li>
                   </ul>
                   <p>
@@ -218,6 +221,11 @@ const WarunkiMcp = () => {
                       <code className="font-mono">tools/list</code> zwraca narzędzia z opisami i schematami parametrów,{" "}
                       <code className="font-mono">tools/call</code> z polami <code className="font-mono">name</code> i{" "}
                       <code className="font-mono">arguments</code> wywołuje narzędzie;
+                    </li>
+                    <li>
+                      z kluczem aplikacji: nagłówek <code className="font-mono">Authorization: Bearer &lt;klucz&gt;</code>{" "}
+                      albo parametr <code className="font-mono">?klucz=</code> w adresie, gdy program nie pozwala dopisać
+                      nagłówka; bieżący limit podaje nagłówek odpowiedzi <code className="font-mono">x-limit-na-minute</code>;
                     </li>
                     <li>
                       odpowiedź przychodzi jako wiersz <code className="font-mono">data: {"{...}"}</code>; wynik narzędzia jest
@@ -316,7 +324,8 @@ const WarunkiMcp = () => {
                   <p>
                     Building your own app on the server is allowed, also commercially: show the source link and the
                     disclaimers from each response, keep price dates and the partner label, add{" "}
-                    <code className="font-mono">?z=app-your-name</code> to the server URL and contact us if you need more
+                    <code className="font-mono">?z=app-your-name</code> to the server URL; apps get a free key with 300 requests per minute on request (send it as{" "}
+                  <code className="font-mono">Authorization: Bearer</code>). Contact us if you need more
                     than 30 requests per minute. Technical notes are in the section “Instrukcja dla twórców aplikacji”
                     above.
                   </p>
@@ -328,7 +337,7 @@ const WarunkiMcp = () => {
               </Card>
 
               <p className="text-center text-muted-foreground">
-                Obowiązuje od 23 października 2026. Ostatnia zmiana: 25 października 2026 (zasady dla aplikacji).
+                Obowiązuje od 23 października 2026. Ostatnia zmiana: 25 października 2026 (zasady dla aplikacji, darmowe klucze aplikacji).
               </p>
             </div>
           </div>

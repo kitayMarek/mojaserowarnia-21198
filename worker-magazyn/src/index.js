@@ -44,7 +44,7 @@ const CORS = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'POST, GET, DELETE, OPTIONS',
   'access-control-allow-headers': 'content-type, accept, authorization, mcp-protocol-version, mcp-session-id, last-event-id',
-  'access-control-expose-headers': 'mcp-session-id, mcp-protocol-version',
+  'access-control-expose-headers': 'mcp-session-id, mcp-protocol-version, x-limit-na-minute',
   'access-control-max-age': '86400',
 };
 
@@ -82,11 +82,42 @@ async function kluczAdresu(request) {
   return [...new Uint8Array(skrot).slice(0, 12)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+/**
+ * Klucze aplikacji (od 25.10.2026, /warunki-mcp#aplikacje): darmowy klucz na prosbe
+ * daje 300 zapytan na minute zamiast 30 z adresu, bo aplikacja pyta ze swojego
+ * serwera, czyli z jednego adresu dla wszystkich uzytkownikow. Klucz to nie dostep:
+ * bez niego serwer odpowiada tak samo, tylko z nizszym limitem. Zly klucz = jak
+ * bez klucza, zeby przypadkowy naglowek nie wylaczyl komus serwera.
+ * Sekret KLUCZE_APLIKACJI: JSON {"klucz": "nazwa-aplikacji"}, dodaje go
+ * scripts/klucz-aplikacji.mjs. Naglowek Authorization: Bearer <klucz> albo
+ * ?klucz= dla programow, ktore nie pozwalaja dopisac naglowka.
+ */
+const LIMIT_Z_ADRESU = 30;
+const LIMIT_Z_KLUCZEM = 300;
+
+function aplikacjaZKlucza(request, env) {
+  if (!env.KLUCZE_APLIKACJI) return null;
+  let klucze;
+  try {
+    klucze = JSON.parse(env.KLUCZE_APLIKACJI);
+  } catch {
+    return null;
+  }
+  const naglowek = request.headers.get('authorization') || '';
+  const klucz = naglowek.match(/^Bearer\s+(\S+)$/i)?.[1] || new URL(request.url).searchParams.get('klucz') || '';
+  return klucz && Object.hasOwn(klucze, klucz) ? klucze[klucz] : null;
+}
+
 /** true = wolno. Brak wiazania (np. inny tryb uruchomienia) nie blokuje serwera. */
-async function wLimicie(env, request) {
+async function wLimicie(env, request, aplikacja) {
   if (env.LIMIT_CALOSC) {
     const { success } = await env.LIMIT_CALOSC.limit({ key: 'calosc' });
     if (!success) return false;
+  }
+  if (aplikacja) {
+    if (!env.LIMIT_KLUCZ) return true;
+    const { success } = await env.LIMIT_KLUCZ.limit({ key: aplikacja });
+    return success;
   }
   if (env.LIMIT_ADRES) {
     const { success } = await env.LIMIT_ADRES.limit({ key: await kluczAdresu(request) });
@@ -169,7 +200,7 @@ function stronaOpisu(origin) {
 ${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`).join('\n')}
   </ul>
 
-  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę. Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
+  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę (aplikacje z darmowym kluczem do 300: <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#aplikacje">zasady</a>). Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
 </main>
 </body>
 </html>
@@ -232,20 +263,31 @@ export default {
     }
 
     const opis = await opisWywolania(request, env);
+    const aplikacja = aplikacjaZKlucza(request, env);
+    // Aplikacja z kluczem, ale bez ?z=: jej wywolania i klikniecia licza sie pod nazwa z klucza.
+    const zrodlo = zrodloZAdresu(request) || aplikacja || '';
+    if (opis && !opis.zrodlo && aplikacja) opis.zrodlo = aplikacja;
+    const limitNaMinute = String(aplikacja ? LIMIT_Z_KLUCZEM : LIMIT_Z_ADRESU);
 
-    if (!(await wLimicie(env, request))) {
+    if (!(await wLimicie(env, request, aplikacja))) {
       ctx.waitUntil(zliczWywolanie(env, opis, 429));
       return new Response(
         JSON.stringify({
           jsonrpc: '2.0',
           id: null,
-          error: { code: -32000, message: 'Za dużo zapytań. Spróbuj ponownie za minutę.' },
+          error: {
+            code: -32000,
+            message: aplikacja
+              ? 'Za dużo zapytań. Spróbuj ponownie za minutę.'
+              : 'Za dużo zapytań. Spróbuj ponownie za minutę. Aplikacja potrzebuje więcej? Darmowy klucz: https://mojaserowarnia.pl/warunki-mcp#aplikacje',
+          },
         }),
         {
           status: 429,
           headers: {
             'content-type': 'application/json; charset=utf-8',
             'retry-after': '60',
+            'x-limit-na-minute': limitNaMinute,
             ...CORS,
             ...NAGLOWKI_WSPOLNE,
           },
@@ -259,9 +301,10 @@ export default {
     const naglowki = new Headers(odpowiedz.headers);
     for (const [k, v] of Object.entries({ ...CORS, ...NAGLOWKI_WSPOLNE })) naglowki.set(k, v);
     naglowki.set('cache-control', 'no-store');
+    naglowki.set('x-limit-na-minute', limitNaMinute);
     // Tresc moze zmienic dlugosc po dopisaniu znacznika.
     naglowki.delete('content-length');
-    const tresc = await zZnacznikiemAplikacji(odpowiedz, zrodloZAdresu(request));
+    const tresc = await zZnacznikiemAplikacji(odpowiedz, zrodlo);
     return new Response(tresc, { status: odpowiedz.status, headers: naglowki });
   },
 };
