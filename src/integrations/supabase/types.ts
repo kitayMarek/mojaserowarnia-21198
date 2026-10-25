@@ -856,6 +856,7 @@ export type Database = {
         }[]
       }
       serowarnie_slug: { Args: { nazwa_in: string }; Returns: string }
+      wypisz_z_wiadomosci: { Args: { _token: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"

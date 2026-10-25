@@ -40,8 +40,11 @@ const Wypisanie = () => {
     // z następnej wiadomości — a adres pocztowy niżej działa zawsze.
     supabase
       .rpc("wypisz_z_wiadomosci", { _token: token })
-      .then(() => setStan("gotowe"))
-      .catch(() => setStan("gotowe"));
+      // Zapytanie Supabase to tylko „thenable” (bez .catch), więc błąd łapie drugi argument then.
+      .then(
+        () => setStan("gotowe"),
+        () => setStan("gotowe"),
+      );
   }, [parametry]);
 
   return (

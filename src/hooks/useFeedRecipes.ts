@@ -14,6 +14,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import type { Skladnik, ZapisanaMieszanka } from "@/types/kalkulatorPasz";
@@ -72,7 +73,7 @@ export function useFeedRecipes() {
       user_id: user.id,
       nazwa: czysta,
       norma,
-      skladniki: mieszanka as unknown as Record<string, unknown>,
+      skladniki: mieszanka as unknown as Json,
       updated_at: new Date().toISOString(),
     };
 
