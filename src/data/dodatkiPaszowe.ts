@@ -65,6 +65,29 @@ export interface OfertaDodatku {
   sprawdzono: string;
   /** Gdzie jest sklep i czy można przyjechać; z SKLEPY_DODATKOW, null = sklepu tam nie ma. */
   lokalizacja?: LokalizacjaSklepu | null;
+  /**
+   * Wysyłka jednego opakowania do domu, gdy podaje ją strona produktu (najtańszy kurier albo
+   * poczta). Ma pierwszeństwo przed cennikiem sklepu w LokalizacjaSklepu.dostawa.
+   */
+  dostawaZl?: number;
+  /** true = strona podaje „od X zł”: to najniższa stawka, w koszyku może wyjść więcej. */
+  dostawaOd?: boolean;
+}
+
+/**
+ * Cennik wysyłki sklepu (od 25.10.2026, decyzja Marka: obok odbioru w województwie zawsze
+ * „najtaniej z dostawą”, bo cena bez przesyłki myli). progiWagi: [do kg, zł] za całe
+ * zamówienie. zaWartosc: [od zł wartości zamówienia, zł za paczkę], paczki do maxKgPaczki.
+ * darmowaOdZl: od tej wartości towaru dostawa gratis. Czego sklep nie publikuje, nie ma.
+ */
+export interface DostawaSklepu {
+  progiWagi?: Array<[number, number]>;
+  zaWartosc?: Array<[number, number]>;
+  maxKgPaczki?: number;
+  darmowaOdZl?: number;
+  sprawdzono: string;
+  zrodlo: string;
+  uwagi?: string;
 }
 
 // ── Sklepy: gdzie są i czy można przyjechać (od 25.10.2026) ─────────────────
@@ -127,6 +150,8 @@ export interface LokalizacjaSklepu {
   /** Strona, z której to wzięte (Kontakt, Regulamin, Dostawa). */
   zrodlo: string;
   uwagi?: string;
+  /** Cennik wysyłki, gdy sklep go publikuje; brak = koszt widać dopiero w koszyku. */
+  dostawa?: DostawaSklepu;
 }
 
 const L = "2026-10-25";
@@ -148,6 +173,11 @@ export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
     miejscowosc: "Cieszyn", wojewodztwo: "slaskie", odbior: "wysylka", punkty: [],
     sprawdzono: L, zrodlo: "https://agrofortel.pl/metody-platnosci-i-koszty-dostawy",
     uwagi: "Firma czeska (siedziba w Pradze), magazyn w Cieszynie. Strona dostawy wymienia tylko kuriera GLS i Rabena.",
+    dostawa: {
+      progiWagi: [[2, 25], [5, 27], [10, 29], [20, 31], [30, 33], [60, 49], [90, 69], [130, 79]], darmowaOdZl: 690,
+      sprawdzono: L, zrodlo: "https://agrofortel.pl/metody-platnosci-i-koszty-dostawy",
+      uwagi: "Kurier GLS według wagi zamówienia; powyżej 100 kg paleta Raben 175 zł (79 zł przy zamówieniu powyżej 690 zł). Pobranie +7,90 zł.",
+    },
   },
   "Farm Pet Garden": {
     miejscowosc: "Osięciny", wojewodztwo: "kujawsko-pomorskie", odbior: "sklep",
@@ -168,6 +198,10 @@ export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
     miejscowosc: "Osielsko", wojewodztwo: "kujawsko-pomorskie", odbior: "odbior",
     punkty: [{ rodzaj: "odbior", adres: "ul. Kolonijna 5A, 86-031 Osielsko (magazyn)", wojewodztwo: "kujawsko-pomorskie", godziny: "dni robocze 8:00–16:00" }],
     sprawdzono: L, zrodlo: "https://kopalko.pl/dostawa-i-platnosci/",
+    dostawa: {
+      sprawdzono: L, zrodlo: "https://kopalko.pl/dostawa-i-platnosci/",
+      uwagi: "Orientacyjnie: kurier od ok. 16 zł, produkty wysyłane pojedynczo od ok. 25 zł, paleta od ok. 200 zł; dokładny koszt w koszyku.",
+    },
   },
   Lagrico: {
     miejscowosc: "Zaręby Kościelne", wojewodztwo: "mazowieckie", odbior: "odbior",
@@ -187,11 +221,21 @@ export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
     miejscowosc: "Wrocław", wojewodztwo: "dolnoslaskie", odbior: "wysylka", punkty: [],
     sprawdzono: L, zrodlo: "https://mojaferma.pl/pl/i/Koszty-dostawy/4",
     uwagi: "Strona kosztów dostawy wymienia tylko paczki i palety. Sprzedawca: Galwet Sp. z o.o. (to inna firma niż sklep Galvet).",
+    dostawa: {
+      progiWagi: [[10, 18.5], [200, 29]], darmowaOdZl: 500,
+      sprawdzono: L, zrodlo: "https://mojaferma.pl/pl/i/Koszty-dostawy/4",
+      uwagi: "Jeden koszt za zamówienie według wagi, niezależnie od liczby paczek. Dolmix 20 i 25 kg: 15 zł. Paleta powyżej 200 kg 80 zł, powyżej 350 kg gratis.",
+    },
   },
   "Pan Hodowca": {
     miejscowosc: "Czerteż k. Sanoka", wojewodztwo: "podkarpackie", odbior: "wysylka", punkty: [],
     sprawdzono: L, zrodlo: "https://www.panhodowca.pl/cms/regulamin",
     uwagi: "Regulamin: sprzedaż tylko przez internet, wysyłka paczkomatem albo kurierem.",
+    dostawa: {
+      zaWartosc: [[0, 15.99], [65, 2.99]], maxKgPaczki: 30,
+      sprawdzono: L, zrodlo: "https://www.panhodowca.pl/cms/warunki-dostawy-oraz-czas-realizacji-zamowienia",
+      uwagi: "Kurier za paczkę do 30 kg: 15,99 zł, od 65 zł zamówienia 2,99 zł. Paczkomat InPost (do 25 kg): 9,99 zł, od 65 zł 1,49 zł.",
+    },
   },
   PanPasza: {
     miejscowosc: "Syberia k. Lubowidza", wojewodztwo: "mazowieckie", odbior: null, punkty: [],
@@ -230,6 +274,11 @@ export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
     miejscowosc: "Kwiatonowice k. Gorlic", wojewodztwo: "malopolskie", odbior: null, punkty: [],
     sprawdzono: L, zrodlo: "https://www.zbozowysklep.pl/kontakt/",
     uwagi: "Regulamin mówi o „kilku opcjach dostawy” bez ich wymienienia, strona o wysyłce do paczkomatu; odbioru osobistego nie opisuje: zapytaj sklep.",
+    dostawa: {
+      darmowaOdZl: 100,
+      sprawdzono: L, zrodlo: "https://www.zbozowysklep.pl/produkt/wtaminy-dla-kur-unipasz-univit-kurka-nioska-2-kg/",
+      uwagi: "Od 100 zł przesyłka do Paczkomatu gratis; poniżej tej kwoty koszt w koszyku.",
+    },
   },
   "e-pasze.pl": {
     miejscowosc: "Czarnocin", wojewodztwo: "lodzkie", odbior: "odbior",
@@ -323,6 +372,103 @@ export const cenaZaKg = (o: Pick<OfertaDodatku, "cenaZl" | "opakowanieKg">): num
 export function najtanszaOferta(oferty: OfertaDodatku[] | undefined): OfertaDodatku | null {
   if (!oferty?.length) return null;
   return [...oferty].sort((a, b) => cenaZaKg(a) - cenaZaKg(b) || b.sprawdzono.localeCompare(a.sprawdzono))[0];
+}
+
+// ── Gdzie kupić: koszt z dostawą i odbiór w województwie (od 25.10.2026) ──────
+
+export interface KosztDostawy {
+  /** zł za wysyłkę tych opakowań do domu; null = nie znamy (sklep pokazuje koszt w koszyku). */
+  zl: number | null;
+  /** true = strona podaje „od X zł”, w koszyku może wyjść więcej. */
+  od: boolean;
+  opis: string;
+}
+
+const zaokr2 = (x: number) => Math.round(x * 100) / 100;
+
+/** Koszt wysyłki `opakowan` opakowań oferty do domu: próg darmowej dostawy, koszt z karty produktu, cennik sklepu. */
+export function kosztDostawy(o: OfertaDodatku, opakowan = 1): KosztDostawy {
+  const d = lokalizacjaSklepu(o.sklep)?.dostawa;
+  const towar = o.cenaZl * opakowan;
+  const kg = o.opakowanieKg * opakowan;
+  if (d?.darmowaOdZl != null && towar >= d.darmowaOdZl) return { zl: 0, od: false, opis: `dostawa gratis od ${d.darmowaOdZl} zł` };
+  if (o.dostawaZl != null) {
+    // Strona produktu podaje wysyłkę jednego opakowania; kilka opakowań liczymy jako paczki do 30 kg.
+    const paczek = Math.max(1, Math.ceil(kg / 30 - 1e-9));
+    const szacunek = !!o.dostawaOd || opakowan > 1;
+    return { zl: zaokr2(o.dostawaZl * paczek), od: szacunek, opis: szacunek ? "szacunek ze strony produktu (koszt jednej paczki)" : "koszt ze strony produktu" };
+  }
+  if (d?.progiWagi) {
+    const prog = d.progiWagi.find(([doKg]) => kg <= doKg);
+    return prog ? { zl: prog[1], od: false, opis: `cennik sklepu do ${prog[0]} kg` } : { zl: null, od: false, opis: "przesyłka paletowa: koszt w sklepie" };
+  }
+  if (d?.zaWartosc) {
+    const paczek = Math.ceil(kg / (d.maxKgPaczki ?? 30));
+    const stawka = [...d.zaWartosc].reverse().find(([odZl]) => towar >= odZl)?.[1];
+    if (stawka != null) return { zl: zaokr2(stawka * paczek), od: false, opis: `cennik sklepu, ${paczek} ${paczek === 1 ? "paczka" : "paczki"}` };
+  }
+  return { zl: null, od: false, opis: "koszt w koszyku sklepu" };
+}
+
+export interface PropozycjaZakupu {
+  oferta: OfertaDodatku;
+  opakowan: number;
+  towarZl: number;
+  dostawa: KosztDostawy;
+  /** Towar + dostawa; null, gdy kosztu dostawy nie znamy. */
+  razemZl: number | null;
+}
+
+export interface PropozycjeZakupu {
+  /** Najniższa cena z dostawą do domu wśród ofert ze znanym kosztem wysyłki. */
+  zDostawa: PropozycjaZakupu | null;
+  /** Najtańszy towar bez znanego kosztu wysyłki, gdy wychodzi taniej niż zDostawa albo zDostawa brak. */
+  bezZnanejDostawy: PropozycjaZakupu | null;
+  /** Najtańsza oferta sklepu, do którego można przyjechać w tym województwie (odbiór, bez wysyłki). */
+  doOdebrania: PropozycjaZakupu | null;
+}
+
+/**
+ * Dwie propozycje zamiast jednej „najtańszej” (decyzja Marka 25.10.2026): najtaniej z dostawą
+ * do domu i do odebrania w województwie. Ilość: `kg` (np. zapas stada na 30 dni), bez niej
+ * jedno opakowanie. Kolejność tylko po cenie; pole partner nic tu nie zmienia.
+ */
+export function propozycjeZakupu(oferty: OfertaDodatku[], kg: number | null, wojewodztwo?: Wojewodztwo | null): PropozycjeZakupu {
+  const ile = kg && kg > 0 ? kg : typoweOpakowanieKg(oferty);
+  const wszystkie: PropozycjaZakupu[] = oferty.map((o) => {
+    const opakowan = Math.max(1, Math.ceil(ile / o.opakowanieKg - 1e-9));
+    const towarZl = zaokr2(o.cenaZl * opakowan);
+    const dostawa = kosztDostawy(o, opakowan);
+    return { oferta: o, opakowan, towarZl, dostawa, razemZl: dostawa.zl == null ? null : zaokr2(towarZl + dostawa.zl) };
+  });
+  const najmniej = (lista: PropozycjaZakupu[], ile: (p: PropozycjaZakupu) => number) =>
+    lista.length ? lista.reduce((a, b) => (ile(b) < ile(a) ? b : a)) : null;
+  const zDostawa = najmniej(wszystkie.filter((p) => p.razemZl != null), (p) => p.razemZl!);
+  const bez = najmniej(wszystkie.filter((p) => p.razemZl == null), (p) => p.towarZl);
+  const doOdebrania = wojewodztwo
+    ? najmniej(wszystkie.filter((p) => punktyWWojewodztwie(p.oferta.lokalizacja ?? lokalizacjaSklepu(p.oferta.sklep), wojewodztwo).length > 0), (p) => p.towarZl)
+    : null;
+  return {
+    zDostawa,
+    bezZnanejDostawy: bez && (!zDostawa || bez.towarZl < zDostawa.razemZl!) ? bez : null,
+    doOdebrania,
+  };
+}
+
+/**
+ * Ilość do porównania, gdy nikt jej nie podał: najczęstsze opakowanie wśród ofert (przy remisie
+ * większe). Bez tego wiaderko 2,5 kg wygrywałoby z workiem 25 kg tylko dlatego, że jest mniejsze.
+ */
+export function typoweOpakowanieKg(oferty: OfertaDodatku[]): number {
+  const ile = new Map<number, number>();
+  for (const o of oferty) ile.set(o.opakowanieKg, (ile.get(o.opakowanieKg) ?? 0) + 1);
+  return [...ile.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0]?.[0] ?? 1;
+}
+
+/** Oferta z migawki po adresie (bez znacznika utm): strona dokleja z niej koszt wysyłki do ofert z bazy. */
+export function ofertaZMigawki(url: string): OfertaDodatku | undefined {
+  const czysty = url.replace(/[?&]utm_source=mojaserowarnia(?=&|#|$)/, "");
+  return DODATKI_PASZOWE.flatMap((d) => d.oferty).find((o) => o.url === czysty);
 }
 
 /**
@@ -475,7 +621,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "Etykieta podaje wartości w g/kg (Ca 325 g, P 11,9 g, Na 19 g), tu przeliczone na %. Wiaderko 4 kg.",
     oferty: [
-      { sklep: "Rolnet", url: "https://rolnet.pl/Witaminy-dla-kur-Drobmix-NIOSKA-4-4-kg-premiks-dla-kur-niosek-i-kurczat-p4151", cenaZl: 30.0, opakowanieKg: 4, sprawdzono: D },
+      { sklep: "Rolnet", url: "https://rolnet.pl/Witaminy-dla-kur-Drobmix-NIOSKA-4-4-kg-premiks-dla-kur-niosek-i-kurczat-p4151", cenaZl: 30.0, opakowanieKg: 4, sprawdzono: D, dostawaZl: 13 },
       { sklep: "e-pasze.pl", url: "https://e-pasze.pl/produkt/mieszanka-witaminowo-mineralna-dla-drobiu-4kg-drobmix-nioska-4/", cenaZl: 32.0, opakowanieKg: 4, sprawdzono: D },
     ],
   },
@@ -518,7 +664,7 @@ const WPISY: Wpis[] = [
     uwagi: "Producent publikuje tylko przeznaczenie i dawkę, skład z etykiety przepisanej przez sklepy, w g/kg (Ca 298,8 g, P 25 g, Na 40 g), tu w %. Worek 10 kg ma w jednym sklepie inne liczby (Ca 27,83%, P 3,75%). Żelazo 1957 albo 1975 mg/kg zależnie od sklepu. Etykieta podaje też witaminę K3 50 mg/kg.",
     oferty: [
       { sklep: "MojaFerma.pl", url: "https://mojaferma.pl/pl/p/Polfamix-NIOSKA-Extra-1kg/350", cenaZl: 16.0, opakowanieKg: 1, sprawdzono: D },
-      { sklep: "eZoo.pl", url: "https://ezoo.pl/pl/p/POLFAMIX-NIOSKA-EXTRA-1-kg-witaminy-mineraly-drob-kury-11209125/13093", cenaZl: 20.0, opakowanieKg: 1, sprawdzono: D },
+      { sklep: "eZoo.pl", url: "https://ezoo.pl/pl/p/POLFAMIX-NIOSKA-EXTRA-1-kg-witaminy-mineraly-drob-kury-11209125/13093", cenaZl: 20.0, opakowanieKg: 1, sprawdzono: D, dostawaZl: 10, dostawaOd: true },
     ],
   },
 
@@ -536,7 +682,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "Ca 37,6% to średnia, producent gwarantuje co najmniej 37%. Węglan wapnia jest na liście pasz mineralnych dopuszczonych w produkcji ekologicznej (rozp. wykonawcze (UE) 2021/1165, załącznik III). Spec-Drob (Olsztyn) sprzedaje drobniejszą frakcję 0,1–0,4 mm o tym samym składzie; 24.10.2026 była tam chwilowo niedostępna.",
     oferty: [
-      { sklep: "AgroRatajczak", url: "https://sklep.agroratajczak.pl/kreda-pastewna-vivamax-0-4-1-2mm-25kg-p-164.html", cenaZl: 15.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "AgroRatajczak", url: "https://sklep.agroratajczak.pl/kreda-pastewna-vivamax-0-4-1-2mm-25kg-p-164.html", cenaZl: 15.0, opakowanieKg: 25, sprawdzono: D, dostawaZl: 25, dostawaOd: true },
       { sklep: "Rolmat", url: "https://sklep.rolmat.pl/Kreda-Pastewna-VivaMax-0,4-1,2-25kg", cenaZl: 23.0, opakowanieKg: 25, sprawdzono: D },
       { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Kreda-Pastewna-25-kg-Viva-Max-0%2C1-0%2C4/1385", cenaZl: 23.0, opakowanieKg: 25, sprawdzono: D },
     ],
@@ -584,7 +730,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "P co najmniej 22,7%, Ca co najmniej 16% (strona sklepu). Producenta sklep nie podaje. Dla chowu ekologicznego potrzebny fosforan odfluorowany: sprawdź u sprzedawcy.",
     oferty: [
-      { sklep: "Lagrico", url: "https://lagrico.pl/fosforan-jednowapniowy-paszowy-worek-25kg,id760.html", cenaZl: 139.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "Lagrico", url: "https://lagrico.pl/fosforan-jednowapniowy-paszowy-worek-25kg,id760.html", cenaZl: 139.0, opakowanieKg: 25, sprawdzono: D, dostawaZl: 17 },
     ],
   },
   {
@@ -650,7 +796,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: D,
     uwagi: "Skład z karty dystrybutora (Kopalko). Energii i sodu karta nie podaje: przyjęte jak dla „Drożdże piwne” z tabel. Ta sama strona dla koni podaje 40% białka zamiast 43%.",
     oferty: [
-      { sklep: "Kopalko", url: "https://kopalko.pl/sklep/produkty-dla-bydla/drozdze-dla-bydla/leiber-brewers-yeast/", cenaZl: 324.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "Kopalko", url: "https://kopalko.pl/sklep/produkty-dla-bydla/drozdze-dla-bydla/leiber-brewers-yeast/", cenaZl: 324.0, opakowanieKg: 25, sprawdzono: D, dostawaZl: 25, dostawaOd: true },
     ],
   },
   {
@@ -814,7 +960,7 @@ const WPISY: Wpis[] = [
       { sklep: "Pan Hodowca", url: "https://www.panhodowca.pl/witaminy-dla-kur-dolmix-dn-re-25-kg-bez-barwnikow-id-129", cenaZl: 138.9, opakowanieKg: 25, sprawdzono: ZGL },
       { sklep: "Farm Pet Garden", url: "https://farmpetgarden.pl/produkt/dolmix-dn-re-eko-dolfos-25/", cenaZl: 145.0, opakowanieKg: 25, sprawdzono: ZGL },
       { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Witaminy-dla-niosek-Dolmix-DN-RE-2%2C5-25-kg-dla-ekologii/811", cenaZl: 162.96, opakowanieKg: 25, sprawdzono: ZGL },
-      { sklep: "Lagrico", url: "https://lagrico.pl/dolfos-dolmix-dn-re-2-5kg,id223.html", cenaZl: 15.0, opakowanieKg: 2.5, sprawdzono: ZGL },
+      { sklep: "Lagrico", url: "https://lagrico.pl/dolfos-dolmix-dn-re-2-5kg,id223.html", cenaZl: 15.0, opakowanieKg: 2.5, sprawdzono: ZGL, dostawaZl: 9.5 },
     ],
   },
   {
@@ -835,7 +981,7 @@ const WPISY: Wpis[] = [
     zweryfikowano: ZGL,
     uwagi: "Producent potwierdza przeznaczenie, dawkę 2% i worek 20 kg, ale składu nie publikuje; skład z karty sklepu, zgodny z liczbami zgłaszającego. Karta podaje „DL-metionina+cysteina 10,5%” i „L-lizyna 9%”, mniej niż metionina 11,5% i lizyna 11,4%: to najpewniej ilości dodanych aminokwasów, więc metionina z cysteiną jest tu równa metioninie (dolna granica). B12 i biotyna podane w „µm”, przyjęte jako µg. Etykieta podaje też witaminę K3 150 mg/kg. W opisie sklepu stoi „konfekcja 25 kg”, w nazwie i u producenta 20 kg.",
     oferty: [
-      { sklep: "MojaFerma.pl", url: "https://mojaferma.pl/pl/p/Dolmix-DB-grower-2-20kg/125", cenaZl: 244.5, opakowanieKg: 20, sprawdzono: ZGL },
+      { sklep: "MojaFerma.pl", url: "https://mojaferma.pl/pl/p/Dolmix-DB-grower-2-20kg/125", cenaZl: 244.5, opakowanieKg: 20, sprawdzono: ZGL, dostawaZl: 15 },
     ],
   },
   {

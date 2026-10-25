@@ -3,8 +3,9 @@ import { ExternalLink, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
-  GATUNKI_DODATKOW, OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, adresOferty, cenaZaKg, dawkaEtykiety, opisLokalizacji, przepisZeStosowania,
-  type DodatekPaszowy,
+  GATUNKI_DODATKOW, OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, adresOferty, cenaZaKg, dawkaEtykiety, kosztDostawy, opisLokalizacji,
+  propozycjeZakupu, przepisZeStosowania, typoweOpakowanieKg,
+  type DodatekPaszowy, type KosztDostawy,
 } from "@/data/dodatkiPaszowe";
 import { OPIS_GMO, opisEko } from "@/data/gmoEkoSurowcow";
 import { liczbaPL } from "@/components/kalkulator/wspolne";
@@ -81,6 +82,11 @@ export default function KartaProduktu({
 }) {
   const d = dodatek;
   const oferty = d ? [...d.oferty].sort((a, b) => cenaZaKg(a) - cenaZaKg(b)) : [];
+  // Najtaniej z dostawą do domu (od 25.10.2026): cena bez przesyłki myli, więc liczymy ją dla
+  // najczęstszego opakowania. Odbiór w województwie strona pokazuje adresem przy ofercie.
+  const zDostawa = oferty.length > 1 ? propozycjeZakupu(oferty, null).zDostawa : null;
+  const tekstDostawy = (k: KosztDostawy) =>
+    k.zl == null || k.zl === 0 ? k.opis : `dostawa ${k.od ? "od " : ""}${liczbaPL(k.zl, 2)} zł`;
   const dawka = d ? dawkaEtykiety(d) : 0;
   const jestPrzepis = !!(d && przepisZeStosowania(d.stosowanie));
   const sklad = d ? SKLAD.filter(([pole]) => Number(d[pole]) > 0) : [];
@@ -142,6 +148,13 @@ export default function KartaProduktu({
             </Blok>
 
             <Blok tytul="Gdzie kupić">
+              {zDostawa && (
+                <p className="mb-1.5 text-sm">
+                  Najtaniej z dostawą do domu ({liczbaPL(typoweOpakowanieKg(oferty))} kg):{" "}
+                  <span className="font-semibold">{zDostawa.oferta.sklep}, {liczbaPL(zDostawa.razemZl!, 2)} zł</span>
+                  {zDostawa.dostawa.od && " (szacunek)"}. Sklepy z odbiorem osobistym mają adres przy ofercie.
+                </p>
+              )}
               {oferty.length > 0 ? (
                 <ul className="space-y-1.5">
                   {oferty.map((o) => (
@@ -161,7 +174,7 @@ export default function KartaProduktu({
                         </span>
                       )}
                       <span className="w-full text-xs text-muted-foreground">
-                        cena z {dataPL(o.sprawdzono)} ·{" "}
+                        {tekstDostawy(kosztDostawy(o))} · cena z {dataPL(o.sprawdzono)} ·{" "}
                         <a href={adresOferty(o.url)} target="_blank" rel="nofollow noopener" className="inline-flex items-center gap-0.5 font-semibold text-primary underline-offset-4 hover:underline">
                           strona sklepu <ExternalLink className="h-3 w-3" aria-hidden="true" />
                         </a>

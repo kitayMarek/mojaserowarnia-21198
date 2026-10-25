@@ -9,7 +9,7 @@ import { feedIngredients } from "../src/data/feedIngredients.ts";
 import { NORMY_DROBIU } from "../src/data/normyDrobiu.ts";
 import {
   DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, SKLEPY_DODATKOW, WOJEWODZTWA, adresOferty, cenaZaKg, dawkaEtykiety, najtanszaOferta,
-  przepisZeStosowania, wWojewodztwie,
+  kosztDostawy, przepisZeStosowania, wWojewodztwie,
 } from "../src/data/dodatkiPaszowe.ts";
 // Serwer MCP czyta tę samą migawkę; testujemy jego wyniki wprost, bez Workera.
 import { kartaDodatku, szukajDodatkow, zamiennikiDodatku } from "../worker-magazyn/src/dodatki.js";
@@ -386,6 +386,21 @@ test("MCP: dobór z województwem daje te same proporcje i tę samą kolejność
   const kreda = z.gdzie_kupic.find((g: { skladnik: string }) => g.skladnik === "Kreda pastewna");
   assert.ok(kreda.oferty.some((o: { sklep: string; w_twoim_wojewodztwie: boolean }) => o.sklep === "Spec-Drob" && o.w_twoim_wojewodztwie));
   assert.ok(kreda.inne_oferty_w_twoim_wojewodztwie.every((o: { w_twoim_wojewodztwie: boolean }) => o.w_twoim_wojewodztwie));
+});
+
+test("gdzie kupić: najtaniej z dostawą i odbiór w województwie, nieznana przesyłka nie wygrywa", () => {
+  const dolmix = kartaDodatku({ nazwa: "Dolmix DN RE", wojewodztwo: "kujawsko-pomorskie" }).propozycje_zakupu;
+  assert.equal(dolmix.ilosc.kg, 25); // najczęstsze opakowanie, nie wiaderko 2,5 kg
+  assert.equal(dolmix.najtaniej_z_dostawa.sklep, "Pan Hodowca");
+  assert.equal(dolmix.najtaniej_z_dostawa.razem_z_dostawa_zl, 141.89);
+  const awans = kartaDodatku({ nazwa: "Koncentrat 25% Nioska Pełna Awans", wojewodztwo: "warminsko-mazurskie" }).propozycje_zakupu;
+  assert.equal(typeof awans.najtaniej_z_dostawa, "string"); // żaden sklep nie podaje przesyłki
+  assert.equal(awans.bez_znanego_kosztu_dostawy.sklep, "Paszowo.pl");
+  assert.equal(awans.do_odebrania_w_twoim_wojewodztwie.sklep, "Spec-Drob");
+  // Próg darmowej dostawy wygrywa z cennikiem wagowym (Agrofortel: gratis od 690 zł).
+  const grys = DODATKI_PASZOWE.flatMap((d) => d.oferty).find((o) => o.sklep === "Agrofortel")!;
+  assert.equal(kosztDostawy(grys, 1).zl, 27);
+  assert.equal(kosztDostawy(grys, 58).zl, 0);
 });
 
 console.log(`OK: ${testow} testów`);

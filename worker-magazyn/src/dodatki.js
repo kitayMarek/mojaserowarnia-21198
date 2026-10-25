@@ -23,7 +23,7 @@ import { feedIngredients } from '../../src/data/feedIngredients.ts';
 import { NORMY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import { OPIS_GMO, opisEko } from '../../src/data/gmoEkoSurowcow.ts';
 import { TOLERANCJE, koncentratZeZbozem, kosztNaPtakaMiesiecznie, sprawdzNorme, zawartosc } from '../../src/lib/bilansPaszy.ts';
-import { normalizuj, ofertaDlaModelu, ofertyWWojewodztwie, opisWojewodztwa, zaokr, znajdzNorme } from './pasze.js';
+import { normalizuj, ofertaDlaModelu, ofertyWWojewodztwie, opisWojewodztwa, propozycjeDlaModelu, zaokr, znajdzNorme } from './pasze.js';
 
 const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
 
@@ -128,6 +128,7 @@ function wiersz(d, brak, dawka, wojewodztwo) {
     // ale w dawce kilku gramów na 10 kur to ułamek normy, a fosforan daje go całość.
     ...(brak && dawkaProc(d, dawka?.g) ? { w_paszy_przy_dawce_z_etykiety: { wartosc: zaokr((d[brak.pole] * dawkaProc(d, dawka?.g)) / 100, 3), jednostka: brak.jedn } } : {}),
     ...(cenaSkladnika(d, brak) != null ? { cena_100_g_skladnika_zl: zaokr(cenaSkladnika(d, brak), 2) } : {}),
+    ...(d.oferty.length ? { propozycje_zakupu: propozycjeDlaModelu(d.oferty.map((o) => ({ d, o })), null, wojewodztwo) } : {}),
     najtansza_oferta: oferta ? ofertaDlaModelu(oferta, wojewodztwo) : null,
     ...(blisko.length ? { inne_oferty_w_twoim_wojewodztwie: blisko.map(({ o }) => ofertaDlaModelu(o, wojewodztwo)) } : {}),
     koszt_na_kure_30_dni_zl: koszt == null ? null : zaokr(koszt, 2),
@@ -277,6 +278,7 @@ export function kartaDodatku({ nazwa, zboza, drob, okres, dawka_g, wojewodztwo }
     ...(d.skladSurowcowy ? { sklad_surowcowy: d.skladSurowcowy } : {}),
     gmo: OPIS_GMO[d.gmo],
     eko: opisEko(d.dopuszczalneEko),
+    ...(d.oferty.length ? { propozycje_zakupu: propozycjeDlaModelu(d.oferty.map((o) => ({ d, o })), null, wojewodztwo) } : {}),
     oferty: [...d.oferty].sort((a, b) => cenaZaKg(a) - cenaZaKg(b)).map((o) => ofertaDlaModelu(o, wojewodztwo)),
     ...opisWojewodztwa(wojewodztwo),
     ...(d.oferty.length ? {} : { bez_ofert: d.urlProducenta ? `Nie znaleźliśmy w sklepach internetowych. Sprzedaż u producenta: ${d.urlProducenta}` : 'Nie znaleźliśmy w sklepach internetowych.' }),

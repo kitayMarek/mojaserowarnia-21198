@@ -22,7 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { feedIngredients, feedCategories, type FeedIngredient } from "@/data/feedIngredients";
 import { SKLADNIKI_Z_KUCHNI } from "@/data/skladnikiZKuchni";
 import {
-  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, dodatekPoNazwie, lokalizacjaSklepu, opisDawki,
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, dodatekPoNazwie, lokalizacjaSklepu, ofertaZMigawki, opisDawki,
   type DodatekPaszowy, type Gatunek, type Gmo, type LokalizacjaSklepu, type Odbior, type OfertaDodatku,
   type PunktSklepu, type Wojewodztwo, type ZrodloSkladu,
 } from "@/data/dodatkiPaszowe";
@@ -106,17 +106,23 @@ function mapLokalizacja(o: Record<string, unknown>): LokalizacjaSklepu | null {
     sprawdzono: o.lokalizacja_sprawdzona as string,
     zrodlo: zMigawki?.zrodlo ?? "",
     uwagi: zMigawki?.uwagi,
+    dostawa: zMigawki?.dostawa,
   };
 }
 
-const mapOferta = (o: Record<string, unknown>): OfertaDodatku => ({
-  sklep: o.sklep as string,
-  url: o.url as string,
-  cenaZl: num(o.cena_zl),
-  opakowanieKg: num(o.opakowanie_kg),
-  sprawdzono: o.sprawdzono as string,
-  lokalizacja: mapLokalizacja(o),
-});
+// Koszt wysyłki z karty produktu (od 25.10.2026) jest tylko w migawce: bierzemy go po adresie oferty.
+const mapOferta = (o: Record<string, unknown>): OfertaDodatku => {
+  const zMigawki = ofertaZMigawki(o.url as string);
+  return {
+    sklep: o.sklep as string,
+    url: o.url as string,
+    cenaZl: num(o.cena_zl),
+    opakowanieKg: num(o.opakowanie_kg),
+    sprawdzono: o.sprawdzono as string,
+    lokalizacja: mapLokalizacja(o),
+    ...(zMigawki?.dostawaZl != null ? { dostawaZl: zMigawki.dostawaZl, dostawaOd: zMigawki.dostawaOd } : {}),
+  };
+};
 
 export function useFeedIngredients() {
   const [rows, setRows] = useState<Record<string, unknown>[]>([]);

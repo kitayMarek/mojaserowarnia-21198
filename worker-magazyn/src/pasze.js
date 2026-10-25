@@ -18,7 +18,7 @@ import { feedIngredients as SUROWCE_PASZ, feedCategories } from '../../src/data/
 import { SKLADNIKI_Z_KUCHNI, KATEGORIA_Z_KUCHNI } from '../../src/data/skladnikiZKuchni.ts';
 import {
   DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, OPIS_ODBIORU, WOJEWODZTWA,
-  adresOferty, cenaZaKg, najtanszaOferta, punktyWWojewodztwie, wWojewodztwie,
+  adresOferty, cenaZaKg, najtanszaOferta, propozycjeZakupu, punktyWWojewodztwie, typoweOpakowanieKg, wWojewodztwie,
 } from '../../src/data/dodatkiPaszowe.ts';
 import { OPIS_GMO, opisEko, znacznikiSurowca } from '../../src/data/gmoEkoSurowcow.ts';
 
@@ -151,6 +151,38 @@ export function ofertaDlaModelu(o, wojewodztwo) {
 }
 
 /**
+ * Dwie propozycje zakupu (od 0.8.5, decyzja Marka 25.10.2026): najtaniej z dostawą do domu
+ * i do odebrania w województwie, bo cena bez przesyłki myli, a wielu woli kupić blisko.
+ * `pary` = [{ d: produkt, o: oferta }], `kg` = ilość do kupienia (null = jedno opakowanie).
+ */
+export function propozycjeDlaModelu(pary, kg, wojewodztwo, podstawa) {
+  if (!pary.length) return null;
+  const produkt = new Map(pary.map(({ d, o }) => [o, d]));
+  const p = propozycjeZakupu(pary.map(({ o }) => o), kg, wojewodztwo);
+  const opisz = (x, zDostawa) => x && {
+    produkt: produkt.get(x.oferta)?.nazwa,
+    ...ofertaDlaModelu(x.oferta, wojewodztwo),
+    opakowan: x.opakowan,
+    towar_zl: x.towarZl,
+    ...(zDostawa
+      ? x.dostawa.zl == null
+        ? { dostawa: 'plus przesyłka: koszt w koszyku sklepu' }
+        : { dostawa_zl: x.dostawa.zl, dostawa: x.dostawa.opis, razem_z_dostawa_zl: x.razemZl, ...(x.dostawa.od ? { dostawa_uwaga: 'strona podaje „od”: w koszyku może wyjść więcej' } : {}) }
+      : { dostawa: 'odbiór osobisty, bez przesyłki' }),
+  };
+  return {
+    ilosc: kg
+      ? { kg: zaokr(kg, 1), podstawa }
+      : { kg: typoweOpakowanieKg(pary.map(({ o }) => o)), podstawa: 'najczęstsze opakowanie w ofertach (ilości nikt nie podał)' },
+    najtaniej_z_dostawa: opisz(p.zDostawa, true) ?? 'żaden sklep nie podaje kosztu wysyłki tego produktu: koszt w koszyku',
+    ...(p.bezZnanejDostawy ? { bez_znanego_kosztu_dostawy: opisz(p.bezZnanejDostawy, true) } : {}),
+    ...(wojewodztwo
+      ? { do_odebrania_w_twoim_wojewodztwie: opisz(p.doOdebrania, false) ?? 'w tym województwie nie znamy sklepu z odbiorem osobistym tego produktu' }
+      : { do_odebrania_w_twoim_wojewodztwie: 'podaj wojewodztwo, a wskażę sklepy z odbiorem osobistym' }),
+  };
+}
+
+/**
  * Oferty ze sklepów w podanym województwie, których nie ma wśród już pokazanych, od
  * najtańszej za kg. Osobna lista obok wyniku: pokazanych ofert i ich kolejności nie rusza.
  */
@@ -170,7 +202,7 @@ export function ofertyWWojewodztwie(produkty, pokazane, wojewodztwo) {
  * oferty mają w_twoim_wojewodztwie, a oferty z tego województwa spoza dwóch najtańszych
  * idą do osobnej listy inne_oferty_w_twoim_wojewodztwie.
  */
-function gdzieKupic(pozycje, dawkaG = 0, wojewodztwo) {
+function gdzieKupic(pozycje, dawkaG = 0, wojewodztwo, sztuk = 0) {
   return pozycje.flatMap((s) => {
     const udzial = parseFloat(s.procent) || 0;
     if (udzial <= 0) return [];
@@ -191,9 +223,13 @@ function gdzieKupic(pozycje, dawkaG = 0, wojewodztwo) {
       ...(d.partner ? { partner_serwisu: true } : {}),
     });
     const blisko = ofertyWWojewodztwie(produkty, new Set(oferty.map(({ o }) => o)), wojewodztwo);
+    // Zapas na 30 dni dla stada (kg tego składnika); bez stada jedno opakowanie.
+    const kg = sztuk > 0 && dawkaG > 0 ? (sztuk * dawkaG * 30 * udzial) / 100000 : null;
+    const pary = produkty.flatMap((d) => d.oferty.map((o) => ({ d, o })));
     return [{
       skladnik: s.nazwa,
       procent: zaokr(udzial, 1),
+      propozycje_zakupu: propozycjeDlaModelu(pary, kg, wojewodztwo, `zapas na 30 dni dla ${sztuk} ptaków`),
       oferty: oferty.map(opisz),
       ...(blisko.length ? { inne_oferty_w_twoim_wojewodztwie: blisko.map(opisz) } : {}),
     }];
@@ -387,7 +423,7 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null, wojewodztwo) {
     // Baza z produktami: ramka jednego składnika proponuje z niej gotowe mieszanki do osobnego karmidła.
     sugestie: generujSugestie(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 }))),
     ...(uzup.length ? { uzupelnienia: uzup } : {}),
-    ...(() => { const g = gdzieKupic(pozycje, dawkaG, wojewodztwo); return g.length ? { gdzie_kupic: g } : {}; })(),
+    ...(() => { const g = gdzieKupic(pozycje, dawkaG, wojewodztwo, stado?.sztuk ?? 0); return g.length ? { gdzie_kupic: g } : {}; })(),
     ...opisWojewodztwa(wojewodztwo),
     ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
