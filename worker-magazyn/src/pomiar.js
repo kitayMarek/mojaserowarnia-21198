@@ -11,6 +11,8 @@
  * odpowiedzi, wiec awaria bazy nie moze przewrocic serwera.
  */
 
+import { NA_PASZY, SERWIS } from './serwis.js';
+
 // Ten sam klucz co CLIENT_INFO_META_KEY w @modelcontextprotocol/server. W nowszej
 // wersji protokolu nazwa klienta idzie z kazdym zadaniem, w starszej tylko przy
 // initialize.
@@ -135,6 +137,9 @@ export async function zliczWywolanie(env, opis, status) {
     _wlasne: Boolean(opis.wlasne),
     // Wymaga migracji 20261021210000_lacznik_claude_pomiar.sql (piaty argument funkcji).
     _zrodlo: opis.zrodlo || '',
+    // Łącznik mojapasza.com/mcp (serwis.js). Wymaga migracji 20261025210000_serwis_w_pomiarze.sql;
+    // serwer Serowarni nie wysyła tego pola, baza wpisuje wtedy mojaserowarnia.
+    ...(NA_PASZY ? { _serwer: SERWIS.serwer } : {}),
   };
 
   // Lokalnie (wrangler dev) i przed nadaniem sekretu: tylko wpis w logu, zeby

@@ -15,8 +15,10 @@
  *     Serwer odpowiada tak samo z parametrem i bez niego.
  */
 import { supabase } from "@/integrations/supabase/client";
+import { LACZNIK } from "@/lib/serwis";
 
-export const ADRES_MCP = "https://dane.mojaserowarnia.pl/mcp";
+// Na mojapasza.com łącznik mojapasza.com/mcp (src/lib/serwis.ts).
+export const ADRES_MCP = LACZNIK.adres;
 
 /** Ścieżka strony w postaci bezpiecznej dla adresu i dla bazy: /kultury/me, /baza-kultur. */
 export function zrodloZeSciezki(sciezka: string): string {
@@ -34,7 +36,7 @@ export function adresLacznika(zrodlo?: string): string {
 export function linkClaude(zrodlo?: string): string {
   return (
     "https://claude.ai/customize/connectors?modal=add-custom-connector" +
-    "&connectorName=Moja%20Serowarnia&connectorUrl=" +
+    `&connectorName=${encodeURIComponent(LACZNIK.nazwa)}&connectorUrl=` +
     encodeURIComponent(adresLacznika(zrodlo))
   );
 }
@@ -56,7 +58,7 @@ export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
  * wywołania widać w magazyn_wywolania ze źródłem "perplexity".
  * Treść umiejętności: ProjektyLLm/wtyczki/perplexity/SKILL.md (poza repo).
  */
-export const UMIEJETNOSC_PERPLEXITY = "https://www.perplexity.ai/computer/skills/7v8vkYCPTiSxnjTByyQ0GA";
+export const UMIEJETNOSC_PERPLEXITY = LACZNIK.umiejetnoscPerplexity.adres;
 
 /** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). */
 export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj";

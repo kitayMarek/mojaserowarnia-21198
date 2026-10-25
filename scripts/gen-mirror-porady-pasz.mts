@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";
+import { przepiszMirroryPasz } from "./mirrory-mojapasza.mjs";
 import { metaStron } from "../src/data/metaStron.ts";
 import {
   GRUPY_PTAKOW, STAN_UDZIALOW, UDZIALY_SUROWCOW, ZRODLA_UDZIALOW,
@@ -228,3 +229,6 @@ writeFileSync("public/pasze/kury-nie-niosa.html",
 writeFileSync("public/pasze/resztki-z-kuchni.html",
   strona("/pasze/resztki-z-kuchni", "Resztki z kuchni", "Resztki z obiadu, chleb i makaron dla kur: co, ile i czego unikać", DATA_PORAD, PYTANIA_RESZTEK, resztki));
 console.log("Zapisane: public/pasze/udzial-surowcow.html, public/pasze/kury-nie-niosa.html, public/pasze/resztki-z-kuchni.html");
+
+// Te same strony na mojapasza.com (pasze/public/mirror/), z jej adresami.
+przepiszMirroryPasz();

@@ -38,6 +38,7 @@ import {
   sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
   uzupelnienia, type Uzupelnienie,
 } from "@/lib/bilansPaszy";
+import { SERWIS } from "@/lib/serwis";
 
 /*
  * Wygląd przebudowany 24.10.2026 (Marek: „liczy dobrze, ale wygląda strasznie”).
@@ -342,7 +343,7 @@ const KalkulatorPasz = () => {
     }
 
     txt += '\n═══════════════════════════════════════════════\n';
-    txt += 'Wygenerowano przez: Kalkulator Pasz dla Drobiu - mojaserowarnia.pl\n';
+    txt += `Wygenerowano przez: Kalkulator Pasz dla Drobiu - ${SERWIS.adres.replace('https://', '')}\n`;
     txt += '═══════════════════════════════════════════════\n';
 
     try {

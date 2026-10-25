@@ -66,6 +66,7 @@ def main():
     html2 = re.sub(r'"dateModified":\s*"[^"]*"', f'"dateModified": "{DATE}"', html2)
     open(HTML, "w", encoding="utf-8", newline="\n").write(html2)
     print(f"OK — wstawiono {len(rows)} surowców w {len(ordered)} kategoriach. dateModified={DATE}")
+    print("Teraz: node scripts/mirrory-mojapasza.mjs (ten sam mirror na mojapasza.com)")
 
 if __name__ == "__main__":
     main()

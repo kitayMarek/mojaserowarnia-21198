@@ -67,11 +67,11 @@ def wczytaj():
     return rek
 
 
-def stopka(d, podpis):
+def stopka(d, podpis, adres="mojaserowarnia.pl"):
     """Adres serwisu — bez tego grafika wedruje bez przypisania."""
     f = czcionka("segoeuib.ttf", 26)
     d.rectangle([(0, WYS - 62), (SZER, WYS)], fill=CIEMNY)
-    d.text((48, WYS - 46), "mojaserowarnia.pl", font=f, fill=(255, 251, 235))
+    d.text((48, WYS - 46), adres, font=f, fill=(255, 251, 235))
     fm = czcionka("segoeui.ttf", 22)
     szer = d.textlength(podpis, font=fm)
     d.text((SZER - 48 - szer, WYS - 44), podpis, font=fm, fill=(253, 230, 138))
@@ -523,7 +523,7 @@ def grafika_jogurt(rek):
     return img
 
 
-def grafika_pasze(rek):
+def grafika_pasze(rek, adres="mojaserowarnia.pl", podpis="/kalkulator-pasz"):
     """Najmocniejszy konkret kalkulatora: sama pszenica to ulamek potrzeb nioski.
 
     Marek opisal odbiorce tak: "przydomowa hodowla to najczesciej totalny brak
@@ -540,9 +540,9 @@ def grafika_pasze(rek):
     d.rounded_rectangle([(48, 172), (SZER - 48, 314)], radius=12, fill=(255, 255, 255),
                         outline=LINIA, width=2)
     d.text((74, 192), "Czego brakuje, gdy sypiesz samo ziarno:", font=czcionka("segoeuib.ttf", 26), fill=TEKST)
-    d.text((74, 232), "PSZENICA  — 11,9% białka,  0,07% wapnia",
+    d.text((74, 232), "PSZENICA: 11,9% białka,  0,07% wapnia",
            font=czcionka("segoeui.ttf", 24), fill=(185, 28, 28))
-    d.text((74, 268), "NIOSKA POTRZEBUJE — 16–18% białka,  3,8–4,2% wapnia",
+    d.text((74, 268), "NIOSKA POTRZEBUJE: 16–18% białka,  3,8–4,2% wapnia",
            font=czcionka("segoeui.ttf", 24), fill=(21, 128, 61))
 
     kafle = [("136", "składników w bazie"), ("0,07%", "wapnia w pszenicy"), ("4%", "potrzebuje nioska")]
@@ -557,8 +557,14 @@ def grafika_pasze(rek):
            font=czcionka("segoeui.ttf", 25), fill=TEKST)
     d.text((48, 516), "Ułóż własną mieszankę i zobacz, czego w niej brakuje. Za darmo.",
            font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
-    stopka(d, "/kalkulator-pasz")
+    stopka(d, podpis, adres)
     return img
+
+
+def grafika_mojapasza(rek):
+    """Ta sama plansza dla mojapasza.com (od 26.10.2026), z adresem nowego serwisu.
+    Zapisywana w pasze/public/og/pasze.png (MIEJSCA niżej), nie w public/og/."""
+    return grafika_pasze(rek, "mojapasza.com", "kalkulator paszy dla drobiu")
 
 
 def grafika_zsiadle(rek):
@@ -641,6 +647,12 @@ GRAFIKI = {
     "kefir": grafika_kefir,
     "zsiadle": grafika_zsiadle,
     "pasze": grafika_pasze,
+    "mojapasza": grafika_mojapasza,
+}
+
+# Grafiki innych serwisów z tego repo, zapisywane poza public/og.
+MIEJSCA = {
+    "mojapasza": os.path.join(ROOT, "pasze", "public", "og", "pasze.png"),
 }
 
 
@@ -659,7 +671,8 @@ def main():
             print("  nieznana grafika: %s" % nazwa)
             continue
         img = GRAFIKI[nazwa](rek)
-        sciezka = os.path.join(WYJSCIE, nazwa + ".png")
+        sciezka = MIEJSCA.get(nazwa) or os.path.join(WYJSCIE, nazwa + ".png")
+        os.makedirs(os.path.dirname(sciezka), exist_ok=True)
         img.save(sciezka, "PNG", optimize=True)
         print("  %-14s %s (%d B, %dx%d)"
               % (nazwa, os.path.relpath(sciezka, ROOT), os.path.getsize(sciezka), SZER, WYS))

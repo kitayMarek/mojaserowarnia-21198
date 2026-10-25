@@ -10,6 +10,7 @@ import SeeAlso from "@/components/SeeAlso";
 import ReactionButton from "@/components/ReactionButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PSZENICA_WOBEC_NORMY, PYTANIA_PORAD, SEKCJE_PORAD, ZRODLA_PORAD } from "@/data/kuryNieNiosa";
+import { SERWIS, STRONY_PASZ, WYDAWCA } from "@/lib/serwis";
 
 /**
  * Porady dla przydomowych hodowców: dlaczego kury nie niosą (od 24.10.2026).
@@ -17,7 +18,7 @@ import { PSZENICA_WOBEC_NORMY, PYTANIA_PORAD, SEKCJE_PORAD, ZRODLA_PORAD } from 
  * public/pasze/kury-nie-niosa.html (scripts/mirror-kury-nie-niosa.mts).
  */
 
-const URL_STRONY = "https://mojaserowarnia.pl/pasze/kury-nie-niosa";
+const URL_STRONY = `${SERWIS.adres}${STRONY_PASZ.kuryNieNiosa}`;
 
 const KuryNieNiosa = () => {
   const structuredData = {
@@ -31,8 +32,8 @@ const KuryNieNiosa = () => {
         inLanguage: "pl",
         url: URL_STRONY,
         dateModified: "2026-10-24",
-        image: "https://mojaserowarnia.pl/og-image.jpg",
-        publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
+        image: SERWIS.obrazek,
+        publisher: WYDAWCA,
       },
       {
         "@type": "FAQPage",

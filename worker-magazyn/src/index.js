@@ -22,8 +22,16 @@ import { WERSJA, listaNarzedzi, zbudujSerwer } from './serwer.js';
 import { opisWywolania, opisPobrania, zliczWywolanie, zrodloZAdresu } from './pomiar.js';
 import { oBazie } from './kultury.js';
 import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkrywania } from './odkrywanie.js';
+import { NA_PASZY, SERWIS } from './serwis.js';
+import { stronaOpisuPasz } from './strona-pasz.js';
 
 const SCIEZKA_MCP = '/mcp';
+
+// Kanał w ścieżce (od 26.10.2026, plan przenosin pasz): /mcp/claude, /mcp/chatgpt-wtyczka...
+// Katalogi i Plugin Creator w ChatGPT wycinają parametry z adresu, ścieżka zostaje.
+// Serwer odpowiada tak samo jak pod /mcp, a kanał idzie do pomiaru jako źródło,
+// gdy adres nie ma ?z=.
+const KANALY = new Set(['claude', 'chatgpt', 'claude-wtyczka', 'chatgpt-wtyczka', 'perplexity']);
 
 // Fabryka, nie gotowy serwer: w trybie bezstanowym kazde zadanie dostaje
 // swieza instancje. responseMode 'json' = bez strumieni SSE tam, gdzie klient
@@ -207,6 +215,9 @@ ${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`)
 `;
 }
 
+/** Na mojapasza.com/mcp strona o paszach (strona-pasz.js). */
+const opisSerwera = (origin) => (NA_PASZY ? stronaOpisuPasz() : stronaOpisu(origin));
+
 function html(tresc) {
   return new Response(tresc, {
     headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-cache', ...NAGLOWKI_WSPOLNE },
@@ -229,7 +240,7 @@ export default {
     }
 
     if (url.pathname === '/' && (request.method === 'GET' || request.method === 'HEAD')) {
-      return html(stronaOpisu(url.origin));
+      return html(opisSerwera(url.origin));
     }
 
     // Karta serwera i katalog AI (odkrywanie.js). Liczone w pomiarze jako
@@ -250,12 +261,15 @@ export default {
       return odpowiedz;
     }
 
-    if (url.pathname !== SCIEZKA_MCP) {
+    const kanal = url.pathname.startsWith(`${SCIEZKA_MCP}/`) && KANALY.has(url.pathname.slice(SCIEZKA_MCP.length + 1))
+      ? url.pathname.slice(SCIEZKA_MCP.length + 1)
+      : '';
+    if (url.pathname !== SCIEZKA_MCP && !kanal) {
       return tekst('Nie ma takiego adresu. Serwer MCP jest pod /mcp.\n', 404);
     }
 
     if (toPrzegladarka(request)) {
-      return html(stronaOpisu(url.origin));
+      return html(opisSerwera(url.origin));
     }
 
     if (request.method === 'OPTIONS') {
@@ -265,8 +279,8 @@ export default {
     const opis = await opisWywolania(request, env);
     const aplikacja = aplikacjaZKlucza(request, env);
     // Aplikacja z kluczem, ale bez ?z=: jej wywolania i klikniecia licza sie pod nazwa z klucza.
-    const zrodlo = zrodloZAdresu(request) || aplikacja || '';
-    if (opis && !opis.zrodlo && aplikacja) opis.zrodlo = aplikacja;
+    const zrodlo = zrodloZAdresu(request) || kanal || aplikacja || '';
+    if (opis && !opis.zrodlo && (kanal || aplikacja)) opis.zrodlo = kanal || aplikacja;
     const limitNaMinute = String(aplikacja ? LIMIT_Z_KLUCZEM : LIMIT_Z_ADRESU);
 
     if (!(await wLimicie(env, request, aplikacja))) {
@@ -279,7 +293,7 @@ export default {
             code: -32000,
             message: aplikacja
               ? 'Za dużo zapytań. Spróbuj ponownie za minutę.'
-              : 'Za dużo zapytań. Spróbuj ponownie za minutę. Aplikacja potrzebuje więcej? Darmowy klucz: https://mojaserowarnia.pl/warunki-mcp#aplikacje',
+              : `Za dużo zapytań. Spróbuj ponownie za minutę. Aplikacja potrzebuje więcej? Darmowy klucz: ${SERWIS.warunki}#aplikacje`,
           },
         }),
         {
@@ -295,7 +309,8 @@ export default {
       );
     }
 
-    const odpowiedz = await mcp.fetch(request);
+    // Pod ścieżką kanału to samo zapytanie co pod /mcp.
+    const odpowiedz = await mcp.fetch(kanal ? new Request(new URL(`${SCIEZKA_MCP}${url.search}`, url.origin), request) : request);
     ctx.waitUntil(zliczWywolanie(env, opis, odpowiedz.status));
 
     const naglowki = new Headers(odpowiedz.headers);

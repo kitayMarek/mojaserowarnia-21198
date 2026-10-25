@@ -15,6 +15,7 @@ import {
   GRUPY_PTAKOW, STAN_UDZIALOW, UDZIALY_SUROWCOW, ZRODLA_UDZIALOW,
   opisZalecenia, pytaniaUdzialow, zalecenieGrupy, type GrupaPtakow,
 } from "@/data/udzialySurowcow";
+import { SERWIS, STRONY_PASZ, WYDAWCA } from "@/lib/serwis";
 
 /**
  * Ile najwyżej danego surowca w paszy dla drobiu i dlaczego (od 24.10.2026).
@@ -24,7 +25,7 @@ import {
  */
 
 const KOLEJNOSC: GrupaPtakow[] = ["mlode", "rosnace", "nioski", "wodne"];
-const URL_STRONY = "https://mojaserowarnia.pl/pasze/udzial-surowcow";
+const URL_STRONY = `${SERWIS.adres}${STRONY_PASZ.udzialSurowcow}`;
 
 const UdzialSurowcow = () => {
   const [grupa, setGrupa] = useState<GrupaPtakow>("nioski");
@@ -41,8 +42,8 @@ const UdzialSurowcow = () => {
         inLanguage: "pl",
         url: URL_STRONY,
         dateModified: STAN_UDZIALOW,
-        image: "https://mojaserowarnia.pl/og-image.jpg",
-        publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
+        image: SERWIS.obrazek,
+        publisher: WYDAWCA,
       },
       {
         "@type": "FAQPage",

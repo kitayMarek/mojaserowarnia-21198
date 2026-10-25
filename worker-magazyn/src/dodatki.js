@@ -24,8 +24,9 @@ import { NORMY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import { OPIS_GMO, opisEko } from '../../src/data/gmoEkoSurowcow.ts';
 import { TOLERANCJE, koncentratZeZbozem, kosztNaPtakaMiesiecznie, sprawdzNorme, zawartosc } from '../../src/lib/bilansPaszy.ts';
 import { normalizuj, ofertaDlaModelu, ofertyWWojewodztwie, opisWojewodztwa, propozycjeDlaModelu, zaokr, znajdzNorme } from './pasze.js';
+import { SERWIS } from './serwis.js';
 
-const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
+const ADRES_KALKULATORA = `${SERWIS.kalkulator}?utm_source=magazyn`;
 
 export const GATUNKI = Object.keys(GATUNKI_DODATKOW);
 export const KATEGORIE_DODATKOW = [...new Set(DODATKI_PASZOWE.map((d) => d.kategoria))];
@@ -62,7 +63,7 @@ export const CZEGO_BRAKUJE = Object.keys(BRAKI);
 const TYPOWA_NIOSKA = dawkaTypowa('kury-nioski-ciezkie', 'Niesienie (powyżej 45%)');
 
 const stopka = () => ({
-  zrodlo: `${ZRODLO_DODATKOW}. Kalkulator: ${ADRES_KALKULATORA}`,
+  zrodlo: `${ZRODLO_DODATKOW.replace('Moja Serowarnia', SERWIS.nazwa)}. Kalkulator: ${ADRES_KALKULATORA}`,
   licencja: 'CC BY 4.0: cytując, podaj źródło z linkiem',
   stan_danych: STAN_DODATKOW,
   uwaga_o_cenach: 'Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia. To nie są ceny bieżące: przed zakupem trzeba sprawdzić cenę w sklepie.',

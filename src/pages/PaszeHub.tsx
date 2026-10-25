@@ -10,6 +10,7 @@ import SeeAlso from "@/components/SeeAlso";
 import PodlaczWSwoimCzacie from "@/components/PodlaczWSwoimCzacie";
 import OstrzezenieSol from "@/components/OstrzezenieSol";
 import { Link } from "react-router-dom";
+import { SERWIS, STRONY_PASZ, WYDAWCA } from "@/lib/serwis";
 
 const PaszeHub = () => {
   const faqData = [
@@ -59,9 +60,9 @@ const PaszeHub = () => {
         description:
           "Dział o żywieniu zwierząt gospodarskich: kalkulatory pasz dla drobiu i bydła, normy żywieniowe, po co olej, muszle ostryg, metionina i grit, oraz zagospodarowanie serwatki i nieudanego sera.",
         inLanguage: "pl",
-        url: "https://mojaserowarnia.pl/pasze",
-        image: "https://mojaserowarnia.pl/og-image.jpg",
-        publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
+        url: `${SERWIS.adres}${STRONY_PASZ.poradnik}`,
+        image: SERWIS.obrazek,
+        publisher: WYDAWCA,
       },
       {
         "@type": "FAQPage",

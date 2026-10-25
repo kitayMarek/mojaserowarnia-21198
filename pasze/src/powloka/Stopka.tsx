@@ -3,8 +3,8 @@ import { SEROWARNIA } from "./DoSerowarni";
 
 /**
  * Stopka mojapasza.com (zastępuje Footer Serowarni przez alias w pasze/vite.config.ts).
- * Prywatność, kontakt i warunki prowadzą na razie do Serowarni: ten sam właściciel
- * (Marek Walczak) i ta sama baza. Własne strony dojdą przed przełączeniem 1-5.12.2026.
+ * Prywatność i warunki to strony statyczne (pasze/public/*.html, podaje je worker),
+ * więc zwykłe linki z przeładowaniem, nie <Link>: router aplikacji ich nie zna.
  */
 const Stopka = () => (
   <footer className="mt-16 border-t border-border bg-muted/30">
@@ -27,7 +27,9 @@ const Stopka = () => (
       <nav className="space-y-2" aria-label="Informacje">
         <p className="font-medium text-foreground">Informacje</p>
         <ul className="space-y-1">
-          <li><a href={`${SEROWARNIA}/nota-prawna`} className="hover:text-foreground">Nota prawna i prywatność</a></li>
+          <li><Link to="/asystenci-ai" className="hover:text-foreground">Kalkulator w Twoim czacie</Link></li>
+          <li><a href="/prywatnosc" className="hover:text-foreground">Prywatność i pliki cookie</a></li>
+          <li><a href="/warunki" className="hover:text-foreground">Warunki korzystania</a></li>
           <li><a href={`${SEROWARNIA}/kontakt`} className="hover:text-foreground">Kontakt</a></li>
           <li><a href={SEROWARNIA} className="hover:text-foreground">Moja Serowarnia</a></li>
         </ul>

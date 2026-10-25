@@ -30,6 +30,7 @@ import {
   type NormyZywieniowe 
 } from "@/data/cattleFeedData";
 import { useFeedOptimizer, type OgraniczeniaSkladnika } from "@/hooks/useFeedOptimizer";
+import { SERWIS } from "@/lib/serwis";
 
 interface DawkaSkladnik {
   skladnik: SkladnikPaszy;
@@ -446,7 +447,7 @@ const KalkulatorPaszBydlo = () => {
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(128);
-    doc.text('Wygenerowano przez mojaserowarnia.pl - Kalkulator Pasz dla Bydla', pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text(`Wygenerowano przez ${SERWIS.adres.replace('https://', '')} - Kalkulator Pasz dla Bydla`, pageWidth / 2, pageHeight - 10, { align: 'center' });
     doc.text('Obliczenia wg norm INRAz/INRA 2018', pageWidth / 2, pageHeight - 6, { align: 'center' });
 
     // Zapisz

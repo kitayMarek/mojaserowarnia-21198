@@ -100,8 +100,9 @@ function rodzajPrzegladarki(ua) {
 /**
  * Zlicza wejście człowieka. Wołać przez ctx.waitUntil(), po odesłaniu odpowiedzi.
  *
- * `wynik` to { status, botPodgladu }. Router podaje botPodgladu, bo listy botów
- * podglądu i crawlerów modeli żyją w worker/index.js.
+ * `wynik` to { status, botPodgladu, serwis? }. Router podaje botPodgladu, bo listy botów
+ * podglądu i crawlerów modeli żyją w worker/index.js. `serwis` podaje tylko worker
+ * mojapasza.com (od 26.10.2026); bez niego baza wpisuje mojaserowarnia.pl.
  *
  * Każdy błąd jest połykany: licznik jest dodatkiem i nigdy nie może przewrócić
  * serwowania stron. Odrzucony zapis zostawia ślad w logach Workers.
@@ -161,6 +162,8 @@ export async function zapiszWejscieCzlowieka(request, wynik, env) {
         _status: wynik.status,
         _wlasne: WLASNE.test(ua),
         _gpc: gpc,
+        // Wymaga migracji 20261025210000_serwis_w_pomiarze.sql (argument _serwis z domyślną wartością).
+        ...(wynik.serwis ? { _serwis: wynik.serwis } : {}),
       }),
     });
     if (!zapis.ok) {

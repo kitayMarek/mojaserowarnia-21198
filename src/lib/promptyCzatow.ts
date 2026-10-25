@@ -31,12 +31,17 @@
  * podłączenia z promptu nie odróżnimy od innych.
  */
 import { UMIEJETNOSC_PERPLEXITY, adresLacznika, zrodloZeSciezki, type Asystent } from "@/lib/lacznikClaude";
+import { LACZNIK, SERWIS } from "@/lib/serwis";
+
+// Na mojapasza.com inna nazwa serwisu, łącznika i strony z instrukcją (src/lib/serwis.ts).
+const INSTRUKCJA = `${SERWIS.adres}${SERWIS.instrukcjaCzatow}`;
+const UMIEJETNOSC = LACZNIK.umiejetnoscPerplexity.nazwa;
 
 /** Czego dotyczy strona: od tego zależy opis serwera i próbne pytanie. */
 export type TematPromptu = "pasze" | "sery" | "ogolny";
 
 const OPIS: Record<TematPromptu, string> = {
-  pasze: "kalkulator pasz dla drobiu z serwisu Moja Serowarnia",
+  pasze: `kalkulator pasz dla drobiu z serwisu ${SERWIS.nazwa}`,
   sery: "bazę kultur do sera i przepisy z serwisu Moja Serowarnia",
   ogolny: "bazę kultur do sera, przepisy i kalkulator pasz dla drobiu z serwisu Moja Serowarnia",
 };
@@ -50,7 +55,7 @@ const PROBA: Record<TematPromptu, string> = {
     "Na koniec sprawdź, czy działa: ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej, dodaj to, czego brakuje, i przelicz jeszcze raz.",
 };
 
-const POMIN = "Jeśli masz już dostęp do narzędzi Moja Serowarnia, pomiń podłączanie i od razu zrób test z ostatniego akapitu.";
+const POMIN = `Jeśli masz już dostęp do narzędzi ${LACZNIK.nazwa}, pomiń podłączanie i od razu zrób test z ostatniego akapitu.`;
 const PROWADZ = "Prowadź mnie po jednym kroku i czekaj, aż napiszę „zrobione”.";
 
 /**
@@ -76,12 +81,12 @@ export function promptPodlaczenia(asystent: Asystent, temat: TematPromptu, zrodl
       "",
       POMIN,
       "",
-      `${PROWADZ} Adres serwera pokaż mi w osobnym bloku kodu, żebym mógł go skopiować przyciskiem. Linki każ mi otwierać w nowej karcie (Ctrl+klik), żeby ta rozmowa została otwarta. Kroki (pełna instrukcja: https://mojaserowarnia.pl/asystenci-ai#chatgpt):`,
+      `${PROWADZ} Adres serwera pokaż mi w osobnym bloku kodu, żebym mógł go skopiować przyciskiem. Linki każ mi otwierać w nowej karcie (Ctrl+klik), żeby ta rozmowa została otwarta. Kroki (pełna instrukcja: ${INSTRUKCJA}#chatgpt):`,
       "1. Otwórz chatgpt.com/plugins w nowej karcie.",
       "2. Na stronie Wtyczki kliknij Dodaj w prawym górnym rogu (obok koła zębatego) i wybierz Dodaj niestandardowy serwer MCP.",
-      "3. Nazwa: Moja Serowarnia. W pole adresu wklej adres serwera.",
+      `3. Nazwa: ${LACZNIK.nazwa}. W pole adresu wklej adres serwera.`,
       "4. Uwierzytelnianie: brak. Potwierdź ostrzeżenie i utwórz wtyczkę.",
-      "5. Na liście Osobiste kliknij + przy Moja Serowarnia i wróć do tej rozmowy.",
+      `5. Na liście Osobiste kliknij + przy ${LACZNIK.nazwa} i wróć do tej rozmowy.`,
       "Jeśli nie widzę opcji niestandardowego serwera MCP, powiedz mi, że mój plan ChatGPT jej nie ma.",
       "",
       PROBA[temat],
@@ -94,21 +99,21 @@ export function promptPodlaczenia(asystent: Asystent, temat: TematPromptu, zrodl
       "",
       POMIN,
       "",
-      `${PROWADZ} Adres serwera pokaż mi w osobnym bloku kodu, żebym mógł go skopiować. Kroki (pełna instrukcja: https://mojaserowarnia.pl/asystenci-ai):`,
+      `${PROWADZ} Adres serwera pokaż mi w osobnym bloku kodu, żebym mógł go skopiować. Kroki (pełna instrukcja: ${INSTRUKCJA}):`,
       "1. Otwórz claude.ai/customize/connectors w nowej karcie, kliknij + Add, potem Add custom connector.",
-      "2. Name: Moja Serowarnia. MCP server URL: wklej adres serwera.",
+      `2. Name: ${LACZNIK.nazwa}. MCP server URL: wklej adres serwera.`,
       "3. Kliknij Continue, potem Add.",
-      "4. W rozmowie kliknij + pod polem wiadomości, wybierz Connectors i włącz Moja Serowarnia.",
+      `4. W rozmowie kliknij + pod polem wiadomości, wybierz Connectors i włącz ${LACZNIK.nazwa}.`,
       "",
       PROBA[temat],
     ].join("\n");
   }
   return [
-    `Pomóż mi dodać w Perplexity umiejętność „moja-serowarnia”: ${OPIS[temat]}. Umiejętność łączy się z serwerem MCP bez logowania i bez klucza.`,
+    `Pomóż mi dodać w Perplexity umiejętność „${UMIEJETNOSC}”: ${OPIS[temat]}. Umiejętność łączy się z serwerem MCP bez logowania i bez klucza.`,
     "",
-    "Jeśli masz już umiejętność moja-serowarnia albo dostęp do narzędzi Moja Serowarnia, pomiń podłączanie i od razu zrób test z ostatniego akapitu.",
+    `Jeśli masz już umiejętność ${UMIEJETNOSC} albo dostęp do narzędzi ${LACZNIK.nazwa}, pomiń podłączanie i od razu zrób test z ostatniego akapitu.`,
     "",
-    `${PROWADZ} Kroki (pełna instrukcja: https://mojaserowarnia.pl/asystenci-ai#perplexity):`,
+    `${PROWADZ} Kroki (pełna instrukcja: ${INSTRUKCJA}#perplexity):`,
     `1. Otwórz ${UMIEJETNOSC_PERPLEXITY} i zaloguj się, jeśli strona o to poprosi.`,
     "2. Kliknij … w prawym górnym rogu i wybierz Importuj kopię.",
     "3. Sprawdź treść i kliknij Zapisz.",

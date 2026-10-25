@@ -57,8 +57,15 @@ if (!existsSync(resolve(MAGAZYN, "node_modules", "@modelcontextprotocol", "serve
 const eksport = spawnSync(process.execPath, ["scripts/eksport-przepisow-magazyn.mjs"], { stdio: "inherit" });
 if (eksport.status !== 0) stop("eksport przepisow (scripts/eksport-przepisow-magazyn.mjs) sie nie udal.");
 
-console.log("\nWdrazam worker-magazyn (dane.mojaserowarnia.pl)...\n");
-const wynik = spawnSync("npx", ["wrangler", "deploy", "-c", "worker-magazyn/wrangler.jsonc"], {
+// `npm run deploy:magazyn -- --pasze`: lacznik mojapasza.com/mcp (Worker mojapasza-mcp,
+// ten sam kod w wariancie paszowym, worker-magazyn/wrangler-pasze.jsonc). Od 26.10.2026.
+const PASZE = process.argv.includes("--pasze");
+const KONFIGURACJA = PASZE ? "worker-magazyn/wrangler-pasze.jsonc" : "worker-magazyn/wrangler.jsonc";
+
+console.log(PASZE
+  ? "\nWdrazam mojapasza-mcp (mojapasza.com/mcp przez Worker mojapasza)...\n"
+  : "\nWdrazam worker-magazyn (dane.mojaserowarnia.pl)...\n");
+const wynik = spawnSync("npx", ["wrangler", "deploy", "-c", KONFIGURACJA], {
   stdio: "inherit",
   shell: true,
   env: { ...process.env, CLOUDFLARE_API_TOKEN: token },

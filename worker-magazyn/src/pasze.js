@@ -36,9 +36,11 @@ import {
   bladLimitow, osiagnieteLimity, zapotrzebowanieStada, uzupelnienia, kosztNaPtakaMiesiecznie,
 } from '../../src/lib/bilansPaszy.ts';
 import { UDZIALY_SUROWCOW, GRUPY_PTAKOW, grupaPtakow, zalecenieUdzialu, udzialSurowca } from '../../src/data/udzialySurowcow.ts';
+import { SERWIS } from './serwis.js';
 
-const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
-const ADRES_UDZIALOW = 'https://mojaserowarnia.pl/pasze/udzial-surowcow?utm_source=magazyn';
+// Na mojapasza.com/mcp adresy mojapasza (serwis.js).
+const ADRES_KALKULATORA = `${SERWIS.kalkulator}?utm_source=magazyn`;
+const ADRES_UDZIALOW = `${SERWIS.udzialySurowcow}?utm_source=magazyn`;
 
 /**
  * Zalecane udziały surowców dla grupy ptaków (od 0.5.0), z powodem i tym, co
@@ -249,7 +251,7 @@ export const GATUNKI = Object.keys(NORMY_DROBIU);
 export const KATEGORIE_SUROWCOW = [...feedCategories, KATEGORIA_Z_KUCHNI];
 
 const stopka = () => ({
-  zrodlo: `Moja Serowarnia, kalkulator pasz dla drobiu (${ADRES_KALKULATORA})`,
+  zrodlo: `${SERWIS.nazwa}, kalkulator pasz dla drobiu (${ADRES_KALKULATORA})`,
   licencja: 'CC BY 4.0: cytując, podaj źródło z linkiem',
   zastrzezenie: 'Normy z książki „Normy żywieniowe”, skład surowców wzorcowy. Kolejne partie dodatków i premiksów różnią się składem, więc wynik to obliczenie, nie porada lekarza weterynarii ani doradcy żywieniowego.',
 });

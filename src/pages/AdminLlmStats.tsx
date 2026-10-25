@@ -26,6 +26,8 @@ interface WywolanieRow {
   status: number;
   wlasne: boolean;
   zrodlo: string;
+  // Od migracji 20261025210000: mojaserowarnia (dane.mojaserowarnia.pl) albo mojapasza (mojapasza.com/mcp).
+  serwer?: string;
   wywolan: number;
 }
 
@@ -76,7 +78,8 @@ export default function AdminLlmStats() {
       // magazyn_wywolania nie ma w wygenerowanych typach (jak feed_ingredients w AdminFeedIngredients)
       const { data, error } = await (supabase as any)
         .from("magazyn_wywolania")
-        .select("dzien, narzedzie, klient, status, wlasne, zrodlo, wywolan")
+        // "*", nie lista kolumn: kolumna serwer dochodzi migracją, a strona ma działać przed nią i po niej.
+        .select("*")
         .order("dzien", { ascending: false })
         .limit(5000);
 
@@ -112,9 +115,10 @@ export default function AdminLlmStats() {
     for (const w of wiersze) {
       if (!pokazTechniczne && techniczne(w.narzedzie)) continue;
       const narzedzie = w.narzedzie.startsWith("__verifymcp") ? "(sonda weryfikatora)" : w.narzedzie;
-      const klucz = [w.dzien, w.klient, narzedzie, w.zrodlo, w.wlasne].join("|");
+      const serwer = w.serwer ?? "mojaserowarnia";
+      const klucz = [w.dzien, serwer, w.klient, narzedzie, w.zrodlo, w.wlasne].join("|");
       const g = grupy.get(klucz) ?? {
-        dzien: w.dzien, klient: w.klient, narzedzie, zrodlo: w.zrodlo, wlasne: w.wlasne, wywolan: 0, bledy: 0,
+        dzien: w.dzien, serwer, klient: w.klient, narzedzie, zrodlo: w.zrodlo, wlasne: w.wlasne, wywolan: 0, bledy: 0,
       };
       g.wywolan += w.wywolan;
       if (w.status >= 400) g.bledy += w.wywolan;
@@ -281,6 +285,7 @@ export default function AdminLlmStats() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Dzień</TableHead>
+                  <TableHead>Serwer</TableHead>
                   <TableHead>Klient</TableHead>
                   <TableHead>Narzędzie</TableHead>
                   <TableHead>Źródło</TableHead>
@@ -291,14 +296,15 @@ export default function AdminLlmStats() {
               <TableBody>
                 {mcp.tabela.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    <TableCell colSpan={7} className="text-center text-muted-foreground">
                       Brak wywołań narzędzi.
                     </TableCell>
                   </TableRow>
                 ) : (
                   mcp.tabela.map((w) => (
-                    <TableRow key={`${w.dzien}|${w.klient}|${w.narzedzie}|${w.zrodlo}|${w.wlasne}`}>
+                    <TableRow key={`${w.dzien}|${w.serwer}|${w.klient}|${w.narzedzie}|${w.zrodlo}|${w.wlasne}`}>
                       <TableCell className="whitespace-nowrap text-sm">{w.dzien}</TableCell>
+                      <TableCell className="text-sm">{w.serwer === "mojapasza" ? "Moja Pasza" : "Serowarnia"}</TableCell>
                       <TableCell>{w.klient}</TableCell>
                       <TableCell className="font-mono text-sm">{w.narzedzie}</TableCell>
                       <TableCell className="font-mono text-sm text-muted-foreground">{w.zrodlo || "brak"}</TableCell>

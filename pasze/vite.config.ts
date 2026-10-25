@@ -7,8 +7,9 @@ import path from "path";
  * Serowarnia (src/pages/KalkulatorPasz.tsx, KalkulatorPaszBydlo.tsx, PaszeHub.tsx).
  * Plan: dokument „Pasze: wydzielenie na osobną domenę” (Claude Docs), 23.10.2026.
  *
- * PODMIANA POWŁOKI: strony pasz importują nagłówek, stopkę i okruszki Serowarni.
- * Zamiast je zmieniać, tu przekierowujemy te trzy importy na powłokę mojapasza
+ * PODMIANA POWŁOKI: strony pasz importują nagłówek, stopkę i okruszki Serowarni
+ * oraz jej ustawienia (src/lib/serwis.ts: nazwa, adres, łącznik MCP, ścieżki).
+ * Zamiast je zmieniać, tu przekierowujemy te importy na powłokę mojapasza
  * (pasze/src/powloka). Kolejność aliasów ma znaczenie: dokładne ścieżki przed „@”.
  *
  * .env leży w głównym katalogu repozytorium (envDir niżej). Bez niego aplikacja
@@ -43,6 +44,7 @@ export default defineConfig(({ mode, command }) => {
         { find: /^@\/components\/Navigation$/, replacement: powloka("Naglowek.tsx") },
         { find: /^@\/components\/Footer$/, replacement: powloka("Stopka.tsx") },
         { find: /^@\/components\/PageBreadcrumbs$/, replacement: powloka("Okruszki.tsx") },
+        { find: /^@\/lib\/serwis$/, replacement: powloka("serwis.ts") },
         { find: "@", replacement: path.resolve(KORZEN, "src") },
       ],
     },

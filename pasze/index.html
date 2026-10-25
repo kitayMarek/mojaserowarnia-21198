@@ -1,17 +1,72 @@
 <!doctype html>
 <html lang="pl">
   <head>
+    <!-- Google Analytics: wyłącznie za zgodą, tak jak w Serowarni (index.html w głównym katalogu,
+         opis tamtejszej poprawki z 13.09.2026). Osobna usługa GA4 dla mojapasza.com (decyzja Marka
+         25.10.2026), żeby liczby Serowarni zostały czyste. Bez identyfikatora (ID = '') skrypt
+         Google nie ładuje się nigdy. Baner zgody: pasze/src/App.tsx, ciasteczko moja-pasza-consent. -->
+    <script>
+      (function () {
+        var ID = '';
+        var zgoda = false;
+        var zaladowane = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { if (zgoda) window.dataLayer.push(arguments); };
+        var produkcja = location.hostname === 'mojapasza.com';
+        function usunCiasteczkaGa() {
+          document.cookie.split(';').forEach(function (c) {
+            var nazwa = c.split('=')[0].trim();
+            if (nazwa === '_ga' || nazwa.indexOf('_ga_') === 0) {
+              document.cookie = nazwa + '=; Max-Age=0; path=/';
+              document.cookie = nazwa + '=; Max-Age=0; path=/; domain=.' + location.hostname;
+            }
+          });
+        }
+        window.wlaczAnalityke = function () {
+          if (!ID || !produkcja || zaladowane) return;
+          zgoda = true;
+          zaladowane = true;
+          window.gtag('consent', 'default', {
+            analytics_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+          });
+          window.gtag('js', new Date());
+          window.gtag('config', ID);
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+          document.head.appendChild(s);
+        };
+        window.wylaczAnalityke = function () {
+          if (zgoda) window.gtag('consent', 'update', { analytics_storage: 'denied' });
+          zgoda = false;
+          if (ID) window['ga-disable-' + ID] = true;
+          usunCiasteczkaGa();
+        };
+        if (/(?:^|;\s*)moja-pasza-consent=true(?:;|$)/.test(document.cookie)) {
+          window.wlaczAnalityke();
+        } else {
+          usunCiasteczkaGa();
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Moja Pasza: kalkulator paszy dla drobiu i bydła</title>
     <meta name="description" content="Kalkulator paszy dla kur niosek, brojlerów, kaczek, gęsi, indyków i bydła. Układa mieszankę z Twoich surowców pod normy żywieniowe." />
-    <!-- W czasie budowy (do przełączenia 1-5.12.2026) serwis nie trafia do wyszukiwarek. -->
-    <meta name="robots" content="noindex, nofollow" />
+    <!-- Zakaz indeksowania do przełączenia (28.10.2026) daje nagłówek X-Robots-Tag z workera
+         (stała NOINDEX w pasze/worker/index.js), nie znacznik tutaj: jedno miejsce do zmiany. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Moja Pasza" />
+    <meta property="og:image" content="https://mojapasza.com/og/pasze.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="apple-touch-icon" href="/ikona-512.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- Fonty z własnej domeny (jak w Serowarni od 13.09.2026): bez łączenia z Google przed zgodą. -->
+    <link rel="stylesheet" href="/fonts/fonty.css" />
+    <link rel="preconnect" href="https://hsgxmbhunclhgzumafrk.supabase.co" />
   </head>
   <body>
     <div id="root"></div>

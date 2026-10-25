@@ -15,6 +15,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW, WOJEWODZTWA_KLUCZE } from './pasze.js';
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { szukajDodatkow, kartaDodatku, zamiennikiDodatku, CZEGO_BRAKUJE, GATUNKI as GATUNKI_DODATKOW, KATEGORIE_DODATKOW } from './dodatki.js';
+import { NA_PASZY, SERWIS } from './serwis.js';
 
 export const WERSJA = '0.8.5';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
@@ -48,17 +49,43 @@ function wynik(dane) {
   };
 }
 
+/**
+ * Łącznik mojapasza.com/mcp (serwis.js, od 26.10.2026): te same narzędzia paszowe
+ * i te same zasady odpowiedzi, wycięte z serwera Serowarni, żeby oba się nie rozjechały.
+ * Bez kultur i przepisów: rolnik, który dodaje łącznik paszowy, nie dostaje serów.
+ */
+const NARZEDZIA_PASZ = new Set([
+  'skladniki_paszy', 'normy_drobiu', 'policz_mieszanke', 'dobierz_proporcje',
+  'szukaj_dodatkow', 'dodatek', 'zamienniki_dodatku',
+]);
+const TYTUL_PASZ = 'Moja Pasza: kalkulator paszy dla drobiu';
+const INSTRUKCJE_PASZ = [
+  'Kalkulator paszy dla drobiu z serwisu mojapasza.com: mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii, wapnia i fosforu, oraz baza dodatków paszowych z polskich sklepów (ceny, gdzie kupić). Zasady są niżej.',
+  ...INSTRUKCJE.split('\n\n').filter((akapit) => akapit.startsWith('Kalkulator pasz') || akapit.startsWith('Baza dodatków')),
+].join('\n\n');
+
+/** Rejestruje tylko narzędzia paszowe; w opisach adres mojapasza.com zamiast Serowarni. */
+function tylkoPasze(serwer) {
+  return {
+    registerTool: (nazwa, def, ...reszta) => (NARZEDZIA_PASZ.has(nazwa)
+      ? serwer.registerTool(nazwa, { ...def, description: def.description?.replaceAll('mojaserowarnia.pl', 'mojapasza.com') }, ...reszta)
+      : undefined),
+  };
+}
+
+export const TYTUL_SERWERA = NA_PASZY ? TYTUL_PASZ : TYTUL;
+
 export function zbudujSerwer() {
   const serwer = new McpServer(
     {
-      name: 'mojaserowarnia',
-      title: TYTUL,
+      name: NA_PASZY ? 'mojapasza' : 'mojaserowarnia',
+      title: TYTUL_SERWERA,
       version: WERSJA,
-      websiteUrl: 'https://mojaserowarnia.pl/asystenci-ai',
+      websiteUrl: SERWIS.instrukcja,
     },
-    { instructions: INSTRUKCJE },
+    { instructions: NA_PASZY ? INSTRUKCJE_PASZ : INSTRUKCJE },
   );
-  zarejestrujNarzedzia(serwer);
+  zarejestrujNarzedzia(NA_PASZY ? tylkoPasze(serwer) : serwer);
   return serwer;
 }
 
@@ -69,7 +96,8 @@ export function zbudujSerwer() {
  */
 export function listaNarzedzi() {
   const lista = [];
-  zarejestrujNarzedzia({ registerTool: (nazwa, def) => lista.push({ nazwa, tytul: def.title }) });
+  const zbieracz = { registerTool: (nazwa, def) => lista.push({ nazwa, tytul: def.title }) };
+  zarejestrujNarzedzia(NA_PASZY ? tylkoPasze(zbieracz) : zbieracz);
   return lista;
 }
 

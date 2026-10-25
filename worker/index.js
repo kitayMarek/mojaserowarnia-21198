@@ -24,7 +24,7 @@ import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku } from './lacznik
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
-const BOTY_PODGLADU =
+export const BOTY_PODGLADU =
   /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot|Discordbot|Pinterest|redditbot|Applebot|SkypeUriPreview|vkShare|Embedly/i;
 
 /**
@@ -44,7 +44,7 @@ const BOTY_PODGLADU =
  * Wyszukiwarek TU NIE MA — ani Googlebota, ani Bingbota, ani Google-Extended.
  * Wyszukiwarki renderują JavaScript i mają widzieć dokładnie to, co człowiek.
  */
-const BOTY_MODELI =
+export const BOTY_MODELI =
   /GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|CCBot|cohere-ai|MistralAI-User|DuckAssistBot|meta-externalagent|Amazonbot|Bytespider|YouBot|Diffbot/i;
 
 // Trasy, których mirror leży pod INNĄ nazwą niż sama trasa. Reguła ogólna
@@ -226,6 +226,8 @@ function oznaczMirror(zrodlo) {
  *
  * ⚠ TEN SAM WARUNEK co w worker/wizyty-botow.js (funkcja zapiszWizyteBota).
  * Tam decyduje o LOGOWANIU, tu o SERWOWANIU.
+ * Te same trzy rozpoznania (BOTY_PODGLADU, BOTY_MODELI, botBezPodpisu) importuje
+ * worker mojapasza.com (pasze/worker/index.js), żeby oba serwisy dawały mirror tym samym botom.
  *
  * Od 8 wrzesnia 2026 strona logowania ma JEDEN wyjatek wiecej: zadanie
  * z naglowkami przegladarki, ale z opublikowanej sieci operatora, jest
@@ -239,7 +241,7 @@ function oznaczMirror(zrodlo) {
  * uklad, ale nie brak tresci. Bot uznany za czlowieka dostaje pusta skorupe,
  * czyli nie dostaje nic.
  */
-function botBezPodpisu(request) {
+export function botBezPodpisu(request) {
   return !(request.headers.get('sec-fetch-mode') || request.headers.get('accept-language'));
 }
 

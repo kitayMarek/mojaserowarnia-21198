@@ -14,12 +14,26 @@
     "directory": "./dist",
     "binding": "ASSETS",
     // Aplikacja ma własny router (/, /bydlo, /poradnik, /auth), więc każdy
-    // adres bez pliku dostaje index.html. Mirrorów dla botów jeszcze tu nie ma;
-    // gdy dojdą, trzeba będzie przejść na "none" jak w Serowarni.
+    // adres bez pliku dostaje index.html.
     "not_found_handling": "single-page-application",
-    // Worker dostaje każde żądanie przed plikami, żeby dopisać noindex
-    // i przekierować www (pasze/worker/index.js).
+    // "none": /mirror/bydlo.html ma być tym plikiem, a nie przekierowaniem na
+    // /mirror/bydlo (domyślne auto-trailing-slash). Strony statyczne
+    // (/prywatnosc, /warunki) podaje pod adresem bez .html worker.
+    "html_handling": "none",
+    // Worker dostaje każde żądanie przed plikami: noindex, www, mirrory dla
+    // botów, /mcp i licznik wejść (pasze/worker/index.js).
     "run_worker_first": true
+  },
+
+  // Łącznik mojapasza.com/mcp: osobny Worker z kodu worker-magazyn, tylko narzędzia
+  // paszowe (worker-magazyn/wrangler-pasze.jsonc). Wiązanie usług zamiast trasy:
+  // bez nowego DNS i bez pytania, która trasa wygrywa z domeną.
+  "services": [{ "binding": "MCP", "service": "mojapasza-mcp" }],
+
+  // Licznik wejść ludzi (worker/wejscia-ludzi.js). Klucz service_role jako sekret:
+  // `npx wrangler secret put SUPABASE_SERVICE_KEY -c pasze/wrangler.jsonc`.
+  "vars": {
+    "SUPABASE_URL": "https://hsgxmbhunclhgzumafrk.supabase.co"
   },
 
   // Domena kupiona przez Marka w Cloudflare 23.10.2026; strefa jest na tym

@@ -17,17 +17,20 @@
  * Format i naglowki: modelcontextprotocol/experimental-ext-server-card,
  * docs/discovery.md (CORS otwarty, cache na godzine, ETag z 304).
  */
-import { WERSJA, TYTUL } from './serwer.js';
+import { WERSJA, TYTUL_SERWERA } from './serwer.js';
+import { NA_PASZY, SERWIS } from './serwis.js';
 
 export const SCIEZKA_KARTY = '/mcp/server-card';
 export const SCIEZKA_KATALOGU = '/.well-known/ai-catalog.json';
-export const NAZWA_W_REJESTRZE = 'pl.mojaserowarnia/baza-kultur';
+// Łącznik mojapasza.com/mcp (serwis.js) ma własny wpis; zgłoszenie do rejestru po przełączeniu.
+export const NAZWA_W_REJESTRZE = NA_PASZY ? 'com.mojapasza/kalkulator-paszy' : 'pl.mojaserowarnia/baza-kultur';
 
 // Do 100 znakow: tyle przyjmuje rejestr MCP, a opis ma byc ten sam wszedzie.
-export const OPIS =
-  'Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.';
+export const OPIS = NA_PASZY
+  ? 'Kalkulator paszy dla drobiu: mieszanki z własnych surowców pod normy i dodatki z polskich sklepów.'
+  : 'Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.';
 
-const ADRES_SERWERA = 'https://dane.mojaserowarnia.pl/mcp';
+const ADRES_SERWERA = SERWIS.adresMcp;
 
 const NAGLOWKI_ODKRYWANIA = {
   'access-control-allow-origin': '*',
@@ -43,9 +46,9 @@ export function kartaSerwera() {
     $schema: 'https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json',
     name: NAZWA_W_REJESTRZE,
     version: WERSJA,
-    title: TYTUL,
+    title: TYTUL_SERWERA,
     description: OPIS,
-    websiteUrl: 'https://mojaserowarnia.pl/asystenci-ai',
+    websiteUrl: SERWIS.instrukcja,
     remotes: [{ type: 'streamable-http', url: ADRES_SERWERA }],
   };
 }
@@ -55,9 +58,9 @@ export function katalogAi() {
     specVersion: '1.0',
     entries: [
       {
-        identifier: 'urn:air:mojaserowarnia.pl:mcp:baza-kultur',
+        identifier: NA_PASZY ? 'urn:air:mojapasza.com:mcp:kalkulator-paszy' : 'urn:air:mojaserowarnia.pl:mcp:baza-kultur',
         type: 'application/mcp-server-card+json',
-        url: `https://dane.mojaserowarnia.pl${SCIEZKA_KARTY}`,
+        url: `${new URL(ADRES_SERWERA).origin}${SCIEZKA_KARTY}`,
       },
     ],
   };

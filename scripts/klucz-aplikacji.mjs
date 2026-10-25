@@ -47,13 +47,16 @@ function wgraj() {
   const token = process.env.CLOUDFLARE_API_TOKEN || wczytajEnv(".env.deploy").CLOUDFLARE_API_TOKEN;
   if (!token) stop("nie znalazlem CLOUDFLARE_API_TOKEN ani w srodowisku, ani w .env.deploy.");
   writeFileSync(PLIK, JSON.stringify(klucze, null, 2) + "\n");
-  const wynik = spawnSync("npx", ["wrangler", "secret", "put", "KLUCZE_APLIKACJI", "-c", "worker-magazyn/wrangler.jsonc"], {
-    input: JSON.stringify(klucze),
-    stdio: ["pipe", "inherit", "inherit"],
-    shell: true,
-    env: { ...process.env, CLOUDFLARE_API_TOKEN: token },
-  });
-  if (wynik.status !== 0) stop("wrangler secret put sie nie udal; lista w pliku jest juz zapisana, uruchom ponownie.");
+  // Ten sam klucz dziala na obu lacznikach: dane.mojaserowarnia.pl i mojapasza.com/mcp (od 26.10.2026).
+  for (const konfiguracja of ["worker-magazyn/wrangler.jsonc", "worker-magazyn/wrangler-pasze.jsonc"]) {
+    const wynik = spawnSync("npx", ["wrangler", "secret", "put", "KLUCZE_APLIKACJI", "-c", konfiguracja], {
+      input: JSON.stringify(klucze),
+      stdio: ["pipe", "inherit", "inherit"],
+      shell: true,
+      env: { ...process.env, CLOUDFLARE_API_TOKEN: token },
+    });
+    if (wynik.status !== 0) stop(`wrangler secret put (${konfiguracja}) sie nie udal; lista w pliku jest juz zapisana, uruchom ponownie.`);
+  }
 }
 
 const [polecenie, surowaNazwa] = process.argv.slice(2);

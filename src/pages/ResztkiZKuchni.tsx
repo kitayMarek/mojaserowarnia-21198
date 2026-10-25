@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import {
   CZY_MOZNA, PYTANIA_RESZTEK, RESZTKI_WOBEC_NORMY, SEKCJE_RESZTEK, ZRODLA_RESZTEK, type Werdykt,
 } from "@/data/resztkiZKuchni";
+import { SERWIS, STRONY_PASZ, WYDAWCA } from "@/lib/serwis";
 
 /**
  * Resztki z kuchni dla kur: co, ile i czego unikać (od 24.10.2026). Treść
@@ -20,7 +21,7 @@ import {
  * public/pasze/resztki-z-kuchni.html (scripts/gen-mirror-porady-pasz.mts).
  */
 
-const URL_STRONY = "https://mojaserowarnia.pl/pasze/resztki-z-kuchni";
+const URL_STRONY = `${SERWIS.adres}${STRONY_PASZ.resztkiZKuchni}`;
 const liczba = (n: number, miejsc = 2) => n.toLocaleString("pl-PL", { maximumFractionDigits: miejsc });
 
 const KLASY_WERDYKTU: Record<Werdykt, string> = {
@@ -42,8 +43,8 @@ const ResztkiZKuchni = () => {
         inLanguage: "pl",
         url: URL_STRONY,
         dateModified: "2026-10-24",
-        image: "https://mojaserowarnia.pl/og-image.jpg",
-        publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
+        image: SERWIS.obrazek,
+        publisher: WYDAWCA,
       },
       {
         "@type": "FAQPage",
