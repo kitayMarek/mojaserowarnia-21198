@@ -73,7 +73,7 @@ function mapDodatek(r: Record<string, unknown>, oferty: OfertaDodatku[]): Dodate
     gmo: ((r.gmo as Gmo) || "nieznane"),
     dopuszczalneEko: typeof r.dopuszczalne_eko === "boolean" ? r.dopuszczalne_eko : null,
     zrodloSkladu: ((r.zrodlo_skladu as ZrodloSkladu) || "etykieta"),
-    zrodlo: (r.zrodlo as string) || zMigawki?.zrodlo || "",
+    zrodlo: (r.zrodlo as string) || zMigawki?.zrodlo || null,
     zweryfikowano: (r.zweryfikowano as string) || "",
     partner: r.partner === true,
     urlProducenta: tekstLubNull(r.url_producenta),

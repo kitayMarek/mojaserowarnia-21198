@@ -60,7 +60,8 @@ test("produkty: unikalne nazwy, odpowiedniki z bazy, oferty z datą i https", ()
     assert.ok(!feedIngredients.some((f) => f.nazwa === d.nazwa), `koliduje z surowcem: ${d.nazwa}`);
     if (d.odpowiednik) assert.ok(feedIngredients.some((f) => f.nazwa === d.odpowiednik), `zły odpowiednik: ${d.odpowiednik}`);
     assert.match(d.zweryfikowano, /^\d{4}-\d{2}-\d{2}$/);
-    assert.match(d.zrodlo, /^https:\/\//, `źródło bez adresu: ${d.nazwa}`);
+    if (d.zrodloSkladu === "norma") assert.equal(d.zrodlo, null, `skład typowy nie ma strony źródła: ${d.nazwa}`);
+    else assert.match(d.zrodlo ?? "", /^https:\/\//, `źródło bez adresu: ${d.nazwa}`);
     assert.ok(d.producent, `bez producenta: ${d.nazwa}`);
     for (const o of d.oferty) {
       assert.match(o.url, /^https:\/\//);

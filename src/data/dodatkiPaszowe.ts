@@ -273,8 +273,12 @@ export interface DodatekPaszowy extends FeedIngredient {
   /** true = dopuszczalny w chowie ekologicznym, false = wykluczony, null = nie oceniano. */
   dopuszczalneEko: boolean | null;
   zrodloSkladu: ZrodloSkladu;
-  /** Strona, z której przepisany jest skład. */
-  zrodlo: string;
+  /**
+   * Strona, z której przepisany jest skład (etykieta albo karta producenta; bywa nią strona
+   * sklepu, gdy sklep pokazuje etykietę). null przy składzie typowym (norma): tabele nie mają
+   * adresu, a strona sklepu bez składu nie jest jego źródłem. Gdzie kupić mówią oferty.
+   */
+  zrodlo: string | null;
   /** Kiedy skład sprawdzono ze źródłem (RRRR-MM-DD). */
   zweryfikowano: string;
   partner: boolean;
@@ -581,7 +585,7 @@ const WPISY: Wpis[] = [
     skladSurowcowy: "Fosforan dwuwapniowy paszowy CaHPO4, worek 25 kg.",
     gmo: "nie", dopuszczalneEko: null,
     zrodloSkladu: "norma",
-    zrodlo: "https://sklep-galvet.pl/fosforan-dwuwapniowy-25kg-paszowy-worek-p-20723.html",
+    zrodlo: null,
     zweryfikowano: D,
     uwagi: "Sklep nie podaje składu ani producenta, więc wartości są typowe dla fosforanu dwuwapniowego paszowego (P ok. 18%, Ca ok. 24%): przed zakupem sprawdź etykietę na worku. Dla chowu ekologicznego potrzebny fosforan odfluorowany: sprawdź u sprzedawcy.",
     oferty: [
@@ -730,7 +734,7 @@ const WPISY: Wpis[] = [
     ],
   },
   {
-    nazwa: "Kreda pastewna gruboziarnista 1–4 mm (bez marki)", kategoria: "Dodatki mineralne", odpowiednik: "Kreda pastewna", uzupelnijZ: "Kreda pastewna",
+    nazwa: "Kreda pastewna gruboziarnista 1–4 mm (bez marki)", kategoria: "Dodatki mineralne", odpowiednik: "Kreda pastewna",
     producent: "nie podano (sprzedawca: Spec-Drob, Olsztyn)", gatunki: [],
     ca: 36.9,
     dawkowanie: "Sprzedawca pisze: 10 g kredy na 120 g paszy. Grube ziarno nadaje się też do osobnego karmidła dla niosek.",

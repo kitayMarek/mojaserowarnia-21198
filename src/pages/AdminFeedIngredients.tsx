@@ -1,7 +1,10 @@
 /**
  * Zarządzanie składnikami paszowymi (/admin/skladniki):
  *  1) Moderacja zgłoszeń (pending) — edytuj + zatwierdź/odrzuć.
- *  2) Edycja całej bazy (approved: wzorcowa 'baza' + społeczność 'user') — popraw/usuń.
+ *  2) Edycja całej bazy (approved: wzorcowa 'baza' + zgłoszenia 'user') — popraw/usuń.
+ *  3) Produkty z bazy dodatków ('dodatek') tylko do podglądu: źródło składu osobno, oferty osobno.
+ *     Ich źródłem jest src/data/dodatkiPaszowe.ts: seed kasuje je i wstawia od nowa, a MCP czyta
+ *     migawkę, więc poprawka zrobiona tutaj zniknęłaby i nie dotarłaby do czatów.
  * Wchodzi przez AdminRoute; RLS pozwala pisać tylko adminowi.
  */
 import { useEffect, useState, useCallback } from "react";
@@ -11,7 +14,8 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { feedCategories } from "@/data/feedIngredients";
-import { Check, X, Loader2, Save, Trash2, Search } from "lucide-react";
+import { OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, type Odbior, type ZrodloSkladu } from "@/data/dodatkiPaszowe";
+import { Check, X, Loader2, Save, Trash2, Search, ExternalLink } from "lucide-react";
 
 type Row = Record<string, any>;
 
@@ -32,6 +36,56 @@ const toNum = (v: unknown): number | null => {
 };
 const inputCls = "mt-1 w-full p-2 border border-input bg-background text-foreground rounded text-sm";
 
+const ETYKIETA_ZRODLA: Record<string, string> = { baza: "baza wzorcowa", dodatek: "produkt z bazy dodatków", user: "zgłoszenie użytkownika" };
+const zl = (n: number) => `${Number(n).toFixed(2).replace(".", ",")} zł`;
+// W bazie link oferty ma już znacznik utm; z panelu otwieramy go bez znacznika, żeby nie liczyć siebie.
+const bezZnacznika = (url: string) => url.replace(/[?&]utm_source=mojaserowarnia$/, "");
+
+/** Produkt z bazy dodatków: skąd skład i gdzie kupić, osobno. Do podglądu, bez edycji. */
+function KartaDodatku({ row, oferty }: { row: Row; oferty: Row[] }) {
+  const typ = OPIS_ZRODLA_SKLADU[row.zrodlo_skladu as ZrodloSkladu] ?? "nie podano";
+  return (
+    <div className="space-y-3 text-sm">
+      <div>
+        <p className="font-semibold text-foreground">{row.nazwa}</p>
+        <p className="text-muted-foreground">{row.kategoria} · producent: {row.producent || "nie podano"}</p>
+      </div>
+      <div className="rounded-md border border-border p-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Źródło składu</p>
+        <p className="mt-1">
+          Skład {typ}
+          {row.zweryfikowano && <span className="text-muted-foreground">, sprawdzony {row.zweryfikowano}</span>}
+          {row.zrodlo && (
+            <> · <a href={row.zrodlo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">strona ze składem <ExternalLink className="h-3 w-3" /></a></>
+          )}
+        </p>
+        <p className="mt-2 text-muted-foreground">
+          {NUTRIENTS.filter((n) => Number(row[n.k]) > 0).map((n) => `${n.h} ${String(row[n.k]).replace(".", ",")}`).join(" · ") || "brak wartości"}
+        </p>
+      </div>
+      <div className="rounded-md border border-border p-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Oferty sklepów ({oferty.length})</p>
+        {oferty.length === 0 ? (
+          <p className="mt-1 text-muted-foreground">Żaden sklep nie ma ceny w bazie.</p>
+        ) : (
+          <ul className="mt-1 space-y-1">
+            {oferty.map((o) => (
+              <li key={o.id}>
+                <a href={bezZnacznika(o.url)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">{o.sklep}</a>
+                {": "}{zl(o.cena_zl)} za {String(o.opakowanie_kg).replace(".", ",")} kg ({zl(o.cena_za_kg)}/kg), cena z {o.sprawdzono}
+                {o.miejscowosc && <span className="text-muted-foreground"> · {o.miejscowosc}{o.odbior ? `, ${OPIS_ODBIORU[o.odbior as Odbior]}` : ""}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Tych produktów nie poprawia się tutaj: wpisuje się je w pliku danych i wgrywa seedem. Zmiana w panelu zniknęłaby przy następnym seedzie, a czaty jej nie zobaczą.
+      </p>
+    </div>
+  );
+}
+
 function Fields({ row, onField }: { row: Row; onField: (k: string, v: string) => void }) {
   return (
     <>
@@ -47,7 +101,7 @@ function Fields({ row, onField }: { row: Row; onField: (k: string, v: string) =>
           </select>
         </label>
         <label className="text-sm font-medium sm:col-span-2">
-          Źródło składu (notatka)
+          Źródło składu (link albo opis, skąd są liczby)
           <input value={row.zrodlo ?? ""} onChange={(e) => onField("zrodlo", e.target.value)} className={inputCls} />
         </label>
       </div>
@@ -67,6 +121,7 @@ function Fields({ row, onField }: { row: Row; onField: (k: string, v: string) =>
 export default function AdminFeedIngredients() {
   const [pending, setPending] = useState<Row[]>([]);
   const [approved, setApproved] = useState<Row[]>([]);
+  const [oferty, setOferty] = useState<Record<string, Row[]>>({});
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
@@ -79,6 +134,10 @@ export default function AdminFeedIngredients() {
     const rows = (data as Row[]) ?? [];
     setPending(rows.filter((r) => r.status === "pending").sort((a, b) => (a.created_at > b.created_at ? 1 : -1)));
     setApproved(rows.filter((r) => r.status === "approved"));
+    const { data: of } = await (supabase as any).from("feed_offers").select("*").order("cena_za_kg", { ascending: true });
+    const poProdukcie: Record<string, Row[]> = {};
+    for (const o of (of as Row[]) ?? []) (poProdukcie[o.feed_ingredient_id] ??= []).push(o);
+    setOferty(poProdukcie);
     setLoading(false);
   }, []);
   useEffect(() => { load(); }, [load]);
@@ -183,14 +242,20 @@ export default function AdminFeedIngredients() {
                   <div key={row.id} className="rounded-lg border border-border bg-card p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                        {row.source === "baza" ? "baza wzorcowa" : "społeczność"}
+                        {ETYKIETA_ZRODLA[row.source] ?? "zgłoszenie użytkownika"}
                       </span>
                     </div>
-                    <Fields row={row} onField={(k, v) => editField(setApproved)(row.id, k, v)} />
-                    <div className="flex gap-2 mt-4">
-                      <button onClick={() => saveApproved(row)} disabled={busy === row.id} className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 disabled:opacity-50"><Save className="h-4 w-4" /> Zapisz zmiany</button>
-                      <button onClick={() => del(row.id, row.nazwa)} disabled={busy === row.id} className="inline-flex items-center gap-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"><Trash2 className="h-4 w-4" /> Usuń</button>
-                    </div>
+                    {row.source === "dodatek" ? (
+                      <KartaDodatku row={row} oferty={oferty[row.id] ?? []} />
+                    ) : (
+                      <>
+                        <Fields row={row} onField={(k, v) => editField(setApproved)(row.id, k, v)} />
+                        <div className="flex gap-2 mt-4">
+                          <button onClick={() => saveApproved(row)} disabled={busy === row.id} className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 disabled:opacity-50"><Save className="h-4 w-4" /> Zapisz zmiany</button>
+                          <button onClick={() => del(row.id, row.nazwa)} disabled={busy === row.id} className="inline-flex items-center gap-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"><Trash2 className="h-4 w-4" /> Usuń</button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
