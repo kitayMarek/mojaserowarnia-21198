@@ -7,7 +7,9 @@
          Google nie ładuje się nigdy. Baner zgody: pasze/src/App.tsx, ciasteczko moja-pasza-consent. -->
     <script>
       (function () {
-        var ID = '';
+        // Usługa GA4 mojapasza.com od Marka 25.10.2026. Gotowy kod z panelu Google ładuje gtag.js
+        // od razu, przed zgodą, dlatego tu tylko identyfikator, a ładowanie robi wlaczAnalityke().
+        var ID = 'G-QVPDR1GJXW';
         var zgoda = false;
         var zaladowane = false;
         window.dataLayer = window.dataLayer || [];
