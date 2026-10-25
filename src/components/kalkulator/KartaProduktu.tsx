@@ -3,7 +3,7 @@ import { ExternalLink, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
-  GATUNKI_DODATKOW, OPIS_ZRODLA_SKLADU, adresOferty, cenaZaKg, dawkaEtykiety, przepisZeStosowania,
+  GATUNKI_DODATKOW, OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, adresOferty, cenaZaKg, dawkaEtykiety, opisLokalizacji, przepisZeStosowania,
   type DodatekPaszowy,
 } from "@/data/dodatkiPaszowe";
 import { OPIS_GMO, opisEko } from "@/data/gmoEkoSurowcow";
@@ -147,6 +147,17 @@ export default function KartaProduktu({
                       <span className="min-w-0 flex-1 font-semibold">{o.sklep}</span>
                       <span className="tabular-nums">{liczbaPL(o.cenaZl, 2)} zł za {liczbaPL(o.opakowanieKg)} kg</span>
                       <span className="font-semibold tabular-nums">{liczbaPL(cenaZaKg(o), 2)} zł/kg</span>
+                      {/* Gdzie jest sklep (od 25.10.2026); adres tylko tam, gdzie można przyjechać. */}
+                      {o.lokalizacja?.miejscowosc && (
+                        <span className="w-full text-xs">
+                          {opisLokalizacji(o.lokalizacja)}
+                          {o.lokalizacja.punkty.map((p) => (
+                            <span key={p.adres} className="block text-muted-foreground">
+                              {o.lokalizacja!.punkty.length > 1 && `${OPIS_ODBIORU[p.rodzaj]}: `}{p.adres}{p.godziny && `, ${p.godziny}`}
+                            </span>
+                          ))}
+                        </span>
+                      )}
                       <span className="w-full text-xs text-muted-foreground">
                         cena z {dataPL(o.sprawdzono)} ·{" "}
                         <a href={adresOferty(o.url)} target="_blank" rel="nofollow noopener" className="inline-flex items-center gap-0.5 font-semibold text-primary underline-offset-4 hover:underline">

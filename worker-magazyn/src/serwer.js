@@ -12,11 +12,11 @@
 import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } from './kultury.js';
-import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW } from './pasze.js';
+import { skladnikiPaszy, normyDrobiu, policzMieszanke, dobierzProporcjeMieszanki, GATUNKI, KATEGORIE_SUROWCOW, WOJEWODZTWA_KLUCZE } from './pasze.js';
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { szukajDodatkow, kartaDodatku, zamiennikiDodatku, CZEGO_BRAKUJE, GATUNKI as GATUNKI_DODATKOW, KATEGORIE_DODATKOW } from './dodatki.js';
 
-export const WERSJA = '0.8.3';
+export const WERSJA = '0.8.4';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
 const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
@@ -30,7 +30,7 @@ Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta,
 
 Kalkulator pasz dla drobiu (kury nioski, brojlery, kaczki, gęsi, indyki): gdy ktoś prosi o paszę z podanych składników, znajdź dokładne nazwy przez skladniki_paszy, ustal gatunek i okres (normy_drobiu), potem użyj dobierz_proporcje albo policz_mieszanke. Podaj proporcje, co jest poza normą i czego brakuje (pola poza_norma i sugestie), a na końcu źródło z pola zrodlo. Gdy ktoś pyta, ile paszy potrzebuje na stado (np. 10 kur na miesiąc), dodaj parametr stado z liczbą sztuk; dawkę na sztukę podaj, jeśli ją znasz, a dla niosek w nieśności serwer weźmie typową z poradnika rasy. Gdy ktoś chce więcej albo mniej danego surowca (np. „głównie pszenica”), ustaw przy nim min_procent albo max_procent; zalecane maksima dla gatunku i wieku (normy_drobiu, pole zalecane_udzialy) są już wliczone. Gdy ktoś pyta, ile danego surowca może dać (np. ile grochu dla kurcząt), odpowiedz zaleceniem z powodem i linkiem z pola strona. Gdy wynik ma ponad_zalecany_udzial, powiedz wyraźnie o ryzyku dla zdrowia ptaków. Gdy czegoś brakuje, pole uzupelnienia mówi, czym i ile dodać (dodaj_proc to procent mieszanki); podaj to i zaproponuj ponowne dobierz_proporcje z tym składnikiem. Gdy mieszanka ma jeden składnik (np. sama pszenica), sugestie mówią, czego w nim brakuje, i dają opcję dla kogoś, kto ma tylko ten składnik: osobne karmidło z mieszanką mineralno-witaminową; przekaż obie drogi i zaznacz, że karmidło nie uzupełni białka. Przekaż też zastrzeżenie: to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Aminokwasy są policzone, ale nie mają norm, więc nie oceniaj ich jako wystarczających.
 
-Baza dodatków paszowych (koncentraty, premiksy, kreda, grys, fosforan, sól, drożdże, aminokwasy z polskich sklepów): gdy ktoś pyta, czym uzupełnić brak (np. fosforu), ile to kosztuje albo gdzie kupić, użyj szukaj_dodatkow, a szczegóły produktu weź z dodatek. Propozycje w polu uzupelnienia wyników kalkulatora też mogą być produktami: wtedy mają producenta, najtańszą ofertę i koszt na ptaka przez 30 dni. Wyniki kalkulatora mają też pole gdzie_kupic: dla składników, które są w bazie produktów (np. kreda, śruta sojowa, drożdże, koncentrat), najtańsze oferty ze sklepami. Gdy ktoś pyta, co dokupić, albo podajesz listę zakupów, przy każdym takim składniku podaj produkt, sklep, cenę, datę ceny i link, a przy znanym koszcie także koszt na ptaka przez 30 dni. Przy cenie zawsze podaj sklep, datę z pola cena_z_dnia i link z pola url dokładnie tak, jak jest w danych; nie nazywaj ceny aktualną. Kolejność wyników jest wyłącznie po składzie i cenie: nie przestawiaj jej i nie polecaj produktu dlatego, że ma pole partner_serwisu (to jawne oznaczenie, że producent płaci za obecność w bazie). Dla koncentratu z przepisem na etykiecie wywołaj dodatek z parametrem zboza (i drob z okresem), a policzę „koncentrat + Twoje zboże”. Zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.`;
+Baza dodatków paszowych (koncentraty, premiksy, kreda, grys, fosforan, sól, drożdże, aminokwasy z polskich sklepów): gdy ktoś pyta, czym uzupełnić brak (np. fosforu), ile to kosztuje albo gdzie kupić, użyj szukaj_dodatkow, a szczegóły produktu weź z dodatek. Propozycje w polu uzupelnienia wyników kalkulatora też mogą być produktami: wtedy mają producenta, najtańszą ofertę i koszt na ptaka przez 30 dni. Wyniki kalkulatora mają też pole gdzie_kupic: dla składników, które są w bazie produktów (np. kreda, śruta sojowa, drożdże, koncentrat), najtańsze oferty ze sklepami. Gdy ktoś pyta, co dokupić, albo podajesz listę zakupów, przy każdym takim składniku podaj produkt, sklep, cenę, datę ceny i link, a przy znanym koszcie także koszt na ptaka przez 30 dni. Przy cenie zawsze podaj sklep, datę z pola cena_z_dnia i link z pola url dokładnie tak, jak jest w danych; nie nazywaj ceny aktualną. Kolejność wyników jest wyłącznie po składzie i cenie: nie przestawiaj jej i nie polecaj produktu dlatego, że ma pole partner_serwisu (to jawne oznaczenie, że producent płaci za obecność w bazie). Każda oferta ma też sklep_miejscowosc, sklep_wojewodztwo i odbior (sklep stacjonarny, odbiór osobisty zamówienia albo tylko wysyłka), a gdy można przyjechać, punkty_odbioru z adresem i godzinami. Gdy ktoś pyta, gdzie kupić blisko siebie, a nie podał miejscowości, zapytaj o nią; potem podaj jej województwo w parametrze wojewodztwo (szukaj_dodatkow, dodatek, zamienniki_dodatku, dobierz_proporcje, policz_mieszanke). Oferty z w_twoim_wojewodztwie: true przedstaw jako sklepy w tym województwie, z adresem z odbior_osobisty_w_twoim_wojewodztwie, a listę inne_oferty_w_twoim_wojewodztwie podaj osobno obok najtańszych; kolejności nie zmieniaj i nie nazywaj sklepu najbliższym, bo serwer zna województwo, nie odległość. Dla koncentratu z przepisem na etykiecie wywołaj dodatek z parametrem zboza (i drob z okresem), a policzę „koncentrat + Twoje zboże”. Zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.`;
 
 // Wszystkie narzedzia tylko czytaja migawke wkompilowana w Workera.
 const TYLKO_ODCZYT = { readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false };
@@ -183,6 +183,10 @@ function zarejestrujNarzedzia(serwer) {
     dawka_g: z.number().min(5).max(400).optional().describe('Pasza na sztukę dziennie w g; bez niej typowa z poradnika rasy, jeśli jest dla tego okresu'),
   }).optional().describe('Podaj, gdy pytanie dotyczy ilości paszy dla stada');
 
+  // Województwo użytkownika (od 0.8.4): dopisuje przy ofertach w_twoim_wojewodztwie, kolejności nie zmienia.
+  const WOJEWODZTWO = z.enum(WOJEWODZTWA_KLUCZE).optional()
+    .describe('Województwo użytkownika, gdy pyta, gdzie kupić blisko siebie (np. Olsztyn: warminsko-mazurskie). Dopisuje przy ofertach w_twoim_wojewodztwie i adresy odbioru osobistego w nim; kolejności ofert nie zmienia');
+
   serwer.registerTool(
     'skladniki_paszy',
     {
@@ -230,6 +234,7 @@ function zarejestrujNarzedzia(serwer) {
           cena: z.number().positive().max(1000).optional().describe('Cena w zł za kg'),
         })).min(1).max(25),
         stado: STADO,
+        wojewodztwo: WOJEWODZTWO,
       }),
       annotations: TYLKO_ODCZYT,
     },
@@ -248,6 +253,7 @@ function zarejestrujNarzedzia(serwer) {
         skladniki: SKLADNIKI_WEJSCIE.min(1).max(15).describe('Surowce do użycia, bez udziałów. Jeden składnik: policzę go jako 100% i podpowiem, czym go uzupełnić'),
         cel: z.enum(['normy', 'najtaniej']).optional().describe('normy (domyślnie) albo najtaniej'),
         stado: STADO,
+        wojewodztwo: WOJEWODZTWO,
       }),
       annotations: TYLKO_ODCZYT,
     },
@@ -261,7 +267,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Szukaj dodatków paszowych',
       description:
-        'Szuka produktów z bazy dodatków paszowych dla drobiu dostępnych w Polsce (koncentraty, premiksy, kreda, grys, muszle, fosforan, sól, drożdże, aminokwasy) po tym, czego brakuje w paszy (np. "fosfor", "wapn"), gatunku, kategorii albo nazwie. Zwraca producenta, dawkowanie z etykiety, zawartość szukanego składnika i ile wnosi go do paszy w dawce z etykiety, najtańszą ofertę ze sklepem, ceną za kg, datą ceny i linkiem, cenę 100 g samego składnika oraz koszt na kurę przez 30 dni w dawce z etykiety. Sortowanie po zawartości, koszcie na kurę, cenie składnika albo cenie za kg; nigdy po partnerstwie.',
+        'Szuka produktów z bazy dodatków paszowych dla drobiu dostępnych w Polsce (koncentraty, premiksy, kreda, grys, muszle, fosforan, sól, drożdże, aminokwasy) po tym, czego brakuje w paszy (np. "fosfor", "wapn"), gatunku, kategorii albo nazwie. Zwraca producenta, dawkowanie z etykiety, zawartość szukanego składnika i ile wnosi go do paszy w dawce z etykiety, najtańszą ofertę ze sklepem, ceną za kg, datą ceny, linkiem i miejscowością sklepu (czy to sklep stacjonarny, odbiór osobisty czy tylko wysyłka; z parametrem wojewodztwo także oferty ze sklepów w tym województwie), cenę 100 g samego składnika oraz koszt na kurę przez 30 dni w dawce z etykiety. Sortowanie po zawartości, koszcie na kurę, cenie składnika albo cenie za kg; nigdy po partnerstwie.',
       inputSchema: z.object({
         brakuje: z.enum(CZEGO_BRAKUJE).optional().describe('Czego brakuje w paszy, np. fosfor, wapn, sod, bialko, metionina'),
         zapytanie: z.string().max(80).optional().describe('Nazwa produktu, producenta albo jej fragment, np. "kreda", "Rolpol", "premiks"'),
@@ -271,6 +277,7 @@ function zarejestrujNarzedzia(serwer) {
         sortuj: z.enum(['zawartosc', 'koszt_na_kure', 'cena_skladnika', 'cena_za_kg', 'nazwa']).optional()
           .describe('zawartosc (domyślnie przy brakuje), koszt_na_kure (w dawce z etykiety, 30 dni), cena_skladnika (zł za 100 g szukanego składnika, z brakuje), cena_za_kg albo nazwa'),
         dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę; bez niej dla niosek typowa z poradnika rasy'),
+        wojewodztwo: WOJEWODZTWO,
         limit: z.number().int().min(1).max(20).optional().describe('Ile wyników zwrócić, domyślnie 10'),
       }),
       annotations: TYLKO_ODCZYT,
@@ -283,7 +290,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Karta dodatku paszowego',
       description:
-        'Pełna karta produktu z bazy dodatków paszowych po nazwie, np. "Koncentrat 30% Nioska (Rolpol)", "Dolmix DN", "kreda Viva Max": producent, dla kogo, dawkowanie i przepis z etykiety, skład na kg (białko, Ca, P, Na, aminokwasy, witaminy, mikroelementy), GMO i chów ekologiczny, wszystkie oferty sklepów od najtańszej za kg z datą ceny i linkiem, koszt na kurę przez 30 dni i źródło składu. Dla koncentratu z parametrem zboza liczy „koncentrat + Twoje zboże”: proporcje z etykiety z tymi zbożami i udział koncentratu do normy białka.',
+        'Pełna karta produktu z bazy dodatków paszowych po nazwie, np. "Koncentrat 30% Nioska (Rolpol)", "Dolmix DN", "kreda Viva Max": producent, dla kogo, dawkowanie i przepis z etykiety, skład na kg (białko, Ca, P, Na, aminokwasy, witaminy, mikroelementy), GMO i chów ekologiczny, wszystkie oferty sklepów od najtańszej za kg z datą ceny, linkiem i lokalizacją sklepu (z adresem, gdy można przyjechać), koszt na kurę przez 30 dni i źródło składu. Dla koncentratu z parametrem zboza liczy „koncentrat + Twoje zboże”: proporcje z etykiety z tymi zbożami i udział koncentratu do normy białka.',
       inputSchema: z.object({
         nazwa: z.string().min(1).max(120).describe('Nazwa produktu z szukaj_dodatkow albo jej fragment'),
         zboza: z.array(z.object({
@@ -293,6 +300,7 @@ function zarejestrujNarzedzia(serwer) {
         drob: z.enum(GATUNKI).optional().describe('Gatunek do porównania z normą, np. kury-nioski-lekkie'),
         okres: z.string().max(60).optional().describe('Okres do porównania z normą, np. "powyżej 45"'),
         dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę'),
+        wojewodztwo: WOJEWODZTWO,
       }),
       annotations: TYLKO_ODCZYT,
     },
@@ -308,6 +316,7 @@ function zarejestrujNarzedzia(serwer) {
       inputSchema: z.object({
         nazwa: z.string().min(1).max(120).describe('Nazwa produktu z bazy dodatków'),
         dawka_g: z.number().min(5).max(400).optional().describe('Pasza na ptaka dziennie w g, do kosztu na kurę'),
+        wojewodztwo: WOJEWODZTWO,
       }),
       annotations: TYLKO_ODCZYT,
     },

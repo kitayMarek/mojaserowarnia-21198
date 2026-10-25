@@ -19,7 +19,8 @@
  * NEUTRALNOŚĆ (decyzja Marka): płaci się za obecność i sprawdzone dane, nigdy za
  * pozycję. Pole `partner` jest jawnie oznaczane na karcie, ale propozycje
  * „czym uzupełnić” i wyszukiwanie w MCP układa się wyłącznie po wartościach
- * odżywczych i cenie. Najwyżej 2 propozycje na brak.
+ * odżywczych i cenie. Najwyżej 2 propozycje na brak. Lokalizacja sklepu (od 25.10.2026,
+ * SKLEPY_DODATKOW) też nie zmienia kolejności: MCP tylko dopisuje „w Twoim województwie”.
  */
 
 import { feedIngredients, type FeedIngredient } from "./feedIngredients.ts";
@@ -62,6 +63,197 @@ export interface OfertaDodatku {
   opakowanieKg: number;
   /** Dzień, w którym cena była taka na stronie sklepu (RRRR-MM-DD). */
   sprawdzono: string;
+  /** Gdzie jest sklep i czy można przyjechać; z SKLEPY_DODATKOW, null = sklepu tam nie ma. */
+  lokalizacja?: LokalizacjaSklepu | null;
+}
+
+// ── Sklepy: gdzie są i czy można przyjechać (od 25.10.2026) ─────────────────
+
+/**
+ * Województwa: klucz ASCII (parametr wojewodztwo w MCP i kolumna feed_offers.wojewodztwo),
+ * wartość z ogonkami dla ludzi. Te same klucze co CHECK w migracji 20261025100000.
+ */
+export const WOJEWODZTWA = {
+  dolnoslaskie: "dolnośląskie",
+  "kujawsko-pomorskie": "kujawsko-pomorskie",
+  lubelskie: "lubelskie",
+  lubuskie: "lubuskie",
+  lodzkie: "łódzkie",
+  malopolskie: "małopolskie",
+  mazowieckie: "mazowieckie",
+  opolskie: "opolskie",
+  podkarpackie: "podkarpackie",
+  podlaskie: "podlaskie",
+  pomorskie: "pomorskie",
+  slaskie: "śląskie",
+  swietokrzyskie: "świętokrzyskie",
+  "warminsko-mazurskie": "warmińsko-mazurskie",
+  wielkopolskie: "wielkopolskie",
+  zachodniopomorskie: "zachodniopomorskie",
+} as const;
+export type Wojewodztwo = keyof typeof WOJEWODZTWA;
+
+/**
+ * Jak dostać towar: sklep = sklep stacjonarny (można przyjechać i kupić), odbior = odbiór
+ * osobisty zamówienia ze sklepu internetowego, wysylka = tylko wysyłka (regulamin albo strona
+ * dostawy wymienia same przesyłki).
+ */
+export type Odbior = "sklep" | "odbior" | "wysylka";
+
+export const OPIS_ODBIORU: Record<Odbior, string> = {
+  sklep: "sklep stacjonarny",
+  odbior: "odbiór osobisty zamówienia",
+  wysylka: "tylko wysyłka",
+};
+
+/** Miejsce, do którego klient może przyjechać. Adres z ulicą tylko dla takich miejsc. */
+export interface PunktSklepu {
+  rodzaj: "sklep" | "odbior";
+  adres: string;
+  wojewodztwo: Wojewodztwo;
+  godziny?: string;
+}
+
+export interface LokalizacjaSklepu {
+  /** Miejscowość siedziby albo magazynu, z którego sklep wysyła. */
+  miejscowosc: string | null;
+  /** null = sklep za granicą albo nie ustalono. */
+  wojewodztwo: Wojewodztwo | null;
+  /** null = strona sklepu tego nie mówi. */
+  odbior: Odbior | null;
+  punkty: PunktSklepu[];
+  /** Kiedy sprawdzono na stronie sklepu (RRRR-MM-DD). */
+  sprawdzono: string;
+  /** Strona, z której to wzięte (Kontakt, Regulamin, Dostawa). */
+  zrodlo: string;
+  uwagi?: string;
+}
+
+const L = "2026-10-25";
+
+/**
+ * Sklepy z ofert, odczytane 25.10.2026 ze stron Kontakt, Regulamin i Dostawa każdego sklepu.
+ * Czego strona nie mówi, zostaje null. Przy sklepach tylko z wysyłką sama miejscowość: adres
+ * jednoosobowej firmy bywa adresem domowym, a klient i tak tam nie przyjeżdża.
+ * Lokalizacja nie wchodzi do kolejności ofert (decyzja Marka): tylko skład i cena.
+ */
+export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
+  AgroRatajczak: {
+    miejscowosc: "Krajewice k. Gostynia", wojewodztwo: "wielkopolskie", odbior: "odbior",
+    punkty: [{ rodzaj: "odbior", adres: "Krajewice 33, 63-800 Gostyń", wojewodztwo: "wielkopolskie", godziny: "pn–pt 7:00–16:00" }],
+    sprawdzono: L, zrodlo: "https://sklep.agroratajczak.pl/regulamin-pm-11.html",
+    uwagi: "Regulamin: odbiór osobisty bezpłatny. Sklep dowozi też towar swoim autem do klientów raz w tygodniu (strona główna), trasy nie podaje.",
+  },
+  Agrofortel: {
+    miejscowosc: "Cieszyn", wojewodztwo: "slaskie", odbior: "wysylka", punkty: [],
+    sprawdzono: L, zrodlo: "https://agrofortel.pl/metody-platnosci-i-koszty-dostawy",
+    uwagi: "Firma czeska (siedziba w Pradze), magazyn w Cieszynie. Strona dostawy wymienia tylko kuriera GLS i Rabena.",
+  },
+  "Farm Pet Garden": {
+    miejscowosc: "Osięciny", wojewodztwo: "kujawsko-pomorskie", odbior: "sklep",
+    punkty: [{ rodzaj: "sklep", adres: "Osięciny Wieś 4, 88-220 Osięciny", wojewodztwo: "kujawsko-pomorskie", godziny: "pn–pt 7:30–17:00, sob. 7:30–14:00" }],
+    sprawdzono: L, zrodlo: "https://farmpetgarden.pl/kontakt",
+  },
+  Galvet: {
+    miejscowosc: "Sowin k. Łambinowic", wojewodztwo: "opolskie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://sklep-galvet.pl/kontakt-inf-4.html",
+    uwagi: "Regulamin wymienia płatność gotówką przy odbiorze osobistym, ale nie podaje miejsca ani godzin odbioru: zapytaj sklep.",
+  },
+  Ketris: {
+    miejscowosc: "Brno (Czechy)", wojewodztwo: null, odbior: "wysylka", punkty: [],
+    sprawdzono: L, zrodlo: "https://www.ketris.pl/kontakt/",
+    uwagi: "Firma czeska, sklepy stacjonarne tylko w Czechach (Brno, Tachov). Do Polski wysyłka GLS, Packetą albo paletą; zwroty przez Hażlach (śląskie).",
+  },
+  Kopalko: {
+    miejscowosc: "Osielsko", wojewodztwo: "kujawsko-pomorskie", odbior: "odbior",
+    punkty: [{ rodzaj: "odbior", adres: "ul. Kolonijna 5A, 86-031 Osielsko (magazyn)", wojewodztwo: "kujawsko-pomorskie", godziny: "dni robocze 8:00–16:00" }],
+    sprawdzono: L, zrodlo: "https://kopalko.pl/dostawa-i-platnosci/",
+  },
+  Lagrico: {
+    miejscowosc: "Zaręby Kościelne", wojewodztwo: "mazowieckie", odbior: "odbior",
+    punkty: [
+      { rodzaj: "odbior", adres: "ul. Czyżewska 20, 07-323 Zaręby Kościelne", wojewodztwo: "mazowieckie" },
+      { rodzaj: "odbior", adres: "ul. Batalionów Chłopskich 2, 28-100 Busko-Zdrój", wojewodztwo: "swietokrzyskie" },
+    ],
+    sprawdzono: L, zrodlo: "https://lagrico.pl/regulamin-sklepu,p2.html",
+    uwagi: "Regulamin podaje dwa miejsca odbioru osobistego, bez godzin.",
+  },
+  "Market-Rolniczy": {
+    miejscowosc: "Glinki k. Koźmina Wielkopolskiego", wojewodztwo: "wielkopolskie", odbior: "wysylka", punkty: [],
+    sprawdzono: L, zrodlo: "https://market-rolniczy.pl/content/1-dostawa",
+    uwagi: "Strona dostawy: wszystkie przesyłki kurierem InPost.",
+  },
+  "MojaFerma.pl": {
+    miejscowosc: "Wrocław", wojewodztwo: "dolnoslaskie", odbior: "wysylka", punkty: [],
+    sprawdzono: L, zrodlo: "https://mojaferma.pl/pl/i/Koszty-dostawy/4",
+    uwagi: "Strona kosztów dostawy wymienia tylko paczki i palety. Sprzedawca: Galwet Sp. z o.o. (to inna firma niż sklep Galvet).",
+  },
+  "Pan Hodowca": {
+    miejscowosc: "Czerteż k. Sanoka", wojewodztwo: "podkarpackie", odbior: "wysylka", punkty: [],
+    sprawdzono: L, zrodlo: "https://www.panhodowca.pl/cms/regulamin",
+    uwagi: "Regulamin: sprzedaż tylko przez internet, wysyłka paczkomatem albo kurierem.",
+  },
+  PanPasza: {
+    miejscowosc: "Syberia k. Lubowidza", wojewodztwo: "mazowieckie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://www.panpasza.pl/pl/contact",
+    uwagi: "Strona nie opisuje dostawy ani odbioru osobistego: zapytaj sklep.",
+  },
+  "Paszowo.pl": {
+    miejscowosc: "Damasławek", wojewodztwo: "wielkopolskie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://paszowo.pl/strony/regulamin-sklepu",
+    uwagi: "Regulamin sklepu internetowego wymienia kuriera i paletę, bez odbioru osobistego, ale sprzedawca (Zakład Handlowy Jóźwiakowski, ul. Żnińska 11) pisze też o sprzedaży stacjonarnej: zapytaj sklep.",
+  },
+  Rolmat: {
+    miejscowosc: "Szpetal Górny k. Włocławka", wojewodztwo: "kujawsko-pomorskie", odbior: "odbior",
+    punkty: [{ rodzaj: "odbior", adres: "ul. Lipowa 5, Szpetal Górny, 87-811 Fabianki", wojewodztwo: "kujawsko-pomorskie", godziny: "pn–pt 8:00–16:00, sob. 8:00–13:00" }],
+    sprawdzono: L, zrodlo: "https://sklep.rolmat.pl/pl/i/Formy-dostaw/4",
+    uwagi: "Formy dostawy: „Odbiór własny w siedzibie firmy”. Strona wspomina też o stacjonarnym centrum ogrodniczym, bez adresu.",
+  },
+  Rolnet: {
+    miejscowosc: "Jeżów", wojewodztwo: "lodzkie", odbior: "odbior",
+    punkty: [{ rodzaj: "odbior", adres: "ul. Brzezińska 60, 95-047 Jeżów", wojewodztwo: "lodzkie" }],
+    sprawdzono: L, zrodlo: "https://rolnet.pl/news/n/54/Warunki-dostawy",
+    uwagi: "Warunki dostawy: odbiór osobisty za 0 zł; adres ze strony „Mapa dojazdu”, godzin strona nie podaje.",
+  },
+  "Spec-Drob": {
+    miejscowosc: "Olsztyn", wojewodztwo: "warminsko-mazurskie", odbior: "sklep",
+    punkty: [{ rodzaj: "sklep", adres: "ul. Lubelska 32B, 10-409 Olsztyn", wojewodztwo: "warminsko-mazurskie", godziny: "pn–pt 8:00–16:00" }],
+    sprawdzono: L, zrodlo: "https://specdrob.pl/pl/i/Kontakt/3",
+    uwagi: "Strona podaje odbiór osobisty pn–pt 8:00–16:00 pod tym adresem i nazywa firmę hurtownią i sklepem dla hodowców; sklep stacjonarny potwierdził autor serwisu.",
+  },
+  Wisagro: {
+    miejscowosc: "Mieleszyn k. Bolesławca (łódzkie)", wojewodztwo: "lodzkie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://wisagro.pl/regulamin",
+    uwagi: "Regulamin nie wymienia sposobów dostawy ani odbioru osobistego: zapytaj sklep.",
+  },
+  "e-pasze.pl": {
+    miejscowosc: "Czarnocin", wojewodztwo: "lodzkie", odbior: "odbior",
+    punkty: [{ rodzaj: "odbior", adres: "ul. Główna 160, 97-318 Czarnocin (wytwórnia pasz)", wojewodztwo: "lodzkie", godziny: "pn–pt 7:30–15:30, sob. 7:30–12:30" }],
+    sprawdzono: L, zrodlo: "https://e-pasze.pl/regulamin",
+    uwagi: "Regulamin wymienia odbiór osobisty bez osobnego adresu; adres i godziny to wytwórnia Agro-Kocięba ze stopki strony.",
+  },
+  "eZoo.pl": {
+    miejscowosc: "Oborniki Śląskie", wojewodztwo: "dolnoslaskie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://ezoo.pl/pl/i/O-nas/7",
+    uwagi: "Strona opisuje odbiór osobisty tylko dla leków, w gabinecie weterynaryjnym po umówieniu wizyty; o paszach i dodatkach nie mówi: zapytaj sklep.",
+  },
+};
+
+/** Lokalizacja sklepu po nazwie z oferty; null, gdy sklepu nie ma w SKLEPY_DODATKOW. */
+export const lokalizacjaSklepu = (sklep: string): LokalizacjaSklepu | null => SKLEPY_DODATKOW[sklep] ?? null;
+
+/** Miejsca w danym województwie, do których można przyjechać (sklep albo odbiór). */
+export const punktyWWojewodztwie = (l: LokalizacjaSklepu | null | undefined, w: Wojewodztwo): PunktSklepu[] =>
+  (l?.punkty ?? []).filter((p) => p.wojewodztwo === w);
+
+/** Sklep ma siedzibę albo punkt odbioru w tym województwie. Nie mówi nic o odległości. */
+export const wWojewodztwie = (l: LokalizacjaSklepu | null | undefined, w: Wojewodztwo): boolean =>
+  l?.wojewodztwo === w || punktyWWojewodztwie(l, w).length > 0;
+
+/** „Olsztyn, sklep stacjonarny” do pokazania przy ofercie na stronie. */
+export function opisLokalizacji(l: LokalizacjaSklepu | null | undefined): string {
+  if (!l?.miejscowosc) return "";
+  return l.odbior ? `${l.miejscowosc}, ${OPIS_ODBIORU[l.odbior]}` : l.miejscowosc;
 }
 
 export interface DodatekPaszowy extends FeedIngredient {
@@ -104,7 +296,7 @@ export interface DodatekPaszowy extends FeedIngredient {
 export const ZRODLO_DODATKOW = "Moja Serowarnia, baza dodatków paszowych (skład z etykiet i stron producentów, ceny ze sklepów z datą sprawdzenia)";
 
 /** Data stanu migawki; zmieniać przy każdej zmianie danych. */
-export const STAN_DODATKOW = "2026-10-24";
+export const STAN_DODATKOW = "2026-10-25";
 
 /** Znacznik w linkach do sklepów, po którym sklep rozpozna ruch z kalkulatora. */
 export const ZNACZNIK_SKLEPU = "utm_source=mojaserowarnia";
@@ -450,7 +642,7 @@ const WPISY: Wpis[] = [
   },
   {
     nazwa: "Śruta sojowa bez GMO (Market-Rolniczy)", kategoria: "Produkty uboczne, śruty i oleje", odpowiednik: "Śruta sojowa", uzupelnijZ: "Śruta sojowa",
-    producent: "nie podano (sprzedawca: Market-Rolniczy, Poznań)", gatunki: [],
+    producent: "nie podano (sprzedawca: Market-Rolniczy, Glinki k. Koźmina Wielkopolskiego)", gatunki: [],
     bialko: 46, tluszcz: 1.6, wlokno: 3.5,
     // Bez dawkaProcDo: sprzedawca podaje 10–20% dla wszystkich gatunków naraz, a od 24.10.2026
     // górna dawka z etykiety jest granicą doboru (udzialySurowcow.ts). Brojler w starterze
@@ -596,6 +788,7 @@ export const DODATKI_PASZOWE: DodatekPaszowy[] = WPISY.map(({ uzupelnijZ, ...w }
     dawkaProcOd: null, dawkaProcDo: null, dawkaGDziennie: null, stosowanie: null, skladSurowcowy: null,
     urlProducenta: null, partner: false,
     ...w,
+    oferty: w.oferty.map((o) => ({ ...o, lokalizacja: lokalizacjaSklepu(o.sklep) })),
   };
 });
 const PO_NAZWIE = new Map(DODATKI_PASZOWE.map((d) => [d.nazwa, d]));

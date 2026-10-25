@@ -34,7 +34,8 @@ function KosztPropozycji({ u, dawkaG, onPokazKarte }: { u: Uzupelnienie; dawkaG:
       {": "}
       {u.oferta ? (
         <>
-          od {liczbaPL(u.oferta.cenaZaKg, 2)} zł/kg w sklepie {u.oferta.sklep} (cena z {sprawdzono})
+          od {liczbaPL(u.oferta.cenaZaKg, 2)} zł/kg w sklepie {u.oferta.sklep}
+          {u.oferta.lokalizacja?.miejscowosc && `, ${u.oferta.lokalizacja.miejscowosc}`} (cena z {sprawdzono})
           {u.kosztNaPtakaMiesiecznieZl != null
             ? `, ok. ${liczbaPL(u.kosztNaPtakaMiesiecznieZl, 2)} zł na ptaka przez 30 dni`
             : u.kosztNaKgPaszyZl != null && `, ${liczbaPL(u.kosztNaKgPaszyZl, 3)} zł na kg paszy${dawkaG > 0 ? "" : " (wpisz dawkę paszy w kroku 4, a policzę na ptaka)"}`}
@@ -175,7 +176,7 @@ function RamkaJednegoSkladnika({ j, onPokazKarte }: { j: JedenSkladnik; onPokazK
                 {g.nazwa}
               </button>
               {g.oferta && (
-                <span className="text-muted-foreground"> · {liczbaPL(g.oferta.cenaZl, 2)} zł za {liczbaPL(g.oferta.opakowanieKg, 1)} kg w {g.oferta.sklep}, cena z {g.oferta.sprawdzono}</span>
+                <span className="text-muted-foreground"> · {liczbaPL(g.oferta.cenaZl, 2)} zł za {liczbaPL(g.oferta.opakowanieKg, 1)} kg w {g.oferta.sklep}{g.oferta.lokalizacja?.miejscowosc && ` (${g.oferta.lokalizacja.miejscowosc})`}, cena z {g.oferta.sprawdzono}</span>
               )}
               {g.partner && <span className="text-muted-foreground"> · partner serwisu</span>}
             </li>

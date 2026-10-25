@@ -3,8 +3,8 @@
  * i znaczniki GMO/eko dla 124 surowców wzorcowych z src/data/gmoEkoSurowcow.ts.
  *
  * UŻYCIE: node scripts/gen-dodatki-seed-sql.mts  ->  scripts/sql/dodatki-seed.sql
- * Uruchamia się PO migracji 20261024150000_baza_dodatkow_paszowych.sql (SQL Editor
- * w panelu Supabase albo psql). Idempotentne: czyści poprzedni seed source='dodatek'
+ * Uruchamia się PO migracjach 20261024150000_baza_dodatkow_paszowych.sql
+ * i 20261025100000_lokalizacja_sklepow.sql (SQL Editor w panelu Supabase albo psql). Idempotentne: czyści poprzedni seed source='dodatek'
  * (oferty idą razem z nim przez ON DELETE CASCADE) i wstawia od nowa. Oferty
  * dopisane ręcznie w panelu do tych produktów też zniknie, więc po takich zmianach
  * najpierw przenieś je do migawki.
@@ -17,7 +17,7 @@ import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { feedIngredients, type FeedIngredient } from "../src/data/feedIngredients.ts";
-import { DODATKI_PASZOWE, STAN_DODATKOW, adresOferty } from "../src/data/dodatkiPaszowe.ts";
+import { DODATKI_PASZOWE, STAN_DODATKOW, adresOferty, type LokalizacjaSklepu } from "../src/data/dodatkiPaszowe.ts";
 import { znacznikiSurowca } from "../src/data/gmoEkoSurowcow.ts";
 
 const KATALOG = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -41,6 +41,11 @@ const liczba = (x: number | null | undefined) => (x == null ? "NULL" : String(x)
 const bool = (b: boolean | null) => (b == null ? "NULL" : b ? "true" : "false");
 const data = (d: string | null | undefined) => (d ? `'${d}'::date` : "NULL");
 const tablica = (t: string[]) => (t.length ? `ARRAY[${t.map(tekst).join(", ")}]::text[]` : "'{}'::text[]");
+const json = (x: unknown) => `${tekst(JSON.stringify(x))}::jsonb`;
+
+// Lokalizacja sklepu z SKLEPY_DODATKOW, ta sama w każdej ofercie sklepu (migracja 20261025100000).
+const lokalizacja = (l: LokalizacjaSklepu | null | undefined) =>
+  [tekst(l?.miejscowosc), tekst(l?.wojewodztwo), tekst(l?.odbior), json(l?.punkty ?? []), data(l?.sprawdzono)];
 
 const KOLUMNY = [
   "nazwa", "kategoria", ...POLA.map(([, k]) => k),
@@ -58,7 +63,7 @@ const wiersze = DODATKI_PASZOWE.map((d) => `  (${[
 ].join(", ")})`);
 
 const oferty = DODATKI_PASZOWE.flatMap((d) => d.oferty.map((o) =>
-  `  (${[tekst(d.nazwa), tekst(o.sklep), tekst(adresOferty(o.url)), liczba(o.cenaZl), liczba(o.opakowanieKg), data(o.sprawdzono)].join(", ")})`));
+  `  (${[tekst(d.nazwa), tekst(o.sklep), tekst(adresOferty(o.url)), liczba(o.cenaZl), liczba(o.opakowanieKg), data(o.sprawdzono), ...lokalizacja(o.lokalizacja)].join(", ")})`));
 
 const znaczniki = feedIngredients.map((f) => {
   const z = znacznikiSurowca(f.nazwa);
@@ -71,7 +76,8 @@ const sql = `-- ================================================================
 -- PLIK GENEROWANY przez scripts/gen-dodatki-seed-sql.mts z src/data/dodatkiPaszowe.ts
 -- i src/data/gmoEkoSurowcow.ts. Nie edytuj recznie: popraw migawke i przegeneruj.
 --
--- Uruchamiac PO migracji 20261024150000_baza_dodatkow_paszowych.sql.
+-- Uruchamiac PO migracjach 20261024150000_baza_dodatkow_paszowych.sql
+-- i 20261025100000_lokalizacja_sklepow.sql.
 -- Idempotentne: czysci poprzedni seed source='dodatek' razem z jego ofertami.
 -- Produkty: ${DODATKI_PASZOWE.length}, oferty: ${oferty.length}.
 -- ==========================================================================
@@ -97,12 +103,15 @@ INSERT INTO public.feed_ingredients
 VALUES
 ${wiersze.join(",\n")};
 
--- 3. Oferty sklepow, przypiete do produktow po nazwie.
-INSERT INTO public.feed_offers (feed_ingredient_id, sklep, url, cena_zl, opakowanie_kg, sprawdzono)
-SELECT f.id, v.sklep, v.url, v.cena_zl, v.opakowanie_kg, v.sprawdzono
+-- 3. Oferty sklepow, przypiete do produktow po nazwie, z lokalizacja sklepu.
+INSERT INTO public.feed_offers
+  (feed_ingredient_id, sklep, url, cena_zl, opakowanie_kg, sprawdzono,
+   miejscowosc, wojewodztwo, odbior, punkty_odbioru, lokalizacja_sprawdzona)
+SELECT f.id, v.sklep, v.url, v.cena_zl, v.opakowanie_kg, v.sprawdzono,
+  v.miejscowosc, v.wojewodztwo, v.odbior, v.punkty_odbioru, v.lokalizacja_sprawdzona
 FROM (VALUES
 ${oferty.join(",\n")}
-) AS v(nazwa, sklep, url, cena_zl, opakowanie_kg, sprawdzono)
+) AS v(nazwa, sklep, url, cena_zl, opakowanie_kg, sprawdzono, miejscowosc, wojewodztwo, odbior, punkty_odbioru, lokalizacja_sprawdzona)
 JOIN public.feed_ingredients f ON f.nazwa = v.nazwa AND f.source = 'dodatek';
 
 COMMIT;

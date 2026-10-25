@@ -13,14 +13,18 @@
  * w panelu widać od razu), a do migracji 20261024150000 i seedu z migawki
  * src/data/dodatkiPaszowe.ts. Brak tabeli feed_offers przed migracją to zwykły błąd
  * zapytania, po którym zostaje migawka.
+ *
+ * Lokalizacja sklepu przy ofercie (od 25.10.2026, migracja 20261025100000): z kolumn
+ * feed_offers, gdy są wypełnione, a do migracji i nowego seedu z mapy SKLEPY_DODATKOW.
  */
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { feedIngredients, feedCategories, type FeedIngredient } from "@/data/feedIngredients";
 import { SKLADNIKI_Z_KUCHNI } from "@/data/skladnikiZKuchni";
 import {
-  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, dodatekPoNazwie, opisDawki,
-  type DodatekPaszowy, type Gatunek, type Gmo, type OfertaDodatku, type ZrodloSkladu,
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, dodatekPoNazwie, lokalizacjaSklepu, opisDawki,
+  type DodatekPaszowy, type Gatunek, type Gmo, type LokalizacjaSklepu, type Odbior, type OfertaDodatku,
+  type PunktSklepu, type Wojewodztwo, type ZrodloSkladu,
 } from "@/data/dodatkiPaszowe";
 
 const num = (v: unknown): number => (v == null || v === "" ? 0 : Number(v) || 0);
@@ -90,12 +94,28 @@ type Zapytanie = PromiseLike<Wiersze> & {
 const tabela = (nazwa: string) =>
   (supabase as unknown as { from: (t: string) => { select: (k: string) => Zapytanie } }).from(nazwa).select("*");
 
+/** Lokalizacja z kolumn oferty; bez daty sprawdzenia (przed migracją albo seedem) z migawki. Źródło i uwagi zawsze z migawki. */
+function mapLokalizacja(o: Record<string, unknown>): LokalizacjaSklepu | null {
+  const zMigawki = lokalizacjaSklepu(o.sklep as string);
+  if (!o.lokalizacja_sprawdzona) return zMigawki;
+  return {
+    miejscowosc: tekstLubNull(o.miejscowosc),
+    wojewodztwo: tekstLubNull(o.wojewodztwo) as Wojewodztwo | null,
+    odbior: tekstLubNull(o.odbior) as Odbior | null,
+    punkty: (Array.isArray(o.punkty_odbioru) ? o.punkty_odbioru : []) as PunktSklepu[],
+    sprawdzono: o.lokalizacja_sprawdzona as string,
+    zrodlo: zMigawki?.zrodlo ?? "",
+    uwagi: zMigawki?.uwagi,
+  };
+}
+
 const mapOferta = (o: Record<string, unknown>): OfertaDodatku => ({
   sklep: o.sklep as string,
   url: o.url as string,
   cenaZl: num(o.cena_zl),
   opakowanieKg: num(o.opakowanie_kg),
   sprawdzono: o.sprawdzono as string,
+  lokalizacja: mapLokalizacja(o),
 });
 
 export function useFeedIngredients() {

@@ -8,8 +8,12 @@ import assert from "node:assert/strict";
 import { feedIngredients } from "../src/data/feedIngredients.ts";
 import { NORMY_DROBIU } from "../src/data/normyDrobiu.ts";
 import {
-  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, adresOferty, cenaZaKg, dawkaEtykiety, najtanszaOferta, przepisZeStosowania,
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, SKLEPY_DODATKOW, WOJEWODZTWA, adresOferty, cenaZaKg, dawkaEtykiety, najtanszaOferta,
+  przepisZeStosowania, wWojewodztwie,
 } from "../src/data/dodatkiPaszowe.ts";
+// Serwer MCP czyta tę samą migawkę; testujemy jego wyniki wprost, bez Workera.
+import { kartaDodatku, szukajDodatkow, zamiennikiDodatku } from "../worker-magazyn/src/dodatki.js";
+import { dobierzProporcjeMieszanki } from "../worker-magazyn/src/pasze.js";
 import { ZNACZNIKI_SUROWCOW, znacznikiSurowca } from "../src/data/gmoEkoSurowcow.ts";
 import { dawkaDomyslna, udzialSurowca } from "../src/data/udzialySurowcow.ts";
 import {
@@ -289,6 +293,98 @@ test("bez zbóż w mieszance i dla produktu bez przepisu: null", () => {
 
 test("cena za kg z opakowania", () => {
   assert.equal(cenaZaKg({ cenaZl: 15, opakowanieKg: 25 }), 0.6);
+});
+
+// ── Lokalizacja sklepów (od 25.10.2026) ───────────────────────────────────
+
+test("każdy sklep z ofert ma lokalizację, a mapa nie ma sklepów bez ofert", () => {
+  const zOfert = new Set(DODATKI_PASZOWE.flatMap((d) => d.oferty.map((o) => o.sklep)));
+  for (const s of zOfert) assert.ok(SKLEPY_DODATKOW[s], `sklep bez lokalizacji: ${s}`);
+  for (const s of Object.keys(SKLEPY_DODATKOW)) assert.ok(zOfert.has(s), `lokalizacja sklepu bez ofert: ${s}`);
+  for (const d of DODATKI_PASZOWE) for (const o of d.oferty) assert.equal(o.lokalizacja, SKLEPY_DODATKOW[o.sklep]);
+});
+
+test("lokalizacja: poprawne województwa i odbiór, adresy tylko tam, gdzie można przyjechać", () => {
+  for (const [sklep, l] of Object.entries(SKLEPY_DODATKOW)) {
+    if (l.wojewodztwo) assert.ok(l.wojewodztwo in WOJEWODZTWA, `${sklep}: województwo ${l.wojewodztwo}`);
+    assert.ok(l.odbior == null || ["sklep", "odbior", "wysylka"].includes(l.odbior), `${sklep}: odbiór ${l.odbior}`);
+    assert.match(l.sprawdzono, /^\d{4}-\d{2}-\d{2}$/);
+    assert.match(l.zrodlo, /^https:\/\//, `${sklep}: źródło bez adresu`);
+    // Adres z ulicą tylko dla miejsc, do których klient może przyjechać.
+    if (l.odbior === "sklep" || l.odbior === "odbior") assert.ok(l.punkty.length > 0, `${sklep}: odbiór bez adresu`);
+    else assert.equal(l.punkty.length, 0, `${sklep}: adres przy sklepie bez odbioru`);
+    for (const p of l.punkty) {
+      assert.ok(p.wojewodztwo in WOJEWODZTWA, `${sklep}: punkt w ${p.wojewodztwo}`);
+      assert.match(p.adres, /\d{2}-\d{3}/, `${sklep}: adres bez kodu pocztowego`);
+    }
+    for (const t of [l.miejscowosc, l.uwagi, ...l.punkty.flatMap((p) => [p.adres, p.godziny])]) {
+      assert.ok(!String(t ?? "").includes("—"), `długi myślnik przy sklepie: ${sklep}`);
+    }
+  }
+  assert.equal(SKLEPY_DODATKOW["Spec-Drob"].odbior, "sklep");
+  assert.equal(SKLEPY_DODATKOW["Spec-Drob"].wojewodztwo, "warminsko-mazurskie");
+  // Lagrico ma siedzibę na Mazowszu i drugi punkt odbioru w Busku-Zdroju.
+  assert.ok(wWojewodztwie(SKLEPY_DODATKOW.Lagrico, "swietokrzyskie"));
+  assert.ok(!wWojewodztwie(SKLEPY_DODATKOW.Lagrico, "lubelskie"));
+});
+
+// Kolejność jako lista nazw produktów i sklepów najtańszych ofert.
+const kolejnosc = (wynik: { wyniki: Array<{ nazwa: string; najtansza_oferta: { sklep: string } | null }> }) =>
+  wynik.wyniki.map((w) => `${w.nazwa} @ ${w.najtansza_oferta?.sklep ?? "-"}`);
+
+test("MCP: województwo dopisuje oznaczenie, ale nie zmienia kolejności ani najtańszej oferty", () => {
+  const pytania = [
+    { brakuje: "wapn", gatunek: "nioski" },
+    { brakuje: "fosfor" },
+    { brakuje: "bialko", sortuj: "cena_za_kg" },
+    { zapytanie: "kreda" },
+    { sortuj: "koszt_na_kure" },
+    {},
+  ];
+  for (const p of pytania) {
+    const bez = szukajDodatkow({ ...p, limit: 20 });
+    for (const woj of Object.keys(WOJEWODZTWA)) {
+      const z = szukajDodatkow({ ...p, wojewodztwo: woj, limit: 20 });
+      assert.deepEqual(kolejnosc(z), kolejnosc(bez), `${JSON.stringify(p)} w ${woj}: inna kolejność`);
+      assert.equal(z.twoje_wojewodztwo.podane, WOJEWODZTWA[woj as keyof typeof WOJEWODZTWA]);
+    }
+    assert.equal(bez.twoje_wojewodztwo, undefined);
+  }
+  // Karta produktu i zamienniki: ta sama kolejność ofert i produktów.
+  const kreda = "Kreda pastewna Viva Max (Polcalc)";
+  const sklepy = (k: { oferty: Array<{ sklep: string }> }) => k.oferty.map((o) => o.sklep);
+  assert.deepEqual(sklepy(kartaDodatku({ nazwa: kreda, wojewodztwo: "warminsko-mazurskie" })), sklepy(kartaDodatku({ nazwa: kreda })));
+  const nazwy = (z: { zamienniki: Array<{ nazwa: string }> }) => z.zamienniki.map((x) => x.nazwa);
+  assert.deepEqual(nazwy(zamiennikiDodatku({ nazwa: kreda, wojewodztwo: "warminsko-mazurskie" })), nazwy(zamiennikiDodatku({ nazwa: kreda })));
+});
+
+test("MCP: Spec-Drob w warmińsko-mazurskim oznaczony, droższa kreda z Olsztyna osobno obok najtańszej", () => {
+  const w = szukajDodatkow({ zapytanie: "kreda viva max", wojewodztwo: "warminsko-mazurskie" }).wyniki[0];
+  assert.equal(w.najtansza_oferta.sklep, "AgroRatajczak");
+  assert.equal(w.najtansza_oferta.w_twoim_wojewodztwie, false);
+  assert.deepEqual(w.inne_oferty_w_twoim_wojewodztwie.map((o: { sklep: string }) => o.sklep), ["Spec-Drob"]);
+  assert.deepEqual(w.inne_oferty_w_twoim_wojewodztwie[0].odbior_osobisty_w_twoim_wojewodztwie, ["ul. Lubelska 32B, 10-409 Olsztyn"]);
+  // Bez województwa lokalizacja jest, oznaczenia i dodatkowej listy nie ma.
+  const bez = szukajDodatkow({ zapytanie: "kreda viva max" }).wyniki[0];
+  assert.equal(bez.najtansza_oferta.sklep_wojewodztwo, "wielkopolskie");
+  assert.equal(bez.najtansza_oferta.w_twoim_wojewodztwie, undefined);
+  assert.equal(bez.inne_oferty_w_twoim_wojewodztwie, undefined);
+});
+
+test("MCP: dobór z województwem daje te same proporcje i tę samą kolejność w gdzie_kupic", () => {
+  const pytanie = {
+    drob: "kury-nioski-ciezkie", okres: "powyżej 45", stado: { sztuk: 20 },
+    skladniki: [{ nazwa: "Pszenica" }, { nazwa: "Owies" }, { nazwa: "Bobik" }, { nazwa: "Kreda pastewna" }, { nazwa: "Śruta sojowa" }],
+  };
+  const bez = dobierzProporcjeMieszanki(pytanie);
+  const z = dobierzProporcjeMieszanki({ ...pytanie, wojewodztwo: "warminsko-mazurskie" });
+  assert.deepEqual(z.mieszanka, bez.mieszanka);
+  const zakupy = (r: typeof bez) => r.gdzie_kupic.map((g: { skladnik: string; oferty: Array<{ produkt: string; sklep: string }> }) =>
+    [g.skladnik, g.oferty.map((o) => `${o.produkt} @ ${o.sklep}`)]);
+  assert.deepEqual(zakupy(z), zakupy(bez));
+  const kreda = z.gdzie_kupic.find((g: { skladnik: string }) => g.skladnik === "Kreda pastewna");
+  assert.ok(kreda.oferty.some((o: { sklep: string; w_twoim_wojewodztwie: boolean }) => o.sklep === "Spec-Drob" && o.w_twoim_wojewodztwie));
+  assert.ok(kreda.inne_oferty_w_twoim_wojewodztwie.every((o: { w_twoim_wojewodztwie: boolean }) => o.w_twoim_wojewodztwie));
 });
 
 console.log(`OK: ${testow} testów`);

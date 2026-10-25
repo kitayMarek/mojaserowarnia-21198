@@ -23,7 +23,7 @@ import { feedIngredients } from '../../src/data/feedIngredients.ts';
 import { NORMY_DROBIU, dawkaTypowa } from '../../src/data/normyDrobiu.ts';
 import { OPIS_GMO, opisEko } from '../../src/data/gmoEkoSurowcow.ts';
 import { TOLERANCJE, koncentratZeZbozem, kosztNaPtakaMiesiecznie, sprawdzNorme, zawartosc } from '../../src/lib/bilansPaszy.ts';
-import { normalizuj, ofertaDlaModelu, zaokr, znajdzNorme } from './pasze.js';
+import { normalizuj, ofertaDlaModelu, ofertyWWojewodztwie, opisWojewodztwa, zaokr, znajdzNorme } from './pasze.js';
 
 const ADRES_KALKULATORA = 'https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn';
 
@@ -109,9 +109,14 @@ function cenaSkladnika(d, brak) {
   return (cenaZaKg(o) * 10) / d[brak.pole];
 }
 
-function wiersz(d, brak, dawka) {
+/**
+ * Wiersz wyniku. Z województwem (od 0.8.4) najtańsza oferta ma w_twoim_wojewodztwie, a inne
+ * oferty tego produktu ze sklepów w tym województwie idą obok, nie zamiast najtańszej.
+ */
+function wiersz(d, brak, dawka, wojewodztwo) {
   const oferta = najtanszaOferta(d.oferty);
   const koszt = kosztNaKure(d, dawka?.g);
+  const blisko = ofertyWWojewodztwie([d], new Set([oferta]), wojewodztwo);
   return {
     nazwa: d.nazwa,
     producent: d.producent,
@@ -123,7 +128,8 @@ function wiersz(d, brak, dawka) {
     // ale w dawce kilku gramów na 10 kur to ułamek normy, a fosforan daje go całość.
     ...(brak && dawkaProc(d, dawka?.g) ? { w_paszy_przy_dawce_z_etykiety: { wartosc: zaokr((d[brak.pole] * dawkaProc(d, dawka?.g)) / 100, 3), jednostka: brak.jedn } } : {}),
     ...(cenaSkladnika(d, brak) != null ? { cena_100_g_skladnika_zl: zaokr(cenaSkladnika(d, brak), 2) } : {}),
-    najtansza_oferta: oferta ? ofertaDlaModelu(oferta) : null,
+    najtansza_oferta: oferta ? ofertaDlaModelu(oferta, wojewodztwo) : null,
+    ...(blisko.length ? { inne_oferty_w_twoim_wojewodztwie: blisko.map(({ o }) => ofertaDlaModelu(o, wojewodztwo)) } : {}),
     koszt_na_kure_30_dni_zl: koszt == null ? null : zaokr(koszt, 2),
     ...(koszt == null && oferta && !(dawkaEtykiety(d) > 0) && !d.dawkaGDziennie
       ? { koszt_uwaga: 'Etykieta nie podaje dawki: ilość i koszt policz w dobierz_proporcje albo policz_mieszanke (pole uzupelnienia).' }
@@ -139,7 +145,7 @@ function wiersz(d, brak, dawka) {
 /** Rosnąco; null i NaN na końcu. */
 const rosnaco = (x, y) => (x == null ? Infinity : x) - (y == null ? Infinity : y);
 
-export function szukajDodatkow({ brakuje, zapytanie, gatunek, kategoria, bez_gmo, sortuj, dawka_g, limit = 10 }) {
+export function szukajDodatkow({ brakuje, zapytanie, gatunek, kategoria, bez_gmo, sortuj, dawka_g, wojewodztwo, limit = 10 }) {
   const brak = brakuje ? BRAKI[brakuje] : null;
   const slowa = normalizuj(zapytanie).split(' ').filter(Boolean);
   const dawka = dawkaPaszy(dawka_g, gatunek);
@@ -167,8 +173,9 @@ export function szukajDodatkow({ brakuje, zapytanie, gatunek, kategoria, bez_gmo
     sortowanie: kolejnosc,
     ...(brak ? { szukano: `${brak.nazwa}: produkty, które mają więcej niż ${zaokr(brak.prog, 2)} ${brak.jedn}` } : {}),
     dawka_paszy_do_kosztu: dawka ? { g_na_sztuke_dziennie: dawka.g, zrodlo: dawka.zrodlo } : 'brak: podaj dawka_g, żeby policzyć koszt na ptaka produktów dawkowanych w % mieszanki',
-    wyniki: pokaz.map((d) => wiersz(d, brak, dawka)),
+    wyniki: pokaz.map((d) => wiersz(d, brak, dawka, wojewodztwo)),
     ...(trafione.length === 0 ? { podpowiedz: 'Brak trafień. Usuń któryś filtr albo użyj skladniki_paszy, gdzie są też surowce wzorcowe bez marki (np. „Kreda pastewna”).' } : {}),
+    ...opisWojewodztwa(wojewodztwo),
     ...stopka(),
   };
 }
@@ -249,7 +256,7 @@ function zTwoimZbozem(d, zboza, drob, okres) {
   };
 }
 
-export function kartaDodatku({ nazwa, zboza, drob, okres, dawka_g }) {
+export function kartaDodatku({ nazwa, zboza, drob, okres, dawka_g, wojewodztwo }) {
   const { dodatek: d, ...brak } = znajdzDodatek(nazwa);
   if (!d) return brakDodatku(nazwa, brak);
   const dawka = dawkaPaszy(dawka_g, d.gatunki.includes('nioski') ? 'nioski' : d.gatunki[0]);
@@ -270,7 +277,8 @@ export function kartaDodatku({ nazwa, zboza, drob, okres, dawka_g }) {
     ...(d.skladSurowcowy ? { sklad_surowcowy: d.skladSurowcowy } : {}),
     gmo: OPIS_GMO[d.gmo],
     eko: opisEko(d.dopuszczalneEko),
-    oferty: [...d.oferty].sort((a, b) => cenaZaKg(a) - cenaZaKg(b)).map(ofertaDlaModelu),
+    oferty: [...d.oferty].sort((a, b) => cenaZaKg(a) - cenaZaKg(b)).map((o) => ofertaDlaModelu(o, wojewodztwo)),
+    ...opisWojewodztwa(wojewodztwo),
     ...(d.oferty.length ? {} : { bez_ofert: d.urlProducenta ? `Nie znaleźliśmy w sklepach internetowych. Sprzedaż u producenta: ${d.urlProducenta}` : 'Nie znaleźliśmy w sklepach internetowych.' }),
     koszt_na_kure_30_dni_zl: koszt == null ? null : zaokr(koszt, 2),
     ...(koszt != null && dawka ? { dawka_paszy_do_kosztu: { g_na_sztuke_dziennie: dawka.g, zrodlo: dawka.zrodlo } } : {}),
@@ -293,7 +301,7 @@ const ZASTRZEZENIE_ZAMIENNIKOW =
  * worków), a dla premiksów i koncentratów ta sama kategoria i wspólny gatunek. Od najtańszego
  * na ptaka w dawce z etykiety, potem za kg.
  */
-export function zamiennikiDodatku({ nazwa, dawka_g }) {
+export function zamiennikiDodatku({ nazwa, dawka_g, wojewodztwo }) {
   const { dodatek: d, ...brak } = znajdzDodatek(nazwa);
   if (!d) return brakDodatku(nazwa, brak);
   const wspolnyGatunek = (x) => !d.gatunki.length || !x.gatunki.length || x.gatunki.some((g) => d.gatunki.includes(g));
@@ -311,10 +319,11 @@ export function zamiennikiDodatku({ nazwa, dawka_g }) {
     sklad_tego_produktu: kluczowe(d),
     zamienniki: zamienniki
       .sort((a, b) => rosnaco(kosztNaKure(a, dawka?.g), kosztNaKure(b, dawka?.g)) || rosnaco(cena(a), cena(b)) || a.nazwa.localeCompare(b.nazwa, 'pl'))
-      .map((x) => ({ ...wiersz(x, null, dawka), sklad: kluczowe(x) })),
+      .map((x) => ({ ...wiersz(x, null, dawka, wojewodztwo), sklad: kluczowe(x) })),
     ...(wzor ? { surowiec_wzorcowy: { nazwa: wzor.nazwa, sklad: kluczowe(wzor), uwaga: 'Skład typowy z tabel, bez marki i bez ceny (w skladniki_paszy).' } } : {}),
     ...(zamienniki.length ? {} : { podpowiedz: 'W bazie nie ma innego produktu tego rodzaju. Surowce bez marki znajdziesz w skladniki_paszy.' }),
     zastrzezenie: ZASTRZEZENIE_ZAMIENNIKOW,
+    ...opisWojewodztwa(wojewodztwo),
     ...stopka(),
   };
 }

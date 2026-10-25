@@ -16,7 +16,10 @@
 
 import { feedIngredients as SUROWCE_PASZ, feedCategories } from '../../src/data/feedIngredients.ts';
 import { SKLADNIKI_Z_KUCHNI, KATEGORIA_Z_KUCHNI } from '../../src/data/skladnikiZKuchni.ts';
-import { DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, adresOferty, cenaZaKg, najtanszaOferta } from '../../src/data/dodatkiPaszowe.ts';
+import {
+  DODATKI_PASZOWE, KATEGORIA_OSOBNE_KARMIDLO, OPIS_ODBIORU, WOJEWODZTWA,
+  adresOferty, cenaZaKg, najtanszaOferta, punktyWWojewodztwie, wWojewodztwie,
+} from '../../src/data/dodatkiPaszowe.ts';
 import { OPIS_GMO, opisEko, znacznikiSurowca } from '../../src/data/gmoEkoSurowcow.ts';
 
 // Surowce paszowe, produkty z bazy dodatków (od 0.8.0: kreda z worka, premiks, koncentrat)
@@ -71,7 +74,7 @@ function zaleceniaUdzialow(drob, okres) {
  * 30 dni (udział × dawka paszy × 30 dni × cena za kg). Kolejność tylko po składzie
  * i cenie; partner jest jawnie oznaczony, ale na nią nie wpływa.
  */
-function uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG = 0) {
+function uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG = 0, wojewodztwo) {
   const wynik = [];
   for (const pole of POLA_NORM) {
     if (norma[pole] == null || sprawdzNorme(zawartosc(pozycje, pole), norma[pole], TOLERANCJE[pole]) !== 'za-nisko') continue;
@@ -86,7 +89,7 @@ function uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG = 0) {
         ...(u.domyka ? {} : { nie_domyka: 'w dawce z etykiety nie wyrówna braku' }),
         ...(u.przekroczy.length ? { przekroczy_norme: u.przekroczy.map((p) => PARAMETRY[p.pole][0]) } : {}),
         ...(u.producent ? { producent: u.producent, karta: 'narzędzie dodatek z tą nazwą' } : {}),
-        ...(u.oferta ? { najtansza_oferta: ofertaDlaModelu(u.oferta) } : {}),
+        ...(u.oferta ? { najtansza_oferta: ofertaDlaModelu(u.oferta, wojewodztwo) } : {}),
         ...(u.kosztNaPtakaMiesiecznieZl != null ? { koszt_na_ptaka_30_dni_zl: zaokr(u.kosztNaPtakaMiesiecznieZl, 2) } : {}),
         ...(u.kosztNaKgPaszyZl != null ? { koszt_w_kg_paszy_zl: zaokr(u.kosztNaKgPaszyZl, 3) } : {}),
         ...(u.partner ? { partner_serwisu: true } : {}),
@@ -96,8 +99,46 @@ function uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG = 0) {
   return wynik;
 }
 
-/** Oferta sklepu w odpowiedzi MCP: link ze znacznikiem, cena za kg i data ceny. */
-export function ofertaDlaModelu(o) {
+/** Klucze parametru wojewodztwo (ASCII, np. warminsko-mazurskie). */
+export const WOJEWODZTWA_KLUCZE = Object.keys(WOJEWODZTWA);
+
+/** Dopisywane do wyniku, gdy pytanie podaje województwo (od 0.8.4). */
+export function opisWojewodztwa(wojewodztwo) {
+  if (!wojewodztwo) return {};
+  return {
+    twoje_wojewodztwo: {
+      podane: WOJEWODZTWA[wojewodztwo],
+      uwaga: 'Kolejność ofert zostaje po składzie i cenie. w_twoim_wojewodztwie: true znaczy, że sklep ma w tym województwie siedzibę albo miejsce odbioru; serwer nie zna odległości, więc nie nazywaj sklepu najbliższym. Czy można przyjechać, mówi pole odbior, a adres i godziny punkty_odbioru.',
+    },
+  };
+}
+
+/**
+ * Gdzie jest sklep (od 0.8.4): miejscowość, województwo, czy można przyjechać i adresy
+ * miejsc, do których klient może przyjechać. Z `wojewodztwo` dopisuje w_twoim_wojewodztwie
+ * i adresy odbioru w nim; kolejności ofert nie zmienia (decyzja Marka: tylko skład i cena).
+ */
+function lokalizacjaDlaModelu(l, wojewodztwo) {
+  if (!l) return { sklep_lokalizacja: 'nie sprawdzaliśmy, gdzie jest ten sklep' };
+  const blisko = wojewodztwo ? punktyWWojewodztwie(l, wojewodztwo) : [];
+  return {
+    sklep_miejscowosc: l.miejscowosc,
+    sklep_wojewodztwo: l.wojewodztwo ? WOJEWODZTWA[l.wojewodztwo] : null,
+    odbior: l.odbior ? OPIS_ODBIORU[l.odbior] : 'nie ustaliliśmy: zapytaj sklep',
+    ...(l.punkty.length ? {
+      punkty_odbioru: l.punkty.map((p) => ({
+        rodzaj: OPIS_ODBIORU[p.rodzaj], adres: p.adres, wojewodztwo: WOJEWODZTWA[p.wojewodztwo], ...(p.godziny ? { godziny: p.godziny } : {}),
+      })),
+    } : {}),
+    ...(l.uwagi ? { sklep_uwagi: l.uwagi } : {}),
+    lokalizacja_z_dnia: l.sprawdzono,
+    ...(wojewodztwo ? { w_twoim_wojewodztwie: wWojewodztwie(l, wojewodztwo) } : {}),
+    ...(blisko.length ? { odbior_osobisty_w_twoim_wojewodztwie: blisko.map((p) => p.adres) } : {}),
+  };
+}
+
+/** Oferta sklepu w odpowiedzi MCP: link ze znacznikiem, cena za kg, data ceny i gdzie jest sklep. */
+export function ofertaDlaModelu(o, wojewodztwo) {
   return {
     sklep: o.sklep,
     cena_zl: o.cenaZl,
@@ -105,7 +146,19 @@ export function ofertaDlaModelu(o) {
     cena_za_kg_zl: zaokr(cenaZaKg(o), 2),
     cena_z_dnia: o.sprawdzono,
     url: adresOferty(o.url),
+    ...lokalizacjaDlaModelu(o.lokalizacja, wojewodztwo),
   };
+}
+
+/**
+ * Oferty ze sklepów w podanym województwie, których nie ma wśród już pokazanych, od
+ * najtańszej za kg. Osobna lista obok wyniku: pokazanych ofert i ich kolejności nie rusza.
+ */
+export function ofertyWWojewodztwie(produkty, pokazane, wojewodztwo) {
+  if (!wojewodztwo) return [];
+  return produkty
+    .flatMap((d) => d.oferty.filter((o) => !pokazane.has(o) && wWojewodztwie(o.lokalizacja, wojewodztwo)).map((o) => ({ d, o })))
+    .sort((a, b) => cenaZaKg(a.o) - cenaZaKg(b.o));
 }
 
 /**
@@ -113,14 +166,16 @@ export function ofertaDlaModelu(o) {
  * choć baza je ma (uwaga z rozmowy Marka o odpowiedzi Perplexity, 24.10.2026). Dla każdego
  * składnika: ten sam produkt albo produkty z jego `odpowiednik` (kreda z worka do „Kreda
  * pastewna”), najwyżej 2, od najtańszej za kg. Premiksów ogólnych nie podmieniamy produktem,
- * bo mają inne dawki. Pole partner nie wchodzi do sortowania.
+ * bo mają inne dawki. Pole partner nie wchodzi do sortowania. Z województwem (od 0.8.4)
+ * oferty mają w_twoim_wojewodztwie, a oferty z tego województwa spoza dwóch najtańszych
+ * idą do osobnej listy inne_oferty_w_twoim_wojewodztwie.
  */
-function gdzieKupic(pozycje, dawkaG = 0) {
+function gdzieKupic(pozycje, dawkaG = 0, wojewodztwo) {
   return pozycje.flatMap((s) => {
     const udzial = parseFloat(s.procent) || 0;
     if (udzial <= 0) return [];
-    const oferty = DODATKI_PASZOWE
-      .filter((d) => d.nazwa === s.nazwa || d.odpowiednik === s.nazwa)
+    const produkty = DODATKI_PASZOWE.filter((d) => d.nazwa === s.nazwa || d.odpowiednik === s.nazwa);
+    const oferty = produkty
       .flatMap((d) => {
         const o = najtanszaOferta(d.oferty);
         return o ? [{ d, o }] : [];
@@ -128,16 +183,19 @@ function gdzieKupic(pozycje, dawkaG = 0) {
       .sort((a, b) => cenaZaKg(a.o) - cenaZaKg(b.o))
       .slice(0, 2);
     if (!oferty.length) return [];
+    const opisz = ({ d, o }) => ({
+      produkt: d.nazwa,
+      producent: d.producent,
+      ...ofertaDlaModelu(o, wojewodztwo),
+      ...(dawkaG > 0 ? { koszt_na_ptaka_30_dni_zl: zaokr(kosztNaPtakaMiesiecznie(udzial, dawkaG, cenaZaKg(o)), 2) } : {}),
+      ...(d.partner ? { partner_serwisu: true } : {}),
+    });
+    const blisko = ofertyWWojewodztwie(produkty, new Set(oferty.map(({ o }) => o)), wojewodztwo);
     return [{
       skladnik: s.nazwa,
       procent: zaokr(udzial, 1),
-      oferty: oferty.map(({ d, o }) => ({
-        produkt: d.nazwa,
-        producent: d.producent,
-        ...ofertaDlaModelu(o),
-        ...(dawkaG > 0 ? { koszt_na_ptaka_30_dni_zl: zaokr(kosztNaPtakaMiesiecznie(udzial, dawkaG, cenaZaKg(o)), 2) } : {}),
-        ...(d.partner ? { partner_serwisu: true } : {}),
-      })),
+      oferty: oferty.map(opisz),
+      ...(blisko.length ? { inne_oferty_w_twoim_wojewodztwie: blisko.map(opisz) } : {}),
     }];
   });
 }
@@ -308,14 +366,14 @@ function zapotrzebowanie(pozycje, drob, okres, stado) {
   };
 }
 
-function raport(pozycje, norma, drob, uwagi = [], stado = null) {
+function raport(pozycje, norma, drob, uwagi = [], stado = null, wojewodztwo) {
   const wszystkieZCena = pozycje.every((s) => parseFloat(s.cena) > 0);
   const { poza_norma, w_normie, bez_normy } = ocenaMieszanki(pozycje, norma);
   const ptaki = { drob, okres: norma.okres };
   const ponad = ponadZalecenia(pozycje, ptaki);
   // Dawka paszy do kosztu na ptaka: ze stada, a bez niej typowa z poradnika rasy (nioski).
   const dawkaG = stado?.dawka_g ?? dawkaTypowa(drob, norma.okres)?.g ?? 0;
-  const uzup = uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG);
+  const uzup = uzupelnieniaBrakow(pozycje, norma, ptaki, dawkaG, wojewodztwo);
   return {
     gatunek: etykietaGatunku(drob),
     okres: norma.okres,
@@ -329,7 +387,8 @@ function raport(pozycje, norma, drob, uwagi = [], stado = null) {
     // Baza z produktami: ramka jednego składnika proponuje z niej gotowe mieszanki do osobnego karmidła.
     sugestie: generujSugestie(pozycje, norma, ptaki, feedIngredients.map((s) => ({ ...s, procent: 0 }))),
     ...(uzup.length ? { uzupelnienia: uzup } : {}),
-    ...(() => { const g = gdzieKupic(pozycje, dawkaG); return g.length ? { gdzie_kupic: g } : {}; })(),
+    ...(() => { const g = gdzieKupic(pozycje, dawkaG, wojewodztwo); return g.length ? { gdzie_kupic: g } : {}; })(),
+    ...opisWojewodztwa(wojewodztwo),
     ...(ponad.length ? { ponad_zalecany_udzial: ponad } : {}),
     ...zapotrzebowanie(pozycje, drob, norma.okres, stado),
     uwagi,
@@ -401,7 +460,7 @@ export function normyDrobiu({ drob, okres }) {
   };
 }
 
-export function policzMieszanke({ drob, okres, skladniki, stado }) {
+export function policzMieszanke({ drob, okres, skladniki, stado, wojewodztwo }) {
   const { norma, blad, dostepne_okresy } = znajdzNorme(drob, okres);
   if (!norma) return bladWejscia({ problem: blad, dostepne_okresy });
 
@@ -417,7 +476,7 @@ export function policzMieszanke({ drob, okres, skladniki, stado }) {
     pozycje.forEach((p) => { p.procent = ((parseFloat(p.procent) || 0) / suma) * 100; });
     uwagi.push(`Udziały sumowały się do ${zaokr(suma, 1)}%, przeliczyłem je proporcjonalnie na 100%.`);
   }
-  return raport(pozycje, norma, drob, uwagi, stado);
+  return raport(pozycje, norma, drob, uwagi, stado, wojewodztwo);
 }
 
 /** Generator z ziarnem (mulberry32): powtarzalny wynik dla tego samego pytania. */
@@ -440,7 +499,7 @@ function ziarnoZ(tekst) {
 
 const PODEJSC = 5;
 
-export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy', stado }) {
+export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy', stado, wojewodztwo }) {
   const { norma, blad, dostepne_okresy } = znajdzNorme(drob, okres);
   if (!norma) return bladWejscia({ problem: blad, dostepne_okresy });
 
@@ -454,7 +513,7 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   // z mieszanką mineralno-witaminową (prośba Marka 24.10.2026). Wcześniej był tu błąd.
   if (pozycje.length === 1) {
     pozycje[0].procent = 100;
-    return raport(pozycje, norma, drob, ['Z jednego składnika nie ma czego dobierać: policzyłem go jako 100% mieszanki. W sugestiach jest, czego brakuje i jak to uzupełnić.'], stado);
+    return raport(pozycje, norma, drob, ['Z jednego składnika nie ma czego dobierać: policzyłem go jako 100% mieszanki. W sugestiach jest, czego brakuje i jak to uzupełnić.'], stado, wojewodztwo);
   }
   if (cel === 'najtaniej' && !pozycje.every((p) => parseFloat(p.cena) > 0)) {
     return bladWejscia({ problem: 'cel "najtaniej" wymaga ceny (zł/kg) przy każdym składniku' });
@@ -495,5 +554,6 @@ export function dobierzProporcjeMieszanki({ drob, okres, skladniki, cel = 'normy
   if (najlepsza.some((p) => p.procent < 0.5)) {
     uwagi.push('Składnik z udziałem poniżej 0,5% algorytm praktycznie odrzucił; można go pominąć.');
   }
-  return { cel, ...raport(najlepsza, norma, drob, uwagi, stado) };
+  // Województwo nie wchodzi do ziarna ani do doboru: zmienia tylko opis ofert.
+  return { cel, ...raport(najlepsza, norma, drob, uwagi, stado, wojewodztwo) };
 }
