@@ -59,6 +59,8 @@ const PYTANIA = [
 
 // Polecenie dla Claude Code ma znacznik "claude-code", żeby serwer MCP odróżnił te podłączenia.
 const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
+// Wpis do pliku z serwerami MCP (w Cursorze mcp.json). Ten sam format podał Gemini w teście Marka 25.10.2026.
+const WPIS_KONFIGURACJI = JSON.stringify({ mcpServers: { serowarnia: { url: adresLacznika("programy") } } }, null, 2);
 
 /**
  * Kopiuje tekst do schowka. Schowek bywa zablokowany (stara przeglądarka, okno
@@ -229,7 +231,7 @@ const AsystenciAi = () => {
     url: "https://mojaserowarnia.pl/asystenci-ai",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-21",
-    dateModified: "2026-10-24",
+    dateModified: "2026-10-25",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
 
@@ -515,6 +517,17 @@ const AsystenciAi = () => {
                 ),
               },
               {
+                pytanie: "A Gemini?",
+                odpowiedz: (
+                  <p>
+                    Na razie nie da się go podłączyć z Polski. Google pozwala dodać własny serwer MCP tylko w Gemini Spark,
+                    a ten działa w USA, po angielsku i w płatnych planach (stan na 25 października 2026).{" "}
+                    <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz</Link> i{" "}
+                    <Link to="/baza-kultur" className="underline">bazę kultur</Link> masz za to na naszej stronie, bez logowania.
+                  </p>
+                ),
+              },
+              {
                 pytanie: "Czat nie sięga do naszych danych",
                 odpowiedz: (
                   <p>
@@ -551,8 +564,15 @@ const AsystenciAi = () => {
                       </pre>
                       <PrzyciskKopiuj tekst={POLECENIE_CLAUDE_CODE} />
                     </div>
+                    <p>W Cursorze i innych programach z plikiem serwerów MCP (w Cursorze mcp.json) wklej taki wpis:</p>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all rounded-md border border-border bg-background px-3 py-2 font-mono text-sm">
+                        <code>{WPIS_KONFIGURACJI}</code>
+                      </pre>
+                      <PrzyciskKopiuj tekst={WPIS_KONFIGURACJI} />
+                    </div>
                     <p>
-                      Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres:{" "}
+                      Program z innym formatem albo z formularzem przyjmie sam adres:{" "}
                       <code className="font-mono">{ADRES_MCP}</code>.
                     </p>
                   </div>

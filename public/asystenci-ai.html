@@ -164,6 +164,8 @@ Na koniec sprawdź, czy działa: ułóż paszę dla 10 kur niosek z pszenicy, ku
   </ul>
   <h3>Nie widzę opcji dodania serwera</h3>
   <p>W ChatGPT opcja „Dodaj niestandardowy serwer MCP” zależy od planu, a na kontach firmowych włącza ją administrator. W Claude własne łączniki działają na każdym planie, na darmowym jeden. W Perplexity umiejętność dodasz na każdym planie, także darmowym.</p>
+  <h3>A Gemini?</h3>
+  <p>Na razie nie da się go podłączyć z Polski. Google pozwala dodać własny serwer MCP tylko w Gemini Spark, a ten działa w USA, po angielsku i w płatnych planach (stan na 25 października 2026). <a href="https://mojaserowarnia.pl/kalkulator-pasz">Kalkulator pasz</a> i <a href="https://mojaserowarnia.pl/baza-kultur">bazę kultur</a> masz za to na naszej stronie, bez logowania.</p>
   <h3>Czat nie sięga do naszych danych</h3>
   <p>W Claude kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Moja Serowarnia. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki. W Perplexity pytaj w trybie <strong>Computer</strong>.</p>
   <h3>Prywatność i limity</h3>
@@ -178,7 +180,15 @@ Na koniec sprawdź, czy działa: ułóż paszę dla 10 kur niosek z pszenicy, ku
   <h3>Claude Code, Cursor i inne programy</h3>
   <p>W Claude Code, czyli Claude w terminalu, wystarczy jedno polecenie:</p>
   <pre><code>claude mcp add --transport http serowarnia https://dane.mojaserowarnia.pl/mcp</code></pre>
-  <p>Inne programy, które obsługują zdalne serwery MCP, przyjmą ten sam adres: <code>https://dane.mojaserowarnia.pl/mcp</code>.</p>
+  <p>W Cursorze i innych programach z plikiem serwerów MCP (w Cursorze mcp.json) wklej taki wpis:</p>
+  <pre><code>{
+  "mcpServers": {
+    "serowarnia": {
+      "url": "https://dane.mojaserowarnia.pl/mcp"
+    }
+  }
+}</code></pre>
+  <p>Program z innym formatem albo z formularzem przyjmie sam adres: <code>https://dane.mojaserowarnia.pl/mcp</code>.</p>
   <h3>Budujesz własną aplikację?</h3>
   <p>Możesz oprzeć ją na naszym serwerze, także komercyjnie: kalkulator na stronie sklepu, doradcę żywienia drobiu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty cen oraz dopisać do adresu znacznik <code>?z=app-twoja-nazwa</code>. Gdy 30 zapytań na minutę nie wystarczy, dostaniesz od nas darmowy klucz z limitem 300. Zasady i instrukcję techniczną opisujemy w <a href="https://mojaserowarnia.pl/warunki-mcp#aplikacje">warunkach korzystania z serwera</a>.</p>
 
@@ -190,6 +200,6 @@ Na koniec sprawdź, czy działa: ułóż paszę dla 10 kur niosek z pszenicy, ku
     <li><a href="https://mojaserowarnia.pl/narzedzia">Wszystkie narzędzia</a></li>
   </ul>
 </div>
-  <p class="aktualizacja">Ostatnia zmiana treści: <time datetime="2026-10-24">24 października 2026</time>. Sposób dodawania łączników zależy od ChatGPT, Claude i Perplexity i może się zmienić; jeśli przycisk przestanie działać, adres i kroki wyżej nadal wystarczą.</p>
+  <p class="aktualizacja">Ostatnia zmiana treści: <time datetime="2026-10-25">25 października 2026</time>. Sposób dodawania łączników zależy od ChatGPT, Claude i Perplexity i może się zmienić; jeśli przycisk przestanie działać, adres i kroki wyżej nadal wystarczą.</p>
 </body>
 </html>
