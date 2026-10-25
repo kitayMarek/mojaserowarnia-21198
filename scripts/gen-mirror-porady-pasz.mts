@@ -6,7 +6,9 @@
  *   public/pasze/kury-nie-niosa.html   <-  src/data/kuryNieNiosa.ts
  *   public/pasze/resztki-z-kuchni.html <-  src/data/resztkiZKuchni.ts
  *
- * Tytuł i opis z src/data/metaStron.ts. Uruchomić po każdej zmianie danych:
+ * Od 28.10.2026 tylko na mojapasza.com (pasze/public/mirror/poradnik/), adresy jak 301
+ * z Serowarni. Tytuł i opis w META niżej (do 28.10 były w src/data/metaStron.ts). Uruchomić po
+ * każdej zmianie danych:
  *
  *   node scripts/gen-mirror-porady-pasz.mts
  *
@@ -16,8 +18,6 @@
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";
-import { przepiszMirroryPasz } from "./mirrory-mojapasza.mjs";
-import { metaStron } from "../src/data/metaStron.ts";
 import {
   GRUPY_PTAKOW, STAN_UDZIALOW, UDZIALY_SUROWCOW, ZRODLA_UDZIALOW,
   opisZalecenia, pytaniaUdzialow, zalecenieGrupy, type GrupaPtakow,
@@ -25,7 +25,26 @@ import {
 import { PSZENICA_WOBEC_NORMY, PYTANIA_PORAD, SEKCJE_PORAD, ZRODLA_PORAD } from "../src/data/kuryNieNiosa.ts";
 import { CZY_MOZNA, PYTANIA_RESZTEK, RESZTKI_WOBEC_NORMY, SEKCJE_RESZTEK, ZRODLA_RESZTEK } from "../src/data/resztkiZKuchni.ts";
 
-const BAZA = "https://mojaserowarnia.pl";
+const BAZA = "https://mojapasza.com";
+
+// Ścieżka na mojapasza.com -> tytuł i opis mirrora (bez dopisku „| Moja Pasza”, jak dotąd w mirrorach).
+const META: Record<string, { title: string; description: string }> = {
+  "/poradnik/udzial-surowcow": {
+    title: "Ile jakiego surowca w paszy dla drobiu",
+    description:
+      "Najwyższe zalecane udziały zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
+  },
+  "/poradnik/kury-nie-niosa": {
+    title: "Kury nie niosą jajek? Najczęstsze przyczyny",
+    description:
+      "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
+  },
+  "/poradnik/resztki-z-kuchni": {
+    title: "Resztki z kuchni dla kur: co wolno, ile i czego unikać",
+    description:
+      "Chleb, makaron, obierki, talerz po obiedzie. Ile resztek mogą dostać kury, co im szkodzi (sól, pleśń, awokado, surowa fasola) i co mówią przepisy.",
+  },
+};
 const DATA_PORAD = "2026-10-24";
 
 const h = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -56,7 +75,7 @@ const STYL = `
     footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }`;
 
 function strona(sciezka: string, okruszek: string, tytulH1: string, dataZmiany: string, faq: { question: string; answer: string }[], tresc: string): string {
-  const meta = metaStron[sciezka];
+  const meta = META[sciezka];
   const url = `${BAZA}${sciezka}`;
   const artykul = {
     "@context": "https://schema.org",
@@ -66,8 +85,8 @@ function strona(sciezka: string, okruszek: string, tytulH1: string, dataZmiany: 
     inLanguage: "pl",
     url,
     dateModified: dataZmiany,
-    image: `${BAZA}/og-image.jpg`,
-    publisher: { "@type": "Organization", name: "Moja Serowarnia", url: `${BAZA}/` },
+    image: `${BAZA}/og/pasze.png`,
+    publisher: { "@type": "Organization", name: "Moja Pasza", url: `${BAZA}/` },
   };
   const pytania = {
     "@context": "https://schema.org",
@@ -88,9 +107,9 @@ function strona(sciezka: string, okruszek: string, tytulH1: string, dataZmiany: 
   <meta property="og:description" content="${h(meta.description ?? "")}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="${url}" />
-  <meta property="og:site_name" content="Moja Serowarnia" />
+  <meta property="og:site_name" content="Moja Pasza" />
   <meta property="og:locale" content="pl_PL" />
-  <meta property="og:image" content="${BAZA}/og-image.jpg" />
+  <meta property="og:image" content="${BAZA}/og/pasze.png" />
   <script type="application/ld+json">
 ${JSON.stringify(artykul, null, 2)}
   </script>
@@ -102,8 +121,8 @@ ${JSON.stringify(pytania, null, 2)}
 </head>
 <body>
   <nav class="crumbs">
-    <a href="${BAZA}/">Moja Serowarnia</a> →
-    <a href="${BAZA}/pasze">Pasze i zwierzęta</a> →
+    <a href="${BAZA}/">Moja Pasza</a> →
+    <a href="${BAZA}/poradnik">Poradnik</a> →
     ${h(okruszek)}
   </nav>
 
@@ -112,7 +131,7 @@ ${tresc}
   <h2>Najczęstsze pytania</h2>
 ${faq.map((f) => `  <h3>${h(f.question)}</h3>\n  <p>${h(f.answer)}</p>`).join("\n")}
 
-  <a class="cta" href="${BAZA}/kalkulator-pasz">Otwórz kalkulator pasz dla drobiu →</a>
+  <a class="cta" href="${BAZA}/">Otwórz kalkulator pasz dla drobiu →</a>
   <p class="male">Ostatnia zmiana treści: <time datetime="${dataZmiany}">${dataSlownie(dataZmiany)}</time>. Pełna, interaktywna wersja: <a href="${url}">${h(meta.title)}</a>.</p>
 
   <footer>
@@ -154,14 +173,14 @@ ${UDZIALY_SUROWCOW.map((u) => `  <h3>${h(u.surowiec)}</h3>
 
   <h2>Wapń i sól: tu granicę wyznacza norma</h2>
   <p><strong>Wapń (kreda, muszle).</strong> Nioska potrzebuje 3,5–4% wapnia w paszy, bo z niego robi skorupki. Rosnącym kurkom wystarcza najwyżej około 1%, przed nieśnością 2,5–2,75%. Długo podawany nadmiar niszczy nerki (dna moczanowa), a ptaki długo wyglądają zdrowo. Dlatego kurczęta i młode kurki nie powinny jeść paszy dla niosek. Źródło: ${link(ZRODLA_UDZIALOW["hyline-dna"])}.</p>
-  <p><strong>Sól.</strong> Drób potrzebuje około 0,3% soli w mieszance, a jednocześnie należy do zwierząt najbardziej wrażliwych na przesolenie. Nadmiar to dużo picia i mokre odchody, a bez stałego dostępu do wody zatrucie. Kalkulator ostrzega, gdy sodu jest wyraźnie więcej niż w normie. Więcej o soli i solance: <a href="${BAZA}/pasze">dział Pasze i zwierzęta</a>.</p>
+  <p><strong>Sól.</strong> Drób potrzebuje około 0,3% soli w mieszance, a jednocześnie należy do zwierząt najbardziej wrażliwych na przesolenie. Nadmiar to dużo picia i mokre odchody, a bez stałego dostępu do wody zatrucie. Kalkulator ostrzega, gdy sodu jest wyraźnie więcej niż w normie. Więcej o soli i solance: <a href="${BAZA}/poradnik">dział Pasze i zwierzęta</a>.</p>
 
   <h2>Skąd te liczby</h2>
   <p>Z otwartych źródeł: polskich norm żywienia drobiu przytoczonych przez doradztwo rolnicze i czasopisma branżowe, badań Instytutu Zootechniki PIB, bazy Feedipedia (INRAE, CIRAD, AFZ, FAO) i poradników hodowców. Liczby oznaczone „do potwierdzenia” sprawdzimy w najnowszych normach IFiŻZ PAN „Zalecenia żywieniowe i wartość pokarmowa pasz dla drobiu” (wyd. 6, 2025). Stan na ${dataSlownie(STAN_UDZIALOW)}.</p>
   <ul>
 ${Object.values(ZRODLA_UDZIALOW).map((z) => `    <li>${link(z)}</li>`).join("\n")}
   </ul>
-  <p>Mieszankę w tych granicach ułożysz w <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz dla drobiu</a>. Dlaczego kury nie niosą mimo „dobrego jedzenia”: <a href="${BAZA}/pasze/kury-nie-niosa">Kury nie niosą jajek?</a></p>
+  <p>Mieszankę w tych granicach ułożysz w <a href="${BAZA}/">kalkulatorze pasz dla drobiu</a>. Dlaczego kury nie niosą mimo „dobrego jedzenia”: <a href="${BAZA}/poradnik/kury-nie-niosa">Kury nie niosą jajek?</a></p>
 `;
 
 // ── /pasze/kury-nie-niosa ────────────────────────────────────────────────────
@@ -177,7 +196,7 @@ const porady = `  <p class="lead">Najczęstsze pytanie w grupach o kurach. Krót
   </div>
 ${SEKCJE_PORAD.map((s) => `
   <h2 id="${s.id}">${h(s.tytul)}</h2>
-${s.akapity.map((a) => `  <p>${h(a)}</p>`).join("\n")}${s.punkty ? `\n  <ul>\n${s.punkty.map((p) => `    <li>${h(p)}</li>`).join("\n")}\n  </ul>` : ""}${s.id === "pszenica" ? `\n  <p>Sprawdź własną mieszankę w <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz</a>: pokaże, czego brakuje, i policzy, ile paszy kupić dla Twojego stada na miesiąc.</p>` : ""}${s.id === "resztki" ? `\n  <p>Co z kuchni kurom szkodzi i co mówią przepisy: <a href="${BAZA}/pasze/resztki-z-kuchni">Resztki z kuchni dla kur</a>.</p>` : ""}${s.id === "co-robic" ? `\n  <p>Ile grochu, bobiku, jęczmienia czy rzepaku można dać w paszy, opisujemy na stronie <a href="${BAZA}/pasze/udzial-surowcow">Ile jakiego surowca w paszy dla drobiu</a>.</p>` : ""}${s.zrodla.length ? `\n  <p class="male">Źródło: ${s.zrodla.map((k) => link(ZRODLA_PORAD[k])).join("; ")}</p>` : ""}`).join("\n")}
+${s.akapity.map((a) => `  <p>${h(a)}</p>`).join("\n")}${s.punkty ? `\n  <ul>\n${s.punkty.map((p) => `    <li>${h(p)}</li>`).join("\n")}\n  </ul>` : ""}${s.id === "pszenica" ? `\n  <p>Sprawdź własną mieszankę w <a href="${BAZA}/">kalkulatorze pasz</a>: pokaże, czego brakuje, i policzy, ile paszy kupić dla Twojego stada na miesiąc.</p>` : ""}${s.id === "resztki" ? `\n  <p>Co z kuchni kurom szkodzi i co mówią przepisy: <a href="${BAZA}/poradnik/resztki-z-kuchni">Resztki z kuchni dla kur</a>.</p>` : ""}${s.id === "co-robic" ? `\n  <p>Ile grochu, bobiku, jęczmienia czy rzepaku można dać w paszy, opisujemy na stronie <a href="${BAZA}/poradnik/udzial-surowcow">Ile jakiego surowca w paszy dla drobiu</a>.</p>` : ""}${s.zrodla.length ? `\n  <p class="male">Źródło: ${s.zrodla.map((k) => link(ZRODLA_PORAD[k])).join("; ")}</p>` : ""}`).join("\n")}
 
   <p class="note">Porady są ogólne. Gdy kura jest osowiała, chudnie albo ma biegunkę, skonsultuj się z lekarzem weterynarii.</p>
 `;
@@ -216,19 +235,17 @@ ${CZY_MOZNA.map((c) => `      <tr><td>${h(c.co)}</td><td><strong>${h(c.werdykt)}
   </table>
   <p class="male">Źródło: ${["uf2026", "merck", "ue1069"].map((k) => link(ZRODLA_RESZTEK[k])).join("; ")}</p>
 
-  <p>W <a href="${BAZA}/kalkulator-pasz">kalkulatorze pasz</a> są produkty z kuchni (makaron, chleb, ryż, ziemniaki, kapusta, jabłka). Wpisz, ile ich dajesz, a zobaczysz, jak spada białko i wapń i ile soli dochodzi. Zobacz też: <a href="${BAZA}/pasze/kury-nie-niosa">Kury nie niosą jajek?</a></p>
+  <p>W <a href="${BAZA}/">kalkulatorze pasz</a> są produkty z kuchni (makaron, chleb, ryż, ziemniaki, kapusta, jabłka). Wpisz, ile ich dajesz, a zobaczysz, jak spada białko i wapń i ile soli dochodzi. Zobacz też: <a href="${BAZA}/poradnik/kury-nie-niosa">Kury nie niosą jajek?</a></p>
 
   <p class="note">Porady są ogólne. Gdy kura jest osowiała, chudnie albo ma biegunkę, skonsultuj się z lekarzem weterynarii.</p>
 `;
 
-mkdirSync("public/pasze", { recursive: true });
-writeFileSync("public/pasze/udzial-surowcow.html",
-  strona("/pasze/udzial-surowcow", "Udział surowców", "Ile jakiego surowca w paszy dla drobiu", STAN_UDZIALOW, pytaniaUdzialow(), udzialy));
-writeFileSync("public/pasze/kury-nie-niosa.html",
-  strona("/pasze/kury-nie-niosa", "Kury nie niosą", "Daję kurom dobre jedzenie, a one nie niosą. Dlaczego?", DATA_PORAD, PYTANIA_PORAD, porady));
-writeFileSync("public/pasze/resztki-z-kuchni.html",
-  strona("/pasze/resztki-z-kuchni", "Resztki z kuchni", "Resztki z obiadu, chleb i makaron dla kur: co, ile i czego unikać", DATA_PORAD, PYTANIA_RESZTEK, resztki));
-console.log("Zapisane: public/pasze/udzial-surowcow.html, public/pasze/kury-nie-niosa.html, public/pasze/resztki-z-kuchni.html");
-
-// Te same strony na mojapasza.com (pasze/public/mirror/), z jej adresami.
-przepiszMirroryPasz();
+const KATALOG = "pasze/public/mirror/poradnik";
+mkdirSync(KATALOG, { recursive: true });
+writeFileSync(`${KATALOG}/udzial-surowcow.html`,
+  strona("/poradnik/udzial-surowcow", "Udział surowców", "Ile jakiego surowca w paszy dla drobiu", STAN_UDZIALOW, pytaniaUdzialow(), udzialy));
+writeFileSync(`${KATALOG}/kury-nie-niosa.html`,
+  strona("/poradnik/kury-nie-niosa", "Kury nie niosą", "Daję kurom dobre jedzenie, a one nie niosą. Dlaczego?", DATA_PORAD, PYTANIA_PORAD, porady));
+writeFileSync(`${KATALOG}/resztki-z-kuchni.html`,
+  strona("/poradnik/resztki-z-kuchni", "Resztki z kuchni", "Resztki z obiadu, chleb i makaron dla kur: co, ile i czego unikać", DATA_PORAD, PYTANIA_RESZTEK, resztki));
+console.log(`Zapisane: ${KATALOG}/udzial-surowcow.html, kury-nie-niosa.html, resztki-z-kuchni.html`);

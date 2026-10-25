@@ -43,7 +43,8 @@ export type TematPromptu = "pasze" | "sery" | "ogolny";
 const OPIS: Record<TematPromptu, string> = {
   pasze: `kalkulator pasz dla drobiu z serwisu ${SERWIS.nazwa}`,
   sery: "bazę kultur do sera i przepisy z serwisu Moja Serowarnia",
-  ogolny: "bazę kultur do sera, przepisy i kalkulator pasz dla drobiu z serwisu Moja Serowarnia",
+  // Od 28.10.2026 bez pasz: kalkulator ma własny łącznik na mojapasza.com (temat "pasze").
+  ogolny: "bazę kultur do sera i przepisy z serwisu Moja Serowarnia",
 };
 
 const PROBA: Record<TematPromptu, string> = {
@@ -52,7 +53,7 @@ const PROBA: Record<TematPromptu, string> = {
   sery:
     "Na koniec sprawdź, czy działa: jaka kultura do camemberta jest w polskich sklepach i która wychodzi najtaniej na litr mleka?",
   ogolny:
-    "Na koniec sprawdź, czy działa: ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej, dodaj to, czego brakuje, i przelicz jeszcze raz.",
+    "Na koniec sprawdź, czy działa: jaka biała pleśń do camemberta jest w polskich sklepach i która wychodzi najtaniej na litr mleka?",
 };
 
 const POMIN = `Jeśli masz już dostęp do narzędzi ${LACZNIK.nazwa}, pomiń podłączanie i od razu zrób test z ostatniego akapitu.`;

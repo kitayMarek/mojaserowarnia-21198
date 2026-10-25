@@ -41,7 +41,10 @@ export const LACZNIK: UstawieniaLacznika = {
   },
 };
 
-/** Ścieżki stron pasz w tym serwisie. */
+/**
+ * Ścieżki stron pasz w tym serwisie. W Serowarni od 28.10.2026 nieużywane (strony pasz są
+ * tylko na mojapasza.com, stare adresy przekierowuje worker/index.js); zostają dla typów.
+ */
 export const STRONY_PASZ = {
   kalkulator: "/kalkulator-pasz",
   bydlo: "/kalkulator-pasz-bydlo",

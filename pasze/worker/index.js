@@ -25,10 +25,13 @@ import { zapiszWejscieCzlowieka } from '../../worker/wejscia-ludzi.js';
 
 const DOMENA = 'mojapasza.com';
 
-// Przełączenie (zdjęcie noindex, robots.txt otwarty): plan na 28.10.2026.
-const NOINDEX = true;
+// Przełączenie 28.10.2026: serwis otwarty dla wyszukiwarek (robots.txt z pasze/public,
+// bez X-Robots-Tag). true = z powrotem zakaz indeksowania, jak w czasie budowy.
+const NOINDEX = false;
 
-// Strony aplikacji z mirrorem w pasze/public/mirror/ (scripts/mirrory-mojapasza.mjs).
+// Strony aplikacji z mirrorem w pasze/public/mirror/. Do 28.10.2026 kopie mirrorów Serowarni,
+// od przełączenia źródło: poradniki z scripts/gen-mirror-porady-pasz.mts, tabela surowców
+// z scripts/gen-pasz-mirror.py, reszta edytowana wprost w plikach.
 const Z_MIRROREM = new Set([
   '/',
   '/bydlo',

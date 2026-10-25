@@ -8,7 +8,7 @@ import { recipesData } from "@/data/recipesData";
 import obrazDojrzewalnia from "@/assets/hero-dojrzewalnia.webp";
 import obrazMozzarella from "@/assets/mozzarella.webp";
 import obrazPrawo from "@/assets/prawo-header.webp";
-import obrazKury from "@/assets/kury-wybieg.webp";
+import obrazKultury from "@/assets/kultury-header.webp";
 
 /**
  * Strona główna według makiety A „Co chcesz dziś zrobić?” (decyzja Marka 24.10.2026,
@@ -28,7 +28,7 @@ const CZESTO_SZUKANE = [
   { etykieta: "mozzarella", href: "/przepisy/mozzarella" },
   { etykieta: "twaróg", href: "/przepisy/twarog" },
   { etykieta: "camembert", href: "/przepisy/camembert" },
-  { etykieta: "kury nie niosą", href: "/pasze/kury-nie-niosa" },
+  { etykieta: "jogurt", href: "/przepisy/jogurt-domowy" },
   { etykieta: "etykieta RHD", href: "/etykieta-rhd" },
 ];
 
@@ -57,17 +57,18 @@ const DRZWI = [
       { etykieta: "Faktura VAT RR", href: "/faktura-vat-rr" },
     ],
   },
+  // Do 28.10.2026 trzecie drzwi to „Karm kury” (kalkulator pasz). Pasze są teraz na
+  // mojapasza.com (decyzja Marka 25.10.2026: w Serowarni tylko link w stopce).
   {
-    tytul: "Karm kury",
-    opis: "Kalkulator pasz z normami dla niosek, brojlerów, kaczek, gęsi i indyków. Policzy też, ile paszy kupić na miesiąc.",
-    obraz: obrazKury,
-    alt: "Kury na wybiegu przy stodole",
-    // Przycięty dół obrazka z kalkulatora: u góry ma wtopiony napis „Kalkulator Pasz dla Drobiu”.
+    tytul: "Dobierz mleko i kulturę",
+    opis: "Jakie mleko nadaje się na ser, które bakterie do jakiego sera i skąd biorą się wady. Kultury z polskich sklepów z ceną za litr mleka.",
+    obraz: obrazKultury,
+    alt: "Kultury bakteryjne do sera",
     pozycja: "object-center",
     linki: [
-      { etykieta: "Kalkulator pasz", href: "/kalkulator-pasz" },
-      { etykieta: "Kury nie niosą? Dlaczego", href: "/pasze/kury-nie-niosa" },
-      { etykieta: "Resztki z kuchni dla kur", href: "/pasze/resztki-z-kuchni" },
+      { etykieta: "Mleko do sera", href: "/mleko-do-sera" },
+      { etykieta: "Bakterie do sera: jak wybrać", href: "/bakterie-kultury" },
+      { etykieta: "Wady mleka a wady sera", href: "/wady-mleka-a-wady-sera" },
     ],
   },
 ];
@@ -91,7 +92,7 @@ const Index = () => (
               Co chcesz dziś zrobić?
             </h1>
             <p className="text-lg leading-relaxed text-foreground/80">
-              Przepisy na sery krok po kroku, kultury z polskich sklepów, kalkulator pasz dla kur i prawo dla małego
+              Przepisy na sery krok po kroku, kultury z polskich sklepów, kalkulatory serowarskie i prawo dla małego
               gospodarstwa. Za darmo i bez zakładania konta.
             </p>
             <HeroSearch className="max-w-none" poleClassName="h-[52px] rounded-lg border border-border bg-card shadow-none" />
@@ -148,7 +149,7 @@ const Index = () => (
           <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-1.5">
             <h2 id="czat" className="font-display text-[1.75rem]">Wolisz zapytać czat?</h2>
             <p className="leading-relaxed opacity-90">
-              Podłącz serwis do swojego ChatGPT, Claude albo Perplexity. Czat policzy paszę i znajdzie kulturę na
+              Podłącz serwis do swojego ChatGPT, Claude albo Perplexity. Czat znajdzie przepis i kulturę na
               naszych danych.
             </p>
           </div>

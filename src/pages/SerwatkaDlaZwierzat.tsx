@@ -84,11 +84,11 @@ const SerwatkaDlaZwierzat = () => {
   };
 
   const seeAlsoLinks = [
-    { title: "Kalkulator pasz dla drobiu", href: "/kalkulator-pasz", description: "Zbilansuj mieszankę — serwatka to dodatek, nie podstawa dawki." },
+    { title: "Kalkulator pasz dla drobiu (mojapasza.com)", href: "https://mojapasza.com/", description: "Zbilansuj mieszankę — serwatka to dodatek, nie podstawa dawki." },
     { title: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser", description: "Druga droga odzysku: kiedy ser ratować, a kiedy przeznaczyć na paszę." },
     { title: "Przepis na ricottę", href: "/przepisy/ricotta", description: "Wyciągnij z serwatki resztę białka, zanim trafi do zwierząt." },
     { title: "Fermentacja serwatki", href: "/fermentacja-serwatki", description: "Dlaczego ukwaszenie zużywa tylko część laktozy i co zużywa resztę." },
-    { title: "Pasze i zwierzęta", href: "/pasze", description: "Cały dział: bilansowanie mieszanek i zagospodarowanie produktów ubocznych." },
+    { title: "Poradnik żywienia (mojapasza.com)", href: "https://mojapasza.com/poradnik", description: "Normy drobiu, olej, muszle, metionina, grit i sól w paszy." },
   ];
 
   const skladTable = [
@@ -118,7 +118,7 @@ const SerwatkaDlaZwierzat = () => {
       <Navigation />
       <PageBreadcrumbs
         items={[
-          { label: "Pasze i zwierzęta", href: "/pasze" },
+          { label: "Mleko i serwatka" },
           { label: "Serwatka dla zwierząt" },
         ]}
       />
@@ -200,7 +200,7 @@ const SerwatkaDlaZwierzat = () => {
                     Kluczowa liczba to <strong>6–7% suchej masy</strong>. Serwatka to przede wszystkim
                     woda z laktozą — świetne uzupełnienie i źródło energii, ale{" "}
                     <strong>nie zastąpi paszy białkowej</strong>. Bilans mieszanki policz w{" "}
-                    <Link to="/kalkulator-pasz" className="text-primary hover:underline">
+                    <Link to="https://mojapasza.com/" className="text-primary hover:underline">
                       kalkulatorze pasz
                     </Link>
                     .

@@ -27,6 +27,8 @@ import {
 
 const ZRODLO = "/asystenci-ai";
 
+const KARTA = "flex min-w-0 flex-col gap-2 rounded-xl border border-border bg-card p-5";
+
 const PYTANIA = [
   "Ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej.",
   "Moje kury nie niosą. Co robię źle?",
@@ -129,7 +131,38 @@ const AsystenciAi = () => {
           i podaje dodatki z cenami ze sklepów. Bez konta u nas i bez klucza.
         </p>
 
-        <PodlaczWSwoimCzacie sciezka={ZRODLO} className="mt-8" />
+        {/* Dwie prawdziwe rozmowy Marka w Perplexity (24.10.2026), do 28.10.2026 na stronie Serowarni. */}
+        <section className="mt-8 flex flex-col gap-4" aria-labelledby="porownanie">
+          <h2 id="porownanie" className="font-display text-2xl">Ta sama prośba, dwie odpowiedzi</h2>
+          <p className="text-muted-foreground">
+            Zapytaliśmy Perplexity: „Potrzebuję dobrej paszy dla kur niosek. Mam pszenicę, owies i bobik. Co powinienem
+            jeszcze dokupić?”
+          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className={KARTA}>
+              <h3 className="text-lg font-bold">Bez łącznika</h3>
+              <p className="italic text-muted-foreground">„Według moich szacunków ok. 16% białka i ok. 3–3,5% wapnia.”</p>
+              <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
+                <li>szacunek z 20 artykułów, bez sprawdzenia normy</li>
+                <li>receptura z kukurydzą, której pytający nie ma</li>
+                <li>premiks „np. Polfamix”, bez sklepu i ceny</li>
+              </ul>
+            </div>
+            <div className={`${KARTA} border-2 border-primary`}>
+              <h3 className="text-lg font-bold text-primary">Z naszym łącznikiem</h3>
+              <p className="italic text-muted-foreground">
+                „Policzyłem mieszankę kalkulatorem pasz: białko 16%, wapń 3,77%, fosfor 0,48%, w normie.”
+              </p>
+              <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
+                <li>receptura z Twoich zbóż, w limitach bobiku i owsa</li>
+                <li>mówi, czego wciąż brakuje: sodu i włókna</li>
+                <li>konkretne produkty z polskich sklepów, z uwagą, że koncentrat ma mało wapnia</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <PodlaczWSwoimCzacie sciezka={ZRODLO} className="mt-10" />
 
         <section aria-labelledby="adres" className="mt-10">
           <h2 id="adres" className="font-display text-2xl">Wolisz sam? Adres łącznika</h2>

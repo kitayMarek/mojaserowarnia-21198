@@ -16,15 +16,17 @@
 /* global __SERWIS__ */
 export const NA_PASZY = typeof __SERWIS__ !== 'undefined' && __SERWIS__ === 'mojapasza';
 
+// Od 28.10.2026 pasze należą do mojapasza.com także w serwerze Serowarni (okres przejściowy
+// do 28.02.2027): źródło i linki w wynikach narzędzi paszowych wskazują mojapasza.com.
 const SEROWARNIA = {
-  // Nazwa w polu zrodlo odpowiedzi narzędzi.
-  nazwa: 'Moja Serowarnia',
+  // Nazwa w polu zrodlo odpowiedzi narzędzi paszowych.
+  nazwa: 'Moja Pasza',
   // Nazwa w magazyn_wywolania.serwer (migracja 20261025210000_serwis_w_pomiarze.sql).
   serwer: 'mojaserowarnia',
   adresMcp: 'https://dane.mojaserowarnia.pl/mcp',
   instrukcja: 'https://mojaserowarnia.pl/asystenci-ai',
-  kalkulator: 'https://mojaserowarnia.pl/kalkulator-pasz',
-  udzialySurowcow: 'https://mojaserowarnia.pl/pasze/udzial-surowcow',
+  kalkulator: 'https://mojapasza.com/',
+  udzialySurowcow: 'https://mojapasza.com/poradnik/udzial-surowcow',
   prywatnosc: 'https://mojaserowarnia.pl/nota-prawna#serwer-mcp',
   warunki: 'https://mojaserowarnia.pl/warunki-mcp',
 };

@@ -354,7 +354,7 @@ const NieudanySer = () => {
                       serwatka w żywieniu zwierząt
                     </Link>{" "}
                     oraz{" "}
-                    <Link to="/kalkulator-pasz" className="text-primary hover:underline">
+                    <Link to="https://mojapasza.com/" className="text-primary hover:underline">
                       kalkulator pasz
                     </Link>
                     , który pokaże, ile białka realnie wnosisz do dawki.

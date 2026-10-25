@@ -14,9 +14,6 @@ export interface NowoscWSerwisie {
 
 export const NOWE_W_SERWISIE: NowoscWSerwisie[] = [
   { data: "2026-10-24", tytul: "Podłącz serwis do swojego czatu: gotowe teksty dla ChatGPT, Claude i Perplexity", href: "/asystenci-ai" },
-  { data: "2026-10-24", tytul: "Resztki z kuchni dla kur: co, ile i czego unikać", href: "/pasze/resztki-z-kuchni" },
-  { data: "2026-10-24", tytul: "Daję kurom dobre jedzenie, a one nie niosą. Dlaczego?", href: "/pasze/kury-nie-niosa" },
-  { data: "2026-10-24", tytul: "Ile jakiego surowca w paszy dla drobiu", href: "/pasze/udzial-surowcow" },
   { data: "2026-10-20", tytul: "Dotacja dla rolniczego handlu detalicznego", href: "/prawo/rhd/dotacja" },
   { data: "2026-10-19", tytul: "Emmental: ser i jak go zrobić w domu", href: "/sery/emmental" },
 ];

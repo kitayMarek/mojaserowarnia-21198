@@ -39,8 +39,6 @@ const FakturaVatRr = lazy(() => import("./pages/FakturaVatRr"));
 const KalkulatorBeaugel = lazy(() => import("./pages/KalkulatorBeaugel"));
 const KalkulatorKosztuSera = lazy(() => import("./pages/KalkulatorKosztuSera"));
 const KalkulatorMiar = lazy(() => import("./pages/KalkulatorMiar"));
-const KalkulatorPasz = lazy(() => import("./pages/KalkulatorPasz"));
-const KalkulatorPaszBydlo = lazy(() => import("./pages/KalkulatorPaszBydlo"));
 const PorownanieWartosciOdzywczych = lazy(() => import("./pages/PorownanieWartosciOdzywczych"));
 const OrganizacjaSerowarni = lazy(() => import("./pages/OrganizacjaSerowarni"));
 const KalkulatorSolanki = lazy(() => import("./pages/KalkulatorSolanki"));
@@ -97,10 +95,6 @@ const SeryWege = lazy(() => import("./pages/SeryWege"));
 const WoskowanieSera = lazy(() => import("./pages/WoskowanieSera"));
 const DojrzewalniaZLodowki = lazy(() => import("./pages/DojrzewalniaZLodowki"));
 const SolenieSera = lazy(() => import("./pages/SolenieSera"));
-const PaszeHub = lazy(() => import("./pages/PaszeHub"));
-const UdzialSurowcow = lazy(() => import("./pages/UdzialSurowcow"));
-const KuryNieNiosa = lazy(() => import("./pages/KuryNieNiosa"));
-const ResztkiZKuchni = lazy(() => import("./pages/ResztkiZKuchni"));
 const SerwatkaDlaZwierzat = lazy(() => import("./pages/SerwatkaDlaZwierzat"));
 const NieudanySer = lazy(() => import("./pages/NieudanySer"));
 const MlekoDoSera = lazy(() => import("./pages/MlekoDoSera"));
@@ -174,10 +168,8 @@ const App = () => (
           <Route path="/woskowanie-sera" element={<WoskowanieSera />} />
           <Route path="/dojrzewalnia-z-lodowki" element={<DojrzewalniaZLodowki />} />
           <Route path="/solenie-sera" element={<SolenieSera />} />
-          <Route path="/pasze" element={<PaszeHub />} />
-          <Route path="/pasze/udzial-surowcow" element={<UdzialSurowcow />} />
-          <Route path="/pasze/kury-nie-niosa" element={<KuryNieNiosa />} />
-          <Route path="/pasze/resztki-z-kuchni" element={<ResztkiZKuchni />} />
+          {/* Pasze (/pasze, /pasze/*, /kalkulator-pasz, /kalkulator-pasz-bydlo) od 28.10.2026 na mojapasza.com:
+              301 robi worker/index.js (reguła 1p), strony zostają w src/ dla pasze/. */}
           <Route path="/serwatka-dla-zwierzat" element={<SerwatkaDlaZwierzat />} />
           <Route path="/nieudany-ser" element={<NieudanySer />} />
           <Route path="/mleko-do-sera" element={<MlekoDoSera />} />
@@ -209,8 +201,6 @@ const App = () => (
             <Route path="/kalkulator-kosztu-sera" element={<KalkulatorKosztuSera />} />
             <Route path="/kalkulator-miar" element={<KalkulatorMiar />} />
             <Route path="/kalkulator-solanki" element={<KalkulatorSolanki />} />
-            <Route path="/kalkulator-pasz" element={<KalkulatorPasz />} />
-            <Route path="/kalkulator-pasz-bydlo" element={<KalkulatorPaszBydlo />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />

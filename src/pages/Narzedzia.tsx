@@ -335,119 +335,7 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
-              {/* Kalkulator Pasz */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
-                <CardContent className="p-8">
-                  <div className="flex justify-end mb-2">
-                    <ReactionButton
-                      contentType="tool"
-                      contentId="kalkulator-pasz"
-                      variant="compact"
-                    />
-                  </div>
-                  <div className="flex flex-col items-center text-center space-y-6">
-                    {/* Icon */}
-                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center group- transition-shadow">
-                      <Calculator className="h-10 w-10 text-white" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                        Kalkulator Pasz
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Zbilansuj paszę dla drobiu zgodnie z normami żywieniowymi. Kalkulator dla kur, brojlerów, kaczek, gęsi i indyków z automatycznym przeliczaniem składników.
-                      </p>
-                    </div>
-
-                    {/* Features List */}
-                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Normy dla 6 typów drobiu</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Automatyczne wyliczenia EM, Ca, P</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Baza 11 popularnych składników</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Analiza kosztów mieszanki</span>
-                      </li>
-                    </ul>
-
-                    {/* Button */}
-                    <Button 
-                      asChild
-                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white"
-                    >
-                      <a 
-                        href="/kalkulator-pasz"
-                        className="flex items-center justify-center gap-2"
-                      >
-                        Otwórz Kalkulator
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Kalkulator Pasz Bydło */}
-              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
-                <CardContent className="p-8">
-                  <div className="flex justify-end mb-2">
-                    <ReactionButton
-                      contentType="tool"
-                      contentId="kalkulator-pasz-bydlo"
-                      variant="compact"
-                    />
-                  </div>
-                  <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center group- transition-shadow">
-                      <Calculator className="h-10 w-10 text-white" />
-                    </div>
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                        Kalkulator Pasz dla Bydła
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Profesjonalne bilansowanie dawek pokarmowych dla bydła mlecznego i mięsnego wg norm INRAz/INRA 2018.
-                      </p>
-                    </div>
-                    <ul className="text-sm text-muted-foreground space-y-2 w-full text-left">
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Krowy mleczne i bydło opasowe</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>27 składników paszowych</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Bilans energii, białka, NDF, Ca, P</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span>Kalkulacja kosztów dawki</span>
-                      </li>
-                    </ul>
-                    <Button 
-                      asChild
-                      className="w-full mt-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white"
-                    >
-                      <a href="/kalkulator-pasz-bydlo" className="flex items-center justify-center gap-2">
-                        Otwórz Kalkulator
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              {/* Kalkulatory pasz (drób i bydło) od 28.10.2026 na mojapasza.com, link w stopce serwisu. */}
 
               {/* Menadżer Fermy Drobiu */}
               <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
@@ -620,11 +508,6 @@ const Narzedzia = () => {
                   tytul: "Gdy zaczynasz sprzedawać",
                   tekst:
                     "Koszt wyprodukowania kilograma sera z uwzględnieniem mleka, energii i czasu, a do tego generator etykiety zgodnej z wymogami RHD i faktura VAT RR, której nabywca często nie umie wystawić.",
-                },
-                {
-                  tytul: "Dla zwierząt w gospodarstwie",
-                  tekst:
-                    "Kalkulatory dawek pokarmowych dla drobiu i bydła mlecznego. Przydają się bardziej, niż się wydaje: to żywienie krowy decyduje o tym, czy z jej mleka da się zrobić ser dojrzewający.",
                 },
               ]}
               podsumowanie="Wszystkie narzędzia działają w przeglądarce, bez zakładania konta i bez wysyłania czegokolwiek na serwer. Wyniki możesz zapisać albo wydrukować."
