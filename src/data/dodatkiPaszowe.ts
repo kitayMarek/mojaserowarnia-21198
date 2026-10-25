@@ -418,6 +418,8 @@ type Wpis = Partial<FeedIngredient> & Pick<FeedIngredient, "nazwa" | "kategoria"
 const D = "2026-10-24";
 // Stare zgłoszenia z kalkulatora sprawdzone ze źródłem 25.10.2026 (strony pobrane wprost).
 const ZGL = "2026-10-25";
+// Oferty dopisane do produktów już opisanych, cena i 25 kg wprost ze strony produktu 25.10.2026.
+const D25 = "2026-10-25";
 const ROLPOL = "https://www.schaumannrolpol.pl/produkty/drob/kury-nioski/koncentraty-kury-nioski";
 
 const WPISY: Wpis[] = [
@@ -716,9 +718,10 @@ const WPISY: Wpis[] = [
     zrodloSkladu: "etykieta",
     zrodlo: "https://specdrob.pl/pl/p/Koncentrat-25-dla-kur-niosek-25kg-AWANS-De-Heus/1400",
     zweryfikowano: D,
-    uwagi: "Karta sklepu nie podaje energii ani aminokwasów poza lizyną i metioniną: przyjęte jak dla śruty sojowej, głównego składnika. Wapnia ma tylko 0,6%, więc do mieszanki z nim trzeba dodać kredę. Śruta sojowa bez oznaczenia „bez GMO” to w praktyce soja GM. Przykładowe receptury producent pokazuje na obrazku, którego tu nie przepisaliśmy.",
+    uwagi: "Karta sklepu nie podaje energii ani aminokwasów poza lizyną i metioniną: przyjęte jak dla śruty sojowej, głównego składnika. Wapnia ma tylko 0,6%, więc do mieszanki z nim trzeba dodać kredę. Śruta sojowa bez oznaczenia „bez GMO” to w praktyce soja GM. Przykładowe receptury producent pokazuje na obrazku, którego tu nie przepisaliśmy. Karta w Paszowo.pl (25.10.2026) podaje białko 39,5%, lizynę 2,27% i metioninę 1,02% jak tutaj, ale włókno 6,8% i tłuszcz 6,7% (Spec-Drob: 3,8% i 3,4%): rozstrzyga etykieta na worku.",
     oferty: [
       { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Koncentrat-25-dla-kur-niosek-25kg-AWANS-De-Heus/1400", cenaZl: 107.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "Paszowo.pl", url: "https://paszowo.pl/koncentrat-dla-kur/25-nioska-awans-koncentrat-dla-kur-niosek-de-heus.html", cenaZl: 94.0, opakowanieKg: 25, sprawdzono: D25 },
     ],
   },
   {
@@ -738,6 +741,7 @@ const WPISY: Wpis[] = [
     uwagi: "Producent nazywa go koncentratem, ale w dawce 5% i z takim składem działa jak premiks mineralno-witaminowy, więc stoi w premiksach. Witaminy i mikroelementy przepisane z karty sklepu, jednostki do sprawdzenia na worku (B12 i biotyna podane w mg, najpewniej to µg). Etykieta podaje też witaminę K 30 mg, pantotenian wapnia (tu jako kwas pantotenowy) i 4000 mg chlorku choliny.",
     oferty: [
       { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Koncentrat-5-Z-barwnikiem-dla-niosek-towarowych-LNB-/879", cenaZl: 186.0, opakowanieKg: 25, sprawdzono: D },
+      { sklep: "Paszowo.pl", url: "https://paszowo.pl/koncentrat-dla-kur/turbo-5-koncentrat-dla-niosek-towarowych-lnb.html", cenaZl: 145.0, opakowanieKg: 25, sprawdzono: D25 },
     ],
   },
   {

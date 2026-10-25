@@ -7,7 +7,7 @@
 -- Uruchamiac PO migracjach 20261024150000_baza_dodatkow_paszowych.sql
 -- i 20261025100000_lokalizacja_sklepow.sql.
 -- Idempotentne: czysci poprzedni seed source='dodatek' razem z jego ofertami.
--- Produkty: 24, oferty: 30.
+-- Produkty: 24, oferty: 32.
 -- ==========================================================================
 
 BEGIN;
@@ -203,7 +203,9 @@ FROM (VALUES
   ('DL-metionina 99% paszowa (bez marki)', 'PanPasza', 'https://panpasza.pl/pl/p/Metionina-99-25kg/256?utm_source=mojaserowarnia', 600, 25, '2026-10-24'::date, 'Syberia k. Lubowidza', 'mazowieckie', NULL, '[]'::jsonb, '2026-10-25'::date),
   ('DL-metionina 99% paszowa (bez marki)', 'Wisagro', 'https://wisagro.pl/produkt/dl-metionina-99-aminokwas-paszowy-dla-drobiu-worek-25-kg/?utm_source=mojaserowarnia', 640, 25, '2026-10-24'::date, 'Mieleszyn k. Bolesławca (łódzkie)', 'lodzkie', NULL, '[]'::jsonb, '2026-10-25'::date),
   ('Koncentrat 25% Nioska Pełna Awans (De Heus)', 'Spec-Drob', 'https://specdrob.pl/pl/p/Koncentrat-25-dla-kur-niosek-25kg-AWANS-De-Heus/1400?utm_source=mojaserowarnia', 107, 25, '2026-10-24'::date, 'Olsztyn', 'warminsko-mazurskie', 'sklep', '[{"rodzaj":"sklep","adres":"ul. Lubelska 32B, 10-409 Olsztyn","wojewodztwo":"warminsko-mazurskie","godziny":"pn–pt 8:00–16:00"}]'::jsonb, '2026-10-25'::date),
+  ('Koncentrat 25% Nioska Pełna Awans (De Heus)', 'Paszowo.pl', 'https://paszowo.pl/koncentrat-dla-kur/25-nioska-awans-koncentrat-dla-kur-niosek-de-heus.html?utm_source=mojaserowarnia', 94, 25, '2026-10-25'::date, 'Damasławek', 'wielkopolskie', NULL, '[]'::jsonb, '2026-10-25'::date),
   ('Koncentrat 5% Turbo dla niosek z barwnikiem (LNB)', 'Spec-Drob', 'https://specdrob.pl/pl/p/Koncentrat-5-Z-barwnikiem-dla-niosek-towarowych-LNB-/879?utm_source=mojaserowarnia', 186, 25, '2026-10-24'::date, 'Olsztyn', 'warminsko-mazurskie', 'sklep', '[{"rodzaj":"sklep","adres":"ul. Lubelska 32B, 10-409 Olsztyn","wojewodztwo":"warminsko-mazurskie","godziny":"pn–pt 8:00–16:00"}]'::jsonb, '2026-10-25'::date),
+  ('Koncentrat 5% Turbo dla niosek z barwnikiem (LNB)', 'Paszowo.pl', 'https://paszowo.pl/koncentrat-dla-kur/turbo-5-koncentrat-dla-niosek-towarowych-lnb.html?utm_source=mojaserowarnia', 145, 25, '2026-10-25'::date, 'Damasławek', 'wielkopolskie', NULL, '[]'::jsonb, '2026-10-25'::date),
   ('Kreda pastewna gruboziarnista 1–4 mm (bez marki)', 'Spec-Drob', 'https://specdrob.pl/pl/p/Kreda-Pastewna-30-kg-Gruboziarnista-1-4-mm-wapno-dla-kur/1431?utm_source=mojaserowarnia', 30, 30, '2026-10-24'::date, 'Olsztyn', 'warminsko-mazurskie', 'sklep', '[{"rodzaj":"sklep","adres":"ul. Lubelska 32B, 10-409 Olsztyn","wojewodztwo":"warminsko-mazurskie","godziny":"pn–pt 8:00–16:00"}]'::jsonb, '2026-10-25'::date),
   ('Drożdże paszowe piwne (Trouw Nutrition)', 'Spec-Drob', 'https://specdrob.pl/pl/p/Drozdze-paszowe-piwne-dla-drobiu-i-zwierzat-5-kg-/1430?utm_source=mojaserowarnia', 73.89, 5, '2026-10-24'::date, 'Olsztyn', 'warminsko-mazurskie', 'sklep', '[{"rodzaj":"sklep","adres":"ul. Lubelska 32B, 10-409 Olsztyn","wojewodztwo":"warminsko-mazurskie","godziny":"pn–pt 8:00–16:00"}]'::jsonb, '2026-10-25'::date),
   ('Kamień do dziobania Peckit (Dolfos)', 'Spec-Drob', 'https://specdrob.pl/pl/p/Mineraly-przeciw-dziobaniu-DZIOBAK-Peckit-w-kamieniu-4kg/1356?utm_source=mojaserowarnia', 55, 4, '2026-10-24'::date, 'Olsztyn', 'warminsko-mazurskie', 'sklep', '[{"rodzaj":"sklep","adres":"ul. Lubelska 32B, 10-409 Olsztyn","wojewodztwo":"warminsko-mazurskie","godziny":"pn–pt 8:00–16:00"}]'::jsonb, '2026-10-25'::date),
