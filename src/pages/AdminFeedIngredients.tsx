@@ -1,6 +1,8 @@
 /**
  * Zarządzanie składnikami paszowymi (/admin/skladniki):
- *  1) Moderacja zgłoszeń (pending) — edytuj + zatwierdź/odrzuć.
+ *  0) Zgłoszenia produktów (od 25.10.2026, src/components/admin/ZgloszeniaProduktow.tsx):
+ *     sklep i link albo zdjęcie etykiety; produkt dopisuje się w pliku danych, nie tutaj.
+ *  1) Moderacja starych zgłoszeń z liczbami (pending), jeśli jakieś zostały — edytuj + zatwierdź/odrzuć.
  *  2) Edycja całej bazy (approved: wzorcowa 'baza' + zgłoszenia 'user') — popraw/usuń.
  *  3) Produkty z bazy dodatków ('dodatek') tylko do podglądu: źródło składu osobno, oferty osobno.
  *     Ich źródłem jest src/data/dodatkiPaszowe.ts: seed kasuje je i wstawia od nowa, a MCP czyta
@@ -15,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { feedCategories } from "@/data/feedIngredients";
 import { OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, type Odbior, type ZrodloSkladu } from "@/data/dodatkiPaszowe";
+import ZgloszeniaProduktow from "@/components/admin/ZgloszeniaProduktow";
 import { Check, X, Loader2, Save, Trash2, Search, ExternalLink } from "lucide-react";
 
 type Row = Record<string, any>;
@@ -194,18 +197,21 @@ export default function AdminFeedIngredients() {
       <PageBreadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Składniki paszowe" }]} />
       <main className="pt-20">
         <div className="container mx-auto px-4 py-8 space-y-10">
-          {/* --- Moderacja zgłoszeń --- */}
-          <section>
+          <div>
             <h1 className="text-2xl font-bold text-foreground mb-1">Składniki paszowe</h1>
-            <h2 className="text-lg font-semibold text-foreground mt-4 mb-1">Zgłoszenia do moderacji</h2>
+            <ZgloszeniaProduktow
+              baza={approved.map((r) => ({ id: r.id, nazwa: r.nazwa, source: r.source }))}
+              onZmianaBazy={load}
+            />
+          </div>
+
+          {/* --- Moderacja starych zgłoszeń z liczbami (do 25.10.2026); znika, gdy nic nie czeka --- */}
+          {!loading && pending.length > 0 && (
+          <section>
+            <h2 className="text-lg font-semibold text-foreground mb-1">Stare zgłoszenia z liczbami</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              Możesz poprawić/uzupełnić dowolne pole przed zatwierdzeniem — zapisane wartości trafiają do kalkulatora.
+              Z dawnego formularza „Zaproponuj składnik”. Możesz poprawić/uzupełnić dowolne pole przed zatwierdzeniem — zapisane wartości trafiają do kalkulatora.
             </p>
-            {loading ? (
-              <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin" /> Wczytywanie…</div>
-            ) : pending.length === 0 ? (
-              <p className="text-muted-foreground">Brak zgłoszeń do moderacji. 🎉</p>
-            ) : (
               <div className="space-y-4">
                 {pending.map((row) => (
                   <div key={row.id} className="rounded-lg border border-border bg-card p-4">
@@ -217,8 +223,8 @@ export default function AdminFeedIngredients() {
                   </div>
                 ))}
               </div>
-            )}
           </section>
+          )}
 
           {/* --- Edycja bazy --- */}
           <section>

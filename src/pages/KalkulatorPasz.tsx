@@ -28,7 +28,7 @@ import PageHeader from "@/components/PageHeader";
 import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
-import ZaproponujSkladnikDialog from "@/components/ZaproponujSkladnikDialog";
+import ZglosProduktDialog from "@/components/kalkulator/ZglosProduktDialog";
 import { NORMY_DROBIU, TYPY_DROBIU, dawkaTypowa } from "@/data/normyDrobiu";
 import { dawkaDomyslna, grupaPtakow, opisZalecenia, zalecenieUdzialu } from "@/data/udzialySurowcow";
 import { KATEGORIA_OSOBNE_KARMIDLO, cenaZaKg, najtanszaOferta } from "@/data/dodatkiPaszowe";
@@ -50,8 +50,11 @@ import {
  * z serwerem MCP). Ta strona tylko zbiera dane i pokazuje wynik.
  *
  * Usunięty przy przebudowie: panel administratora bazy surowców. Nic go nie otwierało,
- * a hasło stało wpisane w kodzie publicznego repozytorium. Baza żyje w pliku danych
- * i w zgłoszeniach przez „Zaproponuj składnik”.
+ * a hasło stało wpisane w kodzie publicznego repozytorium. Baza żyje w pliku danych.
+ *
+ * Zgłoszenia (od 25.10.2026): „Zgłoś produkt albo poprawkę” zbiera sklep i link albo
+ * zdjęcie etykiety, a produkt wpisujemy sami (ZglosProduktDialog). Kto chce liczyć od razu,
+ * dodaje „własny składnik”: nazwa i skład z etykiety tylko w jego mieszance, bez bazy.
  */
 
 interface PrzykladowySkladnik {
@@ -177,7 +180,17 @@ const KalkulatorPasz = () => {
     setBazaDodatkowOtwarta(false);
     setKartaProduktu(nazwa);
   }, []);
-  const [zaproponujOpen, setZaproponujOpen] = useState(false);
+  // Zgłoszenie: null = zamknięte; poprawkaDo z karty produktu, nazwa z własnego składnika.
+  const [zgloszenie, setZgloszenie] = useState<{ poprawkaDo?: string; nazwa?: string } | null>(null);
+  const zglosPoprawke = useCallback((nazwa: string) => {
+    setKartaProduktu(null);
+    setZgloszenie({ poprawkaDo: nazwa });
+  }, []);
+  const zglosWlasny = useCallback((nazwa: string) => setZgloszenie({ nazwa }), []);
+  const produktyDoPoprawki = useMemo(
+    () => [...dodatki.map(d => d.nazwa), ...przykladoweSkladniki.map(p => p.nazwa)],
+    [dodatki, przykladoweSkladniki],
+  );
   const [pokazModalEksport, setPokazModalEksport] = useState(false);
   const [eksportTresc, setEksportTresc] = useState('');
   const [eksportTyp, setEksportTyp] = useState('csv');
@@ -388,6 +401,7 @@ const KalkulatorPasz = () => {
       if (pole === 'nazwa') {
         const przyklad = przykladoweSkladniki.find(p => p.nazwa === wartosc);
         if (przyklad) {
+          delete nowy.wlasny;
           nowy.em = przyklad.em;
           nowy.bialko = przyklad.bialko;
           nowy.ca = przyklad.ca;
@@ -407,7 +421,16 @@ const KalkulatorPasz = () => {
     }));
   }, [przykladoweSkladniki]);
 
-  const obliczCalkowita = (pole: string, lista: Skladnik[] = skladniki) => {
+  // Własny składnik: nazwa spoza bazy, skład wpisuje hodowca. Zostają udział i cena,
+  // liczby z poprzedniego składnika znikają, żeby nie udawały składu z etykiety.
+  const ustawWlasnySkladnik = useCallback((index: number, nazwa: string) => {
+    setKomunikat(null);
+    setSkladniki(poprzednie => poprzednie.map((s, i) => (
+      i === index ? { ...PUSTY_WIERSZ, nazwa, procent: s.procent, cena: s.cena, wlasny: true } : s
+    )));
+  }, []);
+
+  const obliczCalkowita =(pole: string, lista: Skladnik[] = skladniki) => {
     return lista.reduce((suma, s) => {
       const procent = parseFloat(s.procent as string) || 0;
       const wartosc = parseFloat((s as any)[pole] as string) || 0;
@@ -846,9 +869,11 @@ const KalkulatorPasz = () => {
                         ostrzezenie={z?.ostrzezenie ?? ''}
                         stalaDawka={z?.stala ?? false}
                         dawkaDomyslna={z?.domyslna ?? 0}
-                        znaczniki={znacznikiDla(skladnik.nazwa)}
+                        znaczniki={skladnik.wlasny ? '' : znacznikiDla(skladnik.nazwa)}
                         produkt={dodatkiPoNazwie.has(skladnik.nazwa)}
                         onKartaProduktu={pokazKarteProduktu}
+                        onWlasny={ustawWlasnySkladnik}
+                        onZglos={zglosWlasny}
                         onZmiana={aktualizujSkladnik}
                         onUsun={usunSkladnik}
                       />
@@ -875,11 +900,11 @@ const KalkulatorPasz = () => {
                 <p className="mt-2 text-center text-sm">
                   <button
                     type="button"
-                    onClick={() => setZaproponujOpen(true)}
+                    onClick={() => setZgloszenie({})}
                     className="text-primary underline-offset-4 hover:underline"
-                    title="Zgłoś nowy składnik do wspólnej bazy (np. kupiony dodatek)"
+                    title="Podaj sklep i link albo zdjęcie etykiety, a my wpiszemy produkt do bazy"
                   >
-                    Nie ma go na liście? Zaproponuj składnik
+                    Nie ma go na liście? Zgłoś produkt
                   </button>
                 </p>
                 {wlasneLimity.length > 0 && (
@@ -1120,7 +1145,13 @@ const KalkulatorPasz = () => {
         </div>
       )}
 
-      {zaproponujOpen && <ZaproponujSkladnikDialog onClose={() => setZaproponujOpen(false)} />}
+      <ZglosProduktDialog
+        otwarty={zgloszenie !== null}
+        onZamknij={() => setZgloszenie(null)}
+        produkty={produktyDoPoprawki}
+        poprawkaDo={zgloszenie?.poprawkaDo ?? null}
+        nazwaStartowa={zgloszenie?.nazwa ?? ''}
+      />
 
       <BazaDodatkow
         otwarta={bazaDodatkowOtwarta}
@@ -1132,6 +1163,7 @@ const KalkulatorPasz = () => {
         dodatek={kartaProduktu ? dodatkiPoNazwie.get(kartaProduktu) ?? null : null}
         onZamknij={() => setKartaProduktu(null)}
         onDodaj={dodajSkladnikZSugestii}
+        onZglosPoprawke={zglosPoprawke}
         koncentrat={kartaProduktu && dodatkiPoNazwie.get(kartaProduktu) && (
           <KoncentratZeZbozemSekcja
             koncentrat={dodatkiPoNazwie.get(kartaProduktu)!}

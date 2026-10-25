@@ -26,6 +26,8 @@ export interface Skladnik {
   /** Granice udziału w % (od 24.10.2026). Puste max = zalecane maksimum z bilansPaszy.ts. */
   min?: string;
   max?: string;
+  /** Własny składnik spoza bazy (od 25.10.2026): nazwę i skład wpisał hodowca, liczy się tylko w tej mieszance. */
+  wlasny?: boolean;
 }
 
 /**

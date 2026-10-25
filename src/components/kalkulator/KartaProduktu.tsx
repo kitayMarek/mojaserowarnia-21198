@@ -68,10 +68,12 @@ function Blok({ tytul, children }: { tytul: string; children: ReactNode }) {
 }
 
 export default function KartaProduktu({
-  dodatek, onZamknij, onDodaj, koncentrat,
+  dodatek, onZamknij, onDodaj, onZglosPoprawke, koncentrat,
 }: {
   dodatek: DodatekPaszowy | null;
   onZamknij: () => void;
+  /** „Zgłoś poprawkę”: formularz zgłoszenia z tym produktem w polu „poprawka do”. */
+  onZglosPoprawke?: (nazwa: string) => void;
   /** Dodaje produkt do mieszanki w dawce z etykiety (bez dawki: bez udziału, wpisze go użytkownik albo dobór). */
   onDodaj: (nazwa: string, procent?: number) => void;
   /** Sekcja „koncentrat + Twoje zboże”, gdy produkt ma przepis w `stosowanie`. */
@@ -199,6 +201,14 @@ export default function KartaProduktu({
               </p>
               {d.uwagi && <p className="mt-1 text-xs text-muted-foreground">{d.uwagi}</p>}
               <p className="mt-1 text-xs text-muted-foreground">Kolejne partie mogą mieć inny skład: obowiązuje etykieta na worku.</p>
+              {onZglosPoprawke && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Inny skład na Twoim worku, inna cena albo inny sklep?{" "}
+                  <button type="button" onClick={() => onZglosPoprawke(d.nazwa)} className="font-semibold text-primary underline-offset-4 hover:underline">
+                    Zgłoś poprawkę
+                  </button>
+                </p>
+              )}
             </Blok>
 
             {!jestPrzepis && (

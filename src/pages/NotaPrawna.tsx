@@ -247,9 +247,24 @@ const NotaPrawna = () => {
                 <li>kliknięcia w linki do sklepów: 12 miesięcy, a podpis przeglądarki usuwamy z nich po 3 miesiącach,</li>
                 <li>wizyty robotów wyszukiwarek i asystentów AI: 12 miesięcy,</li>
                 <li>zapisy chroniące formularz kontaktowy przed nadużyciami: 24 godziny,</li>
+                <li>
+                  zgłoszenia produktów w kalkulatorze pasz: zdjęcie etykiety do rozpatrzenia zgłoszenia, reszta
+                  zgłoszenia 12 miesięcy od rozpatrzenia,
+                </li>
                 <li>konto, zapisane mieszanki i inne dane, które sam wpisujesz: do usunięcia konta,</li>
                 <li>ciasteczko z decyzją w sprawie plików cookie: rok.</li>
               </ul>
+              <p id="zgloszenia-produktow">
+                <strong>Zgłoszenia produktów w kalkulatorze pasz:</strong> zapisujemy to, co wpiszesz w formularzu
+                „Zgłoś produkt albo poprawkę” (nazwę produktu, sklep albo producenta, link, cenę i opakowanie, kim
+                jesteś, uwagi i adres e-mail, jeśli go podasz), zdjęcie etykiety, jeśli je dodasz, oraz to, z którego
+                konta przyszło zgłoszenie. Zgłoszenie widzisz Ty na swoim koncie i administrator serwisu, nikt więcej.
+                Zdjęcie przed wysłaniem zmniejszamy w Twojej przeglądarce i usuwamy z niego dane o miejscu zrobienia
+                (GPS). Służy nam tylko do sprawdzenia składu: usuwamy je, gdy zgłoszenie jest rozpatrzone. Resztę
+                zgłoszenia usuwamy 12 miesięcy po rozpatrzeniu. Adresu e-mail używamy tylko do odpowiedzi w sprawie
+                zgłoszenia. Po usunięciu konta zgłoszenia znikają od razu, a zdjęcie najpóźniej przy najbliższym
+                przeglądzie zgłoszeń.
+              </p>
               <p>
                 <strong>Twoje prawa:</strong> możesz zobaczyć swoje dane, poprawić je, przenieść albo usunąć. Po
                 zalogowaniu w <a href="/ustawienia" className="underline">ustawieniach konta</a> pobierzesz swoje dane
@@ -276,7 +291,7 @@ const NotaPrawna = () => {
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 24 października 2026</p>
+            <p>Ostatnia aktualizacja: 25 października 2026</p>
           </div>
 
           {/* See Also Section */}

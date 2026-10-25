@@ -232,7 +232,7 @@ export default function Admin() {
           </Button>
           <Button onClick={() => window.location.href = '/admin/skladniki'} variant="outline">
             <Wheat className="mr-2 h-4 w-4" />
-            Moderacja składników
+            Zgłoszenia i składniki pasz
           </Button>
 
           <Dialog>

@@ -228,7 +228,7 @@ export default function PelnySklad({
           <p className="mt-3 text-xs text-muted-foreground">
             Skład dodatków paszowych i premiksów bywa różny w zależności od partii i producenta,
             sprawdź etykietę swojego opakowania. Jeśli zauważysz rozbieżność, zgłoś ją przez
-            „Zaproponuj składnik".
+            „Zgłoś produkt” pod listą składników albo „Zgłoś poprawkę” na karcie produktu.
           </p>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Check, ChevronsUpDown, Search } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
@@ -80,11 +80,17 @@ export default function WyborSkladnika({
   wartosc,
   pozycje,
   onZmiana,
+  onWlasny,
   className,
 }: {
   wartosc: string;
   pozycje: PozycjaDoWyboru[];
   onZmiana: (nazwa: string) => void;
+  /**
+   * Wpisana nazwa spoza listy jako własny składnik (od 25.10.2026). Bez tej funkcji
+   * lista pozwala wybrać tylko pozycję z bazy, jak dawniej.
+   */
+  onWlasny?: (nazwa: string) => void;
   /** Klasy przycisku otwierającego listę, np. wysokość w karcie składnika. */
   className?: string;
 }) {
@@ -121,6 +127,12 @@ export default function WyborSkladnika({
     }
     return { pogrupowane: [...grupy.entries()], tylkoKategoria: zapasowe.length > 0 };
   }, [pozycje, fraza]);
+
+  // Własny składnik tylko wtedy, gdy wpisanej nazwy nie ma w bazie dosłownie (bez względu na ogonki
+  // i wielkość liter): inaczej ktoś przypadkiem zrobiłby „własną” pszenicę bez składu.
+  const nazwaWlasna = fraza.trim();
+  const moznaWlasny = !!onWlasny && nazwaWlasna.length >= 2
+    && !pozycje.some((p) => uprosc(p.nazwa) === uprosc(nazwaWlasna));
 
   return (
     <Popover open={otwarty} onOpenChange={setOtwarty}>
@@ -181,6 +193,24 @@ export default function WyborSkladnika({
                 ))}
               </CommandGroup>
             ))}
+            {moznaWlasny && (
+              <CommandGroup heading="Nie ma na liście?">
+                <CommandItem
+                  value={`wlasny:${nazwaWlasna}`}
+                  onSelect={() => {
+                    onWlasny!(nazwaWlasna);
+                    setFraza("");
+                    setOtwarty(false);
+                  }}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  <span>
+                    Własny składnik: <strong>„{nazwaWlasna}”</strong>
+                    <span className="block text-xs text-muted-foreground">skład wpiszesz z etykiety, tylko w tej mieszance</span>
+                  </span>
+                </CommandItem>
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

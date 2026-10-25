@@ -1,4 +1,4 @@
-import { memo, useState, type InputHTMLAttributes } from "react";
+import { memo, useEffect, useState, type InputHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle, ChevronDown, Trash2 } from "lucide-react";
 import WyborSkladnika, { type PozycjaDoWyboru } from "@/components/kalkulator/WyborSkladnika";
@@ -60,9 +60,22 @@ const WARTOSCI: Array<{ pole: keyof Skladnik; etykieta: string; krok: string }> 
   { pole: "wlokno", etykieta: "Włókno %", krok: "0.1" },
 ];
 
+// Własny składnik to zwykle premiks albo dodatek mineralny, więc pokazujemy też sód i mikroelementy.
+const WARTOSCI_WLASNEGO: typeof WARTOSCI = [
+  ...WARTOSCI,
+  { pole: "na", etykieta: "Na %", krok: "0.01" },
+  { pole: "k", etykieta: "K %", krok: "0.01" },
+  { pole: "mg", etykieta: "Mg %", krok: "0.001" },
+  { pole: "mn", etykieta: "Mn mg/kg", krok: "1" },
+  { pole: "zn", etykieta: "Zn mg/kg", krok: "1" },
+  { pole: "se", etykieta: "Se mg/kg", krok: "0.01" },
+  { pole: "fe", etykieta: "Fe mg/kg", krok: "1" },
+  { pole: "i", etykieta: "I mg/kg", krok: "0.01" },
+];
+
 function KartaSkladnika({
   skladnik, idx, pozycje, zalecenie, zalecaneMaks, powod, ostrzezenie, stalaDawka, dawkaDomyslna,
-  znaczniki, produkt, onKartaProduktu, onZmiana, onUsun,
+  znaczniki, produkt, onKartaProduktu, onWlasny, onZglos, onZmiana, onUsun,
 }: {
   skladnik: Skladnik;
   idx: number;
@@ -83,10 +96,17 @@ function KartaSkladnika({
   /** Składnik to produkt z bazy dodatków: ma kartę z producentem i ofertami. */
   produkt: boolean;
   onKartaProduktu: (nazwa: string) => void;
+  /** Nazwa spoza bazy: własny składnik tylko w tej mieszance. */
+  onWlasny: (idx: number, nazwa: string) => void;
+  /** Otwiera „Zgłoś produkt” z nazwą własnego składnika. */
+  onZglos: (nazwa: string) => void;
   onZmiana: (idx: number, pole: string, wartosc: string) => void;
   onUsun: (idx: number) => void;
 }) {
-  const [otwarty, setOtwarty] = useState(false);
+  const [otwarty, setOtwarty] = useState(!!skladnik.wlasny);
+  // Nowy własny składnik nie ma żadnych liczb, więc od razu pokazujemy pola składu.
+  useEffect(() => { if (skladnik.wlasny) setOtwarty(true); }, [skladnik.wlasny]);
+  const wartosci = skladnik.wlasny ? WARTOSCI_WLASNEGO : WARTOSCI;
   const nazwa = skladnik.nazwa || "składnik";
   const idPanelu = `sklad-skladnika-${idx}`;
   // Ta sama granica co ostrzeżenie w sugestiach bilansPaszy.ts (maksimum + 0,05).
@@ -100,6 +120,7 @@ function KartaSkladnika({
             wartosc={skladnik.nazwa}
             pozycje={pozycje}
             onZmiana={(n) => onZmiana(idx, "nazwa", n)}
+            onWlasny={(n) => onWlasny(idx, n)}
             className="h-11 min-w-0 text-base"
           />
         </div>
@@ -146,6 +167,15 @@ function KartaSkladnika({
         </div>
       </div>
 
+      {skladnik.wlasny && (
+        <p className="mt-1.5 px-0.5 text-xs text-muted-foreground">
+          <strong className="font-semibold text-foreground">Twój składnik.</strong> Liczy się tylko w tej mieszance,
+          nikt inny go nie widzi. Skład przepisz z etykiety.{" "}
+          <button type="button" onClick={() => onZglos(skladnik.nazwa)} className="font-semibold text-primary underline-offset-4 hover:underline">
+            Zgłoś go do bazy
+          </button>
+        </p>
+      )}
       {zalecenie && (
         <p className="mt-1.5 px-0.5 text-xs text-muted-foreground">
           Zalecane dla tych ptaków: <strong className="font-semibold text-foreground">{zalecenie}</strong>
@@ -199,10 +229,12 @@ function KartaSkladnika({
             </p>
           )}
           <p className="mb-2 text-xs text-muted-foreground">
-            Wartości z bazy surowców. Zmiana działa tylko w tej mieszance.
+            {skladnik.wlasny
+              ? "Skład na 1 kg z etykiety: „składniki analityczne” w %, mikroelementy z „dodatków na 1 kg” w mg/kg. Gdy pierwiastek pochodzi z kilku związków (np. cynk z tlenku i chelatu), zsumuj je. Puste pole liczy się jak zero."
+              : "Wartości z bazy surowców. Zmiana działa tylko w tej mieszance."}
           </p>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-            {WARTOSCI.map(({ pole, etykieta, krok }) => (
+            {wartosci.map(({ pole, etykieta, krok }) => (
               <label key={pole} className="block">
                 <span className="mb-1 block text-xs font-semibold text-muted-foreground">{etykieta}</span>
                 <input
