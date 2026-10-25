@@ -226,6 +226,11 @@ export const SKLEPY_DODATKOW: Record<string, LokalizacjaSklepu> = {
     sprawdzono: L, zrodlo: "https://wisagro.pl/regulamin",
     uwagi: "Regulamin nie wymienia sposobów dostawy ani odbioru osobistego: zapytaj sklep.",
   },
+  "Zbożowy sklep": {
+    miejscowosc: "Kwiatonowice k. Gorlic", wojewodztwo: "malopolskie", odbior: null, punkty: [],
+    sprawdzono: L, zrodlo: "https://www.zbozowysklep.pl/kontakt/",
+    uwagi: "Regulamin mówi o „kilku opcjach dostawy” bez ich wymienienia, strona o wysyłce do paczkomatu; odbioru osobistego nie opisuje: zapytaj sklep.",
+  },
   "e-pasze.pl": {
     miejscowosc: "Czarnocin", wojewodztwo: "lodzkie", odbior: "odbior",
     punkty: [{ rodzaj: "odbior", adres: "ul. Główna 160, 97-318 Czarnocin (wytwórnia pasz)", wojewodztwo: "lodzkie", godziny: "pn–pt 7:30–15:30, sob. 7:30–12:30" }],
@@ -411,6 +416,8 @@ type Wpis = Partial<FeedIngredient> & Pick<FeedIngredient, "nazwa" | "kategoria"
 // pozycji, do kliknięcia przed seedem. Oferty tylko te, których cena i opakowanie
 // wyszły tak samo w dwóch odczytach albo stały wprost na stronie produktu.
 const D = "2026-10-24";
+// Stare zgłoszenia z kalkulatora sprawdzone ze źródłem 25.10.2026 (strony pobrane wprost).
+const ZGL = "2026-10-25";
 const ROLPOL = "https://www.schaumannrolpol.pl/produkty/drob/kury-nioski/koncentraty-kury-nioski";
 
 const WPISY: Wpis[] = [
@@ -778,6 +785,73 @@ const WPISY: Wpis[] = [
     uwagi: "Mieszanka mineralna w formie kamienia do osobnego karmidła: daje wapń, fosfor i sól, a dziobanie zajmuje kury i ogranicza wydziobywanie piór. Nie zastępuje paszy i nie daje białka.",
     oferty: [
       { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Mineraly-przeciw-dziobaniu-DZIOBAK-Peckit-w-kamieniu-4kg/1356", cenaZl: 55.0, opakowanieKg: 4, sprawdzono: D },
+    ],
+  },
+
+  // ── Ze zgłoszeń w kalkulatorze (stary formularz z liczbami, sprawdzone 25.10.2026) ──
+  // Liczby zgłaszającego porównane z etykietą; tu tylko to, co stoi na etykiecie.
+  {
+    nazwa: "Dolmix DN RE (Dolfos)", kategoria: "Premiksy",
+    producent: "Dolfos", gatunki: ["nioski"],
+    ca: 26.5, p: 1.0, na: 5.2, mg: 1.0,
+    witA: 400, witD3: 80, witE: 800, witB1: 45, witB2: 160, witB6: 100, witB12: 800, niacyna: 850,
+    kwasPantotenowy: 450, kwasFoliowy: 35, biotyna: 2.0, cholina: 8.95,
+    fe: 700, cu: 500, mn: 2400, zn: 1000, i: 40, se: 8,
+    dawkaProcOd: 2.5, dawkaProcDo: 2.5, dawkaGDziennie: 2.5,
+    dawkowanie: "Na 10 niosek 25 g dziennie do paszy; w żywieniu grupowym 2,5 kg na 100 kg paszy (2,5%). Nie podawać razem z wodą do pojenia z dodatkiem chlorku choliny.",
+    skladSurowcowy: "Węglan wapnia (w tym z muszli ostryg), chlorek sodu, węglan wapniowo-magnezowy, drożdże suszone, fosforan monowapniowy.",
+    gmo: "nie", dopuszczalneEko: true,
+    zrodloSkladu: "etykieta",
+    zrodlo: "https://hodowlany.pl/witaminy-dla-kur-bez-barwnika-dolmix-dn-re-25-kg.html",
+    urlProducenta: "https://www.dolfos.pl/p/dolmix-dn-re/",
+    zweryfikowano: ZGL,
+    uwagi: "Ekologiczna wersja Dolmix DN, bez barwnika żółtek; producent ma ją w dziale „Mieszanki do eko-produkcji”, ale składu na stronie nie publikuje. Skład z etykiety przepisanej przez sklepy (te same liczby w trzech). Mangan 2400 mg/kg odczytany ze zdjęcia worka u producenta; sklepy piszą 400 mg, co wygląda na zgubioną cyfrę. Etykieta ma fosfor 1% w składnikach analitycznych i osobno „fosfor przyswajalny 90 g/kg” przy fitazie: to fosfor, który fitaza ma uwolnić ze zboża, a nie zawartość w worku, więc tu jest 1% (zgłoszenie miało 9%). Etykieta podaje też witaminę K3 80 mg/kg i chlorek choliny 12 000 mg/kg, tu przeliczony na cholinę (74,6%). Aminokwasy z informacji dodatkowych różnią się między wersjami etykiety, więc ich tu nie ma. Spec-Drob 25.10.2026: „na wyczerpaniu”.",
+    oferty: [
+      { sklep: "Pan Hodowca", url: "https://www.panhodowca.pl/witaminy-dla-kur-dolmix-dn-re-25-kg-bez-barwnikow-id-129", cenaZl: 138.9, opakowanieKg: 25, sprawdzono: ZGL },
+      { sklep: "Farm Pet Garden", url: "https://farmpetgarden.pl/produkt/dolmix-dn-re-eko-dolfos-25/", cenaZl: 145.0, opakowanieKg: 25, sprawdzono: ZGL },
+      { sklep: "Spec-Drob", url: "https://specdrob.pl/pl/p/Witaminy-dla-niosek-Dolmix-DN-RE-2%2C5-25-kg-dla-ekologii/811", cenaZl: 162.96, opakowanieKg: 25, sprawdzono: ZGL },
+      { sklep: "Lagrico", url: "https://lagrico.pl/dolfos-dolmix-dn-re-2-5kg,id223.html", cenaZl: 15.0, opakowanieKg: 2.5, sprawdzono: ZGL },
+    ],
+  },
+  {
+    nazwa: "Dolmix DB grower 2% (Dolfos)", kategoria: "Premiksy",
+    producent: "Dolfos", gatunki: ["brojlery"],
+    ca: 14.6, p: 10, mg: 2.5, na: 7.5,
+    lys: 11.4, met: 11.5, metCys: 11.5, thr: 1.6, trp: 0.9, val: 1.2,
+    witA: 500, witD3: 200, witE: 2750, witB1: 150, witB2: 400, witB6: 250, witB12: 1250, biotyna: 12.5,
+    kwasFoliowy: 100, cholina: 10,
+    fe: 4250, cu: 850, mn: 4000, zn: 5000, i: 60, se: 15,
+    dawkaProcOd: 2, dawkaProcDo: 2,
+    dawkowanie: "2 kg na 100 kg paszy (2%), do pasz pełnoporcjowych dla brojlerów kurzych w II okresie tuczu, do 35–42 dnia życia",
+    skladSurowcowy: "Sklep nie przepisuje listy surowców. Część wapnia (4,8% z 14,6%) z muszli ostryg.",
+    gmo: "nieznane", dopuszczalneEko: null,
+    zrodloSkladu: "etykieta",
+    zrodlo: "https://mojaferma.pl/pl/p/Dolmix-DB-grower-2-20kg/125",
+    urlProducenta: "https://www.dolfos.pl/p/dolmix-db-grower-2/",
+    zweryfikowano: ZGL,
+    uwagi: "Producent potwierdza przeznaczenie, dawkę 2% i worek 20 kg, ale składu nie publikuje; skład z karty sklepu, zgodny z liczbami zgłaszającego. Karta podaje „DL-metionina+cysteina 10,5%” i „L-lizyna 9%”, mniej niż metionina 11,5% i lizyna 11,4%: to najpewniej ilości dodanych aminokwasów, więc metionina z cysteiną jest tu równa metioninie (dolna granica). B12 i biotyna podane w „µm”, przyjęte jako µg. Etykieta podaje też witaminę K3 150 mg/kg. W opisie sklepu stoi „konfekcja 25 kg”, w nazwie i u producenta 20 kg.",
+    oferty: [
+      { sklep: "MojaFerma.pl", url: "https://mojaferma.pl/pl/p/Dolmix-DB-grower-2-20kg/125", cenaZl: 244.5, opakowanieKg: 20, sprawdzono: ZGL },
+    ],
+  },
+  {
+    nazwa: "Univit Kurka Nioska (Unipasz)", kategoria: "Premiksy",
+    producent: "Unipasz, Siemiatycze", gatunki: ["nioski"],
+    ca: 31, p: 1.0, na: 4.5,
+    witA: 100, witE: 250,
+    fe: 400, cu: 60, mn: 700, zn: 600, se: 1.5,
+    dawkaProcOd: 2, dawkaProcDo: 4,
+    dawkowanie: "2–4 kg na 100 kg mieszanki pełnoporcjowej dla niosek podwórkowych (2–4%)",
+    skladSurowcowy: "Węglan wapnia, fosforan jednowapniowy, chlorek sodu. Z enzymami: 6-fitaza, ksylanaza, beta-glukanazy, alfa-amylaza, bacylolizyna.",
+    gmo: "nieznane", dopuszczalneEko: null,
+    zrodloSkladu: "etykieta",
+    zrodlo: "https://www.zbozowysklep.pl/produkt/wtaminy-dla-kur-unipasz-univit-kurka-nioska-2-kg/",
+    urlProducenta: "https://www.unipasz.pl/produkty/dodatki-paszowe/univity/",
+    zweryfikowano: ZGL,
+    uwagi: "Skład ze zdjęcia etykiety na stronie sklepu (partia z 14.03.2023), zgodny z liczbami zgłaszającego. Etykieta nie podaje witaminy D3, której nioska potrzebuje do skorupki: sprawdź, czy ma ją reszta paszy. Witamina E podana w j.m. (250 j.m.), tu jako mg (1 j.m. to ok. 1 mg octanu tokoferolu). Miedź 60 mg/kg z etykiety; sklepy w opisie piszą 80 mg. Producent ma też osobny produkt Univit Nioska, bez składu na stronie; zgłoszenie pod tą nazwą miało liczby Univit Kurka Nioska.",
+    oferty: [
+      { sklep: "Zbożowy sklep", url: "https://www.zbozowysklep.pl/produkt/wtaminy-dla-kur-unipasz-univit-kurka-nioska-2-kg/", cenaZl: 8.5, opakowanieKg: 2, sprawdzono: ZGL },
+      { sklep: "Pan Hodowca", url: "https://www.panhodowca.pl/witaminy-dla-kur-niosek-univit-2-kg-unipasz-id-295", cenaZl: 9.85, opakowanieKg: 2, sprawdzono: ZGL },
     ],
   },
 ];
