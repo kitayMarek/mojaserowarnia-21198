@@ -46,7 +46,8 @@ async function znacznikPasuje(podany, wlasciwy) {
 // Znacznik strony z adresu lacznika (?z=/baza-kultur), dopisywany przez
 // przyciski „Dodaj do Claude” w serwisie (src/lib/lacznikClaude.ts). Mowi,
 // ktora strona dala podlaczenie. Te same reguly czyszczenia co w serwisie.
-function zrodloZAdresu(request) {
+// Od 25.10.2026 takze znacznik cudzej aplikacji (?z=asystent-jana, /warunki-mcp#aplikacje).
+export function zrodloZAdresu(request) {
   const z = new URL(request.url).searchParams.get('z') || '';
   return z.toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 60);
 }

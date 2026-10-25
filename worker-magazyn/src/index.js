@@ -19,7 +19,7 @@
 
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { WERSJA, listaNarzedzi, zbudujSerwer } from './serwer.js';
-import { opisWywolania, opisPobrania, zliczWywolanie } from './pomiar.js';
+import { opisWywolania, opisPobrania, zliczWywolanie, zrodloZAdresu } from './pomiar.js';
 import { oBazie } from './kultury.js';
 import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkrywania } from './odkrywanie.js';
 
@@ -47,6 +47,21 @@ const CORS = {
   'access-control-expose-headers': 'mcp-session-id, mcp-protocol-version',
   'access-control-max-age': '86400',
 };
+
+// Linki do mojaserowarnia.pl w odpowiedziach narzedzi maja utm_source=magazyn.
+// Ze znacznikiem z adresu lacznika (?z=asystent-jana) dopisujemy utm_campaign,
+// zeby licznik wejsc widzial, ktora aplikacja przyslala kogos na strone
+// („Magazyn: asystent-jana”, worker/wizyty-botow.js). Od 25.10.2026, obietnica
+// z wyzwania dla tworcow aplikacji. Znacznik jest juz oczyszczony w zrodloZAdresu
+// (a-z, 0-9, / _ -), wiec nie psuje ani JSON-a, ani adresu. Linki do sklepow
+// (utm_source=mojaserowarnia) zostaja bez zmian.
+const ZNACZNIK_LINKOW = 'utm_source=magazyn';
+
+async function zZnacznikiemAplikacji(odpowiedz, zrodlo) {
+  if (!zrodlo || !odpowiedz.body) return odpowiedz.body;
+  const tresc = await odpowiedz.text();
+  return tresc.replaceAll(ZNACZNIK_LINKOW, `${ZNACZNIK_LINKOW}&utm_campaign=${encodeURIComponent(zrodlo)}`);
+}
 
 function tekst(tresc, status = 200, dodatkowe = {}) {
   return new Response(tresc, {
@@ -244,6 +259,9 @@ export default {
     const naglowki = new Headers(odpowiedz.headers);
     for (const [k, v] of Object.entries({ ...CORS, ...NAGLOWKI_WSPOLNE })) naglowki.set(k, v);
     naglowki.set('cache-control', 'no-store');
-    return new Response(odpowiedz.body, { status: odpowiedz.status, headers: naglowki });
+    // Tresc moze zmienic dlugosc po dopisaniu znacznika.
+    naglowki.delete('content-length');
+    const tresc = await zZnacznikiemAplikacji(odpowiedz, zrodloZAdresu(request));
+    return new Response(tresc, { status: odpowiedz.status, headers: naglowki });
   },
 };

@@ -498,7 +498,13 @@ export function zrodloOdpowiedzi(request, url) {
     // Linki z odpowiedzi serwera MCP bazy kultur (dane.mojaserowarnia.pl,
     // worker-magazyn/). Od 21.10.2026. Stoi przed modelami, bo model, ktory
     // cytuje magazyn, moze dokleic wlasny znacznik; get() bierze pierwszy.
-    if (utm === 'magazyn') return 'Magazyn';
+    // Od 25.10.2026 serwer dokleja utm_campaign ze znacznikiem aplikacji
+    // (?z= w adresie lacznika, worker-magazyn/src/index.js): „Magazyn: asystent-jana”.
+    // Kolumna zrodlo ma 60 znakow, stad 50 na znacznik.
+    if (utm === 'magazyn') {
+      const aplikacja = (url.searchParams.get('utm_campaign') || '').toLowerCase().replace(/[^a-z0-9/_-]/g, '').slice(0, 50);
+      return aplikacja ? `Magazyn: ${aplikacja}` : 'Magazyn';
+    }
     if (utm.includes('chatgpt') || utm.includes('openai')) return 'ChatGPT';
     if (utm.includes('perplexity')) return 'Perplexity';
     if (utm.includes('copilot')) return 'Copilot';
