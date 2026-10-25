@@ -18,6 +18,7 @@
     "klucz-licznika": "node scripts/klucz-licznika.mjs",
     "prepare": "git config core.hooksPath .githooks || exit 0",
     "spis": "node scripts/spis.mjs",
+    "kopia-bazy": "node scripts/kopia-bazy.mjs",
     "typy": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
