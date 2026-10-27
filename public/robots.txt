@@ -126,7 +126,7 @@ Sitemap: https://mojaserowarnia.pl/sitemap.xml
 
 # === INFORMACJE O TRESCI ===
 # Ten portal zawiera:
-# - Baze 188 kultur bakteryjnych z polskich sklepow (sklad, producent,
+# - Baze 193 kultur bakteryjnych z polskich sklepow (sklad, producent,
 #   pojemnosc opakowania, cena za litr mleka)
 # - Przepisy na sery domowe
 # - Poradniki RHD (Rolniczy Handel Detaliczny) i MOL

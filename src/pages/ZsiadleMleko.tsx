@@ -2,6 +2,7 @@ import KulturaGuideLayout from "@/components/KulturaGuideLayout";
 import FAQSchema from "@/components/FAQSchema";
 import HowToSchema from "@/components/HowToSchema";
 import { Link } from "react-router-dom";
+import { kulturyMianownik, liczbaSklepow, sklepowSlownie } from "@/data/liczbyBazyKultur";
 import { Milk } from "lucide-react";
 
 /**
@@ -113,7 +114,7 @@ const ZsiadleMleko = () => (
     related={[
       { label: "Twaróg — to samo zsiadłe mleko, podgrzane o etap dalej", href: "/przepisy/twarog" },
       { label: "Kultury mezofilne — które wybrać i do czego", href: "/kultury/mezofilne" },
-      { label: "Baza kultur — 188 kultur i ceny w 5 sklepach", href: "/baza-kultur" },
+      { label: `Baza kultur: ${kulturyMianownik} i ceny w ${liczbaSklepow} sklepach`, href: "/baza-kultur" },
       { label: "Domowy jogurt — te same bakterie, wyższa temperatura", href: "/przepisy/jogurt-domowy" },
       { label: "Domowy kefir — grzybki tybetańskie i metoda bez nich", href: "/przepisy/kefir-domowy" },
     ]}
@@ -177,8 +178,8 @@ const ZsiadleMleko = () => (
     </table>
     <p>
       Kultury mezofilne to ta sama grupa, która robi twaróg, maślankę i większość serów dojrzewających. W{" "}
-      <Link to="/baza-kultur">bazie kultur</Link> znajdziesz je z opisem zastosowania i cenami w pięciu sklepach —
-      część ma zsiadłe mleko wpisane wprost w przeznaczenie.
+      <Link to="/baza-kultur">bazie kultur</Link> znajdziesz je z opisem zastosowania i cenami w {sklepowSlownie} sklepach,
+      a część ma zsiadłe mleko wpisane wprost w przeznaczenie.
     </p>
 
     <h2>Krok po kroku</h2>

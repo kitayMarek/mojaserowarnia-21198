@@ -84,7 +84,7 @@ const FloraDanica = () => {
           <h2 className="text-xl font-display font-bold mb-3">Gdzie kupić w Polsce</h2>
           <div className="rounded-lg border border-border p-4">
             <p>
-              W żadnym z pięciu sklepów, które śledzimy ({fd.sprawdzoneSklepy.join(", ")}),
+              W żadnym ze sklepów, które śledzimy ({fd.sprawdzoneSklepy.join(", ")}),
               Flora Danica nie jest w ofercie. Sprawdzone {fd.sprawdzono}.
             </p>
             <p className="text-sm text-muted-foreground mt-2">

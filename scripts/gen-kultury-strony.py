@@ -312,7 +312,7 @@ def strona_flora_danica(rek):
        e(fd["nazwa"]), e(fd["typ"]), e(fd["producent"]), e(fd["wstep"])))
 
     c.append("<h2>Gdzie kupić w Polsce</h2>\n")
-    c.append("<p>W żadnym z pięciu sklepów, które śledzimy (%s), Flora Danica nie jest "
+    c.append("<p>W żadnym ze sklepów, które śledzimy (%s), Flora Danica nie jest "
              "w ofercie. Sprawdzone %s.</p>\n" % (e(", ".join(fd["sprawdzoneSklepy"])), e(fd["sprawdzono"])))
     c.append("<p>Dlatego nie podajemy ceny ani kosztu litra: nie ma ich z czego policzyć. "
              "%s</p>\n" % e(fd["opakowanie"]))

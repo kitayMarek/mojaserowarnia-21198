@@ -3,10 +3,10 @@
 """
 Generator strony o zamiennikach kultur — grupowanie po SKLADZIE, nie po nazwie.
 
-DLACZEGO: w bazie 188 kultur ponad polowa to ten sam sklad szczepowy sprzedawany
+DLACZEGO: w bazie kultur ponad polowa to ten sam sklad szczepowy sprzedawany
 pod roznymi nazwami handlowymi. Kupujacy nie ma szans tego zauwazyc, bo kazdy
 sklep pokazuje wylacznie wlasny katalog. To jedyna tresc, ktorej ZADEN sklep nie
-moze napisac — wymaga widoku na piec katalogow naraz.
+moze napisac, bo wymaga widoku na wszystkie katalogi naraz.
 
 OSTROZNIE Z WNIOSKIEM: ten sam sklad NIE znaczy "ten sam produkt". Producenci
 dobieraja konkretne szczepy w obrebie gatunku i ich proporcje, czego tabela nie
@@ -144,10 +144,18 @@ def esc(s):
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
 
+# Dopelniacz i miejscownik: "z szesciu sklepow", jak w gen-baza.py.
+LICZEBNIK = {4: "czterech", 5: "pięciu", 6: "sześciu", 7: "siedmiu", 8: "ośmiu"}
+
+
 def zbuduj_html(grupy, wszystkie):
     dzis = date.today().isoformat()
     w_grupach = sum(len(g["kultury"]) for g in grupy)
     proc = round(100.0 * w_grupach / len(wszystkie))
+    # Liczba sklepow z danych: do 27.10.2026 stalo tu na sztywno "5" i "pieciu",
+    # a po dodaniu Browina byla to nieprawda.
+    ile_sklepow = len({k["shop"] for k in wszystkie if k.get("shop")})
+    sklepow_slownie = LICZEBNIK.get(ile_sklepow, str(ile_sklepow))
 
     faq = [
         ("Czy kultury o tym samym składzie to ten sam produkt?",
@@ -172,7 +180,7 @@ def zbuduj_html(grupy, wszystkie):
   <link rel="canonical" href="https://mojaserowarnia.pl/zamienniki-kultur" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Zamienniki kultur bakteryjnych — te same szczepy, inne nazwy" />
-  <meta property="og:description" content="%d grup kultur o identycznym składzie szczepowym, sprzedawanych pod różnymi nazwami w 5 polskich sklepach." />
+  <meta property="og:description" content="%d grup kultur o identycznym składzie szczepowym, sprzedawanych pod różnymi nazwami w %d polskich sklepach." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mojaserowarnia.pl/zamienniki-kultur" />
   <meta property="og:site_name" content="Moja Serowarnia" />
@@ -182,14 +190,14 @@ def zbuduj_html(grupy, wszystkie):
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://mojaserowarnia.pl/og/zamienniki.png" />
-""" % (w_grupach, len(wszystkie), len(grupy), len(grupy)))
+""" % (w_grupach, len(wszystkie), len(grupy), len(grupy), ile_sklepow))
 
     czesci.append("""  <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Zamienniki kultur bakteryjnych — te same szczepy pod różnymi nazwami",
-    "description": "Analiza %d kultur z 5 polskich sklepow: %d z nich (%d%%) ma sklad szczepowy wspolny z inna pozycja. %d grup skladowych z nazwami handlowymi, sklepami i cenami.",
+    "description": "Analiza %d kultur z %d polskich sklepow: %d z nich (%d%%) ma sklad szczepowy wspolny z inna pozycja. %d grup skladowych z nazwami handlowymi, sklepami i cenami.",
     "datePublished": "%s",
     "dateModified": "%s",
     "inLanguage": "pl-PL",
@@ -198,7 +206,7 @@ def zbuduj_html(grupy, wszystkie):
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mojaserowarnia.pl/zamienniki-kultur" }
   }
   </script>
-""" % (len(wszystkie), w_grupach, proc, len(grupy), dzis, dzis))
+""" % (len(wszystkie), ile_sklepow, w_grupach, proc, len(grupy), dzis, dzis))
 
     pytania = ",\n".join(
         '      { "@type": "Question", "name": "%s", "acceptedAnswer": { "@type": "Answer", "text": "%s" } }'
@@ -245,7 +253,7 @@ def zbuduj_html(grupy, wszystkie):
 
     czesci.append("""
   <h1>Zamienniki kultur bakteryjnych — te same szczepy pod różnymi nazwami</h1>
-  <p class="lead">W %d kulturach z pięciu polskich sklepów <strong>%d pozycji (%d%%) ma skład szczepowy wspólny z inną pozycją</strong>. Poniżej %d grup: co jest w środku, pod jakimi nazwami się to sprzedaje, gdzie i za ile.</p>
+  <p class="lead">W %d kulturach z %s polskich sklepów <strong>%d pozycji (%d%%) ma skład szczepowy wspólny z inną pozycją</strong>. Poniżej %d grup: co jest w środku, pod jakimi nazwami się to sprzedaje, gdzie i za ile.</p>
 
   <div class="warn"><strong>Zanim podmienisz:</strong> ten sam skład gatunkowy <strong>nie znaczy „ten sam produkt"</strong>. Producenci dobierają konkretne szczepy w obrębie gatunku i ich proporcje — tego nie widać w żadnej tabeli. Najlepiej pokazuje to grupa <em>Lactococcus lactis + cremoris</em>: ML, MO, MSO i MLL mają identyczny skład, a służą kolejno do serów do smarowania, masła, twarogu i fety. Zamiennik zwykle zadziała, ale <strong>sprawdź przeznaczenie i zakres temperatur</strong>.</div>
 
@@ -257,10 +265,10 @@ def zbuduj_html(grupy, wszystkie):
 
   <h2>Dlaczego jedna kultura ma tyle nazw?</h2>
   <p>Bo nazwa jest handlowa, nie naukowa. Producenci — Danisco (Choozit), Sacco, Beaugel, ARTiVEG i inni — nadają własne oznaczenia, a każdy sklep sprzedaje to, co ma w umowie dystrybucyjnej. Ten sam <em>Penicillium candidum</em> figuruje jako PC, SIGMA 75, Penicillium Candidum PC 22 i PC Neige.</p>
-  <p>Żaden sklep nie może tego pokazać, bo widzi wyłącznie własny katalog. To zestawienie powstaje z porównania pięciu naraz.</p>
+  <p>Żaden sklep nie może tego pokazać, bo widzi wyłącznie własny katalog. To zestawienie powstaje z porównania %s naraz.</p>
 
   <h2>Grupy składowe — %d zestawów</h2>
-""" % (len(wszystkie), w_grupach, proc, len(grupy), len(grupy)))
+""" % (len(wszystkie), sklepow_slownie, w_grupach, proc, len(grupy), sklepow_slownie, len(grupy)))
 
     for g in grupy:
         nazwa_grupy = " + ".join(ladny(s) for s in g["szczepy"])

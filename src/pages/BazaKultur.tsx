@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { useCultures } from "@/hooks/useCultures";
+import { listaSklepow, pozycjeMianownik, kulturyMianownik, sklepowSlownie, liczbaZCena, zakresCen } from "@/data/liczbyBazyKultur";
 import { adresKultury } from "@/lib/adresKultury";
 import kulturyHeaderImage from "@/assets/kultury-header.webp";
 import ReactionButton from "@/components/ReactionButton";
@@ -42,7 +43,7 @@ const faqData = [
   },
   {
     question: "Gdzie kupić kultury bakteryjne do sera w Polsce?",
-    answer: "Kultury bakteryjne do sera kupisz w polskich sklepach serowarskich: Lactic.pl, Wańczykówka, Serowar.pl, Artiser.pl i GAP Poland. W tej bazie sprawdzisz w jednym miejscu, który z nich ma daną kulturę w ofercie i w jakiej cenie — 188 pozycji z ceną, składem i temperaturą pracy, ceny od 6 do 99 zł, z linkiem prosto do produktu w sklepie."
+    answer: `Kultury bakteryjne do sera kupisz w polskich sklepach serowarskich: ${listaSklepow}. W tej bazie sprawdzisz w jednym miejscu, który z nich ma daną kulturę w ofercie i w jakiej cenie: ${pozycjeMianownik} ze składem, temperaturą pracy i linkiem prosto do produktu w sklepie, z czego ${liczbaZCena} z ceną (${zakresCen}).`
   },
   {
     question: "Jak przechowywać kultury bakteryjne?",
@@ -190,8 +191,8 @@ const BazaKultur = () => {
                   Kompletna baza {culturesData.length} kultur bakteryjnych
                 </p>
                 <p className="text-base text-white/90">
-                  Sprawdź, który sklep ma daną kulturę i w jakiej cenie — Lactic.pl, Wańczykówka,
-                  Serowar.pl, Artiser.pl i GAP Poland w jednym zestawieniu
+                  Sprawdź, który sklep ma daną kulturę i w jakiej cenie: {listaSklepow} w jednym
+                  zestawieniu
                 </p>
               </div>
             </div>
@@ -207,7 +208,7 @@ const BazaKultur = () => {
                 {
                   tytul: "Dowiesz się, kto ma daną kulturę",
                   tekst:
-                    "188 kultur z pięciu polskich sklepów — Lactic.pl, Wańczykówki, Serowar.pl, Artiser.pl i GAP Poland — zebranych w jedną tabelę z ceną (od 6 do 99 zł) i linkiem prosto do produktu. Każda z dawkowaniem, zakresem temperatur i listą serów, do których się nadaje. Można filtrować po typie i porównywać dwie obok siebie, zanim wydasz pieniądze na saszetkę.",
+                    `Jedna tabela, a w niej ${kulturyMianownik} z ${sklepowSlownie} polskich sklepów (${listaSklepow}), z ceną (${zakresCen}) i linkiem prosto do produktu. Każda z dawkowaniem, zakresem temperatur i listą serów, do których się nadaje. Można filtrować po typie i porównywać dwie obok siebie, zanim wydasz pieniądze na saszetkę.`,
                 },
                 {
                   tytul: "Mezofilne czy termofilne",

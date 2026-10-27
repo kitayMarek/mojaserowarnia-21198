@@ -14,6 +14,7 @@ import FAQSchema from "@/components/FAQSchema";
 import PageHeader from "@/components/PageHeader";
 import { BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
+import { pozycjeMianownik } from "@/data/liczbyBazyKultur";
 
 const Poradnik = () => {
   useEffect(() => {
@@ -150,7 +151,7 @@ const Poradnik = () => {
               tropy={[
                 {
                   sytuacja: "Nie wiesz, jaką kulturę wybrać",
-                  propozycja: "— 188 pozycji z dawkowaniem:",
+                  propozycja: `— ${pozycjeMianownik} ze składem i temperaturą pracy:`,
                   href: "/baza-kultur",
                   etykieta: "baza kultur",
                 },

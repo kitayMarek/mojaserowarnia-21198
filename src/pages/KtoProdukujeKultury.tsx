@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { liczbaKultur, liczbaZProducentem, odmiana, pozycjeMianownik } from "@/data/liczbyBazyKultur";
 import { Factory } from "lucide-react";
 import KulturaGuideLayout from "@/components/KulturaGuideLayout";
 import FAQSchema from "@/components/FAQSchema";
@@ -73,7 +74,7 @@ const KtoProdukujeKultury = () => (
     breadcrumb={[{ label: "Baza kultur", href: "/baza-kultur" }, { label: "Kto produkuje kultury" }]}
     related={[
       { label: "Zamienniki kultur — te same szczepy, inne nazwy", href: "/zamienniki-kultur" },
-      { label: "Baza kultur — 188 pozycji z cenami", href: "/baza-kultur" },
+      { label: `Baza kultur: ${pozycjeMianownik} z cenami`, href: "/baza-kultur" },
       { label: "Kultury mezofilne", href: "/kultury/mezofilne" },
       { label: "RHD — sprzedaż sera i dokumentacja", href: "/prawo/rhd" },
       { label: "Nieudany ser — objawy i przyczyny", href: "/nieudany-ser" },
@@ -115,7 +116,7 @@ const KtoProdukujeKultury = () => (
 
     <WykresSvg
       svg={producenci}
-      podpis="Producent zadeklarowany na stronie produktu — 185 pozycji ze 188. Cztery firmy plus marki własne sklepów."
+      podpis={`Producent zadeklarowany na stronie produktu: ${liczbaZProducentem} ${odmiana(liczbaZProducentem, "pozycja", "pozycje", "pozycji")} ze ${liczbaKultur}, obecny stan bazy. Cztery firmy plus marki własne sklepów. Liczby w tekście pochodzą z przeglądu z 22 sierpnia 2026, gdy baza miała 188 pozycji.`}
     />
 
     {/* Sześć kolumn nie mieści się na telefonie — bez tego opakowania przewijałaby się cała strona. */}

@@ -16,6 +16,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { Button } from "@/components/ui/button";
 import { useCultures } from "@/hooks/useCultures";
+import { liczbaKultur } from "@/data/liczbyBazyKultur";
 import { useMetaStrony } from "@/hooks/useMetaStrony";
 import { adresKultury } from "@/lib/adresKultury";
 import { kategoriaKultury, czyWiodaca, NAZWY_KATEGORII, type KategoriaKultury } from "@/lib/kategorieKultur";
@@ -79,7 +80,7 @@ const SymulatorSera = () => {
 
   useMetaStrony(
     "Symulator warzenia sera: co wyjdzie z twoich parametrów",
-    "Ustaw kulturę, podpuszczkę, dogrzewanie, prasowanie i dojrzewanie, a symulator powie, jaki ser z tego wychodzi albo dlaczego się nie uda. Kultury z prawdziwej bazy 188 pozycji.",
+    `Ustaw kulturę, podpuszczkę, dogrzewanie, prasowanie i dojrzewanie, a symulator powie, jaki ser z tego wychodzi albo dlaczego się nie uda. Kultury z prawdziwej bazy ${liczbaKultur} pozycji.`,
   );
 
   const ustaw = <K extends keyof Parametry>(k: K) => (v: Parametry[K]) =>
@@ -105,7 +106,7 @@ const SymulatorSera = () => {
           Symulator warzenia sera
         </h1>
         <p className="text-muted-foreground mb-8">
-          Ustaw proces i zobacz, co z niego wychodzi. Kultury pochodzą z naszej bazy 188 pozycji,
+          Ustaw proces i zobacz, co z niego wychodzi. Kultury pochodzą z naszej bazy {liczbaKultur} pozycji,
           więc wybierając kategorię wybierasz spośród rzeczy, które da się kupić.
         </p>
 

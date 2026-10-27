@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { listaSklepow, sklepowSlownie } from "@/data/liczbyBazyKultur";
 import { GitBranch } from "lucide-react";
 import KulturaGuideLayout from "@/components/KulturaGuideLayout";
 import FAQSchema from "@/components/FAQSchema";
@@ -100,8 +101,8 @@ const ZamiennikiKultur = () => {
         <em>Penicillium candidum</em> figuruje jako PC, SIGMA 75, Penicillium Candidum PC 22 i PC Neige.
       </p>
       <p>
-        Żaden sklep nie może tego pokazać, bo widzi wyłącznie własny katalog. To zestawienie powstaje z porównania
-        pięciu naraz — <Link to="/baza-kultur">Lactic.pl, Wańczykówki, Serowar.pl, Artiser.pl i GAP Poland</Link>.
+        Żaden sklep nie może tego pokazać, bo widzi wyłącznie własny katalog. To zestawienie powstaje z porównania{" "}
+        {sklepowSlownie} naraz: <Link to="/baza-kultur">{listaSklepow}</Link>.
       </p>
 
       {loading ? (

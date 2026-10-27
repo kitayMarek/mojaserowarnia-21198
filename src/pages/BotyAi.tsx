@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { liczbaKultur } from "@/data/liczbyBazyKultur";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
@@ -225,7 +226,7 @@ const BotyAi = () => {
           z praktycznego powodu: chcieliśmy sprawdzić, czy modele językowe czytają nasze
           przepisy i bazę kultur. Odpowiedź o botach wyszła ciekawsza, niż zakładaliśmy,
           i została tutaj. Reszta serwisu to{" "}
-          <Link to="/baza-kultur" className="underline">baza 188 kultur bakteryjnych</Link>{" "}
+          <Link to="/baza-kultur" className="underline">baza {liczbaKultur} kultur bakteryjnych</Link>{" "}
           z polskich sklepów, przeliczona na koszt litra mleka,{" "}
           <Link to="/przepisy" className="underline">przepisy na sery</Link> krok po kroku i{" "}
           <Link to="/prawo/rhd" className="underline">prawo RHD i MOL</Link> dla małych gospodarstw.

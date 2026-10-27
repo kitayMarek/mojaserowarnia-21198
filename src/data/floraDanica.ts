@@ -1,5 +1,5 @@
 /**
- * Flora Danica (Chr. Hansen): kultura, której nie sprzedaje żaden z pięciu sklepów w bazie.
+ * Flora Danica (Chr. Hansen): kultura, której nie sprzedaje żaden ze sklepów w bazie.
  *
  * PO CO OSOBNA STRONA: na pytanie o kultury do sera czaty wymieniają ją jako pierwszą
  * (test w Claude 21.10.2026), a nasze przepisy polecają ją w siedmiu miejscach.
@@ -7,7 +7,7 @@
  *
  * DLACZEGO NIE WIERSZ W TABELI `cultures`: tabela to oferty sklepów (cena, pojemność,
  * przycisk „Kup"). Flora Danica nie ma oferty w Polsce. Wiersz bez sklepu i ceny
- * zawyżyłby licznik „188 kultur z polskich sklepów" i dał przycisk prowadzący donikąd.
+ * zawyżyłby licznik kultur z polskich sklepów i dał przycisk prowadzący donikąd.
  * Gdyby któryś sklep ją wprowadził, trzeba ją dopisać do bazy jak każdą inną kulturę
  * i zdecydować, co dalej z tą stroną.
  *
@@ -41,9 +41,13 @@ export const floraDanica = {
   dawka: "50 U na 500 litrów mleka (200 U na 2000 L, 500 U na 5000 L). Producent zaznacza, że dawkę do nowego zastosowania trzeba ustalić próbą.",
   opakowanie: "Producent pakuje ją w saszetki 50 U, 200 U i 500 U. Najmniejsza, 50 U, starcza według niego na 500 litrów mleka.",
   przechowywanie: "W zamrażarce, poniżej −18°C: co najmniej 24 miesiące od produkcji. W lodówce (+5°C) co najmniej 6 tygodni. Granulat wsypuje się prosto do mleka, bez rozmrażania.",
-  /** Kiedy przeszukaliśmy pięć sklepów z bazy. Napis gotowy do wstawienia w zdanie. */
-  sprawdzono: "21 października 2026",
-  sprawdzoneSklepy: ["Lactic.pl", "Serowar.pl", "Wańczykówka", "Artiser.pl", "GAP Poland"],
+  /**
+   * Kiedy przeszukaliśmy sklepy z bazy. Napis gotowy do wstawienia w zdanie.
+   * Browin doszedł do bazy 27.10.2026: wyszukiwarka browin.pl nie zna Flora Danica,
+   * a kategoria kultur ma 5 produktów, wszystkie marki Browin.
+   */
+  sprawdzono: "21 października 2026, w Browinie 27 października 2026",
+  sprawdzoneSklepy: ["Lactic.pl", "Serowar.pl", "Wańczykówka", "Artiser.pl", "GAP Poland", "Browin"],
   zrodla: [
     {
       tytul: "Chr. Hansen, FD-DVS FLORA DANICA, Product Information, wersja 2 (23.11.2011), PDF",

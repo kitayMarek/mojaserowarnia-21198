@@ -281,9 +281,12 @@ export const metaStron: Record<string, MetaStrony> = {
     //
     // Stan przed zmiana (2026-09-01): 2859 wyswietlen, 61 klikniec, pozycja 11,2.
     // 85% wyswietlen przychodzi z pozycji 11+, wiec to zmiana na TRAFNOSC, nie na CTR.
-    title: "Bakterie do sera, twarogu i zsiadłego mleka — 188 kultur",
+    //
+    // Liczby wpisane na sztywno, bo sync-seo-mirrory.py czyta tu zwykly napis.
+    // Po zmianie bazy poprawic recznie (27.10.2026: 193 kultury, 6 sklepow).
+    title: "Bakterie do sera, twarogu i zsiadłego mleka: 193 kultury",
     description:
-      "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka: 188 kultur starterowych — mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 5 sklepach.",
+      "Dobierzesz bakterie do sera, twarogu i zsiadłego mleka spośród 193 kultur starterowych: mezofilne, termofilne, pleśnie, bioprotekcja. Ceny w 6 sklepach.",
     mirror: "kultury/baza.html",
   },
   "/sery/emmental": {
