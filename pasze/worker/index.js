@@ -10,7 +10,8 @@
  *     w Serowarni; tam mirror zbudował pozycję kalkulatora w Google). Rozpoznanie
  *     importowane z worker/index.js, żeby oba serwisy nie rozjechały się.
  *     Sam katalog /mirror/ nie jest adresem dla nikogo: 301 na stronę.
- *  4. Licznik wejść ludzi (worker/wejscia-ludzi.js) z serwisem mojapasza.com.
+ *  4. Licznik wejść ludzi (worker/wejscia-ludzi.js) z serwisem mojapasza.com
+ *     i licznik botów (worker/wizyty-botow.js) do tabeli bot_visits_pasze.
  *  5. Do dnia przełączenia nagłówek X-Robots-Tag: noindex na każdej odpowiedzi
  *     (stała NOINDEX niżej), także na JS i obrazkach, których meta w index.html
  *     nie obejmuje.
@@ -22,6 +23,7 @@
  */
 import { BOTY_MODELI, BOTY_PODGLADU, botBezPodpisu } from '../../worker/index.js';
 import { zapiszWejscieCzlowieka } from '../../worker/wejscia-ludzi.js';
+import { zapiszWizyteBota } from '../../worker/wizyty-botow.js';
 
 const DOMENA = 'mojapasza.com';
 
@@ -41,6 +43,9 @@ const Z_MIRROREM = new Set([
 ]);
 
 const plikMirrora = (sciezka) => (sciezka === '/' ? '/mirror/index.html' : `/mirror${sciezka}.html`);
+
+// Odpowiedzi z mirrorem: licznik botów zapisuje, czy bot dostał pełną treść, czy skorupę aplikacji.
+const ODDANE_MIRRORY = new WeakSet();
 
 // Strony tylko statyczne (bez trasy w aplikacji), dla ludzi i botów: plik <ścieżka>.html.
 const STATYCZNE = new Set(['/prywatnosc', '/warunki']);
@@ -106,10 +111,12 @@ async function trasuj(request, env, url) {
     const mirror = await env.ASSETS.fetch(new URL(plikMirrora(sciezka), url.origin));
     if (mirror.status === 200) {
       // Pod tym adresem człowiek dostaje aplikację, więc bez cache po drodze.
-      return zNaglowkami(mirror, {
+      const odpowiedz = zNaglowkami(mirror, {
         'content-type': 'text/html; charset=utf-8',
         'cache-control': 'no-cache, no-store, must-revalidate',
       });
+      ODDANE_MIRRORY.add(odpowiedz);
+      return odpowiedz;
     }
   }
 
@@ -134,6 +141,19 @@ export default {
       botPodgladu: BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua),
       serwis: DOMENA,
     }, env));
+
+    // Rozmiar z klona, jak w Serowarni: warstwa plików nie ustawia content-length.
+    // Ludzi funkcja pomija sama (nagłówki przeglądarki, adres spoza list operatorów).
+    const klon = wynik.clone();
+    ctx.waitUntil((async () => {
+      let rozmiar = null;
+      try {
+        rozmiar = (await klon.arrayBuffer()).byteLength;
+      } catch {
+        // wizyta zapisze się bez rozmiaru
+      }
+      await zapiszWizyteBota(request, { status: wynik.status, rozmiar, mirror: ODDANE_MIRRORY.has(wynik) }, env, 'bot_visits_pasze');
+    })());
     return wynik;
   },
 };

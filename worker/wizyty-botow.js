@@ -678,11 +678,14 @@ export async function zapiszPrzyjscie(request, env, status) {
  * `wynik` to { status, rozmiar, mirror } — router podaje je wprost, bo tylko
  * on wie, czy bot dostał mirror, czy skorupę React.
  *
+ * `tabela`: Serowarnia pisze do bot_visits, mojapasza.com (pasze/worker) do
+ * bliźniaczej bot_visits_pasze, żeby ruch dwóch serwisów się nie mieszał.
+ *
  * Każdy błąd jest połykany celowo: logowanie jest dodatkiem i nigdy nie może
  * przewrócić serwowania stron. Brak sekretów = moduł po prostu nic nie robi,
  * co pozwala wdrożyć kod przed ustawieniem klucza.
  */
-export async function zapiszWizyteBota(request, wynik, env) {
+export async function zapiszWizyteBota(request, wynik, env, tabela = 'bot_visits') {
   try {
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return;
 
@@ -777,7 +780,7 @@ export async function zapiszWizyteBota(request, wynik, env) {
     );
 
 
-    const zapis = await fetch(`${env.SUPABASE_URL}/rest/v1/bot_visits`, {
+    const zapis = await fetch(`${env.SUPABASE_URL}/rest/v1/${tabela}`, {
       method: 'POST',
       headers: {
         apikey: env.SUPABASE_SERVICE_KEY,
@@ -807,10 +810,10 @@ export async function zapiszWizyteBota(request, wynik, env) {
     // nie działa i nikt się o tym nie dowie. Trafia do logów Workers, bo
     // observability jest włączona w wrangler.jsonc.
     if (!zapis.ok) {
-      console.error('bot_visits: zapis odrzucony', zapis.status, (await zapis.text()).slice(0, 300));
+      console.error(`${tabela}: zapis odrzucony`, zapis.status, (await zapis.text()).slice(0, 300));
     }
   } catch (blad) {
-    console.error('bot_visits: wyjątek przy zapisie', blad?.message);
+    console.error(`${tabela}: wyjątek przy zapisie`, blad?.message);
   }
 }
 
