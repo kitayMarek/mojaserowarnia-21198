@@ -22,14 +22,14 @@
    {
     "nazwa": "Flora Danica",
     "typ": "mezofilna (z Leuconostoc)",
-    "sklep": "Artiser.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "wg producenta",
     "uwagi": "Mezofilna z bakteriami gazotwórczymi (Leuconostoc) — wspiera drobne oczka."
    },
    {
     "nazwa": "MM 100 / MM 101",
     "typ": "mezofilna",
-    "sklep": "Lactic.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "wg producenta",
     "uwagi": "Mezofilny starter do serów podpuszczkowych półtwardych."
    },
@@ -969,14 +969,14 @@
    {
     "nazwa": "Flora Danica",
     "typ": "mezofilna LD",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,5 g na 15 L",
     "uwagi": "Klasyczna kultura do Goudy z produkcją CO₂."
    },
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,5 g na 15 L",
     "uwagi": "Alternatywa mezofilna z oczkami."
    }
@@ -1299,7 +1299,7 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,3 g na 4 L",
     "uwagi": "Podstawowa kultura do Camemberta."
    },
@@ -1531,14 +1531,14 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,125 tsp (~0,6 g)",
     "uwagi": "Główna kultura mezofilna do Brie."
    },
    {
     "nazwa": "Flora Danica",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,125 tsp (~0,6 g)",
     "uwagi": "Klasyczna kultura duńska, alternatywa dla MM."
    },
@@ -2002,14 +2002,14 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,125 tsp (~0,6 g)",
     "uwagi": "Główna kultura mezofilna."
    },
    {
     "nazwa": "Flora Danica",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,125 tsp (~0,6 g)",
     "uwagi": "Alternatywa dla MM."
    },
@@ -2133,7 +2133,7 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,15 tsp (~0,7 g)",
     "uwagi": "Główna kultura mezofilna."
    },
@@ -2256,7 +2256,7 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,125 tsp (~0,6 g)",
     "uwagi": "Główna kultura mezofilna."
    },
@@ -2379,7 +2379,7 @@
    {
     "nazwa": "MM / MM-100",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "~0,2 tsp (~0,9 g)",
     "uwagi": "Główna kultura mezofilna."
    },
@@ -2803,7 +2803,7 @@
    {
     "nazwa": "Flora Danica (alternatywa mezofilna)",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "wg producenta",
     "uwagi": "Daje łagodniejszy, bardziej maślany profil — wariant domowy."
    },
@@ -2942,7 +2942,7 @@
    {
     "nazwa": "Flora Danica",
     "typ": "mezofilna",
-    "sklep": "Serowar.pl",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "wg producenta",
     "uwagi": "Klasyczna mezofilna — delikatny, maślany profil pod mytą skórkę."
    },
@@ -3101,21 +3101,21 @@
    {
     "nazwa": "Flora Danica",
     "typ": "Mezofilna LD (z produkcją CO₂ i aromatu)",
-    "sklep": "Serowarnia, sklepy serowarskie",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "1/8 łyżeczki na 8 L mleka",
     "uwagi": "Daje twaróg o pełniejszym, lekko maślanym aromacie. Najpopularniejszy wybór do twarogu."
    },
    {
     "nazwa": "CHN-19",
     "typ": "Mezofilna LD",
-    "sklep": "Sklepy serowarskie",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "1/8 łyżeczki na 8 L mleka",
     "uwagi": "Zamiennik Flory Danica o zbliżonym profilu."
    },
    {
     "nazwa": "MM 100 / MM 101",
     "typ": "Mezofilna LL (bez gazu)",
-    "sklep": "Sklepy serowarskie",
+    "sklep": "brak w sklepach z naszej bazy",
     "dawka": "1/8 łyżeczki na 8 L mleka",
     "uwagi": "Czysty, mleczny smak bez nut maślanych. Dobra do twarogu na sernik."
    },

@@ -251,7 +251,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "mezofilna (z Leuconostoc)",
-        shop: "Artiser.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "wg producenta",
         notes: "Mezofilna z bakteriami gazotwórczymi (Leuconostoc) — wspiera drobne oczka.",
         searchQuery: "Flora Danica",
@@ -260,7 +260,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM 100 / MM 101",
         type: "mezofilna",
-        shop: "Lactic.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "wg producenta",
         notes: "Mezofilny starter do serów podpuszczkowych półtwardych.",
         searchQuery: "MM 100"
@@ -1190,7 +1190,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "mezofilna LD",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,5 g na 15 L",
         notes: "Klasyczna kultura do Goudy z produkcją CO₂.",
         searchQuery: "Flora Danica",
@@ -1199,7 +1199,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,5 g na 15 L",
         notes: "Alternatywa mezofilna z oczkami.",
         searchQuery: "MM"
@@ -1534,7 +1534,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,3 g na 4 L",
         notes: "Podstawowa kultura do Camemberta.",
         searchQuery: "MM"
@@ -1764,7 +1764,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Główna kultura mezofilna do Brie.",
         searchQuery: "MM"
@@ -1772,7 +1772,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Klasyczna kultura duńska, alternatywa dla MM.",
         searchQuery: "Flora Danica",
@@ -2228,7 +2228,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Główna kultura mezofilna.",
         searchQuery: "MM"
@@ -2236,7 +2236,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Alternatywa dla MM.",
         searchQuery: "Flora Danica",
@@ -2357,7 +2357,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,15 tsp (~0,7 g)",
         notes: "Główna kultura mezofilna.",
         searchQuery: "MM"
@@ -2476,7 +2476,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,125 tsp (~0,6 g)",
         notes: "Główna kultura mezofilna.",
         searchQuery: "MM"
@@ -2595,7 +2595,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM / MM-100",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "~0,2 tsp (~0,9 g)",
         notes: "Główna kultura mezofilna.",
         searchQuery: "MM"
@@ -3057,7 +3057,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica (alternatywa mezofilna)",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "wg producenta",
         notes: "Daje łagodniejszy, bardziej maślany profil — wariant domowy.",
         searchQuery: "Flora Danica",
@@ -3190,7 +3190,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "mezofilna",
-        shop: "Serowar.pl",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "wg producenta",
         notes: "Klasyczna mezofilna — delikatny, maślany profil pod mytą skórkę.",
         searchQuery: "Flora Danica",
@@ -3339,7 +3339,7 @@ export const recipesData: Recipe[] = [
       {
         name: "Flora Danica",
         type: "Mezofilna LD (z produkcją CO₂ i aromatu)",
-        shop: "Serowarnia, sklepy serowarskie",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "1/8 łyżeczki na 8 L mleka",
         notes: "Daje twaróg o pełniejszym, lekko maślanym aromacie. Najpopularniejszy wybór do twarogu.",
         searchQuery: "Flora Danica",
@@ -3348,7 +3348,7 @@ export const recipesData: Recipe[] = [
       {
         name: "CHN-19",
         type: "Mezofilna LD",
-        shop: "Sklepy serowarskie",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "1/8 łyżeczki na 8 L mleka",
         notes: "Zamiennik Flory Danica o zbliżonym profilu.",
         searchQuery: "CHN-19"
@@ -3356,7 +3356,7 @@ export const recipesData: Recipe[] = [
       {
         name: "MM 100 / MM 101",
         type: "Mezofilna LL (bez gazu)",
-        shop: "Sklepy serowarskie",
+        shop: "brak w sklepach z naszej bazy",
         dosage: "1/8 łyżeczki na 8 L mleka",
         notes: "Czysty, mleczny smak bez nut maślanych. Dobra do twarogu na sernik.",
         searchQuery: "MM 100"
