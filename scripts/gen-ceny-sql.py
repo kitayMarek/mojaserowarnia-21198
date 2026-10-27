@@ -1,33 +1,71 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Generator SQL: odswiezenie cen + historia zmiany (price_previous).
+Generator SQL: odswiezenie cen kultur, oznaczenie znikniec i nowe pojemnosci.
 
-Zrodlo: scripts/kultury-data/ceny.txt (scripts/pobierz-ceny.py).
-Claude NIE PISZE do bazy — ten plik wkleja Marek w Lovable -> SQL Editor.
+Zrodla:
+  * scripts/kultury-data/ceny.txt      (scripts/pobierz-ceny.py, statusy
+    poprawione recznie tam, gdzie automat zglosil "DO SPRAWDZENIA")
+  * scripts/kultury-data/pojemnosc.txt (pack_liters i dose_label)
+  * zrzut tabeli cultures z REST (is_active=true, order=name,shop): stan bazy
+    PRZED zmiana, czyli stara cena i stara pojemnosc. Celowo nie migawka TS:
+    ta jest wynikiem tego skryptu i po jej przegenerowaniu porownanie
+    wychodziloby puste (tak sie stalo przy pierwszym przebiegu 27.10.2026).
 
-CO ROBI:
-  * dodaje kolumne price_previous (poprzednia cena) — zeby dalo sie pokazac
-    "18,50 zl (bylo 15,04)"
-  * dla pozycji ze zmiana: price_previous = stara, price_* = nowa,
-    last_changed = dzis
-  * dla wszystkich sprawdzonych: last_checked = dzis
+Wynik: supabase/sql-do-wklejenia/<RRRRMMDD>-ceny-kultur.sql do uruchomienia
+w Supabase -> SQL Editor. Claude nie pisze do bazy bez zgody Marka.
 
-WAZNE ROZROZNIENIE: wiekszosc "zmian" to NIE podwyzki, tylko korekta
-netto -> brutto. Jeden sklep mial w bazie ceny netto, reszta brutto
-(15,04 x 1,23 = 18,50). Ujednolicamy na brutto, czyli na to, co klient placi.
-Takie pozycje NIE dostaja price_previous — pokazywanie "bylo taniej" byloby
-falszem, bo cena sie nie zmienila, zmienil sie sposob jej podania.
+STATUSY w ceny.txt, ktore generator rozumie:
+  bez zmian          -> tylko last_checked
+  nowa               -> cena bez poprzedniej (np. produkt wrocil)
+  ZMIANA ...         -> price_previous = stara, nowa cena, last_changed
+  NIEDOSTEPNY ...    -> produkt zniknal ze sklepu: price_label 'Niedostępna',
+                        price_numeric NULL. Wiersz ZOSTAJE (decyzja Marka
+                        z 8.09.2026: kultura istnieje i ktos moze jej szukac,
+                        a cicha stara cena wygladalaby na aktualna). NULL, nie
+                        0, bo zero w sortowaniu po cenie wyszloby najtansze.
+  DO SPRAWDZENIA ... -> pomijane; zostaje stara data sprawdzenia
+Inne (np. BRAK CENY) tez sa pomijane i wypisane na koncu.
+
+PODGLAD BEZ BAZY: --po WY.json naklada te same zmiany na zrzut i zapisuje
+wynik. Z WY.json robi sie migawke:
+  python scripts/gen-cultures-ts.py WY.json
+Po uruchomieniu SQL w bazie swiezy zrzut musi dac ten sam plik TS.
+
+UZYCIE:
+  python scripts/gen-ceny-sql.py przed.json              # plik SQL
+  python scripts/gen-ceny-sql.py przed.json --po po.json # zrzut po zmianach
 """
 import io
+import json
 import os
+import re
 import sys
-from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WEJSCIE = os.path.join(ROOT, "scripts", "kultury-data", "ceny.txt")
-WYJSCIE = os.path.join(ROOT, "scripts", "sql", "cultures-ceny.sql")
-DZIS = date.today().isoformat()
+CENY = os.path.join(ROOT, "scripts", "kultury-data", "ceny.txt")
+POJEMNOSC = os.path.join(ROOT, "scripts", "kultury-data", "pojemnosc.txt")
+KATALOG = os.path.join(ROOT, "supabase", "sql-do-wklejenia")
+
+# Nowe sklepy: plik w scripts/kultury-data/<klucz>.txt odczytany recznie ze stron
+# produktow (nazwa | sklad | przeznaczenie | temperatura | cena | litry |
+# dawkowanie | url | zdjecie | uwagi). Wstawiane tylko, gdy takiej pozycji nie ma.
+NOWE_SKLEPY = {
+    # Dodany 27.10.2026 na prosbe Marka: najpopularniejszy sklep, wczesniej pominiety.
+    "browin": ("Browin", "https://browin.pl/", "Browin (marka własna)"),
+}
+
+# Zmiany zauwazone wczesniej, ale nigdy niewgrane do bazy: SQL z 8.09.2026
+# (20260908-ceny-kultur.sql, usuniety 27.10.2026, jest w historii gita) nie
+# zostal uruchomiony, a odpalony po nowym cofnalby daty i poprzednie ceny.
+# Jesli cena dalej jest ta z 8.09, data zmiany to 8.09, nie dzien tego przebiegu.
+ZAUWAZONE_WCZESNIEJ = {
+    ("DELTA 2", "Lactic.pl"): ("2026-09-08", 19.0),
+    ("IOTA 4", "Lactic.pl"): ("2026-09-08", 19.0),
+    ("IOTA KEFIR 2", "Lactic.pl"): ("2026-09-08", 19.0),
+    ("IOTA KEFIR 3", "Lactic.pl"): ("2026-09-08", 19.0),
+    ("IOTA PROBI 1", "Lactic.pl"): ("2026-09-08", 19.0),
+}
 
 
 def sql_txt(s):
@@ -38,106 +76,255 @@ def zl(x):
     return ("%.2f" % x).replace(".", ",") + " zł"
 
 
-def main():
-    if not os.path.exists(WEJSCIE):
-        sys.exit("Brak %s — odpal najpierw scripts/pobierz-ceny.py" % WEJSCIE)
+def wczytaj_zrzut(sciezka):
+    return json.load(io.open(sciezka, encoding="utf-8"))
 
-    realne, vat, bez_zmian, brak = [], [], [], []
-    for linia in io.open(WEJSCIE, encoding="utf-8"):
+
+def wczytaj_tabele(sciezka):
+    for linia in io.open(sciezka, encoding="utf-8"):
         if linia.startswith("#") or not linia.strip():
             continue
-        c = [x.strip() for x in linia.split("|")]
-        if len(c) < 6:
+        yield [x.strip() for x in linia.rstrip("\n").split("|")]
+
+
+def zbierz_zmiany(zrzut):
+    """Lista (nazwa, sklep, {kolumna: wartosc}, rodzaj) + pominiete."""
+    stan = {(r["name"], r["shop"]): r for r in zrzut}
+    zmiany, pominiete, daty = [], [], set()
+
+    for c in wczytaj_tabele(CENY):
+        nazwa, sklep, _stara, nowa, _zrodlo, status = c[:6]
+        dzien = c[7] if len(c) > 7 and c[7] else None
+        if (nazwa, sklep) not in stan:
+            pominiete.append((nazwa, sklep, "nie ma w zrzucie bazy"))
             continue
-        nazwa, sklep, stara, nowa, _zrodlo, status = c[:6]
-        if "BRAK" in status:
-            brak.append((nazwa, sklep, stara))
+        if not dzien:
+            pominiete.append((nazwa, sklep, "brak daty sprawdzenia"))
             continue
-        if not nowa:
-            continue
-        rekord = (nazwa, sklep, float(stara) if stara else None, float(nowa))
-        if "netto" in status:
-            vat.append(rekord)
-        elif "ZMIANA" in status:
-            realne.append(rekord)
+        przed = stan[(nazwa, sklep)]
+        daty.add(dzien)
+
+        if status == "bez zmian":
+            zmiany.append((nazwa, sklep, {"last_checked": dzien}, "bez zmian"))
+        elif status.startswith("ZMIANA") or status == "nowa":
+            cena = float(nowa)
+            stara = przed.get("price_numeric")
+            ustaw = {"price_numeric": cena, "price_label": zl(cena), "last_checked": dzien}
+            if stara is not None and abs(stara - cena) <= 0.005:
+                # Baza ma juz te cene (SQL uruchomiony wczesniej): nic do zmiany.
+                zmiany.append((nazwa, sklep, {"last_checked": dzien}, "bez zmian"))
+                continue
+            if stara is not None:
+                wczesniej = ZAUWAZONE_WCZESNIEJ.get((nazwa, sklep))
+                ustaw["price_previous"] = stara
+                ustaw["last_changed"] = (
+                    wczesniej[0] if wczesniej and abs(wczesniej[1] - cena) < 0.005 else dzien)
+            elif stara is None:
+                ustaw["price_previous"] = None
+            zmiany.append((nazwa, sklep, ustaw, "zmiana" if stara is not None else "nowa"))
+        elif status.startswith("NIEDOSTEPNY"):
+            zmiany.append((nazwa, sklep, {
+                "price_previous": None, "price_numeric": None,
+                "price_label": "Niedostępna", "last_checked": dzien,
+            }, "niedostepny"))
         else:
-            bez_zmian.append(rekord)
+            pominiete.append((nazwa, sklep, status))
+
+    # Pojemnosc i dawkowanie: tylko tam, gdzie plik mowi co innego niz baza.
+    for c in wczytaj_tabele(POJEMNOSC):
+        nazwa, sklep, litry, dawka = c[:4]
+        if (nazwa, sklep) not in stan:
+            continue
+        przed = stan[(nazwa, sklep)]
+        ustaw = {}
+        if litry and int(litry) != int(przed.get("pack_liters") or 0):
+            ustaw["pack_liters"] = int(litry)
+        if dawka and dawka != (przed.get("dose_label") or ""):
+            ustaw["dose_label"] = dawka
+        if ustaw:
+            zmiany.append((nazwa, sklep, ustaw, "pojemnosc"))
+
+    return zmiany, pominiete, daty
+
+
+def wczytaj_nowe_sklepy(dzien):
+    """Pelne wiersze tabeli cultures dla sklepow z NOWE_SKLEPY."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "gen_cultures_sql", os.path.join(ROOT, "scripts", "gen-cultures-sql.py"))
+    gcs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gcs)  # typ z tej samej reguly co przy pozostalych sklepach
+
+    wiersze = []
+    for klucz, (sklep, adres, producent) in NOWE_SKLEPY.items():
+        for c in wczytaj_tabele(os.path.join(ROOT, "scripts", "kultury-data", klucz + ".txt")):
+            nazwa, sklad, przezn, temp, cena, litry, dawka, url, zdjecie = c[:9]
+            liczba = gcs.price_num(cena)
+            wiersze.append({
+                "name": nazwa, "composition": sklad, "application": przezn,
+                "temperature": temp, "type": gcs.derive_type(nazwa, sklad, przezn),
+                "shop": sklep, "shop_url": adres, "product_url": url,
+                "price_label": zl(liczba), "price_numeric": liczba,
+                "pack_liters": int(litry) if litry else None, "dose_label": dawka or None,
+                "manufacturer": producent, "image_url": zdjecie or None,
+                "is_active": True, "last_checked": dzien,
+            })
+    return wiersze
+
+
+def insert(w):
+    kolumny = list(w.keys())
+    wartosci = []
+    for k in kolumny:
+        v = w[k]
+        if v is None:
+            wartosci.append("NULL")
+        elif isinstance(v, bool):
+            wartosci.append("true" if v else "false")
+        elif k == "last_checked":
+            wartosci.append("DATE '%s'" % v)
+        elif isinstance(v, (int, float)):
+            wartosci.append(str(v) if isinstance(v, int) else "%.2f" % v)
+        else:
+            wartosci.append(sql_txt(v))
+    return ("INSERT INTO public.cultures (%s)\nSELECT %s\n WHERE NOT EXISTS (SELECT 1 FROM public.cultures"
+            " WHERE shop = %s AND name = %s);\n"
+            % (", ".join(kolumny), ",\n       ".join(wartosci), sql_txt(w["shop"]), sql_txt(w["name"])))
+
+
+def wartosc_sql(k, v):
+    if v is None:
+        return "NULL"
+    if k in ("last_checked", "last_changed"):
+        return "DATE '%s'" % v
+    if k == "price_label" or k == "dose_label":
+        return sql_txt(v)
+    if k == "pack_liters":
+        return str(int(v))
+    return "%.2f" % v
+
+
+def update(nazwa, sklep, ustaw):
+    pola = ",\n       ".join("%s = %s" % (k, wartosc_sql(k, v)) for k, v in ustaw.items())
+    return ("UPDATE public.cultures SET %s,\n       updated_at = now()\n"
+            " WHERE shop = %s AND name = %s;\n" % (pola, sql_txt(sklep), sql_txt(nazwa)))
+
+
+def naloz_na_zrzut(zmiany, nowe, we, wy):
+    wiersze = json.load(io.open(we, encoding="utf-8"))
+    indeks = {(r["name"], r["shop"]): r for r in wiersze}
+    trafione = 0
+    for nazwa, sklep, ustaw, _ in zmiany:
+        r = indeks.get((nazwa, sklep))
+        if r is None:
+            print("  !! w zrzucie nie ma: %s / %s" % (nazwa, sklep))
+            continue
+        r.update(ustaw)
+        trafione += 1
+    dodane = [w for w in nowe if (w["name"], w["shop"]) not in indeks]
+    # Migawka idzie w kolejnosci zrzutu z REST z order=name. Postgres porownuje
+    # nazwy bez wielkosci liter i bez spacji, wiec nowe wiersze wstawiamy
+    # w to samo miejsce, w ktorym postawi je prawdziwy zrzut.
+    klucz = lambda r: re.sub(r"[^0-9a-z]", "", r["name"].lower())
+    for w in dodane:
+        i = next((n for n, r in enumerate(wiersze) if klucz(r) > klucz(w)), len(wiersze))
+        wiersze.insert(i, w)
+    json.dump(wiersze, io.open(wy, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print("Zrzut z nalozonymi zmianami: %s (%d aktualizacji, %d nowych)" % (wy, trafione, len(dodane)))
+
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1].startswith("--"):
+        sys.exit(__doc__)
+    zmiany, pominiete, daty = zbierz_zmiany(wczytaj_zrzut(sys.argv[1]))
+    dzien = max(daty)
+    nowe = wczytaj_nowe_sklepy(dzien)
+    if "--po" in sys.argv:
+        naloz_na_zrzut(zmiany, nowe, sys.argv[1], sys.argv[sys.argv.index("--po") + 1])
+        return 0
+    rodzaje = {}
+    for z in zmiany:
+        rodzaje.setdefault(z[3], []).append(z)
 
     czesci = ["""-- ============================================================
--- cultures — odświeżenie cen + historia zmiany
--- Uruchom w Supabase (Lovable → SQL Editor). Idempotentne.
+-- cultures: odswiezenie cen kultur, %s
+-- Do uruchomienia w Supabase -> SQL Editor. Wygenerowane przez
+-- scripts/gen-ceny-sql.py z scripts/kultury-data/ceny.txt i pojemnosc.txt.
+-- Kazde polecenie ustawia jawne wartosci, wiec drugie uruchomienie nic nie psuje.
 --
--- Sprawdzone %s: %d pozycji, 0 błędów pobrania.
---   • %d bez zmiany ceny
---   • %d korekta netto → brutto (jeden sklep miał w bazie ceny netto)
---   • %d realna zmiana ceny
---   • %d bez ceny na stronie (produkt niedostępny)
+--   %3d sprawdzonych bez zmiany ceny
+--   %3d zmian ceny (z zapisem poprzedniej)
+--   %3d z cena bez poprzedniej (produkt wrocil albo nie mial ceny)
+--   %3d zniknelo ze sklepu (zostaja, cena 'Niedostępna')
+--   %3d nowych albo poprawionych pojemnosci opakowania
+--   %3d pominietych (zostaje stara data sprawdzenia)
+--   %3d nowych pozycji z nowego sklepu (tylko gdy jeszcze ich nie ma)
 --
--- Rynek okazał się bardzo stabilny: przez siedem tygodni zmieniła się
--- dokładnie JEDNA cena. Reszta różnic to była kwestia netto vs brutto.
+-- Zastepuje niewgrany plik 20260908-ceny-kultur.sql (usuniety z repo):
+-- tamte zmiany sa tu ujete na nowo, sprawdzone na zywo.
 -- ============================================================
 
--- 1) Kolumna na poprzednią cenę
-alter table public.cultures add column if not exists price_previous numeric;
+BEGIN;
+""" % (dzien, len(rodzaje.get("bez zmian", [])), len(rodzaje.get("zmiana", [])),
+       len(rodzaje.get("nowa", [])), len(rodzaje.get("niedostepny", [])),
+       len(rodzaje.get("pojemnosc", [])), len(pominiete), len(nowe))]
 
-comment on column public.cultures.price_previous is
-  'Poprzednia cena brutto — do pokazania "teraz X (było Y)". NULL = brak zmiany.';
+    if rodzaje.get("zmiana") or rodzaje.get("nowa"):
+        czesci.append("\n-- 1. Zmiany ceny\n")
+        for nazwa, sklep, ustaw, _ in sorted(rodzaje.get("zmiana", []) + rodzaje.get("nowa", []),
+                                             key=lambda z: (z[1], z[0])):
+            czesci.append(update(nazwa, sklep, ustaw))
 
--- 2) Wszystkie sprawdzone dostają datę weryfikacji
-""" % (DZIS, len(realne) + len(vat) + len(bez_zmian) + len(brak),
-       len(bez_zmian), len(vat), len(realne), len(brak))]
+    if rodzaje.get("niedostepny"):
+        czesci.append("\n-- 2. Zniknely ze sklepu: wiersz zostaje, zamiast ceny 'Niedostępna'\n")
+        for nazwa, sklep, ustaw, _ in sorted(rodzaje["niedostepny"], key=lambda z: (z[1], z[0])):
+            czesci.append(update(nazwa, sklep, ustaw))
 
-    czesci.append("update public.cultures set last_checked = %s\n  where is_active = true;\n\n" % sql_txt(DZIS))
+    if rodzaje.get("pojemnosc"):
+        czesci.append("\n-- 3. Pojemnosc opakowania i dawkowanie wyczytane ze stron sklepow\n")
+        for nazwa, sklep, ustaw, _ in sorted(rodzaje["pojemnosc"], key=lambda z: (z[1], z[0])):
+            czesci.append(update(nazwa, sklep, ustaw))
 
-    czesci.append("""-- 3) Korekta netto -> brutto. NIE ustawiamy price_previous: cena sie nie
---    zmienila, zmienil sie sposob jej podania. Pokazanie "bylo taniej"
---    byloby wprowadzeniem uzytkownika w blad.
-""")
-    for nazwa, sklep, _stara, nowa in sorted(vat, key=lambda x: x[0]):
-        czesci.append(
-            "update public.cultures set price_numeric = %.2f, price_label = %s\n  where name = %s and shop = %s;\n"
-            % (nowa, sql_txt(zl(nowa)), sql_txt(nazwa), sql_txt(sklep))
-        )
+    if rodzaje.get("bez zmian"):
+        czesci.append("\n-- 4. Sprawdzone, cena bez zmian: tylko data sprawdzenia\n")
+        po_dniu = {}
+        for nazwa, sklep, ustaw, _ in rodzaje["bez zmian"]:
+            po_dniu.setdefault((ustaw["last_checked"], sklep), []).append(nazwa)
+        for (d, sklep), nazwy in sorted(po_dniu.items()):
+            lista = ",\n    ".join(sql_txt(n) for n in sorted(nazwy))
+            czesci.append("UPDATE public.cultures SET last_checked = DATE '%s', updated_at = now()\n"
+                          " WHERE shop = %s AND name IN (\n    %s);\n" % (d, sql_txt(sklep), lista))
 
-    czesci.append("\n-- 4) Realne zmiany ceny — z zapisem poprzedniej wartości\n")
-    for nazwa, sklep, stara, nowa in sorted(realne, key=lambda x: x[0]):
-        czesci.append(
-            "update public.cultures set price_numeric = %.2f, price_label = %s,\n"
-            "       price_previous = %.2f, last_changed = %s\n  where name = %s and shop = %s;\n"
-            % (nowa, sql_txt(zl(nowa)), stara, sql_txt(DZIS), sql_txt(nazwa), sql_txt(sklep))
-        )
+    for klucz, (sklep, adres, _) in NOWE_SKLEPY.items():
+        wiersze = [w for w in nowe if w["shop"] == sklep]
+        czesci.append("\n-- 5. Nowy sklep: %s (%s), %d pozycji. Dane: scripts/kultury-data/%s.txt\n"
+                      % (sklep, adres, len(wiersze), klucz))
+        for w in wiersze:
+            czesci.append(insert(w))
 
-    if brak:
-        czesci.append("""
--- 5) Bez ceny na stronie — sklep oznacza produkt jako niedostępny.
---    NIE dezaktywujemy automatycznie: produkt może wrócić do sprzedaży.
---    Odkomentuj, jeśli chcesz go ukryć w bazie.
-""")
-        for nazwa, sklep, stara in brak:
-            czesci.append(
-                "-- update public.cultures set is_active = false\n"
-                "--   where name = %s and shop = %s;  -- ostatnia znana cena: %s zł\n"
-                % (sql_txt(nazwa), sql_txt(sklep), stara)
-            )
-
+    czesci.append("\nCOMMIT;\n")
+    if pominiete:
+        czesci.append("\n-- Pominiete (do recznego sprawdzenia, stara data zostaje):\n")
+        for nazwa, sklep, powod in pominiete:
+            czesci.append("--   %s / %s: %s\n" % (nazwa, sklep, powod))
     czesci.append("""
--- 6) Kontrola po wykonaniu
--- select shop, count(*) as pozycji, count(price_previous) as ze_zmiana,
---        min(price_numeric) as najtansza, max(price_numeric) as najdrozsza
---   from public.cultures where is_active = true group by shop order by shop;
+-- Kontrola po wykonaniu:
+--   select last_checked, count(*) from public.cultures
+--    where is_active = true group by 1 order by 1;
+--   select count(*) filter (where pack_liters is null) as bez_pojemnosci
+--     from public.cultures where is_active = true;
 """)
 
-    os.makedirs(os.path.dirname(WYJSCIE), exist_ok=True)
-    io.open(WYJSCIE, "w", encoding="utf-8", newline="").write("".join(czesci))
+    wyjscie = os.path.join(KATALOG, "%s-ceny-kultur.sql" % dzien.replace("-", ""))
+    os.makedirs(KATALOG, exist_ok=True)
+    io.open(wyjscie, "w", encoding="utf-8", newline="").write("".join(czesci))
 
-    print("bez zmian          : %d" % len(bez_zmian))
-    print("netto -> brutto    : %d" % len(vat))
-    print("realna zmiana ceny : %d" % len(realne))
-    print("bez ceny (niedostepne): %d" % len(brak))
-    for n, s, _ in brak:
-        print("     %s (%s)" % (n, s))
-    print("\nZAPISANO %s" % os.path.relpath(WYJSCIE, ROOT))
-    print("Marek: wklej w Lovable -> SQL Editor i uruchom.")
+    for r in ("bez zmian", "zmiana", "nowa", "niedostepny", "pojemnosc"):
+        print("%-11s: %d" % (r, len(rodzaje.get(r, []))))
+    print("pominiete  : %d" % len(pominiete))
+    for p in pominiete:
+        print("   %s / %s: %s" % p)
+    print("\nZAPISANO %s" % os.path.relpath(wyjscie, ROOT))
     return 0
 
 

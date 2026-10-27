@@ -92,17 +92,21 @@ def wykres_slupkowy(tytul, opis, pary, jednostka="", wys_slupka=34, odstep=14):
 
 
 def svg_pojemnosci(rek):
-    licznik = Counter(int(r["packLiters"]) for r in rek if r.get("packLiters"))
+    # Przedzialy, nie wybrane wartosci: lista (20, 25, 50) gubila 30 i 40 L
+    # Browina, a (150, 250, 300) gubila 350 L przy ALPHA 12 (27.10.2026).
+    litry = [int(r["packLiters"]) for r in rek if r.get("packLiters")]
+    ile = lambda od, do: sum(1 for x in litry if od <= x <= do)
     pary = [
-        ("5 L", licznik.get(5, 0)),
-        ("20–50 L", sum(licznik.get(k, 0) for k in (20, 25, 50))),
-        ("100 L", licznik.get(100, 0)),
-        ("150–300 L", sum(licznik.get(k, 0) for k in (150, 250, 300))),
-        ("500 L", licznik.get(500, 0)),
-        ("1000 L i więcej", sum(v for k, v in licznik.items() if k >= 1000)),
+        ("5 L", ile(0, 10)),
+        ("20–50 L", ile(11, 99)),
+        ("100 L", ile(100, 149)),
+        ("150–350 L", ile(150, 499)),
+        ("500 L", ile(500, 999)),
+        ("1000 L i więcej", ile(1000, 10 ** 9)),
     ]
     razem = sum(v for _, v in pary)
-    opis = ("Rozkład pojemności opakowań kultur bakteryjnych w pięciu polskich sklepach. "
+    sklepy = len({r.get("shop") for r in rek if r.get("shop")})
+    opis = ("Rozkład pojemności opakowań kultur bakteryjnych w %d polskich sklepach. " % sklepy
             + ", ".join("%s: %d pozycji" % (e, v) for e, v in pary)
             + ". Razem %d pozycji z zadeklarowaną pojemnością." % razem)
     return wykres_slupkowy("Na ile litrów mleka starcza opakowanie", opis, pary, " poz.")

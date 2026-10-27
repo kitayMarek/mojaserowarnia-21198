@@ -53,8 +53,34 @@ def parse_cultures(src: str):
         items.append(dict(
             name=name, comp=grab(b, "composition"), app=grab(b, "application"),
             temp=grab(b, "temperature"), type=typ, shop=grab(b, "shop"), price=grab(b, "price"),
+            checked=grab(b, "lastChecked"),
         ))
     return items
+
+
+# Liczba sklepow i ich lista z danych, nie na sztywno: do 27.10.2026 stalo tu
+# "z pieciu sklepow" i piec nazw, a dodanie Browina zrobiloby z tego nieprawde.
+LICZEBNIK = {4: "czterech", 5: "pięciu", 6: "sześciu", 7: "siedmiu", 8: "ośmiu"}
+
+
+def sklepy_zdanie(items):
+    ile = {}
+    for it in items:
+        ile[it["shop"]] = ile.get(it["shop"], 0) + 1
+    nazwy = sorted(ile, key=lambda s: -ile[s])
+    lista = ", ".join(nazwy[:-1]) + " i " + nazwy[-1]
+    return len(nazwy), LICZEBNIK.get(len(nazwy), str(len(nazwy))), lista
+
+
+def data_cen(items):
+    """Najstarsza data sprawdzenia, czyli "ceny sprawdzone najpozniej od"."""
+    daty = sorted(it["checked"] for it in items if it.get("checked"))
+    if not daty:
+        return ""
+    r, m, d = daty[0].split("-")
+    miesiace = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca",
+                "sierpnia", "września", "października", "listopada", "grudnia"]
+    return "%d %s %s" % (int(d), miesiace[int(m) - 1], r)
 
 
 # ---- 1) Pełna baza HTML (pogrupowana wg typu) ----------------------------------
@@ -88,7 +114,7 @@ def gen_html(items):
     o = []
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</title>")
-    o.append(f'  <meta name="description" content="Sprawdź, który z 5 polskich sklepów ma daną kulturę i w jakiej cenie: {total} kultur ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
+    o.append(f'  <meta name="description" content="Sprawdź, który z {sklepy_zdanie(items)[0]} polskich sklepów ma daną kulturę i w jakiej cenie: {total} kultur ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
     o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/baza-kultur" />\n  <meta name="robots" content="index, follow" />')
     o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/baza-kultur" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
@@ -115,7 +141,11 @@ def gen_html(items):
 <body>
   <nav class="crumbs"><a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> &rarr; <a href="https://mojaserowarnia.pl/bakterie-kultury">Kultury</a> &rarr; Pe&#322;na baza</nav>''')
     o.append(f"  <h1>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</h1>")
-    o.append(f'  <p class="lead">Sprawdzisz tu, który z pięciu polskich sklepów ma daną kulturę i w jakiej cenie: Lactic.pl, Wańczykówka, Serowar.pl, Artiser.pl i GAP Poland w jednym zestawieniu. {total} kultur bakteryjnych i pleśni — nazwa, skład, zastosowanie, temperatura pracy, sklep i cena. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
+    _, ilu_slownie, lista_sklepow = sklepy_zdanie(items)
+    kiedy = data_cen(items)
+    o.append(f'  <p class="lead">Sprawdzisz tu, który z {ilu_slownie} polskich sklepów ma daną kulturę i w jakiej cenie: {lista_sklepow} w jednym zestawieniu. {total} kultur bakteryjnych i pleśni — nazwa, skład, zastosowanie, temperatura pracy, sklep i cena. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
+    if kiedy:
+        o.append(f'  <p>Ceny odczytane ze stron produktów sklepów {kiedy}. Sklepy zmieniają je bez zapowiedzi, więc przed zakupem sprawdź cenę w sklepie.</p>')
     # Ta sama wzmianka co pod widgetem „Zapytaj AI” w src/pages/BazaKultur.tsx.
     o.append('  <p>Używasz Claude? <a href="https://mojaserowarnia.pl/asystenci-ai">Podłącz bazę jako łącznik</a> i pytaj o kultury w rozmowie, z ceną za litr mleka.</p>')
     for t in TYPE_ORDER + [k for k in groups if k not in TYPE_ORDER]:

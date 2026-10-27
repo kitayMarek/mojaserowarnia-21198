@@ -1,4 +1,4 @@
-BAZA KULTUR BAKTERYJNYCH — mojaserowarnia.pl (186 pozycji)
+BAZA KULTUR BAKTERYJNYCH — mojaserowarnia.pl (191 pozycji)
 Pełne dane (nazwa, skład, zastosowanie, temperatura, sklep, cena) — statyczna baza: https://mojaserowarnia.pl/baza-kultur
 Wersja interaktywna z filtrami i porównywarką: https://mojaserowarnia.pl/baza-kultur
 Format wierszy: Nazwa | Temperatura pracy | Zastosowanie | Sklep
@@ -22,6 +22,10 @@ IOTA FF2 | 25-35°C | Sery świeże twarogowe, kwasowo-podpuszczkowe i miękkie 
 IOTA RACLETTE | 25-40°C | Sery prasowane typu Raclette | Lactic.pl
 KAPPA 1 | 25-40°C | Sery prasowane wysoko dogrzewane, np. Gruyère | Lactic.pl
 KAPPA 4 | 25-40°C | Sery prasowane nisko-/wysokodogrzewane; do solanki Feta | Lactic.pl
+Kultury bakterii do jogurtu | 43-45°C | Jogurt, zakwaszanie śmietany, serki jogurtowe i parzone serki podpuszczkowe | Browin
+Kultury bakterii do kefiru i kwaśnego mleka | 25-30°C | Kefir i kwaśne (zsiadłe) mleko | Browin
+Kultury bakterii do sera greckiego | 33-38°C | Ser grecki typu feta | Browin
+Kultury bakterii do twarogu | — | Twaróg i zsiadłe mleko | Browin
 LCR | 25-35°C | Kwaśne mleko, jogurt (mrożony, pitny), ser (dodatek probiotyczny) | Serowar.pl
 LHTBME | 25-40°C | Sery średnio dojrzewające (60-70 dni) | Serowar.pl
 LP | 25-35°C | Kwaśne mleko, jogurt, ser; fermentacja warzyw; piwowarstwo domowe | Serowar.pl
@@ -76,6 +80,7 @@ Flav 54 | 37-45°C | Cheddar i sery półtwarde (kultura dodatkowa/aromatyzując
 HL 06 LYO | 25-40°C | Sery półtwarde prasowane (Edamski, Gouda, Zamojski, Podlaski, Morski, Maasdamer) | GAP Poland
 HOLDBAC LC | 20-30°C | Kultura ochronna: ochrona przed pałeczkami heterofermentacyjnymi, Clostridia, drożdżami; jogurty, sery świeże i półtwarde | Wańczykówka
 IOTA ST NECTAIRE 1 | 37-45°C | Sery miękkie i twarde prasowane, niskodogrzewane typu Saint Nectaire | Lactic.pl
+Kultury bakterii do sera gouda | 33-38°C | Sery półtwarde i twarde, np. gouda | Browin
 LHT | 37-45°C | Sery półtwarde i twarde, średnio i długo dojrzewające (parzenie powyżej 43°C) | Serowar.pl
 LHTB | 37-45°C | Sery półtwarde i twarde, średnio i długo dojrzewające (parzenie powyżej 43°C) | Serowar.pl
 microMilk LHTB | 37-45°C | Sery twarde, bezoczkowe, długodojrzewające: Parmezan, Grana Padano, Sbrinz | Wańczykówka
@@ -193,7 +198,7 @@ ARTiVEG YO PRO-12 | 42-45°C | Wegańskie jogurty greckie/pitne i napoje z mleka
 ARTiVEG YO-9 | 42-45°C | Wegańskie jogurty (greckie, zwykłe, pitne) i napoje z mleka roślinnego | Artiser.pl
 Beaugel 11 25l | — | Serki krótkodojrzewające - Charollais | Lactic.pl
 Brevibacterium linens | 15-22°C | Sery z czerwoną/pomarańczową mazią powierzchniową, lekko pikantne (sery smarowane) | GAP Poland
-Brevibacterium Linens | 15-22°C | Sery maziowe / czerwona maź (Limburger, sery cegiełkowe) | Serowar.pl
+Brevibacterium Linens | 15-20°C | Sery maziowe: Taleggio, Morbier, Limburger, Munster, Reblochon | Artiser.pl
 Choozit DH 2D | 15-22°C | Sery miękkie z naturalną osłonką, sery pleśniowe, pielęgnacja skórki | Wańczykówka
 Choozit FR 13 | 15-22°C | Sery z mytą skórką i smarowane (Limburger, Brick, Munster, Reblochon, Taleggio) | Wańczykówka
 Choozit KL 71 | 15-22°C | Sery miękkie (smak, neutralizacja/odkwaszanie skórki) | Wańczykówka

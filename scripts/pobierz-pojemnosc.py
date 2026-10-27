@@ -293,6 +293,17 @@ def main():
     if not probka:
         # Przy uzupelnianiu dokladamy do juz zebranych, nie nadpisujemy calosci.
         wszystkie = list(juz.values()) + [list(w) for w in wyniki]
+        # Wiersze odczytane recznie z opisu (rodzaj "recznie ...") wygrywaja
+        # z automatem: regula nie zna np. "na 10 000 litrow" ze spacja ani
+        # "2 D w opakowaniu, 2 dozy / 1000 l". Bez tego kolejny przebieg
+        # po cichu wymazalby te liczby z powrotem do pustych.
+        if os.path.exists(WYJSCIE):
+            reczne = {}
+            for linia in io.open(WYJSCIE, encoding="utf-8"):
+                czesci = [c.strip() for c in linia.strip().split("|")]
+                if len(czesci) >= 5 and czesci[4].startswith("recznie"):
+                    reczne[(czesci[0], czesci[1])] = czesci
+            wszystkie = [reczne.get((w[0], w[1]), w) for w in wszystkie]
         os.makedirs(os.path.dirname(WYJSCIE), exist_ok=True)
         with io.open(WYJSCIE, "w", encoding="utf-8", newline="") as f:
             f.write("# nazwa | sklep | litry | dawkowanie | rodzaj dopasowania | url\n")

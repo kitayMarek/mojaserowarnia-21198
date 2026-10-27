@@ -1,4 +1,4 @@
-// Complete database of 188 bacterial cultures for cheese making
+// Complete database of 193 bacterial cultures for cheese making
 // Zrodlo prawdy: tabela `cultures` w Supabase (is_active=true).
 // Ten plik jest GENEROWANY: scripts/gen-cultures-ts.py <zrzut.json>. Nie edytuj recznie.
 
@@ -42,7 +42,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ALPHA 10",
@@ -56,7 +56,7 @@ export const culturesData: Culture[] = [
     price: "19,00 zł",
     price_numeric: 19.0,
     packLiters: 100,
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ALPHA 12",
@@ -69,9 +69,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/ALPHA-12/1357",
     price: "42,00 zł",
     price_numeric: 42.0,
-    packLiters: 100,
+    packLiters: 350,
+    doseLabel: "1 fiolka DL 3.5 / 350 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ALPHA 3",
@@ -86,7 +87,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ALPHA 6",
@@ -101,7 +102,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ALPHA BLEU",
@@ -116,7 +117,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ARTiVEG ME-30",
@@ -131,7 +132,7 @@ export const culturesData: Culture[] = [
     price_numeric: 15.0,
     packLiters: 5,
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ARTiVEG TH-33",
@@ -146,7 +147,7 @@ export const culturesData: Culture[] = [
     price_numeric: 15.0,
     packLiters: 5,
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ARTiVEG YO PRO-12",
@@ -161,7 +162,7 @@ export const culturesData: Culture[] = [
     price_numeric: 15.0,
     packLiters: 5,
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ARTiVEG YO-9",
@@ -176,7 +177,7 @@ export const culturesData: Culture[] = [
     price_numeric: 15.0,
     packLiters: 5,
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "AT",
@@ -191,7 +192,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel 10 25l",
@@ -206,7 +207,7 @@ export const culturesData: Culture[] = [
     price_numeric: 33.0,
     packLiters: 25,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel 11 25l",
@@ -221,7 +222,7 @@ export const culturesData: Culture[] = [
     price_numeric: 30.0,
     packLiters: 25,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel 12",
@@ -236,7 +237,7 @@ export const culturesData: Culture[] = [
     price_numeric: 13.0,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Acid 1",
@@ -251,7 +252,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Bifi 1",
@@ -266,7 +267,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Elben",
@@ -281,7 +282,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Kefir 2",
@@ -296,7 +297,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Kefir 3",
@@ -311,7 +312,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Raieb 1",
@@ -326,7 +327,7 @@ export const culturesData: Culture[] = [
     price_numeric: 12.0,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Soja 1",
@@ -341,7 +342,7 @@ export const culturesData: Culture[] = [
     price_numeric: 12.0,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Yog 1",
@@ -356,7 +357,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Yog 2",
@@ -371,7 +372,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Yog 3",
@@ -386,7 +387,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Beaugel Yog 4",
@@ -401,7 +402,7 @@ export const culturesData: Culture[] = [
     price_numeric: 11.5,
     packLiters: 5,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "BETA 1",
@@ -416,7 +417,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "BETA 8",
@@ -431,7 +432,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Brevibacterium linens",
@@ -446,22 +447,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
-  },
-  {
-    name: "Brevibacterium Linens",
-    composition: "Brevibacterium linens",
-    application: "Sery maziowe / czerwona maź (Limburger, sery cegiełkowe)",
-    temperature: "15-22°C",
-    type: "aromatyzujące",
-    shop: "Serowar.pl",
-    shopUrl: "https://serowar.pl/",
-    productUrl: "https://serowar.pl/pl/p/Brevibacterium-Linens-bakterie-czerwonej-mazi/341",
-    price: "20,00 zł",
-    price_numeric: 20.0,
-    packLiters: 100,
-    manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Brevibacterium Linens",
@@ -477,7 +463,22 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Brevibacterium Linens",
+    composition: "Brevibacterium linens",
+    application: "Sery maziowe / czerwona maź (Limburger, sery cegiełkowe)",
+    temperature: "15-22°C",
+    type: "aromatyzujące",
+    shop: "Serowar.pl",
+    shopUrl: "https://serowar.pl/",
+    productUrl: "https://serowar.pl/pl/p/Brevibacterium-Linens-bakterie-czerwonej-mazi/341",
+    price: "20,00 zł",
+    price_numeric: 20.0,
+    packLiters: 100,
+    manufacturer: "microMilk",
+    lastChecked: "2026-10-27",
   },
   {
     name: "BTH",
@@ -493,7 +494,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "BTMH",
@@ -509,7 +510,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Camembert Mix",
@@ -524,7 +525,7 @@ export const culturesData: Culture[] = [
     price_numeric: 24.0,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit Alp",
@@ -539,7 +540,7 @@ export const culturesData: Culture[] = [
     price_numeric: 59.0,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit ARN",
@@ -554,7 +555,7 @@ export const culturesData: Culture[] = [
     price_numeric: 69.0,
     packLiters: 5000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit DH 2D",
@@ -569,7 +570,7 @@ export const culturesData: Culture[] = [
     price_numeric: 31.0,
     packLiters: 2000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit FR 13",
@@ -584,7 +585,7 @@ export const culturesData: Culture[] = [
     price_numeric: 69.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit FT 001",
@@ -599,7 +600,7 @@ export const culturesData: Culture[] = [
     price_numeric: 36.0,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit GEO 13",
@@ -614,7 +615,7 @@ export const culturesData: Culture[] = [
     price_numeric: 39.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit GEO 17",
@@ -629,7 +630,7 @@ export const culturesData: Culture[] = [
     price_numeric: 36.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit KAZU",
@@ -644,7 +645,7 @@ export const culturesData: Culture[] = [
     price_numeric: 36.0,
     packLiters: 300,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit KL 71",
@@ -657,8 +658,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/372-kultury-bakterii-choozit-kl-71-lyo-2-d.html",
     price: "31,00 zł",
     price_numeric: 31.0,
+    packLiters: 1000,
+    doseLabel: "2 D / 1000 L",
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit LH 100",
@@ -671,8 +674,9 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-aromatyczne-i-dodatkowe/369-797-kultury-bakterii-choozit-lh-100-lyo-10-dcu.html",
     price: "38,00 zł",
     price_numeric: 38.0,
+    packLiters: 10000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit LM 57",
@@ -687,7 +691,7 @@ export const culturesData: Culture[] = [
     price_numeric: 99.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit MA 14",
@@ -700,8 +704,9 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/235-367-kultury-bakterii-choozit-ma-14.html",
     price: "20,00 zł",
     price_numeric: 20.0,
+    packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit MA 4001",
@@ -712,11 +717,13 @@ export const culturesData: Culture[] = [
     shop: "Wańczykówka",
     shopUrl: "https://sklep.wanczykowka.com/",
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-podstawowe/9-563--choozit-ma-4001.html",
-    price: "24,00 zł",
-    price_numeric: 24.0,
+    price: "25,00 zł",
+    price_numeric: 25.0,
+    pricePrevious: 24.0,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-10-27",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit SR3",
@@ -731,7 +738,7 @@ export const culturesData: Culture[] = [
     price_numeric: 36.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Choozit TA 61",
@@ -746,7 +753,7 @@ export const culturesData: Culture[] = [
     price_numeric: 62.0,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "CL",
@@ -761,7 +768,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "CLC",
@@ -777,7 +784,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "CLCH",
@@ -793,7 +800,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "DELTA 1",
@@ -808,7 +815,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "DELTA 2",
@@ -819,11 +826,13 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/DELTA-2/1254",
-    price: "18,00 zł",
-    price_numeric: 18.0,
+    price: "19,00 zł",
+    price_numeric: 19.0,
+    pricePrevious: 18.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "EF LYO",
@@ -838,7 +847,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "EM",
@@ -853,7 +862,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "F-YO",
@@ -869,7 +878,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Flav 54",
@@ -884,7 +893,7 @@ export const culturesData: Culture[] = [
     price_numeric: 36.0,
     packLiters: 500,
     manufacturer: "Wańczykówka (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "GAMMA 1",
@@ -898,7 +907,7 @@ export const culturesData: Culture[] = [
     price: "19,00 zł",
     price_numeric: 19.0,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "GAMMA 3",
@@ -909,12 +918,8 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/GAMMA-3/1346",
-    // Sklep oddaje pod tym adresem kod 200, ale strona jest pusta: bez nazwy,
-    // bez naglowka i bez ceny. Produkt zniknal, link dziala. Zostawiamy pozycje
-    // z jawnym "Niedostepna" zamiast starej ceny — cicha cena z 22 sierpnia
-    // wygladalaby na aktualna. Sprawdzone 8 wrzesnia 2026.
     price: "Niedostępna",
-    lastChecked: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "GEO",
@@ -929,7 +934,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Geotrichum Candidum",
@@ -945,7 +950,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "3 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Grzybek kefirowy tybetański",
@@ -959,7 +964,7 @@ export const culturesData: Culture[] = [
     price: "49,90 zł",
     price_numeric: 49.9,
     manufacturer: "Serowar.pl (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "HL 06 LYO",
@@ -973,7 +978,7 @@ export const culturesData: Culture[] = [
     price: "18,00 zł",
     price_numeric: 18.0,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "HOLDBAC LC",
@@ -984,11 +989,13 @@ export const culturesData: Culture[] = [
     shop: "Wańczykówka",
     shopUrl: "https://sklep.wanczykowka.com/",
     productUrl: "https://sklep.wanczykowka.com/kultury-bakterii-ochronne/349-686-bakterie-ochronne-holdbac-lc-lyo-100-dcu.html",
-    price: "78,00 zł",
-    price_numeric: 78.0,
+    price: "72,00 zł",
+    price_numeric: 72.0,
+    pricePrevious: 78.0,
     packLiters: 1000,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-10-27",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA 1",
@@ -1003,7 +1010,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 500,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA 2",
@@ -1016,8 +1023,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/IOTA-2/1125",
     price: "18,00 zł",
     price_numeric: 18.0,
+    packLiters: 250,
+    doseLabel: "DL 1: 250-500 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA 4",
@@ -1028,10 +1037,12 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/IOTA-4/1333",
-    price: "18,00 zł",
-    price_numeric: 18.0,
+    price: "19,00 zł",
+    price_numeric: 19.0,
+    pricePrevious: 18.0,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA Ca/1",
@@ -1046,7 +1057,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA Ca/2",
@@ -1061,7 +1072,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA CL1",
@@ -1078,7 +1089,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     manufacturer: "Coquard",
     lastChanged: "2026-08-22",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA CL2",
@@ -1093,7 +1104,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA FETA",
@@ -1108,7 +1119,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA FF1",
@@ -1123,7 +1134,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA FF2",
@@ -1138,7 +1149,7 @@ export const culturesData: Culture[] = [
     price_numeric: 38.5,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA KEFIR 2",
@@ -1149,11 +1160,14 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/IOTA-KEFIR-2/1278",
-    price: "17,00 zł",
-    price_numeric: 17.0,
-    packLiters: 150,
+    price: "19,00 zł",
+    price_numeric: 19.0,
+    pricePrevious: 17.0,
+    packLiters: 20,
+    doseLabel: "DL 1: 20-25 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA KEFIR 3",
@@ -1164,11 +1178,14 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/IOTA-KEFIR-3/1277",
-    price: "17,00 zł",
-    price_numeric: 17.0,
-    packLiters: 150,
+    price: "19,00 zł",
+    price_numeric: 19.0,
+    pricePrevious: 17.0,
+    packLiters: 20,
+    doseLabel: "DL 1: 20-25 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA M",
@@ -1183,7 +1200,7 @@ export const culturesData: Culture[] = [
     price_numeric: 22.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA PETIT BLEU",
@@ -1198,7 +1215,7 @@ export const culturesData: Culture[] = [
     price_numeric: 21.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA PROBI 1",
@@ -1209,11 +1226,14 @@ export const culturesData: Culture[] = [
     shop: "Lactic.pl",
     shopUrl: "https://lactic.pl/",
     productUrl: "https://lactic.pl/pl/p/IOTA-PROBI-1/1292",
-    price: "17,00 zł",
-    price_numeric: 17.0,
-    packLiters: 150,
+    price: "19,00 zł",
+    price_numeric: 19.0,
+    pricePrevious: 17.0,
+    packLiters: 20,
+    doseLabel: "DL 1: 20-25 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-09-08",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA RACLETTE",
@@ -1228,7 +1248,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA ST NECTAIRE 1",
@@ -1243,7 +1263,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "IOTA V",
@@ -1256,8 +1276,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/IOTA-V/1252",
     price: "22,00 zł",
     price_numeric: 22.0,
+    packLiters: 100,
+    doseLabel: "DL 1: 100 L mleka surowego",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KAPPA 1",
@@ -1272,7 +1294,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 50,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KAPPA 2",
@@ -1287,7 +1309,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 50,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KAPPA 3",
@@ -1302,7 +1324,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 50,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KAPPA 4",
@@ -1315,8 +1337,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/KAPPA-4/595",
     price: "19,00 zł",
     price_numeric: 19.0,
+    packLiters: 250,
+    doseLabel: "DL 1: 250-500 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Kefir 31",
@@ -1331,7 +1355,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Kefir 41 LYO",
@@ -1346,7 +1370,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Kefir 51",
@@ -1361,7 +1385,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Kefir DA",
@@ -1376,7 +1400,7 @@ export const culturesData: Culture[] = [
     price_numeric: 24.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KFA1",
@@ -1391,7 +1415,7 @@ export const culturesData: Culture[] = [
     price_numeric: 55.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KFB1/2",
@@ -1402,11 +1426,13 @@ export const culturesData: Culture[] = [
     shop: "Serowar.pl",
     shopUrl: "https://serowar.pl/",
     productUrl: "https://serowar.pl/pl/p/KFB12-kultura-startowa-do-kefiru-na-1000-l-mleka/1742",
-    price: "50,00 zł",
-    price_numeric: 50.0,
+    price: "55,00 zł",
+    price_numeric: 55.0,
+    pricePrevious: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-10-27",
+    lastChecked: "2026-10-27",
   },
   {
     name: "KFF",
@@ -1422,7 +1448,87 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Kultury bakterii do jogurtu",
+    composition: "Streptococcus thermophilus",
+    application: "Jogurt, zakwaszanie śmietany, serki jogurtowe i parzone serki podpuszczkowe",
+    temperature: "43-45°C",
+    type: "jogurtowe",
+    shop: "Browin",
+    shopUrl: "https://browin.pl/",
+    productUrl: "https://browin.pl/sklep/produkt/411240/kultury-bakterii-do-jogurtu",
+    price: "20,79 zł",
+    price_numeric: 20.79,
+    packLiters: 30,
+    doseLabel: "0,3 g / 3 L",
+    manufacturer: "Browin (marka własna)",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Kultury bakterii do kefiru i kwaśnego mleka",
+    composition: "Lactococcus lactis subsp. cremoris, Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. lactis biovar diacetylactis, Leuconostoc spp., Streptococcus salivarius subsp. thermophilus, Lactobacillus delbrueckii subsp. bulgaricus",
+    application: "Kefir i kwaśne (zsiadłe) mleko",
+    temperature: "25-30°C",
+    type: "kefir",
+    shop: "Browin",
+    shopUrl: "https://browin.pl/",
+    productUrl: "https://browin.pl/sklep/produkt/411208/kultury-bakterii-do-kefiru-i-kwasnego-mleka-5g",
+    price: "20,49 zł",
+    price_numeric: 20.49,
+    packLiters: 25,
+    doseLabel: "0,5-2 g / 10 L",
+    manufacturer: "Browin (marka własna)",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Kultury bakterii do sera gouda",
+    composition: "Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris, Lactococcus lactis subsp. lactis biovar diacetylactis, Leuconostoc mesenteroides subsp. cremoris, Streptococcus thermophilus",
+    application: "Sery półtwarde i twarde, np. gouda",
+    temperature: "33-38°C",
+    type: "mezofilno-termofilne",
+    shop: "Browin",
+    shopUrl: "https://browin.pl/",
+    productUrl: "https://browin.pl/sklep/produkt/411242/kultury-bakterii-do-sera-gouda",
+    price: "20,79 zł",
+    price_numeric: 20.79,
+    packLiters: 40,
+    doseLabel: "0,5 g / 6 L",
+    manufacturer: "Browin (marka własna)",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Kultury bakterii do sera greckiego",
+    composition: "Streptococcus thermophilus, Lactobacillus delbrueckii subsp. bulgaricus, Lactobacillus helveticus, Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris",
+    application: "Ser grecki typu feta",
+    temperature: "33-38°C",
+    type: "mezofilno-termofilne",
+    shop: "Browin",
+    shopUrl: "https://browin.pl/",
+    productUrl: "https://browin.pl/sklep/produkt/411241/kultury-bakterii-do-sera-greckiego",
+    price: "20,79 zł",
+    price_numeric: 20.79,
+    packLiters: 40,
+    doseLabel: "0,4 g / 6 L",
+    manufacturer: "Browin (marka własna)",
+    lastChecked: "2026-10-27",
+  },
+  {
+    name: "Kultury bakterii do twarogu",
+    composition: "Streptococcus thermophilus, Lactobacillus delbrueckii subsp. bulgaricus, Lactobacillus helveticus, Lactococcus lactis subsp. lactis, Lactococcus lactis subsp. cremoris",
+    application: "Twaróg i zsiadłe mleko",
+    temperature: "",
+    type: "mezofilno-termofilne",
+    shop: "Browin",
+    shopUrl: "https://browin.pl/",
+    productUrl: "https://browin.pl/sklep/produkt/411243/kultury-bakterii-do-twarogu",
+    price: "20,79 zł",
+    price_numeric: 20.79,
+    packLiters: 50,
+    doseLabel: "0,3 g / 5 L",
+    manufacturer: "Browin (marka własna)",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 10",
@@ -1437,7 +1543,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 20,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 12",
@@ -1452,7 +1558,7 @@ export const culturesData: Culture[] = [
     price_numeric: 17.0,
     packLiters: 20,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 3",
@@ -1468,7 +1574,7 @@ export const culturesData: Culture[] = [
     packLiters: 20,
     manufacturer: "Coquard",
     strainRatio: "50:50",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 6",
@@ -1484,7 +1590,7 @@ export const culturesData: Culture[] = [
     packLiters: 20,
     manufacturer: "Coquard",
     strainRatio: "80:20",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 7",
@@ -1500,7 +1606,7 @@ export const culturesData: Culture[] = [
     packLiters: 20,
     manufacturer: "Coquard",
     strainRatio: "80:20",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 8",
@@ -1516,7 +1622,7 @@ export const culturesData: Culture[] = [
     packLiters: 20,
     manufacturer: "Coquard",
     strainRatio: "80:20",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LAMBDA 9",
@@ -1532,7 +1638,7 @@ export const culturesData: Culture[] = [
     packLiters: 20,
     manufacturer: "Coquard",
     strainRatio: "80:20",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LCR",
@@ -1547,7 +1653,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LHT",
@@ -1562,7 +1668,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LHT",
@@ -1577,7 +1683,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Wańczykówka (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LHTB",
@@ -1592,7 +1698,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LHTBME",
@@ -1607,7 +1713,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "LP",
@@ -1622,7 +1728,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "M",
@@ -1637,7 +1743,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MA",
@@ -1652,7 +1758,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ME",
@@ -1667,7 +1773,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MFC",
@@ -1682,7 +1788,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk Kefir KFB1",
@@ -1697,7 +1803,7 @@ export const culturesData: Culture[] = [
     price_numeric: 39.0,
     packLiters: 500,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk LHTB",
@@ -1712,7 +1818,7 @@ export const culturesData: Culture[] = [
     price_numeric: 32.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk LHTBM",
@@ -1727,7 +1833,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk ME",
@@ -1742,7 +1848,7 @@ export const culturesData: Culture[] = [
     price_numeric: 32.0,
     packLiters: 500,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk MO (Feta)",
@@ -1757,7 +1863,7 @@ export const culturesData: Culture[] = [
     price_numeric: 32.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk T (Mozzarella)",
@@ -1772,7 +1878,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk TB (Taleggio)",
@@ -1787,7 +1893,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk TB/B (Caciotta)",
@@ -1802,7 +1908,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk TME",
@@ -1817,7 +1923,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk Y",
@@ -1832,7 +1938,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk Y-Probiotyczny",
@@ -1847,7 +1953,7 @@ export const culturesData: Culture[] = [
     price_numeric: 22.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "microMilk YG (Jogurt Grecki)",
@@ -1862,7 +1968,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ML",
@@ -1878,7 +1984,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "ML-O",
@@ -1894,7 +2000,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MLE",
@@ -1910,7 +2016,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MLL",
@@ -1926,7 +2032,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MO",
@@ -1941,7 +2047,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MP 62 LYO",
@@ -1955,7 +2061,7 @@ export const culturesData: Culture[] = [
     price: "18,00 zł",
     price_numeric: 18.0,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MSE",
@@ -1970,7 +2076,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MSE-910",
@@ -1985,7 +2091,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MSO",
@@ -2000,7 +2106,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MSO-11",
@@ -2015,7 +2121,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MST",
@@ -2030,7 +2136,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MSY",
@@ -2045,7 +2151,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "MYE",
@@ -2060,7 +2166,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "OMEGA 1",
@@ -2075,7 +2181,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "OMEGA 2",
@@ -2090,7 +2196,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "OMEGA 3",
@@ -2105,7 +2211,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "OMEGA 4",
@@ -2120,7 +2226,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.0,
     packLiters: 100,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "P-YO",
@@ -2136,7 +2242,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "PB LYO",
@@ -2150,7 +2256,7 @@ export const culturesData: Culture[] = [
     price: "18,00 zł",
     price_numeric: 18.0,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "PBat 91 LYO",
@@ -2163,9 +2269,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.gappoland.com/pl/p/PBat-91-LYO-/22901953",
     price: "95,00 zł",
     price_numeric: 95.0,
-    packLiters: 100,
+    packLiters: 500,
+    doseLabel: "1 doza / 100 L",
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "PC",
@@ -2180,7 +2287,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium candidum",
@@ -2195,7 +2302,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium Candidum",
@@ -2211,7 +2318,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "3 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium Candidum PC 22",
@@ -2226,7 +2333,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.4,
     packLiters: 250,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium Candidum PC Neige",
@@ -2237,11 +2344,13 @@ export const culturesData: Culture[] = [
     shop: "Wańczykówka",
     shopUrl: "https://sklep.wanczykowka.com/",
     productUrl: "https://sklep.wanczykowka.com/kultury-plesniowe/45-681-penicillium-candidum-pc-neige.html",
-    price: "38,00 zł",
-    price_numeric: 38.0,
+    price: "39,00 zł",
+    price_numeric: 39.0,
+    pricePrevious: 38.0,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChanged: "2026-10-27",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium roqueforti",
@@ -2256,7 +2365,7 @@ export const culturesData: Culture[] = [
     price_numeric: 23.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium Roqueforti",
@@ -2272,7 +2381,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "3 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium roqueforti PA",
@@ -2287,7 +2396,7 @@ export const culturesData: Culture[] = [
     price_numeric: 25.45,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Penicillium roqueforti PV",
@@ -2302,7 +2411,7 @@ export const culturesData: Culture[] = [
     price_numeric: 25.45,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "PG",
@@ -2317,7 +2426,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "PP",
@@ -2332,7 +2441,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Probat 222",
@@ -2347,7 +2456,7 @@ export const culturesData: Culture[] = [
     price_numeric: 23.0,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Propionibacterium",
@@ -2363,7 +2472,7 @@ export const culturesData: Culture[] = [
     packLiters: 100,
     doseLabel: "2 g / 100 L",
     manufacturer: "Artiser (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Propionibakterium PX",
@@ -2378,7 +2487,7 @@ export const culturesData: Culture[] = [
     price_numeric: 43.9,
     packLiters: 500,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Protective LYO",
@@ -2391,9 +2500,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.gappoland.com/pl/p/Protective-LYO-/22901943",
     price: "52,70 zł",
     price_numeric: 52.7,
-    packLiters: 100,
+    packLiters: 1000,
+    doseLabel: "1 doza / 100 L",
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "RQ",
@@ -2408,7 +2518,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SH LYO",
@@ -2422,7 +2532,7 @@ export const culturesData: Culture[] = [
     price: "18,00 zł",
     price_numeric: 18.0,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 15",
@@ -2435,8 +2545,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-15/1139",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 17",
@@ -2449,8 +2561,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-17/1140",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 22 (Debaryomyces Hansenii)",
@@ -2463,8 +2577,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-22-Debaryomyces-Hansenii/1356",
     price: "25,00 zł",
     price_numeric: 25.0,
+    packLiters: 100,
+    doseLabel: "1 dawka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 30",
@@ -2477,8 +2593,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-30/1136",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 41",
@@ -2493,7 +2611,7 @@ export const culturesData: Culture[] = [
     price_numeric: 25.0,
     packLiters: 500,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 43",
@@ -2508,7 +2626,7 @@ export const culturesData: Culture[] = [
     price_numeric: 23.0,
     packLiters: 500,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 54",
@@ -2521,8 +2639,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-54/1355",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 55",
@@ -2535,8 +2655,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-55/1118",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 63",
@@ -2549,8 +2671,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-63/1132",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 100,
+    doseLabel: "1 fiolka / 100-200 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 75",
@@ -2563,8 +2687,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-75/1123",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 250,
+    doseLabel: "1 fiolka / 250 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 96 SP",
@@ -2579,7 +2705,7 @@ export const culturesData: Culture[] = [
     price_numeric: 28.0,
     packLiters: 500,
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SIGMA 97",
@@ -2592,8 +2718,10 @@ export const culturesData: Culture[] = [
     productUrl: "https://lactic.pl/pl/p/SIGMA-97/1133",
     price: "32,00 zł",
     price_numeric: 32.0,
+    packLiters: 250,
+    doseLabel: "1 fiolka / 250 L",
     manufacturer: "Coquard",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SLBH",
@@ -2608,7 +2736,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SM 02 LYO",
@@ -2621,8 +2749,9 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.gappoland.com/pl/p/SM-02-LYO/22902158",
     price: "6,00 zł",
     price_numeric: 6.0,
+    doseLabel: "1 doza / 5 L",
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "SR 62 LYO",
@@ -2633,10 +2762,9 @@ export const culturesData: Culture[] = [
     shop: "GAP Poland",
     shopUrl: "https://sklep.gappoland.com/",
     productUrl: "https://sklep.gappoland.com/pl/p/SR-62-LYO-/22902182",
-    price: "85,90 zł",
-    price_numeric: 85.9,
+    price: "Niedostępna",
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "TB",
@@ -2651,7 +2779,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "TME",
@@ -2666,7 +2794,7 @@ export const culturesData: Culture[] = [
     price_numeric: 50.0,
     packLiters: 1000,
     manufacturer: "microMilk",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "TW 31 LYO",
@@ -2681,7 +2809,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "VEGE C LYO",
@@ -2695,7 +2823,7 @@ export const culturesData: Culture[] = [
     price: "30,00 zł",
     price_numeric: 30.0,
     packLiters: 100,
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Y 92 LYO",
@@ -2710,7 +2838,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "YO 122",
@@ -2725,7 +2853,7 @@ export const culturesData: Culture[] = [
     price_numeric: 20.0,
     packLiters: 100,
     manufacturer: "Biochem s.r.l.",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "YO 56 LYO",
@@ -2740,7 +2868,7 @@ export const culturesData: Culture[] = [
     price_numeric: 18.0,
     packLiters: 100,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "YO-B1 LYO",
@@ -2753,8 +2881,9 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.gappoland.com/pl/p/YO-B1-LYO-/22902117",
     price: "14,85 zł",
     price_numeric: 14.85,
+    doseLabel: "1 doza / 1-3 L",
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Yo-Mix 215",
@@ -2769,7 +2898,7 @@ export const culturesData: Culture[] = [
     price_numeric: 19.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Yo-Mix 401",
@@ -2784,7 +2913,7 @@ export const culturesData: Culture[] = [
     price_numeric: 17.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Yo-Mix 495",
@@ -2799,7 +2928,7 @@ export const culturesData: Culture[] = [
     price_numeric: 17.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Yo-Mix 601",
@@ -2814,7 +2943,7 @@ export const culturesData: Culture[] = [
     price_numeric: 15.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "Yo-Mix 883",
@@ -2829,7 +2958,7 @@ export const culturesData: Culture[] = [
     price_numeric: 17.9,
     packLiters: 100,
     manufacturer: "DANISCO (IFF)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
   {
     name: "YPB LYO",
@@ -2843,6 +2972,6 @@ export const culturesData: Culture[] = [
     price: "18,00 zł",
     price_numeric: 18.0,
     manufacturer: "GAP Poland (marka własna)",
-    lastChecked: "2026-08-22",
+    lastChecked: "2026-10-27",
   },
 ];

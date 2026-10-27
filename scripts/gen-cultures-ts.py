@@ -6,7 +6,8 @@ Dzieki temu warstwa statyczna (Hero licznik + gen-baza.py -> mirrory GEO) jest
 zsynchronizowana z zywa baza (tabela cultures, is_active=true).
 
 Pipeline pelnej synchronizacji:
-  1. curl Supabase REST -> <json>   (wszystkie is_active=true, order shop,name)
+  1. curl Supabase REST -> <json>   (wszystkie is_active=true, order=name,shop:
+     tak jest ulozona migawka; inna kolejnosc daje diff na caly plik)
   2. python scripts/gen-cultures-ts.py <json>     -> src/data/culturesDataComplete.ts
   3. python scripts/gen-baza.py                   -> public/kultury/baza.html + kultury.summary.txt
   4. (post-proc) add-dates.py, link-slownik.py

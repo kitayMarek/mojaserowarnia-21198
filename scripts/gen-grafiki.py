@@ -67,6 +67,14 @@ def wczytaj():
     return rek
 
 
+def zakres_litrow(rek):
+    """("5", "10 000"): najmniejsze i najwieksze opakowanie, z danych.
+    Do 27.10.2026 stalo na sztywno "od 5 do 5000", a Choozit LH 100 ma 10 000 L."""
+    litry = [int(r["packLiters"]) for r in rek if r.get("packLiters")]
+    tys = lambda v: "{:,}".format(v).replace(",", " ")
+    return tys(min(litry)), tys(max(litry))
+
+
 def stopka(d, podpis, adres="mojaserowarnia.pl"):
     """Adres serwisu — bez tego grafika wedruje bez przypisania."""
     f = czcionka("segoeuib.ttf", 26)
@@ -124,16 +132,18 @@ def grafika_pojemnosci(rek):
     d = ImageDraw.Draw(img)
     d.rectangle([(0, 0), (SZER, 10)], fill=AKCENT)
 
-    d.text((48, 50), "OD 5 DO 5000 LITRÓW", font=czcionka("segoeuib.ttf", 56), fill=CIEMNY)
+    d.text((48, 50), "OD %s DO %s LITRÓW" % zakres_litrow(rek),
+           font=czcionka("segoeuib.ttf", 56), fill=CIEMNY)
     d.text((48, 118), "w tej samej ofercie, bez żadnego oznaczenia",
            font=czcionka("segoeui.ttf", 28), fill=SZARY)
 
-    licznik = Counter(int(r["packLiters"]) for r in rek if r.get("packLiters"))
-    grupy = [("5 L", licznik.get(5, 0)), ("20–50 L", sum(licznik.get(k, 0) for k in (20, 25, 50))),
-             ("100 L", licznik.get(100, 0)),
-             ("150–300 L", sum(licznik.get(k, 0) for k in (150, 250, 300))),
-             ("500 L", licznik.get(500, 0)),
-             ("1000 L+", sum(v for k, v in licznik.items() if k >= 1000))]
+    # Przedzialy, nie wybrane wartosci: lista (20, 25, 50) gubila 30 i 40 L
+    # Browina, a (150, 250, 300) gubila 350 L przy ALPHA 12 (27.10.2026).
+    litry = [int(r["packLiters"]) for r in rek if r.get("packLiters")]
+    ile = lambda od, do: sum(1 for x in litry if od <= x <= do)
+    grupy = [("5 L", ile(0, 10)), ("20–50 L", ile(11, 99)), ("100 L", ile(100, 149)),
+             ("150–350 L", ile(150, 499)), ("500 L", ile(500, 999)),
+             ("1000 L+", ile(1000, 10 ** 9))]
     maks = max(v for _, v in grupy) or 1
 
     fe = czcionka("segoeuib.ttf", 26)
@@ -147,7 +157,12 @@ def grafika_pojemnosci(rek):
         d.text((x0 + max(szer, 4) + 14, y + 7), "%d" % ile, font=fl, fill=SZARY)
         y += 52
 
-    d.text((48, 520), "188 kultur z 5 polskich sklepów · cena za litr od 0,014 do 3,00 zł",
+    za_litr = [r["price_numeric"] / r["packLiters"] for r in rek
+               if r.get("price_numeric") and r.get("packLiters")]
+    zl_l = lambda v: ("%.3f" % v if v < 0.1 else "%.2f" % v).replace(".", ",")
+    d.text((48, 520), "%d kultur z %d polskich sklepów · cena za litr od %s do %s zł"
+           % (len(rek), len({r.get("shop") for r in rek if r.get("shop")}),
+              zl_l(min(za_litr)), zl_l(max(za_litr))),
            font=czcionka("segoeui.ttf", 25), fill=TEKST)
 
     stopka(d, "/baza-kultur")
@@ -341,7 +356,8 @@ def grafika_baza(rek):
         d.text((x + 26, 258), opis, font=czcionka("segoeui.ttf", 24), fill=SZARY)
         x += 368
 
-    d.text((48, 322), "Cena za litr — bo sama kwota nic nie mówi przy opakowaniach od 5 do 5000 litrów:",
+    d.text((48, 322), "Cena za litr — bo sama kwota nic nie mówi przy opakowaniach od %s do %s litrów:"
+           % zakres_litrow(rek),
            font=czcionka("segoeui.ttf", 25), fill=TEKST)
 
     if perl:
@@ -432,7 +448,8 @@ def grafika_kultury(rek):
     """Rozklad typow kultur — liczony z danych, wiec sam sie aktualizuje."""
     img = Image.new("RGB", (SZER, WYS), TLO)
     d = ImageDraw.Draw(img)
-    naglowek(d, "KTÓRA KULTURA DO KTÓREGO SERA", "12 typów, %d kultur, 5 sklepów" % len(rek), 46)
+    naglowek(d, "KTÓRA KULTURA DO KTÓREGO SERA", "12 typów, %d kultur, %d sklepów"
+             % (len(rek), len({r.get("shop") for r in rek if r.get("shop")})), 46)
 
     # Piec slupkow, nie szesc: przy szesciu wiersz podsumowania nachodzil
     # na dolna linie (176 + 6*56 = 512, a dolny tekst siedzi na 516).

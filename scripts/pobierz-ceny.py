@@ -21,13 +21,22 @@ SKAD CZYTAMY CENE (ustalone przez ogladniecie realnych stron 2026-08-22):
     dalej ida "Produkt dnia", "Cena regularna", "Najnizsza cena" i produkty
     polecane. Branie pierwszej kwoty daje 0,00 — pierwsza wersja tak robila.
 
+DOSTEPNOSC (od 27.10.2026): schema.org availability z JSON-LD (Artiser,
+Wanczykowka) albo z mikrodanych itemprop (Serowar, Lactic, GAP), do tego
+etykieta sklepu "Dostepnosc: duza ilosc". Samo slowo "niedostepny" w tekscie
+NIE swiadczy o braku: Shoper ma na kazdej stronie ukryty przycisk
+"powiadom o dostepnosci towar niedostepny".
+
 UZYCIE:
   python scripts/pobierz-ceny.py --test        # test reguly na realnych fragmentach
   python scripts/pobierz-ceny.py --probka 10   # rozpoznanie
   python scripts/pobierz-ceny.py               # wszystkie
   python scripts/pobierz-ceny.py --uzupelnij   # dobierz brakujace
+  python scripts/pobierz-ceny.py --strony DIR  # dodatkowo zapisz pobrane strony
+      (do odczytu pojemnosci bez drugiego pobierania; poza repo, to cudze strony)
 """
 import difflib
+import hashlib
 import io
 import json
 import os
@@ -37,13 +46,16 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ZRODLO = os.path.join(ROOT, "src", "data", "culturesDataComplete.ts")
 WYJSCIE = os.path.join(ROOT, "scripts", "kultury-data", "ceny.txt")
 
-UA = "Mozilla/5.0 (compatible; MojaSerowarnia/1.0; +https://mojaserowarnia.pl)"
-ODSTEP = 0.8
+# "test-marek" w podpisie: nasze wlasne wejscia, do odsiania w statystykach sklepu.
+UA = "Mozilla/5.0 (compatible; MojaSerowarnia/1.0; +https://mojaserowarnia.pl; test-marek)"
+# Sklepy maja w robots.txt Crawl-delay: 1. Idziemy wolniej niz to minimum.
+ODSTEP = 2.5
 
 CENA_ETYKIETA = re.compile(r"Cena:\s*(\d{1,4}(?:[.,]\d{2}))\s*(?:zł|PLN)", re.I)
 
@@ -174,6 +186,38 @@ def cena_ze_strony(html):
     return cena, zrodlo
 
 
+SCHEMA_DOSTEPNOSC = re.compile(r'itemprop="availability"[^>]*href="[^"]*/(\w+)"', re.I)
+ETYKIETA_DOSTEPNOSC = re.compile(
+    r"Dostępność:\s*(.{1,40}?)\s*(?:Wysyłka|Cena|Dodaj|Artiser|Producent|$)", re.I)
+
+
+def dostepnosc_ze_strony(html):
+    """Np. "InStock (duża ilość)". Pusty napis, gdy sklep nic nie deklaruje."""
+    schemat = ""
+    for blok in re.findall(r"<script[^>]*application/ld\+json[^>]*>(.*?)</script>", html, re.S):
+        try:
+            j = json.loads(blok)
+        except Exception:
+            continue
+        for obj in (j if isinstance(j, list) else [j]):
+            oferty = obj.get("offers") if isinstance(obj, dict) else None
+            for o in (oferty if isinstance(oferty, list) else [oferty] if oferty else []):
+                if isinstance(o, dict) and o.get("availability") and not schemat:
+                    schemat = str(o["availability"]).rstrip("/").rsplit("/", 1)[-1]
+    if not schemat:
+        m = SCHEMA_DOSTEPNOSC.search(html)
+        if m:
+            schemat = m.group(1)
+    tekst = " ".join(
+        re.sub(r"<[^>]+>", " ", TAGI_DO_WYCIECIA.sub(" ", html)).replace("&nbsp;", " ").split()
+    )
+    m = ETYKIETA_DOSTEPNOSC.search(tekst)
+    etykieta = m.group(1).strip() if m else ""
+    if schemat and etykieta:
+        return "%s (%s)" % (schemat, etykieta)
+    return schemat or etykieta
+
+
 # Fragmenty z REALNYCH stron 2026-08-22 — regula jest nieoczywista, wiec zostaje test.
 TESTY = [
     ("ABY / Serowar", 20.00,
@@ -229,10 +273,21 @@ def main():
         rek = [d for lista in wg.values() for d in lista[: max(1, probka // len(wg))]]
         print("PROBKA: %d stron\n" % len(rek))
 
+    strony = None
+    if "--strony" in sys.argv:
+        strony = sys.argv[sys.argv.index("--strony") + 1]
+        os.makedirs(strony, exist_ok=True)
+
+    dzis = date.today().isoformat()
     wyniki, bledy, zmiany, netto_brutto, do_reki = [], 0, 0, 0, 0
     for n, d in enumerate(rek, 1):
         try:
             html, koncowy = pobierz(d["productUrl"])
+            if strony:
+                plik = hashlib.sha1(d["productUrl"].encode()).hexdigest()[:12] + ".html"
+                io.open(os.path.join(strony, plik), "w", encoding="utf-8").write(html)
+                with io.open(os.path.join(strony, "spis.txt"), "a", encoding="utf-8") as f:
+                    f.write("%s | %s | %s | %s\n" % (d["name"], d.get("shop", ""), plik, d["productUrl"]))
         except Exception as e:
             # ⚠ Blad MUSI trafic do pliku wynikowego. Wczesniej wypadal tylko na
             # ekran, wiec generator SQL takiego wiersza nie ruszal i w bazie
@@ -240,7 +295,7 @@ def main():
             # Cicho przeterminowana cena jest gorsza od widocznej luki.
             print("  !! %-8s %-24s %s" % (type(e).__name__, d["name"][:24], str(e)[:32]))
             wyniki.append((d["name"], d.get("shop", ""), d.get("cena_baza") or "",
-                           "", "", "DO SPRAWDZENIA RECZNIE (%s)" % type(e).__name__))
+                           "", "", "DO SPRAWDZENIA RECZNIE (%s)" % type(e).__name__, "", dzis))
             bledy += 1
             time.sleep(ODSTEP)
             continue
@@ -254,6 +309,7 @@ def main():
         podmiana = not jest_na_stronie(d["name"], html)
 
         cena, zrodlo = cena_ze_strony(html)
+        dostepnosc = dostepnosc_ze_strony(html)
         stara = d.get("cena_baza")
 
         if podmiana or przeprowadzka:
@@ -266,7 +322,7 @@ def main():
                 powod.append("nazwy \"%s\" nie ma na stronie" % d["name"][:40])
             status = "DO SPRAWDZENIA RECZNIE (%s)" % "; ".join(powod)
             wyniki.append((d["name"], d.get("shop", ""), stara if stara else "",
-                           cena if cena else "", zrodlo or "", status))
+                           cena if cena else "", zrodlo or "", status, dostepnosc, dzis))
             print("  %-24s %-13s %s" % (d["name"][:24], d.get("shop", "")[:13], status))
             do_reki += 1
             time.sleep(ODSTEP)
@@ -286,11 +342,11 @@ def main():
                 netto_brutto += 1
 
         wyniki.append((d["name"], d.get("shop", ""), stara if stara else "",
-                       cena if cena else "", zrodlo or "", status))
-        print("  %-24s %-13s baza %-8s teraz %-8s %-9s %s"
+                       cena if cena else "", zrodlo or "", status, dostepnosc, dzis))
+        print("  %-24s %-13s baza %-8s teraz %-8s %-9s %-14s %s"
               % (d["name"][:24], d.get("shop", "")[:13],
                  ("%.2f" % stara) if stara else "—",
-                 ("%.2f" % cena) if cena else "—", zrodlo or "—", status))
+                 ("%.2f" % cena) if cena else "—", zrodlo or "—", status, dostepnosc[:30]))
         if n % 25 == 0:
             print("     ... %d z %d" % (n, len(rek)))
         time.sleep(ODSTEP)
@@ -307,7 +363,7 @@ def main():
         wszystkie = list(juz.values()) + [list(w) for w in wyniki]
         os.makedirs(os.path.dirname(WYJSCIE), exist_ok=True)
         with io.open(WYJSCIE, "w", encoding="utf-8", newline="") as f:
-            f.write("# nazwa | sklep | cena w bazie | cena teraz | zrodlo | status\n")
+            f.write("# nazwa | sklep | cena w bazie | cena teraz | zrodlo | status | dostepnosc | sprawdzone\n")
             for w in sorted(wszystkie, key=lambda x: (str(x[1]), str(x[0]))):
                 f.write(" | ".join(str(x).replace("|", "/") for x in w) + "\n")
         print("  w pliku           : %d" % len(wszystkie))
