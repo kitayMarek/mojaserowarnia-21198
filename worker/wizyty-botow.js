@@ -104,7 +104,7 @@ const BOTY = [
   [/cohere-ai/i,         'inny',       'cohere-ai'],
   [/MistralAI-User/i,    'inny',       'MistralAI-User'],
   [/DuckAssistBot/i,     'inny',       'DuckAssistBot'],
-  [/meta-externalagent/i,'inny',       'Meta-ExternalAgent'],
+  [/meta-externalagent/i,'Meta',       'Meta-ExternalAgent'],
   [/Amazonbot/i,         'inny',       'Amazonbot'],
   [/Bytespider/i,        'inny',       'Bytespider'],
   [/YouBot/i,            'inny',       'YouBot'],
