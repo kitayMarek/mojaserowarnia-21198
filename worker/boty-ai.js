@@ -88,6 +88,7 @@ export const JEZYKI = {
       ai_uzytkownik: 'ai_user',
       wyszukiwarka: 'search_engine',
       narzedzie_seo: 'seo_tool',
+      ai_inne: 'ai_other_unverifiable',
       inne: 'other',
       // typy sciezek
       tresc: 'content',
@@ -469,6 +470,8 @@ const RAPORTY = {
   przyjscia: 'pub_raport_przyjscia',
   // Pobrania treści na prośbę człowieka w czacie, tydzień po tygodniu (16.10.2026).
   czaty: 'pub_raport_czaty',
+  // Boty AI bez metody weryfikacji, z numerami sieci, z których przyszły (27.10.2026).
+  inne_ai: 'pub_raport_inne_ai',
 };
 
 const OKRESY_DOZWOLONE = new Set(['24h', '7d', '30d', 'all']);

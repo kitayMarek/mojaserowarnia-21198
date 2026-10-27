@@ -591,6 +591,7 @@ const CrawlerCzyCzlowiek = ({ wiersze, uzytkownik }: {
       <li><Badge variant="secondary">ai_uzytkownik</Badge> — <strong>konkretny człowiek zadał pytanie w czacie, a model poszedł po tę stronę</strong>. Za każdym takim żądaniem stoi żywa osoba.</li>
       <li><Badge variant="secondary">wyszukiwarka</Badge> — klasyczny indeks. Granica z AI już nie istnieje: Googlebot karmi też AI Overviews.</li>
       <li><Badge variant="secondary">narzedzie_seo</Badge> — komercyjne crawlery analityczne.</li>
+      <li><Badge variant="secondary">ai_inne</Badge> — boty AI, których nie da się sprawdzić, bo właściciel nie publikuje listy adresów: głównie chińskie i otwarte modele. Liczone osobno od 27 października 2026, szczegóły w raporcie „Inne boty AI”.</li>
     </ul>
     <Tabela naglowki={["Kategoria", "Żądań", "Oryginalne", "Fałszowane", "Tożsamości"]}>
       {wiersze.map((r) => (
@@ -1182,7 +1183,59 @@ const KodOtwarty = () => (
 
 const Kronika = () => (
   <>
-    <h3 className="font-semibold">10–13 września 2026 – licznik liczył, raporty stały</h3>
+    <h3 className="font-semibold">27 października 2026 – czternaście tysięcy „nierozpoznanych” i co w nich było</h3>
+    <p>
+      Kubełek żądań z podpisem, którego nie znamy, urósł do <strong>14 629 w 30 dni</strong>, więcej
+      niż Googlebot. Przejrzeliśmy go podpis po podpisie. Około 11 tysięcy to skanery przebrane za
+      zwykłą przeglądarkę: 40–95% błędów i tysiące pytań o pliki konfiguracyjne. Po samym podpisie
+      nie da się ich nazwać, widać je za to po numerze sieci w raporcie Incydenty.
+    </p>
+    <p>
+      Około 1,6 tysiąca przedstawiało się nazwą prawdziwego narzędzia, którego nie mieliśmy na
+      liście: nowy crawler Mety (Meta-WebIndexer), DuckDuckBot, narzędzia SEO, skanery firm
+      zajmujących się bezpieczeństwem, podglądy linków wklejanych w WhatsAppie. Dopisaliśmy je
+      i przeliczyliśmy historię.
+    </p>
+    <p>
+      Najciekawsza była trzecia grupa: około 1,8 tysiąca żądań pod nazwami botów AI, których
+      wcześniej nie widzieliśmy, głównie chińskich i otwartych modeli: KimiBot, MoonshotBot,
+      Qwenbot, Hunyuan, PanguBot, YiBot, ChatGLM-Spider, GrokBot, Bravebot.{" "}
+      <strong>1545 z nich przyszło z jednej sieci chmurowej (AS396982)</strong>, tej samej,
+      z której od września przychodzą podrobione GPTBoty i ClaudeBoty, z tych samych pięciu krajów
+      i z tym samym zachowaniem: większość żądań kończy się błędem, a duża część to pytania
+      o pliki wrażliwe.
+    </p>
+    <p>
+      Nie rozstrzygamy, czy to prawdziwe boty. Żaden z tych operatorów nie publikuje listy adresów,
+      więc nie ma czym tego sprawdzić. Przemawiają przeciw temu dwie rzeczy: crawler zbierający
+      treść do modelu nie pyta o pliki z hasłami, a duża firma zwykle wysyła swojego bota z własnej
+      chmury. Ale liczymy je, bo za rok ta lista może być ważna, choćby dla kogoś innego.{" "}
+      <strong>Od teraz mają własną kategorię (ai_inne) i własny raport „Inne boty AI”</strong>{" "}
+      z numerami sieci, z których przyszły. Jeśli kiedyś KimiBot przyjdzie z chmury Alibaby czy
+      Tencentu, będzie to widać w jednym wierszu.
+    </p>
+
+    <h3 className="font-semibold pt-2">16 października 2026 – zablokowaliśmy Meta-ExternalAgent</h3>
+    <p>
+      Crawler Mety, który zbiera treść do trenowania modeli, miał najwięcej potwierdzonych pobrań ze
+      wszystkich botów AI: 1939 do tego dnia, bez żadnego ruchu ludzi w zamian. Dostał zakaz
+      w robots.txt, a serwer odpowiada mu kodem 403 na wszystko poza samym robots.txt. Licznik
+      zapisuje także te odmowy, więc widać, czy zakaz działa.{" "}
+      <strong>Działa: od 20 października nie przyszło pod tą nazwą ani jedno żądanie.</strong>{" "}
+      Podglądy linków na Facebooku (facebookexternalhit) to inny bot i chodzą bez zmian.
+    </p>
+
+    <h3 className="font-semibold pt-2">16 października 2026 – czat czyta stronę główną i na niej kończy</h3>
+    <p>
+      Od początku pomiaru boty działające na prośbę człowieka w czacie (ChatGPT, Claude, Perplexity)
+      weszły na stronę główną 268 razy. <strong>Tylko raz w ciągu dwóch minut pobrały potem
+      jeszcze jakąś inną stronę.</strong> Czat nie traktuje strony głównej jak drzwi, tylko jak
+      całą odpowiedź: to, co model powie o serwisie, pochodzi głównie z niej. Nie prosiły też
+      o strony, których nie ma: poza stroną główną pobierały tylko pliki techniczne, robots.txt,
+      llms.txt i mapę strony.
+    </p>
+
+    <h3 className="font-semibold pt-2">10–13 września 2026 – licznik liczył, raporty stały</h3>
     <p>
       10 września wieczorem zmieniliśmy regułę rozpoznawania naszego ruchu testowego: z całej
       sieci operatora na znacznik w nagłówku żądania. Zmiana miała dotyczyć jednej reguły, a

@@ -140,6 +140,76 @@ const BOTY = [
   // po klknieciu w wynikach wyszukiwania. Zaglada najpierw po
   // /.well-known/traffic-advice, zeby sprawdzic, czy strona nie protestuje.
   [/Chrome Privacy Preserving Prefetch Proxy/i, 'Google', 'Prefetch Proxy'],
+
+  // ── Dopisane 27 pazdziernika 2026 po drugim przegladzie kubelka
+  //    "(nierozpoznany podpis)": 14,6 tys. zadan w 30 dni, wiecej niz Googlebot.
+  //
+  // INNE BOTY AI (kategoria ai_inne). Glownie chinskie i otwarte modele.
+  // Zaden z tych operatorow nie publikuje listy adresow, wiec kazde zadanie
+  // jest "niesprawdzone". W pazdzierniku 2026 prawie caly ten ruch szedl
+  // z jednej sieci chmurowej (AS396982), tej samej, z ktorej przychodza
+  // podrobione GPTBoty i ClaudeBoty. Liczymy je mimo to (decyzja Marka),
+  // ale w osobnej kategorii i osobnym raporcie z numerami sieci, zeby nie
+  // mieszaly sie z potwierdzonymi i zeby kazdy mogl ocenic sam.
+  //
+  // ⚠ Operator "inny" przy OAI-AdsBot jest celowy. Operator 'OpenAI' wlaczylby
+  //   sprawdzenie po listach OpenAI, a nie wiemy, czy ten bot z nich chodzi.
+  //   Zla lista daje publiczny zarzut podszywania sie (patrz Amazon, 6.09).
+  [/Kimi-SearchBot/i,    'Moonshot AI', 'Kimi-SearchBot'],
+  [/KimiBot/i,           'Moonshot AI', 'KimiBot'],
+  [/MoonshotBot/i,       'Moonshot AI', 'MoonshotBot'],
+  [/xAI-SearchBot/i,     'xAI',         'xAI-SearchBot'],
+  [/xAI-Grok/i,          'xAI',         'xAI-Grok'],
+  [/GrokBot/i,           'xAI',         'GrokBot'],
+  [/Qwenbot/i,           'Alibaba',     'Qwenbot'],
+  [/ChatGLM-Spider/i,    'Zhipu AI',    'ChatGLM-Spider'],
+  [/Hunyuan\//i,         'Tencent',     'Hunyuan'],
+  [/PanguBot/i,          'Huawei',      'PanguBot'],
+  [/YiBot/i,             '01.AI',       'YiBot'],
+  [/Bravebot/i,          'Brave',       'Bravebot'],
+  [/OAI-AdsBot/i,        'inny',        'OAI-AdsBot'],
+  [/ExaSearchBot/i,      'Exa',         'ExaSearchBot'],
+  [/KeenableBot/i,       'Keenable',    'KeenableBot'],
+  [/boundless-deep-research/i, 'inny',  'boundless-deep-research'],
+
+  // Meta: nowy crawler wyszukiwarki Meta AI i pobieranie na prosbe uzytkownika.
+  // Weryfikacja po sieci AS32934, jak przy facebookexternalhit (ASN_OPERATORA).
+  [/meta-webindexer/i,   'Meta',       'Meta-WebIndexer'],
+  [/Meta-ExternalFetcher/i, 'Meta',    'Meta-ExternalFetcher'],
+  // Google publikuje go jako zwyklego crawlera, wiec sprawdza go lista Google.
+  [/Google-CloudVertexBot/i, 'Google', 'Google-CloudVertexBot'],
+
+  [/DuckDuckBot/i,       'inny',       'DuckDuckBot'],
+  [/SERankingBacklinksBot/i, 'inny',   'SERankingBacklinksBot'],
+  [/AwarioBot/i,         'inny',       'AwarioBot'],
+
+  // Skanery, ktore sie przedstawiaja: badania internetu i firmy bezpieczenstwa.
+  [/paloaltonetworks/i,  'inny',       'Palo Alto Cortex Xpanse'],
+  [/CensysInspect/i,     'inny',       'CensysInspect'],
+  [/l9scan|leakix/i,     'inny',       'LeakIX'],
+  [/InternetMeasurement/i, 'inny',     'InternetMeasurement'],
+  [/iisec\.ac\.jp|Yokohama Institute of Information Security/i, 'inny', 'IISEC'],
+  [/metabase-cve/i,      'inny',       'metabase-cve-detect'],
+  [/visionheight/i,      'inny',       'visionheight'],
+  [/CMS-Checker/i,       'inny',       'CMS-Checker'],
+
+  // Pozostale narzedzia z nazwa.
+  [/Cloudflare-AgentReadiness/i, 'inny', 'Cloudflare-AgentReadiness'],
+  [/FortLineAgentShield/i, 'inny',     'FortLine'],
+  [/huSpace/i,           'inny',       'huSpace'],
+  [/LohiSoftBot/i,       'inny',       'LohiSoftBot'],
+  [/ApcosysBot/i,        'inny',       'ApcosysBot'],
+  [/TheWebReport/i,      'inny',       'TheWebReport'],
+  [/Overture-Maps/i,     'inny',       'Overture-Maps'],
+  [/wpbot\//i,           'inny',       'wpbot'],
+  [/jscrawler/i,         'inny',       'jscrawler'],
+  [/\(Gort\)/i,          'inny',       'Gort'],
+  // Podglad linku generuje telefon osoby, ktora go wkleila, wiec to ruch
+  // ludzi z ich wlasnych sieci. Bez weryfikacji: AS32934 by ich oskarzyl.
+  [/WhatsApp\//i,        'inny',       'WhatsApp (podgląd linku)'],
+  [/Google-Lens/i,       'inny',       'Google-Lens'],
+  [/^DuckDuckGo\//i,     'inny',       'DuckDuckGo (aplikacja)'],
+  [/^curl\//i,           'inny',       'curl'],
 ];
 
 // --- FCrDNS: weryfikacja operatorow, ktorzy nie publikuja list zakresow ------
@@ -182,6 +252,8 @@ const ASN_OPERATORA = {
   // sama firma — a poniewaz Meta nie publikuje listy prefiksow, numer sieci
   // jest jedyna droga weryfikacji, jaka mamy.
   'facebookexternalhit': [32934],
+  'Meta-WebIndexer': [32934],
+  'Meta-ExternalFetcher': [32934],
 };
 
 /**
