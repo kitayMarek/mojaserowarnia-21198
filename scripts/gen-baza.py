@@ -63,6 +63,13 @@ def parse_cultures(src: str):
 LICZEBNIK = {4: "czterech", 5: "pięciu", 6: "sześciu", 7: "siedmiu", 8: "ośmiu"}
 
 
+def kultury_po_liczbie(n):
+    """"193 kultury", "188 kultur": przy stalej liczbie 188 forma byla jedna."""
+    if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14):
+        return "%d kultury" % n
+    return "%d kultura" % n if n == 1 else "%d kultur" % n
+
+
 def sklepy_zdanie(items):
     ile = {}
     for it in items:
@@ -113,8 +120,8 @@ def gen_html(items):
     }
     o = []
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
-    o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</title>")
-    o.append(f'  <meta name="description" content="Sprawdź, który z {sklepy_zdanie(items)[0]} polskich sklepów ma daną kulturę i w jakiej cenie: {total} kultur ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
+    o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({kultury_po_liczbie(total)})</title>")
+    o.append(f'  <meta name="description" content="Sprawdź, który z {sklepy_zdanie(items)[0]} polskich sklepów ma daną kulturę i w jakiej cenie: {kultury_po_liczbie(total)} ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
     o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/baza-kultur" />\n  <meta name="robots" content="index, follow" />')
     o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/baza-kultur" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")
@@ -140,10 +147,10 @@ def gen_html(items):
 </head>
 <body>
   <nav class="crumbs"><a href="https://mojaserowarnia.pl/">Moja Serowarnia</a> &rarr; <a href="https://mojaserowarnia.pl/bakterie-kultury">Kultury</a> &rarr; Pe&#322;na baza</nav>''')
-    o.append(f"  <h1>Baza kultur bakteryjnych do sera — pełna lista ({total} kultur)</h1>")
+    o.append(f"  <h1>Baza kultur bakteryjnych do sera — pełna lista ({kultury_po_liczbie(total)})</h1>")
     _, ilu_slownie, lista_sklepow = sklepy_zdanie(items)
     kiedy = data_cen(items)
-    o.append(f'  <p class="lead">Sprawdzisz tu, który z {ilu_slownie} polskich sklepów ma daną kulturę i w jakiej cenie: {lista_sklepow} w jednym zestawieniu. {total} kultur bakteryjnych i pleśni — nazwa, skład, zastosowanie, temperatura pracy, sklep i cena. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
+    o.append(f'  <p class="lead">Sprawdzisz tu, który z {ilu_slownie} polskich sklepów ma daną kulturę i w jakiej cenie: {lista_sklepow} w jednym zestawieniu. Zestawienie {total} kultur bakteryjnych i pleśni podaje nazwę, skład, zastosowanie, temperaturę pracy, sklep i cenę. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
     if kiedy:
         o.append(f'  <p>Ceny odczytane ze stron produktów sklepów {kiedy}. Sklepy zmieniają je bez zapowiedzi, więc przed zakupem sprawdź cenę w sklepie.</p>')
     # Ta sama wzmianka co pod widgetem „Zapytaj AI” w src/pages/BazaKultur.tsx.
