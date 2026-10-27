@@ -13,8 +13,12 @@
  * dwa limity nizej.
  *
  * SEO: subdomena nie moze stac sie w Google duplikatem bazy kultur, wiec
- * robots.txt zabrania wszystkiego, a kazda odpowiedz ma x-robots-tag: noindex.
- * Klienci MCP robots.txt nie czytaja, wiec zakaz ich nie dotyczy.
+ * kazda odpowiedz ma x-robots-tag: noindex. robots.txt zamyka tylko /mcp:
+ * strona glowna z opisem i instrukcja podlaczenia ma byc czytelna dla
+ * pobieraczy czatow, ktore otwieraja adres na prosbe uzytkownika. Do 27.10.2026
+ * stalo tu „Disallow: /” i Perplexity, nie mogac otworzyc strony, ostrzegala
+ * przed oszustwem. Noindex dalej trzyma strone poza wynikami wyszukiwania.
+ * Klienci MCP robots.txt nie czytaja, wiec zakaz /mcp ich nie dotyczy.
  */
 
 import { createMcpHandler } from '@modelcontextprotocol/server';
@@ -236,7 +240,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/robots.txt') {
-      return tekst('User-agent: *\nDisallow: /\n');
+      return tekst('User-agent: *\nDisallow: /mcp\n');
     }
 
     if (url.pathname === '/' && (request.method === 'GET' || request.method === 'HEAD')) {
