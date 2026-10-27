@@ -20,11 +20,28 @@ Jeśli kultury są zarządzane w Supabase, ten snapshot odzwierciedla plik .ts,
 nie żywą bazę — odśwież .ts lub rozbuduj skrypt o pobieranie z Supabase.
 """
 import re, html, json, os, sys
+import importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src", "data", "culturesDataComplete.ts")
 OUT_HTML = os.path.join(ROOT, "public", "kultury", "baza.html")
 OUT_SUMMARY = os.path.join(ROOT, "public", "kultury.summary.txt")
+
+# Tytul i opis bierzemy z src/data/metaStron.ts tym samym czytnikiem, ktory
+# sync-seo-mirrory.py dosyla do pozostalych mirrorow. Do 27.10.2026 skrypt pisal
+# wlasne, wiec tytul dobrany w metaStron pod zapytania z GSC nie docieral do
+# Googlebota, ktory od 7.09.2026 czyta mirror zamiast Reacta.
+_spec_seo = importlib.util.spec_from_file_location(
+    "sync_seo", os.path.join(ROOT, "scripts", "sync-seo-mirrory.py"))
+seo = importlib.util.module_from_spec(_spec_seo)
+_spec_seo.loader.exec_module(seo)
+
+
+def meta_strony(adres="/baza-kultur"):
+    for etykieta, _, tytul, opis in seo.wczytaj_seo():
+        if etykieta == adres:
+            return tytul, opis
+    sys.exit("brak wpisu %s w src/data/metaStron.ts" % adres)
 
 
 # Blizniak adresKultury() z src/lib/adresKultury.ts. Trzecie miejsce z ta sama
@@ -120,8 +137,9 @@ def gen_html(items):
     }
     o = []
     o.append('<!doctype html>\n<html lang="pl">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />')
-    o.append(f"  <title>Baza kultur bakteryjnych do sera — pełna lista ({kultury_po_liczbie(total)})</title>")
-    o.append(f'  <meta name="description" content="Sprawdź, który z {sklepy_zdanie(items)[0]} polskich sklepów ma daną kulturę i w jakiej cenie: {kultury_po_liczbie(total)} ze składem, zastosowaniem i temperaturą pracy. Mezofilne, termofilne, pleśniowe, propionowe i więcej." />')
+    tytul, opis = meta_strony()
+    o.append(f"  <title>{seo.esc(tytul)}</title>")
+    o.append(f'  <meta name="description" content="{seo.esc(opis)}" />')
     o.append('  <link rel="canonical" href="https://mojaserowarnia.pl/baza-kultur" />\n  <meta name="robots" content="index, follow" />')
     o.append(f'  <meta property="og:title" content="Baza kultur bakteryjnych do sera — pełna lista" />\n  <meta property="og:description" content="Pełna baza {total} kultur: skład, zastosowanie, temperatura, typ, sklep, cena." />\n  <meta property="og:type" content="website" />\n  <meta property="og:url" content="https://mojaserowarnia.pl/baza-kultur" />\n  <meta property="og:site_name" content="Moja Serowarnia" />\n  <meta property="og:locale" content="pl_PL" />\n  <meta property="og:image" content="https://mojaserowarnia.pl/og/baza.png" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="https://mojaserowarnia.pl/og/baza.png" />')
     o.append('  <script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, indent=2) + "\n  </script>")

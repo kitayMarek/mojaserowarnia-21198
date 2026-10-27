@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { listaSklepow, sklepowSlownie } from "@/data/liczbyBazyKultur";
+import { listaSklepow, odmiana, sklepowSlownie } from "@/data/liczbyBazyKultur";
 import { GitBranch } from "lucide-react";
 import KulturaGuideLayout from "@/components/KulturaGuideLayout";
 import FAQSchema from "@/components/FAQSchema";
@@ -9,6 +9,8 @@ import CenaKultury from "@/components/CenaKultury";
 import { useCultures } from "@/hooks/useCultures";
 import { grupujPoSkladzie, ladnyGatunek, type KulturaWejscie } from "@/lib/grupyKultur";
 import { adresKultury } from "@/lib/adresKultury";
+
+const nazwyHandlowe = (n: number) => `${n} ${odmiana(n, "nazwa handlowa", "nazwy handlowe", "nazw handlowych")}`;
 
 const ZamiennikiKultur = () => {
   const { cultures, loading } = useCultures();
@@ -110,11 +112,14 @@ const ZamiennikiKultur = () => {
       ) : (
         <>
           <h2>
-            Grupy składowe — {grupy.length}{" "}
-            {grupy.length === 1 ? "zestaw" : grupy.length < 5 ? "zestawy" : "zestawów"}
+            Grupy składowe — {grupy.length} {odmiana(grupy.length, "zestaw", "zestawy", "zestawów")}
           </h2>
           <p>
-            Na {wszystkie} kultur <strong>{wGrupach} pozycji ({procent}%)</strong> dzieli skład z inną. Grupy
+            Na {wszystkie} {odmiana(wszystkie, "kulturę", "kultury", "kultur")}{" "}
+            <strong>
+              {wGrupach} {odmiana(wGrupach, "pozycja", "pozycje", "pozycji")} ({procent}%)
+            </strong>{" "}
+            {odmiana(wGrupach, "dzieli", "dzielą", "dzieli")} skład z inną. Grupy
             uporządkowane od najliczniejszej.
           </p>
 
@@ -124,8 +129,8 @@ const ZamiennikiKultur = () => {
                 {g.szczepy.map(ladnyGatunek).join(" + ")}
               </h3>
               <p className="text-sm text-muted-foreground mb-2">
-                {new Set(g.kultury.map((k) => k.name)).size} nazw handlowych · {g.sklepy.length}{" "}
-                {g.sklepy.length === 1 ? "sklep" : "sklepy"}
+                {nazwyHandlowe(new Set(g.kultury.map((k) => k.name)).size)} · {g.sklepy.length}{" "}
+                {odmiana(g.sklepy.length, "sklep", "sklepy", "sklepów")}
                 {g.cenaMin !== null && (
                   <>
                     {" · "}
