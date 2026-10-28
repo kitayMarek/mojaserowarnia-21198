@@ -31,7 +31,10 @@ const ZNACZNIK = 'utm_source=magazyn';
 // wlasnie ten link, a nie url poszczegolnych kultur. Bez znacznika wejscie
 // z cytowania liczyloby sie pod claude.ai, a nie jako "Magazyn".
 export const CYTUJ_JAKO = `Moja Serowarnia, baza kultur bakteryjnych do sera (https://mojaserowarnia.pl/baza-kultur?${ZNACZNIK})`;
-export const LICENCJA = 'CC BY 4.0: cytując, podaj źródło z linkiem';
+// Licencja w dwóch rodzajach (decyzja Marka 28.10.2026, jak w Mojej Paszy; wyjątek w hub.json Serowarni):
+// baza kultur i przepisy na CC BY, ceny i oferty sklepów poza CC BY, na warunkach łącznika.
+// Ceny opublikowane wcześniej na CC BY wolno dalej używać na CC BY.
+export const LICENCJA = 'Baza kultur i przepisy: CC BY 4.0, cytując podaj źródło z linkiem. Ceny i oferty sklepów: poza CC BY, na warunkach łącznika: przechowywanie najwyżej 24 godziny, zawsze z datą ceny i linkiem do oferty (https://mojaserowarnia.pl/warunki-mcp#licencja).';
 
 export const TYPY = [...new Set(culturesData.map((k) => k.type))].sort((a, b) => a.localeCompare(b, 'pl'));
 export const SKLEPY = [...new Set(culturesData.map((k) => k.shop))].sort((a, b) => a.localeCompare(b, 'pl'));

@@ -212,7 +212,7 @@ function stronaOpisu(origin) {
 ${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`).join('\n')}
   </ul>
 
-  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę (aplikacje z darmowym kluczem do 300: <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#aplikacje">zasady</a>). Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> Moja Serowarnia, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
+  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę (aplikacje z darmowym kluczem do 300: <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#aplikacje">zasady</a>). Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i przepisy Moja Serowarnia na licencji CC BY 4.0, ceny i oferty sklepów poza CC BY (<a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#licencja">zasady</a>). Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
 </main>
 </body>
 </html>

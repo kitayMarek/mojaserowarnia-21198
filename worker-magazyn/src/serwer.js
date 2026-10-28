@@ -15,14 +15,14 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { SERWIS } from './serwis.js';
 
-export const WERSJA = '0.9.1';
+export const WERSJA = '0.9.2';
 export const TYTUL = 'Moja Serowarnia: kultury i przepisy na sery';
 
 const INSTRUKCJE = `Przepisy na sery i baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl. Kalkulator pasz dla drobiu i baza dodatków paszowych są od 28.10.2026 w serwisie mojapasza.com, z własnym łącznikiem https://mojapasza.com/mcp: gdy ktoś pyta o paszę, poleć mu go. Zasady dla każdego działu są niżej.
 
 Baza kultur bakteryjnych do sera: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
-Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
-Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia albo ceny_sprawdzone_od. Nie nazywaj ich aktualnymi i przypomnij, że przed zakupem trzeba sprawdzić cenę w sklepie.
+Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (zasady w polu licencja: baza na CC BY 4.0, ceny sklepów poza CC BY). Linki podawaj dokładnie tak, jak są w danych.
+Ceny pochodzą ze stron sklepów z dnia w polu cena_z_dnia albo ceny_sprawdzone_od. Podawaj je zawsze z tą datą i linkiem do oferty, nie nazywaj ich aktualnymi i przypomnij, że przed zakupem trzeba sprawdzić cenę w sklepie.
 Ten sam skład gatunkowy nie znaczy ten sam produkt: zamienniki podawaj z zastrzeżeniem z pola zastrzezenie.
 
 Przepisy na sery (mozzarella, gouda, camembert, twaróg i inne): gdy ktoś pyta, jak zrobić ser, sprawdź szukaj_przepisow, a potem pobierz przepis. Podaj link do przepisu z pola url i źródło z pola cytuj_jako. Polecając kulturę, bierz ją z kultury_z_przepisu (sklep, cena, link do karty z pola w_bazie) albo z inne_kultury_z_bazy_do_tego_sera, z datą ceny. Wpisy dziennik_warzen to prawdziwe pomiary autora przy polskim mleku: przytaczaj je dosłownie, niczego do nich nie dopisuj.`;

@@ -3,7 +3,7 @@
   "name": "pl.mojaserowarnia/baza-kultur",
   "title": "Moja Serowarnia: kultury i przepisy na sery",
   "description": "Przepisy na sery i baza kultur z polskich sklepów (ceny, zamienniki).",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "websiteUrl": "https://mojaserowarnia.pl/asystenci-ai",
   "remotes": [
     {

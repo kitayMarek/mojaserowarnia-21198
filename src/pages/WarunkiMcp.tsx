@@ -19,6 +19,9 @@ import { ADRES_MCP } from "@/lib/lacznikClaude";
  * Liczby (limity) i opis pomiaru muszą się zgadzać z worker-magazyn/src/index.js
  * i worker-magazyn/src/pomiar.js. Prywatność: sekcja #serwer-mcp na /nota-prawna.
  *
+ * 28.10.2026: bez narzędzi paszowych (przeniesione na mojapasza.com/mcp) i licencja w dwóch
+ * rodzajach: baza kultur i przepisy na CC BY, ceny i oferty sklepów poza CC BY (#licencja).
+ *
  * Treść 1:1 z mirrorem public/warunki-mcp.html, tytuł i opis w metaStron.ts.
  */
 
@@ -26,7 +29,7 @@ import { ADRES_MCP } from "@/lib/lacznikClaude";
 const PRZYKLAD_CURL = `curl -s "${ADRES_MCP}?z=app-twoja-nazwa" \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"dobierz_proporcje","arguments":{"drob":"kury-nioski-lekkie","okres":"Niesienie (powyżej 45%)","skladniki":[{"nazwa":"Pszenica"},{"nazwa":"Kukurydza"},{"nazwa":"Śruta sojowa"},{"nazwa":"Kreda pastewna"}]}}}'`;
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"szukaj_kultur","arguments":{"zapytanie":"camembert"}}}'`;
 
 const WarunkiMcp = () => {
   // Linki do #aplikacje i #dla-tworcow (z /asystenci-ai): router sam nie przewija
@@ -67,8 +70,10 @@ const WarunkiMcp = () => {
                 <CardContent className="space-y-3">
                   <p>
                     Serwer MCP pod adresem <code className="font-mono">{ADRES_MCP}</code> udostępnia asystentom AI
-                    (Claude, ChatGPT, Perplexity i innym) kalkulator pasz dla drobiu, przepisy na sery i bazę kultur
-                    bakteryjnych z polskich sklepów. Prowadzi go serwis Moja Serowarnia (mojaserowarnia.pl).
+                    (Claude, ChatGPT, Perplexity i innym) przepisy na sery i bazę kultur bakteryjnych z polskich
+                    sklepów. Prowadzi go serwis Moja Serowarnia (mojaserowarnia.pl). Kalkulator paszy dla drobiu
+                    i baza dodatków paszowych mają od 28 października 2026 własny serwer:{" "}
+                    <a href="https://mojapasza.com/asystenci-ai" className="underline">mojapasza.com/mcp</a>.
                   </p>
                   <p>
                     Korzystanie jest bezpłatne i nie wymaga konta ani klucza. Wszystkie narzędzia tylko odczytują
@@ -78,19 +83,24 @@ const WarunkiMcp = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card id="licencja" className="scroll-mt-24">
                 <CardHeader>
                   <CardTitle>Dane i licencja</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p>
-                    Dane z serwera są na licencji{" "}
+                    Baza kultur (skład, zastosowanie, temperatura pracy) i przepisy na sery są na licencji{" "}
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.pl" className="underline" rel="noopener">
                       CC BY 4.0
                     </a>
                     . Możesz je cytować i wykorzystywać, także komercyjnie, pod warunkiem podania źródła z linkiem.
-                    Serwer podaje gotowe źródło w każdej odpowiedzi (pola <code className="font-mono">zrodlo</code>{" "}
-                    albo <code className="font-mono">cytuj_jako</code>).
+                    Serwer podaje gotowe źródło w każdej odpowiedzi (pole <code className="font-mono">cytuj_jako</code>).
+                  </p>
+                  <p>
+                    Ceny i oferty sklepów są poza licencją CC BY. Możesz z nich korzystać na warunkach łącznika:
+                    przechowuj je najwyżej 24 godziny i pokazuj zawsze z datą ceny (pole{" "}
+                    <code className="font-mono">cena_z_dnia</code>) i linkiem do oferty. Ceny opublikowane przed 28
+                    października 2026 na licencji CC BY wolno dalej używać na tej licencji.
                   </p>
                   <p>
                     Nazwy produktów i znaki towarowe należą do ich właścicieli. Pokazujemy je tylko po to, żeby dało
@@ -106,12 +116,8 @@ const WarunkiMcp = () => {
                 <CardContent>
                   <ul className="list-disc pl-5 space-y-2">
                     <li>
-                      Wyniki kalkulatora pasz to obliczenie na wzorcowych wartościach pokarmowych surowców, a nie
-                      analiza Twojej partii paszy. Nie są poradą lekarza weterynarii.
-                    </li>
-                    <li>
-                      Ceny kultur i dodatków paszowych pochodzą ze stron sklepów z dnia podanego w odpowiedzi. Przed
-                      zakupem sprawdź aktualną cenę i opis w sklepie.
+                      Ceny kultur pochodzą ze stron sklepów z dnia podanego w odpowiedzi. Przed zakupem sprawdź
+                      aktualną cenę i opis w sklepie.
                     </li>
                     <li>
                       Ten sam skład gatunkowy kultury nie oznacza tego samego produktu. Zamienniki traktuj jako
@@ -154,23 +160,23 @@ const WarunkiMcp = () => {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p>
-                    Możesz zbudować na serwerze własną aplikację, stronę albo asystenta, na przykład doradcę żywienia
-                    drobiu, kalkulator na stronie sklepu albo listę zakupów. Nie potrzebujesz naszej zgody, także przy
+                    Możesz zbudować na serwerze własną aplikację, stronę albo asystenta, na przykład doradcę
+                    serowara, wyszukiwarkę kultur na stronie sklepu albo listę zakupów. Nie potrzebujesz naszej zgody, także przy
                     użyciu komercyjnym. Wystarczy, że przestrzegasz tych zasad:
                   </p>
                   <ul className="list-disc pl-5 space-y-2">
                     <li>
-                      Przy wyniku pokaż źródło z linkiem, tak jak podaje je serwer (pola <code className="font-mono">zrodlo</code>{" "}
-                      albo <code className="font-mono">cytuj_jako</code>).
+                      Przy wyniku pokaż źródło z linkiem, tak jak podaje je serwer (pole{" "}
+                      <code className="font-mono">cytuj_jako</code>).
                     </li>
                     <li>
-                      Nie usuwaj zastrzeżeń z odpowiedzi (pole <code className="font-mono">zastrzezenie</code>): wynik
-                      paszowy to obliczenie na danych wzorcowych, a nie porada lekarza weterynarii, a zamiennik to nie
-                      ten sam produkt.
+                      Nie usuwaj zastrzeżeń z odpowiedzi (pole <code className="font-mono">zastrzezenie</code>): zamiennik
+                      kultury to nie ten sam produkt.
                     </li>
                     <li>
                       Przy cenie pokaż sklep i datę ceny (<code className="font-mono">cena_z_dnia</code>) i nie nazywaj jej
-                      aktualną. Linki do sklepów zostaw takie, jakie przychodzą.
+                      aktualną. Linki do sklepów zostaw takie, jakie przychodzą. Cen nie przechowuj dłużej niż 24
+                      godziny (<a href="#licencja" className="underline">licencja</a>).
                     </li>
                     <li>
                       Jeśli pokazujesz produkty, nie ukrywaj oznaczenia <code className="font-mono">partner_serwisu</code>.
@@ -193,8 +199,8 @@ const WarunkiMcp = () => {
                     </li>
                   </ul>
                   <p>
-                    Dane możesz też skopiować, bo są na licencji CC BY 4.0. Obliczenia (dobór proporcji, ocena mieszanki,
-                    oferty sklepów) to jednak usługa naszego serwera i korzystasz z niej na zasadach z tej strony.
+                    Bazę kultur i przepisy możesz też skopiować, bo są na licencji CC BY 4.0. Ceny i oferty sklepów
+                    są poza nią: korzystasz z nich na zasadach z tej strony.
                   </p>
                 </CardContent>
               </Card>
@@ -233,20 +239,12 @@ const WarunkiMcp = () => {
                       <code className="font-mono">result.structuredContent</code>.
                     </li>
                   </ul>
-                  <p>Przykład: proporcje paszy dla kur niosek z czterech surowców.</p>
+                  <p>Przykład: kultury do camemberta.</p>
                   <pre className="whitespace-pre-wrap break-all rounded-md border border-border bg-muted/40 px-3 py-2 font-mono text-xs">
                     <code>{PRZYKLAD_CURL}</code>
                   </pre>
                   <p>Narzędzia:</p>
                   <ul className="list-disc pl-5 space-y-2">
-                    <li>
-                      pasze: <code className="font-mono">skladniki_paszy</code>, <code className="font-mono">normy_drobiu</code>,{" "}
-                      <code className="font-mono">policz_mieszanke</code>, <code className="font-mono">dobierz_proporcje</code>;
-                    </li>
-                    <li>
-                      dodatki paszowe i sklepy: <code className="font-mono">szukaj_dodatkow</code>,{" "}
-                      <code className="font-mono">dodatek</code>, <code className="font-mono">zamienniki_dodatku</code>;
-                    </li>
                     <li>
                       sery: <code className="font-mono">szukaj_przepisow</code>, <code className="font-mono">przepis</code>;
                     </li>
@@ -274,8 +272,9 @@ const WarunkiMcp = () => {
                   <p>
                     Nazwy narzędzi zachowujemy. Nowe narzędzia dochodzą bez usuwania starych. O usunięciu narzędzia
                     albo zmianie adresu uprzedzamy co najmniej 30 dni wcześniej na stronie{" "}
-                    <Link to="/asystenci-ai" className="underline">Asystenci AI</Link>. Warunki możemy zmienić; datę
-                    ostatniej zmiany podajemy na dole tej strony.
+                    <Link to="/asystenci-ai" className="underline">Asystenci AI</Link>. Wyjątek: 28 października 2026
+                    narzędzia paszowe przeszły od razu na osobny serwer mojapasza.com/mcp, razem z całym działem
+                    pasz. Warunki możemy zmienić; datę ostatniej zmiany podajemy na dole tej strony.
                   </p>
                 </CardContent>
               </Card>
@@ -312,12 +311,13 @@ const WarunkiMcp = () => {
                 <CardContent className="space-y-3">
                   <p>
                     The MCP server at <code className="font-mono">{ADRES_MCP}</code> is run by Moja Serowarnia
-                    (mojaserowarnia.pl). It is free, read-only and needs no account or key. Data is licensed CC BY 4.0;
-                    please cite the source with a link, as given in each response.
+                    (mojaserowarnia.pl). It is free, read-only and needs no account or key. The culture database and
+                    recipes are licensed CC BY 4.0; please cite the source with a link, as given in each response.
+                    Shop prices and offers are not under CC BY: keep them for at most 24 hours and always show the
+                    price date and the offer link. The poultry feed tools moved to mojapasza.com/mcp on 28 October 2026.
                   </p>
                   <p>
-                    Feed results are calculations on reference values, not veterinary advice; culture prices are dated
-                    snapshots. Limits: 30 requests per minute per IP and 600 per minute in total (HTTP 429 with
+                    Culture prices are dated snapshots. Limits: 30 requests per minute per IP and 600 per minute in total (HTTP 429 with
                     Retry-After: 60). Do not circumvent limits or overload the server. No uptime guarantee; tool
                     removals or address changes are announced at least 30 days in advance on /asystenci-ai.
                   </p>
@@ -337,7 +337,7 @@ const WarunkiMcp = () => {
               </Card>
 
               <p className="text-center text-muted-foreground">
-                Obowiązuje od 23 października 2026. Ostatnia zmiana: 25 października 2026 (zasady dla aplikacji, darmowe klucze aplikacji).
+                Obowiązuje od 23 października 2026. Ostatnia zmiana: 28 października 2026 (narzędzia paszowe na mojapasza.com, licencja cen sklepów).
               </p>
             </div>
           </div>

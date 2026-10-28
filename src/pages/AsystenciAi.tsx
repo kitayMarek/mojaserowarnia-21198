@@ -519,7 +519,7 @@ const AsystenciAi = () => {
                     <li>Bez konta i bez klucza, do 30 zapytań na minutę.</li>
                     <li>Liczymy tylko, ile razy dziennie użyto każdego narzędzia i z jakiego programu. Bez adresu IP i bez treści pytań.</li>
                     <li>Ceny pochodzą ze stron sklepów i mają datę sprawdzenia.</li>
-                    <li>Dane są na licencji CC BY 4.0: można je cytować z podaniem źródła.</li>
+                    <li>Baza kultur i przepisy są na licencji CC BY 4.0: można je cytować z podaniem źródła. Ceny sklepów są poza CC BY: podawaj je z datą i linkiem do oferty.</li>
                     <li>
                       Pełne zasady: <Link to="/nota-prawna#serwer-mcp" className="underline">prywatność</Link> i{" "}
                       <Link to="/warunki-mcp" className="underline">warunki korzystania z serwera MCP</Link>.
