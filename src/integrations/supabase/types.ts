@@ -644,6 +644,8 @@ export type Database = {
           www: string | null
           zdjecie_glowne: string | null
           zgoda_data: string | null
+          zgoda_hub: boolean
+          zgoda_hub_data: string | null
           zgoda_publikacja: boolean
         }
         Insert: {
@@ -671,6 +673,8 @@ export type Database = {
           www?: string | null
           zdjecie_glowne?: string | null
           zgoda_data?: string | null
+          zgoda_hub?: boolean
+          zgoda_hub_data?: string | null
           zgoda_publikacja?: boolean
         }
         Update: {
@@ -698,6 +702,8 @@ export type Database = {
           www?: string | null
           zdjecie_glowne?: string | null
           zgoda_data?: string | null
+          zgoda_hub?: boolean
+          zgoda_hub_data?: string | null
           zgoda_publikacja?: boolean
         }
         Relationships: []

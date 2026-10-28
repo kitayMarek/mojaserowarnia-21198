@@ -86,6 +86,7 @@ export default function MojaSerowarnia() {
   const [nrWeterynaryjny, setNrWeterynaryjny] = useState("");
   const [oswiadczenieProducent, setOswiadczenieProducent] = useState(false);
   const [zgoda, setZgoda] = useState(false);
+  const [zgodaHub, setZgodaHub] = useState(false);
   const [zdjecieGlowne, setZdjecieGlowne] = useState<string | null>(null);
   const [galeria, setGaleria] = useState<ZdjecieGalerii[]>([]);
   const { wyslij, usun, wysylanie, postep, ostatniWynik } = useUploadZdjecia();
@@ -110,6 +111,7 @@ export default function MojaSerowarnia() {
         setNrWeterynaryjny(data.nr_weterynaryjny ?? "");
         setOswiadczenieProducent(data.oswiadczenie_producent ?? false);
         setZgoda(data.zgoda_publikacja ?? false);
+        setZgodaHub(data.zgoda_hub ?? false);
         setZdjecieGlowne(data.zdjecie_glowne ?? null);
         setGaleria(Array.isArray(data.galeria) ? data.galeria : []);
       } else {
@@ -242,6 +244,8 @@ export default function MojaSerowarnia() {
         nr_weterynaryjny: nrWeterynaryjny.trim() || null,
         oswiadczenie_producent: oswiadczenieProducent,
         zgoda_publikacja: zgoda,
+        // Datę zgody ustawia i czyści trigger serowarnie_pilnuj_zgody_hub (migracja 20261028200000).
+        zgoda_hub: zgodaHub,
         zdjecie_glowne: zdjecieGlowne,
         galeria: galeria,
         status: nowyStatus,
@@ -606,6 +610,30 @@ export default function MojaSerowarnia() {
             To zgoda <strong>odrębna</strong> od zgody marketingowej. Możesz ją wycofać w każdej
             chwili — odznaczenie tego pola i zapis <strong>natychmiast zdejmuje wizytówkę</strong> z
             katalogu. Publikacja następuje dopiero po sprawdzeniu wpisu przez moderatora.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* ZGODA NA HUB — dobrowolna, odrębna od zgody na katalog Serowarni (tekst zaakceptowany przez Marka 28.10.2026) */}
+      <Card>
+        <CardHeader className="pb-3"><CardTitle className="text-base">Katalog Dane Rolne (dobrowolnie)</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex items-start gap-3">
+            <Checkbox id="zgoda-hub" checked={zgodaHub} onCheckedChange={(v) => setZgodaHub(v === true)} />
+            <Label htmlFor="zgoda-hub" className="text-sm font-normal cursor-pointer leading-relaxed">
+              Zgadzam się, żeby moja wizytówka (te same dane, które publikuję w katalogu na
+              mojaserowarnia.pl) była też widoczna w katalogu <strong>Dane Rolne</strong> (danerolne.com),
+              wspólnym spisie gospodarstw i producentów żywności, z którego korzystają też asystenci AI.
+            </Label>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Zgoda dobrowolna i odrębna od zgody na katalog Serowarni. Bez niej wizytówka zostaje tylko
+            tutaj. Administratorem danych w katalogu Dane Rolne jest Marek Walczak (Gietrzwałd), zasady:{" "}
+            <a href="https://danerolne.com/prywatnosc" className="underline" target="_blank" rel="noopener noreferrer">
+              danerolne.com/prywatnosc
+            </a>
+            . Możesz ją wycofać w każdej chwili: odznacz pole i zapisz, a wpis zniknie z danerolne.com
+            najpóźniej w ciągu 24 godzin.
           </p>
         </CardContent>
       </Card>
