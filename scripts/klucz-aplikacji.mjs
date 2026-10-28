@@ -10,6 +10,7 @@
  *   node scripts/klucz-aplikacji.mjs dodaj asystent-jana   -> nowy klucz, wypisany raz
  *   node scripts/klucz-aplikacji.mjs usun asystent-jana    -> klucze tej aplikacji przestaja dzialac
  *   node scripts/klucz-aplikacji.mjs lista                 -> nazwy aplikacji (bez kluczy)
+ *   node scripts/klucz-aplikacji.mjs wgraj                 -> wgrywa liste bez zmian (gdy zmienila ja Moja Pasza)
  *
  * Lista kluczy lezy w ProjektyLLm/klucze-aplikacji.json (katalog w .gitignore, bo repo
  * jest publiczne), a serwer dostaje ja jako sekret KLUCZE_APLIKACJI: dodaj i usun wgrywaja
@@ -81,6 +82,13 @@ if (polecenie === "lista") {
   if (Object.keys(klucze).length === przed) stop(`nie ma kluczy dla „${nazwa}”.`);
   wgraj();
   console.log(`\nKlucze „${nazwa}” usuniete.\n`);
+} else if (polecenie === "wgraj") {
+  // Lista jest wspolna z Moja Pasza (jej skrypt czyta ten sam plik i wgrywa na mojapasza-mcp).
+  // Kto zmieni liste, daje znac drugiemu, a drugi robi wgraj.
+  wgraj();
+  console.log(`
+Lista (${Object.keys(klucze).length} kluczy) wgrana na dane.mojaserowarnia.pl.
+`);
 } else {
-  stop("polecenie: dodaj <nazwa> | usun <nazwa> | lista");
+  stop("polecenie: dodaj <nazwa> | usun <nazwa> | lista | wgraj");
 }
