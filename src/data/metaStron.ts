@@ -197,7 +197,7 @@ export const metaStron: Record<string, MetaStrony> = {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: mirror (tytul), mirror (opis).
     title: "Serwatka dla zwierząt — dawki dla świń, drobiu i cieląt",
     description:
-      "Co zrobić z serwatką po serze: dawki dla świń (10–20 L), drobiu (ukwaszona, 10–20% pojenia) i cieląt. Serwatka słodka vs kwasowa, ostrzeżenie o solonej, przechowywanie i nawóz.",
+      "Co zrobić z serwatką po serze: dawki dla świń (10–20 L), drobiu (ok. 50 ml ukwaszonej na kurę dziennie, wg norm IFiŻZ PAN) i cieląt. Serwatka słodka vs kwasowa, ostrzeżenie o solonej, przechowywanie i nawóz.",
     mirror: "serwatka-dla-zwierzat.html",
   },
   "/slownik": {

@@ -127,6 +127,13 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-accent-foreground/70">
             <p>© 2025 Moja Serowarnia. Wszelkie prawa zastrzeżone.</p>
             <p>Stworzone z pasją dla polskich serowarów 🇵🇱</p>
+            {/* Decyzja Marka 27.10.2026: Serowarnia i Moja Pasza linkują do huba, bez znaczników w adresie. */}
+            <p>
+              Część rodziny{" "}
+              <a href="https://danerolne.com" className="text-primary hover:underline transition-colors">
+                danerolne.com
+              </a>
+            </p>
             <p>
               Built with{" "}
               <a

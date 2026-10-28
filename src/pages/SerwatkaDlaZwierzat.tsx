@@ -15,7 +15,12 @@ const SerwatkaDlaZwierzat = () => {
     {
       question: "Czy można podawać serwatkę kurom?",
       answer:
-        "Tak, ale ostrożnie i najlepiej w postaci ukwaszonej. Drób ma znikomą aktywność laktazy, więc laktoza ze świeżej serwatki fermentuje w jelicie i powoduje wodniste odchody oraz mokrą ściółkę. Bezpieczna praktyka: serwatka ukwaszona (2–3 dni w cieple), podawana jako część pojenia — orientacyjnie do 10–20% dziennego spożycia wody, wprowadzana stopniowo przez 5–7 dni. Zawsze musi być dostępna także czysta woda. Serwatki solonej nie podawaj drobiowi w ogóle.",
+        "Tak, w małej ilości i najlepiej ukwaszoną. Ptaki nie trawią laktozy, ale wykorzystują ją bakterie w jelicie: w małej ilości serwatka działa jak probiotyk, w dużej powoduje biegunki i mokrą ściółkę. Normy IFiŻZ PAN dopuszczają w paszy do 3% serwatki suszonej u niosek i drobiu rzeźnego po 4. tygodniu oraz do 2% u piskląt i młodzieży. Dla nioski, która zjada około 120 g paszy dziennie, to po przeliczeniu około 50 ml płynnej serwatki na dzień (nasze przeliczenie, nie liczba z norm). Wprowadzaj ją stopniowo przez 5–7 dni i zawsze zostaw czystą wodę. Serwatki solonej nie podawaj drobiowi w ogóle.",
+    },
+    {
+      question: "Czy ukwaszona serwatka działa jak probiotyk dla kur?",
+      answer:
+        "Częściowo. W ukwaszonej serwatce są bakterie mlekowe i kwas mlekowy. Normy IFiŻZ PAN opisują probiotyki dla drobiu jako bakterie m.in. z rodzajów Lactobacillus i Streptococcus, które zasiedlają jelito, wypierają bakterie chorobotwórcze i wytwarzają kwasy organiczne, w tym mlekowy; zaleca się je zaraz po wylęgu i po leczeniu antybiotykami. Bakterie z serwatki należą często do tych samych rodzajów, ale nie są tymi samymi, sprawdzonymi szczepami co w preparatach, więc serwatka może wspierać jelito, ale nie zastąpi preparatu o znanym składzie. Uwaga na kokcydiostatyki: monenzyna, częsta w paszach dla kurcząt i brojlerów, hamuje bakterie Lactobacillus, więc przy takiej paszy korzyść z serwatki jest niewielka. U kaczek i gęsi kokcydiostatyków się nie stosuje.",
     },
     {
       question: "Ile serwatki może zjeść świnia?",
@@ -64,9 +69,11 @@ const SerwatkaDlaZwierzat = () => {
     "@graph": [
       {
         "@type": "Article",
-        headline: "Serwatka w żywieniu zwierząt — dawki dla świń, drobiu i cieląt",
+        headline: "Serwatka w żywieniu zwierząt: dawki dla świń, drobiu i cieląt",
         description:
-          "Co zrobić z serwatką po produkcji sera: skład, serwatka słodka vs kwasowa, dawki dla świń (10–20 L), drobiu (ukwaszona, 10–20% pojenia) i cieląt, ostrzeżenie o serwatce solonej, przechowywanie i wykorzystanie jako nawóz.",
+          "Co zrobić z serwatką po produkcji sera: skład, serwatka słodka vs kwasowa, dawki dla świń (10–20 L), drobiu (ok. 50 ml ukwaszonej na kurę dziennie, wg limitu z norm IFiŻZ PAN) i cieląt, ostrzeżenie o serwatce solonej, przechowywanie i wykorzystanie jako nawóz.",
+        dateModified: "2026-10-28",
+        citation: "Konieczka P., Tuśnio A., Smulikowska S. (red.), Zalecenia żywieniowe i wartość pokarmowa pasz dla drobiu, wyd. 6, IFiŻZ PAN, Jabłonna 2025, s. 30, 156, 158",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/serwatka-dla-zwierzat",
         image: "https://mojaserowarnia.pl/og-image.jpg",
@@ -104,7 +111,7 @@ const SerwatkaDlaZwierzat = () => {
     { z: "Tuczniki", d: "10–20 L / dzień", n: "najlepszy odbiorca; zastępuje część wody", ok: true },
     { z: "Warchlaki", d: "3–5 L / dzień", n: "wprowadzać stopniowo przez 7–10 dni", ok: true },
     { z: "Cielęta powyżej 3–4 tyg.", d: "2–4 L / dzień", n: "jako dodatek, nie zamiast pójła", ok: true },
-    { z: "Kury nioski i brojlery", d: "10–20% dziennego pojenia", n: "TYLKO ukwaszona; ryzyko mokrej ściółki", ok: false },
+    { z: "Kury nioski i brojlery", d: "ok. 50 ml / dzień na ptaka", n: "najlepiej ukwaszona; normy: do 3% serwatki suszonej w paszy, pisklęta do 2%", ok: false },
     { z: "Psy", d: "50–200 ml okazjonalnie", n: "część psów źle toleruje laktozę", ok: false },
   ];
 
@@ -141,10 +148,11 @@ const SerwatkaDlaZwierzat = () => {
               <p>
                 Kolejność wykorzystania: <strong>najpierw ricotta</strong> (z 10 L serwatki 200–400 g),
                 potem <strong>pasza</strong>, na końcu <strong>nawóz</strong> rozcieńczony 1:5–1:10.
-                Najlepszy odbiorca to <strong>świnie</strong> (tuczniki 10–20 L/dzień). Drobiowi podawaj{" "}
-                <strong>wyłącznie serwatkę ukwaszoną</strong> i tylko jako 10–20% pojenia — ptaki nie
-                trawią laktozy i dostają mokrej ściółki.{" "}
-                <strong>Serwatki solonej nie skarmiaj nigdy</strong> — 1 litr solanki 20% niesie
+                Najlepszy odbiorca to <strong>świnie</strong> (tuczniki 10–20 L/dzień). Drobiowi dawaj{" "}
+                <strong>mało i najlepiej ukwaszoną</strong>: około 50 ml na kurę dziennie, bo normy
+                dopuszczają najwyżej 3% serwatki suszonej w paszy. W małej ilości działa jak probiotyk,
+                w dużej powoduje biegunki.{" "}
+                <strong>Serwatki solonej nie skarmiaj nigdy</strong>: 1 litr solanki 20% niesie
                 tyle soli, co 66 kg paszy, a dla kury 2 kg śmiertelne bywa już 30–40 ml.
               </p>
             </TLDRSection>
@@ -249,16 +257,31 @@ const SerwatkaDlaZwierzat = () => {
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <p>
-                    Ptaki mają <strong>znikomą aktywność laktazy</strong> — enzymu rozkładającego
-                    laktozę. Laktoza ze świeżej serwatki przechodzi więc do jelita grubego, gdzie
-                    fermentuje i wiąże wodę. Efekt: <strong>wodniste odchody i mokra ściółka</strong>,
+                    Ptaki <strong>nie trawią laktozy</strong>: nie mają enzymu, który ją rozkłada.
+                    Wykorzystują ją za to bakterie w jelicie. Według norm IFiŻZ PAN w małej ilości
+                    działa to jak probiotyk, a w dużej powoduje <strong>biegunki i mokrą ściółkę</strong>,
                     a stąd już blisko do kokcydiozy i problemów z łapami.
                   </p>
                   <p>
-                    <strong>Rozwiązanie to ukwaszenie.</strong> Zostaw serwatkę w cieple na 2–3 dni —
-                    bakterie mlekowe rozłożą część laktozy do kwasu mlekowego. Ukwaszona serwatka jest
-                    znacznie lepiej tolerowana, a przy okazji zakwasza wole i działa niekorzystnie na
-                    część bakterii chorobotwórczych.
+                    <strong>Ile to jest „mało”?</strong> Normy dopuszczają w paszy do 3% serwatki
+                    suszonej u niosek i drobiu rzeźnego po 4. tygodniu oraz do 2% u piskląt i
+                    młodzieży. Nioska zjada około 120 g paszy dziennie, więc 3% to około 3,6 g
+                    serwatki suszonej. Tyle suchej masy jest w <strong>około 50 ml płynnej
+                    serwatki</strong>, bo ma ona tylko 6–7% suchej masy. To nasze przeliczenie, a nie
+                    liczba z norm.
+                  </p>
+                  <p>
+                    <strong>Ukwaszenie pomaga.</strong> Zostaw serwatkę w cieple na 2–3 dni: bakterie
+                    mlekowe rozłożą część laktozy do kwasu mlekowego. Taka serwatka jest lepiej
+                    tolerowana, a jej bakterie należą często do tych samych rodzajów co w probiotykach
+                    dla drobiu (Lactobacillus, Streptococcus). To jednak nie te same, sprawdzone
+                    szczepy, więc ukwaszona serwatka nie zastąpi preparatu probiotycznego.
+                  </p>
+                  <p>
+                    <strong>Uwaga na monenzynę.</strong> Ten kokcydiostatyk, częsty w paszach dla
+                    kurcząt i brojlerów, hamuje bakterie Lactobacillus, więc przy takiej paszy korzyść
+                    z ukwaszonej serwatki jest niewielka. U kaczek i gęsi kokcydiostatyków się nie
+                    stosuje.
                   </p>
                   <div className="bg-secondary/50 p-4 rounded-lg">
                     <strong>Ciekawy związek z bilansowaniem paszy:</strong> białko serwatkowe jest
@@ -266,8 +289,11 @@ const SerwatkaDlaZwierzat = () => {
                     zapotrzebowanie na <strong>metioninę</strong> — aminokwas, którego niedobór jest
                     główną przyczyną wydziobywania piór i zjadania jaj. To istotne zwłaszcza w chowie
                     ekologicznym, gdzie nie wolno stosować syntetycznej metioniny. Serwatka nie
-                    rozwiąże jednak problemu sama — przy 0,6–0,9% białka jest to dodatek, nie źródło.
+                    rozwiąże jednak problemu sama: przy 0,6–0,9% białka jest to dodatek, nie źródło.
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    Źródło liczb dla drobiu: Konieczka P., Tuśnio A., Smulikowska S. (red.), Zalecenia żywieniowe i wartość pokarmowa pasz dla drobiu, wyd. 6, IFiŻZ PAN, Jabłonna 2025, s. 30, 156 i 158 (Tabela 77).
+                  </p>
                 </CardContent>
               </Card>
 
@@ -332,8 +358,8 @@ const SerwatkaDlaZwierzat = () => {
                   <div className="flex gap-3">
                     <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">2</div>
                     <div>
-                      <strong>Pasza</strong> — serwatka po ricotcie, uboższa w białko, ale wciąż z
-                      laktozą i minerałami. Świnie, cielęta, ukwaszona dla drobiu.
+                      <strong>Pasza</strong>: serwatka po ricotcie, uboższa w białko, ale wciąż z
+                      laktozą i minerałami. Świnie, cielęta, a drobiowi niewiele i najlepiej ukwaszonej.
                     </div>
                   </div>
                   <div className="flex gap-3">

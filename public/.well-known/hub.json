@@ -1,0 +1,24 @@
+{
+  "wersja": 1,
+  "weryfikacja": "hub-2b81d4",
+  "podmiot": {
+    "nazwa": "Moja Serowarnia",
+    "typ": ["modul_wiedzy"],
+    "opis": "Baza kultur do sera z polskich sklepów, przepisy na sery domowe, prawo RHD i MOL.",
+    "strona": "https://mojaserowarnia.pl"
+  },
+  "modul": {
+    "mcp": "https://dane.mojaserowarnia.pl/mcp",
+    "karta": "https://dane.mojaserowarnia.pl/mcp/server-card",
+    "tematy": ["kultury bakteryjne", "przepisy na sery"],
+    "przedrostek": "serowarnia"
+  },
+  "licencja": "CC BY 4.0",
+  "licencja_wyjatki": [
+    {
+      "dane": "ceny i oferty sklepów",
+      "zasada": "poza CC BY 4.0, na warunkach łącznika: przechowywanie najwyżej 24 godziny, zawsze z datą ceny i linkiem do oferty"
+    }
+  ],
+  "aktualne_do": "2027-01-31"
+}

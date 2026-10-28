@@ -171,8 +171,9 @@ def gen_html(items):
     o.append(f'  <p class="lead">Sprawdzisz tu, który z {ilu_slownie} polskich sklepów ma daną kulturę i w jakiej cenie: {lista_sklepow} w jednym zestawieniu. Zestawienie {total} kultur bakteryjnych i pleśni podaje nazwę, skład, zastosowanie, temperaturę pracy, sklep i cenę. Wersja interaktywna z filtrami: <a href="https://mojaserowarnia.pl/baza-kultur">baza kultur w aplikacji</a>.</p>')
     if kiedy:
         o.append(f'  <p>Ceny odczytane ze stron produktów sklepów {kiedy}. Sklepy zmieniają je bez zapowiedzi, więc przed zakupem sprawdź cenę w sklepie.</p>')
-    # Ta sama wzmianka co pod widgetem „Zapytaj AI” w src/pages/BazaKultur.tsx.
-    o.append('  <p>Używasz Claude? <a href="https://mojaserowarnia.pl/asystenci-ai">Podłącz bazę jako łącznik</a> i pytaj o kultury w rozmowie, z ceną za litr mleka.</p>')
+    # Akapit z adresem łącznika (zgoda Marka 27.10.2026): ramka „Podłącz w swoim czacie” jest tylko
+    # w React, więc boty i czaty bez tego akapitu nie znają adresu serwera MCP.
+    o.append('  <p><strong>Ta baza w Twoim czacie.</strong> Podłącz ją do ChatGPT, Claude albo Perplexity jako łącznik (serwer MCP) pod adresem <code>https://dane.mojaserowarnia.pl/mcp</code>. Czat sprawdzi wtedy kultury, ceny za litr mleka i zamienniki na naszych danych, zamiast zgadywać. Bez konta i bez klucza. Instrukcja krok po kroku: <a href="https://mojaserowarnia.pl/asystenci-ai">Asystenci AI</a>.</p>')
     for t in TYPE_ORDER + [k for k in groups if k not in TYPE_ORDER]:
         if t not in groups:
             continue
@@ -184,7 +185,7 @@ def gen_html(items):
                      "<td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
                 adres_kultury(it["name"]), e(it["name"]), e(it["comp"]), e(it["app"]), e(it["temp"]), e(it["shop"]), e(it["price"])))
         o.append("    </tbody>\n  </table>")
-    o.append('  <footer>Pełna, statyczna baza kultur (źródło dla wyszukiwarek i asystentów AI). Aktualne ceny i filtry w aplikacji <a href="https://mojaserowarnia.pl/baza-kultur">Moja Serowarnia</a>. Ceny mogą się zmieniać — weryfikuj u producenta.</footer>\n</body>\n</html>')
+    o.append('  <footer>Pełna, statyczna baza kultur (źródło dla wyszukiwarek i asystentów AI). Aktualne ceny i filtry w aplikacji <a href="https://mojaserowarnia.pl/baza-kultur">Moja Serowarnia</a>. Ceny mogą się zmieniać: weryfikuj u producenta. Część rodziny <a href="https://danerolne.com">danerolne.com</a>.</footer>\n</body>\n</html>')
     return "\n".join(o)
 
 
