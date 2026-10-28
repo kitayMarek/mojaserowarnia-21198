@@ -250,7 +250,7 @@ const PorownywarkaKultur = () => {
                                 href={item.productUrl}
                                 target="_blank"
                                 rel="noopener nofollow"
-                                onClick={() => trackShopClick(item.name, item.shop)}
+                                onClick={() => trackShopClick(item.name, item.shop, item.sklepId)}
                                 className="text-primary underline hover:text-primary/80"
                               >
                                 Zobacz
@@ -343,6 +343,7 @@ const PorownywarkaKultur = () => {
                             productUrl={item.productUrl}
                             shopUrl={item.shopUrl}
                             shopName={item.shop}
+                            sklepId={item.sklepId}
                             cultureName={item.name}
                           />
                         </CardContent>

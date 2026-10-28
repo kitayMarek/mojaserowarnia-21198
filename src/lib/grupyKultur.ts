@@ -29,6 +29,8 @@ export interface KulturaWejscie {
   // reszte w snake_case. Latwo sie pomylic — sprawdzone w src/hooks/useCultures.ts.
   productUrl?: string | null;
   shopUrl?: string | null;
+  /** Identyfikator sklepu w hubie danerolne.com, do pomiaru kliknięć. */
+  sklepId?: string;
   /** Poprzednia cena — do pokazania „teraz X (było Y)". */
   pricePrevious?: number | null;
   /** Na ile litrów starcza opakowanie. */

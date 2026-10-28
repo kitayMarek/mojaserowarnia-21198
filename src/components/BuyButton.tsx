@@ -6,15 +6,16 @@ interface BuyButtonProps {
   shopUrl?: string | null;
   shopName: string;
   cultureName: string;
+  sklepId?: string;
 }
 
-const BuyButton = ({ productUrl, shopUrl, shopName, cultureName }: BuyButtonProps) => {
+const BuyButton = ({ productUrl, shopUrl, shopName, cultureName, sklepId }: BuyButtonProps) => {
   const hasLink = !!(productUrl?.trim() || shopUrl?.trim());
   if (!hasLink) return null;
 
   const href = buildAffiliateUrl(productUrl, cultureName, shopName, shopUrl);
 
-  const handleClick = () => trackShopClick(cultureName, shopName);
+  const handleClick = () => trackShopClick(cultureName, shopName, sklepId);
 
   return (
     <a

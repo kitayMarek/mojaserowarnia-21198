@@ -183,6 +183,7 @@ const KulturaStrona = () => {
                   productUrl={kultura.productUrl}
                   shopUrl={kultura.shopUrl}
                   shopName={kultura.shop}
+                  sklepId={kultura.sklepId}
                   cultureName={kultura.name}
                 />
               </div>

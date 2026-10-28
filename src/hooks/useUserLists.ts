@@ -22,6 +22,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { pobierzSklepyZHuba } from "@/hooks/useCultures";
 
 // ─── Typy ────────────────────────────────────────────────────────────────────
 
@@ -256,13 +257,16 @@ export function useListItems(listId: string | null) {
     enabled: !!listId,
     staleTime: 30_000,
     queryFn: async (): Promise<UserListItem[]> => {
-      const { data, error } = await (supabase as any)
-        .from("user_culture_list_items")
-        .select(
-          "id, list_id, culture_id, notes, added_at, cultures(id, name, type, shop, price_label, application, temperature, product_url)"
-        )
-        .eq("list_id", listId)
-        .order("added_at", { ascending: false });
+      const [{ data, error }, sklepy] = await Promise.all([
+        (supabase as any)
+          .from("user_culture_list_items")
+          .select(
+            "id, list_id, culture_id, notes, added_at, cultures(id, name, type, shop, sklep_id, price_label, application, temperature, product_url)"
+          )
+          .eq("list_id", listId)
+          .order("added_at", { ascending: false }),
+        pobierzSklepyZHuba(),
+      ]);
 
       if (error) throw error;
 
@@ -272,7 +276,10 @@ export function useListItems(listId: string | null) {
         culture_id: item.culture_id,
         notes: item.notes,
         added_at: item.added_at,
-        culture: item.cultures ?? undefined,
+        // Nazwa sklepu z huba, jak w useCultures; shop z kultury tylko jako zapas.
+        culture: item.cultures
+          ? { ...item.cultures, shop: sklepy.get(item.cultures.sklep_id)?.nazwa ?? item.cultures.shop }
+          : undefined,
       }));
     },
   });

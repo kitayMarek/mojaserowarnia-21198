@@ -448,7 +448,7 @@ const BazaKultur = () => {
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold text-primary min-w-[70px]">Sklep:</span>
-                        <a href={culture.shopUrl} target="_blank" rel="noopener nofollow" onClick={() => trackShopClick(culture.name, culture.shop)} className="text-accent hover:underline font-medium">
+                        <a href={culture.shopUrl} target="_blank" rel="noopener nofollow" onClick={() => trackShopClick(culture.name, culture.shop, culture.sklepId)} className="text-accent hover:underline font-medium">
                           {culture.shop}
                         </a>
                       </div>
@@ -466,6 +466,7 @@ const BazaKultur = () => {
                           productUrl={culture.productUrl}
                           shopUrl={culture.shopUrl}
                           shopName={culture.shop}
+                          sklepId={culture.sklepId}
                           cultureName={culture.name}
                         />
                       </div>
@@ -473,7 +474,7 @@ const BazaKultur = () => {
                         href={culture.productUrl || culture.shopUrl}
                         target="_blank"
                         rel="noopener nofollow"
-                        onClick={() => trackShopClick(culture.name, culture.shop)}
+                        onClick={() => trackShopClick(culture.name, culture.shop, culture.sklepId)}
                         className="block mt-2 bg-primary text-white text-center py-2 rounded font-bold hover:bg-primary-hover transition-colors"
                       >
                         {culture.productUrl ? 'Kup w sklepie' : 'Odwiedź sklep'}
@@ -609,6 +610,7 @@ const BazaKultur = () => {
                                   productUrl={culture.productUrl}
                                   shopUrl={culture.shopUrl}
                                   shopName={culture.shop}
+                                  sklepId={culture.sklepId}
                                   cultureName={culture.name}
                                 />
                               </div>

@@ -204,6 +204,7 @@ const ZamiennikiKultur = () => {
                             productUrl={k.productUrl}
                             shopUrl={k.shopUrl}
                             shopName={k.shop}
+                            sklepId={k.sklepId}
                             cultureName={k.name}
                           />
                         </td>

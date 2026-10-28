@@ -23,6 +23,8 @@ export interface Culture {
   type: string;
   shop: string;
   shopUrl: string;
+  /** Identyfikator sklepu w hubie danerolne.com (domena), klucz do sklepy_z_huba. */
+  sklepId?: string;
   productUrl?: string;
   price: string;           // price_label z bazy — kompatybilność wsteczna
   price_numeric?: number;
@@ -44,8 +46,37 @@ export interface Culture {
   updated_at: string;
 }
 
+// ─── Sklepy z huba ───────────────────────────────────────────────────────────
+
+interface SklepZHuba {
+  nazwa: string;
+  strona: string;
+}
+
+// Hub danerolne.com jest jedynym źródłem nazwy i adresu sklepu (plan „Sklepy
+// i oferty”, krok 6). Kopia w sklepy_z_huba odświeża się co godzinę. Kolumny
+// cultures.shop i shop_url zostają jako zapas, dopóki używają ich skrypty cen,
+// i na wypadek, gdyby kopia nie odpowiedziała: wtedy strona pokazuje je jak dawniej.
+let sklepyZHuba: Promise<Map<string, SklepZHuba>> | null = null;
+
+async function wczytajSklepyZHuba(): Promise<Map<string, SklepZHuba>> {
+  const { data, error } = await supabase.from("sklepy_z_huba").select("sklep_id, nazwa, strona");
+  if (error) throw error;
+  return new Map((data ?? []).map((s) => [s.sklep_id, { nazwa: s.nazwa, strona: s.strona }]));
+}
+
+export function pobierzSklepyZHuba(): Promise<Map<string, SklepZHuba>> {
+  sklepyZHuba ??= wczytajSklepyZHuba().catch((err: unknown) => {
+    console.error("[sklepy_z_huba]", err);
+    sklepyZHuba = null;
+    return new Map<string, SklepZHuba>();
+  });
+  return sklepyZHuba;
+}
+
 // Mapowanie z formatu bazy danych na format zgodny z poprzednim interfejsem
-function mapDbRow(row: Record<string, unknown>): Culture {
+function mapDbRow(row: Record<string, unknown>, sklepy: Map<string, SklepZHuba>): Culture {
+  const sklep = sklepy.get(row.sklep_id as string);
   return {
     id:           row.id as string,
     name:         row.name as string,
@@ -53,8 +84,9 @@ function mapDbRow(row: Record<string, unknown>): Culture {
     application:  row.application as string ?? "",
     temperature:  row.temperature as string ?? "",
     type:         row.type as string ?? "",
-    shop:         row.shop as string ?? "",
-    shopUrl:      row.shop_url as string ?? "",
+    shop:         sklep?.nazwa ?? row.shop as string ?? "",
+    shopUrl:      sklep?.strona ?? row.shop_url as string ?? "",
+    sklepId:      row.sklep_id as string ?? undefined,
     productUrl:   row.product_url as string ?? undefined,
     price:        row.price_label as string ?? "",      // kompatybilność wsteczna
     price_numeric: row.price_numeric as number ?? undefined,
@@ -116,11 +148,11 @@ export function useCultures(options: UseCulturesOptions = {}): UseCulturesReturn
           query = query.eq("is_active", true);
         }
 
-        const { data, error: sbError } = await query;
+        const [{ data, error: sbError }, sklepy] = await Promise.all([query, pobierzSklepyZHuba()]);
 
         if (sbError) throw sbError;
         if (!cancelled) {
-          setAllCultures((data ?? []).map(mapDbRow));
+          setAllCultures((data ?? []).map((row) => mapDbRow(row, sklepy)));
         }
       } catch (err: unknown) {
         if (!cancelled) {
@@ -214,7 +246,7 @@ export function useCultureDetail(id: string | null): UseCultureDetailReturn {
 
     async function fetchDetail() {
       try {
-        const [cultureRes, historyRes] = await Promise.all([
+        const [cultureRes, historyRes, sklepy] = await Promise.all([
           supabase.from("cultures").select("*").eq("id", id).single(),
           supabase
             .from("price_history")
@@ -222,12 +254,13 @@ export function useCultureDetail(id: string | null): UseCultureDetailReturn {
             .eq("culture_id", id)
             .order("recorded_at", { ascending: false })
             .limit(20),
+          pobierzSklepyZHuba(),
         ]);
 
         if (cultureRes.error) throw cultureRes.error;
 
         if (!cancelled) {
-          setCulture(mapDbRow(cultureRes.data as Record<string, unknown>));
+          setCulture(mapDbRow(cultureRes.data as Record<string, unknown>, sklepy));
           setPriceHistory((historyRes.data ?? []) as PriceHistoryEntry[]);
         }
       } catch (err: unknown) {

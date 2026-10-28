@@ -717,6 +717,63 @@ export type Database = {
         }
         Relationships: []
       }
+      sklepy_z_huba: {
+        Row: {
+          aktualne_do: string | null
+          dostawa: Json | null
+          kraj: string
+          miejscowosc: string | null
+          nazwa: string
+          odbior: string | null
+          opis: string | null
+          potwierdzono: string | null
+          potwierdzony: boolean
+          punkty: Json
+          rodzaj_firmy: string[]
+          sklep_id: string
+          skopiowano: string
+          strona: string
+          wojewodztwo: string | null
+          zrodla_danych: Json
+        }
+        Insert: {
+          aktualne_do?: string | null
+          dostawa?: Json | null
+          kraj?: string
+          miejscowosc?: string | null
+          nazwa: string
+          odbior?: string | null
+          opis?: string | null
+          potwierdzono?: string | null
+          potwierdzony?: boolean
+          punkty?: Json
+          rodzaj_firmy?: string[]
+          sklep_id: string
+          skopiowano?: string
+          strona: string
+          wojewodztwo?: string | null
+          zrodla_danych?: Json
+        }
+        Update: {
+          aktualne_do?: string | null
+          dostawa?: Json | null
+          kraj?: string
+          miejscowosc?: string | null
+          nazwa?: string
+          odbior?: string | null
+          opis?: string | null
+          potwierdzono?: string | null
+          potwierdzony?: boolean
+          punkty?: Json
+          rodzaj_firmy?: string[]
+          sklep_id?: string
+          skopiowano?: string
+          strona?: string
+          wojewodztwo?: string | null
+          zrodla_danych?: Json
+        }
+        Relationships: []
+      }
       user_culture_list_items: {
         Row: {
           added_at: string
