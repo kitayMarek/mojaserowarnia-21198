@@ -335,7 +335,33 @@ const Narzedzia = () => {
                 </CardContent>
               </Card>
 
-              {/* Kalkulatory pasz (drób i bydło) od 28.10.2026 na mojapasza.com, link w stopce serwisu. */}
+              {/* Kalkulatory pasz (drób i bydło) od 28.10.2026 na mojapasza.com: tu tylko odsyłacz (Marek, 28.10.2026). */}
+              <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="w-20 h-20 rounded-none bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center">
+                      <Calculator className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        Kalkulator paszy
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Kalkulator paszy dla drobiu i bydła przeniósł się do naszego serwisu Moja Pasza. Tam ułożysz mieszankę z własnych zbóż pod normy i sprawdzisz, czego w niej brakuje.
+                      </p>
+                    </div>
+                    <Button
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white"
+                    >
+                      <a href="https://mojapasza.com/" className="flex items-center justify-center gap-2">
+                        Przejdź do Mojej Paszy
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Menadżer Fermy Drobiu */}
               <Card className="group border-border hover:border-primary transition-all duration-300 bg-card">
