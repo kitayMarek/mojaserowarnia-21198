@@ -496,8 +496,9 @@ const AsystenciAi = () => {
                   <p>
                     Na razie nie da się go podłączyć z Polski. Google pozwala dodać własny serwer MCP tylko w Gemini Spark,
                     a ten działa w USA, po angielsku i w płatnych planach (stan na 25 października 2026).{" "}
-                    <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz</Link> i{" "}
-                    <Link to="/baza-kultur" className="underline">bazę kultur</Link> masz za to na naszej stronie, bez logowania.
+                    <Link to="/baza-kultur" className="underline">Bazę kultur</Link> i{" "}
+                    <Link to="/przepisy" className="underline">przepisy</Link> masz za to na naszej stronie, bez logowania,
+                    a kalkulator paszy na <a href="https://mojapasza.com/" className="underline">mojapasza.com</a>.
                   </p>
                 ),
               },

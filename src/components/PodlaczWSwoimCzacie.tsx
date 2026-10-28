@@ -185,7 +185,7 @@ const PodlaczWSwoimCzacie = ({
   temat = "pasze",
   className = "",
 }: {
-  /** Ścieżka strony, np. "/kalkulator-pasz": znacznik w adresie serwera i w liczniku kliknięć. */
+  /** Ścieżka strony, np. "/baza-kultur": znacznik w adresie serwera i w liczniku kliknięć. */
   sciezka: string;
   temat?: TematPromptu;
   className?: string;

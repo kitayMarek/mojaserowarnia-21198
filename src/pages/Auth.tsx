@@ -41,7 +41,8 @@ const TRESC_ZGODY =
  * parametr `next` przychodzi z adresu, wiec bez listy dalby sie uzyc do odeslania
  * czlowieka po zalogowaniu na obca strone.
  */
-const DOZWOLONE_POWROTY = new Set(["/kalkulator-pasz"]);
+// Do 28.10.2026 był tu tylko "/kalkulator-pasz" (zapis mieszanki); kalkulator jest teraz na mojapasza.com.
+const DOZWOLONE_POWROTY = new Set<string>();
 
 export default function Auth() {
   const { signIn, signUp, user } = useAuth();
