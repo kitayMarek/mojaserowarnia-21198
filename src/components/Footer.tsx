@@ -29,6 +29,8 @@ const Footer = () => {
         { label: "Siła podpuszczki", href: "/sila-podpuszczki" },
         { label: "System ewidencji", href: "/dashboard" },
         { label: "Automatyzacja Social Media", href: "/automatyzacja-social-media" },
+        // Jedyny link do pasz w Serowarni od 28.10.2026 (decyzja Marka 25.10.2026: poza menu i wyszukiwarką).
+        { label: "Kalkulator paszy: mojapasza.com", href: "https://mojapasza.com" },
       ],
     },
     {
@@ -73,7 +75,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm text-accent-foreground/80 mb-6 leading-relaxed">
-              Wiedza o serowarstwie domowym i zagrodowym: kultury, przepisy, kalkulator pasz i prawo dla małych gospodarstw.
+              Wiedza o serowarstwie domowym i zagrodowym: kultury, przepisy, kalkulatory i prawo dla małych gospodarstw.
             </p>
             
             {/* Social Links */}

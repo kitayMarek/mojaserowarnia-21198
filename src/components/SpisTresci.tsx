@@ -26,7 +26,7 @@ interface Props {
 const NAJCZESCIEJ = [
   { label: "Kalkulator solanki", href: "/kalkulator-solanki" },
   { label: "Baza kultur", href: "/baza-kultur" },
-  { label: "Kalkulator pasz (drób)", href: "/kalkulator-pasz" },
+  { label: "Prawo RHD", href: "/prawo/rhd" },
 ];
 
 const SpisTresci = ({ open, onOpenChange, onSearch }: Props) => {

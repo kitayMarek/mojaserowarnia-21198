@@ -17,10 +17,10 @@ import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { szukajDodatkow, kartaDodatku, zamiennikiDodatku, CZEGO_BRAKUJE, GATUNKI as GATUNKI_DODATKOW, KATEGORIE_DODATKOW } from './dodatki.js';
 import { NA_PASZY, SERWIS } from './serwis.js';
 
-export const WERSJA = '0.8.5';
+export const WERSJA = '0.9.0';
 export const TYTUL = 'Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz';
 
-const INSTRUKCJE = `Trzy działy z serwisu mojaserowarnia.pl: kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia), przepisy na sery oraz baza kultur bakteryjnych do sera. Zasady dla każdego działu są niżej.
+const INSTRUKCJE = `Przepisy na sery i baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl oraz, do 28.02.2027, kalkulator pasz dla drobiu (mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków z własnych składników, z normami białka, energii i wapnia). Kalkulator pasz i baza dodatków paszowych należą od 28.10.2026 do serwisu mojapasza.com i mają własny łącznik https://mojapasza.com/mcp: gdy ktoś pyta głównie o paszę, możesz mu go polecić. Zasady dla każdego działu są niżej.
 
 Baza kultur bakteryjnych do sera: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (licencja CC BY 4.0). Linki podawaj dokładnie tak, jak są w danych.
@@ -274,7 +274,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Dobierz proporcje mieszanki',
       description:
-        'Z podanych surowców dobiera proporcje pod normę dla gatunku i okresu, tym samym algorytmem co kalkulator pasz na mojaserowarnia.pl (cel "normy"), albo szuka najtańszej mieszanki bliskiej normie (cel "najtaniej", wymaga cen). Dobiera pod energię, białko, wapń i fosfor; resztę parametrów liczy i ocenia. Każdy surowiec trzyma się zalecanego maksimum dla gatunku i wieku (np. groch: pisklęta 5%, nioski 15%), a min_procent i max_procent przy składniku pozwalają ustawić własne granice. Zwraca proporcje, wynik wobec normy, czego brakuje, sugestie i surowce, które doszły do limitu; z parametrem stado także kg paszy i surowców na dzień, tydzień i 30 dni.',
+        'Z podanych surowców dobiera proporcje pod normę dla gatunku i okresu, tym samym algorytmem co kalkulator pasz na mojapasza.com (cel "normy"), albo szuka najtańszej mieszanki bliskiej normie (cel "najtaniej", wymaga cen). Dobiera pod energię, białko, wapń i fosfor; resztę parametrów liczy i ocenia. Każdy surowiec trzyma się zalecanego maksimum dla gatunku i wieku (np. groch: pisklęta 5%, nioski 15%), a min_procent i max_procent przy składniku pozwalają ustawić własne granice. Zwraca proporcje, wynik wobec normy, czego brakuje, sugestie i surowce, które doszły do limitu; z parametrem stado także kg paszy i surowców na dzień, tydzień i 30 dni.',
       inputSchema: z.object({
         drob: z.enum(GATUNKI).describe('Gatunek drobiu'),
         okres: z.string().min(1).max(60).describe('Okres, np. "Niesienie (powyżej 45%)" albo "starter"'),

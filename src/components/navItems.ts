@@ -1,7 +1,7 @@
 // Jedna lista dla calej nawigacji: sidebar i pelnoekranowy "Spis tresci"
 // czytaja ten sam obiekt, wiec nowa strona pojawia sie w obu miejscach naraz.
 import {
-  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Wheat, Store, Milk, Compass,
+  FlaskConical, ChefHat, GraduationCap, Calculator, Scale, Newspaper, ClipboardList, Mail, ScrollText, Droplets, Store, Milk, Compass,
   type LucideIcon,
 } from "lucide-react";
 import { mleczneProdukty, sciezkaMlecznegoProduktu } from "@/data/mleczneProdukty";
@@ -104,13 +104,12 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Pasze i zwierzęta", icon: Wheat, color: "lime",
+    // Do 28.10.2026 „Pasze i zwierzęta” z kalkulatorami i przeglądem /pasze; pasze są teraz
+    // na mojapasza.com (link w stopce), tu zostały artykuły o mleku i serwatce.
+    label: "Mleko i serwatka", icon: Droplets, color: "lime",
     children: [
-      { label: "Przegląd działu", href: "/pasze" },
       { label: "Mleko do sera", href: "/mleko-do-sera" },
       { label: "Wady mleka a wady sera", href: "/wady-mleka-a-wady-sera" },
-      { label: "Kalkulator pasz (drób)", href: "/kalkulator-pasz" },
-      { label: "Kalkulator pasz (bydło)", href: "/kalkulator-pasz-bydlo" },
       { label: "Serwatka dla zwierząt", href: "/serwatka-dla-zwierzat" },
       { label: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser" },
     ],

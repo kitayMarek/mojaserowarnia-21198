@@ -82,7 +82,7 @@ const WadyMlekaWadySera = () => {
   const seeAlsoLinks = [
     { title: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser", description: "Diagnostyka od strony gotowego sera: ratować, przerobić czy wyrzucić." },
     { title: "Mleko do sera", href: "/mleko-do-sera", description: "Skład mleka, wydajność serowarska i wpływ żywienia na tłuszcz i białko." },
-    { title: "Kalkulator pasz dla bydła", href: "/kalkulator-pasz-bydlo", description: "Dawka dla krów — struktura dawki decyduje o składzie mleka." },
+    { title: "Kalkulator pasz dla bydła (mojapasza.com)", href: "https://mojapasza.com/bydlo", description: "Dawka dla krów — struktura dawki decyduje o składzie mleka." },
     { title: "Poradnik dla serowarów", href: "/poradnik", description: "Proces od mleka do dojrzewania i typowe błędy technologiczne." },
   ];
 
@@ -105,7 +105,7 @@ const WadyMlekaWadySera = () => {
       <Navigation />
       <PageBreadcrumbs
         items={[
-          { label: "Pasze i zwierzęta", href: "/pasze" },
+          { label: "Mleko i serwatka" },
           { label: "Wady mleka a wady sera" },
         ]}
       />
@@ -162,7 +162,7 @@ const WadyMlekaWadySera = () => {
 
                   propozycja: "— kiszonka to najczęstsze źródło kłopotu:",
 
-                  href: "/pasze",
+                  href: "https://mojapasza.com/poradnik",
 
                   etykieta: "pasze i żywienie",
 

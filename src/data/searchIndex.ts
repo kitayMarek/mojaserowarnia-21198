@@ -64,35 +64,12 @@ const createRecipeSearchItems = (): SearchItem[] => {
 
 // Poradniki
 const poradnikiItems: SearchItem[] = [
-  // Strony o paszach i asystenci AI (24.10.2026): z nowej strony głównej szuka się ich wprost.
-  {
-    id: "kury-nie-niosa",
-    title: "Kury nie niosą jajek? Najczęstsze przyczyny",
-    description: "Jesień i pierzenie, za mało białka i wapnia, sama pszenica, resztki z kuchni. Prosto, z liczbami i źródłami.",
-    category: "poradniki",
-    href: "/pasze/kury-nie-niosa",
-    keywords: ["kury", "nie niosą", "nioski", "jajka", "jesień", "pierzenie", "wapń", "białko"],
-  },
-  {
-    id: "resztki-z-kuchni",
-    title: "Resztki z kuchni dla kur",
-    description: "Chleb, makaron i obiad dla kur: co, ile i czego unikać, i co mówią przepisy.",
-    category: "poradniki",
-    href: "/pasze/resztki-z-kuchni",
-    keywords: ["resztki", "kuchnia", "chleb", "makaron", "kury", "zlewki", "obierki"],
-  },
-  {
-    id: "udzial-surowcow",
-    title: "Ile jakiego surowca w paszy dla drobiu",
-    description: "Górne granice zbóż, grochu, bobiku i rzepaku dla każdej grupy ptaków, ze źródłami.",
-    category: "poradniki",
-    href: "/pasze/udzial-surowcow",
-    keywords: ["pasza", "groch", "bobik", "pszenica", "jęczmień", "rzepak", "udział", "limit", "drób"],
-  },
+  // Asystenci AI (24.10.2026): z nowej strony głównej szuka się jej wprost. Strony o paszach
+  // (kury nie niosą, resztki, udział surowców, kalkulator) od 28.10.2026 na mojapasza.com.
   {
     id: "asystenci-ai",
     title: "Podłącz serwis do swojego czatu (ChatGPT, Claude, Perplexity)",
-    description: "Gotowy tekst dla czatu: przeprowadzi przez podłączenie bazy kultur i kalkulatora pasz.",
+    description: "Gotowy tekst dla czatu: przeprowadzi przez podłączenie bazy kultur i przepisów.",
     category: "narzedzia",
     href: "/asystenci-ai",
     keywords: ["chatgpt", "claude", "perplexity", "asystent", "ai", "czat", "łącznik", "mcp", "wtyczka"],
@@ -177,55 +154,6 @@ const prawoItems: SearchItem[] = [
 
 // Narzędzia
 const narzedziaItems: SearchItem[] = [
-  {
-    id: "kalkulator-pasz",
-    title: "Kalkulator Pasz",
-    description:
-      "Zaawansowane narzędzie do bilansowania mieszanek paszowych dla drobiu - obliczenia składników, norm żywieniowych i kosztów produkcji paszy.",
-    category: "narzedzia",
-    href: "/kalkulator-pasz",
-    keywords: [
-      "kalkulator pasz",
-      "pasza",
-      "mieszanka paszowa",
-      "bilansowanie",
-      "drób",
-      "kury",
-      "brojlery",
-      "kaczki",
-      "gęsi",
-      "indyki",
-      "nioski",
-      "kurczęta",
-      "pisklęta",
-      "zboża",
-      "kukurydza",
-      "pszenica",
-      "jęczmień",
-      "owies",
-      "soja",
-      "śruta sojowa",
-      "białko",
-      "tłuszcz",
-      "energia",
-      "EM",
-      "energia metaboliczna",
-      "normy żywieniowe",
-      "wymagania pokarmowe",
-      "składniki paszowe",
-      "receptura",
-      "feed calculator",
-      "poultry",
-      "chicken feed",
-      "obliczenia paszowe",
-      "koszt paszy",
-      "wydajność",
-      "hodowla",
-      "żywienie",
-      "pasze treściwe",
-    ],
-    featured: true,
-  },
   {
     id: "kalkulator-miar",
     title: "Kalkulator Miar",

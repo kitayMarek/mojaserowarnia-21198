@@ -37,7 +37,7 @@ const TYTUL: Record<TematPromptu, string> = {
 const CO_PODLACZYSZ: Record<TematPromptu, string> = {
   pasze: "naszego kalkulatora pasz",
   sery: "naszej bazy kultur i przepisów",
-  ogolny: "naszej bazy i kalkulatora pasz",
+  ogolny: "naszej bazy kultur i przepisów",
 };
 
 const KOTWICA_INSTRUKCJI: Record<Asystent, string> = {

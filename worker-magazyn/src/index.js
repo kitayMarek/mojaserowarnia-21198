@@ -183,7 +183,8 @@ function stronaOpisu(origin) {
 <main>
   <h1>Serwer MCP: kultury, przepisy na sery i kalkulator pasz</h1>
   <p class="podpis">Moja Serowarnia, wersja ${WERSJA}</p>
-  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude, ChatGPT czy Perplexity. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i przepisy na sery, liczy mieszanki paszowe dla drobiu według tych samych norm co kalkulator pasz na stronie i podpowiada dodatki paszowe z cenami ze sklepów.</p>
+  <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude, ChatGPT czy Perplexity. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i przepisy na sery.</p>
+  <p>Kalkulator pasz dla drobiu ma od 28 października 2026 własny serwis i łącznik: <a href="https://mojapasza.com/asystenci-ai?utm_source=magazyn">mojapasza.com/mcp</a>. Tutaj narzędzia paszowe działają do końca lutego 2027.</p>
 
   <h2>Adres do wklejenia</h2>
   <code class="adres">${adres}</code>
@@ -193,7 +194,7 @@ function stronaOpisu(origin) {
   <ol>
     <li>Na stronie łączników kliknij + Add, potem Add custom connector (w menu: Customize, zakładka Connectors).</li>
     <li>W polu Name wpisz „Moja Serowarnia”, w polu MCP server URL wklej adres z ramki wyżej i kliknij Continue, a potem Add. Logowanie ani klucz nie są potrzebne.</li>
-    <li>Zapytaj na przykład: „jaka kultura do camemberta i czym ją zastąpić” albo „zrób paszę dla kur niosek z pszenicy, kukurydzy, śruty sojowej i kredy”.</li>
+    <li>Zapytaj na przykład: „jaka kultura do camemberta i czym ją zastąpić” albo „jak zrobić twaróg i jaką kulturę kupić”.</li>
   </ol>
   <p>Krok po kroku: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn">mojaserowarnia.pl/asystenci-ai</a>.</p>
   <p>W Claude Code (Claude w terminalu) jedno polecenie:</p>
@@ -212,7 +213,7 @@ function stronaOpisu(origin) {
 ${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`).join('\n')}
   </ul>
 
-  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę (aplikacje z darmowym kluczem do 300: <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#aplikacje">zasady</a>). Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> i <a href="https://mojaserowarnia.pl/kalkulator-pasz?utm_source=magazyn">kalkulator pasz</a> Moja Serowarnia, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
+  <p><small>Tylko odczyt, bez klucza, do 30 zapytań na minutę (aplikacje z darmowym kluczem do 300: <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn#aplikacje">zasady</a>). Ceny kultur ze stron sklepów, sprawdzone od ${baza.ceny_sprawdzone_od}. Wyniki paszowe to obliczenie na danych wzorcowych, nie porada lekarza weterynarii. Dane: <a href="https://mojaserowarnia.pl/baza-kultur?utm_source=magazyn">baza kultur</a> Moja Serowarnia i <a href="https://mojapasza.com/?utm_source=magazyn">kalkulator pasz</a> Moja Pasza, licencja CC BY 4.0. Serwer nie zapisuje adresu IP ani treści pytań: <a href="https://mojaserowarnia.pl/nota-prawna?utm_source=magazyn#serwer-mcp">prywatność</a>, <a href="https://mojaserowarnia.pl/warunki-mcp?utm_source=magazyn">warunki korzystania</a>.</small></p>
 </main>
 </body>
 </html>

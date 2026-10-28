@@ -47,6 +47,18 @@ export const BOTY_PODGLADU =
 export const BOTY_MODELI =
   /GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|CCBot|cohere-ai|MistralAI-User|DuckAssistBot|meta-externalagent|Amazonbot|Bytespider|YouBot|Diffbot/i;
 
+// Strony pasz przeniesione na mojapasza.com (reguła 1p). Ta sama mapa co
+// STARE_SCIEZKI w pasze/worker/index.js.
+const ADRESY_PASZ = {
+  '/kalkulator-pasz': '/',
+  '/kalkulator-pasza': '/',
+  '/kalkulator-pasz-bydlo': '/bydlo',
+  '/pasze': '/poradnik',
+  '/pasze/udzial-surowcow': '/poradnik/udzial-surowcow',
+  '/pasze/kury-nie-niosa': '/poradnik/kury-nie-niosa',
+  '/pasze/resztki-z-kuchni': '/poradnik/resztki-z-kuchni',
+};
+
 // Trasy, których mirror leży pod INNĄ nazwą niż sama trasa. Reguła ogólna
 // (ścieżka + ".html") ich nie złapie, więc bez tej mapy /baza-kultur dostawało
 // generyczną grafikę zamiast własnego og:image.
@@ -338,6 +350,17 @@ Disallow: /
     }
 
     const bezUkosnika = url.pathname.replace(/\/+$/, '') || '/';
+
+    // 1p) PASZE NA MOJAPASZA.COM (od 28.10.2026, decyzja Marka 25.10.2026).
+    //     Kalkulatory i poradniki pasz przeniosły się na osobny serwis. Każdy
+    //     stary adres (też z .html i z ukośnikiem na końcu) jednym 301 na swój
+    //     odpowiednik, z parametrami (utm_source, z). Na zawsze, nie na czas
+    //     przenosin: /kalkulator-pasz był stroną nr 1 z Google (15–21% ruchu).
+    //     /og/pasze.png zostaje tutaj, żeby stare posty na FB nie straciły obrazka.
+    const nowyAdresPasz = ADRESY_PASZ[bezUkosnika.replace(/\.html$/, '')];
+    if (nowyAdresPasz) {
+      return Response.redirect(`https://mojapasza.com${nowyAdresPasz}${url.search}`, 301);
+    }
 
     // 1a0) UKOSNIK NA KONCU: /x/ -> /x.
     //

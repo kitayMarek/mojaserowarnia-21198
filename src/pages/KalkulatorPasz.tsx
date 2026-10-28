@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import { AlertCircle, ArrowDown, Coins, Download, ExternalLink, Info, MessagesSquare, Package, Plus, Target, Wheat } from 'lucide-react';
 import PageHeader from "@/components/PageHeader";
 // Już nie na stronie (tytuł był w niej wtopiony), ale zostaje jako og:image do podglądów linków.
-import kalkulatorPaszHeader from "@/assets/kalkulator-pasz-header.webp";
 import { feedIngredients } from "@/data/feedIngredients";
 import { useFeedIngredients } from "@/hooks/useFeedIngredients";
 import ZglosProduktDialog from "@/components/kalkulator/ZglosProduktDialog";
@@ -38,7 +37,7 @@ import {
   sprawdzNorme, bladLimitow, osiagnieteLimity, graniceUdzialu, zapotrzebowanieStada,
   uzupelnienia, type Uzupelnienie,
 } from "@/lib/bilansPaszy";
-import { SERWIS } from "@/lib/serwis";
+import { SERWIS, STRONY_PASZ } from "@/lib/serwis";
 
 /*
  * Wygląd przebudowany 24.10.2026 (Marek: „liczy dobrze, ale wygląda strasznie”).
@@ -94,7 +93,8 @@ const KalkulatorPasz = () => {
   useEffect(() => {
     const TITLE = "Kalkulator Pasz dla Drobiu - Bilansowanie Mieszanek | Moja Serowarnia";
     const DESCRIPTION = "Darmowy kalkulator pasz dla drobiu: bilansuj mieszanki dla kur niosek, brojlerów, kaczek, gęsi i indyków. Normy żywieniowe: energia, białko, Ca, P, aminokwasy, mikroelementy.";
-    const CANONICAL = "https://mojaserowarnia.pl/kalkulator-pasz";
+    // Od 28.10.2026 strona działa tylko na mojapasza.com (tam Tytuly.tsx i tak pilnuje <head>).
+    const CANONICAL = `${SERWIS.adres}${STRONY_PASZ.kalkulator}`;
 
     document.title = TITLE;
 
@@ -113,7 +113,7 @@ const KalkulatorPasz = () => {
     setMeta('meta[property="og:title"]', 'content', TITLE);
     setMeta('meta[property="og:description"]', 'content', DESCRIPTION);
     setMeta('meta[property="og:url"]', 'content', CANONICAL);
-    setMeta('meta[property="og:image"]', 'content', `https://mojaserowarnia.pl${kalkulatorPaszHeader}`);
+    setMeta('meta[property="og:image"]', 'content', SERWIS.obrazek);
     setMeta('meta[name="twitter:title"]', 'content', TITLE);
     setMeta('meta[name="twitter:description"]', 'content', DESCRIPTION);
 

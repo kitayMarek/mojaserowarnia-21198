@@ -76,7 +76,7 @@ const MlekoDoSera = () => {
 
   const seeAlsoLinks = [
     { title: "Wady mleka a wady sera", href: "/wady-mleka-a-wady-sera", description: "Kiszonka i Clostridium, antybiotyki, komórki somatyczne — łańcuchy przyczynowe." },
-    { title: "Kalkulator pasz dla bydła", href: "/kalkulator-pasz-bydlo", description: "Zbilansuj dawkę — struktura dawki decyduje o tłuszczu w mleku." },
+    { title: "Kalkulator pasz dla bydła (mojapasza.com)", href: "https://mojapasza.com/bydlo", description: "Zbilansuj dawkę — struktura dawki decyduje o tłuszczu w mleku." },
     { title: "Jakość mleka wg Kleckiego", href: "/klecki-jakosc-mleka", description: "Rasa, sezon, pastwisko i laktacja — ujęcie klasyczne z 1900 r." },
     { title: "Kalkulator kosztu sera", href: "/kalkulator-kosztu-sera", description: "Wydajność z litra przekłada się wprost na koszt kilograma sera." },
   ];
@@ -119,7 +119,7 @@ const MlekoDoSera = () => {
       <Navigation />
       <PageBreadcrumbs
         items={[
-          { label: "Pasze i zwierzęta", href: "/pasze" },
+          { label: "Mleko i serwatka" },
           { label: "Mleko do sera" },
         ]}
       />
@@ -176,7 +176,7 @@ const MlekoDoSera = () => {
 
                   propozycja: "— to, czym je karmisz, wraca w mleku:",
 
-                  href: "/pasze",
+                  href: "https://mojapasza.com/poradnik",
 
                   etykieta: "pasze i żywienie",
 
@@ -397,7 +397,7 @@ const MlekoDoSera = () => {
                   </div>
                   <p className="text-muted-foreground">
                     Dawkę ułożysz w{" "}
-                    <Link to="/kalkulator-pasz-bydlo" className="text-primary hover:underline">
+                    <Link to="https://mojapasza.com/bydlo" className="text-primary hover:underline">
                       kalkulatorze pasz dla bydła
                     </Link>
                     . O tym, jak pasza może wprost <em>zepsuć</em> ser, piszemy w{" "}

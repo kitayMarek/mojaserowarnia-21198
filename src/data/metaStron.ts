@@ -160,34 +160,8 @@ export const metaStron: Record<string, MetaStrony> = {
       "Jak zorganizować małą serowarnię: układ pomieszczeń, strefy czyste i brudne, dobór sprzętu, obieg pracy od mleka do sera. Wymogi lokalowe RHD i MOL.",
     mirror: "organizacja-serowarni.html",
   },
-  "/pasze": {
-    // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: mirror (tytul), mirror (opis).
-    title: "Pasze i zwierzęta — normy, bilansowanie i produkty uboczne",
-    description:
-      "Żywienie zwierząt w gospodarstwie: normy drobiu (nioski 16–18% białka, 3,8–4,2% wapnia), po co olej, muszle ostryg, metionina i grit, oraz co zrobić z serwatką i nieudanym serem.",
-    mirror: "pasze.html",
-  },
-  "/pasze/udzial-surowcow": {
-    // Od 24.10.2026. Dane i źródła: src/data/udzialySurowcow.ts (wspólne z kalkulatorem i MCP).
-    title: "Ile jakiego surowca w paszy dla drobiu",
-    description:
-      "Najwyższe zalecane udziały zbóż, grochu, bobiku, łubinu i rzepaku dla piskląt, brojlerów, niosek, kaczek i gęsi, z powodem i źródłem.",
-    mirror: "pasze/udzial-surowcow.html",
-  },
-  "/pasze/kury-nie-niosa": {
-    // Od 24.10.2026. Pytanie z grup o kurach; treść: src/data/kuryNieNiosa.ts.
-    title: "Kury nie niosą jajek? Najczęstsze przyczyny",
-    description:
-      "Dajesz kurom dobre jedzenie, a nie niosą? Krótki dzień i pierzenie, za mało białka i wapnia, sama pszenica i resztki z kuchni. Co zrobić.",
-    mirror: "pasze/kury-nie-niosa.html",
-  },
-  "/pasze/resztki-z-kuchni": {
-    // Od 24.10.2026, dla małych hodowców; treść: src/data/resztkiZKuchni.ts.
-    title: "Resztki z kuchni dla kur: co wolno, ile i czego unikać",
-    description:
-      "Chleb, makaron, obierki, talerz po obiedzie. Ile resztek mogą dostać kury, co im szkodzi (sól, pleśń, awokado, surowa fasola) i co mówią przepisy.",
-    mirror: "pasze/resztki-z-kuchni.html",
-  },
+  // /pasze i /pasze/* od 28.10.2026 na mojapasza.com (tytuły w pasze/src/powloka/Tytuly.tsx,
+  // mirrory poradników: scripts/gen-mirror-porady-pasz.mts).
   "/poradniki": {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: Helmet (tytul), Helmet (opis).
     title: "Poradniki serowara | Start",
@@ -311,11 +285,11 @@ export const metaStron: Record<string, MetaStrony> = {
   },
   "/asystenci-ai": {
     // Jak podlaczyc serwer MCP (dane.mojaserowarnia.pl/mcp) do ChatGPT, Claude albo Perplexity.
-    // Strona dla ludzi, ktorzy chca pytac czat o kultury i pasze na naszych danych.
+    // Strona dla ludzi, ktorzy chca pytac czat o kultury i przepisy (pasze od 28.10.2026 na mojapasza.com).
     // Od 24.10.2026 uklad z wyborem czatu (makieta D), wczesniej tytul mowil tylko o Claude.
     title: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude, Perplexity",
     description:
-      "Podłącz kalkulator pasz, bazę kultur do sera i przepisy do ChatGPT, Claude albo Perplexity (serwer MCP). Bez konta i klucza: gotowy tekst dla czatu, kroki i adres.",
+      "Podłącz bazę kultur do sera i przepisy do ChatGPT, Claude albo Perplexity (serwer MCP). Bez konta i klucza: gotowy tekst dla czatu, kroki i adres.",
     mirror: "asystenci-ai.html",
   },
   "/warunki-mcp": {

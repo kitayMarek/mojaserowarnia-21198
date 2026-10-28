@@ -26,8 +26,10 @@ import { adresZPromptu, linkZPromptem, promptPodlaczenia } from "@/lib/promptyCz
  * Wcześniej strona miała ponad 6 ekranów, tytuł „…w Claude”, a pod ramką z gotowym
  * tekstem trzy osobne instrukcje: każdy widział naraz dwie drogi dla trzech czatów.
  * Teraz krok 1 to wybór czatu, a niżej tylko jego droga: gotowy tekst (czat sam
- * przeprowadza) albo kroki z adresem. Porównanie odpowiedzi bez łącznika i z nim
- * pochodzi z dwóch prawdziwych rozmów Marka w Perplexity (24.10.2026).
+ * przeprowadza) albo kroki z adresem. Od 28.10.2026 bez pasz: kalkulator ma własny łącznik
+ * na mojapasza.com, a porównanie odpowiedzi Perplexity (prawdziwe rozmowy Marka o paszy,
+ * 24.10.2026) i przykład z paszą przeniosły się na mojapasza.com/asystenci-ai. Przykład
+ * na górze: dane z łącznika (szukaj_kultur, camembert, ceny z 22.08.2026).
  *
  * KOTWICE: #chatgpt, #claude, #perplexity wybierają czat i przewijają do kroku 2.
  * Prowadzą tu menu boczne (Navigation.tsx), strona główna, ramka „Podłącz w swoim
@@ -50,8 +52,7 @@ const CZATY: { id: Asystent; nazwa: string; podpis: string; kolor: string }[] = 
 const czyCzat = (x: string): x is Asystent => x === "chatgpt" || x === "claude" || x === "perplexity";
 
 const PYTANIA = [
-  "Ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej.",
-  "Moje kury nie niosą. Co robię źle?",
+  "Jak zrobić twaróg i jaką kulturę do niego kupić?",
   "Jak zrobić mozzarellę w domu i gdzie kupię do niej kulturę?",
   "Jaka kultura do camemberta i czym ją zastąpić?",
   "Która kultura mezofilna wychodzi najtaniej w przeliczeniu na litr mleka?",
@@ -215,7 +216,7 @@ const AsystenciAi = () => {
           i zaloguj się, jeśli strona o to poprosi.
         </>,
         <>Kliknij <strong>…</strong> w prawym górnym rogu i wybierz <strong>Importuj kopię</strong>, potem <strong>Zapisz</strong>.</>,
-        <>Pytaj w trybie <strong>Computer</strong>, na przykład „ułóż paszę dla niosek z pszenicy i kukurydzy”.</>,
+        <>Pytaj w trybie <strong>Computer</strong>, na przykład „jaka kultura do mozzarelli i gdzie ją kupić”.</>,
       ],
       uwaga: "Działa także na darmowym planie. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci, bez naszych danych.",
     },
@@ -226,16 +227,14 @@ const AsystenciAi = () => {
     "@type": "Article",
     headline: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude i Perplexity",
     description:
-      "Jak podłączyć kalkulator pasz, bazę kultur do sera i przepisy Mojej Serowarni do ChatGPT, Claude albo Perplexity (serwer MCP), bez konta i klucza.",
+      "Jak podłączyć bazę kultur do sera i przepisy Mojej Serowarni do ChatGPT, Claude albo Perplexity (serwer MCP), bez konta i klucza.",
     inLanguage: "pl",
     url: "https://mojaserowarnia.pl/asystenci-ai",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-21",
-    dateModified: "2026-10-25",
+    dateModified: "2026-10-28",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
-
-  const kartaStyl = "flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-card p-6";
 
   return (
     <div className="min-h-screen bg-background">
@@ -253,8 +252,8 @@ const AsystenciAi = () => {
                 Moja Serowarnia w Twoim czacie
               </h1>
               <p className="text-lg leading-relaxed text-foreground/80">
-                Podłącz nasz kalkulator pasz, bazę kultur i przepisy do ChatGPT, Claude albo Perplexity. Pytasz jak
-                zwykle, a czat liczy i sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza.
+                Podłącz naszą bazę kultur i przepisy na sery do ChatGPT, Claude albo Perplexity. Pytasz jak zwykle,
+                a czat sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza.
               </p>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 {/* Na telefonie krok 1 jest prawie dwa ekrany niżej (przykład i porównanie). */}
@@ -274,44 +273,14 @@ const AsystenciAi = () => {
             <figure className="flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-card p-5" aria-label="Przykład rozmowy z czatem">
               <figcaption className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Tak to wygląda w rozmowie</figcaption>
               <p className="max-w-[85%] self-end rounded-2xl rounded-br-sm bg-muted px-4 py-3 text-[15px] leading-relaxed">
-                Ułóż paszę dla 10 kur niosek z pszenicy, kukurydzy i śruty sojowej.
+                Jaka biała pleśń do camemberta wyjdzie najtaniej na litr mleka?
               </p>
               <p className="max-w-[92%] rounded-2xl rounded-bl-sm border border-border bg-background px-4 py-3 text-[15px] leading-relaxed">
-                Kalkulator Mojej Serowarni dobrał: pszenica 60%, kukurydza 22,5%, śruta sojowa 17,5%. Najpoważniejszy
-                brak to wapń: dodaj około 10% kredy pastewnej. Na miesiąc kupisz około 33 kg paszy.
+                Według bazy Mojej Serowarni najtaniej wychodzi Penicillium Candidum PC 22 z Wańczykówki: 18,40 zł,
+                około 7 gr na litr mleka (cena z 22.08.2026). Do skórki przyda się też Geotrichum, a mleko zakwasisz
+                kulturą mezofilną. Cenę sprawdź w sklepie przed zakupem.
               </p>
             </figure>
-          </section>
-
-          {/* ── Porównanie ───────────────────────────────────────────── */}
-          <section className="flex flex-col gap-4" aria-labelledby="porownanie">
-            <h2 id="porownanie" className="font-display text-3xl text-foreground md:text-[2.1rem]">Ta sama prośba, dwie odpowiedzi</h2>
-            <p className="leading-relaxed text-foreground/80">
-              Zapytaliśmy Perplexity: „Potrzebuję dobrej paszy dla kur niosek. Mam pszenicę, owies i bobik. Co
-              powinienem jeszcze dokupić?”
-            </p>
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className={kartaStyl}>
-                <h3 className="font-display text-2xl text-foreground">Bez łącznika</h3>
-                <p className="italic leading-relaxed text-foreground/80">„Według moich szacunków ok. 16% białka i ok. 3–3,5% wapnia.”</p>
-                <ul className="list-disc space-y-1 pl-5 leading-relaxed text-foreground/80">
-                  <li>szacunek z 20 artykułów, bez sprawdzenia normy</li>
-                  <li>receptura z kukurydzą, której pytający nie ma</li>
-                  <li>premiks „np. Polfamix”, bez sklepu i ceny</li>
-                </ul>
-              </div>
-              <div className={`${kartaStyl} border-[3px] border-primary`}>
-                <h3 className="font-display text-2xl text-primary">Z łącznikiem Moja Serowarnia</h3>
-                <p className="italic leading-relaxed text-foreground/80">
-                  „Policzyłem mieszankę kalkulatorem pasz: białko 16%, wapń 3,77%, fosfor 0,48%, w normie.”
-                </p>
-                <ul className="list-disc space-y-1 pl-5 leading-relaxed text-foreground/80">
-                  <li>receptura z Twoich zbóż, w limitach bobiku i owsa</li>
-                  <li>mówi, czego wciąż brakuje: sodu i włókna</li>
-                  <li>konkretne produkty z polskich sklepów, z uwagą, że koncentrat ma mało wapnia</li>
-                </ul>
-              </div>
-            </div>
           </section>
 
           {/* ── Krok 1: wybór czatu ─────────────────────────────────── */}
@@ -351,8 +320,8 @@ const AsystenciAi = () => {
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Najprościej</p>
                 <h3 className="font-display text-[1.75rem] leading-tight text-foreground">Niech {wybrany.nazwa} Cię przeprowadzi</h3>
                 <p className="leading-relaxed text-foreground/80">
-                  Otworzysz {wybrany.nazwa} z gotowym tekstem. Czat poprowadzi Cię krok po kroku, a na koniec policzy
-                  próbną paszę.
+                  Otworzysz {wybrany.nazwa} z gotowym tekstem. Czat poprowadzi Cię krok po kroku, a na koniec znajdzie
+                  próbnie kulturę do sera.
                 </p>
                 <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                   <Button asChild className={`h-12 font-semibold text-white ${wybrany.kolor}`}>
@@ -491,11 +460,6 @@ const AsystenciAi = () => {
                 odpowiedz: (
                   <ul className="list-disc space-y-1.5 pl-5">
                     <li>
-                      <Link to="/kalkulator-pasz" className="underline">Kalkulator pasz</Link>: zna ponad 120 surowców i normy dla
-                      kur niosek, brojlerów, kaczek, gęsi i indyków. Dobiera proporcje z Twoich surowców, podpowiada, czym
-                      uzupełnić braki, z cenami ze sklepów, i liczy, ile paszy kupić dla stada.
-                    </li>
-                    <li>
                       <Link to="/baza-kultur" className="underline">Baza kultur</Link>: kultury do sera, jogurtu i twarogu z
                       polskich sklepów, z ceną za litr mleka i zamiennikami o tym samym składzie.
                     </li>
@@ -504,6 +468,16 @@ const AsystenciAi = () => {
                       oraz kultury do kupienia.
                     </li>
                   </ul>
+                ),
+              },
+              {
+                pytanie: "Gdzie jest kalkulator pasz?",
+                odpowiedz: (
+                  <p>
+                    Od 28 października 2026 kalkulator paszy ma własny serwis i własny łącznik:{" "}
+                    <a href="https://mojapasza.com/asystenci-ai" className="underline">mojapasza.com/asystenci-ai</a>. Jeśli
+                    masz już łącznik Moja Serowarnia, narzędzia paszowe działają w nim do końca lutego 2027.
+                  </p>
                 ),
               },
               {
@@ -544,7 +518,7 @@ const AsystenciAi = () => {
                     <li>Serwer tylko odczytuje nasze dane. Nie widzi Twoich rozmów, dostaje wyłącznie zapytania, które czat do niego wyśle.</li>
                     <li>Bez konta i bez klucza, do 30 zapytań na minutę.</li>
                     <li>Liczymy tylko, ile razy dziennie użyto każdego narzędzia i z jakiego programu. Bez adresu IP i bez treści pytań.</li>
-                    <li>Ceny pochodzą ze stron sklepów i mają datę sprawdzenia. Wynik paszowy to obliczenie, nie porada lekarza weterynarii.</li>
+                    <li>Ceny pochodzą ze stron sklepów i mają datę sprawdzenia.</li>
                     <li>Dane są na licencji CC BY 4.0: można je cytować z podaniem źródła.</li>
                     <li>
                       Pełne zasady: <Link to="/nota-prawna#serwer-mcp" className="underline">prywatność</Link> i{" "}
@@ -582,8 +556,8 @@ const AsystenciAi = () => {
                 pytanie: "Budujesz własną aplikację?",
                 odpowiedz: (
                   <p>
-                    Możesz oprzeć ją na naszym serwerze, także komercyjnie: kalkulator na stronie sklepu, doradcę
-                    żywienia drobiu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty
+                    Możesz oprzeć ją na naszym serwerze, także komercyjnie: doradcę serowara, wyszukiwarkę kultur na
+                    stronie sklepu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty
                     cen oraz dopisać do adresu znacznik <code className="font-mono">?z=app-twoja-nazwa</code>. Gdy 30 zapytań na
                     minutę nie wystarczy, dostaniesz od nas darmowy klucz z limitem 300. Zasady i
                     instrukcję techniczną opisujemy w{" "}
