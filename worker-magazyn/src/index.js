@@ -26,8 +26,7 @@ import { WERSJA, listaNarzedzi, zbudujSerwer } from './serwer.js';
 import { opisWywolania, opisPobrania, zliczWywolanie, zrodloZAdresu } from './pomiar.js';
 import { oBazie } from './kultury.js';
 import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkrywania } from './odkrywanie.js';
-import { NA_PASZY, SERWIS } from './serwis.js';
-import { stronaOpisuPasz } from './strona-pasz.js';
+import { SERWIS } from './serwis.js';
 
 const SCIEZKA_MCP = '/mcp';
 
@@ -220,8 +219,7 @@ ${listaNarzedzi().map((n) => `    <li><code>${n.nazwa}</code>: ${n.tytul}</li>`)
 `;
 }
 
-/** Na mojapasza.com/mcp strona o paszach (strona-pasz.js). */
-const opisSerwera = (origin) => (NA_PASZY ? stronaOpisuPasz() : stronaOpisu(origin));
+const opisSerwera = (origin) => stronaOpisu(origin);
 
 function html(tresc) {
   return new Response(tresc, {

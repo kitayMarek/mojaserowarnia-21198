@@ -27,7 +27,6 @@
     "useDefineForClassFields": true
   },
   "include": [
-    "src",
-    "pasze/src"
+    "src"
   ]
 }

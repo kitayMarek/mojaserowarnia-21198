@@ -160,8 +160,7 @@ export const metaStron: Record<string, MetaStrony> = {
       "Jak zorganizować małą serowarnię: układ pomieszczeń, strefy czyste i brudne, dobór sprzętu, obieg pracy od mleka do sera. Wymogi lokalowe RHD i MOL.",
     mirror: "organizacja-serowarni.html",
   },
-  // /pasze i /pasze/* od 28.10.2026 na mojapasza.com (tytuły w pasze/src/powloka/Tytuly.tsx,
-  // mirrory poradników: scripts/gen-mirror-porady-pasz.mts).
+  // /pasze i /pasze/* od 28.10.2026 na mojapasza.com (repozytorium C:\Moje\MojaPasza).
   "/poradniki": {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: Helmet (tytul), Helmet (opis).
     title: "Poradniki serowara | Start",

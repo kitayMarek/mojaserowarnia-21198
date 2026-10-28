@@ -47,8 +47,9 @@ function wgraj() {
   const token = process.env.CLOUDFLARE_API_TOKEN || wczytajEnv(".env.deploy").CLOUDFLARE_API_TOKEN;
   if (!token) stop("nie znalazlem CLOUDFLARE_API_TOKEN ani w srodowisku, ani w .env.deploy.");
   writeFileSync(PLIK, JSON.stringify(klucze, null, 2) + "\n");
-  // Ten sam klucz dziala na obu lacznikach: dane.mojaserowarnia.pl i mojapasza.com/mcp (od 26.10.2026).
-  for (const konfiguracja of ["worker-magazyn/wrangler.jsonc", "worker-magazyn/wrangler-pasze.jsonc"]) {
+  // Od 28.10.2026 tylko lacznik Serowarni; mojapasza.com/mcp dostaje klucze skryptem z repozytorium
+  // Mojej Paszy (ta sama lista z tego pliku, zeby klucz dzialal na obu).
+  for (const konfiguracja of ["worker-magazyn/wrangler.jsonc"]) {
     const wynik = spawnSync("npx", ["wrangler", "secret", "put", "KLUCZE_APLIKACJI", "-c", konfiguracja], {
       input: JSON.stringify(klucze),
       stdio: ["pipe", "inherit", "inherit"],

@@ -5,7 +5,7 @@
  *  1) Moderacja starych zgłoszeń z liczbami (pending), jeśli jakieś zostały — edytuj + zatwierdź/odrzuć.
  *  2) Edycja całej bazy (approved: wzorcowa 'baza' + zgłoszenia 'user') — popraw/usuń.
  *  3) Produkty z bazy dodatków ('dodatek') tylko do podglądu: źródło składu osobno, oferty osobno.
- *     Ich źródłem jest src/data/dodatkiPaszowe.ts: seed kasuje je i wstawia od nowa, a MCP czyta
+ *     Ich źródłem jest src/data/dodatkiPaszowe.ts w repozytorium Mojej Paszy: seed kasuje je i wstawia od nowa, a MCP czyta
  *     migawkę, więc poprawka zrobiona tutaj zniknęłaby i nie dotarłaby do czatów.
  * Wchodzi przez AdminRoute; RLS pozwala pisać tylko adminowi.
  */
@@ -15,8 +15,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { feedCategories } from "@/data/feedIngredients";
-import { OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, type Odbior, type ZrodloSkladu } from "@/data/dodatkiPaszowe";
+import { feedCategories, OPIS_ODBIORU, OPIS_ZRODLA_SKLADU, type Odbior, type ZrodloSkladu } from "@/components/admin/paszeAdmin";
 import ZgloszeniaProduktow from "@/components/admin/ZgloszeniaProduktow";
 import { Check, X, Loader2, Save, Trash2, Search, ExternalLink } from "lucide-react";
 

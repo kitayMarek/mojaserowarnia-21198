@@ -1,7 +1,8 @@
 /**
  * Zgłoszenia produktów z kalkulatora pasz (od 25.10.2026), część /admin/skladniki.
  *
- * Zgłoszenie niczego samo nie dodaje. Produkt wpisuje się w src/data/dodatkiPaszowe.ts
+ * Zgłoszenie niczego samo nie dodaje. Produkt wpisuje się w repozytorium Mojej Paszy
+ * (C:/Moje/MojaPasza, src/data/dodatkiPaszowe.ts)
  * (skład sprawdzony u źródła, oferta ze sklepem, ceną i datą), potem seed
  * (node scripts/gen-dodatki-seed-sql.mts, SQL w edytorze Supabase). Tutaj tylko:
  * przejrzeć link albo zdjęcie, zapisać notatkę i ustawić status.
@@ -14,7 +15,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { KUBELEK_ZGLOSZEN, type KtoZglasza, type StatusZgloszenia } from "@/components/kalkulator/ZglosProduktDialog";
+import { KUBELEK_ZGLOSZEN, type KtoZglasza, type StatusZgloszenia } from "@/components/admin/paszeAdmin";
 import { cn } from "@/lib/utils";
 import { Check, Copy, ExternalLink, Loader2, RotateCcw, Trash2, X } from "lucide-react";
 
@@ -194,7 +195,7 @@ export default function ZgloszeniaProduktow({ baza, onZmianaBazy }: { baza: Skla
       z.kto && `Zgłasza: ${KTO[z.kto]}`,
       z.uwagi && `Uwagi: ${z.uwagi}`,
       "",
-      "Sprawdź skład u źródła (etykieta, karta producenta) i cenę na stronie sklepu. Jeśli się zgadza, dopisz albo popraw produkt w src/data/dodatkiPaszowe.ts (oferta ze sklepem, ceną i datą sprawdzenia), przegeneruj seed (node scripts/gen-dodatki-seed-sql.mts) i uruchom node scripts/test-dodatki-paszowe.mts. Kolejność ofert tylko po składzie i cenie.",
+      "Sprawdź skład u źródła (etykieta, karta producenta) i cenę na stronie sklepu. Jeśli się zgadza, dopisz albo popraw produkt w repozytorium Mojej Paszy, w src/data/dodatkiPaszowe.ts (oferta ze sklepem, ceną i datą sprawdzenia), przegeneruj seed (node scripts/gen-dodatki-seed-sql.mts) i uruchom node scripts/test-dodatki-paszowe.mts. Kolejność ofert tylko po składzie i cenie.",
     ].filter((w): w is string => typeof w === "string").join("\n"); // pusty wiersz zostaje jako odstęp
     try {
       await navigator.clipboard.writeText(tekst);

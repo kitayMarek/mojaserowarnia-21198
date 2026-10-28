@@ -18,17 +18,14 @@
  * docs/discovery.md (CORS otwarty, cache na godzine, ETag z 304).
  */
 import { WERSJA, TYTUL_SERWERA } from './serwer.js';
-import { NA_PASZY, SERWIS } from './serwis.js';
+import { SERWIS } from './serwis.js';
 
 export const SCIEZKA_KARTY = '/mcp/server-card';
 export const SCIEZKA_KATALOGU = '/.well-known/ai-catalog.json';
-// Łącznik mojapasza.com/mcp (serwis.js) ma własny wpis; zgłoszenie do rejestru po przełączeniu.
-export const NAZWA_W_REJESTRZE = NA_PASZY ? 'com.mojapasza/kalkulator-paszy' : 'pl.mojaserowarnia/baza-kultur';
+export const NAZWA_W_REJESTRZE = 'pl.mojaserowarnia/baza-kultur';
 
 // Do 100 znakow: tyle przyjmuje rejestr MCP, a opis ma byc ten sam wszedzie.
-export const OPIS = NA_PASZY
-  ? 'Kalkulator paszy dla drobiu: mieszanki z własnych surowców pod normy i dodatki z polskich sklepów.'
-  : 'Przepisy na sery i baza kultur z polskich sklepów (ceny, zamienniki).';
+export const OPIS = 'Przepisy na sery i baza kultur z polskich sklepów (ceny, zamienniki).';
 
 const ADRES_SERWERA = SERWIS.adresMcp;
 
@@ -58,7 +55,7 @@ export function katalogAi() {
     specVersion: '1.0',
     entries: [
       {
-        identifier: NA_PASZY ? 'urn:air:mojapasza.com:mcp:kalkulator-paszy' : 'urn:air:mojaserowarnia.pl:mcp:baza-kultur',
+        identifier: 'urn:air:mojaserowarnia.pl:mcp:baza-kultur',
         type: 'application/mcp-server-card+json',
         url: `${new URL(ADRES_SERWERA).origin}${SCIEZKA_KARTY}`,
       },

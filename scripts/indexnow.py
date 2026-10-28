@@ -28,9 +28,7 @@ UZYCIE:
   python scripts/indexnow.py --wyslij https://mojaserowarnia.pl/przepisy/twarog ...
       Konkretne adresy zamiast sitemap.
 
-  python scripts/indexnow.py --mojapasza --podglad
-      To samo dla mojapasza.com (od 26.10.2026): ten sam klucz w pliku
-      pasze/public/<klucz>.txt, adresy z pasze/public/sitemap.xml.
+mojapasza.com zglasza od 28.10.2026 wlasny skrypt w repozytorium Mojej Paszy.
 
 UWAGA: zglaszaj TYLKO to, co faktycznie sie zmienilo. Wysylanie calego
 serwisu przy kazdym deployu to droga do 429 (spam) i utraty zaufania.
@@ -48,16 +46,14 @@ import urllib.request
 # https://mojaserowarnia.pl/<klucz>.txt i wlasnie tym plikiem dowodzimy
 # wyszukiwarkom, ze domena jest nasza. Ukrycie go zepsuloby mechanizm.
 KLUCZ = "90bbed815ee44b9c82e2e8a77fbe93f9"
-# --mojapasza: drugi serwis z tego repo (pasze/), ten sam klucz, własny plik klucza i mapa strony.
-MOJAPASZA = "--mojapasza" in sys.argv
-HOST = "mojapasza.com" if MOJAPASZA else "mojaserowarnia.pl"
+HOST = "mojaserowarnia.pl"
 BAZA = "https://" + HOST
 LOKALIZACJA_KLUCZA = "%s/%s.txt" % (BAZA, KLUCZ)
 ENDPOINT = "https://api.indexnow.org/indexnow"
 LIMIT_NA_ZADANIE = 10000
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITEMAP = os.path.join(ROOT, "pasze", "public", "sitemap.xml") if MOJAPASZA else os.path.join(ROOT, "public", "sitemap.xml")
+SITEMAP = os.path.join(ROOT, "public", "sitemap.xml")
 
 KODY = {
     200: "OK — adresy przyjete",
@@ -157,7 +153,6 @@ def main():
     p.add_argument("--podglad", action="store_true", help="pokaz, co poszloby — nic nie wysylaj")
     p.add_argument("--wyslij", action="store_true", help="faktycznie wyslij")
     p.add_argument("--od", default=None, help="lastmod >= YYYY-MM-DD (domyslnie: dzis)")
-    p.add_argument("--mojapasza", action="store_true", help="serwis mojapasza.com zamiast mojaserowarnia.pl")
     args = p.parse_args()
 
     if args.sprawdz_klucz:
