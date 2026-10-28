@@ -13,7 +13,11 @@
 -- potwierdzony = false: sklep z danych publicznych, oznaczenie „firma nie
 -- potwierdziła wpisu” (decyzja Marka z 28.10.2026), pokazywać je przy sklepie.
 --
--- URUCHOMIĆ w Supabase SQL editor (projekt Serowarni). Idempotentne.
+-- Uwagi wątku paszowego z 28.10.2026: odbior (sklep, odbior, wysylka, null
+-- = strona nie mówi), opis sklepu z huba i stały słownik typu punktu.
+--
+-- URUCHOMIĆ w Supabase SQL editor (projekt Serowarni). Idempotentne: działa
+-- także po wklejeniu pierwszej wersji tego pliku (dopisuje brakujące kolumny).
 -- =====================================================================
 
 CREATE TABLE IF NOT EXISTS public.sklepy_z_huba (
@@ -24,9 +28,15 @@ CREATE TABLE IF NOT EXISTS public.sklepy_z_huba (
   wojewodztwo    TEXT,           -- klucz bez ogonków, jak WOJEWODZTWA w Mojej Paszy
   kraj           TEXT NOT NULL DEFAULT 'PL',
   rodzaj_firmy   TEXT[] NOT NULL DEFAULT '{}',
-  -- Punkty z huba: [{nazwa, rodzaj, adres, wojewodztwo, gmina, godziny, kiedy, link}]
+  opis           TEXT,           -- opis sklepu z huba (podmiot.opis), także uwagi typu „zapytaj sklep”
+  odbior         TEXT,           -- sklep | odbior | wysylka; null = strona sklepu tego nie mówi
+  -- Punkty z huba: [{nazwa, typ, rodzaj, adres, wojewodztwo, gmina, godziny, kiedy, link}].
+  -- typ to stały słownik: sklep_internetowy, sklep_stacjonarny, odbior_osobisty, inne
+  -- (nowa wartość = wiadomość od huba). rodzaj to te same słowa co w hubie. Adres jest
+  -- tylko przy publicznym punkcie (sklep, odbiór), nigdy adres domu.
   punkty         JSONB NOT NULL DEFAULT '[]'::jsonb,
-  -- Dostawa z huba: {zasieg, opis, darmowa_od_zl, sprawdzono}; null = sklep nie podaje
+  -- Dostawa z huba: {zasieg, opis, darmowa_od_zl, tylko_wysylka, sprawdzono}; null = sklep nie podaje.
+  -- Cennik wysyłki do obliczeń zostaje w serwisach (np. progiWagi w Mojej Paszy), tu tylko opis.
   dostawa        JSONB,
   potwierdzony   BOOLEAN NOT NULL DEFAULT false,
   zrodla_danych  JSONB NOT NULL DEFAULT '[]'::jsonb,
@@ -34,6 +44,25 @@ CREATE TABLE IF NOT EXISTS public.sklepy_z_huba (
   potwierdzono   DATE,           -- ostatnia zmiana albo potwierdzenie danych w hubie
   skopiowano     TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Po pierwszej wersji tego pliku (bez opisu i odbioru).
+ALTER TABLE public.sklepy_z_huba ADD COLUMN IF NOT EXISTS opis TEXT;
+ALTER TABLE public.sklepy_z_huba ADD COLUMN IF NOT EXISTS odbior TEXT;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'sklepy_z_huba_odbior_check') THEN
+    ALTER TABLE public.sklepy_z_huba ADD CONSTRAINT sklepy_z_huba_odbior_check
+      CHECK (odbior IN ('sklep', 'odbior', 'wysylka'));
+  END IF;
+  -- Te same klucze co feed_offers.wojewodztwo (migracja 20261025100000) i WOJEWODZTWA w hubie.
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'sklepy_z_huba_wojewodztwo_check') THEN
+    ALTER TABLE public.sklepy_z_huba ADD CONSTRAINT sklepy_z_huba_wojewodztwo_check
+      CHECK (wojewodztwo IN ('dolnoslaskie', 'kujawsko-pomorskie', 'lubelskie', 'lubuskie', 'lodzkie', 'malopolskie',
+        'mazowieckie', 'opolskie', 'podkarpackie', 'podlaskie', 'pomorskie', 'slaskie', 'swietokrzyskie',
+        'warminsko-mazurskie', 'wielkopolskie', 'zachodniopomorskie'));
+  END IF;
+END $$;
 
 COMMENT ON TABLE public.sklepy_z_huba IS
   'Kopia sklepów z huba danerolne.com (źródło: baza huba). Pisze tylko Worker huba co godzinę; strony i MCP Serowarni i Mojej Paszy tylko czytają.';
