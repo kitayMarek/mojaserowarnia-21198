@@ -9,9 +9,9 @@
  * esbuild wstawia tę wartość w miejsce nazwy. Bez define (Serowarnia) typeof daje
  * "undefined". Jeden kod, dwa serwery, bez sprawdzania adresu w każdym zapytaniu.
  *
- * Narzędzia paszowe zostają też w serwerze Serowarni do 28.02.2027 (okres przejściowy
- * z planu przenosin), żeby nikt, kto dodał łącznik Serowarni z posta o paszach,
- * nie stracił ich z dnia na dzień.
+ * Od 0.9.1 (28.10.2026) serwer Serowarni nie wystawia narzędzi paszowych: Marek zrezygnował
+ * z okresu przejściowego do 28.02.2027. Konfiguracja SEROWARNIA niżej zostaje, dopóki kod pasz
+ * nie przeniesie się do repozytorium mojapasza.
  */
 /* global __SERWIS__ */
 export const NA_PASZY = typeof __SERWIS__ !== 'undefined' && __SERWIS__ === 'mojapasza';

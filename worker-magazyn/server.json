@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "pl.mojaserowarnia/baza-kultur",
-  "title": "Moja Serowarnia: kultury, przepisy na sery i kalkulator pasz",
-  "description": "Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.",
-  "version": "0.9.0",
+  "title": "Moja Serowarnia: kultury i przepisy na sery",
+  "description": "Przepisy na sery i baza kultur z polskich sklepów (ceny, zamienniki).",
+  "version": "0.9.1",
   "websiteUrl": "https://mojaserowarnia.pl/asystenci-ai",
   "remotes": [
     {

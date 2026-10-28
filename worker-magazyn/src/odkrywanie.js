@@ -28,7 +28,7 @@ export const NAZWA_W_REJESTRZE = NA_PASZY ? 'com.mojapasza/kalkulator-paszy' : '
 // Do 100 znakow: tyle przyjmuje rejestr MCP, a opis ma byc ten sam wszedzie.
 export const OPIS = NA_PASZY
   ? 'Kalkulator paszy dla drobiu: mieszanki z własnych surowców pod normy i dodatki z polskich sklepów.'
-  : 'Przepisy na sery, baza kultur z polskich sklepów (ceny, zamienniki) i kalkulator pasz dla drobiu.';
+  : 'Przepisy na sery i baza kultur z polskich sklepów (ceny, zamienniki).';
 
 const ADRES_SERWERA = SERWIS.adresMcp;
 
