@@ -84,7 +84,7 @@ const SerwatkaDlaZwierzat = () => {
   };
 
   const seeAlsoLinks = [
-    { title: "Kalkulator pasz dla drobiu (mojapasza.com)", href: "https://mojapasza.com/", description: "Zbilansuj mieszankę — serwatka to dodatek, nie podstawa dawki." },
+    { title: "Kalkulator pasz dla drobiu (mojapasza.com)", href: "https://mojapasza.com/kalkulator", description: "Zbilansuj mieszankę — serwatka to dodatek, nie podstawa dawki." },
     { title: "Nieudany ser — co z nim zrobić", href: "/nieudany-ser", description: "Druga droga odzysku: kiedy ser ratować, a kiedy przeznaczyć na paszę." },
     { title: "Przepis na ricottę", href: "/przepisy/ricotta", description: "Wyciągnij z serwatki resztę białka, zanim trafi do zwierząt." },
     { title: "Fermentacja serwatki", href: "/fermentacja-serwatki", description: "Dlaczego ukwaszenie zużywa tylko część laktozy i co zużywa resztę." },
@@ -200,7 +200,7 @@ const SerwatkaDlaZwierzat = () => {
                     Kluczowa liczba to <strong>6–7% suchej masy</strong>. Serwatka to przede wszystkim
                     woda z laktozą — świetne uzupełnienie i źródło energii, ale{" "}
                     <strong>nie zastąpi paszy białkowej</strong>. Bilans mieszanki policz w{" "}
-                    <Link to="https://mojapasza.com/" className="text-primary hover:underline">
+                    <Link to="https://mojapasza.com/kalkulator" className="text-primary hover:underline">
                       kalkulatorze pasz
                     </Link>
                     .

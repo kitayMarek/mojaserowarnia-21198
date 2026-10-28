@@ -30,7 +30,7 @@ const Footer = () => {
         { label: "System ewidencji", href: "/dashboard" },
         { label: "Automatyzacja Social Media", href: "/automatyzacja-social-media" },
         // Jedyny link do pasz w Serowarni od 28.10.2026 (decyzja Marka 25.10.2026: poza menu i wyszukiwarką).
-        { label: "Kalkulator paszy: mojapasza.com", href: "https://mojapasza.com" },
+        { label: "Kalkulator paszy: mojapasza.com", href: "https://mojapasza.com/kalkulator" },
       ],
     },
     {

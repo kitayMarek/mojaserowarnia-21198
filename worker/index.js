@@ -50,8 +50,8 @@ export const BOTY_MODELI =
 // Strony pasz przeniesione na mojapasza.com (reguła 1p). Ta sama mapa co
 // STARE_SCIEZKI w pasze/worker/index.js.
 const ADRESY_PASZ = {
-  '/kalkulator-pasz': '/',
-  '/kalkulator-pasza': '/',
+  '/kalkulator-pasz': '/kalkulator',
+  '/kalkulator-pasza': '/kalkulator',
   '/kalkulator-pasz-bydlo': '/bydlo',
   '/pasze': '/poradnik',
   '/pasze/udzial-surowcow': '/poradnik/udzial-surowcow',

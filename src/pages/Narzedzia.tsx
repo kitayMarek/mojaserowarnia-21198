@@ -354,7 +354,7 @@ const Narzedzia = () => {
                       asChild
                       className="w-full mt-4 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white"
                     >
-                      <a href="https://mojapasza.com/" className="flex items-center justify-center gap-2">
+                      <a href="https://mojapasza.com/kalkulator" className="flex items-center justify-center gap-2">
                         Przejdź do Mojej Paszy
                         <ExternalLink className="h-4 w-4" />
                       </a>

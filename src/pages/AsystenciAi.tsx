@@ -498,7 +498,7 @@ const AsystenciAi = () => {
                     a ten działa w USA, po angielsku i w płatnych planach (stan na 25 października 2026).{" "}
                     <Link to="/baza-kultur" className="underline">Bazę kultur</Link> i{" "}
                     <Link to="/przepisy" className="underline">przepisy</Link> masz za to na naszej stronie, bez logowania,
-                    a kalkulator paszy na <a href="https://mojapasza.com/" className="underline">mojapasza.com</a>.
+                    a kalkulator paszy na <a href="https://mojapasza.com/kalkulator" className="underline">mojapasza.com</a>.
                   </p>
                 ),
               },
