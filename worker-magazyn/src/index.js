@@ -29,6 +29,10 @@ import { SCIEZKA_KARTY, SCIEZKA_KATALOGU, kartaSerwera, katalogAi, odpowiedzOdkr
 import { SERWIS } from './serwis.js';
 
 const SCIEZKA_MCP = '/mcp';
+// HSTS na kazdej odpowiedzi (od 28.10.2026, ocena lacznikow w VerifyMCP), jak w hubie
+// danerolne.com. Rok bez includeSubDomains i bez preload, zeby zadna inna subdomena
+// mojaserowarnia.pl nie musiala przez to miec https.
+const HSTS = 'max-age=31536000';
 
 // Kanał w ścieżce (od 26.10.2026, plan przenosin pasz): /mcp/claude, /mcp/chatgpt-wtyczka...
 // Katalogi i Plugin Creator w ChatGPT wycinają parametry z adresu, ścieżka zostaje.
@@ -235,6 +239,15 @@ function toPrzegladarka(request) {
 }
 
 export default {
+  async fetch(request, env, ctx) {
+    const surowa = await obsluga.fetch(request, env, ctx);
+    const odpowiedz = new Response(surowa.body, surowa);
+    odpowiedz.headers.set('strict-transport-security', HSTS);
+    return odpowiedz;
+  },
+};
+
+const obsluga = {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
