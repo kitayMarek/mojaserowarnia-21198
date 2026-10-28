@@ -82,21 +82,27 @@ export type Database = {
           clicked_at: string
           culture_name: string
           id: string
+          serwis: string
           shop_name: string
+          sklep_id: string | null
           user_agent: string | null
         }
         Insert: {
           clicked_at?: string
           culture_name: string
           id?: string
+          serwis?: string
           shop_name: string
+          sklep_id?: string | null
           user_agent?: string | null
         }
         Update: {
           clicked_at?: string
           culture_name?: string
           id?: string
+          serwis?: string
           shop_name?: string
+          sklep_id?: string | null
           user_agent?: string | null
         }
         Relationships: []
@@ -121,6 +127,7 @@ export type Database = {
           product_url: string | null
           shop: string | null
           shop_url: string | null
+          sklep_id: string | null
           strain_ratio: string | null
           temperature: string | null
           type: string | null
@@ -145,6 +152,7 @@ export type Database = {
           product_url?: string | null
           shop?: string | null
           shop_url?: string | null
+          sklep_id?: string | null
           strain_ratio?: string | null
           temperature?: string | null
           type?: string | null
@@ -169,6 +177,7 @@ export type Database = {
           product_url?: string | null
           shop?: string | null
           shop_url?: string | null
+          sklep_id?: string | null
           strain_ratio?: string | null
           temperature?: string | null
           type?: string | null

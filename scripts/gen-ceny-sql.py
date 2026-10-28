@@ -187,6 +187,8 @@ def insert(w):
             wartosci.append(str(v) if isinstance(v, int) else "%.2f" % v)
         else:
             wartosci.append(sql_txt(v))
+    # sklep_id (od 28.10.2026) uzupełnia trigger cultures_sklep_id z nazwy w shop. Nowy sklep trzeba
+    # dopisać w funkcji sklep_id_z_nazwy (migracja 20261028210000), inaczej sklep_id zostanie pusty.
     return ("INSERT INTO public.cultures (%s)\nSELECT %s\n WHERE NOT EXISTS (SELECT 1 FROM public.cultures"
             " WHERE shop = %s AND name = %s);\n"
             % (", ".join(kolumny), ",\n       ".join(wartosci), sql_txt(w["shop"]), sql_txt(w["name"])))
