@@ -14,6 +14,7 @@ import SeeAlso from "@/components/SeeAlso";
 import VideoPrzepisu from "@/components/VideoPrzepisu";
 import { daniaZSera } from "@/lib/powiazaniaPrzepisow";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
+import ListaZakupowSera from "@/components/ListaZakupowSera";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -273,6 +274,8 @@ const RecipeDetails = () => {
               </table>
             </div>
           </section>
+
+          <ListaZakupowSera recipe={recipe} />
 
           {/* Kroki */}
           <section className="bg-card rounded-xl border border-border p-8 mb-8">
