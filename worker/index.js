@@ -20,7 +20,7 @@ import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
 import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
 import { kontraktBotow, SCIEZKA_KONTRAKTU, WLASNY_ODCZYT } from './kontrakt-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
-import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku } from './lacznik-claude.js';
+import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku, czyPasze, STRONA_ASYSTENTOW_PASZE } from './lacznik-claude.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -403,8 +403,11 @@ Disallow: /
     //       dany post, a licznik wejsc pokaze samo wejscie z linku. Bez znacznika
     //       "link". 302, nie 301: to link kampanii, cel moze sie zmienic.
     if (bezUkosnika === '/claude') {
+      const z = znacznikLinku(url);
+      // Posty o paszach na stronę Mojej Paszy (od 28.10.2026 tam jest łącznik pasz).
+      if (czyPasze(z)) return Response.redirect(STRONA_ASYSTENTOW_PASZE, 302);
       // #claude od 24.10.2026: nowa strona domyślnie pokazuje ChatGPT, kotwica wybiera Claude.
-      return Response.redirect(`${url.origin}/asystenci-ai?z=${znacznikLinku(url)}#claude`, 302);
+      return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#claude`, 302);
     }
 
     // 1a1c) /claude/dodaj?z=... -> od razu formularz lacznika w Claude.ai, bez
@@ -427,6 +430,9 @@ Disallow: /
       const z = znacznikLinku(url);
       const ua = request.headers.get('user-agent') || '';
       ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua), `lacznik-${asystent}`));
+      // ChatGPT i pasze: łącznik pasz jest na mojapasza.com. Perplexity zostaje tu,
+      // bo umiejętność z działem pasz jest przy Serowarni (do lutego 2027).
+      if (asystent === 'chatgpt' && czyPasze(z)) return Response.redirect(STRONA_ASYSTENTOW_PASZE, 302);
       return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#${asystent}`, 302);
     }
 

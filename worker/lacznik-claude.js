@@ -32,6 +32,19 @@ const ADRES_MCP = 'https://dane.mojaserowarnia.pl/mcp';
 const FORMULARZ_CLAUDE =
   'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Moja%20Serowarnia&connectorUrl=';
 
+// Pasze od 28.10.2026 sa na mojapasza.com z wlasnym lacznikiem, a serwer Serowarni
+// nie ma juz narzedzi paszowych. Stare posty o paszach (fb-pasza, fb-pasze) maja
+// prowadzic do lacznika Mojej Paszy (29.10.2026, zgoda Marka).
+const ADRES_MCP_PASZE = 'https://mojapasza.com/mcp';
+const FORMULARZ_CLAUDE_PASZE =
+  'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Moja%20Pasza&connectorUrl=';
+export const STRONA_ASYSTENTOW_PASZE = 'https://mojapasza.com/asystenci-ai';
+
+/** Znacznik posta o paszach: fb-pasza, fb-pasze, pasze-grupa itp. */
+export function czyPasze(z) {
+  return /pasz/.test(z);
+}
+
 // Siec Meta (Facebook). Po publikacji posta Meta otwiera link swoimi skanerami:
 // bezglowy Chrome z kompletem naglowkow przegladarki i z fbclid, kilkanascie
 // razy w kilka sekund. Logi Workers z 21.10.2026: 28 z 28 klikniec fb-pasza
@@ -47,6 +60,7 @@ export function znacznikLinku(url) {
 }
 
 export function formularzClaude(z) {
+  if (czyPasze(z)) return FORMULARZ_CLAUDE_PASZE + encodeURIComponent(`${ADRES_MCP_PASZE}?z=${z}`);
   return FORMULARZ_CLAUDE + encodeURIComponent(`${ADRES_MCP}?z=${z}`);
 }
 
