@@ -430,8 +430,8 @@ Disallow: /
       const z = znacznikLinku(url);
       const ua = request.headers.get('user-agent') || '';
       ctx?.waitUntil(zapiszKlikniecieLinku(request, z, env, BOTY_PODGLADU.test(ua) || BOTY_MODELI.test(ua), `lacznik-${asystent}`));
-      // ChatGPT i pasze: łącznik pasz jest na mojapasza.com. Perplexity zostaje tu,
-      // bo umiejętność z działem pasz jest przy Serowarni (do lutego 2027).
+      // ChatGPT i pasze: instrukcja na mojapasza.com. Perplexity zostaje tu,
+      // bo umiejętność dane-rolne ma też pasze (od 2.11.2026).
       if (asystent === 'chatgpt' && czyPasze(z)) return Response.redirect(STRONA_ASYSTENTOW_PASZE, 302);
       return Response.redirect(`${url.origin}/asystenci-ai?z=${z}#${asystent}`, 302);
     }

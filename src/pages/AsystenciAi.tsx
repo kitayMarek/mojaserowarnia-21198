@@ -17,10 +17,13 @@ import {
   type Asystent,
 } from "@/lib/lacznikClaude";
 import { adresZPromptu, linkZPromptem, promptPodlaczenia } from "@/lib/promptyCzatow";
+import { SERWER_SEROWARNI } from "@/lib/serwis";
 
 /**
- * Jak podłączyć serwer MCP serwisu (worker-magazyn/, dane.mojaserowarnia.pl/mcp)
- * do ChatGPT, Claude albo Perplexity.
+ * Jak podłączyć do ChatGPT i Claude łącznik Dane Rolne (danerolne.com/mcp, od 2.11.2026
+ * jeden łącznik dla ludzi, decyzja Marka), a do Perplexity umiejętność dane-rolne (ten sam serwer).
+ * Serwer Serowarni (worker-magazyn/, dane.mojaserowarnia.pl/mcp) zostaje dla huba,
+ * aplikacji i starszych podłączeń.
  *
  * UKŁAD WEDŁUG MAKIETY D (decyzja Marka 24.10.2026, kanwa „Strona główna: makiety”).
  * Wcześniej strona miała ponad 6 ekranów, tytuł „…w Claude”, a pod ramką z gotowym
@@ -59,9 +62,9 @@ const PYTANIA = [
 ];
 
 // Polecenie dla Claude Code ma znacznik "claude-code", żeby serwer MCP odróżnił te podłączenia.
-const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http serowarnia ${adresLacznika("claude-code")}`;
+const POLECENIE_CLAUDE_CODE = `claude mcp add --transport http dane-rolne ${adresLacznika("claude-code")}`;
 // Wpis do pliku z serwerami MCP (w Cursorze mcp.json). Ten sam format podał Gemini w teście Marka 25.10.2026.
-const WPIS_KONFIGURACJI = JSON.stringify({ mcpServers: { serowarnia: { url: adresLacznika("programy") } } }, null, 2);
+const WPIS_KONFIGURACJI = JSON.stringify({ mcpServers: { "dane-rolne": { url: adresLacznika("programy") } } }, null, 2);
 
 /**
  * Kopiuje tekst do schowka. Schowek bywa zablokowany (stara przeglądarka, okno
@@ -180,8 +183,8 @@ const AsystenciAi = () => {
           i kliknij <strong>Dodaj</strong> w prawym górnym rogu, obok koła zębatego.
         </>,
         <>Wybierz <strong>Dodaj niestandardowy serwer MCP</strong>.</>,
-        <>Nazwa: <strong>Moja Serowarnia</strong>. Wklej adres poniżej, uwierzytelnianie: <strong>brak</strong>. Potwierdź ostrzeżenie i utwórz wtyczkę.</>,
-        <>Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Moja Serowarnia. Potem pytaj w zwykłej rozmowie.</>,
+        <>Nazwa: <strong>Dane Rolne</strong>. Wklej adres poniżej, uwierzytelnianie: <strong>brak</strong>. Potwierdź ostrzeżenie i utwórz wtyczkę.</>,
+        <>Na liście <strong>Osobiste</strong> kliknij <strong>+</strong> przy Dane Rolne. Potem pytaj w zwykłej rozmowie.</>,
       ],
       uwaga:
         "U nas zadziałało też na darmowym koncie. Jeśli nie widzisz opcji niestandardowego serwera MCP, Twój plan jej nie ma; na kontach firmowych włącza ją administrator. Wtyczka działa też w aplikacji na telefonie.",
@@ -199,9 +202,9 @@ const AsystenciAi = () => {
         </>,
         <>
           Claude pokaże żółte ostrzeżenie o łączniku z linku: to zwykły komunikat. Sprawdź, że adres zaczyna się od
-          dane.mojaserowarnia.pl, kliknij <strong>Continue</strong>, potem <strong>Add</strong>.
+          danerolne.com, kliknij <strong>Continue</strong>, potem <strong>Add</strong>.
         </>,
-        <>W rozmowie kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Moja Serowarnia.</>,
+        <>W rozmowie kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Dane Rolne.</>,
       ],
       uwaga:
         "Własne łączniki działają na każdym planie Claude, także darmowym (jeden łącznik). W planach Team i Enterprise dodaje je właściciel organizacji. Nazwy przycisków podajemy jak w angielskiej wersji Claude; łącznik działa też w aplikacji na telefonie.",
@@ -209,7 +212,7 @@ const AsystenciAi = () => {
     perplexity: {
       kroki: [
         <>
-          Otwórz {linkZew(UMIEJETNOSC_PERPLEXITY, "umiejętność moja-serowarnia", () => {
+          Otwórz {linkZew(UMIEJETNOSC_PERPLEXITY, "umiejętność dane-rolne", () => {
             zdarzenieLacznikAi("polacz_perplexity");
             zapiszKlikniecieLacznika(zrodlo, "przycisk", "perplexity");
           })}{" "}
@@ -218,7 +221,7 @@ const AsystenciAi = () => {
         <>Kliknij <strong>…</strong> w prawym górnym rogu i wybierz <strong>Importuj kopię</strong>, potem <strong>Zapisz</strong>.</>,
         <>Pytaj w trybie <strong>Computer</strong>, na przykład „jaka kultura do mozzarelli i gdzie ją kupić”.</>,
       ],
-      uwaga: "Działa także na darmowym planie. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci, bez naszych danych.",
+      uwaga: "Computer jest w płatnych planach Perplexity, część darmowych kont ma ograniczoną liczbę prób, które się nie odnawiają. W zwykłym wyszukiwaniu Perplexity odpowiada z sieci, bez naszych danych.",
     },
   };
 
@@ -232,7 +235,7 @@ const AsystenciAi = () => {
     url: "https://mojaserowarnia.pl/asystenci-ai",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-21",
-    dateModified: "2026-10-28",
+    dateModified: "2026-11-02",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
 
@@ -253,7 +256,8 @@ const AsystenciAi = () => {
               </h1>
               <p className="text-lg leading-relaxed text-foreground/80">
                 Podłącz naszą bazę kultur i przepisy na sery do ChatGPT, Claude albo Perplexity. Pytasz jak zwykle,
-                a czat sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza.
+                a czat sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza. Robi to
+                jeden łącznik Dane Rolne, który ma też pasze z mojapasza.com i katalog lokalnych producentów.
               </p>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 {/* Na telefonie krok 1 jest prawie dwa ekrany niżej (przykład i porównanie). */}
@@ -445,7 +449,7 @@ const AsystenciAi = () => {
                   key={p}
                   tekst={p}
                   etykieta={`„${p}”`}
-                  className="h-auto min-h-[46px] whitespace-normal rounded-xl px-4 py-2.5 text-left font-normal"
+                  className="h-auto min-h-[46px] max-w-full whitespace-normal rounded-xl px-4 py-2.5 text-left font-normal"
                 />
               ))}
             </div>
@@ -474,9 +478,10 @@ const AsystenciAi = () => {
                 pytanie: "Gdzie jest kalkulator pasz?",
                 odpowiedz: (
                   <p>
-                    Od 28 października 2026 kalkulator paszy ma własny serwis i własny łącznik:{" "}
-                    <a href="https://mojapasza.com/asystenci-ai" className="underline">mojapasza.com/asystenci-ai</a>. Jeśli
-                    masz już łącznik Moja Serowarnia, narzędzia paszowe działają w nim do końca lutego 2027.
+                    Łącznik Dane Rolne ma też kalkulator pasz i bazę dodatków z{" "}
+                    <a href="https://mojapasza.com/kalkulator" className="underline">mojapasza.com</a>, więc drugiego nie
+                    trzeba dodawać. Masz już łącznik Moja Serowarnia? Kultury i przepisy działają w nim dalej, ale pasz
+                    w nim nie ma: do pasz dodaj Dane Rolne.
                   </p>
                 ),
               },
@@ -486,7 +491,7 @@ const AsystenciAi = () => {
                   <p>
                     W ChatGPT opcja „Dodaj niestandardowy serwer MCP” zależy od planu, a na kontach firmowych włącza ją
                     administrator. W Claude własne łączniki działają na każdym planie, na darmowym jeden. W Perplexity
-                    umiejętność dodasz na każdym planie, także darmowym.
+                    umiejętność działa w trybie Computer, a ten jest w płatnych planach; część darmowych kont ma ograniczoną liczbę prób.
                   </p>
                 ),
               },
@@ -507,7 +512,7 @@ const AsystenciAi = () => {
                 odpowiedz: (
                   <p>
                     W Claude kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz
-                    Moja Serowarnia. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki. W Perplexity pytaj w trybie
+                    Dane Rolne. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki. W Perplexity pytaj w trybie
                     <strong> Computer</strong>.
                   </p>
                 ),
@@ -518,12 +523,13 @@ const AsystenciAi = () => {
                   <ul className="list-disc space-y-1.5 pl-5">
                     <li>Serwer tylko odczytuje nasze dane. Nie widzi Twoich rozmów, dostaje wyłącznie zapytania, które czat do niego wyśle.</li>
                     <li>Bez konta i bez klucza, do 30 zapytań na minutę.</li>
-                    <li>Liczymy tylko, ile razy dziennie użyto każdego narzędzia i z jakiego programu. Bez adresu IP i bez treści pytań.</li>
+                    <li>Liczymy, ile razy dziennie użyto każdego narzędzia i z jakiego programu. Bez adresu IP i bez treści pytań.</li>
                     <li>Ceny pochodzą ze stron sklepów i mają datę sprawdzenia.</li>
                     <li>Baza kultur i przepisy są na licencji CC BY 4.0: można je cytować z podaniem źródła. Ceny sklepów są poza CC BY: podawaj je z datą i linkiem do oferty.</li>
                     <li>
-                      Pełne zasady: <Link to="/nota-prawna#serwer-mcp" className="underline">prywatność</Link> i{" "}
-                      <Link to="/warunki-mcp" className="underline">warunki korzystania z serwera MCP</Link>.
+                      Pełne zasady: <a href="https://danerolne.com/prywatnosc" className="underline">prywatność i warunki łącznika Dane Rolne</a>,
+                      a dla naszego serwera <Link to="/nota-prawna#serwer-mcp" className="underline">prywatność</Link> i{" "}
+                      <Link to="/warunki-mcp" className="underline">warunki korzystania</Link>.
                     </li>
                   </ul>
                 ),
@@ -557,7 +563,7 @@ const AsystenciAi = () => {
                 pytanie: "Budujesz własną aplikację?",
                 odpowiedz: (
                   <p>
-                    Możesz oprzeć ją na naszym serwerze, także komercyjnie: doradcę serowara, wyszukiwarkę kultur na
+                    Możesz oprzeć ją na naszym serwerze <code className="font-mono">{SERWER_SEROWARNI}</code>, także komercyjnie: doradcę serowara, wyszukiwarkę kultur na
                     stronie sklepu albo listę zakupów. Wystarczy podać źródło z linkiem, zostawić zastrzeżenia i daty
                     cen oraz dopisać do adresu znacznik <code className="font-mono">?z=app-twoja-nazwa</code>. Gdy 30 zapytań na
                     minutę nie wystarczy, dostaniesz od nas darmowy klucz z limitem 300. Zasady i

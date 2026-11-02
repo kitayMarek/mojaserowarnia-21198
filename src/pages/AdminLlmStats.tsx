@@ -362,7 +362,8 @@ export default function AdminLlmStats() {
             Przyciski „Dodaj do Claude”, „Dodaj do ChatGPT” i „Dodaj do Perplexity”: menu boczne, przycisk na stronie,
             kopiowanie adresu, link z posta (/claude/dodaj?z=..., /chatgpt?z=..., /perplexity?z=..., wiersz = znacznik
             posta), ramka z gotowym tekstem dla czatu (Prompt: otwarcia / kopiowania). To zamiar, nie
-            podłączenie; podłączenia ze znacznikiem strony liczy serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
+            podłączenie; podłączenia ze znacznikiem strony liczy od 2.11.2026 hub Dane Rolne (tabela wywolania w bazie
+            huba), a wcześniej liczył je serwer MCP (magazyn_wywolania.zrodlo). Razem:{" "}
             {lacznik.razem}
           </CardDescription>
         </CardHeader>

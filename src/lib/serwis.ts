@@ -27,15 +27,22 @@ export const SERWIS: UstawieniaSerwisu = {
   instrukcjaCzatow: "/asystenci-ai",
 };
 
+/**
+ * Od 2.11.2026 ludzie podłączają jeden łącznik: Dane Rolne (sery, pasze, katalog), decyzja Marka.
+ * Hub woła serwer Serowarni z ?z=hub, a znacznik ze strony liczy u siebie (tabela wywolania w bazie huba).
+ */
 export const LACZNIK: UstawieniaLacznika = {
-  adres: "https://dane.mojaserowarnia.pl/mcp",
-  nazwa: "Moja Serowarnia",
-  // Treść umiejętności: ProjektyLLm/wtyczki/perplexity/SKILL.md (poza repo).
+  adres: "https://danerolne.com/mcp",
+  nazwa: "Dane Rolne",
+  // Treść umiejętności: ProjektyLLm/wtyczki/perplexity-dane-rolne/SKILL.md (poza repo). Łączy się z danerolne.com/mcp?z=perplexity.
   umiejetnoscPerplexity: {
-    nazwa: "moja-serowarnia",
-    adres: "https://www.perplexity.ai/computer/skills/7v8vkYCPTiSxnjTByyQ0GA",
+    nazwa: "dane-rolne",
+    adres: "https://www.perplexity.ai/computer/skills/rmzaCg5pTzassdkfDZr5fQ",
   },
 };
+
+/** Serwer MCP Serowarni: zostaje dla huba, aplikacji i starszych podłączeń, jego dotyczą warunki z /warunki-mcp. */
+export const SERWER_SEROWARNI = "https://dane.mojaserowarnia.pl/mcp";
 
 /** Wydawca w danych strukturalnych (schema.org Organization). */
 export const WYDAWCA = { "@type": "Organization", name: SERWIS.nazwa, url: `${SERWIS.adres}/` } as const;

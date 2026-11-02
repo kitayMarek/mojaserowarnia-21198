@@ -187,7 +187,7 @@ function stronaOpisu(origin) {
   <h1>Serwer MCP: kultury i przepisy na sery</h1>
   <p class="podpis">Moja Serowarnia, wersja ${WERSJA}</p>
   <p>To nie jest strona do czytania, tylko adres dla asystentów AI, takich jak Claude, ChatGPT czy Perplexity. Asystent po podłączeniu sam przeszukuje bazę ${baza.pozycji} kultur z ${baza.sklepow} polskich sklepów i przepisy na sery.</p>
-  <p>Kalkulator pasz dla drobiu i baza dodatków paszowych mają własny serwis i łącznik: <a href="https://mojapasza.com/asystenci-ai?utm_source=magazyn">mojapasza.com/mcp</a>.</p>
+  <p>Kalkulator pasz dla drobiu i baza dodatków paszowych są w łączniku Dane Rolne, który ma też te kultury i przepisy: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn">danerolne.com/mcp</a>. Do zwykłego czatu wystarczy podłączyć właśnie jego.</p>
 
   <h2>Adres do wklejenia</h2>
   <code class="adres">${adres}</code>
@@ -209,7 +209,7 @@ function stronaOpisu(origin) {
     <li>Na liście Osobiste kliknij + przy Moja Serowarnia, potem pytaj w zwykłej rozmowie.</li>
   </ol>
   <p>U nas zadziałało też na darmowym koncie. Jeśli nie widzisz opcji niestandardowego serwera MCP, Twój plan ChatGPT jej nie ma.</p>
-  <p>W Perplexity dodaj umiejętność „moja-serowarnia” i pytaj w trybie Computer: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn#perplexity">instrukcja</a>. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
+  <p>W Perplexity dodaj umiejętność „dane-rolne” i pytaj w trybie Computer: <a href="https://mojaserowarnia.pl/asystenci-ai?utm_source=magazyn#perplexity">instrukcja</a>. Inne programy obsługujące MCP (Claude Desktop, Cursor) przyjmują ten sam adres.</p>
 
   <h2>Co potrafi</h2>
   <ul>

@@ -40,11 +40,13 @@ const UMIEJETNOSC = LACZNIK.umiejetnoscPerplexity.nazwa;
 /** Czego dotyczy strona: od tego zależy opis serwera i próbne pytanie. */
 export type TematPromptu = "pasze" | "sery" | "ogolny";
 
+// Od 2.11.2026 wszystkie trzy czaty dostają Dane Rolne: ChatGPT i Claude łącznik, Perplexity umiejętność dane-rolne (src/lib/serwis.ts).
+const DANE_ROLNE = "Dane Rolne, czyli bazę kultur do sera i przepisy z serwisu Moja Serowarnia, a do tego pasze z mojapasza.com i katalog lokalnych producentów";
+
 const OPIS: Record<TematPromptu, string> = {
   pasze: `kalkulator pasz dla drobiu z serwisu ${SERWIS.nazwa}`,
-  sery: "bazę kultur do sera i przepisy z serwisu Moja Serowarnia",
-  // Od 28.10.2026 bez pasz: kalkulator ma własny łącznik na mojapasza.com (temat "pasze").
-  ogolny: "bazę kultur do sera i przepisy z serwisu Moja Serowarnia",
+  sery: DANE_ROLNE,
+  ogolny: DANE_ROLNE,
 };
 
 const PROBA: Record<TematPromptu, string> = {
@@ -119,6 +121,7 @@ export function promptPodlaczenia(asystent: Asystent, temat: TematPromptu, zrodl
     "2. Kliknij … w prawym górnym rogu i wybierz Importuj kopię.",
     "3. Sprawdź treść i kliknij Zapisz.",
     "4. Pytaj w trybie Computer: w zwykłym wyszukiwaniu umiejętność nie działa.",
+    "Jeśli Perplexity poprosi mnie o płatny plan, powiedz mi, że tryb Computer jest w płatnych planach.",
     "",
     PROBA[temat],
   ].join("\n");

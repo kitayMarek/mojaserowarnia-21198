@@ -41,7 +41,7 @@ const inputCls = "mt-1 w-full p-2 border border-input bg-background text-foregro
 const ETYKIETA_ZRODLA: Record<string, string> = { baza: "baza wzorcowa", dodatek: "produkt z bazy dodatków", user: "zgłoszenie użytkownika" };
 const zl = (n: number) => `${Number(n).toFixed(2).replace(".", ",")} zł`;
 // W bazie link oferty ma już znacznik utm; z panelu otwieramy go bez znacznika, żeby nie liczyć siebie.
-const bezZnacznika = (url: string) => url.replace(/[?&]utm_source=mojaserowarnia$/, "");
+const bezZnacznika = (url: string) => url.replace(/[?&]utm_source=danerolne$/, "");
 
 /** Produkt z bazy dodatków: skąd skład i gdzie kupić, osobno. Do podglądu, bez edycji. */
 function KartaDodatku({ row, oferty }: { row: Row; oferty: Row[] }) {

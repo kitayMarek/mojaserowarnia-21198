@@ -283,7 +283,7 @@ export const metaStron: Record<string, MetaStrony> = {
     mirror: "kultury/flora-danica.html",
   },
   "/asystenci-ai": {
-    // Jak podlaczyc serwer MCP (dane.mojaserowarnia.pl/mcp) do ChatGPT, Claude albo Perplexity.
+    // Jak podlaczyc lacznik Dane Rolne (danerolne.com/mcp, od 2.11.2026) do ChatGPT i Claude, a umiejetnosc do Perplexity.
     // Strona dla ludzi, ktorzy chca pytac czat o kultury i przepisy (pasze od 28.10.2026 na mojapasza.com).
     // Od 24.10.2026 uklad z wyborem czatu (makieta D), wczesniej tytul mowil tylko o Claude.
     title: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude, Perplexity",

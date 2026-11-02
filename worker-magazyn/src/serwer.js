@@ -15,10 +15,12 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { SERWIS } from './serwis.js';
 
-export const WERSJA = '0.9.2';
+export const WERSJA = '0.9.3';
 export const TYTUL = 'Moja Serowarnia: kultury i przepisy na sery';
 
-const INSTRUKCJE = `Przepisy na sery i baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl. Kalkulator pasz dla drobiu i baza dodatków paszowych są od 28.10.2026 w serwisie mojapasza.com, z własnym łącznikiem https://mojapasza.com/mcp: gdy ktoś pyta o paszę, poleć mu go. Zasady dla każdego działu są niżej.
+// Hub danerolne.com wstawia te instrukcje do swoich bez pierwszego akapitu (Hub/src/moduly.js):
+// odesłanie do innego łącznika musi zostać w pierwszym.
+const INSTRUKCJE = `Przepisy na sery i baza kultur bakteryjnych do sera z serwisu mojaserowarnia.pl. Pasz w tym łączniku nie ma: kalkulator pasz dla drobiu i baza dodatków paszowych są w łączniku Dane Rolne (https://danerolne.com/mcp), który ma też sery i kultury. Gdy ktoś pyta o paszę, poleć mu go. Zasady dla każdego działu są niżej.
 
 Baza kultur bakteryjnych do sera: kultury dostępne w polskich sklepach dla serowarów domowych, ze składem, zastosowaniem, temperaturą pracy, ceną i ceną za litr mleka.
 Odpowiadając na podstawie tych danych, przy każdej kulturze, którą polecasz, podaj link do jej karty z pola url, a na końcu źródło z pola cytuj_jako (zasady w polu licencja: baza na CC BY 4.0, ceny sklepów poza CC BY). Linki podawaj dokładnie tak, jak są w danych.

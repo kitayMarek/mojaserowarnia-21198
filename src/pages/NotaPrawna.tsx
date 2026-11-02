@@ -199,8 +199,9 @@ const NotaPrawna = () => {
             <CardContent className="space-y-4 text-muted-foreground">
               <p>
                 Serwer <code>https://dane.mojaserowarnia.pl/mcp</code> udostępnia asystentom AI (Claude, ChatGPT,
-                Perplexity i innym) nasz kalkulator pasz, przepisy i bazę kultur. Działa bez konta i klucza, tylko do
-                odczytu.
+                Perplexity i innym) przepisy i bazę kultur. Działa bez konta i klucza, tylko do odczytu. Łącznik Dane
+                Rolne (<code>https://danerolne.com/mcp</code>), który polecamy na stronie Asystenci AI, korzysta z tego
+                serwera i ma własne zasady: <a href="https://danerolne.com/prywatnosc" className="underline">danerolne.com/prywatnosc</a>.
               </p>
               <p>
                 <strong>Przy każdym zapytaniu serwer zwiększa sumę dnia:</strong> dzień, nazwa narzędzia, rodzaj

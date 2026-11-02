@@ -292,7 +292,8 @@ Email: kontakt@mojaserowarnia.pl
 - /humans.txt - informacje o twórcach
 - /llms.txt - ten plik
 - /bot-stats.json - agregaty licznika botów (CC BY 4.0)
-- https://dane.mojaserowarnia.pl/mcp - serwer MCP (Streamable HTTP, tylko odczyt, bez klucza): baza kultur i przepisy na sery; narzędzia paszowe do 28.02.2027, potem tylko na https://mojapasza.com/mcp. Jak podłączyć do Claude: https://mojaserowarnia.pl/asystenci-ai.html
+- https://danerolne.com/mcp - łącznik dla czatów (Streamable HTTP, tylko odczyt, bez klucza): baza kultur i przepisy z tego serwisu, pasze z mojapasza.com i katalog lokalnych producentów. Jak podłączyć: https://mojaserowarnia.pl/asystenci-ai.html
+- https://dane.mojaserowarnia.pl/mcp - serwer MCP tego serwisu dla aplikacji (tylko odczyt, bez klucza): baza kultur i przepisy na sery, bez pasz. Zasady: https://mojaserowarnia.pl/warunki-mcp.html
 
 ## LICENCJA TREŚCI
 
@@ -301,7 +302,7 @@ Przy cytowaniu prosimy o podanie źródła: Moja Serowarnia (mojaserowarnia.pl)
 
 ## AKTUALIZACJE
 
-Ostatnia aktualizacja: 2026-10-19
+Ostatnia aktualizacja: 2026-11-02
 Baza kultur: aktualizowana regularnie
 Przepisy: dodawane sukcesywnie
 Prawo: aktualizowane przy zmianach legislacyjnych

@@ -6,7 +6,7 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import PageHeader from "@/components/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText } from "lucide-react";
-import { ADRES_MCP } from "@/lib/lacznikClaude";
+import { SERWER_SEROWARNI as ADRES_MCP } from "@/lib/serwis";
 
 /**
  * Warunki korzystania z serwera MCP (dane.mojaserowarnia.pl/mcp), 23.10.2026.
@@ -73,7 +73,9 @@ const WarunkiMcp = () => {
                     (Claude, ChatGPT, Perplexity i innym) przepisy na sery i bazę kultur bakteryjnych z polskich
                     sklepów. Prowadzi go serwis Moja Serowarnia (mojaserowarnia.pl). Kalkulator paszy dla drobiu
                     i baza dodatków paszowych mają od 28 października 2026 własny serwer:{" "}
-                    <a href="https://mojapasza.com/asystenci-ai" className="underline">mojapasza.com/mcp</a>.
+                    <a href="https://mojapasza.com/asystenci-ai" className="underline">mojapasza.com/mcp</a>. Do zwykłego
+                    czatu polecamy łącznik Dane Rolne (<code className="font-mono">https://danerolne.com/mcp</code>), który
+                    ma sery i pasze: <Link to="/asystenci-ai" className="underline">Asystenci AI</Link>.
                   </p>
                   <p>
                     Korzystanie jest bezpłatne i nie wymaga konta ani klucza. Wszystkie narzędzia tylko odczytują
@@ -337,7 +339,7 @@ const WarunkiMcp = () => {
               </Card>
 
               <p className="text-center text-muted-foreground">
-                Obowiązuje od 23 października 2026. Ostatnia zmiana: 28 października 2026 (narzędzia paszowe na mojapasza.com, licencja cen sklepów).
+                Obowiązuje od 23 października 2026. Ostatnia zmiana: 2 listopada 2026 (łącznik Dane Rolne do zwykłych czatów).
               </p>
             </div>
           </div>

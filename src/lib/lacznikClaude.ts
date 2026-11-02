@@ -1,6 +1,6 @@
 /**
- * Łącznik Claude (serwer MCP dane.mojaserowarnia.pl): wspólne adresy i pomiar
- * dla przycisków „Dodaj do Claude” (menu boczne, baza kultur, /asystenci-ai).
+ * Łącznik Dane Rolne (od 2.11.2026, wcześniej dane.mojaserowarnia.pl): wspólne adresy
+ * i pomiar dla przycisków „Dodaj do Claude” (menu boczne, baza kultur, /asystenci-ai).
  *
  * POMIAR W DWÓCH MIEJSCACH (decyzja Marka 21.10.2026):
  *  1. Kliknięcie: wiersz w llm_queries (model "lacznik-claude", query = rodzaj
@@ -10,14 +10,13 @@
  *     krótki link /claude/dodaj?z=... prosto do formularza (worker/lacznik-claude.js
  *     ma kopię ADRES_MCP i adresu formularza; przy zmianie poprawić oba).
  *  2. Podłączenie: adres łącznika niesie znacznik strony (?z=/baza-kultur).
- *     Serwer MCP zapisuje go przy każdym wywołaniu w magazyn_wywolania.zrodlo,
- *     więc widać, które strony dały prawdziwe podłączenia, a nie tylko kliknięcia.
- *     Serwer odpowiada tak samo z parametrem i bez niego.
+ *     Hub zapisuje go przy każdym wywołaniu w swojej tabeli wywolania.zrodlo (do 2.11.2026
+ *     serwer Serowarni w magazyn_wywolania.zrodlo), więc widać, które strony dały prawdziwe
+ *     podłączenia, a nie tylko kliknięcia. Serwer odpowiada tak samo z parametrem i bez niego.
  */
 import { supabase } from "@/integrations/supabase/client";
 import { LACZNIK } from "@/lib/serwis";
 
-// Na mojapasza.com łącznik mojapasza.com/mcp (src/lib/serwis.ts).
 export const ADRES_MCP = LACZNIK.adres;
 
 /** Ścieżka strony w postaci bezpiecznej dla adresu i dla bazy: /kultury/me, /baza-kultur. */
@@ -51,12 +50,14 @@ export function linkClaude(zrodlo?: string): string {
 export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
 
 /**
- * Umiejętność „moja-serowarnia” udostępniona w Perplexity („każdy, kto ma link”).
+ * Umiejętność „dane-rolne” udostępniona w Perplexity („każdy, kto ma link”), od 2.11.2026
+ * zamiast „moja-serowarnia”, decyzja Marka.
  * Zalogowany użytkownik importuje ją z tej strony: „…”, Importuj kopię, Zapisz
- * (sprawdzone 23.10.2026 na darmowym koncie). Działa w trybie Computer: model
- * sam łączy się z serwerem pod adresem z umiejętności (?z=perplexity), więc
- * wywołania widać w magazyn_wywolania ze źródłem "perplexity".
- * Treść umiejętności: ProjektyLLm/wtyczki/perplexity/SKILL.md (poza repo).
+ * (sprawdzone 23.10.2026 na darmowym koncie, ale Computer jest w płatnych planach:
+ * test Marka 2.11.2026, pomoc Perplexity, artykuł 13837784). Działa w trybie Computer: model
+ * sam łączy się z serwerem pod adresem z umiejętności (danerolne.com/mcp?z=perplexity),
+ * więc wywołania widać w tabeli wywolania w bazie huba ze źródłem "perplexity".
+ * Treść umiejętności: ProjektyLLm/wtyczki/perplexity-dane-rolne/SKILL.md (poza repo).
  */
 export const UMIEJETNOSC_PERPLEXITY = LACZNIK.umiejetnoscPerplexity.adres;
 

@@ -1,5 +1,5 @@
 /**
- * Krotkie linki do lacznika Claude (serwer MCP dane.mojaserowarnia.pl).
+ * Krotkie linki do lacznika Dane Rolne (danerolne.com/mcp, od 2.11.2026).
  *
  *   /claude?z=fb-grupa        -> strona z instrukcja /asystenci-ai (regula 1a1b)
  *   /claude/dodaj?z=fb-grupa  -> od razu formularz „Dodaj lacznik” w Claude.ai
@@ -15,8 +15,8 @@
  *
  * POMIAR: klikniecie czlowieka to wiersz w llm_queries, jak przyciski
  * w serwisie (src/lib/lacznikClaude.ts): model "lacznik-claude", query "link",
- * source = znacznik. Podlaczenie liczy serwer MCP po tym samym znaczniku
- * w adresie lacznika (magazyn_wywolania.zrodlo).
+ * source = znacznik. Podlaczenie liczy hub po tym samym znaczniku w adresie
+ * lacznika (wywolania.zrodlo w bazie huba; do 2.11.2026 magazyn_wywolania.zrodlo).
  *
  * PODGLAD NA FACEBOOKU pokaze ogolna karte Claude, bo robot Facebooka idzie za
  * przekierowaniem. Celowo nie dajemy mu innej strony niz ludziom: Facebook
@@ -28,16 +28,13 @@ import { rozpoznajBota, ktoZListy } from './wizyty-botow.js';
 import { NARZEDZIE, WLASNE } from './wejscia-ludzi.js';
 
 // Te same wartosci co ADRES_MCP i linkClaude() w src/lib/lacznikClaude.ts.
-const ADRES_MCP = 'https://dane.mojaserowarnia.pl/mcp';
+// Od 2.11.2026 jeden lacznik dla ludzi (decyzja Marka): Dane Rolne ma sery i pasze,
+// wiec stare posty o paszach (fb-pasza, fb-pasze) tez otwieraja ten formularz.
+const ADRES_MCP = 'https://danerolne.com/mcp';
 const FORMULARZ_CLAUDE =
-  'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Moja%20Serowarnia&connectorUrl=';
+  'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Dane%20Rolne&connectorUrl=';
 
-// Pasze od 28.10.2026 sa na mojapasza.com z wlasnym lacznikiem, a serwer Serowarni
-// nie ma juz narzedzi paszowych. Stare posty o paszach (fb-pasza, fb-pasze) maja
-// prowadzic do lacznika Mojej Paszy (29.10.2026, zgoda Marka).
-const ADRES_MCP_PASZE = 'https://mojapasza.com/mcp';
-const FORMULARZ_CLAUDE_PASZE =
-  'https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Moja%20Pasza&connectorUrl=';
+// Stare posty o paszach bez formularza (/claude, /chatgpt): instrukcja na mojapasza.com.
 export const STRONA_ASYSTENTOW_PASZE = 'https://mojapasza.com/asystenci-ai';
 
 /** Znacznik posta o paszach: fb-pasza, fb-pasze, pasze-grupa itp. */
@@ -60,7 +57,6 @@ export function znacznikLinku(url) {
 }
 
 export function formularzClaude(z) {
-  if (czyPasze(z)) return FORMULARZ_CLAUDE_PASZE + encodeURIComponent(`${ADRES_MCP_PASZE}?z=${z}`);
   return FORMULARZ_CLAUDE + encodeURIComponent(`${ADRES_MCP}?z=${z}`);
 }
 

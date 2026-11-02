@@ -6,7 +6,7 @@ import { UMIEJETNOSC_PERPLEXITY, zapiszKlikniecieLacznika } from "@/lib/lacznikC
 
 /**
  * „Dodaj do Perplexity”: otwiera w nowej karcie udostępnioną umiejętność
- * „moja-serowarnia” w Perplexity Computer. Zalogowany użytkownik dodaje ją
+ * „dane-rolne” w Perplexity Computer. Zalogowany użytkownik dodaje ją
  * u siebie przez „…”, Importuj kopię, Zapisz (kroki też na /asystenci-ai#perplexity).
  * Adresu serwera nie kopiujemy: jest w treści umiejętności.
  */
