@@ -44,11 +44,10 @@ export const metaStron: Record<string, MetaStrony> = {
     mirror: "prawo/rhd.html",
   },
   "/prawo/rhd/dotacja": {
-    // Nabor I.10.6.1 trwa 1.10-2.11.2026. Po 2.11 zmienic tytul i opis na
-    // "nabor zakonczony" i dopisac, co wiadomo o kolejnym.
-    title: "Dotacja na RHD 2026: 30, 60 lub 120 tys. zł z ARiMR",
+    // Nabor I.10.6.1 zakonczony 2.11.2026, kolejny nieogloszony (stan na 3.11.2026).
+    title: "Dotacja na RHD 30–120 tys. zł: nabór 2026 zakończony",
     description:
-      "Dotacja ARiMR na przetwórstwo w RHD: 30, 60 lub 120 tys. zł, do 65% kosztów. Kto może, na co i jak złożyć wniosek w PUE do 2 listopada 2026.",
+      "Nabór ARiMR na dotację dla RHD zakończył się 2 listopada 2026. Zasady: ryczałt 30, 60 lub 120 tys. zł, do 65% kosztów. Kolejny nabór nie jest ogłoszony.",
     mirror: "prawo/rhd/dotacja.html",
   },
   "/prawo/mol": {

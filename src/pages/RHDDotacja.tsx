@@ -22,8 +22,8 @@ import { Coins } from "lucide-react";
  * punktowe). Minimalne koszty w tabeli to wynik limitu 65%, nie osobny warunek.
  *
  * Tresc 1:1 z mirrorem public/prawo/rhd/dotacja.html, FAQ w faqPoradnikow
- * ("prawo-rhd-dotacja"). PO 2.11.2026 strona wymaga aktualizacji: nabor sie
- * konczy, tytul i ramka z terminem musza to powiedziec.
+ * ("prawo-rhd-dotacja"). Nabor zakonczyl sie 2.11.2026: strona opisuje zasady,
+ * ale nie moze sugerowac, ze wniosek da sie jeszcze zlozyc.
  */
 
 const ZRODLA = [
@@ -58,14 +58,14 @@ const RHDDotacja = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Dotacja na RHD 2026: 30, 60 lub 120 tys. zł z ARiMR",
+    headline: "Dotacja na RHD 30–120 tys. zł: nabór 2026 zakończony",
     description:
-      "Kto może dostać dotację ARiMR na przetwórstwo w rolniczym handlu detalicznym, ile wynosi, na co można ją wydać, za co są punkty i jak złożyć wniosek w naborze 1 października – 2 listopada 2026.",
+      "Zasady dotacji ARiMR na przetwórstwo w rolniczym handlu detalicznym z naboru zakończonego 2 listopada 2026: kto może ją dostać, ile wynosi, na co można ją wydać, za co są punkty i jak wyglądało składanie wniosku.",
     inLanguage: "pl",
     url: "https://mojaserowarnia.pl/prawo/rhd/dotacja",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-20",
-    dateModified: "2026-10-20",
+    dateModified: "2026-11-03",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
 
@@ -89,23 +89,24 @@ const RHDDotacja = () => {
             <PageHeader
               icon={Coins}
               color="amber"
-              title="Dotacja na RHD: 30, 60 lub 120 tys. zł"
-              subtitle="Pomoc z ARiMR (interwencja I.10.6.1) na przetwórstwo w gospodarstwie w ramach rolniczego handlu detalicznego. Kto może dostać, na co, za co są punkty i jak złożyć wniosek."
+              title="Dotacja na RHD 30–120 tys. zł: nabór 2026 zakończony"
+              subtitle="Pomoc z ARiMR (interwencja I.10.6.1) na przetwórstwo w gospodarstwie w ramach rolniczego handlu detalicznego. Zasady z naboru 2026: kto może dostać, na co, za co są punkty i jak wyglądało składanie wniosku."
             />
 
             <div className="mb-6 rounded-lg border-l-4 border-red-500 bg-red-50 dark:bg-red-950/30 p-4 text-sm text-foreground">
-              <strong>Nabór trwa od 1 października do 2 listopada 2026 r.</strong> Wniosek składa się wyłącznie przez
-              Platformę Usług Elektronicznych ARiMR (PUE). Po 2 listopada system nie przyjmie wniosku. Stan na
-              20 października 2026 r.
+              <strong>Nabór 2026 jest zakończony.</strong> Wnioski można było składać od 1 października do
+              2 listopada 2026 r., wyłącznie przez Platformę Usług Elektronicznych ARiMR (PUE). Teraz wniosku złożyć
+              się nie da. ARiMR rozpatruje złożone wnioski do 3 miesięcy od zakończenia naboru. Kolejny nabór na tę
+              interwencję nie jest ogłoszony. Stan na 3 listopada 2026 r.
             </div>
 
             <TLDRSection>
               <p>
-                Rolnik prowadzący albo zakładający RHD może dostać z ARiMR <strong>ryczałt 30 000, 60 000 albo
+                W naborze 2026 rolnik prowadzący albo zakładający RHD mógł ubiegać się w ARiMR o <strong>ryczałt 30 000, 60 000 albo
                 120 000 zł</strong>, ale nie więcej niż <strong>65% kosztów</strong> inwestycji w przetwarzanie i
                 sprzedaż swoich produktów. Pieniądze przychodzą w dwóch ratach (80% i 20%), a kupować wolno dopiero{" "}
-                <strong>po złożeniu wniosku</strong>. Trzeba zebrać co najmniej 2 punkty, a działalność prowadzić jeszcze
-                5 lat po ostatniej wypłacie.
+                <strong>po złożeniu wniosku</strong>. Wniosek musi zebrać co najmniej 2 punkty, a działalność trzeba prowadzić
+                jeszcze 5 lat po ostatniej wypłacie.
               </p>
             </TLDRSection>
 
@@ -134,7 +135,7 @@ const RHDDotacja = () => {
                   </p>
                   <p>Pomoc można dostać tylko raz na jedno gospodarstwo w całym okresie PS WPR, także przy współwłasności.</p>
                   <p className="text-muted-foreground">
-                    W tym samym naborze są jeszcze dwie ścieżki: rolnik, małżonek lub domownik zakładający działalność
+                    W tym samym naborze były jeszcze dwie ścieżki: rolnik, małżonek lub domownik zakładający działalność
                     gospodarczą albo <Link to="/prawo/mol" className="text-primary underline">MOL</Link> (ten sam ryczałt
                     30, 60 lub 120 tys. zł) oraz mikroprzedsiębiorca, który przetwarza co najmniej w połowie produkty z
                     własnego gospodarstwa (refundacja 50% kosztów, od 10 tys. do 500 tys. zł). Ta strona opisuje ścieżkę
@@ -177,7 +178,7 @@ const RHDDotacja = () => {
                   </p>
                   <p className="leading-relaxed">
                     Za wydatki trzeba płacić przelewem albo kartą: regulamin uznaje tylko koszty rozliczone
-                    bezgotówkowo. Cały nabór ma budżet 86,156 mln zł na kraj, czyli przy najwyższym ryczałcie około
+                    bezgotówkowo. Cały nabór miał budżet 86,156 mln zł na kraj, czyli przy najwyższym ryczałcie około
                     700 dotacji.
                   </p>
                 </CardContent>
@@ -222,7 +223,7 @@ const RHDDotacja = () => {
                     ocenie racjonalności kosztów.
                   </p>
                   <p>
-                    Do każdego wydatku powyżej 20 000 zł netto, poza robotami budowlanymi, trzeba dołączyć co najmniej{" "}
+                    Do każdego wydatku powyżej 20 000 zł netto, poza robotami budowlanymi, trzeba było dołączyć co najmniej{" "}
                     <strong>2 oferty</strong> od różnych dostawców.
                   </p>
                 </CardContent>
@@ -279,33 +280,34 @@ const RHDDotacja = () => {
                   <p className="leading-relaxed">
                     Rolnik zaczynający przetwórstwo, ubezpieczony w KRUS w pełnym zakresie, ma więc 2 punkty z samego
                     ubezpieczenia. Kryteria pochodzą z wytycznych Ministra Rolnictwa dla interwencji I.10.6.1. Wiążący
-                    jest załącznik nr 2 do regulaminu naboru, sprawdź go przed złożeniem wniosku.
+                    jest załącznik nr 2 do regulaminu naboru.
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Jak złożyć wniosek krok po kroku</CardTitle>
+                  <CardTitle>Jak składało się wniosek krok po kroku</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm leading-relaxed">
+                  <p>Tak wyglądało składanie wniosku w naborze 2026. Teraz wniosku złożyć się nie da. Jeśli ARiMR ogłosi kolejny nabór, warunki i kroki trzeba będzie sprawdzić w jego regulaminie.</p>
                   <ol className="list-decimal pl-5 space-y-2">
                     <li>
-                      Sprawdź, czy masz numer w ewidencji producentów (numer EP). Bez niego wniosku nie złożysz, a
-                      nadanie numeru w ARiMR wymaga czasu.
+                      Numer w ewidencji producentów (numer EP). Bez niego wniosku nie dało się złożyć, a nadanie numeru
+                      w ARiMR wymaga czasu.
                     </li>
                     <li>
-                      Załóż konto w PUE ARiMR: logowanie przez węzeł krajowy, np. profil zaufany, albo loginem i kodem
-                      dostępu z ARiMR. Podpis elektroniczny nie jest potrzebny.
+                      Konto w PUE ARiMR: logowanie przez węzeł krajowy, np. profil zaufany, albo loginem i kodem dostępu
+                      z ARiMR. Podpis elektroniczny nie był potrzebny.
                     </li>
-                    <li>Zaplanuj inwestycję i zbierz oferty: po 2 od różnych dostawców dla każdego wydatku powyżej 20 000 zł netto.</li>
-                    <li>Wypełnij w PUE wniosek i biznesplan (biznesplan to zakładka w formularzu) i wybierz kwotę ryczałtu.</li>
+                    <li>Plan inwestycji i oferty: po 2 od różnych dostawców dla każdego wydatku powyżej 20 000 zł netto.</li>
+                    <li>Wniosek i biznesplan w PUE (biznesplan to zakładka w formularzu) oraz wybór kwoty ryczałtu.</li>
                     <li>
-                      Wyślij do 2 listopada 2026 r. W jednym naborze można złożyć jeden wniosek. Żeby coś zmienić,
-                      wycofujesz go i składasz ponownie, dopóki trwa nabór.
+                      Wysyłka do 2 listopada 2026 r. W jednym naborze można było złożyć jeden wniosek. Żeby coś zmienić,
+                      trzeba było go wycofać i złożyć ponownie, dopóki trwał nabór.
                     </li>
-                    <li>ARiMR ocenia wnioski do 3 miesięcy po zakończeniu naboru. Na wezwanie do poprawek masz 14 dni.</li>
-                    <li>Umowę zawierasz w PUE w ciągu 14 dni od odczytania pisma z ARiMR.</li>
+                    <li>ARiMR rozpatruje wnioski do 3 miesięcy od zakończenia naboru. Na wezwanie do poprawek wnioskodawca ma 14 dni.</li>
+                    <li>Umowę zawiera się w PUE w ciągu 14 dni od odczytania pisma z ARiMR.</li>
                   </ol>
                   <p className="text-muted-foreground">
                     Z biznesplanem pomagają doradcy ośrodka doradztwa rolniczego w Twoim województwie.
@@ -358,8 +360,9 @@ const RHDDotacja = () => {
               <SeeAlso links={seeAlsoLinks} />
 
               <p className="mt-8 text-sm text-muted-foreground">
-                Strona ma charakter informacyjny i nie jest poradą. Przed złożeniem wniosku przeczytaj regulamin naboru;
-                w razie wątpliwości zapytaj w biurze powiatowym ARiMR albo w ośrodku doradztwa rolniczego.
+                Strona ma charakter informacyjny i nie jest poradą. Opisuje zasady z regulaminu naboru 2026; kolejny nabór
+                może mieć inne warunki. W razie wątpliwości zapytaj w biurze powiatowym ARiMR albo w ośrodku doradztwa
+                rolniczego.
               </p>
 
               <section className="mt-6 text-sm text-muted-foreground" aria-label="Źródła">

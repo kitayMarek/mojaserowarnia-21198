@@ -120,7 +120,7 @@ const Prawo = () => {
                 },
                 {
                   sytuacja: "Szukasz pieniędzy na przetwórnię",
-                  propozycja: "– ryczałt 30, 60 lub 120 tys. zł z ARiMR:",
+                  propozycja: "– ryczałt 30, 60 lub 120 tys. zł z ARiMR, nabór 2026 zakończony:",
                   href: "/prawo/rhd/dotacja",
                   etykieta: "dotacja na RHD",
                 },

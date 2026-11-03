@@ -99,7 +99,7 @@ const MOL = () => {
           <PanelPytan dane={panelPytanPrawoMol} />
 
           <p className="mb-6 text-sm text-muted-foreground">
-            W naborze ARiMR na przetwórstwo w gospodarstwie (do 2 listopada 2026 r.) jest też ścieżka dla rolnika, małżonka lub domownika zakładającego działalność gospodarczą albo MOL: ryczałt 30, 60 lub 120 tys. zł, do 65% kosztów. Warunki i koszty opisujemy przy ścieżce RHD:{" "}
+            W naborze ARiMR na przetwórstwo w gospodarstwie (zakończonym 2 listopada 2026 r.) była też ścieżka dla rolnika, małżonka lub domownika zakładającego działalność gospodarczą albo MOL: ryczałt 30, 60 lub 120 tys. zł, do 65% kosztów. Warunki i koszty opisujemy przy ścieżce RHD:{" "}
             <Link to="/prawo/rhd/dotacja" className="text-primary underline">
               dotacja na RHD
             </Link>

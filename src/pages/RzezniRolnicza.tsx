@@ -606,18 +606,18 @@ const RzezniRolnicza = () => {
             {/* Finansowanie */}
             <Card className="bg-primary/5 border-primary/20">
               <CardHeader>
-                <CardTitle>Finansowanie — nabór jesienią 2026</CardTitle>
+                <CardTitle>Finansowanie: nabór jesienią 2026 zakończony</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <p>Interwencja „Rozwój współpracy w ramach łańcucha wartości (w gospodarstwie)":</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li><strong>Termin naboru:</strong> 1 października – 2 listopada 2026 r.</li>
+                  <li><strong>Termin naboru:</strong> 1 października – 2 listopada 2026 r., nabór zakończony.</li>
                   <li><strong>Budżet:</strong> 51 mln euro; kwoty 30 000 / 60 000 / 120 000 zł zależnie od wielkości operacji.</li>
                   <li><strong>Dofinansowanie:</strong> do 65% kosztów (ryczałt); wypłata 80% na start, 20% po zakończeniu.</li>
                   <li><strong>Beneficjenci:</strong> rolnicy prowadzący lub rozpoczynający RHD; wsparcie obejmuje RHD, sprzedaż bezpośrednią i MOL.</li>
                   <li><strong>Kwalifikowane:</strong> modernizacja przetwórstwa w gospodarstwie, innowacje, infrastruktura środowiskowa, cyfrowe narzędzia sprzedaży i zarządzania.</li>
                 </ul>
-                <p className="text-muted-foreground">Zweryfikuj aktualne warunki i terminy w ARiMR przed złożeniem wniosku.</p>
+                <p className="text-muted-foreground">Kolejny nabór nie jest ogłoszony (stan na 3 listopada 2026 r.). Warunki i terminy sprawdzaj w ARiMR.</p>
               </CardContent>
             </Card>
 

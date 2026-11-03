@@ -89,7 +89,7 @@ const RHDDokumenty = () => {
           </TLDRSection>
 
           <p className="mb-6 text-sm text-muted-foreground">
-            Planujesz inwestycję w przetwórnię? Do 2 listopada 2026 r. trwa nabór ARiMR z ryczałtem 30, 60 lub 120 tys. zł:{" "}
+            Planujesz inwestycję w przetwórnię? Nabór ARiMR z ryczałtem 30, 60 lub 120 tys. zł zakończył się 2 listopada 2026 r., kolejny nie jest ogłoszony. Zasady:{" "}
             <Link to="/prawo/rhd/dotacja" className="text-primary underline">
               dotacja na RHD
             </Link>
