@@ -173,7 +173,7 @@ def gen_html(items):
         o.append(f'  <p>Ceny odczytane ze stron produktów sklepów {kiedy}. Sklepy zmieniają je bez zapowiedzi, więc przed zakupem sprawdź cenę w sklepie.</p>')
     # Akapit z adresem łącznika (zgoda Marka 27.10.2026): ramka „Podłącz w swoim czacie” jest tylko
     # w React, więc boty i czaty bez tego akapitu nie znają adresu serwera MCP.
-    o.append('  <p><strong>Ta baza w Twoim czacie.</strong> Podłącz ją do ChatGPT albo Claude jako łącznik Dane Rolne (serwer MCP) pod adresem <code>https://danerolne.com/mcp</code>. Czat sprawdzi wtedy kultury, ceny za litr mleka i zamienniki na naszych danych, zamiast zgadywać. Bez konta i bez klucza. Instrukcja krok po kroku, także dla Perplexity: <a href="https://mojaserowarnia.pl/asystenci-ai">Asystenci AI</a>.</p>')
+    o.append('  <p><strong>Ta baza w Twoim czacie.</strong> Podłącz ją do ChatGPT albo Claude jako łącznik Dane Rolne (serwer MCP) pod adresem <code>https://danerolne.com/mcp</code>. Czat sprawdzi wtedy kultury, ceny za litr mleka i zamienniki na naszych danych, zamiast zgadywać. Bez konta i bez klucza. Instrukcja krok po kroku: <a href="https://mojaserowarnia.pl/asystenci-ai">Asystenci AI</a>.</p>')
     for t in TYPE_ORDER + [k for k in groups if k not in TYPE_ORDER]:
         if t not in groups:
             continue

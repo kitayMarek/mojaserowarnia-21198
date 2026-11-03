@@ -68,11 +68,11 @@ const poradnikiItems: SearchItem[] = [
   // (kury nie niosą, resztki, udział surowców, kalkulator) od 28.10.2026 na mojapasza.com.
   {
     id: "asystenci-ai",
-    title: "Podłącz serwis do swojego czatu (ChatGPT, Claude, Perplexity)",
+    title: "Podłącz serwis do swojego czatu (ChatGPT i Claude)",
     description: "Gotowy tekst dla czatu: przeprowadzi przez podłączenie bazy kultur i przepisów.",
     category: "narzedzia",
     href: "/asystenci-ai",
-    keywords: ["chatgpt", "claude", "perplexity", "asystent", "ai", "czat", "łącznik", "mcp", "wtyczka"],
+    keywords: ["chatgpt", "claude", "asystent", "ai", "czat", "łącznik", "mcp", "wtyczka"],
   },
   {
     id: "poradnik-serowarzy",

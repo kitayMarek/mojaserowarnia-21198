@@ -15,7 +15,7 @@ import SearchCommand from "@/components/SearchCommand";
 import SpisTresci from "@/components/SpisTresci";
 import { COLORS, navItems, type NavItem } from "@/components/navItems";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
+import { CZATY_NA_STRONIE, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
 
 const Znak = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 46 26" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden="true">
@@ -182,20 +182,22 @@ const Navigation = () => {
             Dodaj do ChatGPT
           </Button>
           {/* „Dodaj do Perplexity” (23.10.2026): sekcja #perplexity z linkiem do
-              udostępnionej umiejętności. Pomiar "lacznik-perplexity". */}
-          <Button
-            variant="outline"
-            className="w-full justify-start gap-2 font-medium"
-            onClick={() => {
-              const zrodlo = zrodloZeSciezki(location.pathname);
-              zapiszKlikniecieLacznika(zrodlo, "menu", "perplexity");
-              closeMobile();
-              navigate("/asystenci-ai#perplexity", { state: { z: zrodlo } });
-            }}
-          >
-            <Plug className="h-4 w-4 text-[#20808D]" aria-hidden="true" />
-            Dodaj do Perplexity
-          </Button>
+              udostępnionej umiejętności. Pomiar "lacznik-perplexity". Od 3.11.2026 ukryty, CZATY_NA_STRONIE. */}
+          {CZATY_NA_STRONIE.includes("perplexity") && (
+            <Button
+              variant="outline"
+              className="w-full justify-start gap-2 font-medium"
+              onClick={() => {
+                const zrodlo = zrodloZeSciezki(location.pathname);
+                zapiszKlikniecieLacznika(zrodlo, "menu", "perplexity");
+                closeMobile();
+                navigate("/asystenci-ai#perplexity", { state: { z: zrodlo } });
+              }}
+            >
+              <Plug className="h-4 w-4 text-[#20808D]" aria-hidden="true" />
+              Dodaj do Perplexity
+            </Button>
+          )}
           <div className="hidden lg:flex items-center gap-2">
             <Button
               variant="outline"

@@ -8,6 +8,7 @@ import { Check, Copy, ExternalLink } from "lucide-react";
 import { zdarzenieLacznikAi, zdarzeniePromptCzatu } from "@/lib/zdarzeniaGa4";
 import {
   ADRES_MCP,
+  CZATY_NA_STRONIE,
   UMIEJETNOSC_PERPLEXITY,
   WTYCZKI_CHATGPT,
   adresLacznika,
@@ -23,7 +24,8 @@ import { SERWER_SEROWARNI } from "@/lib/serwis";
  * Jak podłączyć do ChatGPT i Claude łącznik Dane Rolne (danerolne.com/mcp, od 2.11.2026
  * jeden łącznik dla ludzi, decyzja Marka), a do Perplexity umiejętność dane-rolne (ten sam serwer).
  * Serwer Serowarni (worker-magazyn/, dane.mojaserowarnia.pl/mcp) zostaje dla huba,
- * aplikacji i starszych podłączeń.
+ * aplikacji i starszych podłączeń. Perplexity zdjęte ze strony 3.11.2026 do końca konfiguracji
+ * huba (decyzja Marka): kroki zostają w kodzie, wraca przez CZATY_NA_STRONIE i teksty.
  *
  * UKŁAD WEDŁUG MAKIETY D (decyzja Marka 24.10.2026, kanwa „Strona główna: makiety”).
  * Wcześniej strona miała ponad 6 ekranów, tytuł „…w Claude”, a pod ramką z gotowym
@@ -37,7 +39,8 @@ import { SERWER_SEROWARNI } from "@/lib/serwis";
  * KOTWICE: #chatgpt, #claude, #perplexity wybierają czat i przewijają do kroku 2.
  * Prowadzą tu menu boczne (Navigation.tsx), strona główna, ramka „Podłącz w swoim
  * czacie” i krótkie linki z postów (/chatgpt?z=, /perplexity?z=, /claude?z= w
- * worker/index.js). Bez kotwicy domyślnie ChatGPT, bo jest najpopularniejszy.
+ * worker/index.js). Bez kotwicy domyślnie ChatGPT, bo jest najpopularniejszy; tak samo,
+ * gdy kotwica wskazuje czat spoza CZATY_NA_STRONIE (stare linki #perplexity).
  *
  * KROKI: polskie etykiety ChatGPT (zrzuty Marka 23.10.2026), angielskie Claude.ai
  * (21.10.2026), polskie Perplexity (23.10.2026). Zmiana kroków tu = zmiana promptów
@@ -46,13 +49,14 @@ import { SERWER_SEROWARNI } from "@/lib/serwis";
  * Treść odpowiada mirrorowi public/asystenci-ai.html, tytuł i opis w metaStron.ts.
  */
 
-const CZATY: { id: Asystent; nazwa: string; podpis: string; kolor: string }[] = [
+const WSZYSTKIE_CZATY: { id: Asystent; nazwa: string; podpis: string; kolor: string }[] = [
   { id: "chatgpt", nazwa: "ChatGPT", podpis: "Najpopularniejszy", kolor: "bg-[#10A37F] hover:bg-[#0e8f6f]" },
   { id: "claude", nazwa: "Claude", podpis: "Jedno kliknięcie", kolor: "bg-[#D97757] hover:bg-[#c4664a]" },
   { id: "perplexity", nazwa: "Perplexity", podpis: "Tryb Computer", kolor: "bg-[#20808D] hover:bg-[#1a6b76]" },
 ];
+const CZATY = WSZYSTKIE_CZATY.filter((c) => CZATY_NA_STRONIE.includes(c.id));
 
-const czyCzat = (x: string): x is Asystent => x === "chatgpt" || x === "claude" || x === "perplexity";
+const czyCzat = (x: string): x is Asystent => CZATY_NA_STRONIE.includes(x as Asystent);
 
 const PYTANIA = [
   "Jak zrobić twaróg i jaką kulturę do niego kupić?",
@@ -228,14 +232,14 @@ const AsystenciAi = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude i Perplexity",
+    headline: "Moja Serowarnia w Twoim czacie: ChatGPT i Claude",
     description:
-      "Jak podłączyć bazę kultur do sera i przepisy Mojej Serowarni do ChatGPT, Claude albo Perplexity (serwer MCP), bez konta i klucza.",
+      "Jak podłączyć bazę kultur do sera i przepisy Mojej Serowarni do ChatGPT albo Claude (serwer MCP), bez konta i klucza.",
     inLanguage: "pl",
     url: "https://mojaserowarnia.pl/asystenci-ai",
     image: "https://mojaserowarnia.pl/og-image.jpg",
     datePublished: "2026-10-21",
-    dateModified: "2026-11-02",
+    dateModified: "2026-11-03",
     publisher: { "@type": "Organization", name: "Moja Serowarnia", url: "https://mojaserowarnia.pl/" },
   };
 
@@ -255,7 +259,7 @@ const AsystenciAi = () => {
                 Moja Serowarnia w Twoim czacie
               </h1>
               <p className="text-lg leading-relaxed text-foreground/80">
-                Podłącz naszą bazę kultur i przepisy na sery do ChatGPT, Claude albo Perplexity. Pytasz jak zwykle,
+                Podłącz naszą bazę kultur i przepisy na sery do ChatGPT albo Claude. Pytasz jak zwykle,
                 a czat sprawdza na naszych danych, zamiast zgadywać. Bez konta u nas i bez klucza. Robi to
                 jeden łącznik Dane Rolne, który ma też pasze z mojapasza.com i katalog lokalnych producentów.
               </p>
@@ -290,7 +294,7 @@ const AsystenciAi = () => {
           {/* ── Krok 1: wybór czatu ─────────────────────────────────── */}
           <section id="krok-1" className="flex scroll-mt-24 flex-col gap-4" aria-labelledby="wybor-czatu">
             <NaglowekKroku nr={1} tytul="Jakiego czatu używasz?" id="wybor-czatu" />
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               {CZATY.map((c) => {
                 const aktywny = c.id === czat;
                 return (
@@ -490,8 +494,7 @@ const AsystenciAi = () => {
                 odpowiedz: (
                   <p>
                     W ChatGPT opcja „Dodaj niestandardowy serwer MCP” zależy od planu, a na kontach firmowych włącza ją
-                    administrator. W Claude własne łączniki działają na każdym planie, na darmowym jeden. W Perplexity
-                    umiejętność działa w trybie Computer, a ten jest w płatnych planach; część darmowych kont ma ograniczoną liczbę prób.
+                    administrator. W Claude własne łączniki działają na każdym planie, na darmowym jeden.
                   </p>
                 ),
               },
@@ -512,8 +515,7 @@ const AsystenciAi = () => {
                 odpowiedz: (
                   <p>
                     W Claude kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz
-                    Dane Rolne. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki. W Perplexity pytaj w trybie
-                    <strong> Computer</strong>.
+                    Dane Rolne. W ChatGPT zacznij nową rozmowę po dodaniu wtyczki.
                   </p>
                 ),
               },

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zdarzeniePromptCzatu } from "@/lib/zdarzeniaGa4";
 import {
+  CZATY_NA_STRONIE,
   UMIEJETNOSC_PERPLEXITY,
   linkClaude,
   zapiszKlikniecieLacznika,
@@ -13,7 +14,7 @@ import {
 import { adresZPromptu, linkZPromptem, promptPodlaczenia, zrodloRamki, type TematPromptu } from "@/lib/promptyCzatow";
 
 /**
- * Ramka „Podłącz w swoim czacie”: zakładki ChatGPT, Claude, Perplexity, w każdej
+ * Ramka „Podłącz w swoim czacie”: zakładki czatów z CZATY_NA_STRONIE, w każdej
  * gotowy tekst, który przeprowadzi użytkownika przez podłączenie serwera MCP
  * w jego własnym czacie. Treść promptów i powody: src/lib/promptyCzatow.ts.
  *
@@ -206,21 +207,21 @@ const PodlaczWSwoimCzacie = ({
             {TYTUL[temat]}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Masz ChatGPT, Claude albo Perplexity? Daj mu ten tekst, a sam przeprowadzi Cię przez podłączenie{" "}
+            Masz ChatGPT albo Claude? Daj mu ten tekst, a sam przeprowadzi Cię przez podłączenie{" "}
             {CO_PODLACZYSZ[temat]}. Robisz to raz, potem pytasz w zwykłej rozmowie. Bez konta u nas i bez klucza.
           </p>
         </div>
       </div>
 
       <Tabs defaultValue="chatgpt">
-        <TabsList className="grid h-11 w-full grid-cols-3">
-          {(Object.keys(NAZWA) as Asystent[]).map((a) => (
+        <TabsList className="grid h-11 w-full grid-cols-2">
+          {CZATY_NA_STRONIE.map((a) => (
             <TabsTrigger key={a} value={a} className="h-9">
               {NAZWA[a]}
             </TabsTrigger>
           ))}
         </TabsList>
-        {(Object.keys(NAZWA) as Asystent[]).map((a) => (
+        {CZATY_NA_STRONIE.map((a) => (
           <TabsContent key={a} value={a} className="mt-3">
             <ZakladkaCzatu asystent={a} temat={temat} zrodlo={zrodlo} />
           </TabsContent>

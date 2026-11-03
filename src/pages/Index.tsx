@@ -76,7 +76,6 @@ const DRZWI = [
 const CZATY = [
   { nazwa: "ChatGPT", href: "/asystenci-ai#chatgpt" },
   { nazwa: "Claude", href: "/asystenci-ai#claude" },
-  { nazwa: "Perplexity", href: "/asystenci-ai#perplexity" },
 ];
 
 const Index = () => (
@@ -149,7 +148,7 @@ const Index = () => (
           <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-1.5">
             <h2 id="czat" className="font-display text-[1.75rem]">Wolisz zapytać czat?</h2>
             <p className="leading-relaxed opacity-90">
-              Podłącz serwis do swojego ChatGPT, Claude albo Perplexity. Czat znajdzie przepis i kulturę na
+              Podłącz serwis do swojego ChatGPT albo Claude. Czat znajdzie przepis i kulturę na
               naszych danych.
             </p>
           </div>

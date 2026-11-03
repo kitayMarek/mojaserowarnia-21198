@@ -13,7 +13,7 @@ export interface NowoscWSerwisie {
 }
 
 export const NOWE_W_SERWISIE: NowoscWSerwisie[] = [
-  { data: "2026-10-24", tytul: "Podłącz serwis do swojego czatu: gotowe teksty dla ChatGPT, Claude i Perplexity", href: "/asystenci-ai" },
+  { data: "2026-10-24", tytul: "Podłącz serwis do swojego czatu: gotowe teksty dla ChatGPT i Claude", href: "/asystenci-ai" },
   { data: "2026-10-20", tytul: "Dotacja dla rolniczego handlu detalicznego", href: "/prawo/rhd/dotacja" },
   { data: "2026-10-19", tytul: "Emmental: ser i jak go zrobić w domu", href: "/sery/emmental" },
 ];

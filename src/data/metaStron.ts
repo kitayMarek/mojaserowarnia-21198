@@ -282,12 +282,12 @@ export const metaStron: Record<string, MetaStrony> = {
     mirror: "kultury/flora-danica.html",
   },
   "/asystenci-ai": {
-    // Jak podlaczyc lacznik Dane Rolne (danerolne.com/mcp, od 2.11.2026) do ChatGPT i Claude, a umiejetnosc do Perplexity.
+    // Jak podlaczyc lacznik Dane Rolne (danerolne.com/mcp, od 2.11.2026) do ChatGPT i Claude. Perplexity zdjete 3.11.2026 do konca konfiguracji huba.
     // Strona dla ludzi, ktorzy chca pytac czat o kultury i przepisy (pasze od 28.10.2026 na mojapasza.com).
     // Od 24.10.2026 uklad z wyborem czatu (makieta D), wczesniej tytul mowil tylko o Claude.
-    title: "Moja Serowarnia w Twoim czacie: ChatGPT, Claude, Perplexity",
+    title: "Moja Serowarnia w Twoim czacie: ChatGPT i Claude",
     description:
-      "Podłącz bazę kultur do sera i przepisy do ChatGPT, Claude albo Perplexity (serwer MCP). Bez konta i klucza: gotowy tekst dla czatu, kroki i adres.",
+      "Podłącz bazę kultur do sera i przepisy do ChatGPT albo Claude (serwer MCP). Bez konta i klucza: gotowy tekst dla czatu, kroki i adres.",
     mirror: "asystenci-ai.html",
   },
   "/warunki-mcp": {

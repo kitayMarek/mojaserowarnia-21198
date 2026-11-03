@@ -64,6 +64,8 @@ export const UMIEJETNOSC_PERPLEXITY = LACZNIK.umiejetnoscPerplexity.adres;
 /** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). */
 export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj";
 export type Asystent = "claude" | "chatgpt" | "perplexity";
+/** Czaty pokazywane ludziom. Perplexity wraca po skończonej konfiguracji huba (Marek 3.11.2026): dopisać tu i w tekstach. */
+export const CZATY_NA_STRONIE: Asystent[] = ["chatgpt", "claude"];
 
 /**
  * Zapis kliknięcia bez czekania: błąd bazy nie może zablokować przejścia do asystenta.
