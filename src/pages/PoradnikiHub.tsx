@@ -76,7 +76,7 @@ const PoradnikiHub = () => {
     {
       icon: <Thermometer className="w-12 h-12" />,
       title: "Dojrzewalnia do sera",
-      description: "Dlaczego zwykła lodówka nie działa (2–4°C i 20% RH zamiast 10–14°C i 80–95%) oraz jak zrobić tanią dojrze walnię: stara lodówka + Inkbird ITC-308 za 100–200 zł lub używana piwniczka do wina. Wilgotność, obracanie i wentylacja.",
+      description: "Dlaczego zwykła lodówka nie działa (2–4°C i 20% RH zamiast 10–14°C i 80–95%) oraz jak zrobić tanią dojrzewalnię: stara lodówka + Inkbird ITC-308 za 100–200 zł lub używana piwniczka do wina. Wilgotność, obracanie i wentylacja.",
       href: "/dojrzewalnia-z-lodowki",
       color: "from-sky-500 to-blue-600",
     },

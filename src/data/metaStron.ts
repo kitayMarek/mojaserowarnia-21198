@@ -77,7 +77,7 @@ export const metaStron: Record<string, MetaStrony> = {
     // Tytul i opis przeniesione z martwego <Helmet>; zrodlo tekstu: mirror (tytul), mirror (opis).
     title: "Dojrzewalnia do sera z lodówki lub piwniczki — jak zrobić",
     description:
-      "Jak zrobić dojrze walnię do sera z piwniczki do wina lub starej lodówki: temperatura 10–14°C, wilgotność 80–95%, kontroler Inkbird. Koszty i alternatywy.",
+      "Jak zrobić dojrzewalnię do sera z piwniczki do wina lub starej lodówki: temperatura 10–14°C, wilgotność 80–95%, kontroler Inkbird. Koszty i alternatywy.",
     mirror: "dojrzewalnia-z-lodowki.html",
   },
   "/encyklopedia-serowarstwo": {

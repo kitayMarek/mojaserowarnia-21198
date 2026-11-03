@@ -23,7 +23,7 @@ const DojrzewalniaZLodowki = () => {
         "Nie — z dwóch powodów. Temperatura: lodówka utrzymuje 2–4°C, a sery dojrzewają optymalnie w 10–14°C. W 4°C enzymy i bakterie nie pracują — ser nie dojrzewa. Wilgotność: lodówka utrzymuje RH 20–30%, a ser potrzebuje 80–95%. Przy takiej suchości ser wysycha i pęka zamiast dojrzewać.",
     },
     {
-      question: "Jak zrobić dojrze walnię z piwniczki do wina?",
+      question: "Jak zrobić dojrzewalnię z piwniczki do wina?",
       answer:
         "Piwniczka do wina ma zakres 8–18°C — idealny dla serów. Ustaw temperaturę na 10–14°C. Wilgotność podnieś stawiając odkryte naczynie z wodą lub wilgotną gąbkę wewnątrz — piwniczki mają RH 60–70%, a ser potrzebuje 80–90%. Kup higrometr cyfrowy (20–40 zł) i sprawdzaj regularnie. Półki wyłóż matami bambusowymi.",
     },
@@ -51,7 +51,7 @@ const DojrzewalniaZLodowki = () => {
         "@type": "Article",
         headline: "Dojrzewalnia do sera z lodówki lub piwniczki — jak zrobić",
         description:
-          "Jak przekształcić piwniczkę do wina lub starą lodówkę w dojrze walnię do sera: wymagane temperatury, utrzymanie wilgotności, kontroler Inkbird, koszty.",
+          "Jak przekształcić piwniczkę do wina lub starą lodówkę w dojrzewalnię do sera: wymagane temperatury, utrzymanie wilgotności, kontroler Inkbird, koszty.",
         inLanguage: "pl",
         url: "https://mojaserowarnia.pl/dojrzewalnia-z-lodowki",
         image: "https://mojaserowarnia.pl/og-image.jpg",
@@ -241,7 +241,7 @@ const DojrzewalniaZLodowki = () => {
                     {
                       num: "1",
                       title: "Piwnica lub zaciemniony garaż — 0 zł",
-                      text: "Jeśli masz piwnicę z naturalną temperaturą 10–14°C przez cały rok — masz idealną dojrze walnię. Dodaj higrometr (~30 zł) i naczynie z wodą dla wilgotności. Wada: temperatura zależy od sezonu.",
+                      text: "Jeśli masz piwnicę z naturalną temperaturą 10–14°C przez cały rok — masz idealną dojrzewalnię. Dodaj higrometr (~30 zł) i naczynie z wodą dla wilgotności. Wada: temperatura zależy od sezonu.",
                       color: "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
                     },
                     {

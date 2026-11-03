@@ -706,7 +706,7 @@ export const recipesData: Recipe[] = [
     zastosowanie: "Szkocki ser stołowy, łagodniejszy i wilgotniejszy od cheddara. Na kanapki, do zapiekanek, do tostów i do sosu serowego. Dobrze wypada z owsianym pieczywem i marmoladą, tradycyjnie podawany też do zup warzywnych.",
     name: "Dunlop",
     difficulty: "Średni",
-    description: "Dunlop to tradycyjny ser półtwardy z Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
+    description: "Dunlop to tradycyjny ser półtwardy ze Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
     yield: "≈ 1,4 kg z 15 L mleka",
     ageTime: "3–9 miesięcy (typowo 6 mies.)",
     image: dunlopImage,

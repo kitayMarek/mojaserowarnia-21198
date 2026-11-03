@@ -398,7 +398,7 @@ export const culinaryRecipesData: CulinaryRecipe[] = [
     prepTime: "25 min",
     cookTime: "40 min",
     servings: 6,
-    description: "Krucha tarta z maslanego ciasta wypełniona aksamitnym kremem jajecznym, plastrem dojrzałego Camemberta i słodką karmelizowaną cebulą. Połączenie normandzkiej tradycji z nowoczesną estetyką.",
+    description: "Krucha tarta z maślanego ciasta wypełniona aksamitnym kremem jajecznym, plastrem dojrzałego Camemberta i słodką karmelizowaną cebulą. Połączenie normandzkiej tradycji z nowoczesną estetyką.",
     strategy: "Camembert to ser o delikatniejszym smaku niż Brie, z wyraźną grzybową nutą. Karmelizowana cebula dodaje głębi i słodyczy, która równoważy umami sera. Ciasto kruche zapewnia chrupiący kontrast do kremowego nadzienia. Kluczem jest odpowiednia temperatura pieczenia - ser ma się stopić, ale nie rozlać.",
     image: tartaCamembertImage,
     mainCheese: "Camembert",
