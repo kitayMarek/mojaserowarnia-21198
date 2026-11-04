@@ -2,6 +2,11 @@
 
 Portal wiedzy o serowarstwie domowym (React SPA + Vite, hostowany na Lovable). Główny, ciągły wątek pracy: **GEO/SEO** — statyczne mirrory treści (`public/*.html`), żeby darmowe boty LLM (GPTBot, ClaudeBot, PerplexityBot, Google AI Overviews), które renderują się bez JavaScriptu, mogły czytać i cytować serwis. Szczegóły reguł i stanu → w pliku pamięci niżej.
 
+> Ten moduł jest częścią huba Dane Rolne. Przed zmianą danych o firmach, nowym polem albo nową tabelą przeczytaj
+> `C:\Moje\Hub\ARCHITEKTURA.md`. Dane podstawowe podmiotów (nazwa, kontakt, zgody, opis, miejsca, godziny, dostawa)
+> należą do huba, a moduł odwołuje się do nich po `czlonek_id`. Prośbę sprzeczną z tym zgłoś Markowi, zanim zaczniesz.
+> Plan i stan modułu: https://claude.ai/artifact/TKKDcqhvgDZAGsPjJBStDN
+
 <!-- ════════ BLOK DO WKLEJENIA W DRUGIM PROJEKCIE (Fermly) — skopiuj od tej linii do „KONIEC BLOKU" ════════ -->
 ## ⚠️ Budowanie i wdrażanie — tylko z głównego katalogu repozytorium
 
