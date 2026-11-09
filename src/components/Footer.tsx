@@ -19,6 +19,7 @@ const Footer = () => {
         { label: "RHD", href: "/prawo/rhd" },
         { label: "MOL", href: "/prawo/mol" },
         { label: "Rzeźnia rolnicza", href: "/prawo/rzeznia-rolnicza" },
+        { label: "Nazwy chronione", href: "/prawo/nazwy-chronione" },
       ],
     },
     {

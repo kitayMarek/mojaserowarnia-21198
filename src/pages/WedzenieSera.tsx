@@ -202,6 +202,14 @@ const WedzenieSera = () => {
                       wędzony ser z solanki z wielowiekową tradycją, a <strong>ser koryciński</strong> również bywa
                       wędzony. Wędząc własną goudę czy twaróg, kontynuujesz bardzo polską technikę.
                     </p>
+                    <p className="mt-2">
+                      Oscypek, redykołka i twaróg wędzony to nazwy chronione w UE. Sprzedając własny wędzony ser, nie
+                      używaj ich ani dopisków „typu” czy „w stylu”; szczegóły na stronie{" "}
+                      <Link to="/prawo/nazwy-chronione" className="text-primary underline">
+                        nazwy chronione
+                      </Link>
+                      .
+                    </p>
                   </div>
                 </CardContent>
               </Card>

@@ -115,6 +115,18 @@ export const faqPoradnikow: Record<string, PytanieFAQ[]> = {
     { pytanie: "Czy w ciąży można jeść camembert?", odpowiedz: "Brytyjska służba zdrowia NHS zaleca kobietom w ciąży unikać miękkich serów z białą pleśnią, takich jak camembert i brie, także z mleka pasteryzowanego, chyba że ser zostanie podgrzany tak, że jest gorący w całej masie. Powodem jest bakteria Listeria, która w wilgotnym i mało kwaśnym serze rozwija się łatwiej niż w serach twardych. Część polskich poradników dopuszcza sery z mleka pasteryzowanego, dlatego w razie wątpliwości warto zapytać lekarza prowadzącego." },
     { pytanie: "Ile kalorii ma camembert?", odpowiedz: "100 g camemberta to około 299 kcal, 19,8 g białka, 24,3 g tłuszczu (w tym 15,3 g nasyconych), 0,5 g węglowodanów, 388 mg wapnia i 842 mg sodu, czyli około 2,1 g soli (dane USDA). Porcja 30 g, mniej więcej jedna ósma krążka 250 g, ma około 90 kcal." },
   ],
+  // Strona /prawo/nazwy-chronione (7.11.2026). Odpowiedzi z rozp. (UE) 2024/1143,
+  // ustawy z 9.03.2023 (Dz.U. 2023 poz. 588) i stron IJHARS oraz MRiRW. Ta sama
+  // tresc stoi w mirrorze public/prawo/nazwy-chronione.html.
+  "prawo-nazwy-chronione": [
+    { pytanie: "Czy mogę sprzedawać domowy oscypek?", odpowiedz: "Nie pod nazwą „oscypek”, chyba że robisz go zgodnie ze specyfikacją i masz ważny certyfikat zgodności. Oscypek ma chronioną nazwę pochodzenia od 2008 roku. Własny ser, sprzedawany legalnie, na przykład w RHD, nazwij opisowo: bez słowa „oscypek” i bez dopisków „typu” czy „w stylu”." },
+    { pytanie: "Czy wolno napisać „ser typu oscypek”?", odpowiedz: "Nie przy sprzedaży, w ogłoszeniu ani na etykiecie. Art. 26 ust. 1 lit. b rozporządzenia (UE) 2024/1143 wymienia wprost określenia „w stylu”, „typu”, „zgodnie z metodą”, „imitacja” i „podobne do”, nawet gdy podano prawdziwe pochodzenie produktu." },
+    { pytanie: "Czym różni się ChNP od ChOG?", odpowiedz: "Przy chronionej nazwie pochodzenia (ChNP) wszystkie etapy produkcji, od surowca po dojrzewanie, odbywają się na określonym obszarze, a cechy produktu wynikają głównie z tego środowiska. Przy chronionym oznaczeniu geograficznym (ChOG) wystarczy jeden etap na tym obszarze, a z pochodzeniem wiąże się jakość, renoma albo inna cecha. Oscypek to ChNP, ser koryciński swojski to ChOG." },
+    { pytanie: "Co to jest GTS?", odpowiedz: "Gwarantowana tradycyjna specjalność chroni nazwę produktu o tradycyjnym składzie, metodzie albo surowcach, używanych od co najmniej 30 lat. Nie jest związana z miejscem: w Polsce wolno ją wytwarzać w całym kraju, ale tylko według specyfikacji i po kontroli. Z serów GTS ma twaróg wędzony, od 2023 roku." },
+    { pytanie: "Czy wpis na Listę Produktów Tradycyjnych chroni nazwę?", odpowiedz: "Nie. Ministerstwo Rolnictwa pisze wprost, że nazwa produktu z tej listy nie podlega ochronie. Ochronę dają rejestracje ChNP, ChOG i GTS w Unii Europejskiej." },
+    { pytanie: "Gdzie sprawdzić, kto może sprzedawać ser pod chronioną nazwą?", odpowiedz: "W wykazie producentów ChNP, ChOG i GTS z ważnym certyfikatem, który prowadzi IJHARS na stronie gov.pl. Plik zmienia się zwykle co miesiąc." },
+    { pytanie: "Jaka kara grozi za użycie chronionej nazwy bez prawa?", odpowiedz: "Kara pieniężna do 20-krotności przeciętnego wynagrodzenia z poprzedniego roku, a przy ponownym naruszeniu do 50-krotności. Nakłada ją decyzją wojewódzki inspektor JHARS (art. 56 i 57 ustawy z 9 marca 2023 r.)." },
+  ],
   // Strona /prawo/rhd/dotacja (20.10.2026). Odpowiedzi z regulaminu naboru
   // I.10.6.1 (zarzadzenie Prezesa ARiMR nr 85/2026). Ta sama tresc stoi
   // w mirrorze public/prawo/rhd/dotacja.html.

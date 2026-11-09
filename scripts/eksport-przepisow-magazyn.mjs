@@ -22,7 +22,15 @@ const KATALOG = process.cwd();
 const WYJSCIE = resolve(KATALOG, "worker-magazyn/src/przepisy-dane.json");
 
 const { outputFiles } = await build({
-  entryPoints: [resolve(KATALOG, "src/data/recipesData.ts")],
+  // Przepisy i tekst ramki „Nazwa chroniona w UE” z tego samego pliku co strona.
+  stdin: {
+    contents: [
+      'export { recipesData } from "./src/data/recipesData.ts";',
+      'export { ramkaNazwyChronionej, WYKAZ_PRODUCENTOW_IJHARS } from "./src/lib/nazwaChroniona.ts";',
+    ].join("\n"),
+    resolveDir: KATALOG,
+    loader: "ts",
+  },
   bundle: true,
   format: "esm",
   platform: "neutral",
@@ -43,7 +51,7 @@ const { outputFiles } = await build({
 });
 
 const kod = outputFiles[0].text;
-const { recipesData } = await import(`data:text/javascript;base64,${Buffer.from(kod).toString("base64")}`);
+const { recipesData, ramkaNazwyChronionej, WYKAZ_PRODUCENTOW_IJHARS } = await import(`data:text/javascript;base64,${Buffer.from(kod).toString("base64")}`);
 
 // Tylko treść przepisu. Bez zdjęć, filmów i wartości odżywczych: model ich nie
 // potrzebuje, a każde pole to kontekst, za który płaci przy każdym wywołaniu.
@@ -80,6 +88,18 @@ const przepisy = recipesData.map((r) => ({
   ...(r.dziennikWarzen?.length ? { dziennik_warzen: r.dziennikWarzen } : {}),
   ...(r.flavor ? { profil: { smak: r.flavor.taste, tekstura: r.flavor.texture, kolor: r.flavor.color, aromat: r.flavor.aroma } } : {}),
   ...(r.zastosowanie ? { zastosowanie: r.zastosowanie } : {}),
+  ...(r.nazwaChroniona
+    ? {
+        nazwa_chroniona: {
+          rodzaj: r.nazwaChroniona.rodzaj,
+          nazwa_zarejestrowana: r.nazwaChroniona.nazwa,
+          od: r.nazwaChroniona.zarejestrowana,
+          uwaga: ramkaNazwyChronionej(r.nazwaChroniona),
+          wykaz_producentow_z_certyfikatem: WYKAZ_PRODUCENTOW_IJHARS,
+          wyjasnienie: "https://mojaserowarnia.pl/prawo/nazwy-chronione?utm_source=magazyn",
+        },
+      }
+    : {}),
 }));
 
 writeFileSync(WYJSCIE, JSON.stringify(przepisy, null, 1) + "\n");

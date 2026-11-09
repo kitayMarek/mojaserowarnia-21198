@@ -123,6 +123,7 @@ export const navItems: NavItem[] = [
       { label: "MOL – działalność MOL", href: "/prawo/mol" },
       { label: "Dokumenty MOL", href: "/prawo/mol/dokumenty" },
       { label: "Akty prawne UE", href: "/prawo/akty-prawne-ue" },
+      { label: "Nazwy chronione (ChNP, ChOG, GTS)", href: "/prawo/nazwy-chronione" },
       { label: "Rzeźnia rolnicza", href: "/prawo/rzeznia-rolnicza" },
       { label: "Wszystko o prawie", href: "/prawo" },
     ],

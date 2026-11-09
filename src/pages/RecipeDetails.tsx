@@ -15,6 +15,7 @@ import VideoPrzepisu from "@/components/VideoPrzepisu";
 import { daniaZSera } from "@/lib/powiazaniaPrzepisow";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import ListaZakupowSera from "@/components/ListaZakupowSera";
+import { ramkaNazwyChronionej, WYKAZ_PRODUCENTOW_IJHARS } from "@/lib/nazwaChroniona";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -223,6 +224,23 @@ const RecipeDetails = () => {
                 ))}
               </div>
             </section>
+          )}
+
+          {/* Nazwa chroniona w UE (ChNP/ChOG/GTS): tylko przepisy z polem nazwaChroniona. */}
+          {recipe.nazwaChroniona && (
+            <aside className="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 p-5 mb-8 text-sm leading-relaxed">
+              <h2 className="font-semibold text-foreground mb-1">Nazwa chroniona w UE</h2>
+              <p className="text-foreground">{ramkaNazwyChronionej(recipe.nazwaChroniona)}</p>
+              <p className="mt-2">
+                <a href={WYKAZ_PRODUCENTOW_IJHARS} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                  Wykaz producentów z certyfikatem (IJHARS)
+                </a>
+                {" · "}
+                <Link to="/prawo/nazwy-chronione" className="text-primary underline">
+                  Co to znaczy: ChNP, ChOG i GTS
+                </Link>
+              </p>
+            </aside>
           )}
 
           {/* Przepis bazowy */}

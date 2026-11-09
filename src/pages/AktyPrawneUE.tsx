@@ -70,12 +70,13 @@ const AktyPrawneUE = () => {
         "Produkcja tradycyjna i rzemieślnicza",
         "Gwarantowane tradycyjne specjalności",
         "Ochrona oznaczeń geograficznych dla lokalnych produktów"
-      ]
+      ],
+      wiecej: { href: "/prawo/nazwy-chronione", label: "Co z tego wynika dla serowara: nazwy chronione ChNP, ChOG i GTS" }
     },
     {
       title: "Przykład polskiego sera farmerskiego",
       code: "Rozporządzenie wykonawcze 2024/326",
-      description: "Zatwierdza zmiany w specyfikacji \"Sera korzcińskiego swojskiego\" - przykład polskiego sera farmerskiego objętego ochroną ChOG (Chronione Oznaczenie Geograficzne)."
+      description: "Zatwierdza zmiany w specyfikacji \"Sera korycińskiego swojskiego\" - przykład polskiego sera farmerskiego objętego ochroną ChOG (Chronione Oznaczenie Geograficzne)."
     }
   ];
 
@@ -152,6 +153,11 @@ const AktyPrawneUE = () => {
                             ))}
                           </ul>
                         </div>
+                      )}
+                      {doc.wiecej && (
+                        <Link to={doc.wiecej.href} className="mt-3 inline-block text-sm text-primary underline">
+                          {doc.wiecej.label}
+                        </Link>
                       )}
                     </div>
                   </div>

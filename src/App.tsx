@@ -104,6 +104,7 @@ const SerEmmental = lazy(() => import("./pages/SerEmmental"));
 const FermentacjaSerwatki = lazy(() => import("./pages/FermentacjaSerwatki"));
 const Serwatka = lazy(() => import("./pages/Serwatka"));
 const SerwatkaSlodkaKwasna = lazy(() => import("./pages/SerwatkaSlodkaKwasna"));
+const NazwyChronione = lazy(() => import("./pages/NazwyChronione"));
 
 // These components are NOT lazy loaded (needed immediately)
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -202,6 +203,7 @@ const App = () => (
             <Route path="/kalkulator-miar" element={<KalkulatorMiar />} />
             <Route path="/kalkulator-solanki" element={<KalkulatorSolanki />} />
             <Route path="/prawo/akty-prawne-ue" element={<AktyPrawneUE />} />
+            <Route path="/prawo/nazwy-chronione" element={<NazwyChronione />} />
             <Route path="/prawo/rhd" element={<RHD />} />
             <Route path="/prawo/rhd/dokumenty" element={<RHDDokumenty />} />
             <Route path="/prawo/rhd/dotacja" element={<RHDDotacja />} />

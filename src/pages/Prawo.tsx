@@ -31,6 +31,13 @@ const Prawo = () => {
       href: "/prawo/akty-prawne-ue"
     },
     {
+      id: "nazwy-chronione",
+      title: "Nazwy chronione: ChNP, ChOG i GTS",
+      description: "Które sery mają w UE nazwę chronioną, kto może sprzedawać pod taką nazwą, czego nie wolno, jaka grozi kara i czym różni się Lista Produktów Tradycyjnych",
+      icon: Scale,
+      href: "/prawo/nazwy-chronione"
+    },
+    {
       id: "rhd",
       title: "Rolniczy Handel Detaliczny (RHD)",
       description: "Kompletny przewodnik po formie działalności RHD - produkcja i sprzedaż serów oraz innych produktów rolnych bezpośrednio konsumentom",

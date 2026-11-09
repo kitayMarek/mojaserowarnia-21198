@@ -43,6 +43,13 @@ export const metaStron: Record<string, MetaStrony> = {
       "Sprzedawaj własne sery i przetwory bez zakładania firmy. Limit 100 000 zł bez PIT, rejestracja w 14 lub 30 dni, ewidencja i kasa fiskalna.",
     mirror: "prawo/rhd.html",
   },
+  "/prawo/nazwy-chronione": {
+    // ChNP, ChOG, GTS i co z tego wynika dla serowara (7.11.2026, prosba Marka).
+    title: "Nazwy chronione ChNP, ChOG, GTS: co wolno serowarowi",
+    description:
+      "Oscypek, bryndza, ser koryciński i twaróg wędzony mają nazwy chronione w UE. Czym różnią się ChNP, ChOG i GTS, kto może ich używać i jaka grozi kara.",
+    mirror: "prawo/nazwy-chronione.html",
+  },
   "/prawo/rhd/dotacja": {
     // Nabor I.10.6.1 zakonczony 2.11.2026, kolejny nieogloszony (stan na 3.11.2026).
     title: "Dotacja na RHD 30–120 tys. zł: nabór 2026 zakończony",

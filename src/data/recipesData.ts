@@ -166,6 +166,18 @@ export interface Recipe {
    * inny nie tłumaczy tego po polsku. Wymaga jednak realnego źródła — pole
    * `zrodlo` jest tu obowiązkowe z premedytacją.
    */
+  /**
+   * Nazwa chroniona w UE (ChNP, ChOG, GTS). Pole OPCJONALNE: przepis bez niego
+   * wyglada jak dotad. Strona przepisu pokazuje ramke z linkiem do wykazu IJHARS
+   * i do /prawo/nazwy-chronione, a eksport do magazynu (MCP) daje pole nazwa_chroniona.
+   * Dane: rejestr eAmbrosia, data = publikacja rozporzadzenia rejestrujacego (7.11.2026).
+   */
+  nazwaChroniona?: {
+    rodzaj: "ChNP" | "ChOG" | "GTS";
+    nazwa: string;
+    zarejestrowana: string;
+  };
+
   wyjasnienie?: {
     tytul: string;
     akapity: string[];
@@ -224,6 +236,7 @@ export interface Recipe {
 export const recipesData: Recipe[] = [
   {
     id: "korycinski",
+    nazwaChroniona: { rodzaj: "ChOG", nazwa: "Ser koryciński swojski", zarejestrowana: "10 sierpnia 2012 r." },
     zastosowanie: "Ser stołowy — na kanapki i na deskę, najlepiej z pieczywem na zakwasie i miodem. Wersja z czarnuszką lub ziołami dobrze wypada zapiekana na grzankach. Leżakowany kilka tygodni nabiera wyrazistości i można go trzeć na pierogi lub zapiekanki.",
     video: { youtubeId: "xxT1Okh3sp0", title: "Ser koryciński w domu/ homemade cheese", channel: "Domowy ser", poster: korycinMiniaturaImage },
     name: "Ser Koryciński Swojski",

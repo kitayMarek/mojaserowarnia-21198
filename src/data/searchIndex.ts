@@ -150,6 +150,15 @@ const prawoItems: SearchItem[] = [
     href: "/prawo/rzeznia-rolnicza",
     keywords: ["rzeźnia", "rolnicza", "ubojnia", "drób", "wymagania"],
   },
+  {
+    id: "nazwy-chronione",
+    title: "Nazwy chronione: ChNP, ChOG i GTS",
+    description:
+      "Które sery mają w UE nazwę chronioną (oscypek, bryndza, ser koryciński, twaróg wędzony), kto może sprzedawać pod taką nazwą i jaka grozi kara",
+    category: "prawo",
+    href: "/prawo/nazwy-chronione",
+    keywords: ["nazwa chroniona", "ChNP", "ChOG", "GTS", "oscypek", "bryndza", "koryciński", "twaróg wędzony", "IJHARS", "produkt tradycyjny", "produkt górski"],
+  },
 ];
 
 // Narzędzia

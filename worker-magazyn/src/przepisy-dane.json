@@ -145,7 +145,15 @@
    "kolor": "Kremowożółta, ciemniejąca z czasem",
    "aromat": "Świeży, mleczny, z nutą czarnuszki lub ziół"
   },
-  "zastosowanie": "Ser stołowy — na kanapki i na deskę, najlepiej z pieczywem na zakwasie i miodem. Wersja z czarnuszką lub ziołami dobrze wypada zapiekana na grzankach. Leżakowany kilka tygodni nabiera wyrazistości i można go trzeć na pierogi lub zapiekanki."
+  "zastosowanie": "Ser stołowy — na kanapki i na deskę, najlepiej z pieczywem na zakwasie i miodem. Wersja z czarnuszką lub ziołami dobrze wypada zapiekana na grzankach. Leżakowany kilka tygodni nabiera wyrazistości i można go trzeć na pierogi lub zapiekanki.",
+  "nazwa_chroniona": {
+   "rodzaj": "ChOG",
+   "nazwa_zarejestrowana": "Ser koryciński swojski",
+   "od": "10 sierpnia 2012 r.",
+   "uwaga": "Nazwa „Ser koryciński swojski” ma w UE status chronionego oznaczenia geograficznego (ChOG) od 10 sierpnia 2012 r. Pod tą nazwą sprzedaje tylko producent z ważnym certyfikatem zgodności. Ser zrobiony w domu według tego przepisu możesz jeść i częstować nim, ale nie sprzedawaj go pod tą nazwą ani z dopiskiem „typu” czy „w stylu”.",
+   "wykaz_producentow_z_certyfikatem": "https://www.gov.pl/web/ijhars/wykaz-producentow-chnp-chog-gts",
+   "wyjasnienie": "https://mojaserowarnia.pl/prawo/nazwy-chronione?utm_source=magazyn"
+  }
  },
  {
   "id": "asiago",
@@ -488,7 +496,7 @@
   "id": "dunlop",
   "nazwa": "Dunlop",
   "trudnosc": "Średni",
-  "opis": "Dunlop to tradycyjny ser półtwardy z Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
+  "opis": "Dunlop to tradycyjny ser półtwardy ze Szkocji. Charakteryzuje się jędrną i sprężystą konsystencją. Ma łagodny, nieco maślany smak — słodki, ale z delikatną, kwaskowatą nutą. Czas dojrzewania wynosi około 6 miesięcy. Ser Dunlop zdobył nagrodę dla najlepszego Modern British Cheese.",
   "wydajnosc": "≈ 1,4 kg z 15 L mleka",
   "dojrzewanie": "3–9 miesięcy (typowo 6 mies.)",
   "mleko": "≈ 15 L mleka (nie UHT; przy pasteryzowanym dodaj CaCl₂ wg producenta).",
