@@ -390,12 +390,14 @@ def grafika_prawo(rek):
     """Liczby, po ktore ludzie przychodza na strone o RHD i MOL."""
     img = Image.new("RGB", (SZER, WYS), TLO)
     d = ImageDraw.Draw(img)
-    naglowek(d, "SPRZEDAŻ DOMOWEGO SERA", "co wolno w RHD, a co w MOL — najważniejsze liczby", 50)
+    naglowek(d, "SPRZEDAŻ DOMOWEGO SERA", "co wolno w RHD, a co w MOL: najważniejsze liczby", 50)
 
     kafle = [
         ("RHD", "100 000 zł", "przychodu rocznie bez podatku dochodowego",
          "na podatnika, nie na gospodarstwo"),
-        ("MOL", "500 kg", "produktów mlecznych miesięcznie",
+        # Do 7.11.2026 stalo tu "500 kg miesiecznie"; limit MOL jest TYGODNIOWY
+        # (0,5 t produktow mlecznych, strona /prawo/mol i jej zrodla).
+        ("MOL", "0,5 tony", "produktów mlecznych tygodniowo",
          "limit dla serowarów"),
     ]
     y = 176
@@ -409,7 +411,7 @@ def grafika_prawo(rek):
         d.text((228, y + 116), uwaga, font=czcionka("segoeui.ttf", 21), fill=SZARY)
         y += 172
 
-    d.text((48, 522), "Bez kasy fiskalnej niezależnie od obrotu · nadwyżka ponad limit RHD — ryczałt 2%",
+    d.text((48, 522), "Bez kasy fiskalnej niezależnie od obrotu · nadwyżka ponad limit RHD: ryczałt 2%",
            font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
     stopka(d, "/prawo")
     return img
@@ -474,7 +476,7 @@ def grafika_kultury(rek):
 
     d.text((48, 516), "Mezofilne 25–35°C · termofilne 37–55°C · podanie złej to najczęstszy błąd",
            font=czcionka("segoeuib.ttf", 24), fill=AKCENT)
-    stopka(d, "/kultury/przewodnik")
+    stopka(d, "/bakterie-kultury")
     return img
 
 
@@ -606,6 +608,61 @@ def grafika_kefir(rek):
     return img
 
 
+def grafika_nazwy_chronione(rek):
+    """Szesc polskich serow z nazwa chroniona w UE (rejestr eAmbrosia, 7.11.2026)."""
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "NAZWY CHRONIONE W UE", "6 polskich serów: kto może sprzedawać pod tą nazwą", 52)
+
+    wiersze = [
+        ("ChNP", "oscypek, bryndza podhalańska, redykołka"),
+        ("ChOG", "wielkopolski ser smażony, ser koryciński swojski"),
+        ("GTS", "twaróg wędzony"),
+    ]
+    y = 186
+    for etyk, sery in wiersze:
+        d.rounded_rectangle([(48, y), (SZER - 48, y + 86)], radius=12,
+                            fill=(255, 255, 255), outline=LINIA, width=2)
+        d.rounded_rectangle([(48, y), (196, y + 86)], radius=12, fill=AKCENT)
+        f = czcionka("segoeuib.ttf", 34)
+        szer = d.textlength(etyk, font=f)
+        d.text((122 - szer / 2, y + 22), etyk, font=f, fill=(255, 251, 235))
+        d.text((228, y + 24), sery, font=czcionka("segoeuib.ttf", 30), fill=CIEMNY)
+        y += 104
+
+    d.text((48, 508), "Tylko z ważnym certyfikatem. Bez niego ani nazwy, ani „typu” czy „w stylu”.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/prawo/nazwy-chronione")
+    return img
+
+
+# Karty ze zdjeciem sera dla najczesciej wklejanych stron o serach (prosba Marka
+# 7.11.2026: obrazek po wklejeniu linku na stronach strategicznych). Zdjecie
+# z src/assets, tytul na ciemnym pasie, ta sama stopka co na planszach.
+ZDJECIA = {
+    "mozzarella": ("mozzarella.jpg", "MOZZARELLA W DOMU", "przepis krok po kroku: kultury, temperatury, rozciąganie", "/przepisy/mozzarella"),
+    "camembert": ("camembert.jpg", "CAMEMBERT", "co to za ser i jak go zrobić w domu", "/sery/camembert"),
+    "emmental": ("emmental.jpg", "EMMENTAL", "ser z dziurami: skąd się biorą i jak go zrobić", "/sery/emmental"),
+    "korycinski": ("korycinski.jpg", "SER KORYCIŃSKI SWOJSKI", "polski ser z ChOG, przepis do domu", "/przepisy/korycinski"),
+}
+
+
+def karta_ze_zdjeciem(plik, tytul, podtytul, sciezka):
+    zdj = Image.open(os.path.join(ROOT, "src", "assets", plik)).convert("RGB")
+    skala = max(SZER / zdj.width, WYS / zdj.height)
+    zdj = zdj.resize((round(zdj.width * skala), round(zdj.height * skala)), Image.LANCZOS)
+    x0, y0 = (zdj.width - SZER) // 2, (zdj.height - WYS) // 2
+    img = zdj.crop((x0, y0, x0 + SZER, y0 + WYS))
+
+    pas = Image.new("RGBA", (SZER, 190), (40, 22, 6, 205))
+    img.paste(pas, (0, WYS - 62 - 190), pas)
+    d = ImageDraw.Draw(img)
+    d.text((48, WYS - 62 - 168), tytul, font=czcionka("segoeuib.ttf", 58), fill=(255, 251, 235))
+    d.text((48, WYS - 62 - 84), podtytul, font=czcionka("segoeui.ttf", 30), fill=(253, 230, 138))
+    stopka(d, sciezka)
+    return img
+
+
 GRAFIKI = {
     "zamienniki": grafika_zamienniki,
     "pojemnosci": grafika_pojemnosci,
@@ -619,19 +676,26 @@ GRAFIKI = {
     "jogurt": grafika_jogurt,
     "kefir": grafika_kefir,
     "zsiadle": grafika_zsiadle,
+    "nazwy-chronione": grafika_nazwy_chronione,
 }
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     wszystkie = "--wszystkie" in sys.argv
     if not args and not wszystkie:
-        sys.exit("Podaj nazwe (%s) albo --wszystkie" % ", ".join(GRAFIKI))
+        sys.exit("Podaj nazwe (%s) albo --wszystkie" % ", ".join(list(GRAFIKI) + list(ZDJECIA)))
 
     rek = wczytaj()
     os.makedirs(WYJSCIE, exist_ok=True)
-    do_zrobienia = GRAFIKI.keys() if wszystkie else args
+    do_zrobienia = list(GRAFIKI) + list(ZDJECIA) if wszystkie else args
 
     for nazwa in do_zrobienia:
+        if nazwa in ZDJECIA:
+            img = karta_ze_zdjeciem(*ZDJECIA[nazwa])
+            sciezka = os.path.join(WYJSCIE, nazwa + ".jpg")
+            img.save(sciezka, "JPEG", quality=84, optimize=True, progressive=True)
+            print("  %-14s %s (%d B)" % (nazwa, os.path.relpath(sciezka, ROOT), os.path.getsize(sciezka)))
+            continue
         if nazwa not in GRAFIKI:
             print("  nieznana grafika: %s" % nazwa)
             continue
