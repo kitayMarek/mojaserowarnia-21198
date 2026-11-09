@@ -16,7 +16,35 @@ import SpisTresci from "@/components/SpisTresci";
 import { COLORS, navItems, type NavItem } from "@/components/navItems";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import PasekRodziny from "@/components/PasekRodziny";
-import { CZATY_NA_STRONIE, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
+import { CZATY_NA_STRONIE, KATALOG_CLAUDE, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
+import { zdarzenieLacznikAi } from "@/lib/zdarzeniaGa4";
+
+/**
+ * „Połącz z Claude” w górnej belce (Marek 9.11.2026: „Zobacz jak ładnie jest na targu.
+ * Mogłoby być tak wszędzie”). Wzór: targrolny.com (.gora-claude) i hub: pigułka z białym
+ * tłem, cienka ramka, przy najechaniu ramka #D97757, wysokość 40 px, tekst 15 px, znak
+ * Claude 18 px (public/ikony/claude.svg z claude.ai/favicon.svg). Poniżej 440 px (każdy
+ * telefon) zostaje sam znak i „Claude”, bo pełny napis nie mieści się obok nazwy i menu. Prowadzi do wpisu Dane Rolne w katalogu Claude; kliknięcie
+ * to rodzaj "belka" w llm_queries.
+ */
+const PolaczZClaude = ({ zrodlo, className = "" }: { zrodlo: string; className?: string }) => (
+  <a
+    href={KATALOG_CLAUDE}
+    target="_blank"
+    rel="noopener"
+    title="Dane Rolne i Moja Serowarnia w katalogu Claude"
+    onClick={() => {
+      zapiszKlikniecieLacznika(zrodlo, "belka");
+      zdarzenieLacznikAi("katalog_claude");
+    }}
+    className={`shrink-0 items-center gap-[7px] h-10 pl-[11px] pr-[14px] rounded-full border border-[hsl(var(--rule-strong))] bg-white text-[#2b2419] dark:bg-card dark:text-foreground text-[15px] font-semibold whitespace-nowrap no-underline transition-colors hover:border-[#D97757] ${className}`}
+  >
+    <img src="/ikony/claude.svg" width={18} height={18} alt="" className="block h-[18px] w-[18px]" />
+    <span>
+      <span className="max-[439px]:hidden">Połącz z </span>Claude
+    </span>
+  </a>
+);
 
 const Znak = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 46 26" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} aria-hidden="true">
@@ -60,13 +88,18 @@ const Navigation = () => {
       <PasekRodziny />
 
       {/* Górny pasek — tylko mobile */}
-      <div className="lg:hidden fixed top-[34px] inset-x-0 z-50 h-16 bg-background/95 backdrop-blur-sm border-b border-border flex items-center justify-between px-4">
-        <a href="/" className="flex items-center gap-2" aria-label="Strona główna Moja Serowarnia">
+      {/* Nazwa, „Połącz z Claude”, szukaj i menu w jednym wierszu: przełącznik motywu jest
+          tylko w szufladzie (na dole), a poniżej 375 px nazwa skraca się do „Serowarnia”,
+          jak w pasku rodziny. */}
+      <div className="lg:hidden fixed top-[34px] inset-x-0 z-50 h-16 bg-background/95 backdrop-blur-sm border-b border-border flex items-center gap-1.5 px-4">
+        <a href="/" className="flex min-w-0 items-center gap-2" aria-label="Strona główna Moja Serowarnia">
           <Znak className="w-8 h-5 shrink-0 text-primary" />
-          <span className="font-display text-[17px] text-foreground">Moja Serowarnia</span>
+          <span className="font-display text-[17px] text-foreground whitespace-nowrap">
+            <span className="max-[374px]:hidden">Moja </span>Serowarnia
+          </span>
         </a>
-        <div className="flex items-center gap-1">
-          <ThemeToggle />
+        <PolaczZClaude zrodlo={zrodloZeSciezki(location.pathname)} className="inline-flex" />
+        <div className="ml-auto flex items-center gap-1">
           <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setSearchOpen(true)} aria-label="Szukaj">
             <Search className="h-5 w-5" />
           </Button>
@@ -102,6 +135,9 @@ const Navigation = () => {
             sidebar ma je niżej w całości, więc rządek nad nim tylko dublował
             nawigację (uwaga Marka po zobaczeniu pierwszej wersji). */}
         <div className="shrink-0 border-b border-border px-2.5 py-3 space-y-2">
+          {/* Na komputerze nie ma górnej belki, więc „Połącz z Claude” stoi tu, zaraz pod nazwą
+              serwisu, przed menu. Na telefonie jest w górnym pasku, więc w szufladzie go nie ma. */}
+          <PolaczZClaude zrodlo={zrodloZeSciezki(location.pathname)} className="hidden lg:inline-flex" />
           <Button
             variant="outline"
             className="w-full justify-start gap-2 border-[hsl(var(--rule-strong))] font-normal"

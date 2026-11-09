@@ -71,8 +71,8 @@ export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
  */
 export const UMIEJETNOSC_PERPLEXITY = LACZNIK.umiejetnoscPerplexity.adres;
 
-/** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). "katalog": wpis w katalogu Claude. */
-export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj" | "katalog";
+/** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). "katalog": wpis w katalogu Claude, "belka": ten sam wpis z przycisku „Połącz z Claude” w górnej belce. */
+export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj" | "katalog" | "belka";
 export type Asystent = "claude" | "chatgpt" | "perplexity";
 /** Czaty pokazywane ludziom. Perplexity wraca po skończonej konfiguracji huba (Marek 3.11.2026): dopisać tu i w tekstach. */
 export const CZATY_NA_STRONIE: Asystent[] = ["chatgpt", "claude"];
