@@ -65,7 +65,7 @@ export function zdarzenieMieszankaEksport(kalkulator: string, format: string): v
  * To zamiar, nie podłączenie: czy łącznik naprawdę działa, mówi tabela
  * magazyn_wywolania (klient „Claude”), bo dodanie dzieje się już na claude.ai.
  */
-export function zdarzenieLacznikAi(akcja: 'polacz_claude' | 'polacz_chatgpt' | 'polacz_perplexity' | 'kopiuj_adres'): void {
+export function zdarzenieLacznikAi(akcja: 'polacz_claude' | 'katalog_claude' | 'polacz_chatgpt' | 'polacz_perplexity' | 'kopiuj_adres'): void {
   wyslij('lacznik_ai', { akcja });
 }
 
@@ -74,7 +74,7 @@ export function zdarzenieLacznikAi(akcja: 'polacz_claude' | 'polacz_chatgpt' | '
  * kopiowanie tekstu albo przycisk formularza/umiejętności w tej ramce. Też zamiar.
  */
 export function zdarzeniePromptCzatu(
-  asystent: 'chatgpt' | 'claude' | 'perplexity', akcja: 'otworz' | 'kopiuj' | 'formularz' | 'umiejetnosc',
+  asystent: 'chatgpt' | 'claude' | 'perplexity', akcja: 'otworz' | 'kopiuj' | 'formularz' | 'katalog' | 'umiejetnosc',
 ): void {
   wyslij('prompt_czatu', { asystent, akcja });
 }

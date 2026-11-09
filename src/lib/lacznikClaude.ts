@@ -41,6 +41,16 @@ export function linkClaude(zrodlo?: string): string {
 }
 
 /**
+ * Wpis Dane Rolne w katalogu łączników Claude (opublikowany 9.11.2026, znaczek „Community”).
+ * Strona jest publiczna; zalogowany dodaje łącznik jednym kliknięciem, bez wpisywania adresu,
+ * a bez zalogowania przycisk nazywa się „Sign in to add”. Łącznik z katalogu to
+ * danerolne.com/mcp?z=katalog, więc podłączenie stąd ma znacznik "katalog", nie znacznik strony.
+ * Od 9.11.2026 pierwsza droga przy każdym przycisku Claude (prośba Marka przez sesję huba);
+ * formularz z linkClaude() zostaje jako druga.
+ */
+export const KATALOG_CLAUDE = "https://claude.ai/directory/dane-rolne";
+
+/**
  * Strona wtyczek w ChatGPT. Od 23.10.2026 przycisk „Dodaj do ChatGPT”: ChatGPT
  * nie ma linku, który otwiera formularz z wpisanym adresem (jak Claude), więc
  * przycisk kopiuje adres i otwiera tę stronę, a kroki są na /asystenci-ai#chatgpt.
@@ -61,8 +71,8 @@ export const WTYCZKI_CHATGPT = "https://chatgpt.com/plugins";
  */
 export const UMIEJETNOSC_PERPLEXITY = LACZNIK.umiejetnoscPerplexity.adres;
 
-/** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). */
-export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj";
+/** "prompt-otworz" i "prompt-kopiuj": ramka „Podłącz w swoim czacie” (src/lib/promptyCzatow.ts). "katalog": wpis w katalogu Claude. */
+export type RodzajKlikniecia = "menu" | "przycisk" | "kopiuj" | "prompt-otworz" | "prompt-kopiuj" | "katalog";
 export type Asystent = "claude" | "chatgpt" | "perplexity";
 /** Czaty pokazywane ludziom. Perplexity wraca po skończonej konfiguracji huba (Marek 3.11.2026): dopisać tu i w tekstach. */
 export const CZATY_NA_STRONIE: Asystent[] = ["chatgpt", "claude"];

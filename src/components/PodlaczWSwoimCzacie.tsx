@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zdarzeniePromptCzatu } from "@/lib/zdarzeniaGa4";
 import {
   CZATY_NA_STRONIE,
+  KATALOG_CLAUDE,
   UMIEJETNOSC_PERPLEXITY,
   linkClaude,
   zapiszKlikniecieLacznika,
@@ -87,6 +88,19 @@ const ZakladkaCzatu = ({ asystent, temat, zrodlo }: { asystent: Asystent; temat:
       {asystent === "claude" && (
         <p>
           <a
+            href={KATALOG_CLAUDE}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            onClick={() => {
+              zapiszKlikniecieLacznika(zrodlo, "katalog", "claude");
+              zdarzeniePromptCzatu("claude", "katalog");
+            }}
+            className="font-semibold text-primary underline"
+          >
+            Dodaj z katalogu Claude
+          </a>{" "}
+          (wpis Dane Rolne, dodajesz go jednym kliknięciem). Bez katalogu:{" "}
+          <a
             href={linkClaude(zrodlo)}
             target="_blank"
             rel="noopener noreferrer nofollow"
@@ -94,12 +108,11 @@ const ZakladkaCzatu = ({ asystent, temat, zrodlo }: { asystent: Asystent; temat:
               zapiszKlikniecieLacznika(zrodlo, "przycisk", "claude");
               zdarzeniePromptCzatu("claude", "formularz");
             }}
-            className="font-semibold text-primary underline"
+            className="underline"
           >
-            Dodaj do Claude jednym kliknięciem
-          </a>{" "}
-          (formularz z wpisanym adresem, kliknij tam Continue i Add). Wolisz, żeby Claude Cię przeprowadził? Wklej mu
-          ten tekst:
+            formularz z wpisanym adresem
+          </a>
+          , kliknij tam Continue i Add. Wolisz, żeby Claude Cię przeprowadził? Wklej mu ten tekst:
         </p>
       )}
       {asystent === "perplexity" && (

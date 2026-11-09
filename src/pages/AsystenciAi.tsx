@@ -9,6 +9,7 @@ import { zdarzenieLacznikAi, zdarzeniePromptCzatu } from "@/lib/zdarzeniaGa4";
 import {
   ADRES_MCP,
   CZATY_NA_STRONIE,
+  KATALOG_CLAUDE,
   UMIEJETNOSC_PERPLEXITY,
   WTYCZKI_CHATGPT,
   adresLacznika,
@@ -196,22 +197,16 @@ const AsystenciAi = () => {
     claude: {
       kroki: [
         <>
-          Kliknij {linkZew(linkClaude(zrodlo), "Dodaj do Claude", () => {
-            zdarzenieLacznikAi("polacz_claude");
-            zapiszKlikniecieLacznika(zrodlo, "przycisk");
-            void kopiujTekst(adres);
-          })}
-          : otworzy się formularz z wpisaną nazwą i adresem. Gdyby był pusty, wejdź w <strong>Customize</strong>,
-          zakładka <strong>Connectors</strong>, <strong>+ Add</strong>, <strong>Add custom connector</strong> i wklej adres.
-        </>,
-        <>
-          Claude pokaże żółte ostrzeżenie o łączniku z linku: to zwykły komunikat. Sprawdź, że adres zaczyna się od
-          danerolne.com, kliknij <strong>Continue</strong>, potem <strong>Add</strong>.
+          Otwórz {linkZew(KATALOG_CLAUDE, "wpis Dane Rolne w katalogu Claude", () => {
+            zdarzenieLacznikAi("katalog_claude");
+            zapiszKlikniecieLacznika(zrodlo, "katalog");
+          })}{" "}
+          i dodaj łącznik jednym kliknięciem. Bez zalogowania przycisk nazywa się <strong>Sign in to add</strong>.
         </>,
         <>W rozmowie kliknij <strong>+</strong> pod polem wiadomości, wybierz <strong>Connectors</strong> i włącz Dane Rolne.</>,
       ],
       uwaga:
-        "Własne łączniki działają na każdym planie Claude, także darmowym (jeden łącznik). W planach Team i Enterprise dodaje je właściciel organizacji. Nazwy przycisków podajemy jak w angielskiej wersji Claude; łącznik działa też w aplikacji na telefonie.",
+        "Bez katalogu dodasz łącznik ręcznie: Customize, zakładka Connectors, + Add, Add custom connector, wklej adres powyżej, potem Continue i Add. Własne łączniki działają na każdym planie Claude, także darmowym (jeden łącznik). W planach Team i Enterprise łączniki dodaje właściciel organizacji. Nazwy przycisków podajemy jak w angielskiej wersji Claude; łącznik działa też w aplikacji na telefonie.",
     },
     perplexity: {
       kroki: [
@@ -373,11 +368,17 @@ const AsystenciAi = () => {
                 {czat === "claude" && (
                   <p className="border-t border-border pt-3 text-[15px]">
                     Albo jeszcze szybciej:{" "}
-                    {linkZew(linkClaude(zrodlo), "Dodaj do Claude jednym kliknięciem", () => {
+                    {linkZew(KATALOG_CLAUDE, "Dodaj z katalogu Claude", () => {
+                      zdarzeniePromptCzatu("claude", "katalog");
+                      zapiszKlikniecieLacznika(zrodlo, "katalog", "claude");
+                    })}
+                    . Bez katalogu:{" "}
+                    {linkZew(linkClaude(zrodlo), "formularz z wpisanym adresem", () => {
                       zdarzeniePromptCzatu("claude", "formularz");
                       zapiszKlikniecieLacznika(zrodlo, "przycisk", "claude");
                       void kopiujTekst(adres);
                     })}
+                    , kliknij tam Continue i Add.
                   </p>
                 )}
                 {czat === "perplexity" && (
