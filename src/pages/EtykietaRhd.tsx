@@ -6,14 +6,18 @@ import SeeAlso from "@/components/SeeAlso";
 import { Button } from "@/components/ui/button";
 import { Tag, Printer, Info, ExternalLink, Scale } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import {
+  NA_ETYKIECIE, NIE_WYMAGANE, PRZY_STOISKU, LUZEM, LUZEM_NIE_WYMAGANE, PODPOWIEDZI, ZRODLA,
+  STAN_PRAWNY_NA, podstawaTekst, type TypDaty, type Wymog,
+} from "@/data/etykietaRhd";
 
 /**
- * Narzędzie: Etykieta RHD na ser — wymagania prawne + darmowy edytor (klient-only).
+ * Narzędzie: etykieta RHD na ser. Wymagania prawne i darmowy edytor (tylko w przeglądarce).
+ * Wymagania i podpowiedzi pochodzą z src/data/etykietaRhd.ts (to samo źródło co mirror
+ * /etykieta-do-sprzedazy-rhd i plik /dane/etykieta-rhd.json).
  * Dane producenta zapisywane w localStorage ("wpisz raz"). Druk przez @media print.
- * To pomoc edukacyjna — NIE porada prawna. Patrz disclaimer.
+ * To pomoc edukacyjna, NIE porada prawna. Patrz zastrzeżenie.
  */
-
-type TypDaty = "przydatnosc" | "trwalosc"; // "Należy spożyć do" | "Najlepiej spożyć przed"
 
 interface LabelData {
   nazwa: string;
@@ -33,23 +37,33 @@ interface LabelData {
   uwagi: string;
 }
 
-const TEMPLATES: Record<string, Partial<LabelData>> = {
-  "ser-swiezy": { przechowywanie: "Przechowywać w temp. 2–8°C", alergeny: "mleko", typ_daty: "przydatnosc", skladniki: "MLEKO, sól, kultury bakteryjne, podpuszczka" },
-  "ser-dojrzewajacy": { przechowywanie: "Przechowywać w temp. 4–10°C", alergeny: "mleko", typ_daty: "trwalosc", skladniki: "MLEKO, sól, kultury bakteryjne, podpuszczka" },
-  "ser-plesniowy": { przechowywanie: "Przechowywać w temp. 4–8°C", alergeny: "mleko", typ_daty: "trwalosc", skladniki: "MLEKO, sól, kultury bakteryjne, podpuszczka, pleśń szlachetna" },
-  "twarog": { przechowywanie: "Przechowywać w temp. 2–8°C", alergeny: "mleko", typ_daty: "przydatnosc", skladniki: "MLEKO, kultury bakteryjne" },
-  "maslo": { przechowywanie: "Przechowywać w temp. do 8°C", alergeny: "mleko", typ_daty: "trwalosc", skladniki: "śmietanka (MLEKO)" },
-  "inne": { przechowywanie: "", alergeny: "", typ_daty: "trwalosc", skladniki: "" },
-};
+const TEMPLATES: Record<string, Partial<LabelData>> = Object.fromEntries(
+  PODPOWIEDZI.map(({ id, przechowywanie, alergeny, typ_daty, skladniki }) => [
+    id,
+    { przechowywanie, alergeny, typ_daty, skladniki },
+  ]),
+);
 
-const KATEGORIE: { value: string; label: string }[] = [
-  { value: "ser-swiezy", label: "Ser świeży" },
-  { value: "ser-dojrzewajacy", label: "Ser dojrzewający" },
-  { value: "ser-plesniowy", label: "Ser pleśniowy" },
-  { value: "twarog", label: "Twaróg" },
-  { value: "maslo", label: "Masło" },
-  { value: "inne", label: "Inne" },
-];
+const KATEGORIE: { value: string; label: string }[] = PODPOWIEDZI.map((p) => ({ value: p.id, label: p.nazwa }));
+
+/** Lista wymogów z podstawą prawną (jedno źródło: src/data/etykietaRhd.ts). */
+function ListaWymogow({ wymogi, numerowana = false }: { wymogi: Wymog[]; numerowana?: boolean }) {
+  const Tag = numerowana ? "ol" : "ul";
+  return (
+    <Tag className={`space-y-3 text-muted-foreground ml-5 ${numerowana ? "list-decimal" : "list-disc"}`}>
+      {wymogi.map((w) => (
+        <li key={w.id}>
+          <strong className="text-foreground">{w.pole}</strong>: {w.opis}
+          {w.uwaga && <span className="block text-sm mt-1">{w.uwaga}</span>}
+          {w.pewnosc === "do_potwierdzenia" && (
+            <span className="block text-sm mt-1 text-amber-700 dark:text-amber-400">Do potwierdzenia u powiatowego lekarza weterynarii.</span>
+          )}
+          <span className="block text-xs mt-1 text-muted-foreground/80">Podstawa: {podstawaTekst(w)}</span>
+        </li>
+      ))}
+    </Tag>
+  );
+}
 
 const FRESH = new Set(["ser-swiezy", "twarog"]);
 
@@ -142,7 +156,7 @@ function LabelCard({ d }: { d: LabelData }) {
         </div>
       )}
       {d.mleko_surowe && (
-        <div style={{ fontSize: "9px", fontWeight: 700, marginTop: "2px" }}>Wyprodukowano z mleka surowego.</div>
+        <div style={{ fontSize: "9px", fontWeight: 700, marginTop: "2px" }}>Wyprodukowano z surowego mleka.</div>
       )}
       {d.uwagi && (
         <div style={{ marginTop: "3px", fontSize: "8.5px", color: "#666" }}>{d.uwagi}</div>
@@ -166,9 +180,9 @@ const EtykietaRhd = () => {
   const [kopie, setKopie] = useState(8);
 
   useEffect(() => {
-    document.title = "Etykieta RHD na ser — wymagania + darmowy generator | Moja Serowarnia";
+    document.title = "Etykieta RHD na ser: wymagania i darmowy generator | Moja Serowarnia";
     const m = document.querySelector('meta[name="description"]');
-    if (m) m.setAttribute("content", "Co musi być na etykiecie sera w rolniczym handlu detalicznym (RHD): obowiązkowe pola wg rozp. 1169/2011, wzór i darmowy edytor etykiety do druku.");
+    if (m) m.setAttribute("content", "Co musi być na etykiecie sera w rolniczym handlu detalicznym (RHD), a co przy stoisku: pola z podstawą prawną, wzór i darmowy edytor etykiety do druku.");
     try {
       const raw = localStorage.getItem(PRODUCER_KEY);
       if (raw) {
@@ -223,8 +237,8 @@ const EtykietaRhd = () => {
             <PageHeader
               icon={Tag}
               color="amber"
-              title="Etykieta RHD na ser — wymagania i darmowy generator"
-              subtitle="Sprzedajesz ser w ramach rolniczego handlu detalicznego? Etykieta musi być zgodna z prawem znakowania żywności — poniżej co musi zawierać (z podstawą prawną), wzór oraz edytor do druku."
+              title="Etykieta RHD na ser: wymagania i darmowy generator"
+              subtitle="Sprzedajesz ser w ramach rolniczego handlu detalicznego? Poniżej co musi być na etykiecie, co przy stoisku i co przy sprzedaży luzem (z podstawą prawną), wzór oraz edytor do druku."
             />
           </div>
         </div>
@@ -234,69 +248,84 @@ const EtykietaRhd = () => {
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-display font-bold text-foreground mb-4">Po co etykieta?</h2>
             <p className="text-muted-foreground leading-relaxed mb-3">
-              Każdy produkt spożywczy wprowadzany do obrotu — także ser sprzedawany w RHD bezpośrednio konsumentowi —
+              Każdy produkt spożywczy wprowadzany do obrotu, także ser sprzedawany w RHD bezpośrednio konsumentowi,
               musi być oznakowany tak, by kupujący wiedział, <strong>co kupuje, od kogo, do kiedy zjeść i jak przechowywać</strong>,
-              oraz czy zawiera <strong>alergeny</strong>. Ser to produkt <strong>pochodzenia zwierzęcego</strong>, więc nad jego
-              produkcją i znakowaniem czuwa <strong>Inspekcja Weterynaryjna</strong> (numer weterynaryjny na etykiecie).
+              oraz czy zawiera <strong>alergeny</strong>. W RHD obowiązki są w dwóch miejscach: część danych jest na
+              <strong> etykiecie</strong>, a napis „rolniczy handel detaliczny” i numer weterynaryjny są na
+              <strong> oznakowaniu stoiska</strong>.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Prawidłowa etykieta chroni konsumenta (alergeny, termin) i Ciebie — to dowód rzetelnego wprowadzenia produktu
+              Prawidłowa etykieta chroni konsumenta (alergeny, termin) i Ciebie: to dowód rzetelnego wprowadzenia produktu
               do obrotu w razie kontroli.
             </p>
           </div>
         </section>
 
-        {/* Podstawa prawna */}
-        <section className="py-8 bg-muted/20">
+        {/* Wymagania: etykieta */}
+        <section className="py-10 bg-muted/20">
           <div className="container mx-auto px-4 max-w-4xl">
-            <h2 className="text-2xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
-              <Scale className="h-6 w-6 text-primary" /> Podstawa prawna
-            </h2>
-            <ul className="space-y-3 text-muted-foreground">
-              <li>
-                <strong>Rozporządzenie (UE) nr 1169/2011</strong> w sprawie przekazywania konsumentom informacji o żywności:
-                <ul className="mt-1 ml-4 list-disc space-y-1 text-sm">
-                  <li><strong>art. 9</strong> — wykaz danych obowiązkowych na etykiecie,</li>
-                  <li><strong>art. 13</strong> + zał. IV — czytelność; minimalna wysokość liter (x) <strong>1,2 mm</strong> (0,9 mm dla małych opakowań),</li>
-                  <li><strong>art. 21</strong> + zał. II — substancje alergenne i ich <strong>wyróżnienie</strong> w wykazie składników,</li>
-                  <li><strong>art. 24</strong> + zał. X — oznaczanie daty: „należy spożyć do" / „najlepiej spożyć przed",</li>
-                  <li><strong>zał. V pkt 19</strong> — <strong>zwolnienie</strong> z obowiązkowej informacji o wartości odżywczej (małe ilości, dostawa lokalna/bezpośrednia — obejmuje RHD).</li>
+            <h2 className="text-2xl font-display font-bold text-foreground mb-5">Co musi być na etykiecie sera w opakowaniu</h2>
+            <ListaWymogow wymogi={NA_ETYKIECIE} numerowana />
+            <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 flex gap-2">
+              <Info className="h-5 w-5 shrink-0" />
+              <div>
+                <strong>Czego na etykiecie nie musisz dawać:</strong>
+                <ul className="mt-2 ml-4 list-disc space-y-2">
+                  {NIE_WYMAGANE.map((w) => (
+                    <li key={w.id}>
+                      <strong>{w.pole}</strong>: {w.opis} {w.uwaga}
+                      <span className="block text-xs mt-1 opacity-80">Podstawa: {podstawaTekst(w)}</span>
+                    </li>
+                  ))}
                 </ul>
-              </li>
-              <li><strong>Ustawa z dnia 16 listopada 2016 r.</strong> o zmianie niektórych ustaw w celu ułatwienia sprzedaży żywności przez rolników (wprowadzenie RHD).</li>
-              <li><strong>Ustawa z dnia 25 sierpnia 2006 r.</strong> o bezpieczeństwie żywności i żywienia.</li>
-              <li>Dla produktów zwierzęcych (ser, masło): <strong>ustawa o produktach pochodzenia zwierzęcego</strong> + rozporządzenia MRiRW dot. RHD i wymagań weterynaryjnych — nadzór <strong>Inspekcji Weterynaryjnej</strong> (numer weterynaryjny).</li>
-            </ul>
-            <p className="mt-4 text-sm text-muted-foreground/80 italic">
-              ⚖️ Materiał edukacyjny — nie stanowi porady prawnej. Stan prawny może się zmieniać. Zakres znakowania i format
-              numerów potwierdź u <strong>powiatowego lekarza weterynarii</strong> (PLW/PIW) właściwego dla Twojego gospodarstwa.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Wymagania: stoisko */}
+        <section className="py-10">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-3">Co musi być przy stoisku (miejsce sprzedaży)</h2>
+            <p className="text-muted-foreground mb-4">
+              W miejscu sprzedaży w RHD umieszczasz, czytelnie i widocznie dla kupującego:
+            </p>
+            <ListaWymogow wymogi={PRZY_STOISKU} />
+          </div>
+        </section>
+
+        {/* Wymagania: luzem */}
+        <section className="py-10 bg-muted/20">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-3">Sprzedaż luzem, bez opakowania</h2>
+            <p className="text-muted-foreground mb-4">
+              Ser krojony z lady i niepakowany wcześniej nie potrzebuje etykiety. Przy produkcie podajesz na wywieszce
+              albo w inny sposób:
+            </p>
+            <ListaWymogow wymogi={LUZEM} />
+            <p className="text-muted-foreground mt-4 text-sm">
+              Przy sprzedaży luzem nie są wymagane: {LUZEM_NIE_WYMAGANE.join(", ")}.
             </p>
           </div>
         </section>
 
-        {/* Wymagania */}
-        <section className="py-10">
+        {/* Podstawa prawna */}
+        <section className="py-8">
           <div className="container mx-auto px-4 max-w-4xl">
-            <h2 className="text-2xl font-display font-bold text-foreground mb-5">Co MUSI być na etykiecie sera (RHD)</h2>
-            <ol className="space-y-3 text-muted-foreground list-decimal ml-5">
-              <li><strong>Nazwa produktu</strong> — opisowa, nie wprowadzająca w błąd (np. „ser dojrzewający typu gouda").</li>
-              <li><strong>Wykaz składników</strong> w kolejności malejącej wg masy (mleko, sól, kultury bakteryjne, podpuszczka, ew. CaCl₂).</li>
-              <li><strong>Alergeny wyróżnione</strong> w wykazie składników — dla sera zawsze <strong>MLEKO</strong> (pogrubienie/wersaliki, art. 21).</li>
-              <li><strong>Ilość netto</strong> (w g lub kg).</li>
-              <li><strong>Termin</strong>: <strong>„Należy spożyć do"</strong> — sery świeże/miękkie (łatwo psujące się); <strong>„Najlepiej spożyć przed"</strong> — sery twarde/dojrzewające. Wybór zależy od rodzaju, nie jest dowolny.</li>
-              <li><strong>Warunki przechowywania</strong> (np. „Przechowywać w temp. 4–8°C").</li>
-              <li><strong>Producent</strong>: imię i nazwisko / nazwa + adres.</li>
-              <li><strong>Numer partii</strong> — wymagany, chyba że data trwałości podana jest z dniem i miesiącem (wtedy może go zastępować).</li>
-              <li><strong>Weterynaryjny numer identyfikacyjny</strong> + oznaczenie „rolniczy handel detaliczny".</li>
-            </ol>
-            <div className="mt-5 rounded-lg bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 flex gap-2">
-              <Info className="h-5 w-5 shrink-0" />
-              <div>
-                <strong>Czego NIE musisz dawać:</strong> tabela wartości odżywczej jest przy RHD <strong>zwolniona</strong> (zał. V pkt 19),
-                chyba że na etykiecie pojawi się oświadczenie żywieniowe lub zdrowotne. Ser z <strong>mleka surowego</strong> wymaga
-                osobnej adnotacji „wyprodukowano z mleka surowego".
-              </div>
-            </div>
+            <h2 className="text-2xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+              <Scale className="h-6 w-6 text-primary" /> Podstawa prawna
+            </h2>
+            <ul className="space-y-2 text-muted-foreground list-disc ml-5">
+              {Object.entries(ZRODLA).map(([id, z]) => (
+                <li key={id}>
+                  <a href={z.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{z.akt}</a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-muted-foreground/80 italic">
+              ⚖️ Materiał edukacyjny, nie porada prawna. Przepisy sprawdzone w tekstach aktów {STAN_PRAWNY_NA.split("-").reverse().join(".")}.
+              Zakres znakowania potwierdź u <strong>powiatowego lekarza weterynarii</strong> właściwego dla Twojego gospodarstwa.
+            </p>
           </div>
         </section>
 
@@ -304,11 +333,11 @@ const EtykietaRhd = () => {
         <section className="py-10 bg-muted/20">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-display font-bold text-foreground mb-2">Wzór etykiety (przykład)</h2>
-            <p className="text-muted-foreground mb-5">Tak może wyglądać poprawna etykieta dojrzewającego sera w RHD (10 × 7 cm):</p>
+            <p className="text-muted-foreground mb-5">Tak może wyglądać etykieta dojrzewającego sera w RHD (10 × 7 cm). Napis „rolniczy handel detaliczny” i numer weterynaryjny są na niej dobrowolne, obowiązkowo muszą być przy stoisku.</p>
             <div className="flex justify-center">
               <img
                 src="/wzor-etykiety-rhd-na-ser.svg"
-                alt="Wzór etykiety RHD na ser dojrzewający (gouda) — przykład z polami obowiązkowymi: nazwa, masa netto, producent i adres, data produkcji i przydatności, skład z wyróżnionym alergenem MLEKO, numer partii i weterynaryjny"
+                alt="Wzór etykiety RHD na ser dojrzewający (gouda): nazwa, masa netto, producent i adres, data produkcji i termin, skład z wyróżnionym alergenem MLEKO, numer partii oraz dobrowolny numer weterynaryjny"
                 width={500}
                 height={350}
                 loading="lazy"
@@ -323,7 +352,7 @@ const EtykietaRhd = () => {
           <div className="container mx-auto px-4 max-w-6xl">
             <h2 className="text-2xl font-display font-bold text-foreground mb-2">Generator etykiety</h2>
             <p className="text-muted-foreground mb-6">
-              Wypełnij pola — podgląd po prawej aktualizuje się na żywo. Dane producenta możesz zapisać w przeglądarce
+              Wypełnij pola, a podgląd po prawej aktualizuje się na żywo. Dane producenta możesz zapisać w przeglądarce
               (wpisujesz raz). Nic nie wysyłamy na serwer.
             </p>
 
@@ -357,7 +386,7 @@ const EtykietaRhd = () => {
                   <div className="space-y-3">
                     <input className={inputCls} value={d.producent_imie} onChange={(e) => set("producent_imie", e.target.value)} placeholder="Imię i nazwisko / nazwa *" />
                     <textarea className={inputCls} rows={2} value={d.producent_adres} onChange={(e) => set("producent_adres", e.target.value)} placeholder="Adres gospodarstwa *" />
-                    <input className={inputCls} value={d.nr_wet} onChange={(e) => set("nr_wet", e.target.value)} placeholder="Weterynaryjny nr identyfikacyjny" />
+                    <input className={inputCls} value={d.nr_wet} onChange={(e) => set("nr_wet", e.target.value)} placeholder="Weterynaryjny nr identyfikacyjny (na etykiecie dobrowolny)" />
                   </div>
                 </div>
 
@@ -392,12 +421,12 @@ const EtykietaRhd = () => {
                   <textarea className={inputCls} rows={2} value={d.skladniki} onChange={(e) => set("skladniki", e.target.value)} placeholder="MLEKO, sól, kultury bakteryjne, podpuszczka" />
                 </div>
                 <div>
-                  <label className={labelCls}>Alergeny (po przecinku — wyróżniane w składzie)</label>
+                  <label className={labelCls}>Alergeny (po przecinku, wyróżniane w składzie)</label>
                   <input className={inputCls} value={d.alergeny} onChange={(e) => set("alergeny", e.target.value)} placeholder="mleko" />
                 </div>
                 <label className="flex items-center gap-2 text-sm text-foreground">
                   <input type="checkbox" checked={d.mleko_surowe} onChange={(e) => set("mleko_surowe", e.target.checked)} />
-                  Ser z mleka surowego / niepasteryzowanego (dodaje wymaganą adnotację)
+                  Ser z surowego mleka, bez obróbki cieplnej (dodaje napis „Wyprodukowano z surowego mleka”)
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -459,7 +488,7 @@ const EtykietaRhd = () => {
               <p className="text-muted-foreground mb-4">
                 W aplikacji <strong>Fermly</strong> etykieta wypełni się <strong>automatycznie z partii produkcyjnej</strong>
                 (nazwa, skład, daty, numer partii), zapisze się w bazie i dostanie kod QR do metryczki sera. Tu masz wzór i
-                wiedzę — tam pełną integrację z gospodarstwem i rejestrem RHD.
+                wiedzę, a tam pełną integrację z gospodarstwem i rejestrem RHD.
               </p>
               <Button asChild className="gap-2">
                 <a href="https://fermly.pl/mleko" target="_blank" rel="noopener noreferrer">
@@ -473,7 +502,7 @@ const EtykietaRhd = () => {
         <section className="py-8">
           <div className="container mx-auto px-4 max-w-4xl">
             <SeeAlso links={[
-              { href: "/prawo", title: "Sprzedaż sera w RHD — przewodnik prawny", description: "Rejestracja, limity, oznakowanie miejsca sprzedaży" },
+              { href: "/prawo", title: "Sprzedaż sera w RHD: przewodnik prawny", description: "Rejestracja, limity, oznakowanie miejsca sprzedaży" },
               { href: "/kalkulator-kosztu-sera", title: "Kalkulator kosztu sera", description: "Koszt produkcji, marża i cena sprzedaży" },
               { href: "/przepisy", title: "Przepisy na sery", description: "Krok po kroku jak zrobić ser" },
               { href: "/narzedzia", title: "Wszystkie narzędzia", description: "Kalkulatory i konwertery dla serowara" },

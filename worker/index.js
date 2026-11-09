@@ -190,6 +190,8 @@ const PLIKI_MIERZONE = new Set([
   // prog do 30.11.2026 to 10 pobran. Raport `czaty` go NIE pokaze, bo filtruje
   // typ "tresc" - liczyc zapytaniem wprost na bot_visits po tej sciezce.
   '/dane/prawo-rhd.json',
+  // 9.11.2026: zasady oznakowania nabiału w RHD dla ekranu stoiska w Targu (scripts/gen-dane-etykieta.mjs).
+  '/dane/etykieta-rhd.json',
 ]);
 
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
