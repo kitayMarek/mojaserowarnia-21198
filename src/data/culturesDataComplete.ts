@@ -2929,6 +2929,7 @@ export const culturesData: Culture[] = [
     productUrl: "https://sklep.gappoland.com/pl/p/SM-02-LYO/22902158",
     price: "6,00 zł",
     price_numeric: 6.0,
+    packLiters: 5,
     doseLabel: "1 doza / 5 L",
     manufacturer: "GAP Poland (marka własna)",
     lastChecked: "2026-10-27",

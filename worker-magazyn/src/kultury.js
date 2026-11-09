@@ -304,11 +304,23 @@ export function zamiennikiKultury({ nazwa }) {
   if (!k) return brakKultury(nazwa);
 
   const adres = adresKultury(k.name);
+  // Oferty kultury, o ktora pytano, zeby bylo z czym porownac cene zamiennika.
+  // Bez nich test w Claude 9.11.2026 ("czy jest tansza z tymi samymi
+  // szczepami co MA 4001?") nie mial ceny wyjsciowej i nie umial odpowiedziec.
+  const ofertyTej = culturesData.filter((x) => adresKultury(x.name) === adres).sort(poCenieZaLitr);
+  const najtanszaZaLitr = ofertyTej.map((x) => zaLitr(x.price_numeric, x.packLiters)).find((x) => x != null) ?? null;
+  const taKultura = {
+    dawkowanie: k.doseLabel ?? null,
+    oferty: ofertyTej.map(oferta),
+    najnizsza_cena_za_litr_zl: zaokraglij(najtanszaZaLitr),
+  };
+
   const grupa = grupaKultury(k);
   if (!grupa) {
     return {
       znaleziono: true,
       nazwa: k.name,
+      ta_kultura: taKultura,
       zamienniki: [],
       podpowiedz: `W bazie nie ma innej kultury o identycznym składzie. Podobnych szukaj przez szukaj_kultur z filtrem typ "${k.type}".`,
       url: url(k.name),
@@ -319,11 +331,23 @@ export function zamiennikiKultury({ nazwa }) {
   const zamienniki = grupa.kultury
     .filter((x) => adresKultury(x.name) !== adres)
     .sort(poCenieZaLitr)
-    .map((x) => ({ ...wiersz(x), proporcje_szczepow: x.strainRatio ?? null, producent: x.manufacturer ?? null }));
+    .map((x) => {
+      const litr = zaLitr(x.price_numeric, x.packLiters);
+      return {
+        ...wiersz(x),
+        dawkowanie: x.doseLabel ?? null,
+        opakowanie_na_litrow: x.packLiters ?? null,
+        // null, gdy u ktorejs strony brak przelicznika na litr: wtedy nie wiadomo.
+        taniej_za_litr_niz_ta_kultura: litr == null || najtanszaZaLitr == null ? null : litr < najtanszaZaLitr,
+        proporcje_szczepow: x.strainRatio ?? null,
+        producent: x.manufacturer ?? null,
+      };
+    });
 
   return {
     znaleziono: true,
     nazwa: k.name,
+    ta_kultura: taKultura,
     sklad: grupa.szczepy.map(ladnyGatunek),
     zamienniki,
     rozne_przeznaczenie_w_grupie: grupa.rozneZastosowania,

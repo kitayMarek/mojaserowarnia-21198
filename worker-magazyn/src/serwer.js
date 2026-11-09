@@ -15,7 +15,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { SERWIS } from './serwis.js';
 
-export const WERSJA = '0.9.5';
+export const WERSJA = '0.9.6';
 export const TYTUL = 'Moja Serowarnia: kultury i przepisy na sery';
 
 // Hub danerolne.com wstawia te instrukcje do swoich bez pierwszego akapitu (Hub/src/moduly.js):

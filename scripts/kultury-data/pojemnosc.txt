@@ -30,7 +30,7 @@ Penicillium candidum | GAP Poland | 100 |  | opakowanie | https://sklep.gappolan
 Penicillium roqueforti | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/Penicilium-roqueforti-/22901951
 Protective LYO | GAP Poland | 1000 | 1 doza / 100 L | recznie 2026-10-27 (poprawka, sklep zmienil opis): "1 opakowanie kultury na 1000 litrów mleka (10 doz, 1 doza na 100 litrów)"; bylo 100, czyli doza zamiast opakowania | https://sklep.gappoland.com/pl/p/Protective-LYO-/22901943
 SH LYO | GAP Poland |  |  | recznie 2026-10-27: saszetka, sklep nie podaje, na ile litrów | https://sklep.gappoland.com/pl/p/SH-LYO-/22901955
-SM 02 LYO | GAP Poland |  | 1 doza / 5 L | recznie 2026-10-27: "1 doza na 5 litrów mleka", ale sklep nie podaje, ile doz jest w opakowaniu | https://sklep.gappoland.com/pl/p/SM-02-LYO/22902158
+SM 02 LYO | GAP Poland | 5 | 1 doza / 5 L | recznie 2026-11-09: sklep ma dwa warianty, "5l" za 6,00 zł i "1000 l" za 55,56 zł; cena w bazie (6,00 zł) to wariant 5 l, czyli jedna doza | https://sklep.gappoland.com/pl/p/SM-02-LYO/22902158
 SR 62 LYO | GAP Poland |  |  | recznie 2026-10-27: pod tym adresem sklep sprzedaje teraz "SR 82 LYO" na 2 500 l; do decyzji Marka, czy to ta sama kultura | https://sklep.gappoland.com/pl/p/SR-62-LYO-/22902182
 TW 31 LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/TW-31-LYO-/22901901
 VEGE C LYO | GAP Poland | 100 |  | opakowanie | https://sklep.gappoland.com/pl/p/VEGE-C-LYO/22902224
