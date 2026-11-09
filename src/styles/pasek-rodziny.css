@@ -1,0 +1,33 @@
+/*
+ * Pasek rodziny serwisów Dane Rolne (decyzja Marka z 6.11.2026, „linki odsyłające i powrotne”).
+ * Reguły .dr-pasek skopiowane bez zmian z STYL_PASKA w C:\Moje\Hub\worker\src\pasek-rodziny.js (commit b8b7601).
+ * Nowa wersja w hubie: skopiować ją tu ponownie, razem z HTML-em w src/components/PasekRodziny.tsx.
+ */
+.dr-pasek { display: block; position: static; width: auto; height: auto; min-height: 0; max-width: none; margin: 0; padding: 0; border: 0; background: #14201A; font: 400 13px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+.dr-pasek ul { display: flex; flex-wrap: nowrap; justify-content: flex-start; align-items: stretch; gap: 22px; box-sizing: border-box; width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; list-style: none; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+.dr-pasek ul::-webkit-scrollbar { display: none; }
+.dr-pasek li { display: block; margin: 0; padding: 0; border: 0; background: none; list-style: none; }
+.dr-pasek li::before, .dr-pasek li::after { content: none; }
+.dr-pasek a { display: inline-flex; align-items: center; gap: 7px; height: 34px; margin: 0; padding: 2px 0 0; color: #C9CFC6; background: none; font: inherit; letter-spacing: normal; text-transform: none; text-decoration: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; box-sizing: border-box; }
+.dr-pasek a:hover { color: #FFFFFF; }
+.dr-pasek a:focus-visible { outline: 2px solid #E6C14A; outline-offset: -2px; }
+.dr-pasek a[aria-current] { color: #FFFFFF; font-weight: 600; border-bottom-color: #E6C14A; }
+.dr-pasek .dr-znak { display: block; flex: none; width: 12px; height: 12px; }
+.dr-pasek .dr-krotko { display: none; }
+@media (max-width: 560px) {
+  .dr-pasek ul { gap: 15px; padding: 0 14px; }
+  .dr-pasek .dr-pelna { display: none; }
+  .dr-pasek .dr-krotko { display: inline; }
+}
+
+/*
+ * Tylko Serowarnia: menu jest przyklejone do ekranu (position: fixed, boczne na komputerze,
+ * górne na telefonie), więc pasek też jest przyklejony, a menu zaczyna się 34 px niżej
+ * (Navigation.tsx). Treść strony przesuwa w dół odstęp na body.
+ */
+.sero-rodzina { position: fixed; top: 0; left: 0; right: 0; z-index: 45; }
+body:has(.sero-rodzina) { padding-top: 34px; }
+html:has(.sero-rodzina) { scroll-padding-top: 34px; }
+@media (max-width: 1023px) {
+  html:has(.sero-rodzina) { scroll-padding-top: 98px; }
+}

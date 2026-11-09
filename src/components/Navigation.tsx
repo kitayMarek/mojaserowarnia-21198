@@ -15,6 +15,7 @@ import SearchCommand from "@/components/SearchCommand";
 import SpisTresci from "@/components/SpisTresci";
 import { COLORS, navItems, type NavItem } from "@/components/navItems";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import PasekRodziny from "@/components/PasekRodziny";
 import { CZATY_NA_STRONIE, zapiszKlikniecieLacznika, zrodloZeSciezki } from "@/lib/lacznikClaude";
 
 const Znak = ({ className = "" }: { className?: string }) => (
@@ -55,8 +56,11 @@ const Navigation = () => {
 
   return (
     <>
+      {/* Pasek rodziny serwisów Dane Rolne, nad menu; menu zaczyna się 34 px niżej */}
+      <PasekRodziny />
+
       {/* Górny pasek — tylko mobile */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 h-16 bg-background/95 backdrop-blur-sm border-b border-border flex items-center justify-between px-4">
+      <div className="lg:hidden fixed top-[34px] inset-x-0 z-50 h-16 bg-background/95 backdrop-blur-sm border-b border-border flex items-center justify-between px-4">
         <a href="/" className="flex items-center gap-2" aria-label="Strona główna Moja Serowarnia">
           <Znak className="w-8 h-5 shrink-0 text-primary" />
           <span className="font-display text-[17px] text-foreground">Moja Serowarnia</span>
@@ -77,7 +81,7 @@ const Navigation = () => {
 
       {/* Sidebar — stały na desktopie, szuflada na mobile */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen w-64 bg-background border-r border-border flex flex-col transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        className={`fixed top-[34px] left-0 z-50 h-[calc(100vh-34px)] w-64 bg-background border-r border-border flex flex-col transition-transform duration-200 ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
         aria-label="Główna nawigacja"
       >
         {/* Logo */}
