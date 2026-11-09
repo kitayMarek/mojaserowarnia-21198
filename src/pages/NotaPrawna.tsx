@@ -232,6 +232,9 @@ const NotaPrawna = () => {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground">
               <p>
+                Administrator danych: Marek Walczak, Gietrzwałd.
+              </p>
+              <p>
                 Dane osobowe przetwarzamy zgodnie z RODO. Przechowujemy je w bazie Supabase, a stronę i serwer MCP
                 obsługuje Cloudflare. W sprawach danych pisz na admin@mojaserowarnia.pl.
               </p>
@@ -292,7 +295,7 @@ const NotaPrawna = () => {
           </Card>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>Ostatnia aktualizacja: 25 października 2026</p>
+            <p>Ostatnia aktualizacja: 6 listopada 2026</p>
           </div>
 
           {/* See Also Section */}

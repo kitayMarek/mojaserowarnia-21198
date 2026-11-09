@@ -628,7 +628,7 @@ export default function MojaSerowarnia() {
           </div>
           <p className="text-xs text-muted-foreground">
             Zgoda dobrowolna i odrębna od zgody na katalog Serowarni. Bez niej wizytówka zostaje tylko
-            tutaj. Administratorem danych w katalogu Dane Rolne jest Marek Walczak (Gietrzwałd), zasady:{" "}
+            tutaj. Administrator danych w katalogu Dane Rolne: Marek Walczak, Gietrzwałd. Zasady:{" "}
             <a href="https://danerolne.com/prywatnosc" className="underline" target="_blank" rel="noopener noreferrer">
               danerolne.com/prywatnosc
             </a>
