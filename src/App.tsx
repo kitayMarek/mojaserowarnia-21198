@@ -23,6 +23,7 @@ const JogurtDomowy = lazy(() => import("./pages/JogurtDomowy"));
 const ZsiadleMleko = lazy(() => import("./pages/ZsiadleMleko"));
 const KefirDomowy = lazy(() => import("./pages/KefirDomowy"));
 const SerZJogurtu = lazy(() => import("./pages/SerZJogurtu"));
+const MasloDomowe = lazy(() => import("./pages/MasloDomowe"));
 const SerekHomogenizowany = lazy(() => import("./pages/SerekHomogenizowany"));
 const PrzepisyKulinarne = lazy(() => import("./pages/PrzepisyKulinarne"));
 const CulinaryRecipeDetails = lazy(() => import("./pages/CulinaryRecipeDetails"));
@@ -159,6 +160,7 @@ const App = () => (
             <Route path="/przepisy/zsiadle-mleko" element={<ZsiadleMleko />} />
             <Route path="/przepisy/kefir-domowy" element={<KefirDomowy />} />
             <Route path="/przepisy/ser-z-jogurtu" element={<SerZJogurtu />} />
+            <Route path="/przepisy/maslo" element={<MasloDomowe />} />
             <Route path="/przepisy/:id" element={<RecipeDetails />} />
             <Route path="/przepisy-kulinarne" element={<PrzepisyKulinarne />} />
             <Route path="/przepisy-kulinarne/:id" element={<CulinaryRecipeDetails />} />

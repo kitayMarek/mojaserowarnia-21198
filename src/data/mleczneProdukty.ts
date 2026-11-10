@@ -49,6 +49,11 @@ export const mleczneProdukty: MlecznyProdukt[] = [
     label: "Ser i twaróg z jogurtu",
     opis: "labneh · twaróg z kefiru · masło z fermentowanej śmietany",
   },
+  {
+    slug: "maslo",
+    label: "Masło domowe",
+    opis: "ze słodkiej albo kwaśnej śmietany · ubijanie w 7–13°C · ze zsiadłego mleka",
+  },
 ];
 
 export const sciezkaMlecznegoProduktu = (slug: string) => `/przepisy/${slug}`;

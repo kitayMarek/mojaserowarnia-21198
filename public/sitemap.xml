@@ -225,7 +225,13 @@
   </url>
   <url>
     <loc>https://mojaserowarnia.pl/przepisy/ser-z-jogurtu</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojaserowarnia.pl/przepisy/maslo</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

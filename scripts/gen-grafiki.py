@@ -608,6 +608,42 @@ def grafika_kefir(rek):
     return img
 
 
+def grafika_maslo(rek):
+    """Maslo: trzy liczby, ktore ludzie pytaja najczesciej, i jedno ostrzezenie.
+
+    Wszystkie liczby ze zrodel podanych na stronie /przepisy/maslo (FAO, Guelph,
+    Cornell). Ostrzezenie o mleku homogenizowanym, bo to odpowiedz na pytanie
+    „czy ze zsiadlego mleka da sie zebrac smietane”.
+    """
+    img = Image.new("RGB", (SZER, WYS), TLO)
+    d = ImageDraw.Draw(img)
+    naglowek(d, "MASŁO DOMOWE", "ze słodkiej śmietany, z kwaśnej i ze zsiadłego mleka", 52)
+
+    kafle = [("24 h, 18°C", "ukwaszanie maślanką"), ("7–13°C", "ubijanie"), ("300–400 g", "masła z litra")]
+    x = 48
+    for duza, opis in kafle:
+        d.rounded_rectangle([(x, 176), (x + 352, 284)], radius=10, fill=(254, 243, 199))
+        d.text((x + 26, 190), duza, font=czcionka("segoeuib.ttf", 44), fill=CIEMNY)
+        d.text((x + 26, 244), opis, font=czcionka("segoeui.ttf", 23), fill=SZARY)
+        x += 368
+
+    d.rounded_rectangle([(48, 312), (SZER - 48, 452)], radius=12, fill=(255, 255, 255),
+                        outline=LINIA, width=2)
+    d.text((74, 330), "Słodkie: świeża śmietanka 30%, schłodzić i ubijać do ziarna.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((74, 370), "Kwaśne: 50 ml kwaśnej maślanki na litr śmietanki, potem to samo.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+    d.text((74, 410), "Płucz w zimnej wodzie, aż woda przestanie być zabielona.",
+           font=czcionka("segoeui.ttf", 25), fill=TEKST)
+
+    d.text((48, 482), "Ze zsiadłego mleka tak, ale nie z homogenizowanego:",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    d.text((48, 518), "z takiego mleka (sprawdź etykietę) śmietana nie wypłynie.",
+           font=czcionka("segoeuib.ttf", 25), fill=AKCENT)
+    stopka(d, "/przepisy/maslo")
+    return img
+
+
 def grafika_nazwy_chronione(rek):
     """Szesc polskich serow z nazwa chroniona w UE (rejestr eAmbrosia, 7.11.2026)."""
     img = Image.new("RGB", (SZER, WYS), TLO)
@@ -676,6 +712,7 @@ GRAFIKI = {
     "jogurt": grafika_jogurt,
     "kefir": grafika_kefir,
     "zsiadle": grafika_zsiadle,
+    "maslo": grafika_maslo,
     "nazwy-chronione": grafika_nazwy_chronione,
 }
 

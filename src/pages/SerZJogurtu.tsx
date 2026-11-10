@@ -180,6 +180,10 @@ const SerZJogurtu = () => (
       diacetyl, ten sam związek, który odpowiada za maślany aromat w serach z kulturami typu LD. Maślanki po ubijaniu
       nie wylewaj: świetnie sprawdza się w naleśnikach i chlebie.
     </p>
+    <p>
+      Pełny przepis, z masłem słodkim, temperaturami ubijania i starą metodą ze zsiadłego mleka:{" "}
+      <Link to="/przepisy/maslo">masło domowe</Link>.
+    </p>
 
     <h2>Czym różni się ser kwasowy od podpuszczkowego?</h2>
     <table>
