@@ -15,6 +15,10 @@ import { Milk } from "lucide-react";
  * KAŻDA LICZBA MA ŹRÓDŁO z listy ZRODLA na dole strony. Czego nie znaleźliśmy
  * (ile dni masło trzyma się w lodówce, czy kefir nadaje się na zakwas), tego nie
  * podajemy i mówimy o tym wprost. Mirror: public/przepisy/maslo.html, trzymać zgodnie.
+ *
+ * „Z NASZEJ PRAKTYKI” to słowa Marka z 10.11.2026: masło robi zawsze ze zsiadłego
+ * mleka, mleko stoi przez noc (ok. 12 h), w chłodzie ok. 20 h. Nie dopisywać do tego
+ * niczego, czego nie powiedział.
  */
 
 const ZRODLA = [
@@ -69,7 +73,7 @@ const faqData = [
   {
     question: "Czy ze zsiadłego mleka można zebrać śmietanę i zrobić masło?",
     answer:
-      "Tak, tak robiło się masło na wsi. We wpisach z Listy Produktów Tradycyjnych mleko stało dwa, trzy dni w chłodnym miejscu, aż zebrała się śmietana, a na Kujawach stało, aż się zsiadło, i zlewano z niego kwaśną śmietanę. Warunek: mleko nie może być homogenizowane, bo wtedy tłuszcz nie wypływa. Ze zwykłego sklepowego mleka śmietany więc nie zbierzesz. Przy mleku surowym razem z tłuszczem do góry idą bakterie, dlatego bezpieczniej zebrać śmietanę z mleka odstawionego w lodówce, spasteryzować ją i dopiero wtedy ukwasić.",
+      "Tak, tak robiło się masło na wsi. We wpisach z Listy Produktów Tradycyjnych mleko stało dwa, trzy dni w chłodnym miejscu, aż zebrała się śmietana, a na Kujawach stało, aż się zsiadło, i zlewano z niego kwaśną śmietanę. U nas mleko stoi zwykle przez noc, około 12 godzin, a gdy jest chłodniej, około 20 godzin. Warunek: mleko nie może być homogenizowane, bo wtedy tłuszcz nie wypływa. Ze zwykłego sklepowego mleka śmietany więc nie zbierzesz. Przy mleku surowym razem z tłuszczem do góry idą bakterie, dlatego bezpieczniej zebrać śmietanę z mleka odstawionego w lodówce, spasteryzować ją i dopiero wtedy ukwasić.",
   },
   {
     question: "Ile masła wychodzi z litra śmietany?",
@@ -322,6 +326,10 @@ const MasloDomowe = () => (
         resztki maślanki.
       </li>
     </ul>
+    <p>
+      <strong>Z naszej praktyki.</strong> Masło robimy zawsze ze zsiadłego mleka. Ile mleko stoi, zależy od
+      temperatury: zwykle przez noc, czyli około 12 godzin, a gdy jest chłodniej, około 20 godzin.
+    </p>
     <p>
       Odpowiedź na pytanie „czy ze zsiadłego mleka da się zrobić masło” brzmi więc: tak, to najstarszy sposób.
       Ale nie z każdego mleka.
