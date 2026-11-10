@@ -187,3 +187,21 @@ microMilk TME | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmnie
 microMilk Y | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/31-43--micromilk-y.html
 microMilk Y-Probiotyczny | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/32-45--micromilk-y-probiotyczny.html
 microMilk YG (Jogurt Grecki) | Wańczykówka | 100 |  | opakowanie (2 wariantów, brany najmniejszy) | https://sklep.wanczykowka.com/kultury-bakterii-jogurtowe-i-kefirowe/365-789--micromilk-y.html
+# 2026-11-10: Nomart.pl i Jelux (scripts/sql/cultures-nomart-jelux-2026-11-10.sql); PP, ABY, LCR w Nomart oraz grecki i twarog Browin w Nomart bez pojemnosci, bo strona jej nie rozstrzyga
+M | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674522-kultura-starterowa-mozzarella-oscypek-caciotta-10g
+MSE | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674523-kultura-starterowa-gouda-cheddar-ser-korycinski-maslo-10g
+MSO-11 | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674524-kultura-starterowa-ser-korycinski-chevre-ser-kremowy-twarog-10g
+MSO | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674525-kultura-starterowa-twarog-quark-manchego-edam-10g
+MST | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674526-kultura-starterowa-camembert-brie-roquefort-gorgonzola-10g
+PC | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: fiolka z dawka na 100 L) | https://sklep.nomart.pl/14674527-plesn-penicillium-candidum-camembert-brie-10g
+RQ | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: fiolka z dawka na 100 L) | https://sklep.nomart.pl/14674528-plesn-penicillium-roqueforti-10g
+MFC | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14674810-kultura-starterowa-sery-swieze-miekkie-typu-feta-i-podobne-10g
+EM | Nomart.pl | 100 |  | opakowanie (strona: Opakowanie na 100L) | https://sklep.nomart.pl/14674902-kultura-starterowa-emmental-gruyere-greve-i-inne-10g
+PG | Nomart.pl | 100 |  | opakowanie (strona: Opakowanie na 100L) | https://sklep.nomart.pl/14674903-kultura-starterowa-parmezan-provolone-grana-padano-i-inne-10g
+Kefir 31 | Nomart.pl | 100 | 1 g / 10 L | opakowanie (strona: Opakowanie na 100 L) | https://sklep.nomart.pl/14675026-bakterie-startowe-do-kefiru-10g
+GEO | Nomart.pl | 100 |  | opakowanie (strona: fiolka z dawka na 100L) | https://sklep.nomart.pl/14675302-plesni-geotrichum-candidum-geo-camembert-brie
+Kultury bakterii do jogurtu | Nomart.pl | 25 | 0,3 g / 3 L | opakowanie (strona: Na 25L mleka, masa ok 2,5 g) | https://sklep.nomart.pl/14673440-liofilizowane-kultury-bakteryjne-do-jogurtu
+Kultury bakterii do sera gouda | Nomart.pl | 50 | 0,5 g / 6 L | opakowanie (strona: Na 50 L mleka, masa ok. 3,5 g) | https://sklep.nomart.pl/14673441-liofilizowane-kult-bakteryjne-do-sera-typ-gouda
+Kultury bakterii do jogurtu | Jelux | 25 | 0,3 g / 3 L | opakowanie (strona: na 25 L mleka, masa ok. 2,5 g) | https://sklep.jelux.pl/kultury-bakterii-do-ser-jagurtu/1127-kultury-bakterii-do-jogurtu-na-25l-mleka.html
+Kultury bakterii do sera greckiego | Jelux | 50 | 0,4 g / 6 L | opakowanie (strona: Na 50 L mleka, masa ok 3 g) | https://sklep.jelux.pl/kultury-bakterii-do-ser-jagurtu/598-kultury-bakterii-do-sera-greckiego-na-50l-mleka.html
+Kultury bakterii do twarogu | Jelux | 50 | 0,3 g / 5 L | opakowanie (strona: Wydajnosc: na 50l mleka) | https://sklep.jelux.pl/kultury-bakterii-do-ser-jagurtu/599-kultury-bakterii-do-twarogu-na-50-l-mleka.html

@@ -74,6 +74,11 @@ const BROWIN = { sklep: "Browin", sklepId: "browin.pl" };
 // Hurtownia przypraw z Bydgoszczy, w hubie od 10.11.2026 (dane/sklepy/rolpol.pl.hub.json);
 // prośba Marka przez sesję huba: sól do sera, tylko to, czego używają przepisy.
 const ROLPOL = { sklep: "Rolpol Agra", sklepId: "rolpol.pl" };
+// Sklepy z Rumi i Żor, w hubie od 10.11.2026; przekazane przez sesję huba na prośbę Marka.
+// Sprzedają podpuszczki i chlorek wapnia Browin (ten sam kod producenta), dawki ze strony sklepu.
+const NOMART = { sklep: "Nomart.pl", sklepId: "nomart.pl" };
+const JELUX = { sklep: "Jelux", sklepId: "jelux.pl" };
+const DZIEN_NOMART_JELUX = "2026-11-10";
 
 const BEAUGEL_ZRODLO = "zestawienie /gdzie-kupic-podpuszczke, dane producenta Coquard";
 
@@ -181,6 +186,51 @@ export const dodatkiSerowarskie: OfertaDodatku[] = [
     dawkaTekst: "1 g podpuszczki wystarcza na 20 litrów mleka (5 saszetek na 100 L)",
     litrowNaOpakowanie: { od: 100, do: 100 }, sprawdzono: DZIEN,
   },
+  // Browin 411207 w Nomart i Jelux: obie strony podają zakres 8-20 kropel na 2 L i 105-260 L,
+  // browin.pl 29.10 podawał 10 kropli na 1 L i ok. 105 L.
+  ...([
+    ["nomart", NOMART, 17, "https://sklep.nomart.pl/14674691-podpuszczka-do-sera-naturalna-w-plynie-50-ml"],
+    ["jelux", JELUX, 17.9, "https://sklep.jelux.pl/podpuszczki-do-sera/1125-podpuszczka-do-sera-naturalna-w-plynie-50-ml.html"],
+  ] as const).map(([klucz, sklep, cena, url]): OfertaDodatku => ({
+    id: `${klucz}-browin-naturalna-50ml`, rodzaj: "podpuszczka", ...sklep,
+    produkt: "Podpuszczka do sera naturalna w płynie 50 ml", odmiana: "naturalna",
+    url, cenaZl: cena, opakowanie: { ilosc: 50, jednostka: "ml" },
+    dawkaNa10L: { od: 40, do: 100, jednostka: "krople" },
+    dawkaTekst: "8-20 kropel (ok. 0,4 ml - 0,95 ml) na 2 L mleka; opakowanie wystarcza na 105 - 260 L mleka w zależności od rodzaju sera",
+    litrowNaOpakowanie: { od: 105, do: 260 }, sprawdzono: DZIEN_NOMART_JELUX,
+  })),
+  // Browin 411201: obie strony „5 kropli na 1 litr”, browin.pl 29.10 podawał 8-10 kropel.
+  ...([
+    ["nomart", NOMART, 11, "https://sklep.nomart.pl/14674123-podpuszczka-mikrobiologiczna-plynna-50ml"],
+    ["jelux", JELUX, 13, "https://sklep.jelux.pl/podpuszczki-do-sera/1159-podpuszczka-mikrobiologiczna-plynna-50ml.html"],
+  ] as const).map(([klucz, sklep, cena, url]): OfertaDodatku => ({
+    id: `${klucz}-browin-mikrobiologiczna-50ml`, rodzaj: "podpuszczka", ...sklep,
+    produkt: "Podpuszczka mikrobiologiczna płynna 50 ml", odmiana: "mikrobiologiczna",
+    url, cenaZl: cena, opakowanie: { ilosc: 50, jednostka: "ml" },
+    dawkaNa10L: { od: 50, do: 50, jednostka: "krople" },
+    dawkaTekst: "5 kropli podpuszczki wystarcza na 1 litr mleka", sprawdzono: DZIEN_NOMART_JELUX,
+    uwaga: "Ten sam produkt Browin na stronie browin.pl: 8-10 kropel na 1 litr.",
+  })),
+  {
+    id: "nomart-browin-mikrobiologiczna-strong-30ml", rodzaj: "podpuszczka", ...NOMART,
+    produkt: "Podpuszczka do sera mikrobiologiczna strong 30 ml", odmiana: "mikrobiologiczna",
+    url: "https://sklep.nomart.pl/14675347-podpuszczka-do-sera-mikrobiologiczna-strong-30-ml",
+    cenaZl: 24, opakowanie: { ilosc: 30, jednostka: "ml" },
+    dawkaNa10L: { od: 10, do: 10, jednostka: "krople" },
+    dawkaTekst: "10 kropli wystarcza na 10 litrów mleka; całe opakowanie na 500 L mleka",
+    litrowNaOpakowanie: { od: 500, do: 500 }, sprawdzono: DZIEN_NOMART_JELUX,
+  },
+  ...([
+    ["nomart", NOMART, 9.2, "Podpuszczka do serów 5x1 g", "https://sklep.nomart.pl/14672654-podpuszczka-do-serow-5x1g"],
+    ["jelux", JELUX, 11.5, "Podpuszczka mikrobiologiczna do serów 5x1 g na 100 L", "https://sklep.jelux.pl/podpuszczki-do-sera/371-podpuszczka-mikrobiologiczna-do-serow-5x1g-na-100-l.html"],
+  ] as const).map(([klucz, sklep, cena, produkt, url]): OfertaDodatku => ({
+    id: `${klucz}-browin-proszek-5x1g`, rodzaj: "podpuszczka", ...sklep,
+    produkt, odmiana: "w proszku",
+    url, cenaZl: cena, opakowanie: { ilosc: 5, jednostka: "g" },
+    dawkaNa10L: { od: 0.5, do: 0.5, jednostka: "g" },
+    dawkaTekst: "1 g podpuszczki wystarcza na 20 litrów mleka (5 saszetek, sery nawet ze 100 L mleka)",
+    litrowNaOpakowanie: { od: 100, do: 100 }, sprawdzono: DZIEN_NOMART_JELUX,
+  })),
 
   // ─── Chlorek wapnia ────────────────────────────────────────────────────────
   {
@@ -267,6 +317,34 @@ export const dodatkiSerowarskie: OfertaDodatku[] = [
     dawkaNa10L: { od: 2, do: 4, jednostka: "ml" },
     dawkaTekst: "40 kropli (2 ml) na 10 L mleka świeżego, 80 kropli (4 ml) na 10 L mleka niskopasteryzowanego; opakowanie wystarcza na 125-250 L mleka",
     litrowNaOpakowanie: { od: 125, do: 250 }, sprawdzono: DZIEN,
+  },
+  ...([
+    ["nomart", NOMART, 7, "https://sklep.nomart.pl/14674387-chlorek-wapnia-100g"],
+    ["jelux", JELUX, 8.5, "https://sklep.jelux.pl/substancje-pomocnicze/401-chlorek-wapnia-do-sera-100g-browin.html"],
+  ] as const).map(([klucz, sklep, cena, url]): OfertaDodatku => ({
+    id: `${klucz}-browin-chlorek-100g`, rodzaj: "chlorek_wapnia", ...sklep,
+    produkt: "Chlorek wapnia do sera 100 g", odmiana: "proszek",
+    url, cenaZl: cena, opakowanie: { ilosc: 100, jednostka: "g" },
+    dawkaNa10L: { od: 0.7, do: 1, jednostka: "g" },
+    dawkaTekst: "0,7-1 g (szczyptę) chlorku wapnia na 10 L mleka; opakowanie wystarcza na 1000-1420 L mleka",
+    litrowNaOpakowanie: { od: 1000, do: 1420 }, sprawdzono: DZIEN_NOMART_JELUX,
+  })),
+  {
+    id: "jelux-browin-chlorek-plyn-50ml", rodzaj: "chlorek_wapnia", ...JELUX,
+    produkt: "Chlorek wapnia w płynie 50 ml", odmiana: "płyn",
+    url: "https://sklep.jelux.pl/substancje-pomocnicze/1177-chlorek-wapnia-w-plynie-50ml.html",
+    cenaZl: 14.5, opakowanie: { ilosc: 50, jednostka: "ml" },
+    dawkaNa10L: { od: 2, do: 4, jednostka: "ml" },
+    dawkaTekst: "40 kropli (2 ml) na 10 L mleka świeżego, 80 kropli (4 ml) na 10 L mleka niskopasteryzowanego; opakowanie wystarcza na 125-250 L mleka",
+    litrowNaOpakowanie: { od: 125, do: 250 }, sprawdzono: DZIEN_NOMART_JELUX,
+  },
+  {
+    id: "nomart-browin-chlorek-plyn-50ml", rodzaj: "chlorek_wapnia", ...NOMART,
+    produkt: "Chlorek wapnia w płynie 50 ml", odmiana: "płyn",
+    url: "https://sklep.nomart.pl/14674103-chlorek-wapnia-w-plynie-50-ml",
+    cenaZl: 11, opakowanie: { ilosc: 50, jednostka: "ml" },
+    dawkaNa10L: { od: 40, do: 80, jednostka: "krople" },
+    dawkaTekst: "4-8 kropli na 1 L mleka", sprawdzono: DZIEN_NOMART_JELUX,
   },
 
   // ─── Sól ───────────────────────────────────────────────────────────────────
