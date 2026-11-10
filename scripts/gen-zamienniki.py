@@ -159,8 +159,20 @@ def odm(n, jeden, kilka, wiele):
     return wiele
 
 
+def data_publikacji(dzis):
+    """Pierwsza publikacja zostaje z istniejącego pliku; dotąd każde uruchomienie
+    wpisywało dzisiejszą datę i ręcznie trzeba ją było cofać (27.10 i 10.11.2026)."""
+    try:
+        m = re.search(r'"datePublished": "(\d{4}-\d{2}-\d{2})"',
+                      io.open(WYJSCIE, encoding="utf-8").read())
+        return m.group(1) if m else dzis
+    except OSError:
+        return dzis
+
+
 def zbuduj_html(grupy, wszystkie):
     dzis = date.today().isoformat()
+    opublikowano = data_publikacji(dzis)
     w_grupach = sum(len(g["kultury"]) for g in grupy)
     proc = round(100.0 * w_grupach / len(wszystkie))
     # Liczba sklepow z danych: do 27.10.2026 stalo tu na sztywno "5" i "pieciu",
@@ -222,7 +234,7 @@ def zbuduj_html(grupy, wszystkie):
   }
   </script>
 """ % (len(wszystkie), ile_sklepow, w_grupach, proc, ma_ascii,
-       grupy_skladowe.replace("ł", "l").replace("ę", "e"), dzis, dzis))
+       grupy_skladowe.replace("ł", "l").replace("ę", "e"), opublikowano, dzis))
 
     pytania = ",\n".join(
         '      { "@type": "Question", "name": "%s", "acceptedAnswer": { "@type": "Answer", "text": "%s" } }'

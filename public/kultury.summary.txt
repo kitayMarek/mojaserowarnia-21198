@@ -4,7 +4,7 @@ Wersja interaktywna z filtrami i porównywarką: https://mojaserowarnia.pl/baza-
 Format wierszy: Nazwa | Temperatura pracy | Zastosowanie | Sklep
 
 === KULTURY DO SERÓW ŚWIEŻYCH I TWAROGU ===
-ABY | 42-45°C | Jogurt (gęsty, mieszany, pitny), kwaśne mleko, ser świeży + probiotyk | Serowar.pl
+ABY | 42-45°C | Jogurt (gęsty, mieszany, pitny), kwaśne mleko, ser świeży + probiotyk | Nomart.pl
 ALPHA 10 | 25-35°C | Zsiadłe mleko, ukwaszona śmietana, sery twarogowe, twarogowo-podpuszczkowe i miękkie | Lactic.pl
 ALPHA 12 | 25-35°C | Zsiadłe mleko, ukwaszona śmietana, sery twarogowe, twarogowo-podpuszczkowe i miękkie | Lactic.pl
 ALPHA 3 | 25-35°C | Zsiadłe mleko, ukwaszona śmietana, sery twarogowe, twarogowo-podpuszczkowe i miękkie | Lactic.pl
@@ -26,11 +26,11 @@ Kultury bakterii do jogurtu | 43-45°C | Jogurt, zakwaszanie śmietany, serki jo
 Kultury bakterii do kefiru i kwaśnego mleka | 25-30°C | Kefir i kwaśne (zsiadłe) mleko | Browin
 Kultury bakterii do sera greckiego | 33-38°C | Ser grecki typu feta | Browin
 Kultury bakterii do twarogu | — | Twaróg i zsiadłe mleko | Browin
-LCR | 25-35°C | Kwaśne mleko, jogurt (mrożony, pitny), ser (dodatek probiotyczny) | Serowar.pl
+LCR | 25-35°C | Kwaśne mleko, jogurt (mrożony, pitny), ser (dodatek probiotyczny) | Nomart.pl
 LHTBME | 25-40°C | Sery średnio dojrzewające (60-70 dni) | Serowar.pl
 LP | 25-35°C | Kwaśne mleko, jogurt, ser; fermentacja warzyw; piwowarstwo domowe | Serowar.pl
 MA | 25-35°C | Dojrzewanie śmietanki na masło, sery do smarowania | Serowar.pl
-MFC | 25-40°C | Sery świeże i miękkie, m.in. Feta | Serowar.pl
+MFC | 25-40°C | Sery świeże i miękkie, m.in. Feta | Nomart.pl
 microMilk Kefir KFB1 | 20-25°C | Śmietankowy kefir | Wańczykówka
 microMilk MO (Feta) | 25-35°C | Sery świeże i miękkie typu feta | Wańczykówka
 microMilk Y | 42-45°C | Jogurty i twarogi | Wańczykówka
@@ -48,7 +48,7 @@ Yo-Mix 883 | 42-45°C | Gęste jogurty o śmietankowym smaku, jogurty owocowe | 
 
 === KULTURY DO CACIOTTA I SERÓW WŁOSKICH ===
 ME | 25-35°C | Gouda, Edam, Fontal (parzenie ziarna do 38°C) | Serowar.pl
-PG | 37-45°C | Sery twarde: Parmezan, Provolone, Grana Padano | Serowar.pl
+PG | 37-45°C | Sery twarde: Parmezan, Provolone, Grana Padano | Nomart.pl
 Y 92 LYO | 37-45°C | Sery bardzo twarde bez oczek (Parmezan, Grana, Sbrinz, Pecorino, sery włoskie) | GAP Poland
 
 === KULTURY DO MOZZARELLI I SERÓW TERMOFILNYCH ===
@@ -57,7 +57,7 @@ DELTA 1 | 37-45°C | Sery wysokodogrzewane i z masy parzonej (pasta filata): Moz
 DELTA 2 | 37-45°C | Sery wysokodogrzewane i pasta filata: Mozzarella, Scamorza, Provolone | Lactic.pl
 IOTA 4 | 37-45°C | Ser prasowany i tradycyjny Tomme | Lactic.pl
 KAPPA 2 | 37-45°C | Sery prasowane wysoko dogrzewane (Abondance, Beaufort) | Lactic.pl
-M | 37-45°C | Sery rozciągliwe i świeże: Mozzarella krowia, Oscypek, Caciotta, Scamorza | Serowar.pl
+M | 37-45°C | Sery rozciągliwe i świeże: Mozzarella krowia, Oscypek, Caciotta, Scamorza | Nomart.pl
 microMilk T (Mozzarella) | 37-45°C | Mozzarella, Caciotta, Italico | Wańczykówka
 microMilk TB (Taleggio) | 37-45°C | Taleggio, Caciotta, Formagella, Toma | Wańczykówka
 microMilk TB/B (Caciotta) | 37-45°C | Caciotta, Taleggio, Formagella, Toma | Wańczykówka
@@ -90,10 +90,10 @@ ML | 25-35°C | Sery miękkie, twarogowe do smarowania, podpuszczkowe miękkie i
 ML-O | 25-35°C | Twarogi, masło, śmietana, sery kwasowe i podpuszczkowe (gouda, cheddar, ser koryciński), pleśniowe | Artiser.pl
 MLE | 25-40°C | Sery świeże, miękkie, półtwarde, szczególnie pleśniowe | Artiser.pl
 MLL | 25-35°C | Sery świeże, miękkie, półtwarde (feta, cheddar, twarogi, robiola) | Artiser.pl
-MSE | 25-35°C | Gouda, Cheddar, Ser Koryciński, masło, sery półtwarde, twarde i miękkie | Serowar.pl
+MSE | 25-35°C | Gouda, Cheddar, Ser Koryciński, masło, sery półtwarde, twarde i miękkie | Nomart.pl
 MSE-910 | 25-35°C | Sery półtwarde, twarde i miękkie; szczególnie aromatyczna Gouda | Serowar.pl
-MSO | 25-35°C | Twaróg, Quark, Manchego, Edam, sery półtwarde, twarde i miękkie | Serowar.pl
-MSO-11 | 25-35°C | Sery świeże i półtwarde: Ser Koryciński, chèvre, serek śmietankowy, twarożek | Serowar.pl
+MSO | 25-35°C | Twaróg, Quark, Manchego, Edam, sery półtwarde, twarde i miękkie | Nomart.pl
+MSO-11 | 25-35°C | Sery świeże i półtwarde: Ser Koryciński, chèvre, serek śmietankowy, twarożek | Nomart.pl
 MSY | 25-40°C | Sery świeże i półtwarde: twaróg, quark, serki kremowe | Serowar.pl
 OMEGA 1 | 25-40°C | Sery twarde i półtwarde, dojrzewające (krowie, kozie, owcze) | Lactic.pl
 OMEGA 2 | 25-40°C | Sery twarde i półtwarde, dojrzewające (krowie, kozie, owcze) | Lactic.pl
@@ -107,14 +107,14 @@ ARTiVEG ME-30 | 25-35°C | Wegańskie alternatywy: Camembert, Brie, Robiola, twa
 Choozit ARN | 15-22°C | Limburger, Munster, sery z czerwoną mazią | Wańczykówka
 Choozit GEO 13 | 20-25°C | Camembert, Brie, Fromage de chèvre, sery kwasowo-podpuszczkowe | Wańczykówka
 Choozit GEO 17 | 20-25°C | Camembert, Brie, Fromage de chèvre, sery kwasowo-podpuszczkowe | Wańczykówka
-GEO | 20-25°C | Sery z białą pleśnią (Camembert, Brie); neutralizacja powierzchni, wspomaga florę czerwonej mazi | Serowar.pl
+GEO | 20-25°C | Sery z białą pleśnią (Camembert, Brie); neutralizacja powierzchni, wspomaga florę czerwonej mazi | Nomart.pl
 Geotrichum Candidum | 20-25°C | Camembert, Brie, St. Marcellin, Chèvre i sery z porostem pleśni | Artiser.pl
 IOTA Ca/1 | 25-35°C | Camembert (z dodatkiem Sigma 75/Sigma 55) | Lactic.pl
 IOTA Ca/2 | 25-35°C | Camembert (z dodatkiem Sigma 75/Sigma 55) | Lactic.pl
 IOTA CL1 | 25-35°C | Sery kwasowo-podpuszczkowe miękkie: Saint Marcellin, Picodon, Charolais, Rigotte, Crottin | Lactic.pl
 IOTA CL2 | 25-35°C | Sery kwasowo-podpuszczkowe miękkie: Saint Marcellin, Picodon, Charolais, Rigotte, Crottin | Lactic.pl
 IOTA V | 25-35°C | Sery miękkie typu Vacherin (kremowo-biała skórka) | Lactic.pl
-PC | 20-25°C | Sery z białym porostem pleśni: Camembert, Brie | Serowar.pl
+PC | 20-25°C | Sery z białym porostem pleśni: Camembert, Brie | Nomart.pl
 Penicillium candidum | 20-25°C | Sery z porostem białej pleśni (Camembert, Brie, Crescenza) | GAP Poland
 Penicillium Candidum | 20-25°C | Camembert, Brie, Chaource, Coulommiers i inne sery z porostem białej pleśni | Artiser.pl
 Penicillium Candidum PC 22 | 20-25°C | Camembert, Brie | Wańczykówka
@@ -130,12 +130,12 @@ Beaugel 12 | — | Serki dojrzewające z przerostem niebieskiej pleśni (typ Pic
 Camembert Mix | 25-40°C | Sery miękkie i pleśniowe: Camembert, Brie, Roquefort, Gorgonzola, Stilton | Wańczykówka
 IOTA PETIT BLEU | 25-40°C | Sery z niebieską pleśnią (delikatne, kremowe, dojrzewanie 4-8 tyg.) | Lactic.pl
 microMilk TME | 25-40°C | Gouda, Edam, Tylżycki, sery pleśniowe (Stilton, Gorgonzola, Roquefort) | Wańczykówka
-MST | 25-40°C | Sery pleśniowe: Camembert, Brie, Roquefort, Gorgonzola (z dodatkiem PC lub RQ) | Serowar.pl
+MST | 25-40°C | Sery pleśniowe: Camembert, Brie, Roquefort, Gorgonzola (z dodatkiem PC lub RQ) | Nomart.pl
 Penicillium roqueforti | 20-25°C | Sery z przerostem niebieskiej pleśni (Rokpol, Gorgonzola, Danablu, Stilton) | GAP Poland
 Penicillium Roqueforti | 20-25°C | Gorgonzola, Roquefort, Stilton i sery z niebieską pleśnią | Artiser.pl
 Penicillium roqueforti PA | 20-25°C | Sery z przerostem zielonej pleśni (łagodne odmiany Blue, Roquefort, Gorgonzola) | Wańczykówka
 Penicillium roqueforti PV | 20-25°C | Roquefort, Gorgonzola | Wańczykówka
-RQ | 20-25°C | Sery z niebieską pleśnią: Roquefort, Gorgonzola, Rokpol | Serowar.pl
+RQ | 20-25°C | Sery z niebieską pleśnią: Roquefort, Gorgonzola, Rokpol | Nomart.pl
 SIGMA 15 | 20-25°C | Sery z niebieską pleśnią: Fourme, typ Roquefort | Lactic.pl
 SIGMA 17 | 20-25°C | Sery z przerostem niebieskiej pleśni: Fourme, typ Roquefort | Lactic.pl
 SIGMA 30 | 15-22°C | Wspomaganie produkcji serów, zwłaszcza z niebieską pleśnią | Lactic.pl
@@ -146,12 +146,12 @@ Choozit KAZU | 25-40°C | Sery twarde z dziurami | Wańczykówka
 Choozit LH 100 | 37-45°C | Sery twarde, włoskie, szwajcarskie, półtwarde mezofilne | Wańczykówka
 Choozit MA 14 | 25-35°C | Cheddar, Emmental, Raclette, Tomme, Comte, twaróg, śmietanka | Wańczykówka
 Choozit TA 61 | 37-45°C | Emmentaler, Asiago, sery twarde, Quark, śmietana, sery pleśniowe | Wańczykówka
-EM | 25-40°C | Emmental, Gruyere, Greve, sery półtwarde i twarde | Serowar.pl
+EM | 25-40°C | Emmental, Gruyere, Greve, sery półtwarde i twarde | Nomart.pl
 IOTA 1 | 20-24°C | Sery prasowane, wysoko-/niskodogrzewane (duże oczka, orzechowo-owocowy smak) | Lactic.pl
 IOTA 2 | 20-24°C | Sery prasowane, wysoko-/niskodogrzewane, np. Gruyère | Lactic.pl
 KAPPA 3 | 37-45°C | Sery prasowane wysoko dogrzewane, z dużymi oczkami, aromat Gruyère | Lactic.pl
 PB LYO | 20-24°C | Sery dojrzewające typu szwajcarskiego (Emmentaler) i holenderskiego (Maasdamer) - oczka | GAP Poland
-PP | 20-24°C | Sery szwajcarskie z dużymi oczkami: Emmental, Gruyère, Ementaler | Serowar.pl
+PP | 20-24°C | Sery szwajcarskie z dużymi oczkami: Emmental, Gruyère, Ementaler | Nomart.pl
 Propionibacterium | 20-24°C | Sery z dziurami/oczkowaniem, typu Ementaler, Masdamer | Artiser.pl
 Propionibakterium PX | 20-24°C | Emmentaler, Radamer, Masdamer (sery z dużymi oczkami) | Wańczykówka
 SH LYO | 25-40°C | Sery półtwarde z nieregularnymi oczkami (Bałtycki, Tylżycki, Trapistów, Warmiński, Butterkäse) | GAP Poland
@@ -170,7 +170,7 @@ Grzybek kefirowy tybetański | 20-25°C | Kefir domowy z mleka, ser kefirowy; zi
 IOTA KEFIR 2 | 20-25°C | Kefir tradycyjny (dość kwaśny i musujący) | Lactic.pl
 IOTA KEFIR 3 | 20-25°C | Kefir łagodny, kremowy | Lactic.pl
 IOTA PROBI 1 | 42-45°C | Napoje mleczne fermentowane wzbogacone probiotykami, jogurt | Lactic.pl
-Kefir 31 | 20-25°C | Kefir, produkty z kwaśnego mleka | Serowar.pl
+Kefir 31 | 20-25°C | Kefir, produkty z kwaśnego mleka | Nomart.pl
 Kefir 41 LYO | 20-25°C | Napoje fermentowane typu kefir | GAP Poland
 Kefir 51 | 20-25°C | Kefir, produkty z kwaśnego mleka | Serowar.pl
 Kefir DA | 20-25°C | Aromatyczny kefir, napoje kefirowe | Wańczykówka

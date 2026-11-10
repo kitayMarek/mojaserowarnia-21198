@@ -33,16 +33,24 @@ interface MaNazwe {
 
 /**
  * Odnajduje kulturę po adresie. Przy kilku pozycjach o tym samym adresie
- * wybiera tę z kompletem danych cenowych — reszta i tak pokaże się niżej,
- * na liście „ta sama kultura w innych sklepach".
+ * (ta sama kultura w kilku sklepach) wybiera najtańszą za litr mleka; przy
+ * równej cenie pierwszą z listy. Bez ceny za litr: pierwszą z listy. Reszta
+ * i tak pokaże się niżej, na liście „ta sama kultura w innych sklepach".
+ * Bliźniak w scripts/gen-kultury-strony.py (pętla „widziane”).
  */
 export function znajdzKulture<T extends MaNazwe>(kultury: T[], adres: string): T | null {
   const pasujace = kultury.filter((k) => adresKultury(k.name) === adres);
   if (pasujace.length === 0) return null;
-  if (pasujace.length === 1) return pasujace[0];
-  return (
-    pasujace.find((k) => k.price_numeric != null && k.packLiters != null) ?? pasujace[0]
-  );
+  let najlepsza: T | null = null;
+  let najnizsza: number | null = null;
+  for (const k of pasujace) {
+    const l = zaLitr(k.price_numeric, k.packLiters);
+    if (l != null && (najnizsza == null || l < najnizsza)) {
+      najlepsza = k;
+      najnizsza = l;
+    }
+  }
+  return najlepsza ?? pasujace[0];
 }
 
 /** Złotówki za litr mleka — jedyna liczba, którą wolno porównywać między opakowaniami. */

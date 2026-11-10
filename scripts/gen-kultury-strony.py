@@ -390,12 +390,15 @@ def main():
             pominiete.append(k["name"])
             continue
         # Dwie kultury o tej samej nazwie (różne sklepy) dają ten sam plik.
-        # Wygrywa ta z ceną za litr — tak samo jak znajdzKulture() po stronie
-        # Reacta, żeby bot i człowiek widzieli tę samą pozycję.
+        # Wygrywa najtańsza za litr, przy równej cenie wcześniejsza, a bez ceny
+        # za litr pierwsza — tak samo jak znajdzKulture() w src/lib/adresKultury.ts,
+        # żeby bot i człowiek widzieli tę samą pozycję.
         if plik in widziane:
             kolizje.append(k["name"])
             stara = widziane[plik]
-            if za_litr(stara.get("cena"), stara.get("litry")) is not None:
+            l_stara = za_litr(stara.get("cena"), stara.get("litry"))
+            l_nowa = za_litr(k.get("cena"), k.get("litry"))
+            if l_nowa is None or (l_stara is not None and l_stara <= l_nowa):
                 continue
         widziane[plik] = k
 
