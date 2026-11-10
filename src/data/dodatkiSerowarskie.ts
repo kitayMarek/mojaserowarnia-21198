@@ -55,6 +55,9 @@ const GAP = { sklep: "GAP Poland", sklepId: "gappoland.com" };
 const ARTISER = { sklep: "Artiser.pl", sklepId: "artiser.pl" };
 const WANCZYKOWKA = { sklep: "Wańczykówka", sklepId: "wanczykowka.com" };
 const BROWIN = { sklep: "Browin", sklepId: "browin.pl" };
+// Hurtownia przypraw z Bydgoszczy, w hubie od 10.11.2026 (dane/sklepy/rolpol.pl.hub.json);
+// prośba Marka przez sesję huba: sól do sera, tylko to, czego używają przepisy.
+const ROLPOL = { sklep: "Rolpol Agra", sklepId: "rolpol.pl" };
 
 const BEAUGEL_ZRODLO = "zestawienie /gdzie-kupic-podpuszczke, dane producenta Coquard";
 
@@ -259,5 +262,23 @@ export const dodatkiSerowarskie: OfertaDodatku[] = [
     url: "https://sklep.wanczykowka.com/sol/327-647-sol-klodawska.html",
     cenaZl: cena, opakowanie: { ilosc: g, jednostka: "g" },
     dawkaNa10L: null, dawkaTekst: null, sprawdzono: DZIEN,
+  })),
+  // Rolpol Agra, sól kłodawska sortyment „1N” (drobna: 80% ziaren poniżej 1 mm).
+  // Karta produktu: „Składniki: sól kamienna 100%”, więc bez jodu, bo sól jodowana
+  // ma w składzie jodan albo jodek potasu. Sprawdzone 10.11.2026; ceny brutto.
+  // Opakowanie 500 g (6,50 zł) pominięte: droższe od 1 kg.
+  ...([
+    [1000, 6, "50421275-sol-klodawska-kamienna-mielonax000d-1n-1kg-5907750421275"],
+    [2000, 9, "50423095-sol-klodawska-kamienna-mielona-1n-2kg-5907750423095"],
+    [5000, 17, "50423101-sol-klodawska-kamienna-mielona-1n-5kg-5907750423101"],
+    [10000, 28, "50423118-sol-klodawska-kamienna-mielona-1n-10kg-5907750423118"],
+    [25000, 50, "50423149-sol-klodawska-kamienna-mielona-1n-25kg-5907750423149"],
+  ] as const).map(([g, cena, adres]): OfertaDodatku => ({
+    id: `rolpol-sol-klodawska-1n-${g}g`, rodzaj: "sol", ...ROLPOL,
+    produkt: `Sól kłodawska kamienna mielona 1N ${g >= 1000 ? `${g / 1000} kg` : `${g} g`}`, odmiana: "niejodowana",
+    url: `https://rolpol.pl/strona-glowna/${adres}.html`,
+    cenaZl: cena, opakowanie: { ilosc: g, jednostka: "g" },
+    dawkaNa10L: null, dawkaTekst: null, sprawdzono: "2026-11-10",
+    uwaga: "Skład na karcie produktu: sól kamienna 100%.",
   })),
 ];
