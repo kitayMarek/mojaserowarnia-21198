@@ -18,7 +18,21 @@
  * kultur (scripts/pobierz-ceny.py czyta te same silniki sklepów).
  */
 
-export type RodzajDodatku = "podpuszczka" | "chlorek_wapnia" | "sol";
+export type RodzajDodatku = "podpuszczka" | "chlorek_wapnia" | "sol" | "przyprawa";
+
+/**
+ * Suszone dodatki smakowe, które przepis wymienia z nazwy (np. koryciński: czosnek
+ * niedźwiedzi, czosnek, papryka, zioła prowansalskie). Na liście tylko jako wiersz
+ * do wyboru, bez kosztu partii, bo przepisy dają je „wg uznania”.
+ */
+export type KluczPrzyprawy = "czosnek-niedzwiedzi" | "czosnek-granulowany" | "papryka-platki" | "ziola-prowansalskie";
+
+export const NAZWY_PRZYPRAW: Record<KluczPrzyprawy, string> = {
+  "czosnek-niedzwiedzi": "Czosnek niedźwiedzi suszony",
+  "czosnek-granulowany": "Czosnek granulowany",
+  "papryka-platki": "Papryka słodka w płatkach",
+  "ziola-prowansalskie": "Zioła prowansalskie",
+};
 export type JednostkaDawki = "ml" | "g" | "krople";
 
 export interface OfertaDodatku {
@@ -45,6 +59,8 @@ export interface OfertaDodatku {
   litrowNaOpakowanie?: { od: number; do: number };
   sprawdzono: string;
   uwaga?: string;
+  /** Tylko rodzaj "przyprawa": która przyprawa z przepisu. */
+  przyprawa?: KluczPrzyprawy;
 }
 
 const DZIEN = "2026-10-29";
@@ -280,5 +296,30 @@ export const dodatkiSerowarskie: OfertaDodatku[] = [
     cenaZl: cena, opakowanie: { ilosc: g, jednostka: "g" },
     dawkaNa10L: null, dawkaTekst: null, sprawdzono: "2026-11-10",
     uwaga: "Skład na karcie produktu: sól kamienna 100%.",
+  })),
+
+  // ─── Przyprawy do serów smakowych ──────────────────────────────────────────
+  // Rolpol Agra, małe opakowania, ceny brutto z kart produktów z 10.11.2026.
+  // Skład z kart: czosnek granulowany „suszony czosnek granulowany 100%”, papryka
+  // „100% papryka słodka czerwona płatek”, zioła prowansalskie „oregano, bazylia,
+  // majeranek, cząber, tymianek, rozmaryn, mięta, estragon”, czosnek niedźwiedzi:
+  // suszone liście. Pominięte opakowania w tej samej cenie co większe
+  // (papryka 50 g = 100 g, zioła 50 g prawie jak 25 g). Czarnuszki Rolpol nie ma.
+  ...([
+    ["czosnek-niedzwiedzi", "Czosnek niedźwiedzi", 10, 4, "50403639-czosnek-niedzwiedzi-10g-5907750403639"],
+    ["czosnek-niedzwiedzi", "Czosnek niedźwiedzi", 50, 8, "50411528-czosnek-niedzwiedzi-50g-5907750411528"],
+    ["czosnek-niedzwiedzi", "Czosnek niedźwiedzi", 100, 13, "50411535-czosnek-niedzwiedzi-100g-5907750411535"],
+    ["czosnek-granulowany", "Czosnek granulowany", 50, 3.3, "50408887-czosnek-granulowany-50g-papier-5907750408887"],
+    ["czosnek-granulowany", "Czosnek granulowany", 100, 5, "50400362-czosnek-granulowany-100g-5907750400362"],
+    ["papryka-platki", "Papryka czerwona płatek", 25, 4, "50400355-papryka-czerwona-platek-25g-5907750400355"],
+    ["papryka-platki", "Papryka czerwona płatek", 100, 6, "50419494-papryka-czerwona-platek-100g-5907750419494"],
+    ["ziola-prowansalskie", "Zioła prowansalskie", 25, 4, "50401192-prowansalskie-ziola-prowansalskie-25g-5907750401192"],
+    ["ziola-prowansalskie", "Zioła prowansalskie", 100, 6, "50417230-prowansalskie-ziola-prowansalskie-100g-5907750417230"],
+  ] as const).map(([przyprawa, nazwa, g, cena, adres]): OfertaDodatku => ({
+    id: `rolpol-${przyprawa}-${g}g`, rodzaj: "przyprawa", przyprawa, ...ROLPOL,
+    produkt: `${nazwa} ${g} g`, odmiana: "suszone",
+    url: `https://rolpol.pl/strona-glowna/${adres}.html`,
+    cenaZl: cena, opakowanie: { ilosc: g, jednostka: "g" },
+    dawkaNa10L: null, dawkaTekst: null, sprawdzono: "2026-11-10",
   })),
 ];

@@ -20,6 +20,8 @@
  * Sól: zasada z przepisu przeliczona na gramy na kg sera, bez dopisywania.
  */
 
+import type { KluczPrzyprawy } from "@/data/dodatkiSerowarskie";
+
 export type PowodWyboru = "przepis" | "sklep" | "sklad";
 
 export interface RolaKultury {
@@ -45,6 +47,8 @@ export interface MapaPrzepisu {
   podpuszczkaZPrzepisu?: { od: number; do: number; jednostka: "krople"; naLitrow: number };
   /** Rzeczy spoza naszych baz, o których lista powinna przypomnieć. */
   inneZakupy?: string[];
+  /** Dodatki smakowe, które przepis wymienia z nazwy; wiersze do wyboru, bez kosztu partii. */
+  przyprawy?: { klucze: KluczPrzyprawy[]; uwaga: string };
 }
 
 const k = (powod: PowodWyboru, ...nazwy: string[]) => nazwy.map((nazwa) => ({ nazwa, powod }));
@@ -80,6 +84,14 @@ export const kulturyPrzepisow: Record<string, MapaPrzepisu> = {
       kultury: [...k("przepis", "Choozit MA 4001"), ...k("sklep", "MSE", "MSO-11", "MYE")],
     }],
     sol: { rodzaj: "solanka" }, chlorekWapnia: true,
+    // Krok 5 i wskazówki przepisu: czarnuszka, suszone zioła, czosnek, papryka,
+    // czosnek niedźwiedzi, suszone pomidory, zioła prowansalskie. Czarnuszki
+    // i suszonych pomidorów nie mamy w żadnym sklepie z listy.
+    przyprawy: {
+      klucze: ["czosnek-niedzwiedzi", "czosnek-granulowany", "papryka-platki", "ziola-prowansalskie"],
+      uwaga: "Do wyboru, jeśli robisz ser z dodatkami. Przepis: 1–2 łyżki na krąg, wmieszaj do ziarna przed formowaniem.",
+    },
+    inneZakupy: ["czarnuszka albo suszone pomidory, jeśli chcesz ich użyć (nie mamy ich w sklepach z listy)"],
   },
   asiago: {
     role: [{ rola: "Kultura termofilna", wymagana: true, kultury: k("przepis", "Choozit TA 61") }, HELVETICUS],

@@ -128,10 +128,12 @@ function KartaOferty({ o, naglowek, akcja, liczymyKoszt = true }: { o: Oferta; n
             {o.opakowanie && <span className="text-muted-foreground"> / {o.opakowanie}</span>}
           </dd>
         </div>
-        <div>
-          <dt className="text-muted-foreground">Na tę partię</dt>
-          <dd className="tabular-nums text-foreground">{o.naPartieZl ? zlZakres(o.naPartieZl) : "?"}</dd>
-        </div>
+        {(liczymyKoszt || o.naPartieZl) && (
+          <div>
+            <dt className="text-muted-foreground">Na tę partię</dt>
+            <dd className="tabular-nums text-foreground">{o.naPartieZl ? zlZakres(o.naPartieZl) : "?"}</dd>
+          </div>
+        )}
         <div>
           <dt className="text-muted-foreground">Cena z dnia</dt>
           <dd className="tabular-nums text-foreground">{data(o.sprawdzono)}</dd>
@@ -184,8 +186,8 @@ function WierszZakupow({ w, wybrana, wybierz }: { w: Wiersz; wybrana: string | n
   const [inne, setInne] = useState(false);
   const o = w.oferty.find((x) => x.id === wybrana);
   const reszta = w.oferty.filter((x) => x.id !== wybrana);
-  // Sól do solanki albo do smaku: koszt świadomie nie jest liczony, więc bez ostrzeżenia.
-  const liczymyKoszt = w.rodzaj !== "sol" || w.wymagana;
+  // Sól do solanki albo do smaku i przyprawy „wg uznania”: koszt świadomie nie jest liczony, więc bez ostrzeżenia.
+  const liczymyKoszt = (w.rodzaj !== "sol" && w.rodzaj !== "przyprawa") || w.wymagana;
   return (
     <div className="rounded-2xl border border-border bg-muted/20 p-4">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -223,7 +225,7 @@ function WierszZakupow({ w, wybrana, wybierz }: { w: Wiersz; wybrana: string | n
       {reszta.length > 0 && (
         <div className="mt-2">
           <button type="button" onClick={() => setInne((x) => !x)} className="text-xs text-primary underline underline-offset-2">
-            {inne ? "Ukryj inne oferty" : `Inne oferty (${reszta.length}), od najtańszej na partię`}
+            {inne ? "Ukryj inne oferty" : `Inne oferty (${reszta.length}), od najtańszej${w.rodzaj === "przyprawa" ? "" : " na partię"}`}
           </button>
           {inne && (
             <div className="mt-2 space-y-2">

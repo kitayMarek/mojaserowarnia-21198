@@ -18,7 +18,7 @@
  */
 
 import { culturesData, type Culture } from "@/data/culturesDataComplete";
-import { dodatkiSerowarskie, type OfertaDodatku, type RodzajDodatku } from "@/data/dodatkiSerowarskie";
+import { NAZWY_PRZYPRAW, dodatkiSerowarskie, type OfertaDodatku, type RodzajDodatku } from "@/data/dodatkiSerowarskie";
 import { kulturyPrzepisow, type PowodWyboru } from "@/data/kulturyPrzepisow";
 import { adresKultury } from "@/lib/adresKultury";
 
@@ -303,6 +303,17 @@ export function listaZakupow(
           : "Ilość z przepisu przeliczona na wydajność sera.",
     oferty: sole, domyslna: domyslna(sole),
   });
+
+  // Dodatki smakowe z nazwy w przepisie: wiersze do wyboru, bez ilości i kosztu partii,
+  // bo przepisy dają je „wg uznania”. Ta sama karta oferty co sól (cena, opakowanie, data).
+  for (const klucz of mapa.przyprawy?.klucze ?? []) {
+    const oferty = dodatki("przyprawa").filter((o) => o.przyprawa === klucz).map((o) => ofertaSoli(o, null)).sort(poCenie);
+    if (!oferty.length) continue;
+    wiersze.push({
+      klucz: `przyprawa-${klucz}`, rodzaj: "przyprawa", nazwa: NAZWY_PRZYPRAW[klucz], wymagana: false,
+      uwaga: mapa.przyprawy?.uwaga, oferty, domyslna: domyslna(oferty),
+    });
+  }
 
   return { wiersze, inneZakupy: mapa.inneZakupy ?? [] };
 }
