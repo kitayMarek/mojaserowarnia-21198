@@ -13,6 +13,42 @@ import ReactionButton from "@/components/ReactionButton";
 import FAQSchema from "@/components/FAQSchema";
 import TLDRSection from "@/components/TLDRSection";
 import SeeAlso from "@/components/SeeAlso";
+import PodstawaPrawna, { type InnyAkt } from "@/components/PodstawaPrawna";
+
+// Akty spoza modułu Przepisy huba. Numery sprawdzone w API ELI Sejmu 11.11.2026.
+const inneAktyRhd: InnyAkt[] = [
+  {
+    tytul: "Ustawa z dnia 16 listopada 2016 r. o zmianie niektórych ustaw w celu ułatwienia sprzedaży żywności przez rolników",
+    url: "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160001961",
+    opis: "(Dz.U. 2016 poz. 1961): wprowadziła definicję RHD i warunki.",
+  },
+  {
+    tytul: "Ustawa z dnia 9 listopada 2018 r. o zmianie niektórych ustaw w celu ułatwienia sprzedaży żywności przez rolników do sklepów i restauracji",
+    url: "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180002242",
+    opis: "(Dz.U. 2018 poz. 2242): kolejne ułatwienia dla RHD.",
+  },
+  {
+    tytul: "Rozporządzenie Ministra Finansów z dnia 17 grudnia 2024 r. w sprawie zwolnień z obowiązku prowadzenia ewidencji sprzedaży przy zastosowaniu kas rejestrujących",
+    url: "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20240001902",
+    opis: "(Dz.U. 2024 poz. 1902): zwolnienie z kasy fiskalnej, poz. 49 załącznika.",
+  },
+  {
+    tytul: "Rozporządzenie MRiRW z dnia 16 grudnia 2016 r. o maksymalnej ilości żywności w RHD",
+    url: "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160002159",
+    opis: "(Dz.U. 2016 poz. 2159): straciło moc 5 października 2022 r., gdy weszło rozporządzenie z 2022 r. wyżej.",
+  },
+  {
+    tytul: "Rozporządzenie (WE) nr 852/2004 w sprawie higieny środków spożywczych",
+    url: "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0852",
+  },
+  {
+    tytul: "Rozporządzenie (UE) nr 1169/2011 w sprawie przekazywania konsumentom informacji na temat żywności",
+    url: "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32011R1169",
+  },
+];
+
+const ISAP_LIMITY_RHD = "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20220001971";
+const ISAP_USTAWA_TJ = "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260001399";
 
 // FAQ data for SEO
 const faqData = [
@@ -35,6 +71,10 @@ const faqData = [
   {
     question: "Czym różni się RHD od sprzedaży bezpośredniej?",
     answer: "Sprzedaż bezpośrednia obejmuje wyłącznie produkty NIEPRZETWORZONE z własnego gospodarstwa (surowe mleko, jaja, miód, warzywa, owoce). RHD jest bardziej elastyczne — pozwala sprzedawać także produkty PRZETWORZONE, np. sery i wędliny. Ser (produkt przetworzony) sprzedasz więc wyłącznie w ramach RHD, a surowe mleko lub jaja — w obu formach. Obie formy można prowadzić jednocześnie, ale każda wymaga osobnej rejestracji. W RHD sprzedaż do konsumenta finalnego jest bez limitów ilościowych na terenie całego kraju; sprzedaż bezpośrednia podlega limitom (np. do 1000 l surowego mleka tygodniowo)."
+  },
+  {
+    question: "Ile sera mogę sprzedać do sklepu lub restauracji w RHD?",
+    answer: "Do sklepów i restauracji w RHD możesz zbyć rocznie najwyżej 2600 kg produktów mlecznych łącznie (sery, masło, jogurty i inne), 52 000 litrów mleka surowego i 10 400 litrów surowej śmietany. Tak mówią załączniki 3 i 4 do rozporządzenia MRiRW z 12 września 2022 r. (Dz.U. 2022 poz. 1971). Produkty zwierzęce wolno dostarczać do sklepów tylko w województwie, w którym produkujesz, oraz w sąsiadujących z nim powiatach i miastach wojewódzkich (art. 44a ust. 2 pkt 1 ustawy o bezpieczeństwie żywności i żywienia, tekst jednolity Dz.U. 2026 poz. 1399). Sprzedaż konsumentowi finalnemu, np. na targu, tych limitów nie ma. Liczby sprawdziliśmy z tekstem aktów 11 listopada 2026 r. To informacja, nie porada prawna."
   },
   {
     question: "Co to jest numer RHD i jak wygląda?",
@@ -244,8 +284,8 @@ const RHD = () => {
                       </tr>
                       <tr className="border-b">
                         <td className="p-2 font-medium">Limity ilościowe</td>
-                        <td className="p-2">tak (np. do 1000 l surowego mleka/tydz.)</td>
-                        <td className="p-2">do konsumenta finalnego — brak, cały kraj; limity tylko przy dostawach do sklepów/restauracji</td>
+                        <td className="p-2">tak, np. do 1000 l surowego mleka na tydzień (§ 6 ust. 1 pkt 8 rozporządzenia, Dz.U. 2015 poz. 1703)</td>
+                        <td className="p-2">do konsumenta finalnego brak, cały kraj; do sklepów i restauracji roczne limity, np. 2600 kg produktów mlecznych (<a href="#rhd-sklepy-limity" className="text-primary underline">niżej</a>)</td>
                       </tr>
                       <tr className="border-b">
                         <td className="p-2 font-medium">Rejestracja (zwierzęce)</td>
@@ -260,7 +300,7 @@ const RHD = () => {
                       <tr>
                         <td className="p-2 font-medium">Terytorialność (zwierzęce)</td>
                         <td className="p-2">województwo produkcji + sąsiednie (wyjątek: targi/festyny ogólnopolskie)</td>
-                        <td className="p-2">do konsumenta końcowego bez ograniczeń; do sklepów/restauracji — województwo + sąsiednie</td>
+                        <td className="p-2">do konsumenta końcowego bez ograniczeń; do sklepów i restauracji: województwo produkcji oraz sąsiednie powiaty i miasta wojewódzkie (art. 44a ust. 2 pkt 1 lit. a ustawy)</td>
                       </tr>
                     </tbody>
                   </table>
@@ -271,77 +311,76 @@ const RHD = () => {
               </CardContent>
             </Card>
 
-            {/* Sekcja 2: Podstawy prawne */}
-            <Card>
+            {/* Limity RHD do sklepów i restauracji: liczby z tekstu rozporządzenia, sprawdzone 11.11.2026 */}
+            <Card id="rhd-sklepy-limity">
               <CardHeader>
                 <CardTitle as="h2" className="flex items-center gap-2">
-                  <Scale className="h-5 w-5 text-primary" />
-                  Podstawy prawne RHD
+                  <ShoppingBag className="h-5 w-5 text-primary" />
+                  Ile możesz sprzedać do sklepu lub restauracji
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-semibold mb-2">Ustawy</h4>
-                  <ul className="space-y-2">
-                    <li className="pl-4 border-l-2 border-primary/30">
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20061711126" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary-hover underline"
-                      >
-                        Ustawa z dnia 25 sierpnia 2006 r. o bezpieczeństwie żywności i żywienia
-                      </a> – w tej ustawie wprowadzono rozdział dotyczący RHD („rozdział 10a")
-                    </li>
-                    <li className="pl-4 border-l-2 border-primary/30">
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160001961" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary-hover underline"
-                      >
-                        Ustawa z dnia 16 listopada 2016 r. o zmianie niektórych ustaw w celu ułatwienia sprzedaży żywności przez rolników
-                      </a> (Dz. U. poz. 1961) – wprowadziła definicję RHD i warunki
-                    </li>
-                    <li className="pl-4 border-l-2 border-primary/30">
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180002242" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary-hover underline"
-                      >
-                        Ustawa z dnia 9 listopada 2018 r. o zmianie niektórych ustaw w celu ułatwienia sprzedaży żywności przez rolników do sklepów i restauracji
-                      </a> (Dz. U. poz. 2242) – wprowadziła kolejne ułatwienia dla RHD
-                    </li>
-                  </ul>
+                <p>
+                  Sprzedaż konsumentowi finalnemu, np. na targu albo w gospodarstwie, nie ma w RHD limitów ilościowych.
+                  Limity i obszar dotyczą zbywania do zakładów prowadzących handel detaliczny z przeznaczeniem dla
+                  konsumenta finalnego, czyli np. sklepów i restauracji (art. 44a ust. 2 pkt 1{" "}
+                  <a href={ISAP_USTAWA_TJ} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    ustawy o bezpieczeństwie żywności i żywienia
+                  </a>
+                  , tekst jednolity Dz.U. 2026 poz. 1399).
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="border-b bg-secondary/50">
+                        <th className="text-left p-2 font-semibold">Co sprzedajesz do sklepu</th>
+                        <th className="text-left p-2 font-semibold">Najwyżej rocznie</th>
+                        <th className="text-left p-2 font-semibold">Miejsce w rozporządzeniu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b">
+                        <td className="p-2">Produkty mleczne i produkty na bazie siary, łącznie (np. sery, masło, jogurt)</td>
+                        <td className="p-2 font-semibold">2600 kg</td>
+                        <td className="p-2">załącznik nr 4, lp. 6</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-2">Mleko surowe, siara oraz mleko surowe i siara</td>
+                        <td className="p-2 font-semibold">52 000 l</td>
+                        <td className="p-2">załącznik nr 3, lp. 1</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2">Surowa śmietana</td>
+                        <td className="p-2 font-semibold">10 400 l</td>
+                        <td className="p-2">załącznik nr 3, lp. 2</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Rozporządzenia</h4>
-                  <ul className="space-y-2">
-                    <li className="pl-4 border-l-2 border-primary/30">
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160002159" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary-hover underline"
-                      >
-                        Rozporządzenie Ministra Rolnictwa i Rozwoju Wsi z dnia 16 grudnia 2016 r. w sprawie maksymalnej ilości żywności zbywanej w ramach rolniczego handlu detalicznego oraz zakresu i sposobu jej dokumentowania
-                      </a> – określa limity i dokumentację
-                    </li>
-                    <li className="pl-4 border-l-2 border-primary/30">
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20220002039" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary-hover underline"
-                      >
-                        Rozporządzenie Ministra Rolnictwa i Rozwoju Wsi z dnia 12 września 2022 r. w sprawie maksymalnej ilości żywności zbywanej w ramach rolniczego handlu detalicznego do zakładów prowadzących handel detaliczny
-                      </a> z przeznaczeniem dla konsumenta finalnego oraz zakresu i sposobu jej dokumentowania – nowsze regulacje
-                    </li>
-                  </ul>
-                </div>
+                <p>
+                  <strong>Obszar:</strong> produkty zwierzęce, w tym ser, dostarczasz do sklepów tylko w województwie, w którym
+                  produkujesz, oraz w sąsiadujących z nim powiatach i miastach wojewódzkich (art. 44a ust. 2 pkt 1 lit. a
+                  ustawy). <strong>Dokumentacja:</strong> każdą dostawę do sklepu zapisujesz od razu po sprzedaży (numer
+                  wpisu, data, ilość i rodzaj żywności), odrębnie za każdy rok kalendarzowy, i przechowujesz 2 lata
+                  (§ 2 rozporządzenia). Wzór i resztę dokumentów opisujemy w{" "}
+                  <Link to="/prawo/rhd/dokumenty" className="text-primary underline">dokumentach RHD</Link>.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Liczby z tekstu{" "}
+                  <a href={ISAP_LIMITY_RHD} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    rozporządzenia MRiRW z 12 września 2022 r.
+                  </a>{" "}
+                  (Dz.U. 2022 poz. 1971), sprawdzone z tekstem aktu 11 listopada 2026 r. Stan aktu na dziś pokazuje ramka niżej.
+                </p>
               </CardContent>
             </Card>
+
+            <PodstawaPrawna
+              id="rhd-podstawy-prawne"
+              tytul="Podstawy prawne RHD"
+              klucze={["bezpieczenstwo-zywnosci", "rhd-limity", "sprzedaz-bezposrednia"]}
+              inne={inneAktyRhd}
+            />
 
             {/* Sekcja 3: Kto może prowadzić RHD */}
             <Card id="rhd-kto-moze">

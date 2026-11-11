@@ -2,8 +2,8 @@
   "nazwa": "Rolniczy handel detaliczny (RHD): najczęstsze pytania, progi i terminy",
   "opis": "Dane z artykułu Moja Serowarnia o RHD, przygotowane do odczytu przez programy i asystentów AI. Ta sama treść co na stronie, w uporządkowanej formie.",
   "strona": "https://mojaserowarnia.pl/prawo/rhd",
-  "stan_prawny_na": "2026-09-01",
-  "zweryfikowano": "2026-09-01",
+  "stan_prawny_na": "2026-11-11",
+  "zweryfikowano": "2026-11-11",
   "uwaga": "Informacja, nie porada prawna. Przepisy się zmieniają: przed rozpoczęciem sprzedaży sprawdź aktualne wymagania u powiatowego lekarza weterynarii lub w Sanepidzie i w urzędzie skarbowym.",
   "licencja": "CC BY 4.0",
   "licencja_url": "https://creativecommons.org/licenses/by/4.0/deed.pl",
@@ -71,9 +71,34 @@
     {
       "co": "Sprzedaż bezpośrednia — surowe mleko",
       "wartosc": "do 1000 l / tydzień",
-      "uwagi": "limit nie dotyczy RHD"
+      "uwagi": "limit nie dotyczy RHD; Dz.U. 2015 poz. 1703, § 6 ust. 1 pkt 8"
+    },
+    {
+      "co": "RHD do sklepów i restauracji: produkty mleczne",
+      "wartosc": "2600 kg / rok",
+      "uwagi": "łącznie (sery, masło, jogurt); Dz.U. 2022 poz. 1971, zał. 4 lp. 6"
+    },
+    {
+      "co": "RHD do sklepów i restauracji: mleko surowe",
+      "wartosc": "52 000 l / rok",
+      "uwagi": "Dz.U. 2022 poz. 1971, zał. 3 lp. 1"
+    },
+    {
+      "co": "RHD do sklepów i restauracji: surowa śmietana",
+      "wartosc": "10 400 l / rok",
+      "uwagi": "Dz.U. 2022 poz. 1971, zał. 3 lp. 2"
     }
   ],
+  "podstawa_prawna": {
+    "opis": "Numery Dz.U., teksty jednolite i zmiany aktów, na których stoi RHD, prowadzi moduł Przepisy huba Dane Rolne (dane z API ELI Kancelarii Sejmu, sprawdzane codziennie).",
+    "dane": "https://danerolne.com/przepisy/dane/przepisy.json",
+    "strona": "https://danerolne.com/przepisy",
+    "klucze": [
+      "bezpieczenstwo-zywnosci",
+      "rhd-limity",
+      "sprzedaz-bezposrednia"
+    ]
+  },
   "pytania": [
     {
       "pytanie": "Gdzie i kiedy zarejestrować działalność RHD?",

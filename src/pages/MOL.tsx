@@ -8,6 +8,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, Info, FileText, Scale } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
+import PodstawaPrawna from "@/components/PodstawaPrawna";
+import { inneAktyMol, ISAP_MOL } from "@/data/inneAktyMol";
 import ReactionButton from "@/components/ReactionButton";
 import FAQSchema from "@/components/FAQSchema";
 import PanelPytan from "@/components/PanelPytan";
@@ -23,7 +25,7 @@ const faqData = [
   },
   {
     question: "Jakie są limity produkcji w MOL?",
-    answer: "Dla produktów mlecznych limit wynosi 0,5 tony tygodniowo, dla jaj przetworzonych 0,15 tony tygodniowo, dla gotowych posiłków 1,5 tony tygodniowo. Sprzedaż ograniczona jest do województwa produkcji lub sąsiednich powiatów."
+    answer: "Dla produktów mlecznych limit wynosi 0,5 tony tygodniowo, dla jaj przetworzonych 0,15 tony tygodniowo, dla gotowych posiłków 1,5 tony tygodniowo. Sprzedaż ograniczona jest do województwa produkcji lub sąsiednich powiatów. Podstawa: § 2 ust. 1 pkt 3 lit. g–i i pkt 4 rozporządzenia MRiRW z 21 marca 2016 r. (Dz.U. 2016 poz. 451), sprawdzone z tekstem aktu 11 listopada 2026 r."
   },
   {
     question: "Jak zarejestrować działalność MOL?",
@@ -163,56 +165,13 @@ const MOL = () => {
               </CardContent>
             </Card>
 
-            {/* Sekcja 2: Podstawy prawne */}
-            <Card id="mol-podstawy-prawne">
-              <CardHeader>
-                <CardTitle>2. Podstawy prawne MOL</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-lg mb-3">Akty prawne</h3>
-                  <ul className="space-y-3">
-                    <li>
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160000451" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        Rozporządzenie Ministra Rolnictwa i Rozwoju Wsi z dnia 21 marca 2016 r.
-                      </a>
-                      {" "}w sprawie szczegółowych warunków uznania działalności marginalnej, lokalnej i ograniczonej 
-                      (Dz. U. 2016 poz. 451) – określa warunki, limity, obszary dla MOL
-                    </li>
-                    <li>
-                      <a 
-                        href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160000434" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        Rozporządzenie Ministra Rolnictwa i Rozwoju Wsi z dnia 8 marca 2013 r.
-                      </a>
-                      {" "}w sprawie wymagań, jakie powinien spełniać projekt technologiczny zakładu, w którym ma być prowadzona 
-                      działalność w zakresie produkcji produktów pochodzenia zwierzęcego (Dz. U. 2016, poz. 434) – odnosi się 
-                      do zakładów produkcyjnych, w tym przy MOL
-                    </li>
-                    <li>
-                      Inne przepisy wspierające: m.in. unijne{" "}
-                      <a 
-                        href="https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0852" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        Rozporządzenie (WE) nr 852/2004
-                      </a>
-                      {" "}Parlamentu Europejskiego i Rady w sprawie higieny środków spożywczych
-                    </li>
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Sekcja 2: Podstawy prawne, numery i stan aktu z modułu Przepisy huba */}
+            <PodstawaPrawna
+              id="mol-podstawy-prawne"
+              tytul="2. Podstawy prawne MOL"
+              klucze={["mol"]}
+              inne={inneAktyMol}
+            />
 
             {/* Sekcja 3: Warunki */}
             <Card>
@@ -351,7 +310,12 @@ const MOL = () => {
                   <ul className="list-disc list-inside space-y-2 ml-4">
                     <li>
                       W ramach MOL obowiązują określone tygodniowe limity wagowe dostaw produktów pochodzenia zwierzęcego/dostaw 
-                      do zakładów handlu detalicznego. Przykładowo: dla produktów mlecznych 0,5 tony tygodniowo
+                      do zakładów handlu detalicznego. Przykładowo: dla produktów mlecznych 0,5 tony tygodniowo, dla
+                      produktów jajecznych 0,15 tony, dla gotowych posiłków 1,5 tony (§ 2 ust. 1 pkt 3 lit. g–i{" "}
+                      <a href={ISAP_MOL} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                        rozporządzenia, Dz.U. 2016 poz. 451
+                      </a>
+                      ; sprawdzone z tekstem aktu 11 listopada 2026 r.)
                     </li>
                     <li>
                       Obszar działania jest także ograniczony — produkcja i sprzedaż w ramach województwa lub sąsiednich 

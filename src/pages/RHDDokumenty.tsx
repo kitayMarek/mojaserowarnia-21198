@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, CheckCircle, AlertCircle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
+import PodstawaPrawna from "@/components/PodstawaPrawna";
 
 const faqs = [
   {
@@ -362,63 +363,29 @@ const RHDDokumenty = () => {
               </CardContent>
             </Card>
 
-            {/* Podstawa prawna */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  Podstawa prawna (najważniejsze akty)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <ul className="space-y-2">
-                  <li className="pl-4 border-l-2 border-primary/30">
-                    <a 
-                      href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20220001971" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary-hover underline"
-                    >
-                      Rozporządzenie MRiRW z 12.09.2022 r.
-                    </a>
-                    {" "}w sprawie maksymalnej ilości żywności zbywanej w RHD do zakładów detalicznych oraz zakresu i sposobu jej dokumentowania (Dz.U. 2022 poz. 1971)
-                  </li>
-                  <li className="pl-4 border-l-2 border-primary/30">
-                    <a 
-                      href="https://www.gov.pl/web/weterynaria/rolniczy-handel-detaliczny" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary-hover underline"
-                    >
-                      Materiały informacyjne MRiRW/GIW
-                    </a>
-                    {" "}o RHD z wyszczególnieniem ewidencji sprzedaży i zasad przechowywania (2 lata)
-                  </li>
-                  <li className="pl-4 border-l-2 border-primary/30">
-                    <a 
-                      href="https://www.wetgiw.gov.pl/nadzor-weterynaryjny/rhd" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary-hover underline"
-                    >
-                      Strona GIW o RHD
-                    </a>
-                    {" "}(warunki, rejestracja, wymagania)
-                  </li>
-                  <li className="pl-4 border-l-2 border-primary/30">
-                    <a 
-                      href="https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0852" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary-hover underline"
-                    >
-                      Rozporządzenie (WE) nr 852/2004
-                    </a>
-                    {" "}– ogólne przepisy higieniczne jako podstawa do prowadzenia rejestrów GHP/GMP
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+            {/* Podstawa prawna: numery i stan aktów z modułu Przepisy huba Dane Rolne */}
+            <PodstawaPrawna
+              id="rhd-dokumenty-podstawa"
+              tytul="Podstawa prawna (najważniejsze akty)"
+              klucze={["rhd-limity", "bezpieczenstwo-zywnosci"]}
+              inne={[
+                {
+                  tytul: "Materiały informacyjne MRiRW/GIW",
+                  url: "https://www.gov.pl/web/weterynaria/rolniczy-handel-detaliczny",
+                  opis: "o RHD z wyszczególnieniem ewidencji sprzedaży i zasad przechowywania (2 lata)",
+                },
+                {
+                  tytul: "Strona GIW o RHD",
+                  url: "https://www.wetgiw.gov.pl/nadzor-weterynaryjny/rhd",
+                  opis: "(warunki, rejestracja, wymagania)",
+                },
+                {
+                  tytul: "Rozporządzenie (WE) nr 852/2004",
+                  url: "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0852",
+                  opis: ": ogólne przepisy higieniczne jako podstawa do prowadzenia rejestrów GHP/GMP",
+                },
+              ]}
+            />
 
             {/* Podsumowanie */}
             <Card className="bg-primary/5 border-primary/20">

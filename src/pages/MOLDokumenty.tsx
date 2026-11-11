@@ -7,6 +7,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, CheckCircle2, Info, FileText } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
+import PodstawaPrawna from "@/components/PodstawaPrawna";
+import { ustawaProduktyZwierzece, unijneHigiena } from "@/data/inneAktyMol";
 
 const MOLDokumenty = () => {
   useEffect(() => {
@@ -364,69 +366,22 @@ const MOLDokumenty = () => {
               </CardContent>
             </Card>
 
-            {/* Sekcja 3: Podstawa prawna */}
-            <Card>
-              <CardHeader>
-                <CardTitle>3. Podstawa prawna</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li>
-                    <a 
-                      href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20160000451" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      Rozporządzenie MRiRW z 21 marca 2016 r.
-                    </a>
-                    {" "}w sprawie szczegółowych warunków uznania działalności MOL (Dz.U. 2016 poz. 451)
-                  </li>
-                  <li>
-                    <a 
-                      href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20230000161" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      Ustawa z 16 grudnia 2005 r.
-                    </a>
-                    {" "}o produktach pochodzenia zwierzęcego (Dz.U. 2023 poz. 161)
-                  </li>
-                  <li>
-                    <a 
-                      href="https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0852" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      Rozporządzenie (WE) nr 852/2004
-                    </a>
-                    {" "}i{" "}
-                    <a 
-                      href="https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32004R0853" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      nr 853/2004
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32002R0178" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      Rozporządzenie (WE) nr 178/2002
-                    </a>
-                    {" "}– ogólne prawo żywnościowe
-                  </li>
-                  <li>Wytyczne Głównego Inspektoratu Weterynarii (GIW) i Centrum Doradztwa Rolniczego (CDR)</li>
-                </ul>
-              </CardContent>
-            </Card>
+            {/* Sekcja 3: Podstawa prawna, numery i stan aktu z modułu Przepisy huba */}
+            <PodstawaPrawna
+              id="mol-podstawa-prawna"
+              tytul="3. Podstawa prawna"
+              klucze={["mol"]}
+              inne={[
+                ustawaProduktyZwierzece,
+                ...unijneHigiena,
+                {
+                  tytul: "Rozporządzenie (WE) nr 178/2002",
+                  url: "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32002R0178",
+                  opis: ": ogólne prawo żywnościowe.",
+                },
+                { tytul: "Wytyczne Głównego Inspektoratu Weterynarii (GIW) i Centrum Doradztwa Rolniczego (CDR)" },
+              ]}
+            />
 
             {/* Sekcja 4: Lista kontrolna */}
             <Card className="border-primary/50">

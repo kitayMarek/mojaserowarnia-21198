@@ -91,6 +91,15 @@ def main():
         "licencja_url": "https://creativecommons.org/licenses/by/4.0/deed.pl",
         "cytuj_jako": "Moja Serowarnia, „Rolniczy handel detaliczny (RHD)”, %s" % STRONA,
         "progi_i_terminy": progi(mirror),
+        # Akty prawne nie sa tu przepisywane: numery, teksty jednolite i zmiany prowadzi
+        # modul Przepisy huba (zasada 4 i 7 huba). Tu tylko klucze i adres.
+        "podstawa_prawna": {
+            "opis": "Numery Dz.U., teksty jednolite i zmiany aktów, na których stoi RHD, prowadzi moduł Przepisy "
+                    "huba Dane Rolne (dane z API ELI Kancelarii Sejmu, sprawdzane codziennie).",
+            "dane": "https://danerolne.com/przepisy/dane/przepisy.json",
+            "strona": "https://danerolne.com/przepisy",
+            "klucze": ["bezpieczenstwo-zywnosci", "rhd-limity", "sprzedaz-bezposrednia"],
+        },
         "pytania": pytania,
         "dostep_dla_asystentow": {
             "stan": "w przygotowaniu",
