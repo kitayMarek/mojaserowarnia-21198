@@ -169,7 +169,7 @@ const MOL = () => {
             <PodstawaPrawna
               id="mol-podstawy-prawne"
               tytul="2. Podstawy prawne MOL"
-              klucze={["mol"]}
+              klucze={["mol", "produkty-zwierzece"]}
               inne={inneAktyMol}
             />
 

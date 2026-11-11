@@ -4,7 +4,7 @@
 export const przepisyHuba = {
   "zrodlo": "https://danerolne.com/przepisy/dane/przepisy.json",
   "strona": "https://danerolne.com/przepisy",
-  "wygenerowano_w_hubie": "2026-11-11T11:25:42.765Z",
+  "wygenerowano_w_hubie": "2026-11-11T12:54:50.396Z",
   "akty": [
     {
       "klucz": "bezpieczenstwo-zywnosci",
@@ -20,7 +20,7 @@ export const przepisyHuba = {
         {
           "dziennik": "Dz.U. 2026 poz. 1123",
           "tytul": "Ustawa z dnia 31 lipca 2026 r. o zmianie ustawy o opiece nad dziećmi w wieku do lat 3 oraz niektórych innych ustaw",
-          "zmienia_ten_akt_od": null,
+          "zmienia_ten_akt_od": "2027-09-01",
           "wchodzi_w_zycie": "2028-01-01",
           "isap": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260001123"
         }
@@ -62,6 +62,20 @@ export const przepisyHuba = {
       "sprawdzono": "2026-11-11"
     },
     {
+      "klucz": "produkty-zwierzece",
+      "krotko": "Ustawa o produktach pochodzenia zwierzęcego",
+      "tytul": "Ustawa z dnia 16 grudnia 2005 r. o produktach pochodzenia zwierzęcego",
+      "dziennik": "Dz.U. 2006 poz. 127",
+      "obowiazuje": true,
+      "tekst_jednolity": {
+        "dziennik": "Dz.U. 2026 poz. 981",
+        "isap": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260000981"
+      },
+      "zmiany_po_tekscie_jednolitym": [],
+      "isap": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20060170127",
+      "sprawdzono": "2026-11-11"
+    },
+    {
       "klucz": "jakosc-handlowa",
       "krotko": "Ustawa o jakości handlowej artykułów rolno-spożywczych",
       "tytul": "Ustawa z dnia 21 grudnia 2000 r. o jakości handlowej artykułów rolno-spożywczych.",
@@ -75,7 +89,7 @@ export const przepisyHuba = {
         {
           "dziennik": "Dz.U. 2026 poz. 1154",
           "tytul": "Ustawa z dnia 17 lipca 2026 r. o zmianie ustawy o jakości handlowej artykułów rolno-spożywczych oraz niektórych innych ustaw",
-          "zmienia_ten_akt_od": null,
+          "zmienia_ten_akt_od": "2026-09-16",
           "wchodzi_w_zycie": "2026-09-16",
           "isap": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20260001154"
         }

@@ -8,7 +8,7 @@ import { ArrowLeft, CheckCircle2, Info, FileText } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { Link } from "react-router-dom";
 import PodstawaPrawna from "@/components/PodstawaPrawna";
-import { ustawaProduktyZwierzece, unijneHigiena } from "@/data/inneAktyMol";
+import { unijneHigiena } from "@/data/inneAktyMol";
 
 const MOLDokumenty = () => {
   useEffect(() => {
@@ -370,9 +370,8 @@ const MOLDokumenty = () => {
             <PodstawaPrawna
               id="mol-podstawa-prawna"
               tytul="3. Podstawa prawna"
-              klucze={["mol"]}
+              klucze={["mol", "produkty-zwierzece"]}
               inne={[
-                ustawaProduktyZwierzece,
                 ...unijneHigiena,
                 {
                   tytul: "Rozporządzenie (WE) nr 178/2002",
