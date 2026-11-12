@@ -82,6 +82,7 @@ export default function SerowarniaProfil() {
   // Tytul liczy sie przed wczesnymi wyjsciami, bo hooka nie wolno wywolac warunkowo.
   // NOINDEX dla nieznalezionej wizytowki: wczesniej stal w bloku <Helmet>, czyli
   // nie dzialal — kazdy nieistniejacy slug byl dla Google zwyklą stroną do indeksu.
+  // To strona 404: wyjątek od zasady bez noindex (README.md, „Noindex”).
   useMetaStrony(
     wpis
       ? `${wpis.nazwa}${lokalizacja ? ` — ${lokalizacja}` : ""} | Serowarnie`

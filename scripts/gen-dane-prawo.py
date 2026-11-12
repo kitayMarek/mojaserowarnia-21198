@@ -6,7 +6,7 @@ Plik danych o RHD dla programow i asystentow AI: public/dane/prawo-rhd.json.
 PO CO TO ISTNIEJE: krok 0 projektu "witryna + magazyn" (19.10.2026). Zanim
 zbudujemy dostep za kluczem (MCP/API), sprawdzamy, czy ktokolwiek go chce.
 Plik jest otwarty, mierzony przez licznik botow (PLIKI_MIERZONE w worker/index.js)
-i ma noindex (public/_headers). Prog do 30.11.2026: co najmniej 10 pobran przez
+i od 12.11.2026 nie ma noindex (zasada Marka). Prog do 30.11.2026: co najmniej 10 pobran przez
 agentow na prosbe czlowieka albo 3 wiadomosci z realna potrzeba. Projekt:
 side-session-notes/local_7dbc5556-1ce6-4a37-a441-b3cd587f9509/witryna-magazyn-projekt.md
 

@@ -29,6 +29,7 @@ export const OPIS = 'Przepisy na sery i baza kultur z polskich sklepów (ceny, z
 
 const ADRES_SERWERA = SERWIS.adresMcp;
 
+// Noindex: plik odkrywania lacznika, wyjątek od zasady bez noindex (README.md, „Noindex”).
 const NAGLOWKI_ODKRYWANIA = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET',

@@ -25,6 +25,10 @@
 # stoi w kazdej grupie z tego samego powodu co zakazy: bot czyta tylko swoja.
 # Grupa Meta-ExternalAgent jej nie ma, bo i tak ma zakaz wejscia.
 
+# NOINDEX I ZAKAZY (zasada Marka z 12.11.2026): wszystko na serwerze jest
+# otwarte, chyba ze to zapisany wyjatek. Kazdy Disallow ponizej jest na liscie
+# wyjatkow w README.md, „Noindex”. Nowy zakaz dopisz tam z powodem.
+
 # === GLOWNE WYSZUKIWARKI ===
 User-agent: Googlebot
 User-agent: Googlebot-Image

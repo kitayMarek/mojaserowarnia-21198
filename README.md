@@ -71,3 +71,29 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## Noindex: zasada i wyjątki
+
+Zasada Marka z 12.11.2026: wszystko, co trafia na serwer, jest **bez noindex**, chyba że to wyjątek zapisany tutaj i przy kodzie (komentarz ze słowami „wyjątek od zasady bez noindex”). Nowy noindex albo nowy `Disallow` w `robots.txt` dopisz do tej listy, z powodem.
+
+Sprawdzone na żywo 12.11.2026: wszystkie 298 adresów z `sitemap.xml` odpowiadają 200 bez noindex, i człowiekowi, i botowi.
+
+Blokady, które zostają z decyzji Marka:
+
+| Co | Gdzie w kodzie | Dlaczego |
+|---|---|---|
+| Meta-ExternalAgent: `Disallow: /` i 403 | `public/robots.txt`, `worker/index.js` (1z) | decyzja z 16.10.2026: najwięcej pobrań, zero ruchu ludzi w zamian |
+| Łącznik dane.mojaserowarnia.pl: noindex na wszystkim, `Disallow: /mcp` | `worker-magazyn/src/index.js`, `odkrywanie.js` | strona techniczna łącznika, nie treść dla wyszukiwarki |
+
+Wyjątki techniczne:
+
+| Co | Gdzie w kodzie | Dlaczego |
+|---|---|---|
+| Kopia serwisu na `*.workers.dev`: noindex i `Disallow: /` | `worker/index.js` (1b, `odpowiedzZ`) | adres testowy z pełną kopią serwisu; bez tego Google widziałby duplikat całej domeny |
+| Strona 404 i nieznaleziona wizytówka serowarni | `public/404.html`, `src/pages/SerowarniaProfil.tsx` | strony, której nie ma, nie indeksujemy |
+| `/wypisz` (wypisanie z wiadomości) | `worker/index.js`, `src/pages/Wypisanie.tsx` | adres z prywatnym tokenem z maila |
+| `/api/licznik-botow` | `worker/kontrakt-botow.js` | odczyt licznika na prywatny klucz |
+| `Disallow` dla `/dashboard/`, `/auth`, `/api/`, `/admin`, `/settings` | `public/robots.txt` | strony za logowaniem i odpowiedzi techniczne |
+| `/wewnetrzne/archiwum-2019.html`: noindex i `Disallow: /wewnetrzne/` | `public/robots.txt`, sam plik | pułapka na boty, które nie czytają robots.txt: strony nie ma w mapie ani w żadnym linku, więc jej pobranie dowodzi zignorowania zakazu; treść nie jest do publikacji |
+
+Poza tą listą noindex nie ma. Pliki `/dane/*.json` i `/indeks.json` miały go do 12.11.2026.

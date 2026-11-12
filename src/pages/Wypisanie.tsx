@@ -18,7 +18,7 @@ const Wypisanie = () => {
   const [stan, setStan] = useState<"pracuje" | "gotowe" | "brakTokenu">("pracuje");
 
   useEffect(() => {
-    // Strona techniczna — nie ma po co stać w wynikach wyszukiwania.
+    // Strona techniczna z prywatnym tokenem: wyjątek od zasady bez noindex (README.md, „Noindex”).
     document.title = "Wypisanie z wiadomości — Moja Serowarnia";
     const meta = document.createElement("meta");
     meta.name = "robots";

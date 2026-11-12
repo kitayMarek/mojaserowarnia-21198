@@ -19,6 +19,7 @@
  * stalo tu „Disallow: /” i Perplexity, nie mogac otworzyc strony, ostrzegala
  * przed oszustwem. Noindex dalej trzyma strone poza wynikami wyszukiwania.
  * Klienci MCP robots.txt nie czytaja, wiec zakaz /mcp ich nie dotyczy.
+ * Strony lacznika to wyjątek od zasady bez noindex (README.md, „Noindex”), decyzja Marka z 12.11.2026.
  */
 
 import { createMcpHandler } from '@modelcontextprotocol/server';

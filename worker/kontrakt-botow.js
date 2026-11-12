@@ -45,6 +45,7 @@ export const ZMIANY_METODY = [
   { data: '2026-10-25', opis: 'Przyjścia: linki z serwera MCP niosą znacznik aplikacji (utm_campaign), więc źródło to „Magazyn: nazwa”, gdy łącznik miał ?z=' },
 ];
 
+// Noindex: odczyt na prywatny klucz, wyjątek od zasady bez noindex (README.md, „Noindex”).
 function json(dane, status, dodatkowe = {}) {
   return new Response(JSON.stringify(dane), {
     status,

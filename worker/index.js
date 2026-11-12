@@ -204,6 +204,7 @@ const zasob = (env, origin, sciezka) => env.ASSETS.fetch(new URL(sciezka, origin
 // przepisujemy z oryginału, żeby zachować to, co ustawia public/_headers
 // (nosniff, HSTS, ramki). Cache — nigdy: pod tym adresem jutro może stać co
 // innego, a plik źródłowy jest tylko nośnikiem treści.
+// Noindex tylko na *.workers.dev: wyjątek od zasady bez noindex (README.md, „Noindex”).
 function odpowiedzZ(zrodlo, status, adresTestowy) {
   const naglowki = new Headers(zrodlo.headers);
   if (adresTestowy) naglowki.set('x-robots-tag', 'noindex, nofollow');
@@ -329,6 +330,7 @@ const router = {
     //     duplikat trafilaby w adres wlasciwy. Roboty pytaja o robots.txt przed
     //     czymkolwiek innym, wiec ta jedna odpowiedz zamyka temat takze dla
     //     mirrorow serwowanych z pominieciem tego workera.
+    //     To wyjątek od zasady bez noindex (README.md, „Noindex”).
     const adresTestowy = url.hostname.endsWith('.workers.dev');
     if (url.pathname === '/robots.txt') {
       if (!adresTestowy) return zasob(env, url.origin, '/robots.txt');
@@ -343,7 +345,8 @@ Disallow: /
     //     public/robots.txt. Stoi PO obsludze /robots.txt, zeby bot mogl
     //     przeczytac zakaz. Licznik zapisuje te zadania z kodem 403, wiec widac,
     //     czy Meta przestrzega robots.txt. facebookexternalhit (podglady linkow)
-    //     ma inny podpis i tej regule nie podlega.
+    //     ma inny podpis i tej regule nie podlega. Blokada zostaje z decyzji
+    //     Marka z 12.11.2026: wyjątek od zasady bez noindex (README.md, „Noindex”).
     if (/meta-externalagent/i.test(request.headers.get('user-agent') || '')) {
       return new Response('Meta-ExternalAgent is not allowed on this site. See /robots.txt.\n', {
         status: 403,
@@ -729,7 +732,8 @@ Disallow: /
     // Strona wypisania z wiadomosci nie ma po co stac w wynikach wyszukiwania.
     // Sama strona ustawia <meta name="robots"> juz po uruchomieniu JavaScriptu,
     // ale crawler czytajacy sam HTML tego nie zobaczy — wiec zakaz idzie tez
-    // naglowkiem, ktory dziala bez wykonywania czegokolwiek.
+    // naglowkiem, ktory dziala bez wykonywania czegokolwiek. Adres niesie
+    // prywatny token z maila: wyjątek od zasady bez noindex (README.md, „Noindex”).
     if (bezUkosnika === '/wypisz') {
       const spa = await zasob(env, url.origin, '/index.html');
       const naglowki = new Headers(spa.headers);
