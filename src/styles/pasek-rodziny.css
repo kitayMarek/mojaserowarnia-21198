@@ -1,6 +1,6 @@
 /*
  * Pasek rodziny serwisów Dane Rolne (decyzja Marka z 6.11.2026, „linki odsyłające i powrotne”).
- * Reguły .dr-pasek skopiowane bez zmian z STYL_PASKA w C:\Moje\Hub\worker\src\pasek-rodziny.js (commit b8b7601).
+ * Reguły .dr-pasek skopiowane bez zmian z STYL_PASKA w C:\Moje\Hub\worker\src\pasek-rodziny.js (commit a8bb602, 12.11.2026).
  * Nowa wersja w hubie: skopiować ją tu ponownie, razem z HTML-em w src/components/PasekRodziny.tsx.
  */
 .dr-pasek { display: block; position: static; width: auto; height: auto; min-height: 0; max-width: none; margin: 0; padding: 0; border: 0; background: #14201A; font: 400 13px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
@@ -14,10 +14,20 @@
 .dr-pasek a[aria-current] { color: #FFFFFF; font-weight: 600; border-bottom-color: #E6C14A; }
 .dr-pasek .dr-znak { display: block; flex: none; width: 12px; height: 12px; }
 .dr-pasek .dr-krotko { display: none; }
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .dr-pasek ul { gap: 15px; padding: 0 14px; }
   .dr-pasek .dr-pelna { display: none; }
   .dr-pasek .dr-krotko { display: inline; }
+}
+/* Sześć serwisów (od 12.11.2026 z Moją Gminą) z krótkimi nazwami i znakami potrzebuje ok. 411 px, więc na wąskim
+   telefonie (375 px, 360 px) Gmina była ucięta. Marek, 12.11.2026: „Bez znaczków na telefonie”: nazwy zostają. */
+@media (max-width: 430px) {
+  .dr-pasek ul { gap: 10px; padding: 0 10px; }
+  .dr-pasek .dr-znak { display: none; }
+}
+@media (max-width: 359px) {
+  .dr-pasek { font-size: 11.5px; }
+  .dr-pasek ul { gap: 7px; padding: 0 8px; }
 }
 
 /*
