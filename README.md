@@ -84,6 +84,7 @@ Blokady, które zostają z decyzji Marka:
 |---|---|---|
 | Meta-ExternalAgent: `Disallow: /` i 403 | `public/robots.txt`, `worker/index.js` (1z) | decyzja z 16.10.2026: najwięcej pobrań, zero ruchu ludzi w zamian |
 | Łącznik dane.mojaserowarnia.pl: noindex na wszystkim, `Disallow: /mcp` | `worker-magazyn/src/index.js`, `odkrywanie.js` | strona techniczna łącznika, nie treść dla wyszukiwarki |
+| Boty trenujące modele (GPTBot, ClaudeBot, CCBot, Google-Extended i inne z listy huba): `Disallow: /serowarnie` | `public/robots.txt`, grupa „BOTY TRENUJACE MODELE” | zasada Marka z 13.11.2026 dla całej rodziny serwisów: wiedza otwarta do trenowania, dane o konkretnych serowarniach i ludziach nie. Boty wyszukujące (OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot, Bingbot) czytają katalog jak dotąd. Zdanie o tym jest w warunkach (`/warunki-mcp#licencja`) i w `llms.txt` |
 
 Wyjątki techniczne:
 

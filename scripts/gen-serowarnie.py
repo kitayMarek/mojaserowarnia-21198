@@ -2,10 +2,12 @@
 """
 Generator statycznych mirrorow wizytowek serowarni.
 
-Po co: wizytowki to strony React, wiec boty LLM (GPTBot, ClaudeBot,
-PerplexityBot) ich nie widza - a to wlasnie ta tresc ma najwieksza wartosc
-GEO, bo jest unikalna i nie do skopiowania. Mirror daje im pelna tresc
-bez JavaScriptu.
+Po co: wizytowki to strony React, wiec boty wyszukiwarek czatow
+(OAI-SearchBot, Claude-SearchBot, PerplexityBot) ich nie widza - a to wlasnie
+ta tresc ma najwieksza wartosc GEO, bo jest unikalna i nie do skopiowania.
+Mirror daje im pelna tresc bez JavaScriptu. Boty trenujace modele (GPTBot,
+ClaudeBot i inne) maja /serowarnie zamkniete w robots.txt od 13.11.2026
+(zasada Marka: dane o serowarniach nie do trenowania).
 
 Zrodlo danych: publiczne API Supabase. RLS wpuszcza anonima wylacznie do
 wpisow status='opublikowany' AND zgoda_publikacja=true, wiec generator

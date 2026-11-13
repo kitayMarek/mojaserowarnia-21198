@@ -29,6 +29,17 @@
 # otwarte, chyba ze to zapisany wyjatek. Kazdy Disallow ponizej jest na liscie
 # wyjatkow w README.md, „Noindex”. Nowy zakaz dopisz tam z powodem.
 
+# BOTY TRENUJACE MODELE (zasada Marka z 13.11.2026 dla calej rodziny serwisow):
+# wiedza (kultury, przepisy, poradniki) zostaje otwarta do trenowania, a dane
+# o konkretnych serowarniach i ludziach nie. Dlatego boty, ktore zbieraja
+# strony do trenowania, maja osobna grupe z zakazem /serowarnie (katalog
+# i wizytowki z kontaktem). Boty wyszukujace na biezaco (OAI-SearchBot,
+# ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User,
+# Googlebot, Bingbot) czytaja katalog jak dotad: dzieki nim czaty cytuja
+# wizytowki z dzisiejszymi danymi. Lista botow jest wspolna z hubem
+# (C:\Moje\Hub\src\boty-trenujace.js, BOTY_TRENUJACE); Meta-ExternalAgent
+# z tej listy ma u nas wlasna, ostrzejsza grupe nizej.
+
 # === GLOWNE WYSZUKIWARKI ===
 User-agent: Googlebot
 User-agent: Googlebot-Image
@@ -67,15 +78,12 @@ Disallow: /wewnetrzne/
 
 # === BOTY AI / LLM ===
 # Swiadomie wpuszczamy: cytowanie w odpowiedziach LLM jest dla tego serwisu
-# glownym kanalem widocznosci. Osobno wymienione sa crawlery trenujace
-# (GPTBot, ClaudeBot, CCBot) i te, ktore pobieraja strone w trakcie
-# odpowiadania uzytkownikowi (OAI-SearchBot, ChatGPT-User, Perplexity-User).
-User-agent: GPTBot
+# glownym kanalem widocznosci. Tu sa boty, ktore pobieraja strone w trakcie
+# odpowiadania uzytkownikowi albo do wyszukiwarek czatow (OAI-SearchBot,
+# ChatGPT-User, Claude-SearchBot, Perplexity-User i inne). Crawlery trenujace
+# (GPTBot, ClaudeBot, CCBot...) sa od 13.11.2026 w osobnej grupie nizej.
 User-agent: OAI-SearchBot
 User-agent: ChatGPT-User
-User-agent: Google-Extended
-User-agent: anthropic-ai
-User-agent: ClaudeBot
 User-agent: Claude-Web
 User-agent: Claude-User
 User-agent: Claude-SearchBot
@@ -84,12 +92,9 @@ User-agent: Perplexity-User
 User-agent: cohere-ai
 User-agent: FacebookBot
 User-agent: Applebot
-User-agent: Applebot-Extended
 User-agent: Amazonbot
 User-agent: DuckAssistBot
 User-agent: MistralAI-User
-User-agent: CCBot
-User-agent: Diffbot
 User-agent: YouBot
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
@@ -100,6 +105,34 @@ Disallow: /admin
 Disallow: /settings
 Disallow: /wewnetrzne/
 
+# === BOTY TRENUJACE MODELE ===
+# Zasada Marka z 13.11.2026 (opis na gorze pliku): cala wiedza otwarta,
+# zamkniety tylko katalog serowarni. Content-Signal ai-train=yes dotyczy tego,
+# co wolno im pobrac. Allow: / stoi na koncu, bo starsze parsery biora
+# pierwsza pasujaca regule.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: cohere-training-data-crawler
+User-agent: AI2Bot
+User-agent: Diffbot
+User-agent: Omgilibot
+User-agent: PanguBot
+User-agent: Timpibot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Disallow: /serowarnie
+Disallow: /dashboard/
+Disallow: /auth
+Disallow: /api/
+Disallow: /admin
+Disallow: /settings
+Disallow: /wewnetrzne/
+Allow: /
+
 # === META-EXTERNALAGENT: ZABLOKOWANY ===
 # Decyzja Marka z 16.10.2026. Crawler Mety do trenowania modeli: najwiecej
 # potwierdzonych pobran ze wszystkich botow AI (1939 do 16.10.2026), a zadnego
@@ -107,6 +140,9 @@ Disallow: /wewnetrzne/
 # wiec licznik pokaze, czy przestrzega robots.txt.
 # NIE DOTYCZY facebookexternalhit (podglady linkow na Facebooku, grupa wyzej):
 # bez niego posty z linkami nie mialyby podgladu.
+# Jest tez na liscie botow trenujacych huba, ale NIE dopisuj go do grupy
+# wyzej: grupy z ta sama nazwa bota lacza sie, a tamto Allow: / otworzyloby
+# mu caly serwis.
 User-agent: Meta-ExternalAgent
 Disallow: /
 

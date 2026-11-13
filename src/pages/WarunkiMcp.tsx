@@ -105,6 +105,16 @@ const WarunkiMcp = () => {
                     października 2026 na licencji CC BY wolno dalej używać na tej licencji.
                   </p>
                   <p>
+                    {/* Zasada Marka z 13.11.2026, wspólna z hubem (C:\Moje\Hub\src\boty-trenujace.js); zakaz w public/robots.txt. */}
+                    Katalogu serowarni (wizytówki pod{" "}
+                    <Link to="/serowarnie" className="underline">
+                      /serowarnie
+                    </Link>
+                    ) nie wolno bez zgody pobierać w całości ani używać do trenowania modeli; boty, które zbierają dane
+                    do trenowania, mają go zamkniętego w robots.txt. Wiedza na licencji CC BY 4.0 (kultury, przepisy,
+                    poradniki) zostaje otwarta, z podaniem źródła.
+                  </p>
+                  <p>
                     Nazwy produktów i znaki towarowe należą do ich właścicieli. Pokazujemy je tylko po to, żeby dało
                     się znaleźć i porównać produkty.
                   </p>
@@ -316,7 +326,10 @@ const WarunkiMcp = () => {
                     (mojaserowarnia.pl). It is free, read-only and needs no account or key. The culture database and
                     recipes are licensed CC BY 4.0; please cite the source with a link, as given in each response.
                     Shop prices and offers are not under CC BY: keep them for at most 24 hours and always show the
-                    price date and the offer link. The poultry feed tools moved to mojapasza.com/mcp on 28 October 2026.
+                    price date and the offer link. The cheese dairy directory (/serowarnie) may not be downloaded in
+                    full or used to train models without permission; crawlers that collect training data are blocked
+                    from it in robots.txt. Knowledge under CC BY 4.0 (cultures, recipes, guides) stays open, with
+                    attribution. The poultry feed tools moved to mojapasza.com/mcp on 28 October 2026.
                   </p>
                   <p>
                     Culture prices are dated snapshots. Limits: 30 requests per minute per IP and 600 per minute in total (HTTP 429 with
