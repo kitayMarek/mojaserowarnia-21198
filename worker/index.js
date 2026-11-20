@@ -20,6 +20,8 @@ import { zapiszWizyteBota, zapiszPrzyjscie } from './wizyty-botow.js';
 import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
 import { kontraktBotow, SCIEZKA_KONTRAKTU, WLASNY_ODCZYT } from './kontrakt-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
+import zrodloAplikacji from '../src/App.tsx';
+import { czyTrasaAplikacji } from './trasy-aplikacji.js';
 import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku, czyPasze, STRONA_ASYSTENTOW_PASZE } from './lacznik-claude.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
@@ -741,7 +743,13 @@ Disallow: /
       return new Response(spa.body, { status: 200, headers: naglowki });
     }
 
-    return odpowiedzZ(await zasob(env, url.origin, '/index.html'), 200, adresTestowy);
+    // 5b) Adres spoza tras React → prawdziwe 404 (20.11.2026). Wcześniej każdy
+    //     wymyślony adres dostawał stronę główną z kodem 200 i „index, follow”,
+    //     także Googlebot: miękkie 404 i ryzyko śmieciowych adresów w indeksie.
+    //     Człowiek widzi tę samą stronę „nie znaleziono” z aplikacji, tylko z kodem 404.
+    //     Trasy z parametrem (/przepisy/:id) dalej rozstrzyga aplikacja.
+    const status = czyTrasaAplikacji(zrodloAplikacji, bezUkosnika) ? 200 : 404;
+    return odpowiedzZ(await zasob(env, url.origin, '/index.html'), status, adresTestowy);
   },
 };
 
