@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     question: "Komu można sprzedawać mięso z rzeźni rolniczej?",
-    answer: "Mięso można sprzedawać konsumentowi końcowemu oraz lokalnemu detalowi/gastronomii zgodnie z reżimem RHD/MOL i ograniczeniami obszarowymi oraz ilościowymi. Wbrew częstemu twierdzeniu mięso z rzeźni rolniczej może być też wywożone do innych państw członkowskich UE oraz państw trzecich (o ile ich władze nie stawiają wymagań niemożliwych do spełnienia)."
+    answer: "Mięso uznane za zdatne ma zwykły znak jakości zdrowotnej i może trafiać do innych zakładów, podmiotów MOL i handlu detalicznego. Sprzedaż konsumentowi końcowemu wymaga dodatkowej działalności (handel detaliczny, RHD albo MOL). Wbrew częstemu twierdzeniu mięso z rzeźni rolniczej może być też wywożone do innych państw członkowskich UE oraz państw trzecich (o ile ich władze nie stawiają wymagań niemożliwych do spełnienia)."
   },
   {
     question: "Co to jest rzeźnia (ubojnia)?",
@@ -111,7 +111,8 @@ const RzezniRolnicza = () => {
               <li>• <strong>Limit:</strong> do 50 szt. drobiu/dzień, do 18 250 szt./rok (small-scale poultry slaughterhouse)</li>
               <li>• <strong>Rejestracja:</strong> projekt technologiczny → zatwierdzenie przez PLW → numer weterynaryjny</li>
               <li>• <strong>Wymagania:</strong> rozdzielenie stref, chłodnia ≤4°C, dokumentacja GHP/HACCP</li>
-              <li>• <strong>Sprzedaż:</strong> konsument końcowy lub lokalny detal (RHD/MOL)</li>
+              <li>• <strong>Sprzedaż:</strong> do zakładów, MOL i detalu; konsumentowi końcowemu przez dodatkową działalność (RHD/MOL)</li>
+              <li>• <strong>Kwalifikacje:</strong> szkolenie teoretyczne, egzamin i świadectwo od powiatowego lekarza weterynarii</li>
             </ul>
           </TLDRSection>
 
@@ -448,9 +449,7 @@ const RzezniRolnicza = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Rzeźnia rolnicza jest projektowana pod krótki łańcuch dostaw: sprzedaż konsumentowi końcowemu 
-                  oraz lokalnemu detalowi/gastronomii (zgodnie z reżimem RHD/MOL i ograniczeniami obszarowymi 
-                  oraz ilościowymi). Upewnij się, który tryb (RHD vs. MOL) zastosujesz do zbytu i oznakowania.
+                  Rzeźnia rolnicza jest projektowana pod krótki łańcuch dostaw. Mięso uznane za zdatne do spożycia ma zwykły znak jakości zdrowotnej (albo znak identyfikacyjny), bez osobnego znakowania „z rzeźni rolniczej”. Prowadzący może dostarczać je do innych zakładów, na przykład przetwórstwa mięsa, podmiotów MOL i handlu detalicznego. Sprzedaż konsumentowi końcowemu wymaga dodatkowej działalności, na przykład handlu detalicznego, RHD albo MOL. Upewnij się, który tryb zastosujesz do zbytu i oznakowania.
                 </p>
               </CardContent>
             </Card>
@@ -570,24 +569,25 @@ const RzezniRolnicza = () => {
                   <li>Otrzymujesz <strong>weterynaryjny numer identyfikacyjny (WNI)</strong> z symbolem <strong>36</strong> — „zakład zatwierdzony korzystający z krajowych środków dostosowujących".</li>
                 </ol>
                 <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-3 rounded text-sm">
-                  <strong>Uwaga aktualizacyjna:</strong> rozporządzenie MRiRW z 10 marca 2026 r. (Dz.U. 2026 poz. 343) zmieniło wykaz symboli WNI w związku z nową ustawą o zdrowiu zwierząt — symbol 36 mógł zostać przenumerowany. Potwierdź aktualny symbol u swojego powiatowego lekarza weterynarii. Zapytaj też wprost, czy w Twoim przypadku wymagany jest projekt technologiczny.
+                  <strong>Uwaga aktualizacyjna:</strong> rozporządzenie MRiRW z 10 marca 2026 r. (Dz.U. 2026 poz. 343) zmieniło wykaz symboli WNI w związku z nową ustawą o zdrowiu zwierząt — symbol 36 mógł zostać przenumerowany. Potwierdź aktualny symbol u swojego powiatowego lekarza weterynarii. Poradnik GIW z 12.11.2026 opisuje dwa etapy: przed uzyskaniem pozwolenia na budowę lub adaptację pomieszczeń składasz powiatowemu lekarzowi weterynarii projekt technologiczny wraz z wnioskiem o jego zatwierdzenie (opis działalności, tygodniowa zdolność produkcyjna, woda, odpady, lokalizacja oraz część graficzna). Po zakończeniu inwestycji, co najmniej 30 dni przed planowanym startem, składasz wniosek o zatwierdzenie zakładu. Działalność zaczynasz po kontroli i zatwierdzeniu albo warunkowym zatwierdzeniu.
                 </div>
               </CardContent>
             </Card>
 
-            {/* Kwalifikacje — rozbieżność */}
+            {/* Kwalifikacje wg poradnika GIW z 12.11.2026 */}
             <Card>
               <CardHeader>
-                <CardTitle>Kwalifikacje osoby ubijającej — uwaga: rozbieżność w źródłach</CardTitle>
+                <CardTitle>Kwalifikacje osoby ubijającej</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-sm">Źródła nie są zgodne co do wymogu praktyki dla osób dokonujących uboju w rzeźni rolniczej:</p>
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Wytyczne GIW (styczeń 2020): pracownicy powinni mieć kwalifikacje do zawodowego uboju wg rozp. MRiRW z 9 września 2004 r. — bez wzmianki o zwolnieniu.</li>
-                  <li>Część opracowań ODR: pracownicy rzeźni rolniczych są <strong>zwolnieni z 3-miesięcznej praktyki</strong> ubojowej.</li>
-                  <li>Inne opracowania: wymagane bezpłatne szkolenie teoretyczne u PLW oraz zaliczenie 3-miesięcznej praktyki pod nadzorem osoby z 3-letnim stażem.</li>
-                </ul>
-                <p className="text-sm text-muted-foreground">Różnica to realnie kilka miesięcy i koszt — dlatego <strong>zapytaj pisemnie swojego PLW</strong>. Bezsporne jest natomiast, że ubój wykonuje się wyłącznie po uprzednim pozbawieniu zwierzęcia świadomości, metodami dopuszczonymi rozp. (WE) nr 1099/2009.</p>
+                <p className="text-sm">Według poradnika Głównego Inspektoratu Weterynarii dla rolników (stan prawny na 12.11.2026) osoba, która ubija zwierzęta w rzeźni rolniczej, musi:</p>
+                <ol className="list-decimal list-inside space-y-1 text-sm">
+                  <li>odbyć <strong>szkolenie teoretyczne</strong>, bez obowiązku praktyki w rzeźni,</li>
+                  <li>zdać <strong>egzamin</strong> przed komisją powołaną przez powiatowego lekarza weterynarii właściwego dla miejsca szkolenia,</li>
+                  <li>otrzymać od niego <strong>świadectwo kwalifikacji</strong> dla osób pracujących w rzeźniach o małej zdolności produkcyjnej na terenie gospodarstwa rolnego.</li>
+                </ol>
+                <p className="text-sm">Świadectwo potwierdza kwalifikacje w zakresie obchodzenia się ze zwierzętami przed skrępowaniem, krępowania, ogłuszania, oceny skuteczności ogłuszenia, pętania lub podwieszania oraz wykrwawiania, i to dla tych gatunków i tej metody ogłuszania, które są w nim wskazane. Wzór świadectwa jest na stronie GIW „Rzeźnie rolnicze”.</p>
+                <p className="text-sm text-muted-foreground">Starsze opracowania mówiły o 3-miesięcznej praktyce albo o zwolnieniu z niej. Poradnik z 12.11.2026 wprost jej nie wymaga. Termin i sposób szkolenia ustal z powiatowym lekarzem weterynarii. Ubój wykonuje się wyłącznie po pozbawieniu zwierzęcia świadomości, metodami dopuszczonymi rozp. (WE) nr 1099/2009.</p>
               </CardContent>
             </Card>
 
@@ -597,9 +597,25 @@ const RzezniRolnicza = () => {
                 <CardTitle>Badanie na włośnie, odpady (UPPZ) i znakowanie mięsa</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm">
-                <p><strong>Włośnie:</strong> w rzeźni rolniczej obowiązkowe jest badanie mięsa na obecność włośni jako część badania poubojowego (metoda wytrawiania, rozp. 2015/1375). Badanie może być wykonane w laboratorium poza rzeźnią; laboratoria zajmujące się wyłącznie włośniami nie muszą mieć akredytacji ISO 17025, o ile są pod nadzorem PLW i uczestniczą w badaniach biegłości.</p>
+                <p><strong>Włośnie:</strong> w rzeźni rolniczej obowiązkowe jest badanie mięsa na obecność włośni (u świń, dzików i świniodzików, nutrii oraz koni) jako część badania poubojowego (metoda wytrawiania, rozp. 2015/1375). Badanie może być wykonane w laboratorium poza rzeźnią; laboratoria zajmujące się wyłącznie włośniami nie muszą mieć akredytacji ISO 17025, o ile są pod nadzorem PLW i uczestniczą w badaniach biegłości.</p>
+                <p><strong>Kryteria mikrobiologiczne:</strong> prowadzący rzeźnię bada próbki zgodnie z rozp. (WE) nr 2073/2005. Za zgodą powiatowego lekarza weterynarii częstotliwość pobierania próbek może być zmniejszona, jeśli z dokumentacji historycznej wynika, że stosujesz skuteczne procedury HACCP.</p>
                 <p><strong>UPPZ</strong> (uboczne produkty pochodzenia zwierzęcego): co do zasady przekazywane bez zwłoki do utylizacji; przy uboju małych ilości zakład ustala w procedurach maksymalny czas przechowywania.</p>
                 <p><strong>Znakowanie:</strong> znak jakości zdrowotnej (owalny, PL + WNI) dla tusz, półtusz i ćwierćtusz zwierząt kopytnych; znak identyfikacyjny dla mięsa drobiowego, zajęczaków, ptaków bezgrzebieniowych oraz mięsa z rozbioru.</p>
+              </CardContent>
+            </Card>
+
+            {/* Zgłoszenia, łańcuch żywnościowy, dokumenty UPPZ (poradnik GIW 12.11.2026) */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Zgłoszenia do ARiMR i dokumenty przy dostawie zwierząt</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                <p><strong>Numer rzeźni w ARiMR:</strong> rzeźnia, w której planujesz ubój bydła, owiec, kóz i świń, zgłasza się do kierownika biura powiatowego ARiMR. Dostajesz zaświadczenie z numerem rzeźni w ciągu 7 dni od zgłoszenia. Zgłoszenie musi nastąpić najpóźniej w dniu uboju pierwszego zwierzęcia.</p>
+                <p><strong>Zgłoszenia przemieszczeń i uboju:</strong> posiadacz zwierzęcia zgłasza przemieszczenie do rzeźni, a właściciel rzeźni zgłasza ubój, formularzem albo w aplikacji IRZplus, w ciągu 7 dni od zdarzenia (w ciągu 2 dni dla świń z obszaru objętego ograniczeniami, na przykład z powodu ASF). Kolczyki bydła i świń oraz kolczyki owiec i kóz z elektronicznym identyfikatorem niszczysz pod nadzorem urzędowego lekarza weterynarii.</p>
+                <p><strong>Konie:</strong> ubój zgłaszasz do bazy w ciągu 7 dni, unieważniasz dokument identyfikacyjny (UDDI) i odsyłasz go w ciągu 30 dni od uboju, po weryfikacji przez urzędowego lekarza.</p>
+                <p><strong>Informacja o łańcuchu żywnościowym:</strong> właściciel zwierząt dostarcza ją do rzeźni nie później niż 24 godziny przed przybyciem zwierząt. Powiatowy lekarz weterynarii może zezwolić na późniejsze przekazanie, także razem ze zwierzętami. Wzór formularza jest na stronie GIW „Informacja o łańcuchu żywnościowym”.</p>
+                <p><strong>Wzory dokumentów handlowych dla UPPZ:</strong> do każdej wysyłki ubocznych produktów pochodzenia zwierzęcego dołączasz dokument handlowy właściwej kategorii (1, 2 albo 3). Wzory do wypełnienia są na stronie GIW „Rzeźnie rolnicze”. Materiał szczególnego ryzyka odejmujesz, gromadzisz, barwisz i usuwasz osobno.</p>
+                <p className="text-muted-foreground">Źródło: <a href="https://www.wetgiw.gov.pl/nadzor-weterynaryjny/rzeznie-rolnicze" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">poradnik GIW dla rolników „Wymagania weterynaryjne przy prowadzeniu rzeźni rolniczej”, stan prawny na 12.11.2026</a>.</p>
               </CardContent>
             </Card>
 
@@ -684,6 +700,16 @@ const RzezniRolnicza = () => {
                     >
                       Wytyczne GIW/GLW
                     </a> – praktyka, identyfikowalność i znakowanie
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.wetgiw.gov.pl/nadzor-weterynaryjny/rzeznie-rolnicze"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Poradnik GIW dla rolników o rzeźniach rolniczych
+                    </a> – stan prawny na 12.11.2026, wzory świadectwa kwalifikacji i dokumentów UPPZ
                   </li>
                 </ul>
               </CardContent>
