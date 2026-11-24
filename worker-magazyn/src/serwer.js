@@ -15,7 +15,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { SERWIS } from './serwis.js';
 
-export const WERSJA = '0.9.6';
+export const WERSJA = '0.9.7';
 export const TYTUL = 'Moja Serowarnia: kultury i przepisy na sery';
 
 // Hub danerolne.com wstawia te instrukcje do swoich bez pierwszego akapitu (Hub/src/moduly.js):
@@ -80,7 +80,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Szukaj kultur bakteryjnych',
       description:
-        'Jakiej kultury bakteryjnej użyć do danego sera, jogurtu, kefiru albo twarogu i gdzie ją kupić. Szuka kultur do sera, jogurtu, kefiru i twarogu po nazwie sera albo zastosowaniu (np. "camembert", "twaróg", "jogurt grecki", "mozzarella"), z filtrami typu, temperatury pracy i sklepu. Zwraca nazwę, typ, zastosowanie, temperaturę, sklep, cenę, cenę za litr mleka i link do karty kultury. Każde słowo zapytania musi wystąpić w nazwie, zastosowaniu, typie albo składzie.',
+        'Cheese starter cultures, mould (Penicillium) cultures and yogurt or kefir cultures sold in Polish shops (kultury bakteryjne, kultura do sera, jaką kulturę kupić do twarogu, jogurtu, kefiru, pleśń): which culture to use for a cheese such as quark, mozzarella, camembert or feta, and where to buy it. Each result: name, type, use, working temperature, shop, price with date, price per litre of milk, link to the culture card. Filters: type, temperature, shop; sort by price per litre. Field zapytanie takes Polish words, e.g. "twaróg", "camembert", "jogurt grecki"; every word must match the name, use, type or composition.',
       inputSchema: z.object({
         zapytanie: z.string().max(200).optional()
           .describe('Ser albo zastosowanie, np. "camembert", "twaróg", "feta", "jogurt grecki"'),
@@ -102,7 +102,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Karta kultury',
       description:
-        'Co zawiera konkretna kultura bakteryjna, jak ją dawkować i gdzie kupić najtaniej. Pełna karta jednej kultury po nazwie handlowej, np. "Choozit MA 4001", "ALPHA 10", "DELTA 2": skład z rozbiciem na gatunki, zastosowanie, temperatura, dawkowanie, producent, proporcje szczepów, wszystkie oferty w sklepach z ceną za litr i linkiem do produktu. Gdy nazwy nie ma, zwraca najbliższe nazwy.',
+        'Full card of one cheese culture by trade name (karta kultury bakteryjnej), e.g. "Choozit MA 4001", "ALPHA 10", "DELTA 2": species and strain ratios (skład, szczepy), use, temperature, dosage per litre of milk (dawkowanie), producer, and every shop offer with price, date, price per litre and product link. If the name is unknown, returns the closest names.',
       inputSchema: z.object({
         nazwa: z.string().min(1).max(120).describe('Nazwa handlowa z opakowania albo z wyników szukaj_kultur'),
       }),
@@ -116,7 +116,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Zamienniki kultury',
       description:
-        'Czym zastąpić daną kulturę bakteryjną i co wyjdzie taniej. Kultury o identycznym składzie gatunkowym jak podana, od najtańszej w przeliczeniu na litr mleka. Zaznacza, gdy w grupie są różne przeznaczenia albo różne proporcje szczepów. Ten sam skład nie znaczy ten sam produkt: wynik ma to zastrzeżenie w polu zastrzezenie.',
+        'Substitute or cheaper replacement for a starter culture (zamiennik, czym zastąpić kulturę bakteryjną): cultures with the same species composition as the given one, cheapest per litre of milk first, with shop, price and date. Marks groups with different uses or strain ratios. The same species does not mean the same product: each result carries this note in field zastrzezenie.',
       inputSchema: z.object({
         nazwa: z.string().min(1).max(120).describe('Nazwa handlowa kultury, do której szukamy zamiennika'),
       }),
@@ -130,7 +130,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'O bazie kultur',
       description:
-        'Co zawiera baza kultur i jak ją cytować. Opis bazy: ile kultur i sklepów, jakie typy, od kiedy ceny są sprawdzone, licencja i jak cytować.',
+        'About the cheese culture database (baza kultur bakteryjnych, ile kultur, jak cytować): number of cultures and shops, culture types, the date prices were checked, the CC BY 4.0 license and how to cite it.',
       inputSchema: z.object({}),
       annotations: TYLKO_ODCZYT,
     },
@@ -144,7 +144,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Szukaj przepisów na sery',
       description:
-        'Jakie sery można zrobić w domu i który przepis wybrać. Szuka przepisów na domowe sery po nazwie sera albo cesze (np. "mozzarella", "ser pleśniowy", "z mleka koziego", "twaróg"). Bez zapytania zwraca wszystkie przepisy. Zwraca nazwę, trudność, wydajność, czas dojrzewania, krótki opis i link. Pełny przepis z kulturami i sklepami zwraca narzędzie przepis.',
+        'Homemade cheese recipes (przepisy na sery domowe, przepis na ser w domu, jak zrobić ser): find a recipe by cheese name or feature, e.g. mozzarella, gouda, camembert, quark (twaróg), goat milk cheese, mould cheese. Each: name, difficulty, yield, ripening time, short description, link. Without zapytanie: all recipes. Field zapytanie takes Polish words, e.g. "mozzarella", "ser pleśniowy", "z mleka koziego". The full recipe with cultures and shops comes from tool przepis.',
       inputSchema: z.object({
         zapytanie: z.string().max(200).optional().describe('Ser albo cecha, np. "mozzarella", "camembert", "ser twardy"'),
         trudnosc: z.enum(TRUDNOSCI).optional().describe('Tylko przepisy o tej trudności'),
@@ -160,7 +160,7 @@ function zarejestrujNarzedzia(serwer) {
     {
       title: 'Przepis na ser',
       description:
-        'Jak krok po kroku zrobić w domu konkretny ser i jakie kultury do niego kupić. Pełny przepis na domowy ser po nazwie albo id, np. "mozzarella", "gouda", "ser topiony": mleko, kultura startowa, koagulant, dawkowanie, kroki z temperaturami i czasami, solenie, dojrzewanie, wskazówki i ostrzeżenia, a gdy jest, dziennik warzeń autora. Do tego kultury z przepisu dopasowane do bazy (sklep, cena, cena za litr, link do karty) i inne kultury z bazy pasujące do tego sera.',
+        'How to make a cheese at home, step by step (przepis krok po kroku): the full recipe by name or id, e.g. "mozzarella", "gouda", "ser topiony": milk, starter culture, rennet (podpuszczka), dosage, steps with temperatures and times, salting (solenie), ripening (dojrzewanie), tips and warnings, and the brewing diary of the author when there is one. Plus the cultures from the recipe matched to the database (shop, price with date, price per litre, link) and other cultures that suit this cheese.',
       inputSchema: z.object({
         nazwa: z.string().min(1).max(80).describe('Nazwa sera albo id z wyników szukaj_przepisow'),
       }),
