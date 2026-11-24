@@ -1,7 +1,8 @@
 /*
  * Pasek rodziny serwisów Dane Rolne (decyzja Marka z 6.11.2026, „linki odsyłające i powrotne”).
  * Reguły .dr-pasek skopiowane bez zmian z STYL_PASKA w C:\Moje\Hub\worker\src\pasek-rodziny.js (commit a8bb602, 12.11.2026).
- * Nowa wersja w hubie: skopiować ją tu ponownie, razem z HTML-em w src/components/PasekRodziny.tsx.
+ * Nowa wersja w hubie: skopiować ją tu ponownie, razem z HTML-em w src/components/pasekRodzinyHtml.ts.
+ * Ten plik czyta też Worker (strona /szukaj, worker/szukaj.js) jako tekst: reguła w wrangler.jsonc.
  */
 .dr-pasek { display: block; position: static; width: auto; height: auto; min-height: 0; max-width: none; margin: 0; padding: 0; border: 0; background: #14201A; font: 400 13px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 .dr-pasek ul { display: flex; flex-wrap: nowrap; justify-content: flex-start; align-items: stretch; gap: 22px; box-sizing: border-box; width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; list-style: none; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }

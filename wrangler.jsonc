@@ -17,7 +17,9 @@
   // src/App.tsx wchodzi do workera jako tekst (20.11.2026): worker czyta z niego
   // listę tras React i dla adresu spoza listy oddaje 404 zamiast strony głównej
   // z kodem 200 (miękkie 404). Jedno źródło tras, bez ręcznej kopii w workerze.
-  "rules": [{ "type": "Text", "globs": ["**/App.tsx"], "fallthrough": true }],
+  // Styl paska rodziny serwisów też jako tekst (24.11.2026): strona /szukaj składana w Workerze
+  // (worker/szukaj.js) ma ten sam pasek co aplikacja, z jednego pliku.
+  "rules": [{ "type": "Text", "globs": ["**/App.tsx", "**/pasek-rodziny.css"], "fallthrough": true }],
 
   "assets": {
     "directory": "./dist",

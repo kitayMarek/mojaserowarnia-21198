@@ -23,6 +23,7 @@ import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 import zrodloAplikacji from '../src/App.tsx';
 import { czyTrasaAplikacji } from './trasy-aplikacji.js';
 import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku, czyPasze, STRONA_ASYSTENTOW_PASZE } from './lacznik-claude.js';
+import { stronaSzukaj } from './szukaj.js';
 
 // Boty podglądu linków. Googlebota tu NIE MA celowo — indeksuje wersję
 // kanoniczną (trasę React), a nie mirror. Lista 1:1 z dawnego .htaccess.
@@ -571,6 +572,18 @@ Disallow: /
         return url.pathname === '/en/ai-bots.html' ? gotowe : oznaczMirror(gotowe);
       }
       // Gdyby pliku zabraklo — lecimy dalej i konczy sie zwyklym 404.
+    }
+
+    // 1b2c) /szukaj (od 24.11.2026): strona wyników składana w worker/szukaj.js, ta sama dla
+    //       człowieka i bota, działa bez JavaScriptu. Etap 1 wyszukiwarki we wszystkich modułach
+    //       Dane Rolne: indeks okna Ctrl+K, pod nim wyniki z danerolne.com/api/szukaj.
+    //       Stoi przed regułą 2 i 5b, bo nie ma ani pliku /szukaj.html, ani trasy React.
+    if (bezUkosnika === '/szukaj' && (request.method === 'GET' || request.method === 'HEAD')) {
+      const uaSzukaj = request.headers.get('user-agent') || '';
+      return stronaSzukaj(request, env, url, {
+        bot: BOTY_PODGLADU.test(uaSzukaj) || BOTY_MODELI.test(uaSzukaj) || botBezPodpisu(request),
+        adresTestowy,
+      });
     }
 
     // 1b3) Pliki mierzone — oddajemy zawartosc, a licznik zapisze wizyte

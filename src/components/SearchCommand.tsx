@@ -102,6 +102,11 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
 
   const categorizedResults = getItemsByCategory(results);
 
+  // Strona wyników /szukaj (od 24.11.2026) składa Worker, nie React: te same wyniki co tutaj,
+  // a pod nimi wyniki z innych serwisów Dane Rolne. Dlatego zwykły link, nie navigate().
+  const fraza = query.trim();
+  const adresSzukajWszedzie = fraza ? `/szukaj?q=${encodeURIComponent(fraza)}` : "/szukaj";
+
   return (
     // shouldFilter={false}: szukamy sami (searchItems). Domyślny filtr cmdk porównywał frazę
     // z identyfikatorem pozycji i chował wyniki: na „mozarela” zostawało samo „+38 więcej kultur”.
@@ -110,6 +115,13 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
         placeholder="Szukaj kultur, przepisów, poradników..."
         value={query}
         onValueChange={setQuery}
+        onKeyDown={(e) => {
+          // Bez wyników tutaj Enter otwiera stronę wyników, bo inne serwisy mogą coś mieć.
+          if (e.key === "Enter" && fraza && results.length === 0) {
+            e.preventDefault();
+            window.location.href = adresSzukajWszedzie;
+          }
+        }}
       />
       <CommandList>
         {!query.trim() && (
@@ -316,6 +328,15 @@ const SearchCommand = ({ open, onOpenChange }: SearchCommandProps) => {
           </>
         )}
       </CommandList>
+      <a
+        href={adresSzukajWszedzie}
+        className="flex min-h-[44px] flex-wrap items-center justify-between gap-x-3 gap-y-0.5 border-t border-border px-4 py-2 text-sm hover:bg-muted"
+      >
+        <span className="min-w-0 truncate font-semibold text-primary">
+          Szukaj wszędzie{fraza ? `: „${fraza}”` : ""}
+        </span>
+        <span className="text-xs text-muted-foreground">Moja Serowarnia i inne serwisy Dane Rolne</span>
+      </a>
     </CommandDialog>
   );
 };

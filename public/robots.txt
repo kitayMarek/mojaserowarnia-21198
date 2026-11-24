@@ -125,6 +125,9 @@ User-agent: PanguBot
 User-agent: Timpibot
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Disallow: /serowarnie
+# /szukaj od 24.11.2026: pod wynikami Serowarni sa wyniki huba z gospodarstwami
+# i sklepami (hub i Moja Pasza tez zamykaja swoje /szukaj dla tych botow).
+Disallow: /szukaj
 Disallow: /dashboard/
 Disallow: /auth
 Disallow: /api/

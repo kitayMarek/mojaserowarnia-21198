@@ -84,7 +84,7 @@ Blokady, które zostają z decyzji Marka:
 |---|---|---|
 | Meta-ExternalAgent: `Disallow: /` i 403 | `public/robots.txt`, `worker/index.js` (1z) | decyzja z 16.10.2026: najwięcej pobrań, zero ruchu ludzi w zamian |
 | Łącznik dane.mojaserowarnia.pl: noindex na wszystkim, `Disallow: /mcp` | `worker-magazyn/src/index.js`, `odkrywanie.js` | strona techniczna łącznika, nie treść dla wyszukiwarki |
-| Boty trenujące modele (GPTBot, ClaudeBot, CCBot, Google-Extended i inne z listy huba): `Disallow: /serowarnie` | `public/robots.txt`, grupa „BOTY TRENUJACE MODELE” | zasada Marka z 13.11.2026 dla całej rodziny serwisów: wiedza otwarta do trenowania, dane o konkretnych serowarniach i ludziach nie. Boty wyszukujące (OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot, Bingbot) czytają katalog jak dotąd. Zdanie o tym jest w warunkach (`/warunki-mcp#licencja`) i w `llms.txt` |
+| Boty trenujące modele (GPTBot, ClaudeBot, CCBot, Google-Extended i inne z listy huba): `Disallow: /serowarnie` i od 24.11.2026 `Disallow: /szukaj` | `public/robots.txt`, grupa „BOTY TRENUJACE MODELE” | zasada Marka z 13.11.2026 dla całej rodziny serwisów: wiedza otwarta do trenowania, dane o konkretnych serowarniach i ludziach nie. Pod wynikami `/szukaj` są wpisy huba (gospodarstwa, sklepy), więc ta strona jest zamknięta tak samo jak `/szukaj` w hubie i w Mojej Paszy. Boty wyszukujące (OAI-SearchBot, Claude-SearchBot, PerplexityBot, Googlebot, Bingbot) czytają katalog jak dotąd. Zdanie o tym jest w warunkach (`/warunki-mcp#licencja`) i w `llms.txt` |
 
 Wyjątki techniczne:
 
@@ -94,6 +94,7 @@ Wyjątki techniczne:
 | Strona 404 i nieznaleziona wizytówka serowarni | `public/404.html`, `src/pages/SerowarniaProfil.tsx` | strony, której nie ma, nie indeksujemy |
 | `/wypisz` (wypisanie z wiadomości) | `worker/index.js`, `src/pages/Wypisanie.tsx` | adres z prywatnym tokenem z maila |
 | `/api/licznik-botow` | `worker/kontrakt-botow.js` | odczyt licznika na prywatny klucz |
+| `/szukaj?q=…` (strona wyników z pytaniem, od 24.11.2026): `noindex, follow` w nagłówku i w `<meta>` | `worker/szukaj.js` | każde pytanie to inny adres z wynikami, a nie treść do indeksu; tak samo `/szukaj?q=` w hubie i w Mojej Paszy. `/szukaj` bez pytania jest bez noindex |
 | `Disallow` dla `/dashboard/`, `/auth`, `/api/`, `/admin`, `/settings` | `public/robots.txt` | strony za logowaniem i odpowiedzi techniczne |
 | `/wewnetrzne/archiwum-2019.html`: noindex i `Disallow: /wewnetrzne/` | `public/robots.txt`, sam plik | pułapka na boty, które nie czytają robots.txt: strony nie ma w mapie ani w żadnym linku, więc jej pobranie dowodzi zignorowania zakazu; treść nie jest do publikacji |
 

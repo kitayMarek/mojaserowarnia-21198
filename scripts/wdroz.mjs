@@ -139,6 +139,11 @@ console.log(`\nKatalog: ${KATALOG}`);
   }
 }
 
+// Indeks strony /szukaj w Workerze (od 24.11.2026) świeżo z src/data/searchIndex.ts, żeby Worker
+// szukał w tym samym indeksie co okno Ctrl+K w budowanej aplikacji. Gdy przepisy albo kultury
+// się zmieniły, po wdrożeniu zostaje zmieniony worker/indeks-szukaj.json: zacommitować go razem z nimi.
+uruchom("node", ["scripts/gen-indeks-szukaj.mjs"]);
+
 console.log("Kontrole przeszły. Buduję…\n");
 uruchom("npm", ["run", "build"]);
 
