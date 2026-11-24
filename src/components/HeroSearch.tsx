@@ -117,8 +117,9 @@ const HeroSearch = ({
         setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
         break;
       case "Enter":
-        e.preventDefault();
+        // Wybrana podpowiedź otwiera się od razu. Bez wyboru Enter wysyła formularz na /szukaj.
         if (selectedIndex >= 0 && results[selectedIndex]) {
+          e.preventDefault();
           handleSelect(results[selectedIndex]);
         }
         break;
@@ -128,22 +129,46 @@ const HeroSearch = ({
     }
   };
 
+  // Od 24.11.2026 pole jest zwykłym formularzem GET na /szukaj: tę stronę składa Worker, nie React
+  // (te same wyniki co tutaj, a pod nimi inne serwisy Dane Rolne). Wysłanie formularza ładuje ją od nowa.
+  const fraza = query.trim();
+  const adresSzukaj = `/szukaj?q=${encodeURIComponent(fraza)}`;
+
   return (
-    <div className={cn("relative w-full", className)}>
-      <div className="relative">
+    <div className={cn("w-full", className)}>
+    <div className="relative w-full">
+      <form
+        action="/szukaj"
+        method="get"
+        role="search"
+        className="relative"
+        onSubmit={(e) => {
+          if (!fraza) e.preventDefault();
+        }}
+      >
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <input
           ref={inputRef}
           type="text"
+          name="q"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
-          placeholder="Szukaj kultur, przepisów, narzędzi..."
+          placeholder="np. mozzarella, twaróg, RHD"
           aria-label="Szukaj w serwisie"
-          className={cn("w-full h-12 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all", poleClassName)}
+          aria-describedby="hero-bez-danych"
+          maxLength={120}
+          enterKeyHint="search"
+          className={cn("w-full h-12 pl-12 pr-[6.5rem] text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all", poleClassName)}
         />
-      </div>
+        <button
+          type="submit"
+          className="absolute right-1 top-1/2 -translate-y-1/2 h-11 min-w-[44px] rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2"
+        >
+          Szukaj
+        </button>
+      </form>
 
       {/* Popular searches dropdown */}
       {showPopular && !isOpen && (
@@ -210,6 +235,13 @@ const HeroSearch = ({
               );
             })}
           </div>
+          <a
+            href={adresSzukaj}
+            className="flex min-h-[44px] flex-wrap items-center justify-between gap-x-3 gap-y-0.5 border-t border-border/50 px-4 py-2 text-sm no-underline hover:bg-muted/50"
+          >
+            <span className="min-w-0 truncate font-semibold text-primary">Szukaj wszędzie: „{fraza}”</span>
+            <span className="text-xs text-muted-foreground">Moja Serowarnia i inne serwisy Dane Rolne</span>
+          </a>
           <div className="px-4 py-2 border-t border-border/50 bg-muted/30">
             <p className="text-xs text-muted-foreground text-center">
               ↑↓ nawiguj • Enter wybierz • Esc zamknij
@@ -217,6 +249,10 @@ const HeroSearch = ({
           </div>
         </div>
       )}
+    </div>
+      <p id="hero-bez-danych" className="mt-2 text-xs text-muted-foreground">
+        Nie wpisuj danych osobowych.
+      </p>
     </div>
   );
 };
