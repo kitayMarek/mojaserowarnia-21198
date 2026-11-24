@@ -4,9 +4,9 @@
  * dodatkow (do 0.9.0 tutaj) prowadzi od 28.10.2026 repozytorium Mojej Paszy
  * (C:/Moje/MojaPasza, serwer mojapasza.com/mcp).
  *
- * Opisy narzedzi sa po polsku, bo czytaja je modele odpowiadajace polskim
- * serowarom. Nazwy narzedzi i pol sa ASCII (D12 z pliku golebia), etykiety
- * z ogonkami siedza w wartosciach.
+ * Opisy narzedzi sa od 0.9.7 po angielsku z polskimi slowami, ktorymi pytaja
+ * serowarzy (pomiar wyszukiwania narzedzi z 24.11.2026). Nazwy narzedzi i pol
+ * sa ASCII (D12 z pliku golebia), etykiety z ogonkami siedza w wartosciach.
  */
 
 import { McpServer } from '@modelcontextprotocol/server';
@@ -15,7 +15,7 @@ import { szukajKultur, kartaKultury, zamiennikiKultury, oBazie, TYPY, SKLEPY } f
 import { szukajPrzepisow, przepis, TRUDNOSCI } from './przepisy.js';
 import { SERWIS } from './serwis.js';
 
-export const WERSJA = '0.9.7';
+export const WERSJA = '0.10.0';
 export const TYTUL = 'Moja Serowarnia: kultury i przepisy na sery';
 
 // Hub danerolne.com wstawia te instrukcje do swoich bez pierwszego akapitu (Hub/src/moduly.js):
@@ -48,7 +48,8 @@ function wynik(dane) {
 
 export const TYTUL_SERWERA = TYTUL;
 
-export function zbudujSerwer() {
+/** wariant 'chatgpt' (ścieżki /mcp/chatgpt i /mcp/chatgpt-wtyczka): przepis w kształcie i z opisem sprzed 0.10.0. */
+export function zbudujSerwer({ wariant } = {}) {
   const serwer = new McpServer(
     {
       name: 'mojaserowarnia',
@@ -58,7 +59,7 @@ export function zbudujSerwer() {
     },
     { instructions: INSTRUKCJE },
   );
-  zarejestrujNarzedzia(serwer);
+  zarejestrujNarzedzia(serwer, { wariant });
   return serwer;
 }
 
@@ -74,7 +75,12 @@ export function listaNarzedzi() {
   return lista;
 }
 
-function zarejestrujNarzedzia(serwer) {
+// Opis przepis z 0.9.7, dla kanałów ChatGPT: obiecuje to, co zwraca stary kształt wyniku.
+const OPIS_PRZEPISU_CHATGPT =
+  'How to make a cheese at home, step by step (przepis krok po kroku): the full recipe by name or id, e.g. "mozzarella", "gouda", "ser topiony": milk, starter culture, rennet (podpuszczka), dosage, steps with temperatures and times, salting (solenie), ripening (dojrzewanie), tips and warnings, and the brewing diary of the author when there is one. Plus the cultures from the recipe matched to the database (shop, price with date, price per litre, link) and other cultures that suit this cheese.';
+
+function zarejestrujNarzedzia(serwer, { wariant } = {}) {
+  const chatgpt = wariant === 'chatgpt';
   serwer.registerTool(
     'szukaj_kultur',
     {
@@ -159,13 +165,13 @@ function zarejestrujNarzedzia(serwer) {
     'przepis',
     {
       title: 'Przepis na ser',
-      description:
-        'How to make a cheese at home, step by step (przepis krok po kroku): the full recipe by name or id, e.g. "mozzarella", "gouda", "ser topiony": milk, starter culture, rennet (podpuszczka), dosage, steps with temperatures and times, salting (solenie), ripening (dojrzewanie), tips and warnings, and the brewing diary of the author when there is one. Plus the cultures from the recipe matched to the database (shop, price with date, price per litre, link) and other cultures that suit this cheese.',
+      description: chatgpt ? OPIS_PRZEPISU_CHATGPT :
+        'How to make a cheese at home, step by step (przepis krok po kroku): the full recipe by name or id, e.g. "mozzarella", "gouda", "camembert", "twaróg", ready to show as a recipe card. Ingredients with amount and unit (składniki: mleko, kultura, podpuszczka, chlorek wapnia, sól), steps with temperature in °C and time in minutes, salting (solenie), ripening (dojrzewanie), tips and warnings, and the brewing diary of the author when there is one. Plus the cultures from the recipe matched to Polish shops (shop, price with date, price per litre, link) and other cultures that suit this cheese.',
       inputSchema: z.object({
         nazwa: z.string().min(1).max(80).describe('Nazwa sera albo id z wyników szukaj_przepisow'),
       }),
       annotations: TYLKO_ODCZYT,
     },
-    async (args) => wynik(przepis(args)),
+    async (args) => wynik(przepis(args, { karta: !chatgpt })),
   );
 }

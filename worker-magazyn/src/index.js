@@ -44,10 +44,12 @@ const KANALY = new Set(['claude', 'chatgpt', 'claude-wtyczka', 'chatgpt-wtyczka'
 // Fabryka, nie gotowy serwer: w trybie bezstanowym kazde zadanie dostaje
 // swieza instancje. responseMode 'json' = bez strumieni SSE tam, gdzie klient
 // pozwala wybrac; narzedzia nie wysylaja niczego przed wynikiem, wiec nic nie ginie.
-const mcp = createMcpHandler(() => zbudujSerwer(), {
-  responseMode: 'json',
-  maxRequestBodySize: 64 * 1024,
-});
+const OPCJE_MCP = { responseMode: 'json', maxRequestBodySize: 64 * 1024 };
+const mcp = createMcpHandler(() => zbudujSerwer(), OPCJE_MCP);
+// Kanały ChatGPT (od 0.10.0): przepis w kształcie sprzed karty przepisu, do decyzji OpenAI
+// o łączniku huba. Hub przekazuje wywołania ze swojego /chatgpt/mcp pod /mcp/chatgpt.
+const mcpChatgpt = createMcpHandler(() => zbudujSerwer({ wariant: 'chatgpt' }), OPCJE_MCP);
+const KANALY_CHATGPT = new Set(['chatgpt', 'chatgpt-wtyczka']);
 
 const NAGLOWKI_WSPOLNE = {
   'x-robots-tag': 'noindex, nofollow',
@@ -327,7 +329,8 @@ const obsluga = {
     }
 
     // Pod ścieżką kanału to samo zapytanie co pod /mcp.
-    const odpowiedz = await mcp.fetch(kanal ? new Request(new URL(`${SCIEZKA_MCP}${url.search}`, url.origin), request) : request);
+    const obsluga = KANALY_CHATGPT.has(kanal) ? mcpChatgpt : mcp;
+    const odpowiedz = await obsluga.fetch(kanal ? new Request(new URL(`${SCIEZKA_MCP}${url.search}`, url.origin), request) : request);
     ctx.waitUntil(zliczWywolanie(env, opis, odpowiedz.status));
 
     const naglowki = new Headers(odpowiedz.headers);
