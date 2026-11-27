@@ -1,3 +1,5 @@
+import { zlotowki } from "@/lib/adresKultury";
+
 /**
  * Cena kultury z kontekstem, bez którego sama kwota nic nie znaczy.
  *
@@ -24,10 +26,9 @@ interface Props {
 }
 
 function zlotePerLitr(cena: number, litry: number): string {
-  const v = cena / litry;
-  // Przy dużych opakowaniach wychodzą grosze — pokazujemy tyle miejsc, ile ma sens.
-  if (v < 0.1) return v.toFixed(3).replace(".", ",");
-  return v.toFixed(2).replace(".", ",");
+  // Przy dużych opakowaniach wychodzą grosze, więc poniżej 0,10 zł trzy miejsca. Połówki w górę,
+  // jak w łączniku: zlotowki() z src/lib/adresKultury.ts (27.11.2026).
+  return zlotowki(cena / litry);
 }
 
 const CenaKultury = ({ cena, cenaLiczbowo, cenaPoprzednia, litry, waski }: Props) => {

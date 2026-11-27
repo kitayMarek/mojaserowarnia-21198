@@ -31,8 +31,19 @@ function dopasuj(wzorzec, sciezka) {
 
 /** Czy ścieżka (bez końcowego ukośnika) to trasa aplikacji. */
 export function czyTrasaAplikacji(zrodlo, sciezka) {
+  return trasaAplikacji(zrodlo, sciezka) !== null;
+}
+
+/**
+ * Wzorzec trasy, do którego pasuje ścieżka, albo null. Trasa stała wygrywa z trasą z parametrem,
+ * tak jak w React Router („/kultury/mezofilne” przed „/kultury/:slug”). Od 27.11.2026: worker
+ * po wzorcu z parametrem sprawdza, czy taka kultura albo przepis w ogóle istnieje.
+ */
+export function trasaAplikacji(zrodlo, sciezka) {
   if (!pamiec || pamiec.zrodlo !== zrodlo) pamiec = { zrodlo, trasy: trasyZAplikacji(zrodlo) };
   let s;
-  try { s = decodeURIComponent(sciezka).toLowerCase(); } catch { return false; }
-  return s === '/' || pamiec.trasy.some((w) => dopasuj(w, s));
+  try { s = decodeURIComponent(sciezka).toLowerCase(); } catch { return null; }
+  if (s === '/') return '/';
+  const pasujace = pamiec.trasy.filter((w) => dopasuj(w, s));
+  return pasujace.find((w) => !w.includes(':')) ?? pasujace[0] ?? null;
 }

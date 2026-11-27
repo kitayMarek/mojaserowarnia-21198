@@ -18,7 +18,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { useCultures } from "@/hooks/useCultures";
-import { adresKultury, zaLitr } from "@/lib/adresKultury";
+import { adresKultury, zaLitr, zlotowki } from "@/lib/adresKultury";
 import { czyTypLD } from "@/lib/grupyKultur";
 import { floraDanica as fd, ADRES_FLORA_DANICA } from "@/data/floraDanica";
 import { recipesData } from "@/data/recipesData";
@@ -26,7 +26,8 @@ import { recipesData } from "@/data/recipesData";
 // Te same zasady zaokrąglania co na stronie kultury: przy dużych opakowaniach
 // cena litra idzie w grosze i trzecie miejsce po przecinku ma znaczenie.
 const miejsca = (v: number) => (v < 0.1 ? 3 : 2);
-const zl = (v: number, m = miejsca(v)) => v.toFixed(m).replace(".", ",");
+// Połówki w górę, jak w łączniku: zlotowki() z src/lib/adresKultury.ts (27.11.2026).
+const zl = (v: number, m = miejsca(v)) => zlotowki(v, m);
 
 /** „1 pozycja ma", „3 pozycje mają", „13 pozycji ma". Bliźniak: pozycje_ma() w generatorze. */
 const pozycjeMa = (n: number) => {

@@ -58,3 +58,16 @@ export function zaLitr(cena?: number | null, litry?: number | null): number | nu
   if (cena == null || litry == null || litry <= 0) return null;
   return cena / litry;
 }
+
+/**
+ * Złotówki jako tekst z przecinkiem, połówki w górę (od 27.11.2026). Tak samo zaokrągla łącznik
+ * (worker-magazyn/src/kultury.js, Math.round) i mirrory (scripts/gen-kultury-strony.py, zl).
+ * Wcześniej strona robiła toFixed: 18,50 zł za 100 L wychodziło na stronie 0,18 zł/L, a w łączniku 0,19.
+ * Domyślnie 2 miejsca, poniżej 0,10 zł 3 (przy opakowaniach na tysiące litrów cena litra to grosze).
+ */
+export function zlotowki(v: number, miejsc?: number): string {
+  const m = miejsc ?? (Math.abs(v) < 0.1 ? 3 : 2);
+  const k = 10 ** m;
+  const z = (Math.sign(v) * Math.round(Math.abs(v) * k)) / k;
+  return z.toFixed(m).replace(".", ",");
+}

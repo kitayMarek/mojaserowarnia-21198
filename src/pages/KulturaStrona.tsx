@@ -24,14 +24,15 @@ import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import BuyButton from "@/components/BuyButton";
 import { useCultures, useCultureDetail } from "@/hooks/useCultures";
 import { useMetaStrony } from "@/hooks/useMetaStrony";
-import { adresKultury, znajdzKulture, zaLitr } from "@/lib/adresKultury";
+import { adresKultury, znajdzKulture, zaLitr, zlotowki } from "@/lib/adresKultury";
 import { grupujPoSkladzie, ladnyGatunek, type KulturaWejscie } from "@/lib/grupyKultur";
 
 // Ile miejsc po przecinku ma sens: przy opakowaniach na 5000 L cena litra idzie
 // w grosze. Liczba miejsc MUSI byc wspolna dla ceny i dla roznicy — inaczej
 // wychodzi "0,19 zl/L" obok "-0,010 zl/L", co wyglada jak inna jednostka.
 const miejsca = (v: number) => (v < 0.1 ? 3 : 2);
-const zl = (v: number, m = miejsca(v)) => v.toFixed(m).replace(".", ",");
+// Połówki w górę, jak w łączniku: zlotowki() z src/lib/adresKultury.ts (27.11.2026).
+const zl = (v: number, m = miejsca(v)) => zlotowki(v, m);
 
 const KulturaStrona = () => {
   const { slug = "" } = useParams();

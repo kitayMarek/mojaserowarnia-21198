@@ -22,6 +22,7 @@ UŻYCIE:  python scripts/gen-kultury-strony.py
 """
 
 import io
+import math
 import os
 import re
 import unicodedata
@@ -76,8 +77,12 @@ def za_litr(cena, litry):
 
 
 def zl(v, miejsc=None):
-    m = (3 if v < 0.1 else 2) if miejsc is None else miejsc
-    return ("%.*f" % (m, v)).replace(".", ",")
+    # Połówki w górę (27.11.2026), jak zlotowki() w src/lib/adresKultury.ts i łącznik: 18,50 zł za 100 L
+    # to 0,19 zł/L. Samo "%.2f" dawało 0,18, bo 0,185 zapisane w float jest odrobinę mniejsze.
+    m = (3 if abs(v) < 0.1 else 2) if miejsc is None else miejsc
+    k = 10 ** m
+    z = math.copysign(math.floor(abs(v) * k + 0.5) / k, v)
+    return ("%.*f" % (m, z)).replace(".", ",")
 
 
 def wczytaj_pelne():

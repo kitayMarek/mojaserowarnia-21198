@@ -21,7 +21,7 @@ import { zapiszWejscieCzlowieka } from './wejscia-ludzi.js';
 import { kontraktBotow, SCIEZKA_KONTRAKTU, WLASNY_ODCZYT } from './kontrakt-botow.js';
 import { feedJson, mirrorHtml, raportJson, JEZYKI } from './boty-ai.js';
 import zrodloAplikacji from '../src/App.tsx';
-import { czyTrasaAplikacji } from './trasy-aplikacji.js';
+import { trasaAplikacji } from './trasy-aplikacji.js';
 import { znacznikLinku, formularzClaude, zapiszKlikniecieLinku, czyPasze, STRONA_ASYSTENTOW_PASZE } from './lacznik-claude.js';
 import { stronaSzukaj } from './szukaj.js';
 
@@ -200,6 +200,9 @@ const PLIKI_MIERZONE = new Set([
 // Trasy React kolidujące z fizycznym katalogiem mirrorów — muszą dostać
 // aplikację, nawet gdyby w katalogu kiedyś pojawił się index.html.
 const ZAWSZE_APLIKACJA = new Set(['/przepisy', '/prawo', '/serowarnie', '/przepisy-kulinarne']);
+
+// Trasy z parametrem, przy których istnienie pozycji rozstrzyga plik public/<ścieżka>.html (reguła 5c).
+const TRASY_Z_PLIKIEM = new Set(['/kultury/:slug', '/przepisy/:id', '/przepisy-kulinarne/:id']);
 
 const zasob = (env, origin, sciezka) => env.ASSETS.fetch(new URL(sciezka, origin));
 
@@ -761,7 +764,20 @@ Disallow: /
     //     także Googlebot: miękkie 404 i ryzyko śmieciowych adresów w indeksie.
     //     Człowiek widzi tę samą stronę „nie znaleziono” z aplikacji, tylko z kodem 404.
     //     Trasy z parametrem (/przepisy/:id) dalej rozstrzyga aplikacja.
-    const status = czyTrasaAplikacji(zrodloAplikacji, bezUkosnika) ? 200 : 404;
+    //
+    // 5c) Kultura albo przepis, których nie ma → też 404 (27.11.2026, audyt łączników: /kultury/to-nie-istnieje-xyz
+    //     dawało 200). Trasa z parametrem pasuje do każdego adresu, więc rozstrzyga plik dla botów: każda kultura
+    //     i każdy przepis ma swój public/<trasa>.html (sprawdzone 27.11: 188 kultur z bazy, 25 przepisów,
+    //     5 kulinarnych, bez wyjątku). ⚠ Nowa kultura w bazie bez przegenerowanych mirrorów
+    //     (scripts/gen-kultury-strony.py) dostanie tu 404, choć aplikacja ją pokaże.
+    //     /serowarnie/:slug tu nie ma: wizytówki są w bazie, a plik ma tylko jedna (strona sama daje noindex).
+    const trasa = trasaAplikacji(zrodloAplikacji, bezUkosnika);
+    let status = trasa ? 200 : 404;
+    if (TRASY_Z_PLIKIEM.has(trasa)) {
+      const plik = await zasob(env, url.origin, bezUkosnika + '.html');
+      await plik.body?.cancel();
+      if (plik.status !== 200) status = 404;
+    }
     return odpowiedzZ(await zasob(env, url.origin, '/index.html'), status, adresTestowy);
   },
 };
